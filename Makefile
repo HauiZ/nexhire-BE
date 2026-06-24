@@ -24,6 +24,9 @@ migrate-schema: ## Create DB schemas (auth/job/cvapp/ai)
 migrate:        ## Run TypeORM migrations in order (auth -> job -> cv-app -> ai)
 	bash scripts/migrate.sh
 
+migrate-generate: ## Generate migrations from entity changes (all DB services). Usage: make migrate-generate NAME=AddPhone
+	bash scripts/generate.sh $(NAME)
+
 logs:           ## Tail infra logs
 	docker compose logs -f
 

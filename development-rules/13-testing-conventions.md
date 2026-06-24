@@ -3,7 +3,19 @@
 ## 1. Tooling
 
 - **Jest** + **ts-jest** for unit tests; `@nestjs/testing` for module/integration tests; **Supertest** for e2e.
-- Run via `make test` / `npm test`. CI runs them on every PR; a red suite blocks merge.
+- CI runs them on every PR; a red suite blocks merge.
+
+### Commands
+
+```bash
+npm test            # run all unit tests (*.spec.ts), config: jest.config.js
+npm run test:watch  # watch mode
+npm run test:cov    # unit tests + coverage report (./coverage)
+npm run test:debug  # run under the Node inspector
+npm run test:e2e    # run e2e tests (*.e2e-spec.ts), config: test/jest-e2e.json
+```
+
+- Unit config (`jest.config.js`) matches `*.spec.ts`; e2e config (`test/jest-e2e.json`) matches `*.e2e-spec.ts`. Both map `@nexhire/shared` to its source so tests need no build step.
 
 ## 2. Layout & naming
 

@@ -1,15 +1,19 @@
+/** Unit-test config. Picks up *.spec.ts co-located next to source. */
 module.exports = {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',
+  testEnvironment: 'node',
   testRegex: '.*\\.spec\\.ts$',
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
-  collectCoverageFrom: ['apps/**/*.service.ts', 'packages/**/*.ts'],
-  coverageDirectory: './coverage',
-  testEnvironment: 'node',
   moduleNameMapper: {
     '^@nexhire/shared$': '<rootDir>/packages/shared/src',
     '^@nexhire/shared/(.*)$': '<rootDir>/packages/shared/src/$1',
   },
+  collectCoverageFrom: ['apps/**/*.service.ts', 'packages/shared/src/**/*.ts'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/dist/', '\\.module\\.ts$', '/main\\.ts$'],
+  coverageDirectory: './coverage',
+  // Enforce the service coverage floor once feature services exist:
+  // coverageThreshold: { 'apps/**/*.service.ts': { lines: 70 } },
 };

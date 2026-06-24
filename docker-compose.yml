@@ -10,7 +10,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS:-postgres}
       POSTGRES_DB: ${DB_NAME:-nexhire}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      # PG 18+ recommends mounting at /var/lib/postgresql (data goes in a subdir)
+      - pgdata:/var/lib/postgresql
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-nexhire}']
       interval: 10s

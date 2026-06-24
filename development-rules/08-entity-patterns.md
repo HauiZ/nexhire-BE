@@ -79,9 +79,30 @@ cv: Cv;
 ## 6. Migrations only — no `synchronize`
 
 - `synchronize: false` in every environment, always.
-- Schema changes go through a migration in `apps/<service>/src/migrations/`. Generate, **review the SQL**, then commit.
+- Schema changes go through a migration in `apps/<service>/src/migrations/`. **Don't hand-write** — generate from the entity diff, **review the SQL**, then commit.
 - Both `up()` and `down()` implemented and reversible. Never edit a merged migration — add a new one.
-- Run order is fixed: `auth → job → cv-app` (`scripts/migrate.sh`); schemas created first (`scripts/create-schemas.sql`).
+- Run order is fixed: `auth → job → cv-app → ai` (`scripts/migrate.sh`); schemas created first (`scripts/create-schemas.sql`).
+
+### Workflow (use `scripts/migration.sh`)
+
+```bash
+# 1. edit / add an entity, then auto-generate the migration (diffs entity vs DB)
+bash scripts/migration.sh generate auth AddPhoneToUser
+#    → apps/auth/src/migrations/<timestamp>-AddPhoneToUser.ts  (up + down)
+
+# 2. review the generated SQL, then apply it
+bash scripts/migration.sh run auth
+
+# other commands
+bash scripts/migration.sh revert auth      # roll back the last migration
+bash scripts/migration.sh show   auth      # show applied / pending
+bash scripts/migration.sh create auth Seed # empty migration to hand-write (rare)
+```
+
+- `generate` needs the DB running (`make dev`) and reachable — it compares your entities against the live schema. Run existing migrations first so the diff is accurate.
+- `service` is one of `auth | job | cv-app | ai`. Each diffs only its own schema via `apps/<service>/data-source.ts`.
+- `npm run mig -- generate auth AddPhoneToUser` is an equivalent alias.
+- Hand-written (`create`) migrations are only for things the diff can't express (data backfills, custom SQL).
 
 ## 7. Rules
 

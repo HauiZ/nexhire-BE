@@ -15,8 +15,13 @@
     "start:ai": "nest start ai --watch",
     "start:notification": "nest start notification --watch",
     "start:all": "concurrently -n gateway,auth,job,cv-app,ai,notif -c blue,green,yellow,magenta,cyan,gray \"npm:start:gateway\" \"npm:start:auth\" \"npm:start:job\" \"npm:start:cv-app\" \"npm:start:ai\" \"npm:start:notification\"",
-    "migration:run": "bash scripts/migrate.sh",
+    "migrate": "bash scripts/migrate.sh",
+    "migrate:generate": "bash scripts/generate.sh",
+    "mig": "bash scripts/migration.sh",
     "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
@@ -71,6 +76,8 @@
     "jest": "^29.7.0",
     "prettier": "^3.3.3",
     "source-map-support": "^0.5.21",
+    "supertest": "^7.0.0",
+    "@types/supertest": "^6.0.2",
     "ts-jest": "^29.2.5",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
