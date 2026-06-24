@@ -9,7 +9,7 @@ async function bootstrap() {
   setupApp(app, { serviceName: 'auth' });
   const port = app.get(ConfigService).get<number>('auth.port', 3001);
   await app.listen(port);
-  Logger.log(`auth service listening on :${port} (schema: auth_schema)`, 'Bootstrap');
+  Logger.log(`auth service listening on :${port} (db: auth_db)`, 'Bootstrap');
 }
 
 void bootstrap();

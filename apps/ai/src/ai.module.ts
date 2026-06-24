@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
-import { buildTypeOrmOptions, databaseConfig, redisConfig } from '@nexhire/infra';
+import { buildTypeOrmOptions, databaseConfigFor, redisConfig } from '@nexhire/infra';
 import { aiConfig } from './config/ai.config';
 import { validationSchema } from './config/env.validation';
 import { GeminiModule } from './gemini/gemini.module';
@@ -14,12 +14,12 @@ import { HealthModule } from './health/health.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, redisConfig, aiConfig],
+      load: [databaseConfigFor('AI'), redisConfig, aiConfig],
       validationSchema,
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: buildTypeOrmOptions('ai_schema'),
+      useFactory: buildTypeOrmOptions(),
     }),
     HttpModule,
     GeminiModule,

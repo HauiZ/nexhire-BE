@@ -6,16 +6,38 @@ services:
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASS:-postgres}
-      POSTGRES_DB: ${DB_NAME:-nexhire}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: postgres
     volumes:
       # PG 18+ recommends mounting at /var/lib/postgresql (data goes in a subdir)
       - pgdata:/var/lib/postgresql
+      # DB-per-service bootstrap (runs once on a fresh volume)
+      - ./scripts/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-nexhire}']
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres}']
       interval: 10s
       timeout: 5s
+      retries: 5
+    networks:
+      - nexhire-net
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: nexhire-rabbitmq
+    restart: unless-stopped
+    ports:
+      - '5672:5672' # AMQP
+      - '15672:15672' # management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-nexhire}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-nexhire}
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 15s
+      timeout: 10s
       retries: 5
     networks:
       - nexhire-net
@@ -59,6 +81,7 @@ services:
 
 volumes:
   pgdata:
+  rabbitmqdata:
   redisdata:
   miniodata:
 

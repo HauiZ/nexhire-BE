@@ -7,26 +7,27 @@ microservice architecture, with AI support (CV parsing, evaluation, CV/JD matchi
 
 ## Stack
 
-NestJS (monorepo) - TypeORM - PostgreSQL - Redis (BullMQ) - MinIO - Gemini API.
+NestJS (monorepo) - TypeORM - PostgreSQL (database-per-service) - RabbitMQ (event bus) - Redis (cache) - MinIO - Gemini API.
 
 ## Services
 
-| Service      | Port | Responsibility                           | DB schema      |
+| Service      | Port | Responsibility                           | Database       |
 | ------------ | ---- | ---------------------------------------- | -------------- |
 | gateway      | 3000 | API gateway, routing, JWT auth, Swagger  | -              |
-| auth         | 3001 | user, profile, company, authentication   | `auth_schema`  |
-| job          | 3002 | job posting, job search                  | `job_schema`   |
-| cv-app       | 3003 | CV, application                          | `cvapp_schema` |
-| ai           | 3004 | parse / evaluate / match (Gemini)        | `ai_schema`    |
+| auth         | 3001 | user, profile, company, authentication   | `auth_db`      |
+| job          | 3002 | job posting, job search                  | `job_db`       |
+| cv-app       | 3003 | CV, application                          | `cvapp_db`     |
+| ai           | 3004 | parse / evaluate / match (Gemini)        | `ai_db`        |
 | notification | 3005 | email notifications                      | -              |
 
 ## Infra (Docker)
 
-| Service    | Port | UI                                |
-| ---------- | ---- | --------------------------------- |
-| PostgreSQL | 5432 | -                                 |
-| Redis      | 6379 | -                                 |
-| MinIO      | 9000 | console at http://localhost:9001  |
+| Service    | Port        | UI / notes                          |
+| ---------- | ----------- | ----------------------------------- |
+| PostgreSQL | 5432        | one instance, one database/service  |
+| RabbitMQ   | 5672 / 15672| management UI at http://localhost:15672 |
+| Redis      | 6379        | cache / rate limit / token store    |
+| MinIO      | 9000 / 9001 | console at http://localhost:9001    |
 
 ## Quick start
 
@@ -37,12 +38,13 @@ cp .env.example .env
 #   SMTP_USER, SMTP_PASS
 #   GEMINI_API_KEY
 
-make dev             # start postgres + redis + minio
-make migrate-schema  # create the 4 schemas
+make dev             # start postgres (auto-creates the 4 databases) + rabbitmq + redis + minio
 npm install
-make migrate         # run TypeORM migrations (auth -> job -> cv-app -> ai)
+make migrate         # run TypeORM migrations per service (auth -> job -> cv-app -> ai)
 npm run start:all    # start all services
 ```
+
+> The per-service databases + users are created automatically on a fresh Postgres volume (`scripts/init-databases.sql`). To re-apply on an existing volume: `make migrate-db`.
 
 Then open:
 
@@ -57,21 +59,23 @@ Then open:
 ```
 apps/               # 6 deployable services (gateway + 5 domain services)
 packages/shared/    # @nexhire/shared - contracts & cross-cutting (enums, dto, guards, filters)
-packages/infra/     # @nexhire/infra  - backing-system adapters (typeorm, redis, queue, storage)
-scripts/            # migrate.sh, create-schemas.sql
+packages/infra/     # @nexhire/infra  - backing-system adapters (typeorm, redis, messaging, storage)
+scripts/            # migrate.sh, generate.sh, migration.sh, init-databases.sql
 development-rules/  # mandatory conventions
-docker-compose.yml  # infra only (postgres / redis / minio)
+docker-compose.yml  # infra (postgres / rabbitmq / redis / minio)
 ```
 
 ## Architecture notes
 
-- **Schema-per-service** on one PostgreSQL instance; services never touch another
-  service's schema - they call its API.
+- **Database-per-service**: one PostgreSQL instance, but each service owns its own
+  database + user (no shared db, no cross-database access — enforced by the engine).
 - **Gateway** is the only entry point; it decodes the JWT (if present) and injects
   `x-user-id` / `x-user-role` to internal services. Internal services enforce auth
   (role + ownership), so public routes still pass through.
-- **Async work** (AI parsing/matching, email) goes through Redis/BullMQ queues,
-  not blocking requests.
+- **Async work** (AI parsing/matching, email) is **event-driven via RabbitMQ**
+  (topic exchange), not blocking requests. Redis is cache / rate-limit / token store.
+- Cross-service data: store IDs only; resolve via API call or by reacting to events
+  (eventual consistency / saga, not cross-service transactions).
 - `synchronize` is always off - schema changes go through migrations.
 
 ## Notes

@@ -9,7 +9,7 @@ async function bootstrap() {
   setupApp(app, { serviceName: 'ai' });
   const port = app.get(ConfigService).get<number>('ai.port', 3004);
   await app.listen(port);
-  Logger.log(`ai service listening on :${port} (schema: ai_schema)`, 'Bootstrap');
+  Logger.log(`ai service listening on :${port} (db: ai_db)`, 'Bootstrap');
 }
 
 void bootstrap();

@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
-import { buildTypeOrmOptions, databaseConfig, redisConfig } from '@nexhire/infra';
+import { buildTypeOrmOptions, databaseConfigFor, redisConfig } from '@nexhire/infra';
 import { jobConfig } from './config/job.config';
 import { validationSchema } from './config/env.validation';
 import { HealthModule } from './health/health.module';
@@ -12,12 +12,12 @@ import { HealthModule } from './health/health.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, redisConfig, jobConfig],
+      load: [databaseConfigFor('JOB'), redisConfig, jobConfig],
       validationSchema,
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: buildTypeOrmOptions('job_schema'),
+      useFactory: buildTypeOrmOptions(),
     }),
     HealthModule,
     // feature modules (job posting / search) are added here as they are built

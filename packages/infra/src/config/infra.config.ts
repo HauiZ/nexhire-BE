@@ -1,18 +1,29 @@
 import { registerAs } from '@nestjs/config';
 
-/** Shared DB connection config (single Postgres instance, schema set per service). */
-export const databaseConfig = registerAs('db', () => ({
-  host: process.env.DB_HOST ?? 'localhost',
-  port: parseInt(process.env.DB_PORT ?? '5432', 10),
-  user: process.env.DB_USER ?? 'postgres',
-  pass: process.env.DB_PASS ?? 'postgres',
-  name: process.env.DB_NAME ?? 'nexhire',
-}));
+/**
+ * Per-service database config (DB-per-service). Each service owns its own
+ * database + user; pass the service's env prefix (e.g. 'AUTH' -> AUTH_DB_*).
+ * Registered under the fixed 'db' namespace so the TypeORM factory is generic.
+ */
+export const databaseConfigFor = (prefix: string) =>
+  registerAs('db', () => ({
+    host: process.env.DB_HOST ?? 'localhost',
+    port: parseInt(process.env.DB_PORT ?? '5432', 10),
+    name: process.env[`${prefix}_DB_NAME`],
+    user: process.env[`${prefix}_DB_USER`],
+    pass: process.env[`${prefix}_DB_PASS`],
+  }));
 
-/** Shared Redis config (BullMQ + token store). */
+/** Shared Redis config (cache, rate limit, token store). */
 export const redisConfig = registerAs('redis', () => ({
   host: process.env.REDIS_HOST ?? 'localhost',
   port: parseInt(process.env.REDIS_PORT ?? '6379', 10),
+}));
+
+/** RabbitMQ config (async event bus). */
+export const rabbitmqConfig = registerAs('rabbitmq', () => ({
+  url: process.env.RABBITMQ_URL ?? 'amqp://nexhire:nexhire@localhost:5672',
+  exchange: process.env.RABBITMQ_EXCHANGE ?? 'nexhire.events',
 }));
 
 /** MinIO / object-storage config. */

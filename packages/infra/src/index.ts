@@ -1,15 +1,16 @@
 // ── config ──
 export * from './config/infra.config';
 
-// ── database (persistence) ──
+// ── database (persistence, DB-per-service) ──
 export * from './database/base.entity';
 export * from './database/typeorm.factory';
 
-// ── redis ──
+// ── redis (cache / rate limit / token store) ──
 export * from './redis/redis.module';
 
-// ── queue (BullMQ) ──
-export * from './queue/queue.module';
+// ── messaging (RabbitMQ event bus) ──
+export * from './messaging/event-publisher.service';
+export * from './messaging/event-bus.module';
 
 // ── storage (MinIO) ──
 export * from './storage/storage.service';

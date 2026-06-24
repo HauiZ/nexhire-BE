@@ -2,11 +2,12 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 /**
- * Builds TypeORM module options for a service. Entities are auto-loaded via
- * forFeature(); migrations are handled by each app's data-source.ts (CLI).
- * `synchronize` is always false — schema changes go through migrations only.
+ * Builds TypeORM module options for a service. Each service connects to its
+ * OWN database (DB-per-service) — no shared instance, no schema sharing.
+ * Entities are auto-loaded via forFeature(); migrations live in the app's
+ * data-source.ts. `synchronize` is always false.
  */
-export function buildTypeOrmOptions(schema: string) {
+export function buildTypeOrmOptions() {
   return (config: ConfigService): TypeOrmModuleOptions => ({
     type: 'postgres',
     host: config.get<string>('db.host'),
@@ -14,23 +15,24 @@ export function buildTypeOrmOptions(schema: string) {
     username: config.get<string>('db.user'),
     password: config.get<string>('db.pass'),
     database: config.get<string>('db.name'),
-    schema,
     autoLoadEntities: true,
     synchronize: false,
     logging: config.get<string>('NODE_ENV') === 'development' ? ['error', 'warn'] : ['error'],
   });
 }
 
-/** Raw DataSource options for the TypeORM CLI (migrations). */
-export function buildDataSourceOptions(schema: string, rootDir: string) {
+/**
+ * Raw DataSource options for the TypeORM CLI (migrations). Reads the service's
+ * own DB credentials via its env prefix (e.g. 'AUTH' -> AUTH_DB_*).
+ */
+export function buildDataSourceOptions(rootDir: string, prefix: string) {
   return {
     type: 'postgres' as const,
     host: process.env.DB_HOST ?? 'localhost',
     port: parseInt(process.env.DB_PORT ?? '5432', 10),
-    username: process.env.DB_USER ?? 'postgres',
-    password: process.env.DB_PASS ?? 'postgres',
-    database: process.env.DB_NAME ?? 'nexhire',
-    schema,
+    username: process.env[`${prefix}_DB_USER`],
+    password: process.env[`${prefix}_DB_PASS`],
+    database: process.env[`${prefix}_DB_NAME`],
     entities: [`${rootDir}/src/**/*.entity.ts`],
     migrations: [`${rootDir}/src/migrations/*.ts`],
     synchronize: false,

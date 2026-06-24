@@ -18,7 +18,7 @@ nexhire-be/
     migrate.sh
     generate.sh
     migration.sh
-    create-schemas.sql
+    init-databases.sql
   docker-compose.yml
   nest-cli.json
   tsconfig.json
@@ -30,7 +30,7 @@ nexhire-be/
 
 - `apps/*` = deployable services. `packages/*` = shared libraries (not deployable on their own).
 - Never put cross-service code inside an app; it goes in a package.
-- **Two packages, two concerns:** `@nexhire/shared` = *what services agree on* (contracts + cross-cutting Nest pieces, framework/IO-agnostic). `@nexhire/infra` = *how services reach backing systems* (TypeORM, Redis, BullMQ, MinIO adapters). Dependency direction: `apps → shared` and `apps → infra`; `infra` and `shared` do not import each other.
+- **Two packages, two concerns:** `@nexhire/shared` = *what services agree on* (contracts + cross-cutting Nest pieces, framework/IO-agnostic). `@nexhire/infra` = *how services reach backing systems* (TypeORM, Redis, RabbitMQ, MinIO adapters). Dependency direction: `apps → shared` and `apps → infra`; `infra` and `shared` do not import each other.
 
 ## 2. Per-service structure
 
@@ -70,7 +70,7 @@ packages/shared/src/
   guards/         # JwtAuthGuard, InternalAuthGuard, RolesGuard
   filters/        # AllExceptionsFilter
   interceptors/   # ResponseInterceptor
-  constants/      # queue names, header names, error codes
+  constants/      # event routing keys, header names, error codes
   interfaces/     # AuthUser, JwtPayload...
   bootstrap/      # setupApp()
   index.ts        # barrel — public surface of the package
@@ -80,10 +80,10 @@ packages/shared/src/
 
 ```
 packages/infra/src/
-  config/         # registerAs('db'|'redis'|'storage') — shared infra config
+  config/         # registerAs('db'|'redis'|'rabbitmq'|'storage') — shared infra config
   database/       # BaseEntity, buildTypeOrmOptions, buildDataSourceOptions
-  redis/          # RedisModule + REDIS_CLIENT token (ioredis)
-  queue/          # QueueModule (BullMQ root wiring)
+  redis/          # RedisModule + REDIS_CLIENT token (ioredis) — cache/rate-limit/token
+  messaging/      # EventBusModule + EventPublisher (RabbitMQ topic exchange)
   storage/        # StorageModule + StorageService (MinIO)
   index.ts        # barrel
 ```

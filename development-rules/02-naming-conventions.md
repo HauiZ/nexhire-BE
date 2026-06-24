@@ -57,8 +57,8 @@
 - `/api/v1/jobs`, `/api/v1/job-posts`, `/api/v1/applications`, `/api/v1/cvs`.
 - Nested ownership: `/jobs/:jobId/applications`.
 
-## 6. Queues, events, headers (constants in `shared`)
+## 6. Events, headers (constants in `shared`)
 
-- Queue names: `ai.parse-cv`, `ai.match`, `notification.send` (dot-namespaced, lower-case).
+- Event routing keys: `application.submitted`, `cv.uploaded`, `application.stage-changed` — format `<aggregate>.<event>`, dot-namespaced, lower-case (in `EVENTS`).
 - Custom headers: `x-request-id`, `x-user-id`, `x-user-role`.
 - Define every such string once as a constant in `@nexhire/shared` — never inline string literals.

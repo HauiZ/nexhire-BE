@@ -72,7 +72,7 @@ await this.dataSource.transaction(async (manager) => {
 
 ## 6. Long-running / external work goes async
 
-- AI parsing/matching and email are enqueued (BullMQ), not awaited inline in a request path (`12-infrastructure-patterns.md`).
+- AI parsing/matching and email are triggered by **publishing events** (RabbitMQ), not awaited inline in a request path (`12-infrastructure-patterns.md`).
 - A request that triggers AI returns quickly (e.g. status `PROCESSING`); the worker updates state and notifies.
 
 ## 7. Keep services focused

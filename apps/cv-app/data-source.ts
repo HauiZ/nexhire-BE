@@ -5,4 +5,4 @@ import { buildDataSourceOptions } from '@nexhire/infra';
 
 config();
 
-export default new DataSource(buildDataSourceOptions('cvapp_schema', __dirname));
+export default new DataSource(buildDataSourceOptions(__dirname, 'CVAPP'));

@@ -5,7 +5,7 @@ export * from './enums/job-status.enum';
 export * from './enums/job-type.enum';
 
 // ── constants ──
-export * from './constants/queues';
+export * from './constants/events';
 export * from './constants/headers';
 export * from './constants/error-codes';
 

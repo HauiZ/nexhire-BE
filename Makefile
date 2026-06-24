@@ -1,7 +1,7 @@
 # NexHire Backend — common commands
 # (Windows: run via Git Bash, or use the npm scripts directly.)
 
-.PHONY: install dev dev-build stop clean migrate-schema migrate logs ps lint test start
+.PHONY: install dev dev-build stop clean migrate-db migrate migrate-generate logs ps lint test start
 
 install:        ## Install dependencies
 	npm install
@@ -18,8 +18,8 @@ stop:           ## Stop infra
 clean:          ## Stop infra + remove volumes (DESTROYS DATA)
 	docker compose down -v
 
-migrate-schema: ## Create DB schemas (auth/job/cvapp/ai)
-	docker compose exec -T postgres psql -U $${DB_USER:-postgres} -d $${DB_NAME:-nexhire} < scripts/create-schemas.sql
+migrate-db:     ## Create per-service databases + users (auto-runs on fresh volume; this is for re-apply)
+	docker compose exec -T postgres psql -U $${POSTGRES_USER:-postgres} -d postgres < scripts/init-databases.sql
 
 migrate:        ## Run TypeORM migrations in order (auth -> job -> cv-app -> ai)
 	bash scripts/migrate.sh

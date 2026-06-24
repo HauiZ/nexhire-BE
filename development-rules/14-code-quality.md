@@ -19,7 +19,7 @@
 - Small, single-purpose functions. If a method does several unrelated things, split it.
 - Keep nesting shallow — use early returns / guard clauses instead of deep `if` pyramids.
 - Avoid long parameter lists (> 3–4) — pass an options object or a DTO.
-- No magic numbers/strings — name them as constants (queue names, limits, error codes live in `shared`).
+- No magic numbers/strings — name them as constants (event routing keys, limits, error codes live in `shared`).
 
 ## 4. Comments
 

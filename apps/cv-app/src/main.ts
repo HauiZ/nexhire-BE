@@ -9,7 +9,7 @@ async function bootstrap() {
   setupApp(app, { serviceName: 'cv-app' });
   const port = app.get(ConfigService).get<number>('cvapp.port', 3003);
   await app.listen(port);
-  Logger.log(`cv-app service listening on :${port} (schema: cvapp_schema)`, 'Bootstrap');
+  Logger.log(`cv-app service listening on :${port} (db: cvapp_db)`, 'Bootstrap');
 }
 
 void bootstrap();

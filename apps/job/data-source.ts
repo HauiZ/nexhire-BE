@@ -5,4 +5,4 @@ import { buildDataSourceOptions } from '@nexhire/infra';
 
 config();
 
-export default new DataSource(buildDataSourceOptions('job_schema', __dirname));
+export default new DataSource(buildDataSourceOptions(__dirname, 'JOB'));

@@ -54,12 +54,14 @@ export class Job extends BaseEntity {
 - Specify `type` explicitly; specify `length` for `varchar`.
 - Enums stored as Postgres `enum` (or varchar) using a TS enum from `shared`.
 
-## 3. Schema isolation
+## 3. Database isolation (DB-per-service)
 
-- An entity belongs to exactly one service/schema. The service's TypeORM config sets `schema: <service>_schema`.
-- **Cross-service references store the ID only** (`companyId`, `userId`, `jobId`) — never a `@ManyToOne` relation to another service's entity, never a duplicated copy.
+- Each service owns its **own database** (`auth_db`, `job_db`, `cvapp_db`, `ai_db`) on one Postgres instance, with its **own DB user** granted only to that database. No shared database, no schema sharing.
+- A service connects only to its own DB (`databaseConfigFor('<PREFIX>')` + `buildTypeOrmOptions()` from `@nexhire/infra`). Cross-database access is impossible in plain SQL and blocked by per-user grants — that is the isolation guarantee.
+- An entity belongs to exactly one service/database.
+- **Cross-service references store the ID only** (`companyId`, `userId`, `jobId`) — never a `@ManyToOne` relation to another service's entity, never a duplicated copy. To read another service's data, call its API or react to its events.
 
-## 4. Relations (within the same schema only)
+## 4. Relations (within the same database only)
 
 ```ts
 @OneToMany(() => Application, (app) => app.job)
@@ -84,7 +86,7 @@ cv: Cv;
 - `synchronize: false` in every environment, always.
 - Schema changes go through a migration in `apps/<service>/src/migrations/`. **Don't hand-write** — generate from the entity diff, **review the SQL**, then commit.
 - Both `up()` and `down()` implemented and reversible. Never edit a merged migration — add a new one.
-- Run order is fixed: `auth → job → cv-app → ai` (`scripts/migrate.sh`); schemas created first (`scripts/create-schemas.sql`).
+- Run order is fixed: `auth → job → cv-app → ai` (`scripts/migrate.sh`); the per-service databases are created first by `scripts/init-databases.sql` (auto-run by docker-compose on a fresh volume, or `make migrate-db`). Each service migrates **its own** database via `apps/<service>/data-source.ts`.
 
 ### Workflow (use `scripts/migration.sh`)
 
@@ -112,4 +114,4 @@ bash scripts/migration.sh create auth Seed # empty migration to hand-write (rare
 - No business logic / queries inside entity classes — entities are data shape only.
 - Don't expose entities directly over HTTP; map to response DTOs (`07-dto-patterns.md`).
 - Store `enum`/status as the TS enum value; keep the enum in `shared` if other services reference it.
-- AI results (`ai_schema`) store: source CV/application id, the model name + version, the score/JSON output, and a timestamp — so results are auditable and reproducible.
+- AI results (in `ai_db`) store: source CV/application id, the model name + version, the score/JSON output, and a timestamp — so results are auditable and reproducible.

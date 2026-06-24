@@ -9,7 +9,7 @@ async function bootstrap() {
   setupApp(app, { serviceName: 'job' });
   const port = app.get(ConfigService).get<number>('job.port', 3002);
   await app.listen(port);
-  Logger.log(`job service listening on :${port} (schema: job_schema)`, 'Bootstrap');
+  Logger.log(`job service listening on :${port} (db: job_db)`, 'Bootstrap');
 }
 
 void bootstrap();

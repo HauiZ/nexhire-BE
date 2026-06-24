@@ -7,23 +7,23 @@
 
 - **Topic:** Online job-search & recruitment management system (Job Portal + ATS) on a microservice architecture.
 - **Focus:** 80% recruitment core (user / company / job / CV / application) + 20% AI support (CV parsing, evaluation, CV↔JD matching).
-- **Stack:** NestJS monorepo · TypeORM · PostgreSQL · Redis (BullMQ) · MinIO · Gemini API.
+- **Stack:** NestJS monorepo · TypeORM · PostgreSQL (database-per-service) · RabbitMQ (event bus) · Redis (cache/rate-limit/token) · MinIO · Gemini API.
 
 ## Services
 
-| Service | Port | Responsibility | DB schema |
-|---------|------|----------------|-----------|
+| Service | Port | Responsibility | Database |
+|---------|------|----------------|----------|
 | `gateway` | 3000 | API gateway, routing, auth guard, Swagger | — |
-| `auth` | 3001 | user, profile, company, authentication | `auth_schema` |
-| `job` | 3002 | job posting, job search | `job_schema` |
-| `cv-app` | 3003 | CV, application | `cvapp_schema` |
-| `ai` | 3004 | parse / evaluate / match (Gemini) | `ai_schema` |
+| `auth` | 3001 | user, profile, company, authentication | `auth_db` |
+| `job` | 3002 | job posting, job search | `job_db` |
+| `cv-app` | 3003 | CV, application | `cvapp_db` |
+| `ai` | 3004 | parse / evaluate / match (Gemini) | `ai_db` |
 | `notification` | 3005 | email notifications | — |
 
 ## Shared packages
 
 - `@nexhire/shared` — *contracts & cross-cutting* (enums, DTOs, guards, filters, interceptor, decorators, constants, `setupApp`). Framework-/IO-agnostic.
-- `@nexhire/infra` — *backing-system adapters* (`BaseEntity` + TypeORM factory, `RedisModule`, `QueueModule`/BullMQ, `StorageModule`/MinIO, and `db`/`redis`/`storage` config).
+- `@nexhire/infra` — *backing-system adapters* (`BaseEntity` + TypeORM factory, `RedisModule`, `EventBusModule`/RabbitMQ, `StorageModule`/MinIO, and `db`/`redis`/`rabbitmq`/`storage` config).
 - Dependency direction: `apps → shared`, `apps → infra`; the two packages never import each other.
 
 ## Rule index
