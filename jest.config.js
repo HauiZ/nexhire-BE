@@ -10,8 +10,10 @@ module.exports = {
   moduleNameMapper: {
     '^@nexhire/shared$': '<rootDir>/packages/shared/src',
     '^@nexhire/shared/(.*)$': '<rootDir>/packages/shared/src/$1',
+    '^@nexhire/infra$': '<rootDir>/packages/infra/src',
+    '^@nexhire/infra/(.*)$': '<rootDir>/packages/infra/src/$1',
   },
-  collectCoverageFrom: ['apps/**/*.service.ts', 'packages/shared/src/**/*.ts'],
+  collectCoverageFrom: ['apps/**/*.service.ts', 'packages/*/src/**/*.ts'],
   coveragePathIgnorePatterns: ['/node_modules/', '/dist/', '\\.module\\.ts$', '/main\\.ts$'],
   coverageDirectory: './coverage',
   // Enforce the service coverage floor once feature services exist:

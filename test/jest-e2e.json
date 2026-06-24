@@ -8,6 +8,8 @@
   },
   "moduleNameMapper": {
     "^@nexhire/shared$": "<rootDir>/packages/shared/src",
-    "^@nexhire/shared/(.*)$": "<rootDir>/packages/shared/src/$1"
+    "^@nexhire/shared/(.*)$": "<rootDir>/packages/shared/src/$1",
+    "^@nexhire/infra$": "<rootDir>/packages/infra/src",
+    "^@nexhire/infra/(.*)$": "<rootDir>/packages/infra/src/$1"
   }
 }

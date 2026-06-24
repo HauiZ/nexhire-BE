@@ -3,13 +3,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  buildTypeOrmOptions,
-  databaseConfig,
-  InternalAuthGuard,
-  redisConfig,
-  RolesGuard,
-} from '@nexhire/shared';
+import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
+import { buildTypeOrmOptions, databaseConfig, redisConfig } from '@nexhire/infra';
 import { aiConfig } from './config/ai.config';
 import { validationSchema } from './config/env.validation';
 import { GeminiModule } from './gemini/gemini.module';

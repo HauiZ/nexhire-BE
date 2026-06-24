@@ -21,8 +21,9 @@ export const authConfig = registerAs('auth', () => ({
 }));
 ```
 
-- One namespace per service: `auth`, `job`, `cvapp`, `ai`, `notification`, `gateway`.
-- Coerce types here (`parseInt`, boolean parsing) — env values are always strings.
+- One **service** namespace per app: `auth`, `job`, `cvapp`, `ai`, `notification`, `gateway` (service-specific values only).
+- **Shared infra** config lives in `@nexhire/infra` (`infra.config.ts`), not per service: `databaseConfig` (`db`), `redisConfig` (`redis`), `storageConfig` (`storage`). A service that uses an infra adapter loads the matching registrar in its `ConfigModule.forRoot({ load: [...] })` — e.g. a DB service loads `databaseConfig`; cv-app adds `storageConfig` when wiring `StorageModule`.
+- Coerce types in the registrar (`parseInt`, boolean parsing) — env values are always strings.
 - Provide defaults **only** for non-secret, non-critical values (ports, TTLs). Never default a secret.
 
 ## 3. Load + access

@@ -19,6 +19,15 @@
         "tsConfigPath": "packages/shared/tsconfig.lib.json"
       }
     },
+    "infra": {
+      "type": "library",
+      "root": "packages/infra",
+      "entryFile": "index",
+      "sourceRoot": "packages/infra/src",
+      "compilerOptions": {
+        "tsConfigPath": "packages/infra/tsconfig.lib.json"
+      }
+    },
     "gateway": {
       "type": "application",
       "root": "apps/gateway",

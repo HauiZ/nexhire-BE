@@ -56,7 +56,8 @@ Then open:
 
 ```
 apps/               # 6 deployable services (gateway + 5 domain services)
-packages/shared/    # @nexhire/shared - enums, guards, filters, config, base entity
+packages/shared/    # @nexhire/shared - contracts & cross-cutting (enums, dto, guards, filters)
+packages/infra/     # @nexhire/infra  - backing-system adapters (typeorm, redis, queue, storage)
 scripts/            # migrate.sh, create-schemas.sql
 development-rules/  # mandatory conventions
 docker-compose.yml  # infra only (postgres / redis / minio)

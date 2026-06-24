@@ -30,10 +30,5 @@ export * from './guards/roles.guard';
 export * from './filters/all-exceptions.filter';
 export * from './interceptors/response.interceptor';
 
-// ── config / database ──
-export * from './config/database.config';
-export * from './database/typeorm.factory';
-export * from './database/base.entity';
-
 // ── bootstrap ──
 export * from './bootstrap/setup-app';

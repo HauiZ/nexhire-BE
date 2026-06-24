@@ -12,9 +12,12 @@ nexhire-be/
     ai/
     notification/
   packages/
-    shared/                 # @nexhire/shared — cross-service code
+    shared/                 # @nexhire/shared — contracts & cross-cutting (no external systems)
+    infra/                  # @nexhire/infra  — adapters to backing systems (DB/Redis/MinIO)
   scripts/
     migrate.sh
+    generate.sh
+    migration.sh
     create-schemas.sql
   docker-compose.yml
   nest-cli.json
@@ -26,7 +29,8 @@ nexhire-be/
 ```
 
 - `apps/*` = deployable services. `packages/*` = shared libraries (not deployable on their own).
-- Never put cross-service code inside an app; it goes in `packages/shared`.
+- Never put cross-service code inside an app; it goes in a package.
+- **Two packages, two concerns:** `@nexhire/shared` = *what services agree on* (contracts + cross-cutting Nest pieces, framework/IO-agnostic). `@nexhire/infra` = *how services reach backing systems* (TypeORM, Redis, BullMQ, MinIO adapters). Dependency direction: `apps → shared` and `apps → infra`; `infra` and `shared` do not import each other.
 
 ## 2. Per-service structure
 
@@ -52,24 +56,41 @@ apps/<service>/
 
 - **Group by feature, not by type.** A feature owns its controller + service + dto + entities together. Do not create global `controllers/`, `services/` buckets.
 - `main.ts` only bootstraps (create app, pipes, prefix, listen). No business logic.
-- Service-local reusable pieces (a guard used only in this service) live in `src/common/`. Anything reused across services moves to `packages/shared`.
+- Service-local reusable pieces (a guard used only in this service) live in `src/common/`. Anything reused across services moves to `@nexhire/shared` (contract/cross-cutting) or `@nexhire/infra` (backing-system adapter).
 
-## 3. `packages/shared` structure
+## 3. Package structure
+
+`@nexhire/shared` — contracts & cross-cutting only (no DB/Redis/MinIO clients):
 
 ```
 packages/shared/src/
   dto/            # cross-service request/response contracts
   enums/          # UserRole, ApplicationStage, JobStatus...
   decorators/     # @CurrentUser, @Roles, @Public
-  guards/         # JwtAuthGuard, RolesGuard
+  guards/         # JwtAuthGuard, InternalAuthGuard, RolesGuard
   filters/        # AllExceptionsFilter
   interceptors/   # ResponseInterceptor
   constants/      # queue names, header names, error codes
+  interfaces/     # AuthUser, JwtPayload...
+  bootstrap/      # setupApp()
   index.ts        # barrel — public surface of the package
 ```
 
-- Anything exported for other services must be re-exported from `index.ts`.
-- `shared` must NOT contain a single service's business logic or schema-specific entities.
+`@nexhire/infra` — adapters to backing systems:
+
+```
+packages/infra/src/
+  config/         # registerAs('db'|'redis'|'storage') — shared infra config
+  database/       # BaseEntity, buildTypeOrmOptions, buildDataSourceOptions
+  redis/          # RedisModule + REDIS_CLIENT token (ioredis)
+  queue/          # QueueModule (BullMQ root wiring)
+  storage/        # StorageModule + StorageService (MinIO)
+  index.ts        # barrel
+```
+
+- Anything exported for other services must be re-exported from each package's `index.ts`.
+- Neither package contains a service's business logic or schema-specific entities.
+- `BaseEntity` lives in `infra` (it is ORM-coupled); domain enums live in `shared`. An entity therefore imports its base from `@nexhire/infra` and its enums from `@nexhire/shared`.
 
 ## 4. Where things live (quick map)
 
@@ -79,6 +100,9 @@ packages/shared/src/
 | HTTP routing | `apps/<service>/src/<feature>/<feature>.controller.ts` |
 | Validation rules | `apps/<service>/src/<feature>/dto/*.dto.ts` |
 | DB tables | `apps/<service>/src/<feature>/entities/*.entity.ts` |
-| Env values | `apps/<service>/src/config/<service>.config.ts` |
+| Service-specific env values | `apps/<service>/src/config/<service>.config.ts` |
+| Shared infra env (db/redis/storage) | `packages/infra/src/config/infra.config.ts` |
 | Cross-service contract | `packages/shared/src/dto/*` |
 | Shared guard/filter | `packages/shared/src/{guards,filters}/*` |
+| Entity base class | `packages/infra/src/database/base.entity.ts` |
+| DB / Redis / queue / storage adapters | `packages/infra/src/{database,redis,queue,storage}/*` |

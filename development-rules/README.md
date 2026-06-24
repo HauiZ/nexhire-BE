@@ -20,6 +20,12 @@
 | `ai` | 3004 | parse / evaluate / match (Gemini) | `ai_schema` |
 | `notification` | 3005 | email notifications | — |
 
+## Shared packages
+
+- `@nexhire/shared` — *contracts & cross-cutting* (enums, DTOs, guards, filters, interceptor, decorators, constants, `setupApp`). Framework-/IO-agnostic.
+- `@nexhire/infra` — *backing-system adapters* (`BaseEntity` + TypeORM factory, `RedisModule`, `QueueModule`/BullMQ, `StorageModule`/MinIO, and `db`/`redis`/`storage` config).
+- Dependency direction: `apps → shared`, `apps → infra`; the two packages never import each other.
+
 ## Rule index
 
 | File | Content |

@@ -2,7 +2,7 @@
 
 ## 1. Path aliases
 
-- Use `@nexhire/shared` for the shared package. NEVER reach across with relative paths like `../../../../packages/shared`.
+- Use the package aliases `@nexhire/shared` (contracts/cross-cutting) and `@nexhire/infra` (DB/Redis/queue/storage adapters). NEVER reach across with relative paths like `../../../../packages/shared`.
 
 ```ts
 // good
@@ -18,7 +18,7 @@ import { UserRole } from '../../../packages/shared/src/enums/user-role.enum';
 
 1. Node built-ins (`node:crypto`, `node:fs`).
 2. Third-party packages (`@nestjs/common`, `typeorm`, `class-validator`).
-3. Workspace packages (`@nexhire/shared`).
+3. Workspace packages (`@nexhire/shared`, `@nexhire/infra`).
 4. Relative imports within the app (`./`, `../`).
 
 ```ts

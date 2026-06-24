@@ -23,7 +23,9 @@
     "resolveJsonModule": true,
     "paths": {
       "@nexhire/shared": ["packages/shared/src"],
-      "@nexhire/shared/*": ["packages/shared/src/*"]
+      "@nexhire/shared/*": ["packages/shared/src/*"],
+      "@nexhire/infra": ["packages/infra/src"],
+      "@nexhire/infra/*": ["packages/infra/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

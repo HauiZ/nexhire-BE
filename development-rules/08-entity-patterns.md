@@ -2,7 +2,7 @@
 
 ## 1. Base entity
 
-Every table inherits common audit columns. Define a base class in `@nexhire/shared`:
+Every table inherits common audit columns from `BaseEntity` in `@nexhire/infra`:
 
 ```ts
 export abstract class BaseEntity {
@@ -27,6 +27,9 @@ export abstract class BaseEntity {
 
 ```ts
 // apps/job/src/job/entities/job.entity.ts
+import { BaseEntity } from '@nexhire/infra';
+import { JobStatus } from '@nexhire/shared';
+
 @Entity({ name: 'job_post' })
 export class Job extends BaseEntity {
   @Column({ type: 'varchar', length: 120 })
