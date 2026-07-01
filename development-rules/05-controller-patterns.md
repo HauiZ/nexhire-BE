@@ -1,8 +1,8 @@
-# 05 — Controller Patterns
+# 05 - Controller Patterns
 
 ## 1. Controllers are thin
 
-A controller only: routes the request → binds/validates input via DTO → calls a service → returns the result. **No business logic, no DB access, no external calls.**
+A controller only routes the request, binds and validates DTO input, calls a service, and returns the result. No business logic, no DB access, no external calls.
 
 ```ts
 @ApiTags('applications')
@@ -12,61 +12,60 @@ export class ApplicationController {
 
   @Post()
   @ApiOperation({ summary: 'Submit an application to a job' })
-  @ApiResponse({ status: 201, type: ApplicationResponseDto })
+  @ApiSuccessResponse(ApplicationResponseDto, { status: 201 })
+  @ApiCommonErrorResponses()
   create(
     @CurrentUser() user: AuthUser,
     @Body() dto: CreateApplicationDto,
   ): Promise<ApplicationResponseDto> {
     return this.applicationService.create(user.id, dto);
   }
-
-  @Get(':id')
-  @ApiOperation({ summary: 'Get an application by id' })
-  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ApplicationResponseDto> {
-    return this.applicationService.findOne(id);
-  }
 }
 ```
 
 ## 2. Routing
 
-- Class route = resource, plural, kebab-case: `@Controller('job-posts')`.
-- Method routes match HTTP semantics: `@Get()`, `@Get(':id')`, `@Post()`, `@Patch(':id')`, `@Delete(':id')`.
-- Non-CRUD actions as sub-paths: `@Post(':id/advance-stage')`.
-- Use param pipes: `@Param('id', ParseUUIDPipe)`. Never trust raw params.
+- Class route = resource, plural, kebab-case.
+- Method routes follow HTTP semantics: `@Get()`, `@Get(':id')`, `@Post()`, `@Patch(':id')`, `@Delete(':id')`.
+- Non-CRUD actions use sub-paths.
+- Use param pipes such as `ParseUUIDPipe`.
 
 ## 3. Input binding
 
-- `@Body()` → a request DTO (validated). `@Query()` → a query DTO (pagination/filter). `@Param()` → typed + piped.
-- Never accept `any` or read the raw `@Req()` body. The global `ValidationPipe` enforces DTO rules.
-- Identity comes from `@CurrentUser()` (set by auth guard), NEVER from a client-supplied `userId` in the body.
+- `@Body()` binds a validated request DTO.
+- `@Query()` binds a query DTO.
+- `@Param()` must be typed and piped.
+- Identity comes from `@CurrentUser()`, never from a client-supplied body field.
 
 ## 4. Output
 
-- Return the data object/DTO; the global **response interceptor** wraps it into the standard envelope (`09-error-handling.md`). Do not manually build `{ success, data }` in every method.
-- Map entities → response DTOs in the service layer; controllers should already receive response-shaped data.
-- Set status codes via decorators when non-default: `@HttpCode(200)` for an action `POST`.
+- Return the data object or response DTO only.
+- The global `ResponseInterceptor` wraps successful responses into the standard envelope.
+- Map entities to response DTOs in the service layer.
+- Set non-default status codes with decorators like `@HttpCode(200)`.
 
 ## 5. Guards, roles, public
 
-- Default-deny: protected by the global `JwtAuthGuard`. Mark open endpoints with `@Public()`.
-- Authorization via `@Roles(UserRole.RECRUITER)` + the roles guard. Keep authorization declarative on the route.
-
-```ts
-@Post()
-@Roles(UserRole.RECRUITER)
-create(@CurrentUser() user: AuthUser, @Body() dto: CreateJobDto) { ... }
-```
+- Default-deny: protected by the global auth guard unless marked `@Public()`.
+- Authorization stays declarative with `@Roles(...)`.
 
 ## 6. Swagger (required)
 
-- Every endpoint: `@ApiTags`, `@ApiOperation`, `@ApiResponse` (with the response DTO type). Auth-protected routes: `@ApiBearerAuth()`.
-- Missing Swagger annotations = failing review.
+- Every endpoint uses `@ApiTags` and `@ApiOperation`.
+- Prefer shared decorators from `@nexhire/shared`:
+  - `@ApiSuccessResponse(...)`
+  - `@ApiErrorResponses(...)`
+  - `@ApiCommonErrorResponses()`
+  - `@ApiPaginationQueries()` for standard `page` / `limit`
+- Auth-protected routes still need `@ApiBearerAuth()`.
+- Missing Swagger annotations is failing review.
 
 ## 7. Errors
 
-- Don't try/catch to swallow in controllers. Let services throw typed `HttpException`s; the global filter formats them.
+- Controllers do not swallow or remap errors.
+- Let services throw typed `HttpException`s; the global filter formats them.
 
 ## 8. Versioning
 
-- All routes live under the global prefix `api/v1` (set in `main.ts`). Don't repeat the version in each controller.
+- All routes live under the global prefix `api/v1`.
+- Do not repeat versioning in each controller.

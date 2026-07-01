@@ -1,77 +1,55 @@
-# 09 — Error Handling
+# 09 - Error Handling
 
 ## 1. Throw typed exceptions
 
-- Use NestJS `HttpException` subclasses; never throw raw strings or return ad-hoc error objects.
+- Use NestJS `HttpException` subclasses.
+- Never throw raw strings or return ad-hoc error objects.
 
-| Situation | Exception | Status |
-|-----------|-----------|--------|
-| Invalid input shape | (auto from `ValidationPipe`) | 400 |
-| Not authenticated | `UnauthorizedException` | 401 |
-| Authenticated but not allowed | `ForbiddenException` | 403 |
-| Resource missing | `NotFoundException` | 404 |
-| Duplicate / state conflict | `ConflictException` | 409 |
-| Valid shape, invalid semantics | `UnprocessableEntityException` | 422 |
-| Rate limited | (throttler) | 429 |
-| Unexpected | `InternalServerErrorException` | 500 |
+## 2. Global exception filter
 
-```ts
-const job = await this.jobRepo.findOne({ where: { id } });
-if (!job) throw new NotFoundException(`Job ${id} not found`);
-```
+- `AllExceptionsFilter` from `@nexhire/shared` formats every error into the standard error envelope.
+- Controllers and services do not format error payloads themselves.
 
-## 2. Global exception filter (in `@nexhire/shared`)
+## 3. Success envelope
 
-- A single `AllExceptionsFilter` registered via `APP_FILTER` formats every error into the standard shape. Controllers/services never format errors themselves.
+- `ResponseInterceptor` wraps successful responses into:
 
 ```json
-{
-  "success": false,
-  "error": {
-    "code": "JOB_NOT_FOUND",
-    "message": "Job 42 not found",
-    "details": [ { "field": "email", "issue": "must be an email" } ]
-  },
-  "requestId": "5f3c..."
-}
+{ "success": true, "data": {}, "meta": { "page": 1, "limit": 20, "total": 135 } }
 ```
 
-- `code`: stable machine-readable string (constant in `shared`). `message`: human-readable, safe. `details`: field errors from validation. `requestId`: the `x-request-id`.
-
-## 3. Success envelope (response interceptor)
-
-- A `ResponseInterceptor` (via `APP_INTERCEPTOR`) wraps successful returns:
-
-```json
-{ "success": true, "data": { }, "meta": { "page": 1, "limit": 20, "total": 135 } }
-```
-
-- `meta` only for list/paginated responses. Controllers just return `data`.
+- `meta` exists only for paginated responses.
+- Swagger should reflect these envelopes through shared decorators:
+  - `@ApiSuccessResponse(...)`
+  - `@ApiErrorResponses(...)`
+  - `@ApiCommonErrorResponses()`
 
 ## 4. Never leak internals
 
-- No stack traces, SQL, file paths, or hostnames in client responses.
-- Log the full error server-side (with `requestId`); return a safe message to the client.
-- For 500s, return a generic message (`Internal server error`) + the `requestId` for support correlation.
+- Do not expose stack traces, SQL, file paths, or hostnames to clients.
+- Log the full error server-side and return safe messages.
 
 ## 5. Error codes
 
-- Maintain error codes as constants in `@nexhire/shared/constants` (`ERROR_CODES.JOB_NOT_FOUND`). The frontend keys off `code`, not the message text.
+- Keep stable error codes in `@nexhire/shared/constants`.
+- Frontend logic keys off `code`, not free-form messages.
 
 ## 6. Validation errors
 
-- The global `ValidationPipe` produces field-level errors; the filter maps them into `error.details[]`. Keep messages user-friendly.
+- Validation errors are mapped into `error.details[]` by the global filter.
+- Keep messages user-friendly.
 
-## 7. External failures (DB / HTTP / Gemini / MinIO)
+## 7. External failures
 
-- Wrap external calls; convert low-level errors into a meaningful `HttpException` (e.g. Gemini timeout → `ServiceUnavailableException` with code `AI_UNAVAILABLE`).
-- Never let a raw driver/library error reach the client.
+- Convert low-level external failures into meaningful `HttpException`s.
+- Never leak raw driver or SDK errors to the client.
 
 ## 8. Logging discipline
 
-- Log `error` for failures, `warn` for handled anomalies. Don't double-log the same error at every layer — log once where it's handled, with context.
-- Never log secrets, tokens, passwords, or full CV content.
+- Log once where the error is handled, with enough context.
+- Never log secrets, passwords, tokens, or sensitive document contents.
 
 ## 9. No silent failures
 
-- No empty `catch {}`. Either handle meaningfully, rethrow, or convert to an `HttpException`. A swallowed error is a bug.
+- No empty `catch {}` blocks.
+- Handle, rethrow, or convert explicitly.

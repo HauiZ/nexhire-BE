@@ -20,6 +20,8 @@ export * from './dto/api-response';
 export * from './decorators/public.decorator';
 export * from './decorators/roles.decorator';
 export * from './decorators/current-user.decorator';
+export * from './decorators/api-response.decorator';
+export * from './decorators/api-query.decorator';
 
 // ── guards ──
 export * from './guards/jwt-auth.guard';

@@ -1,5 +1,5 @@
 # NexHire Backend - common commands
-# (Windows: run via Git Bash, or use the npm scripts directly.)
+# (Windows: run via Git Bash, or prefer the `npm run db:*` scripts directly.)
 
 .PHONY: install dev dev-build stop clean migrate-db migrate migrate-generate logs ps lint test start
 
@@ -22,10 +22,10 @@ migrate-db:
 	docker compose exec -T postgres psql -U $${POSTGRES_USER:-postgres} -d postgres < scripts/init-databases.sql
 
 migrate:
-	bash scripts/migrate.sh
+	npm run db:all:run
 
 migrate-generate:
-	bash scripts/generate.sh $(NAME)
+	@echo "Use npm run db:<scope>:generate -- <Name>"
 
 logs:
 	docker compose logs -f

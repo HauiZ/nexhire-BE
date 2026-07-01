@@ -1,4 +1,4 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from '../filters/all-exceptions.filter';
 import { ResponseInterceptor } from '../interceptors/response.interceptor';
@@ -43,4 +43,32 @@ export function setupApp(app: INestApplication, options: SetupOptions): void {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/docs', app, document);
   }
+}
+
+interface LogAppLinksOptions {
+  serviceName: string;
+  baseUrl: string;
+  database?: string;
+  prefix?: string;
+  swagger?: boolean;
+}
+
+function normalizeBaseUrl(baseUrl: string): string {
+  return baseUrl
+    .replace('http://[::1]', 'http://localhost')
+    .replace('http://[::]', 'http://localhost')
+    .replace('http://0.0.0.0', 'http://localhost');
+}
+
+export function logAppLinks(options: LogAppLinksOptions): void {
+  const baseUrl = normalizeBaseUrl(options.baseUrl).replace(/\/$/, '');
+  const prefix = (options.prefix ?? 'api/v1').replace(/^\/|\/$/g, '');
+  const swaggerEnabled = options.swagger ?? process.env.NODE_ENV !== 'production';
+  const databaseInfo = options.database ? ` (db: ${options.database})` : '';
+
+  Logger.log(`${options.serviceName} listening at ${baseUrl}${databaseInfo}`, 'Bootstrap');
+  if (swaggerEnabled) {
+    Logger.log(`docs: ${baseUrl}/api/docs`, 'Bootstrap');
+  }
+  Logger.log(`health: ${baseUrl}/${prefix}/health`, 'Bootstrap');
 }

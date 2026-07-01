@@ -1,100 +1,44 @@
-# 07 — DTO Patterns
+# 07 - DTO Patterns
 
 ## 1. Always use DTOs
 
-- Every request body, query, and route param group is bound to a DTO class. No raw objects, no `any`.
-- DTOs are classes (not interfaces) so `class-validator` / `class-transformer` decorators work at runtime.
+- Every request body, query, and route param group is bound to a DTO class.
+- DTOs are classes so validation and transformation decorators work at runtime.
 
-## 2. Request DTOs (validated input)
+## 2. Request DTOs
 
-```ts
-// apps/job-service/src/job/dto/create-job.dto.ts
-export class CreateJobDto {
-  @ApiProperty({ example: 'Backend Engineer' })
-  @IsString()
-  @Length(3, 120)
-  title: string;
-
-  @ApiProperty({ example: 'Build NestJS microservices' })
-  @IsString()
-  @MaxLength(5000)
-  description: string;
-
-  @ApiProperty({ enum: JobType })
-  @IsEnum(JobType)
-  type: JobType;
-
-  @ApiPropertyOptional({ example: 1500 })
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  salaryMin?: number;
-}
-```
-
-- Decorate every field with the right `class-validator` rule. Validation is enforced by the global `ValidationPipe` (`whitelist: true`, `forbidNonWhitelisted: true`, `transform: true`).
-- Use `@IsOptional()` for optional fields; mark them `?`. Use `@IsEnum` for enum fields (don't accept arbitrary strings).
-- Don't include server-controlled fields (`id`, `createdAt`, `ownerId`, `status`) in a create DTO — those are set by the service.
+- Decorate every field with the correct validator.
+- Use `@IsOptional()` only for optional fields.
+- Do not include server-controlled fields in create DTOs.
 
 ## 3. Update DTOs
 
-```ts
-export class UpdateJobDto extends PartialType(CreateJobDto) {}
-```
+- Prefer `PartialType(CreateDto)` for patch-style DTOs.
+- Avoid duplicating the full field list in update DTOs.
 
-- Use `PartialType` (from `@nestjs/swagger`) to derive update DTOs; don't duplicate fields.
-- For `PATCH`, all fields optional; for `PUT`, require the full shape.
+## 4. Query DTOs
 
-## 4. Query DTOs (pagination/filter)
+- Use DTOs for pagination and filtering.
+- Use `@Type(() => Number)` for numeric query params.
+- Clamp pagination limits.
+- When an endpoint exposes the standard `page` and `limit` pair, document it with `@ApiPaginationQueries()` from `@nexhire/shared`.
 
-```ts
-export class FindJobsQueryDto {
-  @IsOptional() @Type(() => Number) @IsInt() @Min(1)
-  page: number = 1;
+## 5. Response DTOs
 
-  @IsOptional() @Type(() => Number) @IsInt() @Min(1) @Max(100)
-  limit: number = 20;
+- Define explicit response DTOs; never expose entities directly.
+- Response DTOs describe the payload inside the success envelope, not the outer wrapper itself.
 
-  @IsOptional() @IsEnum(JobStatus)
-  status?: JobStatus;
-}
-```
+## 6. Mapping entity to DTO
 
-- Use `@Type(() => Number)` because query strings arrive as text. Clamp `limit` (max 100) in the DTO.
-
-## 5. Response DTOs (output shape)
-
-- Define an explicit response DTO; never return the entity directly. This controls exactly what's exposed.
-
-```ts
-export class JobResponseDto {
-  @ApiProperty() id: string;
-  @ApiProperty() title: string;
-  @ApiProperty({ enum: JobStatus }) status: JobStatus;
-  @ApiProperty() createdAt: string;
-}
-```
-
-## 6. Mapping entity ↔ DTO
-
-- Map in the service layer using a small mapper/`static` method. Keep mapping in one place per entity.
-
-```ts
-export class JobMapper {
-  static toResponse(job: Job): JobResponseDto {
-    return { id: job.id, title: job.title, status: job.status, createdAt: job.createdAt.toISOString() };
-  }
-}
-```
-
-- Alternatively use `class-transformer` `@Expose()/@Exclude()` + `plainToInstance`, but pick one approach per project and be consistent.
+- Map in the service layer with a mapper or small static helper.
+- Keep mapping in one place per entity or aggregate.
 
 ## 7. Cross-service contract DTOs
 
-- DTOs describing the request/response between services live in `@nexhire/shared/dto`, so producer and consumer share one definition.
+- Shared request and response contracts between services belong in `@nexhire/shared/dto`.
 
 ## 8. Rules
 
-- No business logic in DTOs — only shape + validation.
-- Every DTO field has an `@ApiProperty`/`@ApiPropertyOptional` for Swagger.
-- Don't reuse a request DTO as a response DTO; inputs and outputs evolve differently.
+- No business logic in DTOs.
+- Every DTO field has `@ApiProperty` or `@ApiPropertyOptional`.
+- Do not reuse request DTOs as response DTOs.

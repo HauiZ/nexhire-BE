@@ -1,7 +1,6 @@
-import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { setupApp } from '@nexhire/shared';
+import { logAppLinks, setupApp } from '@nexhire/shared';
 import { MatchingServiceModule } from './matching-service.module';
 
 async function bootstrap() {
@@ -9,7 +8,11 @@ async function bootstrap() {
   setupApp(app, { serviceName: 'matching-service' });
   const port = app.get(ConfigService).get<number>('matchingService.port', 3007);
   await app.listen(port);
-  Logger.log(`matching-service listening on :${port} (db: matching_service_db)`, 'Bootstrap');
+  logAppLinks({
+    serviceName: 'matching-service',
+    baseUrl: await app.getUrl(),
+    database: 'matching_service_db',
+  });
 }
 
 void bootstrap();

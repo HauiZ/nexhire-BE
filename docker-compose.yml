@@ -4,7 +4,7 @@ services:
     container_name: nexhire-postgres
     restart: unless-stopped
     ports:
-      - '5432:5432'
+      - '5436:5432'
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}

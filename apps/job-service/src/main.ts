@@ -1,7 +1,6 @@
-import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { setupApp } from '@nexhire/shared';
+import { logAppLinks, setupApp } from '@nexhire/shared';
 import { JobServiceModule } from './job-service.module';
 
 async function bootstrap() {
@@ -9,7 +8,11 @@ async function bootstrap() {
   setupApp(app, { serviceName: 'job-service' });
   const port = app.get(ConfigService).get<number>('jobService.port', 3004);
   await app.listen(port);
-  Logger.log(`job-service listening on :${port} (db: job_service_db)`, 'Bootstrap');
+  logAppLinks({
+    serviceName: 'job-service',
+    baseUrl: await app.getUrl(),
+    database: 'job_service_db',
+  });
 }
 
 void bootstrap();

@@ -1,7 +1,6 @@
-import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { setupApp } from '@nexhire/shared';
+import { logAppLinks, setupApp } from '@nexhire/shared';
 import { AuthServiceModule } from './auth-service.module';
 
 async function bootstrap() {
@@ -9,7 +8,11 @@ async function bootstrap() {
   setupApp(app, { serviceName: 'auth-service' });
   const port = app.get(ConfigService).get<number>('authService.port', 3001);
   await app.listen(port);
-  Logger.log(`auth-service listening on :${port} (db: auth_service_db)`, 'Bootstrap');
+  logAppLinks({
+    serviceName: 'auth-service',
+    baseUrl: await app.getUrl(),
+    database: 'auth_service_db',
+  });
 }
 
 void bootstrap();

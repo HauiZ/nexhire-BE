@@ -1,4 +1,5 @@
 import 'dotenv/config';
-import { buildDataSourceOptions, databaseConfigFor } from '@nexhire/infra';
+import { buildDataSourceOptions } from '@nexhire/infra';
+import { DataSource } from 'typeorm';
 
-export default buildDataSourceOptions(databaseConfigFor('JOB_SERVICE')());
+export default new DataSource(buildDataSourceOptions(__dirname, 'JOB_SERVICE'));

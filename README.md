@@ -57,6 +57,17 @@ Then open:
 
 > Run a single service with `npm run start:document-storage-service` or another `start:*` script from `package.json`.
 
+## Migration shortcuts
+
+- Run all DB migrations: `npm run db:all:run`
+- Generate DB migrations for all services: `npm run db:all:generate -- Update`
+- Run one service migration: `npm run db:auth:run`
+- Show one service migration status: `npm run db:auth:show`
+- Revert one service migration: `npm run db:auth:revert`
+- Create empty migration: `npm run db:auth:create -- CreateAuthAuditLog`
+- Generate migration from entity diff: `npm run db:auth:generate -- AddPhoneToUsers`
+- Available service scopes: `auth`, `candidate`, `company`, `job`, `application`, `cv-parsing`, `matching`, `document-storage`
+
 ## Project layout
 
 ```text
