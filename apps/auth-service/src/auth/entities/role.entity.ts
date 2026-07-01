@@ -15,7 +15,7 @@ export class Role {
   })
   name: UserRole;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ type: 'text', nullable: true })
   description: string | null;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })

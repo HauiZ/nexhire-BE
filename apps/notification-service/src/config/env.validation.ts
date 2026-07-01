@@ -19,4 +19,5 @@ export const validationSchema = Joi.object({
   MAILTRAP_SMTP_PASS: Joi.string().optional(),
   SMTP_FROM: Joi.string().default('NexHire <noreply@nexhire.vn>'),
   NOTIFICATION_QUEUE_EMAIL_VERIFICATION: Joi.string().default('notification.email.verification'),
+  NOTIFICATION_QUEUE_PASSWORD_RESET: Joi.string().default('notification.email.password-reset'),
 });

@@ -26,4 +26,24 @@ export class EmailService {
 
     this.logger.log(`Verification email sent to ${payload.email}`);
   }
+
+  async sendPasswordResetEmail(payload: {
+    email: string;
+    fullName: string | null;
+    token: string;
+    expiresAt: string;
+  }): Promise<void> {
+    await this.mailerService.sendMail({
+      to: payload.email,
+      subject: 'Reset your NexHire password',
+      template: 'password-reset',
+      context: {
+        name: payload.fullName ?? payload.email,
+        token: payload.token,
+        expiresAt: payload.expiresAt,
+      },
+    });
+
+    this.logger.log(`Password reset email sent to ${payload.email}`);
+  }
 }

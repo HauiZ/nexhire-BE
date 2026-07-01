@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { EmailVerification } from './entities/email-verification.entity';
+import { PasswordResetToken } from './entities/password-reset-token.entity';
 import { Role } from './entities/role.entity';
 import { UserCredential } from './entities/user-credential.entity';
 import { UserRoleEntity } from './entities/user-role.entity';
@@ -17,7 +18,14 @@ import { User } from './entities/user.entity';
       inject: [ConfigService],
       useFactory: () => ({}),
     }),
-    TypeOrmModule.forFeature([User, UserCredential, Role, UserRoleEntity, EmailVerification]),
+    TypeOrmModule.forFeature([
+      User,
+      UserCredential,
+      Role,
+      UserRoleEntity,
+      EmailVerification,
+      PasswordResetToken,
+    ]),
   ],
   controllers: [AuthController],
   providers: [AuthService],

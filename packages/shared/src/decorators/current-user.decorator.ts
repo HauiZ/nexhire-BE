@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { AuthUser } from '../interfaces/auth-user.interface';
 
-/** Injects the authenticated user (set by JwtAuthGuard) into a handler param. */
+/** Injects the authenticated user set by the active auth guard into a handler param. */
 export const CurrentUser = createParamDecorator(
   (
     data: keyof AuthUser | undefined,

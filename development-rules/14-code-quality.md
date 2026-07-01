@@ -1,56 +1,68 @@
-# 14 — Code Quality
+# 14 - Code Quality
 
 ## 1. TypeScript strictness
 
-- `strict: true` project-wide; do not disable strict flags per file.
-- **No `any`.** Use a concrete type, generics, or `unknown` + narrowing. If unavoidable, add `// eslint-disable-next-line @typescript-eslint/no-explicit-any` with a one-line reason.
-- Type all public/exported method return values. `readonly` for injected deps and constants.
-- `const` by default; `let` only when reassigned; never `var`.
-- Prefer `?.` and `??` over manual null checks.
+- Keep `strict: true` project-wide.
+- Do not disable strict flags per file.
+- Avoid `any`. Use concrete types, generics, or `unknown` plus narrowing.
+- If `any` is unavoidable, add an ESLint disable with a short reason.
+- Type all public/exported method return values.
+- Use `readonly` for injected dependencies and constants.
+- Use `const` by default; `let` only when reassigned; never `var`.
+- Prefer `?.` and `??` over verbose null checks.
 
-## 2. Lint & format (enforced)
+## 2. Lint and format
 
-- **ESLint + Prettier** are the source of truth. Code must pass `make lint` before commit/PR; CI rejects unformatted/lint-failing code.
-- Baseline: 2-space indent, single quotes, trailing commas, semicolons, max line length 100, import sorting.
-- No committed `// eslint-disable` without a reason comment.
+- ESLint and Prettier are the source of truth.
+- Do not commit unused imports, unused variables, or formatter churn.
+- Baseline style: 2-space indent, single quotes, trailing commas, semicolons.
+- Do not add committed `eslint-disable` comments without a reason.
 
-## 3. Functions & complexity
+## 3. Functions and complexity
 
-- Small, single-purpose functions. If a method does several unrelated things, split it.
-- Keep nesting shallow — use early returns / guard clauses instead of deep `if` pyramids.
-- Avoid long parameter lists (> 3–4) — pass an options object or a DTO.
-- No magic numbers/strings — name them as constants (event routing keys, limits, error codes live in `shared`).
+- Keep functions small and single-purpose.
+- Use guard clauses to keep nesting shallow.
+- Avoid long parameter lists; use DTOs/options objects.
+- Avoid magic numbers and strings. Name constants, especially events, headers, limits, and error codes.
+- Do not fix unrelated bugs while implementing a scoped task; mention them separately.
 
 ## 4. Comments
 
-- Comment the **why**, not the **what**. Don't restate code.
-- Match surrounding comment density/style. Public service methods with non-obvious business rules get a short doc comment.
-- Keep comments truthful and updated; a stale comment is a bug.
+- Comment the why, not the obvious what.
+- Keep comments truthful and updated.
+- Public service methods with non-obvious business rules may have a short doc comment.
+- Avoid comment noise in straightforward code.
 
-## 5. Dead code & TODOs
+## 5. Dead code and TODOs
 
-- No commented-out code blocks in commits — delete them (git keeps history).
-- No unused imports, vars, or exports (ESLint enforces).
-- `// TODO:` must reference an owner/issue: `// TODO(nexhire-42): paginate results`.
+- Delete commented-out code.
+- No unused exports.
+- `TODO` comments must include an owner or issue reference, for example `TODO(nexhire-42): paginate results`.
 
 ## 6. Logging
 
-- Use the NestJS `Logger` (context = class name); never `console.log` in committed code.
-- Never log secrets, passwords, full tokens, full CV content, or unmasked PII.
+- Use NestJS `Logger` with class context.
+- Never log secrets, passwords, token hashes, full tokens, full CV content, or unmasked sensitive PII.
+- Log errors once at the boundary that handles them.
 
-## 7. DRY vs duplication
+## 7. Reuse vs abstraction
 
-- Reuse via `@nexhire/shared` for cross-service code; service-local helpers in `src/common/`.
-- But don't over-abstract: a little duplication is better than the wrong abstraction. Extract when a pattern repeats ≥ 3 times with the same intent.
+- Cross-service reusable code belongs in `@nexhire/shared` or `@nexhire/infra`.
+- Service-local helpers belong under the owning service.
+- Do not over-abstract early. Extract only when repetition has the same intent and the abstraction improves clarity.
 
 ## 8. Consistency
 
-- Match the style of surrounding code (naming, error handling, mapping approach). One project-wide approach per concern (e.g. one entity↔DTO mapping style) — don't mix.
+- Match surrounding style.
+- Use one project-wide approach per concern: response envelopes, error codes, config namespaces, migrations, event constants, and auth headers.
+- New patterns must update `development-rules/` and README when they affect team workflow.
 
 ## 9. Pre-commit checklist
 
-- [ ] No `any`, no `console.log`, no commented-out code.
-- [ ] `make lint` + `make test` + build pass.
-- [ ] DTO validation present; errors use the standard shape.
-- [ ] No secrets / `.env` / hardcoded URLs or ports.
-- [ ] Swagger annotations on new endpoints; migration added if schema changed.
+- [ ] No `any`, `console.log`, commented-out code, or leaked secrets.
+- [ ] DTO validation and Swagger annotations are present.
+- [ ] Errors use standard codes and envelope behavior.
+- [ ] Env/config changes update `.env.example` and validation schema.
+- [ ] DB changes include a reviewed migration.
+- [ ] Relevant tests pass.
+- [ ] Build passes.

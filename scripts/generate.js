@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { spawnSync } = require('child_process');
 
-const name = process.argv[2] ?? 'Update';
+const name = process.argv.slice(2).join(' ').trim();
 const services = [
   'auth-service',
   'candidate-service',
@@ -19,7 +19,12 @@ for (const service of services) {
   console.log(`------------ ${service} ------------`);
   const result = spawnSync(
     process.execPath,
-    ['scripts/migration.js', 'generate', service, name],
+    [
+      'scripts/migration.js',
+      'generate',
+      service,
+      ...(name ? [name] : []),
+    ],
     { encoding: 'utf8' },
   );
 

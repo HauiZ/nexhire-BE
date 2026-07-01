@@ -53,7 +53,7 @@ export class ProxyService {
               ? {
                   [HEADERS.USER_ID]: user.id,
                   [HEADERS.USER_ROLE]: user.role,
-                  ...(user.companyId ? { 'x-company-id': user.companyId } : {}),
+                  ...(user.companyId ? { [HEADERS.COMPANY_ID]: user.companyId } : {}),
                 }
               : {}),
           },

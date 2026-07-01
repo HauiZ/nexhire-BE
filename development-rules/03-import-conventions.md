@@ -1,20 +1,24 @@
-# 03 — Import Conventions
+# 03 - Import Conventions
 
 ## 1. Path aliases
 
-- Use the package aliases `@nexhire/shared` (contracts/cross-cutting) and `@nexhire/infra` (DB/Redis/queue/storage adapters). NEVER reach across with relative paths like `../../../../packages/shared`.
+- Use package aliases for shared code:
+  - `@nexhire/shared` for contracts, decorators, guards, filters, interceptors, DTO helpers, enums, constants.
+  - `@nexhire/infra` for reusable adapters to backing systems such as DB, Redis, queues, storage, and HTTP helpers.
+- Never import shared packages through deep relative paths such as `../../../../packages/shared`.
+- Within an app, relative imports are fine for nearby files. If a relative import climbs more than two levels, reconsider the folder boundary or promote the contract to `@nexhire/shared`.
 
 ```ts
 // good
-import { UserRole, JwtAuthGuard } from '@nexhire/shared';
+import { UserRole, CurrentUser } from '@nexhire/shared';
 
 // bad
 import { UserRole } from '../../../packages/shared/src/enums/user-role.enum';
 ```
 
-- Within an app, relative imports are fine for nearby files (`./dto/create-job.dto`). If a relative path climbs more than two levels (`../../..`), it's a smell — reconsider structure or promote to `shared`.
+## 2. Import order
 
-## 2. Import order (top → bottom, blank line between groups)
+Order imports top to bottom with a blank line between groups:
 
 1. Node built-ins (`node:crypto`, `node:fs`).
 2. Third-party packages (`@nestjs/common`, `typeorm`, `class-validator`).
@@ -34,30 +38,37 @@ import { Application } from './entities/application.entity';
 import { CreateApplicationDto } from './dto/create-application.dto';
 ```
 
-- Within each group, sort alphabetically (let ESLint/Prettier import-sort enforce it).
+- Within each group, keep imports alphabetized when practical.
+- Do not fight Prettier formatting.
 
-## 3. Barrel files (`index.ts`)
+## 3. Barrel files
 
-- `packages/shared` exposes its public surface via `src/index.ts`. Only export what other services should use.
-- Do NOT create barrels inside an app's feature folders just for convenience — they encourage circular imports and obscure the dependency graph. Import the concrete file.
+- `packages/shared` exposes its public surface via `src/index.ts`.
+- Only export APIs that other services are allowed to use.
+- Do not create barrels inside app feature folders just for convenience; import the concrete file.
 
 ## 4. No circular dependencies
 
-- A circular import (`a.service` ↔ `b.service`) is forbidden. If two services depend on each other's classes, extract the shared contract/interface to `shared`, or rethink the boundary.
-- Inject via the module/DI container; do not import a provider instance directly to "break" a cycle.
+- Circular imports are forbidden.
+- If two features need the same shape, extract a DTO/interface/enum to `@nexhire/shared`.
+- If two providers depend on each other, rethink the module boundary instead of using direct imports or runtime hacks.
 
 ## 5. Type-only imports
 
-- Use `import type { ... }` for things used only as types (DTO shapes, interfaces). Keeps runtime imports minimal and avoids accidental circular runtime deps.
+- Use `import type { ... }` for values used only as types.
+- This keeps runtime imports smaller and avoids accidental circular runtime dependencies.
 
 ```ts
 import type { CvParseResult } from '@nexhire/shared';
 ```
 
-## 6. No deep imports into third-party internals
+## 6. No third-party internals
 
-- Import from a package's public entry, not its `dist`/internal paths (`typeorm`, not `typeorm/browser/...`).
+- Import from a package public entry point, not from `dist`, `src`, or private internals.
+- Example: import from `typeorm`, not `typeorm/browser/...`.
 
 ## 7. Inter-service communication is not an import
 
-- A service NEVER imports another service's `*.service.ts` to call it. Cross-service calls go through HTTP (`HttpModule`) or a queue. Only **contracts** (DTO/enum/interface) are shared, via `@nexhire/shared`.
+- A service never imports another service app's controller/service/entity to call it.
+- Cross-service calls go through HTTP clients, events, or queues.
+- Only contracts are shared through `@nexhire/shared`.

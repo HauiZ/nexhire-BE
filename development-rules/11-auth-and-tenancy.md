@@ -1,4 +1,4 @@
-# 11 — Auth & Tenancy
+# 11 - Auth & Tenancy
 
 ## 1. Roles
 
@@ -12,46 +12,49 @@ export enum UserRole {
 }
 ```
 
-- Every protected endpoint declares the roles allowed. Default-deny.
+- Every protected endpoint declares the roles allowed when role-level authorization applies. Default-deny.
 
 ## 2. JWT model
 
-- Short-lived **access token** (`JWT_ACCESS_TTL=900`) + long-lived **refresh token** (`JWT_REFRESH_TTL=604800`).
-- **Separate secrets** for access vs refresh.
-- Payload contains only `sub` (userId), `role`, and token metadata — no PII, no secrets.
-- Refresh tokens **rotate** on use; keep a server-side record (Redis) keyed by user/token id to allow revocation/logout.
+- Short-lived access token (`JWT_ACCESS_TTL=900`) plus long-lived refresh token (`JWT_REFRESH_TTL=604800`).
+- Separate secrets for access vs refresh.
+- Payload contains only `sub` (userId), `role`, optional `companyId`, and token metadata; no PII or secrets.
+- Refresh tokens rotate on use; keep a server-side record (Redis) keyed by user/token id to allow revocation/logout.
 
-## 3. Gateway validates, services trust
+## 3. Gateway forwards identity, services enforce
 
-- `gateway` runs `JwtAuthGuard`, validates the token, and injects identity headers when proxying internally:
-  - `x-user-id`, `x-user-role` (and `x-request-id`).
-- Internal services trust these headers (internal network) but **still enforce role + ownership** per endpoint.
+- `gateway` runs `OptionalJwtAuthGuard`: it decodes a valid JWT when present and lets public requests pass through.
+- When a user is present, the gateway injects identity headers while proxying internally:
+  - `x-user-id`, `x-user-role`, optional `x-company-id`, and `x-request-id`.
+- Internal services use `InternalAuthGuard` plus `@Public()` to decide whether the route requires identity.
+- Internal services trust gateway-injected headers on the internal network but still enforce role and ownership per endpoint.
 
 ## 4. Shared auth building blocks (`@nexhire/shared`)
 
 ```ts
-@Public()                              // skip auth for this route
-@Roles(UserRole.RECRUITER)             // restrict by role
-@CurrentUser() user: AuthUser          // typed identity from request
+@Public()
+@Roles(UserRole.RECRUITER)
+@CurrentUser() user: AuthUser
 ```
 
-- `JwtAuthGuard`, `RolesGuard`, `@Public()`, `@Roles()`, `@CurrentUser()` are defined once in `shared` and reused. No copy-paste per service.
-- Register `JwtAuthGuard` as a global guard (`APP_GUARD`); `@Public()` opts out.
+- `InternalAuthGuard`, `JwtAuthGuard`, `RolesGuard`, `@Public()`, `@Roles()`, and `@CurrentUser()` are defined once in `shared`.
+- Register `InternalAuthGuard` and `RolesGuard` as global guards (`APP_GUARD`) in internal services; `@Public()` opts out.
+- Use `JwtAuthGuard` only in services that directly own JWT validation. The current gateway uses `OptionalJwtAuthGuard` for proxy identity forwarding.
 
 ## 5. Identity comes from the token, never the body
 
-- `userId`/`candidateId`/`companyId` for the acting user is read from `@CurrentUser()` — **never** from a client-supplied field in the request body. A candidate cannot pass someone else's id.
+- `userId`/`candidateId`/`companyId` for the acting user is read from `@CurrentUser()`; never from a client-supplied field in the request body.
 
 ## 6. Ownership checks (per-row authorization)
 
 - Beyond role, enforce ownership in the service:
-  - A candidate may read/modify only **their own** CVs and applications.
-  - A recruiter may manage only **their own company's** jobs and view applications to those jobs.
-- Implement as an explicit check that throws `ForbiddenException` when the resource's owner id ≠ the acting user/company.
+  - A candidate may read/modify only their own CVs and applications.
+  - A recruiter may manage only their own company's jobs and view applications to those jobs.
+- Implement an explicit check that throws `ForbiddenException` when the resource owner id does not match the acting user/company.
 
 ```ts
 if (job.companyId !== user.companyId) {
-  throw new ForbiddenException('You cannot modify another company\'s job');
+  throw new ForbiddenException('You cannot modify another company job');
 }
 ```
 
@@ -63,12 +66,13 @@ if (job.companyId !== user.companyId) {
 
 ## 8. Auth endpoints hardening
 
-- `login` / `register` / `refresh` are `@Public()` but rate-limited more strictly than normal endpoints (slow brute force).
-- Passwords hashed with bcrypt (`rounds: 12`). Never store/log plaintext or full tokens.
-- Email verification + password reset flows use single-use, expiring tokens (stored/validated server-side).
+- `login`, `register`, `refresh`, `forgot-password`, and `resend-verification` are `@Public()` but should be rate-limited more strictly than normal endpoints.
+- Passwords are hashed with bcrypt (`rounds: 12`). Never store/log plaintext or full tokens.
+- Email verification and password reset flows use single-use, expiring tokens stored/validated server-side.
+- Public account lookup flows should avoid user enumeration unless product requirements explicitly allow it.
 
 ## 9. Rules
 
-- No endpoint is implicitly public — it's protected unless `@Public()`.
-- No authorization logic duplicated inline; use the shared guards + a clear ownership check in the service.
+- No endpoint is implicitly public; it is protected unless `@Public()`.
+- No authorization logic duplicated inline; use shared guards plus clear ownership checks in services.
 - Tokens, secrets, and password hashes never appear in responses, logs, or DTOs.

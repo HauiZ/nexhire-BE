@@ -17,14 +17,21 @@ import { EventPublisher } from '@nexhire/infra';
 import { EVENTS } from '@nexhire/shared';
 import { DataSource, IsNull, Repository } from 'typeorm';
 import { AuthResponseDto } from './dto/auth-response.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { ChangePasswordResponseDto } from './dto/change-password-response.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ForgotPasswordResponseDto } from './dto/forgot-password-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { ResendVerificationDto } from './dto/resend-verification.dto';
 import { ResendVerificationResponseDto } from './dto/resend-verification-response.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { ResetPasswordResponseDto } from './dto/reset-password-response.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyEmailResponseDto } from './dto/verify-email-response.dto';
 import { PasswordAlgorithm, UserStatus } from './entities/auth.enum';
 import { EmailVerification } from './entities/email-verification.entity';
+import { PasswordResetToken } from './entities/password-reset-token.entity';
 import { Role } from './entities/role.entity';
 import { UserCredential } from './entities/user-credential.entity';
 import { UserRoleEntity } from './entities/user-role.entity';
@@ -51,6 +58,8 @@ export class AuthService {
     private readonly userRoleRepo: Repository<UserRoleEntity>,
     @InjectRepository(EmailVerification)
     private readonly emailVerificationRepo: Repository<EmailVerification>,
+    @InjectRepository(PasswordResetToken)
+    private readonly passwordResetTokenRepo: Repository<PasswordResetToken>,
   ) {}
 
   async register(dto: RegisterDto): Promise<AuthResponseDto> {
@@ -275,6 +284,135 @@ export class AuthService {
     };
   }
 
+  async forgotPassword(dto: ForgotPasswordDto): Promise<ForgotPasswordResponseDto> {
+    const email = dto.email.trim().toLowerCase();
+    const { resendCooldownSeconds } = this.getPasswordResetConfig();
+    const response = {
+      message: 'Password reset code queued if the email exists',
+      resendCooldownSeconds,
+    };
+
+    const user = await this.userRepo.findOne({ where: { email } });
+    if (!user) {
+      return response;
+    }
+
+    const existingToken = await this.passwordResetTokenRepo.findOne({
+      where: { userId: user.id, usedAt: IsNull() },
+      order: { createdAt: 'DESC' },
+    });
+
+    if (existingToken && existingToken.expiresAt.getTime() > Date.now()) {
+      this.assertPasswordResetRequestAllowed(existingToken);
+      await this.rotatePasswordResetToken(existingToken, user);
+      return response;
+    }
+
+    await this.createPasswordResetToken(user);
+    return response;
+  }
+
+  async resetPassword(dto: ResetPasswordDto): Promise<ResetPasswordResponseDto> {
+    const email = dto.email.trim().toLowerCase();
+    const resetToken = await this.passwordResetTokenRepo.findOne({
+      where: { email, usedAt: IsNull() },
+      order: { createdAt: 'DESC' },
+    });
+
+    if (!resetToken) {
+      throw new NotFoundException({
+        code: ERROR_CODES.NOT_FOUND,
+        message: 'Password reset request was not found',
+      });
+    }
+
+    if (resetToken.tokenHash !== this.hashToken(dto.token.trim())) {
+      throw new BadRequestException({
+        code: ERROR_CODES.VALIDATION_FAILED,
+        message: 'Password reset token is invalid',
+      });
+    }
+
+    if (resetToken.expiresAt.getTime() <= Date.now()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.VALIDATION_FAILED,
+        message: 'Password reset token has expired',
+      });
+    }
+
+    const credential = await this.credentialRepo.findOne({ where: { userId: resetToken.userId } });
+    if (!credential) {
+      throw new NotFoundException({
+        code: ERROR_CODES.NOT_FOUND,
+        message: 'User credential was not found',
+      });
+    }
+
+    const isSamePassword = await bcrypt.compare(dto.newPassword, credential.passwordHash);
+    if (isSamePassword) {
+      throw new BadRequestException({
+        code: ERROR_CODES.VALIDATION_FAILED,
+        message: 'New password must be different from current password',
+      });
+    }
+
+    const passwordHash = await this.hashPassword(dto.newPassword);
+    const updatedAt = new Date();
+    await this.dataSource.transaction(async (manager) => {
+      await manager.update(PasswordResetToken, resetToken.id, {
+        usedAt: updatedAt,
+      });
+      await manager.update(UserCredential, credential.id, {
+        passwordHash,
+        passwordAlgorithm: PasswordAlgorithm.BCRYPT,
+        passwordUpdatedAt: updatedAt,
+        failedLoginAttempts: 0,
+        lockedUntil: null,
+      });
+    });
+
+    return { message: 'Password reset successfully' };
+  }
+
+  async changePassword(
+    userId: string,
+    dto: ChangePasswordDto,
+  ): Promise<ChangePasswordResponseDto> {
+    const credential = await this.credentialRepo.findOne({ where: { userId } });
+    if (!credential) {
+      throw new NotFoundException({
+        code: ERROR_CODES.NOT_FOUND,
+        message: 'User credential was not found',
+      });
+    }
+
+    const isCurrentPasswordValid = await bcrypt.compare(
+      dto.currentPassword,
+      credential.passwordHash,
+    );
+    if (!isCurrentPasswordValid) {
+      throw this.invalidCredentials();
+    }
+
+    const isSamePassword = await bcrypt.compare(dto.newPassword, credential.passwordHash);
+    if (isSamePassword) {
+      throw new BadRequestException({
+        code: ERROR_CODES.VALIDATION_FAILED,
+        message: 'New password must be different from current password',
+      });
+    }
+
+    await this.credentialRepo.update(credential.id, {
+      passwordHash: await this.hashPassword(dto.newPassword),
+      passwordAlgorithm: PasswordAlgorithm.BCRYPT,
+      passwordUpdatedAt: new Date(),
+      failedLoginAttempts: 0,
+      lockedUntil: null,
+    });
+
+    return { message: 'Password changed successfully' };
+  }
+
   private async resolvePrimaryRole(userId: string): Promise<UserRole> {
     const userRole = await this.userRoleRepo.findOne({
       where: { userId },
@@ -331,6 +469,13 @@ export class AuthService {
     return createHash('sha256').update(value).digest('hex');
   }
 
+  private async hashPassword(password: string): Promise<string> {
+    return bcrypt.hash(
+      password,
+      this.configService.get<number>('authService.bcryptRounds', 12),
+    );
+  }
+
   private generateVerificationToken(): string {
     const { tokenLength } = this.getVerificationConfig();
     const min = 10 ** (tokenLength - 1);
@@ -370,6 +515,63 @@ export class AuthService {
     }
   }
 
+  private assertPasswordResetRequestAllowed(resetToken: PasswordResetToken): void {
+    const { resendCooldownSeconds, maxResends } = this.getPasswordResetConfig();
+    const now = Date.now();
+
+    if (resetToken.resendCount >= maxResends) {
+      throw new HttpException({
+        code: ERROR_CODES.RATE_LIMITED,
+        message: 'Password reset resend limit reached',
+      }, HttpStatus.TOO_MANY_REQUESTS);
+    }
+
+    const earliestNextResend = resetToken.lastSentAt.getTime() + resendCooldownSeconds * 1000;
+    if (earliestNextResend > now) {
+      throw new HttpException({
+        code: ERROR_CODES.RATE_LIMITED,
+        message: `Please wait ${Math.ceil((earliestNextResend - now) / 1000)} seconds before resending`,
+      }, HttpStatus.TOO_MANY_REQUESTS);
+    }
+  }
+
+  private async createPasswordResetToken(user: User): Promise<void> {
+    const token = this.generatePasswordResetToken();
+    const expiresAt = this.buildPasswordResetExpiry();
+
+    await this.passwordResetTokenRepo.save(
+      this.passwordResetTokenRepo.create({
+        userId: user.id,
+        email: user.email,
+        tokenHash: this.hashToken(token),
+        expiresAt,
+        usedAt: null,
+        lastSentAt: new Date(),
+        resendCount: 0,
+      }),
+    );
+
+    await this.publishPasswordResetEmail(user.email, user.fullName, token, expiresAt);
+  }
+
+  private async rotatePasswordResetToken(
+    resetToken: PasswordResetToken,
+    user: User,
+  ): Promise<void> {
+    const token = this.generatePasswordResetToken();
+    const expiresAt = this.buildPasswordResetExpiry();
+    const resendCount = resetToken.resendCount + 1;
+
+    await this.passwordResetTokenRepo.update(resetToken.id, {
+      tokenHash: this.hashToken(token),
+      expiresAt,
+      lastSentAt: new Date(),
+      resendCount,
+    });
+
+    await this.publishPasswordResetEmail(user.email, user.fullName, token, expiresAt);
+  }
+
   private async publishVerificationEmail(
     email: string,
     fullName: string | null,
@@ -377,6 +579,20 @@ export class AuthService {
     expiresAt: Date,
   ): Promise<void> {
     await this.eventPublisher.publish(EVENTS.AUTH_EMAIL_VERIFICATION_REQUESTED, {
+      email,
+      fullName,
+      token,
+      expiresAt: expiresAt.toISOString(),
+    });
+  }
+
+  private async publishPasswordResetEmail(
+    email: string,
+    fullName: string | null,
+    token: string,
+    expiresAt: Date,
+  ): Promise<void> {
+    await this.eventPublisher.publish(EVENTS.AUTH_PASSWORD_RESET_REQUESTED, {
       email,
       fullName,
       token,
@@ -399,6 +615,35 @@ export class AuthService {
       ),
       maxResends: this.configService.get<number>('authService.verification.maxResends', 5),
     };
+  }
+
+  private getPasswordResetConfig(): {
+    tokenLength: number;
+    tokenTtlMinutes: number;
+    resendCooldownSeconds: number;
+    maxResends: number;
+  } {
+    return {
+      tokenLength: this.configService.get<number>('authService.passwordReset.tokenLength', 6),
+      tokenTtlMinutes: this.configService.get<number>('authService.passwordReset.tokenTtlMinutes', 15),
+      resendCooldownSeconds: this.configService.get<number>(
+        'authService.passwordReset.resendCooldownSeconds',
+        60,
+      ),
+      maxResends: this.configService.get<number>('authService.passwordReset.maxResends', 5),
+    };
+  }
+
+  private generatePasswordResetToken(): string {
+    const { tokenLength } = this.getPasswordResetConfig();
+    const min = 10 ** (tokenLength - 1);
+    const max = 10 ** tokenLength;
+    return `${randomInt(min, max)}`;
+  }
+
+  private buildPasswordResetExpiry(): Date {
+    const { tokenTtlMinutes } = this.getPasswordResetConfig();
+    return new Date(Date.now() + tokenTtlMinutes * 60 * 1000);
   }
 
   private async recordFailedLogin(credential: UserCredential): Promise<void> {

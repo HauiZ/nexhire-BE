@@ -12,6 +12,8 @@ type VerifyEmailEventPayload = {
   expiresAt: string;
 };
 
+type PasswordResetEventPayload = VerifyEmailEventPayload;
+
 @Injectable()
 export class EmailEventsConsumer implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(EmailEventsConsumer.name);
@@ -30,6 +32,10 @@ export class EmailEventsConsumer implements OnModuleInit, OnModuleDestroy {
       'notificationService.queues.emailVerification',
       'notification.email.verification',
     );
+    const passwordResetQueueName = this.configService.get<string>(
+      'notificationService.queues.passwordReset',
+      'notification.email.password-reset',
+    );
 
     if (!url || !exchange) {
       this.logger.warn('RabbitMQ config missing, email event consumer is disabled');
@@ -46,10 +52,23 @@ export class EmailEventsConsumer implements OnModuleInit, OnModuleDestroy {
       setup: async (channel: ConfirmChannel) => {
         await channel.assertExchange(exchange, 'topic', { durable: true });
         await channel.assertQueue(queueName, { durable: true });
+        await channel.assertQueue(passwordResetQueueName, { durable: true });
         await channel.bindQueue(queueName, exchange, EVENTS.AUTH_EMAIL_VERIFICATION_REQUESTED);
+        await channel.bindQueue(
+          passwordResetQueueName,
+          exchange,
+          EVENTS.AUTH_PASSWORD_RESET_REQUESTED,
+        );
         await channel.consume(queueName, (message) => this.consumeVerifyEmail(message), {
           noAck: false,
         });
+        await channel.consume(
+          passwordResetQueueName,
+          (message) => this.consumePasswordResetEmail(message),
+          {
+            noAck: false,
+          },
+        );
       },
     });
   }
@@ -70,6 +89,21 @@ export class EmailEventsConsumer implements OnModuleInit, OnModuleDestroy {
       this.channel.ack(message);
     } catch (error) {
       this.logger.error('Failed to process verify-email event', error as Error);
+      this.channel.nack(message, false, false);
+    }
+  }
+
+  private async consumePasswordResetEmail(message: ConsumeMessage | null): Promise<void> {
+    if (!message || !this.channel) {
+      return;
+    }
+
+    try {
+      const payload = JSON.parse(message.content.toString()) as PasswordResetEventPayload;
+      await this.emailService.sendPasswordResetEmail(payload);
+      this.channel.ack(message);
+    } catch (error) {
+      this.logger.error('Failed to process password-reset event', error as Error);
       this.channel.nack(message, false, false);
     }
   }

@@ -8,7 +8,8 @@
 ## 2. Global exception filter
 
 - `AllExceptionsFilter` from `@nexhire/shared` formats every error into the standard error envelope.
-- Controllers and services do not format error payloads themselves.
+- Controllers and services do not build the outer error envelope themselves.
+- Services may throw Nest `HttpException` subclasses with `{ code, message }` as the response body when a stable frontend error code is needed; the global filter wraps it.
 
 ## 3. Success envelope
 
@@ -33,6 +34,7 @@
 
 - Keep stable error codes in `@nexhire/shared/constants`.
 - Frontend logic keys off `code`, not free-form messages.
+- Add new error codes in `@nexhire/shared/constants/error-codes.ts`; do not invent one-off strings in feature code.
 
 ## 6. Validation errors
 

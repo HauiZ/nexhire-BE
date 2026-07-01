@@ -1,12 +1,18 @@
-import { ConflictException, HttpException, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  HttpException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { EventPublisher } from '@nexhire/infra';
-import { ERROR_CODES, UserRole } from '@nexhire/shared';
+import { ERROR_CODES, EVENTS, UserRole } from '@nexhire/shared';
 import * as bcrypt from 'bcrypt';
 import { DataSource, Repository } from 'typeorm';
 import { AuthService } from '../auth.service';
 import { EmailVerification } from '../entities/email-verification.entity';
+import { PasswordResetToken } from '../entities/password-reset-token.entity';
 import { Role } from '../entities/role.entity';
 import { UserCredential } from '../entities/user-credential.entity';
 import { UserRoleEntity } from '../entities/user-role.entity';
@@ -20,12 +26,16 @@ jest.mock('bcrypt', () => ({
 type MockRepo = {
   findOne: jest.Mock;
   update: jest.Mock;
+  create: jest.Mock;
+  save: jest.Mock;
 };
 
 function createRepoMock(): MockRepo {
   return {
     findOne: jest.fn(),
     update: jest.fn(),
+    create: jest.fn((entity: unknown) => entity),
+    save: jest.fn(),
   };
 }
 
@@ -40,6 +50,7 @@ describe('AuthService', () => {
   let roleRepo: MockRepo;
   let userRoleRepo: MockRepo;
   let emailVerificationRepo: MockRepo;
+  let passwordResetTokenRepo: MockRepo;
 
   beforeEach(() => {
     dataSource = {
@@ -60,6 +71,10 @@ describe('AuthService', () => {
           'authService.verification.tokenTtlMinutes': 15,
           'authService.verification.resendCooldownSeconds': 60,
           'authService.verification.maxResends': 5,
+          'authService.passwordReset.tokenLength': 6,
+          'authService.passwordReset.tokenTtlMinutes': 15,
+          'authService.passwordReset.resendCooldownSeconds': 60,
+          'authService.passwordReset.maxResends': 5,
         };
         return values[key] ?? fallback;
       }),
@@ -73,6 +88,7 @@ describe('AuthService', () => {
     roleRepo = createRepoMock();
     userRoleRepo = createRepoMock();
     emailVerificationRepo = createRepoMock();
+    passwordResetTokenRepo = createRepoMock();
 
     service = new AuthService(
       dataSource as unknown as DataSource,
@@ -84,6 +100,7 @@ describe('AuthService', () => {
       roleRepo as unknown as Repository<Role>,
       userRoleRepo as unknown as Repository<UserRoleEntity>,
       emailVerificationRepo as unknown as Repository<EmailVerification>,
+      passwordResetTokenRepo as unknown as Repository<PasswordResetToken>,
     );
   });
 
@@ -159,7 +176,7 @@ describe('AuthService', () => {
       }),
     );
     expect(eventPublisher.publish).toHaveBeenCalledWith(
-      'auth.email-verification-requested',
+      EVENTS.AUTH_EMAIL_VERIFICATION_REQUESTED,
       expect.objectContaining({
         email: 'candidate@nexhire.vn',
         fullName: 'Nguyen Van A',
@@ -384,7 +401,7 @@ describe('AuthService', () => {
       resendCount: 2,
     });
     expect(eventPublisher.publish).toHaveBeenCalledWith(
-      'auth.email-verification-requested',
+      EVENTS.AUTH_EMAIL_VERIFICATION_REQUESTED,
       expect.objectContaining({
         email: 'candidate@nexhire.vn',
         fullName: 'Nguyen Van A',
@@ -444,5 +461,205 @@ describe('AuthService', () => {
       }),
     ).rejects.toBeInstanceOf(ConflictException);
     expect(emailVerificationRepo.findOne).not.toHaveBeenCalled();
+  });
+
+  it('returns a generic forgot-password response when email does not exist', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue(null);
+
+    const result = await service.forgotPassword({
+      email: 'missing@nexhire.vn',
+    });
+
+    expect(result).toEqual({
+      message: 'Password reset code queued if the email exists',
+      resendCooldownSeconds: 60,
+    });
+    expect(passwordResetTokenRepo.findOne).not.toHaveBeenCalled();
+    expect(eventPublisher.publish).not.toHaveBeenCalled();
+  });
+
+  it('creates a password reset token and publishes reset email event', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Van A',
+    } as User);
+    (passwordResetTokenRepo.findOne as jest.Mock).mockResolvedValue(null);
+    jest.spyOn(service as never, 'generatePasswordResetToken' as never).mockReturnValue('112233' as never);
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+    jest.spyOn(service as never, 'buildPasswordResetExpiry' as never).mockReturnValue(expiresAt as never);
+
+    const result = await service.forgotPassword({
+      email: 'candidate@nexhire.vn',
+    });
+
+    expect(passwordResetTokenRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        email: 'candidate@nexhire.vn',
+        tokenHash: (service as any).hashToken('112233'),
+        expiresAt,
+        usedAt: null,
+        resendCount: 0,
+      }),
+    );
+    expect(eventPublisher.publish).toHaveBeenCalledWith(
+      EVENTS.AUTH_PASSWORD_RESET_REQUESTED,
+      expect.objectContaining({
+        email: 'candidate@nexhire.vn',
+        fullName: 'Nguyen Van A',
+        token: '112233',
+        expiresAt: expiresAt.toISOString(),
+      }),
+    );
+    expect(result.message).toBe('Password reset code queued if the email exists');
+  });
+
+  it('blocks forgot-password resend during cooldown window', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Van A',
+    } as User);
+    (passwordResetTokenRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'reset-1',
+      userId: 'user-1',
+      email: 'candidate@nexhire.vn',
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+      lastSentAt: new Date(),
+      resendCount: 1,
+      usedAt: null,
+    } as PasswordResetToken);
+
+    await expect(
+      service.forgotPassword({
+        email: 'candidate@nexhire.vn',
+      }),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.RATE_LIMITED,
+      }),
+      status: 429,
+    });
+    expect(passwordResetTokenRepo.update).not.toHaveBeenCalled();
+    expect(eventPublisher.publish).not.toHaveBeenCalled();
+  });
+
+  it('resets password with a valid reset token', async () => {
+    const resetToken = {
+      id: 'reset-1',
+      userId: 'user-1',
+      email: 'candidate@nexhire.vn',
+      tokenHash: (service as any).hashToken('112233'),
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+      usedAt: null,
+    } as PasswordResetToken;
+    (passwordResetTokenRepo.findOne as jest.Mock).mockResolvedValue(resetToken);
+    (credentialRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'credential-1',
+      userId: 'user-1',
+      passwordHash: 'old-hash',
+    } as UserCredential);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+    (bcrypt.hash as jest.Mock).mockResolvedValue('new-hash');
+
+    const manager = {
+      update: jest.fn(),
+    };
+    dataSource.transaction.mockImplementation(async (callback: (entityManager: typeof manager) => Promise<void>) =>
+      callback(manager),
+    );
+
+    const result = await service.resetPassword({
+      email: 'candidate@nexhire.vn',
+      token: '112233',
+      newPassword: 'NewStrongPassword123!',
+    });
+
+    expect(bcrypt.hash).toHaveBeenCalledWith('NewStrongPassword123!', 12);
+    expect(manager.update).toHaveBeenNthCalledWith(1, PasswordResetToken, 'reset-1', {
+      usedAt: expect.any(Date),
+    });
+    expect(manager.update).toHaveBeenNthCalledWith(
+      2,
+      UserCredential,
+      'credential-1',
+      expect.objectContaining({
+        passwordHash: 'new-hash',
+        failedLoginAttempts: 0,
+        lockedUntil: null,
+      }),
+    );
+    expect(result).toEqual({ message: 'Password reset successfully' });
+  });
+
+  it('rejects reset password when new password matches current password', async () => {
+    (passwordResetTokenRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'reset-1',
+      userId: 'user-1',
+      email: 'candidate@nexhire.vn',
+      tokenHash: (service as any).hashToken('112233'),
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+      usedAt: null,
+    } as PasswordResetToken);
+    (credentialRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'credential-1',
+      userId: 'user-1',
+      passwordHash: 'old-hash',
+    } as UserCredential);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+
+    await expect(
+      service.resetPassword({
+        email: 'candidate@nexhire.vn',
+        token: '112233',
+        newPassword: 'SamePassword123!',
+      }),
+    ).rejects.toBeInstanceOf(BadRequestException);
+    expect(dataSource.transaction).not.toHaveBeenCalled();
+  });
+
+  it('changes password for an authenticated user', async () => {
+    (credentialRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'credential-1',
+      userId: 'user-1',
+      passwordHash: 'old-hash',
+      failedLoginAttempts: 2,
+      lockedUntil: new Date(),
+    } as UserCredential);
+    (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true).mockResolvedValueOnce(false);
+    (bcrypt.hash as jest.Mock).mockResolvedValue('new-hash');
+
+    const result = await service.changePassword('user-1', {
+      currentPassword: 'CurrentStrongPassword123!',
+      newPassword: 'NewStrongPassword123!',
+    });
+
+    expect(credentialRepo.update).toHaveBeenCalledWith(
+      'credential-1',
+      expect.objectContaining({
+        passwordHash: 'new-hash',
+        failedLoginAttempts: 0,
+        lockedUntil: null,
+      }),
+    );
+    expect(result).toEqual({ message: 'Password changed successfully' });
+  });
+
+  it('rejects change password when current password is invalid', async () => {
+    (credentialRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'credential-1',
+      userId: 'user-1',
+      passwordHash: 'old-hash',
+    } as UserCredential);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+
+    await expect(
+      service.changePassword('user-1', {
+        currentPassword: 'WrongPassword123!',
+        newPassword: 'NewStrongPassword123!',
+      }),
+    ).rejects.toBeInstanceOf(UnauthorizedException);
+    expect(credentialRepo.update).not.toHaveBeenCalled();
   });
 });

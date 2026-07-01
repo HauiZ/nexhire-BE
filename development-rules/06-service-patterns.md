@@ -1,65 +1,38 @@
-# 06 — Service Patterns
+# 06 - Service Patterns
 
-## 1. Services hold the business logic
+## 1. Services own business logic
 
-All domain rules, validation beyond shape, orchestration, DB access, and external calls live in providers (`*.service.ts`).
+All domain rules, validation beyond DTO shape, orchestration, DB access, and external calls live in providers (`*.service.ts`).
 
-```ts
-@Injectable()
-export class ApplicationService {
-  private readonly logger = new Logger(ApplicationService.name);
-
-  constructor(
-    @InjectRepository(Application)
-    private readonly applicationRepo: Repository<Application>,
-    private readonly jobClient: JobClient, // HTTP client to job service
-  ) {}
-
-  async create(userId: string, dto: CreateApplicationDto): Promise<ApplicationResponseDto> {
-    const job = await this.jobClient.getJob(dto.jobId); // cross-service via HTTP
-    if (job.status !== JobStatus.OPEN) {
-      throw new ConflictException('Job is not open for applications');
-    }
-
-    const existing = await this.applicationRepo.findOne({
-      where: { jobId: dto.jobId, candidateId: userId },
-    });
-    if (existing) {
-      throw new ConflictException('You have already applied to this job');
-    }
-
-    const application = this.applicationRepo.create({
-      jobId: dto.jobId,
-      candidateId: userId,
-      cvId: dto.cvId,
-      stage: ApplicationStage.SUBMITTED,
-    });
-    const saved = await this.applicationRepo.save(application);
-    return ApplicationMapper.toResponse(saved);
-  }
-}
-```
+Controllers route. Services decide.
 
 ## 2. Dependency injection
 
-- Inject everything via the constructor with `private readonly`. Never `new` a service/repository manually.
-- Inject repositories with `@InjectRepository(Entity)`. Don't reach into the global DataSource for normal queries.
-- Cross-service access goes through an injected HTTP client wrapper or a queue producer — never a direct import of the other service.
+- Inject dependencies through the constructor with `private readonly`.
+- Inject repositories with `@InjectRepository(Entity)`.
+- Use `DataSource` only for transactions and advanced cases, not normal single-repository queries.
+- Cross-service access goes through an injected HTTP client wrapper, event publisher, or queue producer.
+- Never instantiate services/repositories manually with `new`.
 
 ## 3. Return shape
 
-- Services return **response DTOs / plain objects**, not raw entities, to controllers. Map with a dedicated mapper (`07-dto-patterns.md`).
-- Never leak password hashes, internal flags, or other entities' fields in the returned shape.
+- Services return response DTOs or plain objects that match response DTOs.
+- Do not return raw entities to controllers.
+- Never leak password hashes, token hashes, internal flags, or fields from unrelated aggregates.
+- Map entity-to-response in one place per aggregate, either through a mapper or a small private/static helper.
 
 ## 4. Errors
 
-- Throw typed `HttpException` subclasses with a clear message: `NotFoundException`, `ConflictException`, `ForbiddenException`, `BadRequestException`.
-- Don't return `null`/`undefined` to signal "not found" from a public method — throw `NotFoundException` (unless the caller explicitly handles optional).
-- Validate ownership/authorization here too (defense in depth), not only in guards.
+- Throw typed Nest `HttpException` subclasses: `NotFoundException`, `ConflictException`, `ForbiddenException`, `BadRequestException`, etc.
+- Include `{ code, message }` when frontend needs a stable machine-readable error code.
+- Do not return `null` or `undefined` from public service methods to signal "not found"; throw unless the caller explicitly handles optional lookup.
+- Validate ownership and authorization in services too, not only in guards.
 
 ## 5. Transactions
 
-- Multi-write operations that must be atomic run in a transaction:
+- Multi-write operations that must be atomic run in a transaction.
+- Keep transactions short.
+- Do not perform slow external calls, email, RabbitMQ publish, Gemini calls, or object storage operations inside a DB transaction.
 
 ```ts
 await this.dataSource.transaction(async (manager) => {
@@ -68,19 +41,20 @@ await this.dataSource.transaction(async (manager) => {
 });
 ```
 
-- Keep transactions short; don't make slow external calls (HTTP/Gemini) inside a DB transaction.
+## 6. Async side effects
 
-## 6. Long-running / external work goes async
+- AI parsing, matching, notification, and document lifecycle side effects should be event-driven when they can outlive the request.
+- Request handlers should return quickly after persisting state and publishing events.
+- Workers/consumers own retry and failure logging behavior.
 
-- AI parsing/matching and email are triggered by **publishing events** (RabbitMQ), not awaited inline in a request path (`12-infrastructure-patterns.md`).
-- A request that triggers AI returns quickly (e.g. status `PROCESSING`); the worker updates state and notifies.
+## 7. Focus and size
 
-## 7. Keep services focused
+- One service class should have one bounded responsibility.
+- Split private helpers when a method mixes unrelated concerns.
+- Avoid long parameter lists; pass a DTO/options object when inputs grow.
+- Use `Logger`, never `console.log`.
 
-- One service = one bounded responsibility. If a service grows multiple unrelated concerns, split it.
-- Extract reusable pure logic (scoring, formatting) into well-named private methods or helpers; keep methods small.
-- No `console.log` — use the injected `Logger` with the class name as context.
+## 8. Idempotency
 
-## 8. Idempotency & side effects
-
-- Guard against duplicate side effects (e.g. don't double-submit an application, don't re-enqueue an already-queued job). Check state before acting.
+- Guard against duplicate side effects.
+- Examples: do not double-submit an application, double-enqueue a job, reuse a consumed password reset token, or resend during cooldown.

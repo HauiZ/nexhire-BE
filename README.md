@@ -28,7 +28,7 @@ NestJS (monorepo) - TypeORM - PostgreSQL (database-per-service) - RabbitMQ (even
 
 | Service | Port | UI / notes |
 | ------- | ---- | ---------- |
-| PostgreSQL | 5432 | one instance, one database/service |
+| PostgreSQL | 5436 | one instance, one database/service; container port is 5432 |
 | RabbitMQ | 5672 / 15672 | management UI at `http://localhost:15672` |
 | Redis | 6379 | cache / rate limit / token store |
 | MinIO | 9000 / 9001 | console at `http://localhost:9001` |
@@ -60,14 +60,16 @@ Then open:
 ## Migration shortcuts
 
 - Run all DB migrations: `npm run db:all:run`
-- Generate DB migrations for all services: `npm run db:all:generate -- Update`
+- Generate DB migrations for all services: `npm run db:all:generate` or `npm run db:all:generate -- AddAuditFields`
 - Run one service migration: `npm run db:auth:run`
 - Show one service migration status: `npm run db:auth:show`
 - Revert one service migration: `npm run db:auth:revert`
-- Create empty migration: `npm run db:auth:create -- CreateAuthAuditLog`
-- Generate migration from entity diff: `npm run db:auth:generate -- AddPhoneToUsers`
+- Create empty migration: `npm run db:auth:create` or `npm run db:auth:create -- CreateAuthAuditLog`
+- Generate migration from entity diff: `npm run db:auth:generate` or `npm run db:auth:generate -- AddPhoneToUsers`
 - Seed auth roles: `npm run db:auth:seed`
 - Available service scopes: `auth`, `candidate`, `company`, `job`, `application`, `cv-parsing`, `matching`, `document-storage`
+
+Run pending migrations for a service before generating a new one, then review the generated file for unrelated drops, FK churn, enum churn, or recreated existing tables.
 
 ## Auth email verification
 

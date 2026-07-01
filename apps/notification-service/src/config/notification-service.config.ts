@@ -12,6 +12,7 @@ export const notificationServiceConfig = registerAs('notificationService', () =>
   },
   queues: {
     emailVerification: process.env.NOTIFICATION_QUEUE_EMAIL_VERIFICATION ?? 'notification.email.verification',
+    passwordReset: process.env.NOTIFICATION_QUEUE_PASSWORD_RESET ?? 'notification.email.password-reset',
   },
   redis: {
     host: process.env.REDIS_HOST ?? 'localhost',

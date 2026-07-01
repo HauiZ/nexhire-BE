@@ -17,11 +17,11 @@ export class UserRoleEntity {
   id: string;
 
   @ManyToOne(() => User, (user) => user.userRoles, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'user_id', foreignKeyConstraintName: 'fk_user_roles_user_id' })
   user: User;
 
   @ManyToOne(() => Role, (role) => role.userRoles, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'role_id' })
+  @JoinColumn({ name: 'role_id', foreignKeyConstraintName: 'fk_user_roles_role_id' })
   role: Role;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })

@@ -15,4 +15,10 @@ export const authServiceConfig = registerAs('authService', () => ({
     resendCooldownSeconds: parseInt(process.env.EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS ?? '60', 10),
     maxResends: parseInt(process.env.EMAIL_VERIFICATION_MAX_RESENDS ?? '5', 10),
   },
+  passwordReset: {
+    tokenLength: parseInt(process.env.PASSWORD_RESET_TOKEN_LENGTH ?? '6', 10),
+    tokenTtlMinutes: parseInt(process.env.PASSWORD_RESET_TOKEN_TTL_MINUTES ?? '15', 10),
+    resendCooldownSeconds: parseInt(process.env.PASSWORD_RESET_RESEND_COOLDOWN_SECONDS ?? '60', 10),
+    maxResends: parseInt(process.env.PASSWORD_RESET_MAX_RESENDS ?? '5', 10),
+  },
 }));

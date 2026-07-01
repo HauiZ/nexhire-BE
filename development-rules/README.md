@@ -52,6 +52,30 @@
 
 `Security` > `Correctness` > `Project convention` > `Personal preference`.
 
+## Rule contract
+
+- These rules are the source of truth for new code and refactors.
+- If implementation and rules disagree, do not silently follow either side:
+  - prefer security and correctness first,
+  - update code when the rule is correct,
+  - update rules when the implementation represents the intended architecture.
+- Any new project-wide pattern must update this folder in the same change.
+- Avoid one-off local conventions inside a feature; promote repeated patterns into these rules.
+- "Known follow-up work" describes target architecture that is not fully implemented yet.
+
+## Feature definition of done
+
+- Controller is thin and Swagger-decorated.
+- Service owns business logic and returns response DTO/plain response objects.
+- DTO validation exists for request bodies, params, and queries.
+- Errors use standard `ERROR_CODES` and the global error envelope.
+- Protected endpoints use shared auth decorators/guards and ownership checks.
+- Schema changes include reviewed migrations.
+- Events and headers use shared constants.
+- Env changes update `.env.example`, validation schema, and namespaced config.
+- Unit tests cover core happy paths and risky error paths.
+- `npm run build` and relevant tests pass.
+
 ## Operational memory
 
 Use this section as the first quick-read context when starting a new session.
@@ -148,6 +172,7 @@ Use this section as the first quick-read context when starting a new session.
 
 ### Known follow-up work
 
+- `auth-service` currently issues access/refresh JWTs, but refresh-token rotation, Redis-backed revocation/logout, and stricter endpoint rate limits still need implementation.
 - `cv-parsing-service` and `matching-service` should be checked carefully whenever config namespaces change because their Gemini client wiring is easy to drift.
 - `document-storage-service` is currently scaffolded as architecture groundwork; it still needs full document entity/DTO/upload-download-delete workflow if product work continues there.
 - Some rule files are intentionally shortened summaries; expand them if the team wants stronger prescriptive guidance again.

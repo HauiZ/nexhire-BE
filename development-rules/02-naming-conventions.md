@@ -1,4 +1,4 @@
-# 02 — Naming Conventions
+# 02 - Naming Conventions
 
 ## 1. Files (kebab-case)
 
@@ -32,25 +32,26 @@
 | Enum member | `UPPER_SNAKE_CASE` | `JobStatus.OPEN` |
 | Generic type param | single cap / `TName` | `T`, `TPayload` |
 
-- English only, meaningful. Avoid abbreviations (`usr`, `cmp`, `repo` is OK as it's idiomatic).
-- Booleans: prefix `is/has/can/should` → `isActive`, `hasResume`, `canApply`.
+- English only, meaningful. Avoid abbreviations (`usr`, `cmp`; `repo` is OK).
+- Booleans: prefix `is/has/can/should`, for example `isActive`, `hasResume`, `canApply`.
 - Async functions returning a promise read as actions: `parseCv`, `sendEmail`, `findOpenJobs`.
 
-## 3. Class name ↔ responsibility
+## 3. Class name to responsibility
 
 - Controllers end with `Controller`: `JobController`.
 - Services end with `Service`: `JobService`.
 - DTOs end with `Dto`: `CreateJobDto`, `JobResponseDto`.
-- Entities are the bare domain noun: `Job`, `Application`, `User` (file `job.entity.ts`).
+- Entities are the bare domain noun: `Job`, `Application`, `User`.
 - Guards/filters/interceptors carry their role: `JwtAuthGuard`, `AllExceptionsFilter`.
 
 ## 4. Database names (snake_case)
 
-- Tables: singular noun — `user`, `job_post`, `application`, `cv`.
-- Columns: `snake_case` — `created_at`, `full_name`, `company_id`.
-- FK columns: `<entity>_id` — `user_id`, `job_id`.
-- Boolean columns: `is_*` / `has_*`.
-- Index name: `idx_<table>_<columns>`; unique: `uq_<table>_<columns>`.
+- Tables use plural snake_case nouns for owned resources: `users`, `jobs`, `applications`, `cvs`.
+- Join/workflow tables use explicit plural snake_case names: `user_roles`, `email_verifications`, `password_reset_tokens`.
+- Columns use `snake_case`: `created_at`, `full_name`, `company_id`.
+- FK columns use `<entity>_id`: `user_id`, `job_id`.
+- Boolean columns use `is_*` / `has_*` when the column name is naturally boolean.
+- Index name: `idx_<table>_<columns>`; unique index/constraint: `uq_<table>_<columns>`.
 
 ## 5. API routes (kebab-case, plural)
 
@@ -59,6 +60,6 @@
 
 ## 6. Events, headers (constants in `shared`)
 
-- Event routing keys: `application.submitted`, `cv.uploaded`, `application.stage-changed` — format `<aggregate>.<event>`, dot-namespaced, lower-case (in `EVENTS`).
-- Custom headers: `x-request-id`, `x-user-id`, `x-user-role`.
-- Define every such string once as a constant in `@nexhire/shared` — never inline string literals.
+- Event routing keys use `<aggregate>.<event>`, dot-namespaced lower-case: `application.submitted`, `cv.uploaded`, `application.stage-changed`.
+- Custom headers include `x-request-id`, `x-user-id`, `x-user-role`, and `x-company-id`.
+- Define every such string once as a constant in `@nexhire/shared`; never inline custom header or event strings.

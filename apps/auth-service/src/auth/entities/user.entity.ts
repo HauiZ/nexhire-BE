@@ -20,10 +20,10 @@ export class User {
   @Column({ unique: true, length: 255 })
   email: string;
 
-  @Column({ length: 30, nullable: true })
+  @Column({ type: 'varchar', length: 30, nullable: true })
   phone: string | null;
 
-  @Column({ name: 'full_name', length: 255, nullable: true })
+  @Column({ name: 'full_name', type: 'varchar', length: 255, nullable: true })
   fullName: string | null;
 
   @Column({ name: 'avatar_url', type: 'text', nullable: true })

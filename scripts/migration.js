@@ -13,7 +13,7 @@ const VALID_SERVICES = new Set([
   'document-storage-service',
 ]);
 
-const [, , command, service, name] = process.argv;
+const [, , command, service, ...nameParts] = process.argv;
 
 function usage() {
   console.error(
@@ -29,13 +29,37 @@ if (!command || !service || !VALID_SERVICES.has(service)) {
   usage();
 }
 
-if ((command === 'generate' || command === 'create') && !name) {
-  usage();
+function toPascalCase(value) {
+  return value
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+    .join('');
+}
+
+function defaultMigrationName(serviceName, migrationCommand) {
+  const serviceNamePascal = toPascalCase(serviceName);
+  return migrationCommand === 'generate'
+    ? `${serviceNamePascal}SchemaUpdate`
+    : `${serviceNamePascal}ManualMigration`;
+}
+
+const rawName = nameParts.join(' ').trim();
+const normalizedName = rawName ? toPascalCase(rawName) : undefined;
+const migrationName =
+  command === 'generate' || command === 'create'
+    ? normalizedName ?? defaultMigrationName(service, command)
+    : undefined;
+
+if ((command === 'generate' || command === 'create') && !normalizedName) {
+  console.log(`No migration name provided; using ${migrationName}.`);
 }
 
 const typeormCli = path.join('.', 'node_modules', 'typeorm', 'cli.js');
 const dataSource = path.join('apps', service, 'data-source.ts');
-const output = name ? path.join('apps', service, 'src', 'migrations', name) : undefined;
+const output = migrationName
+  ? path.join('apps', service, 'src', 'migrations', migrationName)
+  : undefined;
 
 const args = [
   '--require',

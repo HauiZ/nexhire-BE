@@ -32,11 +32,18 @@ nexhire-be/
   development-rules/
 ```
 
-- `apps/*` = deployable services. `packages/*` = shared libraries.
-- Never put cross-service code inside an app; move reusable code to a package.
-- Dependency direction: `apps -> shared` and `apps -> infra`.
+- `apps/*` are deployable Nest applications.
+- `packages/*` are shared libraries.
+- Dependency direction is `apps -> shared` and `apps -> infra`.
+- App-to-app imports are forbidden.
 
-## 2. Per-service structure
+## 2. Service types
+
+- HTTP gateway: `gateway`.
+- DB-owning services: `auth-service`, `candidate-service`, `company-service`, `job-service`, `application-service`, `cv-parsing-service`, `matching-service`, `document-storage-service`.
+- Non-DB worker/service: `notification-service`.
+
+## 3. DB-owning service structure
 
 ```text
 apps/<service>/
@@ -45,20 +52,44 @@ apps/<service>/
     <service>.module.ts
     config/
       <service>.config.ts
+      env.validation.ts
+    health/
     <feature>/
       <feature>.controller.ts
       <feature>.service.ts
       <feature>.module.ts
       dto/
       entities/
-    common/
+      test/
     migrations/
+    seeds/
   data-source.ts
   tsconfig.app.json
   Dockerfile
 ```
 
-## 3. Where things live
+## 4. Non-DB service structure
+
+```text
+apps/<service>/
+  src/
+    main.ts
+    <service>.module.ts
+    config/
+      <service>.config.ts
+      env.validation.ts
+    health/
+    <feature>/
+      <feature>.module.ts
+      <feature>.service.ts
+      test/
+  tsconfig.app.json
+  Dockerfile
+```
+
+- Non-DB services do not need `data-source.ts` or `migrations/`.
+
+## 5. Where things live
 
 | Thing | Location |
 |-------|----------|
@@ -66,5 +97,19 @@ apps/<service>/
 | HTTP routing | `apps/<service>/src/<feature>/<feature>.controller.ts` |
 | Validation rules | `apps/<service>/src/<feature>/dto/*.dto.ts` |
 | DB tables | `apps/<service>/src/<feature>/entities/*.entity.ts` |
-| Service-specific env values | `apps/<service>/src/config/<service>.config.ts` |
-| Shared infra env | `packages/infra/src/config/infra.config.ts` |
+| Unit tests | `apps/<service>/src/<feature>/test/*.spec.ts` |
+| Service env config | `apps/<service>/src/config/<service>.config.ts` |
+| Service env validation | `apps/<service>/src/config/env.validation.ts` |
+| Shared infra config | `packages/infra/src/config/*` |
+| Shared contracts | `packages/shared/src/*` |
+
+## 6. Adding a service
+
+- Register it in `nest-cli.json`.
+- Add `start:*` scripts in `package.json`.
+- Add service URL/port/env entries in `.env.example`.
+- Add config + env validation files.
+- Add a health module.
+- If DB-owning, add `data-source.ts`, `migrations/`, DB envs, `scripts/init-databases.sql`, and migration script entries.
+- If HTTP-exposed, add gateway service config, validation, and proxy route.
+- Update `README.md` and `development-rules/README.md`.

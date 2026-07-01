@@ -7,7 +7,7 @@ import { UserRole } from '../enums/user-role.enum';
 
 /**
  * For internal services behind the gateway: builds the AuthUser from the
- * gateway-injected identity headers (x-user-id / x-user-role). Trusts the
+ * gateway-injected identity headers (x-user-id / x-user-role / x-company-id). Trusts the
  * internal network; the gateway is responsible for verifying the JWT.
  */
 @Injectable()
@@ -30,7 +30,7 @@ export class InternalAuthGuard implements CanActivate {
       throw new UnauthorizedException('Missing internal identity headers');
     }
 
-    const companyId = request.headers['x-company-id'];
+    const companyId = request.headers[HEADERS.COMPANY_ID];
     request.user = { id: userId, role, companyId } satisfies AuthUser;
     return true;
   }

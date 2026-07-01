@@ -1,39 +1,46 @@
-# 13 — Testing Conventions
+# 13 - Testing Conventions
 
 ## 1. Tooling
 
-- **Jest** + **ts-jest** for unit tests; `@nestjs/testing` for module/integration tests; **Supertest** for e2e.
-- CI runs them on every PR; a red suite blocks merge.
+- Jest + ts-jest for unit tests.
+- `@nestjs/testing` for module/integration tests.
+- Supertest for e2e tests.
+- CI should block merge on a red suite.
 
 ### Commands
 
 ```bash
-npm test            # run all unit tests (*.spec.ts), config: jest.config.js
-npm run test:watch  # watch mode
-npm run test:cov    # unit tests + coverage report (./coverage)
-npm run test:debug  # run under the Node inspector
-npm run test:e2e    # run e2e tests (*.e2e-spec.ts), config: test/jest-e2e.json
+npm test
+npm run test:watch
+npm run test:cov
+npm run test:debug
+npm run test:e2e
+npx jest apps/auth-service/src/auth/test/auth.service.spec.ts --runInBand
 ```
 
-- Unit config (`jest.config.js`) matches `*.spec.ts`; e2e config (`test/jest-e2e.json`) matches `*.e2e-spec.ts`. Both map `@nexhire/shared` to its source so tests need no build step.
+- Unit config matches `*.spec.ts`.
+- E2E config matches `*.e2e-spec.ts`.
+- Tests map workspace aliases so they do not require a build step first.
 
-## 2. Layout & naming
+## 2. Layout and naming
 
 - Unit tests live under a per-module `test/` folder, for example `src/auth/test/auth.service.spec.ts`.
-- e2e under `apps/<service>/test/*.e2e-spec.ts`.
-- Test names describe behavior: `it('rejects a duplicate application to the same job')`.
+- E2E tests live under `apps/<service>/test/*.e2e-spec.ts`.
+- Test names describe behavior, not implementation: `it('rejects a duplicate application to the same job')`.
 
-## 3. What must be tested
+## 3. Required coverage by risk
 
-- **Service business logic** (the core): auth flows, application stage transitions, job search filters, ownership/tenancy checks, scoring/matching logic.
-- **Validation**: DTO rules reject bad input.
-- **Authorization**: role + ownership guards deny unauthorized access (candidate can't touch another user's CV; recruiter can't touch another company's job).
-- **AI logic**: against fixed mocked Gemini responses — never call the real API.
-- **Error paths & edge cases**, not just the happy path.
+- Service business logic: auth flows, application stage transitions, job search filters, ownership/tenancy checks, scoring/matching logic.
+- Error paths and edge cases, not only happy paths.
+- DTO validation for meaningful request contracts.
+- Authorization and ownership denial paths for protected resources.
+- AI logic with fixed mocked Gemini responses. Never call the real API in tests.
+- Event publishing/consuming behavior with mocked event bus or consumer dependencies.
 
 ## 4. Mocking
 
-- No real network, DB, Gemini, SMTP, or MinIO in unit tests. Mock repositories and infra wrappers.
+- No real network, DB, Gemini, SMTP, RabbitMQ, Redis, or MinIO in unit tests.
+- Mock repositories and infra wrappers.
 
 ```ts
 const repo = { findOne: jest.fn(), save: jest.fn(), create: jest.fn() };
@@ -46,20 +53,26 @@ const moduleRef = await Test.createTestingModule({
 }).compile();
 ```
 
-- Integration tests needing a DB use a disposable test schema or a per-test transaction rolled back. Never run tests against dev/prod data.
+- Integration tests needing a DB use a disposable test schema, container, or transaction rollback.
+- Never run tests against dev or production data.
 
-## 5. Structure & quality
+## 5. Quality bar
 
-- Arrange–Act–Assert. One behavior focus per test.
-- Tests are independent and deterministic — no shared mutable state, no order dependence, no real clock/random reliance.
-- Prefer meaningful assertions over coverage padding. A test that asserts nothing real is worse than none.
+- Arrange, Act, Assert.
+- One behavior focus per test.
+- Tests must be deterministic: no real clock/random dependence unless controlled.
+- Prefer meaningful assertions over coverage padding.
 
 ## 6. Coverage
 
-- Minimum **70%** line coverage on `*.service.ts`. Controllers/DTOs are covered via e2e + indirectly.
+- Minimum target: 70% line coverage on `*.service.ts` once a service is product-active.
+- Controllers and DTOs are usually covered through e2e and service tests.
 - Coverage is a floor, not the goal.
 
 ## 7. Definition of done
 
-- A feature PR includes: code + tests + Swagger annotations + migration (if schema changed).
-- `make lint`, `make test`, and build all pass locally before opening the PR.
+- Feature code has focused tests.
+- Schema changes have migrations.
+- Swagger annotations are present.
+- Build passes.
+- Relevant unit tests pass.

@@ -46,6 +46,6 @@ export class UserCredential {
   updatedAt: Date;
 
   @OneToOne(() => User, (user) => user.credential, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'user_id', foreignKeyConstraintName: 'fk_user_credentials_user_id' })
   user: User;
 }
