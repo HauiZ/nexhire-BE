@@ -6,13 +6,22 @@ export class CreateAuthCoreTables1751340000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto"');
     await queryRunner.query(`
+      CREATE TYPE "user_status_enum" AS ENUM ('ACTIVE', 'INACTIVE', 'SUSPENDED', 'LOCKED')
+    `);
+    await queryRunner.query(`
+      CREATE TYPE "password_algorithm_enum" AS ENUM ('bcrypt')
+    `);
+    await queryRunner.query(`
+      CREATE TYPE "user_role_enum" AS ENUM ('CANDIDATE', 'RECRUITER', 'ADMIN')
+    `);
+    await queryRunner.query(`
       CREATE TABLE "users" (
         "id" uuid NOT NULL DEFAULT gen_random_uuid(),
         "email" character varying(255) NOT NULL,
         "phone" character varying(30),
         "full_name" character varying(255),
         "avatar_url" text,
-        "status" character varying(30) NOT NULL DEFAULT 'ACTIVE',
+        "status" "user_status_enum" NOT NULL DEFAULT 'ACTIVE',
         "email_verified" boolean NOT NULL DEFAULT false,
         "last_login_at" TIMESTAMPTZ,
         "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -26,7 +35,7 @@ export class CreateAuthCoreTables1751340000000 implements MigrationInterface {
         "id" uuid NOT NULL DEFAULT gen_random_uuid(),
         "user_id" uuid NOT NULL,
         "password_hash" character varying(255) NOT NULL,
-        "password_algorithm" character varying(50) NOT NULL DEFAULT 'bcrypt',
+        "password_algorithm" "password_algorithm_enum" NOT NULL DEFAULT 'bcrypt',
         "password_updated_at" TIMESTAMPTZ NOT NULL,
         "failed_login_attempts" integer NOT NULL DEFAULT 0,
         "locked_until" TIMESTAMPTZ,
@@ -39,7 +48,7 @@ export class CreateAuthCoreTables1751340000000 implements MigrationInterface {
     await queryRunner.query(`
       CREATE TABLE "roles" (
         "id" uuid NOT NULL DEFAULT gen_random_uuid(),
-        "name" character varying(50) NOT NULL,
+        "name" "user_role_enum" NOT NULL,
         "description" text,
         "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
         CONSTRAINT "pk_roles_id" PRIMARY KEY ("id"),
@@ -64,6 +73,8 @@ export class CreateAuthCoreTables1751340000000 implements MigrationInterface {
         "token_hash" text NOT NULL,
         "expires_at" TIMESTAMPTZ NOT NULL,
         "verified_at" TIMESTAMPTZ,
+        "last_sent_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+        "resend_count" integer NOT NULL DEFAULT 0,
         "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
         CONSTRAINT "pk_email_verifications_id" PRIMARY KEY ("id"),
         CONSTRAINT "uq_email_verifications_token_hash" UNIQUE ("token_hash")
@@ -101,5 +112,8 @@ export class CreateAuthCoreTables1751340000000 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "roles"`);
     await queryRunner.query(`DROP TABLE "user_credentials"`);
     await queryRunner.query(`DROP TABLE "users"`);
+    await queryRunner.query(`DROP TYPE "user_role_enum"`);
+    await queryRunner.query(`DROP TYPE "password_algorithm_enum"`);
+    await queryRunner.query(`DROP TYPE "user_status_enum"`);
   }
 }

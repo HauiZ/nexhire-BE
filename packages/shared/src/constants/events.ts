@@ -4,6 +4,7 @@
  * Format: '<aggregate>.<event>' (dotted, lower-case) for topic matching.
  */
 export const EVENTS = {
+  AUTH_EMAIL_VERIFICATION_REQUESTED: 'auth.email-verification-requested',
   APPLICATION_SUBMITTED: 'application.submitted',
   APPLICATION_STAGE_CHANGED: 'application.stage-changed',
   CV_UPLOADED: 'cv.uploaded',

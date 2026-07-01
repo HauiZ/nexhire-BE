@@ -24,6 +24,8 @@ No shared database and no cross-service ORM relations.
 - `synchronize: false` always.
 - Migrations live in `apps/<service>/src/migrations/`.
 - Run order follows `scripts/migrate.js`.
+- Any field with a fixed value set must use a typed `enum` (not a free-form `string`) in the entity.
+- Reuse shared enums from `@nexhire/shared` for cross-service contracts; keep service-private enums near the owning entities.
 
 ### Workflow
 

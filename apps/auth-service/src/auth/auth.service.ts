@@ -1,8 +1,11 @@
-import { createHash, randomUUID } from 'crypto';
+import { createHash, randomInt } from 'crypto';
 import {
+  BadRequestException,
   ConflictException,
+  HttpException,
+  HttpStatus,
   Injectable,
-  LockedException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -10,10 +13,17 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ERROR_CODES, JwtPayload, UserRole } from '@nexhire/shared';
 import * as bcrypt from 'bcrypt';
-import { DataSource, Repository } from 'typeorm';
+import { EventPublisher } from '@nexhire/infra';
+import { EVENTS } from '@nexhire/shared';
+import { DataSource, IsNull, Repository } from 'typeorm';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { ResendVerificationDto } from './dto/resend-verification.dto';
+import { ResendVerificationResponseDto } from './dto/resend-verification-response.dto';
+import { VerifyEmailDto } from './dto/verify-email.dto';
+import { VerifyEmailResponseDto } from './dto/verify-email-response.dto';
+import { PasswordAlgorithm, UserStatus } from './entities/auth.enum';
 import { EmailVerification } from './entities/email-verification.entity';
 import { Role } from './entities/role.entity';
 import { UserCredential } from './entities/user-credential.entity';
@@ -22,6 +32,7 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class AuthService {
+  private static readonly HTTP_STATUS_LOCKED = 423;
   private readonly maxFailedLoginAttempts = 5;
   private readonly lockDurationMinutes = 15;
 
@@ -29,6 +40,7 @@ export class AuthService {
     private readonly dataSource: DataSource,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly eventPublisher: EventPublisher,
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
     @InjectRepository(UserCredential)
@@ -68,6 +80,8 @@ export class AuthService {
       this.configService.get<number>('authService.bcryptRounds', 12),
     );
 
+    const verificationToken = this.generateVerificationToken();
+    const verificationExpiresAt = this.buildVerificationExpiry();
     const user = await this.dataSource.transaction(async (manager) => {
       const createdUser = await manager.save(
         User,
@@ -76,7 +90,7 @@ export class AuthService {
           phone,
           fullName,
           avatarUrl: null,
-          status: 'ACTIVE',
+          status: UserStatus.ACTIVE,
           emailVerified: false,
           lastLoginAt: null,
         }),
@@ -87,7 +101,7 @@ export class AuthService {
         manager.create(UserCredential, {
           userId: createdUser.id,
           passwordHash,
-          passwordAlgorithm: 'bcrypt',
+          passwordAlgorithm: PasswordAlgorithm.BCRYPT,
           passwordUpdatedAt: new Date(),
           failedLoginAttempts: 0,
           lockedUntil: null,
@@ -102,21 +116,23 @@ export class AuthService {
         }),
       );
 
-      const verificationToken = randomUUID().replace(/-/g, '');
       await manager.save(
         EmailVerification,
         manager.create(EmailVerification, {
           userId: createdUser.id,
           email,
           tokenHash: this.hashToken(verificationToken),
-          expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          expiresAt: verificationExpiresAt,
           verifiedAt: null,
+          lastSentAt: new Date(),
+          resendCount: 0,
         }),
       );
 
       return createdUser;
     });
 
+    await this.publishVerificationEmail(email, fullName, verificationToken, verificationExpiresAt);
     return this.buildAuthResponse(user, UserRole.CANDIDATE);
   }
 
@@ -133,10 +149,10 @@ export class AuthService {
     }
 
     if (credential.lockedUntil && credential.lockedUntil.getTime() > Date.now()) {
-      throw new LockedException({
+      throw new HttpException({
         code: ERROR_CODES.FORBIDDEN,
         message: 'Account is temporarily locked',
-      });
+      }, AuthService.HTTP_STATUS_LOCKED);
     }
 
     const isPasswordValid = await bcrypt.compare(dto.password, credential.passwordHash);
@@ -150,6 +166,115 @@ export class AuthService {
     return this.buildAuthResponse(user, primaryRole);
   }
 
+  async verifyEmail(dto: VerifyEmailDto): Promise<VerifyEmailResponseDto> {
+    const email = dto.email.trim().toLowerCase();
+    const verification = await this.emailVerificationRepo.findOne({
+      where: { email },
+      relations: { user: true },
+      order: { createdAt: 'DESC' },
+    });
+
+    if (!verification?.user) {
+      throw new NotFoundException({
+        code: ERROR_CODES.NOT_FOUND,
+        message: 'Email verification request was not found',
+      });
+    }
+
+    if (verification.verifiedAt) {
+      return {
+        message: 'Email already verified',
+        emailVerified: true,
+        email: verification.email,
+        verifiedAt: verification.verifiedAt,
+      };
+    }
+
+    if (verification.tokenHash !== this.hashToken(dto.token.trim())) {
+      throw new BadRequestException({
+        code: ERROR_CODES.VALIDATION_FAILED,
+        message: 'Email verification token is invalid',
+      });
+    }
+
+    if (verification.expiresAt.getTime() <= Date.now()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.VALIDATION_FAILED,
+        message: 'Email verification token has expired',
+      });
+    }
+
+    const verifiedAt = new Date();
+    await this.dataSource.transaction(async (manager) => {
+      await manager.update(EmailVerification, verification.id, {
+        verifiedAt,
+      });
+      await manager.update(User, verification.userId, {
+        emailVerified: true,
+      });
+    });
+
+    return {
+      message: 'Email verified successfully',
+      emailVerified: true,
+      email: verification.email,
+      verifiedAt,
+    };
+  }
+
+  async resendVerification(dto: ResendVerificationDto): Promise<ResendVerificationResponseDto> {
+    const email = dto.email.trim().toLowerCase();
+    const user = await this.userRepo.findOne({ where: { email } });
+    if (!user) {
+      throw new NotFoundException({
+        code: ERROR_CODES.NOT_FOUND,
+        message: 'User was not found',
+      });
+    }
+
+    if (user.emailVerified) {
+      throw new ConflictException({
+        code: ERROR_CODES.CONFLICT,
+        message: 'Email is already verified',
+      });
+    }
+
+    const verification = await this.emailVerificationRepo.findOne({
+      where: { userId: user.id, verifiedAt: IsNull() },
+      order: { createdAt: 'DESC' },
+    });
+
+    if (!verification) {
+      throw new NotFoundException({
+        code: ERROR_CODES.NOT_FOUND,
+        message: 'Email verification request was not found',
+      });
+    }
+
+    this.assertResendAllowed(verification);
+
+    const token = this.generateVerificationToken();
+    const expiresAt = this.buildVerificationExpiry();
+    const sentAt = new Date();
+    const resendCount = verification.resendCount + 1;
+
+    await this.emailVerificationRepo.update(verification.id, {
+      tokenHash: this.hashToken(token),
+      expiresAt,
+      lastSentAt: sentAt,
+      resendCount,
+    });
+
+    await this.publishVerificationEmail(email, user.fullName, token, expiresAt);
+
+    return {
+      message: 'Verification email queued successfully',
+      email,
+      resendCooldownSeconds: this.getVerificationConfig().resendCooldownSeconds,
+      resendCount,
+    };
+  }
+
   private async resolvePrimaryRole(userId: string): Promise<UserRole> {
     const userRole = await this.userRoleRepo.findOne({
       where: { userId },
@@ -158,7 +283,7 @@ export class AuthService {
     if (!userRole?.role?.name) {
       throw this.invalidCredentials();
     }
-    return userRole.role.name as UserRole;
+    return userRole.role.name;
   }
 
   private async buildAuthResponse(user: User, role: UserRole): Promise<AuthResponseDto> {
@@ -204,6 +329,76 @@ export class AuthService {
 
   private hashToken(value: string): string {
     return createHash('sha256').update(value).digest('hex');
+  }
+
+  private generateVerificationToken(): string {
+    const { tokenLength } = this.getVerificationConfig();
+    const min = 10 ** (tokenLength - 1);
+    const max = 10 ** tokenLength;
+    return `${randomInt(min, max)}`;
+  }
+
+  private buildVerificationExpiry(): Date {
+    const { tokenTtlMinutes } = this.getVerificationConfig();
+    return new Date(Date.now() + tokenTtlMinutes * 60 * 1000);
+  }
+
+  private assertResendAllowed(verification: EmailVerification): void {
+    const { resendCooldownSeconds, maxResends } = this.getVerificationConfig();
+    const now = Date.now();
+
+    if (verification.expiresAt.getTime() <= now) {
+      throw new BadRequestException({
+        code: ERROR_CODES.VALIDATION_FAILED,
+        message: 'Current verification token has expired',
+      });
+    }
+
+    if (verification.resendCount >= maxResends) {
+      throw new HttpException({
+        code: ERROR_CODES.RATE_LIMITED,
+        message: 'Verification resend limit reached',
+      }, HttpStatus.TOO_MANY_REQUESTS);
+    }
+
+    const earliestNextResend = verification.lastSentAt.getTime() + resendCooldownSeconds * 1000;
+    if (earliestNextResend > now) {
+      throw new HttpException({
+        code: ERROR_CODES.RATE_LIMITED,
+        message: `Please wait ${Math.ceil((earliestNextResend - now) / 1000)} seconds before resending`,
+      }, HttpStatus.TOO_MANY_REQUESTS);
+    }
+  }
+
+  private async publishVerificationEmail(
+    email: string,
+    fullName: string | null,
+    token: string,
+    expiresAt: Date,
+  ): Promise<void> {
+    await this.eventPublisher.publish(EVENTS.AUTH_EMAIL_VERIFICATION_REQUESTED, {
+      email,
+      fullName,
+      token,
+      expiresAt: expiresAt.toISOString(),
+    });
+  }
+
+  private getVerificationConfig(): {
+    tokenLength: number;
+    tokenTtlMinutes: number;
+    resendCooldownSeconds: number;
+    maxResends: number;
+  } {
+    return {
+      tokenLength: this.configService.get<number>('authService.verification.tokenLength', 6),
+      tokenTtlMinutes: this.configService.get<number>('authService.verification.tokenTtlMinutes', 15),
+      resendCooldownSeconds: this.configService.get<number>(
+        'authService.verification.resendCooldownSeconds',
+        60,
+      ),
+      maxResends: this.configService.get<number>('authService.verification.maxResends', 5),
+    };
   }
 
   private async recordFailedLogin(credential: UserCredential): Promise<void> {

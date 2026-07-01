@@ -69,6 +69,15 @@ Then open:
 - Seed auth roles: `npm run db:auth:seed`
 - Available service scopes: `auth`, `candidate`, `company`, `job`, `application`, `cv-parsing`, `matching`, `document-storage`
 
+## Auth email verification
+
+- Registration creates a short-lived email verification token and publishes an email-delivery event.
+- Verification is OTP-style via `email + token`, not a magic link requirement.
+- Anti-spam resend policy is controlled by:
+  - `EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS`
+  - `EMAIL_VERIFICATION_MAX_RESENDS`
+  - `EMAIL_VERIFICATION_TOKEN_TTL_MINUTES`
+
 ## Project layout
 
 ```text

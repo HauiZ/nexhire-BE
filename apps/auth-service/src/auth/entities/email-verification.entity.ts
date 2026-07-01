@@ -28,6 +28,12 @@ export class EmailVerification {
   @Column({ name: 'verified_at', type: 'timestamptz', nullable: true })
   verifiedAt: Date | null;
 
+  @Column({ name: 'last_sent_at', type: 'timestamptz' })
+  lastSentAt: Date;
+
+  @Column({ name: 'resend_count', type: 'int', default: 0 })
+  resendCount: number;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 

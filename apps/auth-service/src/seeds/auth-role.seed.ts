@@ -1,9 +1,10 @@
+import { UserRole } from '@nexhire/shared';
 import { DataSource } from 'typeorm';
 
 const DEFAULT_ROLES = [
-  { name: 'CANDIDATE', description: 'Candidate account' },
-  { name: 'RECRUITER', description: 'Company recruiter account' },
-  { name: 'ADMIN', description: 'System administrator account' },
+  { name: UserRole.CANDIDATE, description: 'Candidate account' },
+  { name: UserRole.RECRUITER, description: 'Company recruiter account' },
+  { name: UserRole.ADMIN, description: 'System administrator account' },
 ];
 
 export async function seedAuthRoles(dataSource: DataSource): Promise<void> {

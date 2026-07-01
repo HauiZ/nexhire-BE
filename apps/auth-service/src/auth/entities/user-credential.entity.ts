@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { PasswordAlgorithm } from './auth.enum';
 import { User } from './user.entity';
 
 @Entity('user_credentials')
@@ -20,8 +21,14 @@ export class UserCredential {
   @Column({ name: 'password_hash', length: 255 })
   passwordHash: string;
 
-  @Column({ name: 'password_algorithm', length: 50, default: 'bcrypt' })
-  passwordAlgorithm: string;
+  @Column({
+    name: 'password_algorithm',
+    type: 'enum',
+    enum: PasswordAlgorithm,
+    enumName: 'password_algorithm_enum',
+    default: PasswordAlgorithm.BCRYPT,
+  })
+  passwordAlgorithm: PasswordAlgorithm;
 
   @Column({ name: 'password_updated_at', type: 'timestamptz' })
   passwordUpdatedAt: Date;

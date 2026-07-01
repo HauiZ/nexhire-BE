@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserStatus } from './auth.enum';
 import { EmailVerification } from './email-verification.entity';
 import { UserCredential } from './user-credential.entity';
 import { UserRoleEntity } from './user-role.entity';
@@ -28,8 +29,13 @@ export class User {
   @Column({ name: 'avatar_url', type: 'text', nullable: true })
   avatarUrl: string | null;
 
-  @Column({ length: 30, default: 'ACTIVE' })
-  status: string;
+  @Column({
+    type: 'enum',
+    enum: UserStatus,
+    enumName: 'user_status_enum',
+    default: UserStatus.ACTIVE,
+  })
+  status: UserStatus;
 
   @Column({ name: 'email_verified', type: 'boolean', default: false })
   emailVerified: boolean;
