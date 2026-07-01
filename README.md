@@ -39,7 +39,7 @@ NestJS (monorepo) - TypeORM - PostgreSQL (database-per-service) - RabbitMQ (even
 cp .env.example .env
 # Fill the required secrets in .env:
 #   JWT_ACCESS_SECRET, JWT_REFRESH_SECRET
-#   SMTP_USER, SMTP_PASS
+#   MAILTRAP_SMTP_USER, MAILTRAP_SMTP_PASS
 #   GEMINI_API_KEY
 
 make dev
@@ -77,6 +77,12 @@ Then open:
   - `EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS`
   - `EMAIL_VERIFICATION_MAX_RESENDS`
   - `EMAIL_VERIFICATION_TOKEN_TTL_MINUTES`
+
+## Mailtrap
+
+- `notification-service` uses `@nestjs-modules/mailer`, which runs on top of `nodemailer`.
+- For local/dev email delivery, set `MAILTRAP_SMTP_USER` and `MAILTRAP_SMTP_PASS` in `.env`.
+- Auth verification emails are published to RabbitMQ and consumed by `notification-service`.
 
 ## Project layout
 

@@ -4,6 +4,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { rabbitmqConfig } from '@nexhire/infra';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { EmailModule } from './email/email.module';
 import { WebPushModule } from './web-push/web-push.module';
@@ -13,13 +14,18 @@ import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [notificationServiceConfig], validationSchema }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [rabbitmqConfig, notificationServiceConfig],
+      validationSchema,
+    }),
     MailerModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         transport: {
           host: config.get<string>('notificationService.smtp.host'),
           port: config.get<number>('notificationService.smtp.port'),
+          secure: config.get<boolean>('notificationService.smtp.secure', false),
           auth: {
             user: config.get<string>('notificationService.smtp.user'),
             pass: config.get<string>('notificationService.smtp.pass'),
