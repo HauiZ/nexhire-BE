@@ -19,7 +19,7 @@ npm run test:e2e    # run e2e tests (*.e2e-spec.ts), config: test/jest-e2e.json
 
 ## 2. Layout & naming
 
-- Unit test co-located: `cv.service.spec.ts` next to `cv.service.ts`.
+- Unit tests live under a per-module `test/` folder, for example `src/auth/test/auth.service.spec.ts`.
 - e2e under `apps/<service>/test/*.e2e-spec.ts`.
 - Test names describe behavior: `it('rejects a duplicate application to the same job')`.
 
