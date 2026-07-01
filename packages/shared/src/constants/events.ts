@@ -9,6 +9,8 @@ export const EVENTS = {
   CV_UPLOADED: 'cv.uploaded',
   CV_PARSED: 'cv.parsed',
   CV_MATCH_REQUESTED: 'cv.match-requested',
+  DOCUMENT_UPLOADED: 'document.uploaded',
+  DOCUMENT_REMOVED: 'document.removed',
 } as const;
 
 export type EventRoutingKey = (typeof EVENTS)[keyof typeof EVENTS];

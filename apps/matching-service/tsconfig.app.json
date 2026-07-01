@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": false,
+    "outDir": "../../dist/apps/matching-service"
+  },
+  "include": ["src/**/*", "data-source.ts"],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}
+

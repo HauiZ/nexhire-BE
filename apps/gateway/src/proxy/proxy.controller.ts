@@ -15,36 +15,72 @@ export class ProxyController {
 
   @All('auth/*')
   auth(@Req() req: Request, @Res() res: Response) {
-    return this.proxy.forward('auth', req, res);
+    return this.proxy.forward('authService', req, res);
   }
 
   @All('users/*')
   users(@Req() req: Request, @Res() res: Response) {
-    return this.proxy.forward('auth', req, res);
+    return this.proxy.forward('authService', req, res);
+  }
+
+  @All('candidates/*')
+  candidates(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('candidateService', req, res);
   }
 
   @All('companies/*')
   companies(@Req() req: Request, @Res() res: Response) {
-    return this.proxy.forward('auth', req, res);
+    return this.proxy.forward('companyService', req, res);
+  }
+
+  @All('hr-accounts/*')
+  hrAccounts(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('companyService', req, res);
   }
 
   @All('jobs/*')
   jobs(@Req() req: Request, @Res() res: Response) {
-    return this.proxy.forward('job', req, res);
+    return this.proxy.forward('jobService', req, res);
+  }
+
+  @All('categories/*')
+  categories(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
   }
 
   @All('cvs/*')
   cvs(@Req() req: Request, @Res() res: Response) {
-    return this.proxy.forward('cvApp', req, res);
+    return this.proxy.forward('candidateService', req, res);
   }
 
   @All('applications/*')
   applications(@Req() req: Request, @Res() res: Response) {
-    return this.proxy.forward('cvApp', req, res);
+    return this.proxy.forward('applicationService', req, res);
   }
 
-  @All('ai/*')
-  ai(@Req() req: Request, @Res() res: Response) {
-    return this.proxy.forward('ai', req, res);
+  @All('saved-jobs/*')
+  savedJobs(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('candidateService', req, res);
+  }
+
+  @All('cv-parsing/*')
+  cvParsing(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('cvParsingService', req, res);
+  }
+
+  @All('matching/*')
+  matching(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('matchingService', req, res);
+  }
+
+  @All('notifications/*')
+  notifications(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('notificationService', req, res);
+  }
+
+  @All('documents/*')
+  documents(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('documentStorageService', req, res);
   }
 }
+

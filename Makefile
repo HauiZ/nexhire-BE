@@ -1,43 +1,43 @@
-# NexHire Backend — common commands
+# NexHire Backend - common commands
 # (Windows: run via Git Bash, or use the npm scripts directly.)
 
 .PHONY: install dev dev-build stop clean migrate-db migrate migrate-generate logs ps lint test start
 
-install:        ## Install dependencies
+install:
 	npm install
 
-dev:            ## Start infra (postgres + redis + minio)
+dev:
 	docker compose up -d
 
-dev-build:      ## Rebuild & start infra
+dev-build:
 	docker compose up -d --build
 
-stop:           ## Stop infra
+stop:
 	docker compose down
 
-clean:          ## Stop infra + remove volumes (DESTROYS DATA)
+clean:
 	docker compose down -v
 
-migrate-db:     ## Create per-service databases + users (auto-runs on fresh volume; this is for re-apply)
+migrate-db:
 	docker compose exec -T postgres psql -U $${POSTGRES_USER:-postgres} -d postgres < scripts/init-databases.sql
 
-migrate:        ## Run TypeORM migrations in order (auth -> job -> cv-app -> ai)
+migrate:
 	bash scripts/migrate.sh
 
-migrate-generate: ## Generate migrations from entity changes (all DB services). Usage: make migrate-generate NAME=AddPhone
+migrate-generate:
 	bash scripts/generate.sh $(NAME)
 
-logs:           ## Tail infra logs
+logs:
 	docker compose logs -f
 
-ps:             ## Show infra containers
+ps:
 	docker compose ps
 
-lint:           ## Lint + autofix
+lint:
 	npm run lint
 
-test:           ## Run tests
+test:
 	npm test
 
-start:          ## Start all services (watch mode)
+start:
 	npm run start:all

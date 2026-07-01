@@ -7,8 +7,11 @@
 #   scripts/migration.sh revert   <service>           # roll back the last migration
 #   scripts/migration.sh show     <service>           # list migration status
 #
-# <service> is one of: auth | job | cv-app | ai
-# Example: scripts/migration.sh generate auth CreateUser
+# <service> is one of:
+#   auth-service | candidate-service | company-service | job-service |
+#   application-service | cv-parsing-service | matching-service |
+#   document-storage-service
+# Example: scripts/migration.sh generate auth-service CreateUser
 set -euo pipefail
 
 CMD=${1:-}
@@ -21,7 +24,7 @@ OUT="apps/${SVC}/src/migrations/${NAME}"
 
 usage() {
   echo "usage: scripts/migration.sh <generate|create|run|revert|show> <service> [Name]"
-  echo "       service: auth | job | cv-app | ai"
+  echo "       service: auth-service | candidate-service | company-service | job-service | application-service | cv-parsing-service | matching-service | document-storage-service"
   exit 1
 }
 

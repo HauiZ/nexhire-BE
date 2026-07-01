@@ -6,7 +6,7 @@
 - The root module (`<service>.module.ts`) wires global concerns (Config, TypeORM root, queues) and imports feature modules.
 
 ```ts
-// apps/cv-app/src/application/application.module.ts
+// apps/application-service/src/application/application.module.ts
 @Module({
   imports: [TypeOrmModule.forFeature([Application])],
   controllers: [ApplicationController],
@@ -19,7 +19,7 @@ export class ApplicationModule {}
 ## 2. Root module composition
 
 ```ts
-// apps/cv-app/src/cv-app.module.ts
+// apps/application-service/src/application-service.module.ts
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [cvappConfig] }),

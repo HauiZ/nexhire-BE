@@ -8,7 +8,7 @@
 ## 2. Request DTOs (validated input)
 
 ```ts
-// apps/job/src/job/dto/create-job.dto.ts
+// apps/job-service/src/job/dto/create-job.dto.ts
 export class CreateJobDto {
   @ApiProperty({ example: 'Backend Engineer' })
   @IsString()

@@ -7,10 +7,18 @@ export const gatewayConfig = registerAs('gateway', () => ({
     accessSecret: process.env.JWT_ACCESS_SECRET,
   },
   services: {
-    auth: process.env.AUTH_SERVICE_URL ?? 'http://localhost:3001',
-    job: process.env.JOB_SERVICE_URL ?? 'http://localhost:3002',
-    cvApp: process.env.CVAPP_SERVICE_URL ?? 'http://localhost:3003',
-    ai: process.env.AI_SERVICE_URL ?? 'http://localhost:3004',
-    notification: process.env.NOTIF_SERVICE_URL ?? 'http://localhost:3005',
+    authService: process.env.AUTH_SERVICE_URL ?? 'http://localhost:3001',
+    candidateService: process.env.CANDIDATE_SERVICE_URL ?? 'http://localhost:3002',
+    companyService: process.env.COMPANY_SERVICE_URL ?? 'http://localhost:3003',
+    jobService: process.env.JOB_SERVICE_URL ?? 'http://localhost:3004',
+    applicationService:
+      process.env.APPLICATION_SERVICE_URL ?? 'http://localhost:3005',
+    cvParsingService:
+      process.env.CV_PARSING_SERVICE_URL ?? 'http://localhost:3006',
+    matchingService: process.env.MATCHING_SERVICE_URL ?? 'http://localhost:3007',
+    notificationService:
+      process.env.NOTIFICATION_SERVICE_URL ?? 'http://localhost:3008',
+    documentStorageService:
+      process.env.DOCUMENT_STORAGE_SERVICE_URL ?? 'http://localhost:3009',
   },
 }));

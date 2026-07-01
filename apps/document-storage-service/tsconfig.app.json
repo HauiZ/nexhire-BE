@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": false,
+    "outDir": "../../dist/apps/document-storage-service"
+  },
+  "include": ["src/**/*", "data-source.ts"],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}

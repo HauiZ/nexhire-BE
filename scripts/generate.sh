@@ -10,7 +10,16 @@
 set -uo pipefail
 
 NAME=${1:-Update}
-SERVICES=("auth" "job" "cv-app" "ai")
+SERVICES=(
+  "auth-service"
+  "candidate-service"
+  "company-service"
+  "job-service"
+  "application-service"
+  "cv-parsing-service"
+  "matching-service"
+  "document-storage-service"
+)
 TYPEORM="node --require ts-node/register --require tsconfig-paths/register ./node_modules/typeorm/cli.js"
 
 generated=0

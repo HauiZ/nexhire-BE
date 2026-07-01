@@ -1,30 +1,33 @@
-# NexHire Backend — Development Rules
+# NexHire Backend - Development Rules
 
-> **Mandatory** code-pattern and convention rules for the NexHire Backend project.
-> Read the relevant file **before** writing code for that layer. PRs that violate these rules get a request-changes.
+> Mandatory code-pattern and convention rules for the NexHire Backend project.
 
 ## Project context
 
-- **Topic:** Online job-search & recruitment management system (Job Portal + ATS) on a microservice architecture.
-- **Focus:** 80% recruitment core (user / company / job / CV / application) + 20% AI support (CV parsing, evaluation, CV↔JD matching).
-- **Stack:** NestJS monorepo · TypeORM · PostgreSQL (database-per-service) · RabbitMQ (event bus) · Redis (cache/rate-limit/token) · MinIO · Gemini API.
+- Topic: online job-search & recruitment management system on a microservice architecture.
+- Focus: recruitment core plus AI support for CV parsing, CV-JD matching, and document storage.
+- Stack: NestJS monorepo, TypeORM, PostgreSQL, RabbitMQ, Redis, MinIO, Gemini API.
 
 ## Services
 
 | Service | Port | Responsibility | Database |
-|---------|------|----------------|----------|
-| `gateway` | 3000 | API gateway, routing, auth guard, Swagger | — |
-| `auth` | 3001 | user, profile, company, authentication | `auth_db` |
-| `job` | 3002 | job posting, job search | `job_db` |
-| `cv-app` | 3003 | CV, application | `cvapp_db` |
-| `ai` | 3004 | parse / evaluate / match (Gemini) | `ai_db` |
-| `notification` | 3005 | email notifications | — |
+| ------- | ---- | -------------- | -------- |
+| `gateway` | 3000 | API gateway, routing, auth guard, Swagger | - |
+| `auth-service` | 3001 | authentication, JWT issuing, authorization | `auth_service_db` |
+| `candidate-service` | 3002 | candidate profile, CV, saved jobs | `candidate_service_db` |
+| `company-service` | 3003 | company profile and HR accounts | `company_service_db` |
+| `job-service` | 3004 | job posting lifecycle and categories | `job_service_db` |
+| `application-service` | 3005 | application journey and interview stages | `application_service_db` |
+| `cv-parsing-service` | 3006 | CV parsing with AI/NLP | `cv_parsing_service_db` |
+| `matching-service` | 3007 | CV-JD matching and fit score | `matching_service_db` |
+| `notification-service` | 3008 | email and web push notifications | - |
+| `document-storage-service` | 3009 | uploaded documents and object-storage gateway | `document_storage_service_db` |
 
 ## Shared packages
 
-- `@nexhire/shared` — *contracts & cross-cutting* (enums, DTOs, guards, filters, interceptor, decorators, constants, `setupApp`). Framework-/IO-agnostic.
-- `@nexhire/infra` — *backing-system adapters* (`BaseEntity` + TypeORM factory, `RedisModule`, `EventBusModule`/RabbitMQ, `StorageModule`/MinIO, and `db`/`redis`/`rabbitmq`/`storage` config).
-- Dependency direction: `apps → shared`, `apps → infra`; the two packages never import each other.
+- `@nexhire/shared` - contracts & cross-cutting only.
+- `@nexhire/infra` - adapters to backing systems only.
+- Dependency direction: `apps -> shared`, `apps -> infra`.
 
 ## Rule index
 

@@ -9,12 +9,16 @@
     "format": "prettier --write \"apps/**/*.ts\" \"packages/**/*.ts\"",
     "lint": "eslint \"{apps,packages}/**/*.ts\" --fix",
     "start:gateway": "nest start gateway --watch",
-    "start:auth": "nest start auth --watch",
-    "start:job": "nest start job --watch",
-    "start:cv-app": "nest start cv-app --watch",
-    "start:ai": "nest start ai --watch",
-    "start:notification": "nest start notification --watch",
-    "start:all": "concurrently -n gateway,auth,job,cv-app,ai,notif -c blue,green,yellow,magenta,cyan,gray \"npm:start:gateway\" \"npm:start:auth\" \"npm:start:job\" \"npm:start:cv-app\" \"npm:start:ai\" \"npm:start:notification\"",
+    "start:auth-service": "nest start auth-service --watch",
+    "start:candidate-service": "nest start candidate-service --watch",
+    "start:company-service": "nest start company-service --watch",
+    "start:job-service": "nest start job-service --watch",
+    "start:application-service": "nest start application-service --watch",
+    "start:cv-parsing-service": "nest start cv-parsing-service --watch",
+    "start:matching-service": "nest start matching-service --watch",
+    "start:notification-service": "nest start notification-service --watch",
+    "start:document-storage-service": "nest start document-storage-service --watch",
+    "start:all": "concurrently -n gateway,auth,candidate,company,job,application,cv-parsing,matching,notification,document-storage -c blue,green,yellow,magenta,cyan,gray,white,red,blue,green \"npm run start:gateway\" \"npm run start:auth-service\" \"npm run start:candidate-service\" \"npm run start:company-service\" \"npm run start:job-service\" \"npm run start:application-service\" \"npm run start:cv-parsing-service\" \"npm run start:matching-service\" \"npm run start:notification-service\" \"npm run start:document-storage-service\"",
     "migrate": "bash scripts/migrate.sh",
     "migrate:generate": "bash scripts/generate.sh",
     "mig": "bash scripts/migration.sh",
@@ -86,3 +90,4 @@
     "typescript": "^5.6.2"
   }
 }
+

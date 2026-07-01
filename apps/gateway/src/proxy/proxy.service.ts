@@ -6,7 +6,16 @@ import { firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 import { AuthUser, HEADERS } from '@nexhire/shared';
 
-type ServiceKey = 'auth' | 'job' | 'cvApp' | 'ai' | 'notification';
+type ServiceKey =
+  | 'authService'
+  | 'candidateService'
+  | 'companyService'
+  | 'jobService'
+  | 'applicationService'
+  | 'cvParsingService'
+  | 'matchingService'
+  | 'notificationService'
+  | 'documentStorageService';
 
 /**
  * Forwards an incoming request to an internal service, injecting the
@@ -33,7 +42,10 @@ export class ProxyService {
           url,
           data: req.body,
           params: req.query,
-          timeout: service === 'ai' ? 30_000 : 5_000,
+          timeout:
+            service === 'cvParsingService' || service === 'matchingService'
+              ? 30_000
+              : 5_000,
           headers: {
             'content-type': req.headers['content-type'] ?? 'application/json',
             [HEADERS.REQUEST_ID]: (req.headers[HEADERS.REQUEST_ID] as string) ?? '',
