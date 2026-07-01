@@ -44,7 +44,7 @@ cp .env.example .env
 
 make dev
 npm install
-make migrate
+npm run db:all:run
 npm run start:all
 ```
 
@@ -66,6 +66,7 @@ Then open:
 - Revert one service migration: `npm run db:auth:revert`
 - Create empty migration: `npm run db:auth:create -- CreateAuthAuditLog`
 - Generate migration from entity diff: `npm run db:auth:generate -- AddPhoneToUsers`
+- Seed auth roles: `npm run db:auth:seed`
 - Available service scopes: `auth`, `candidate`, `company`, `job`, `application`, `cv-parsing`, `matching`, `document-storage`
 
 ## Project layout

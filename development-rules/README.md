@@ -133,7 +133,7 @@ Use this section as the first quick-read context when starting a new session.
   - register it in `nest-cli.json`
   - add `start:*` script in `package.json`
   - update `.env.example`
-  - update `scripts/migration.sh`, `scripts/generate.sh`, `scripts/migrate.sh`
+  - update `scripts/migration.js`, `scripts/generate.js`, `scripts/migrate.js`
   - update `scripts/init-databases.sql` if the service owns a DB
   - update gateway config, validation, and proxy routing if it is HTTP-exposed
   - update this file and `README.md`

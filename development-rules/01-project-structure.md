@@ -19,9 +19,9 @@ nexhire-be/
     shared/
     infra/
   scripts/
-    migrate.sh
-    generate.sh
-    migration.sh
+    migrate.js
+    generate.js
+    migration.js
     init-databases.sql
   docker-compose.yml
   nest-cli.json

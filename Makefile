@@ -1,7 +1,7 @@
 # NexHire Backend - common commands
-# (Windows: run via Git Bash, or prefer the `npm run db:*` scripts directly.)
+# (Prefer the `npm run db:*` scripts directly.)
 
-.PHONY: install dev dev-build stop clean migrate-db migrate migrate-generate logs ps lint test start
+.PHONY: install dev dev-build stop clean migrate-db migrate logs ps lint test start
 
 install:
 	npm install
@@ -23,9 +23,6 @@ migrate-db:
 
 migrate:
 	npm run db:all:run
-
-migrate-generate:
-	@echo "Use npm run db:<scope>:generate -- <Name>"
 
 logs:
 	docker compose logs -f

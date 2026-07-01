@@ -23,16 +23,16 @@ No shared database and no cross-service ORM relations.
 
 - `synchronize: false` always.
 - Migrations live in `apps/<service>/src/migrations/`.
-- Run order follows `scripts/migrate.sh`.
+- Run order follows `scripts/migrate.js`.
 
 ### Workflow
 
 ```bash
-bash scripts/migration.sh generate auth-service AddPhoneToUser
-bash scripts/migration.sh run auth-service
-bash scripts/migration.sh revert auth-service
-bash scripts/migration.sh show auth-service
-bash scripts/migration.sh create auth-service Seed
+npm run db:auth:generate -- AddPhoneToUser
+npm run db:auth:run
+npm run db:auth:revert
+npm run db:auth:show
+npm run db:auth:create -- Seed
 ```
 
 Valid services:
