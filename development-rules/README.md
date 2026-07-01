@@ -51,3 +51,103 @@
 ## Priority on conflict
 
 `Security` > `Correctness` > `Project convention` > `Personal preference`.
+
+## Operational memory
+
+Use this section as the first quick-read context when starting a new session.
+
+### Current architecture
+
+- This repo is already migrated from the old service layout to the new layout.
+- Active deployable apps are:
+  - `gateway`
+  - `auth-service`
+  - `candidate-service`
+  - `company-service`
+  - `job-service`
+  - `application-service`
+  - `cv-parsing-service`
+  - `matching-service`
+  - `notification-service`
+  - `document-storage-service`
+- Legacy apps `auth`, `job`, `cv-app`, `ai`, and `notification` were removed from `apps/`.
+
+### Domain boundaries
+
+- `auth-service`: login, JWT issuing, refresh token flow, authorization primitives.
+- `candidate-service`: candidate profile, CVs, saved jobs.
+- `company-service`: company profile and HR accounts.
+- `job-service`: jobs and job categories.
+- `application-service`: applications and interview stage flow.
+- `cv-parsing-service`: AI CV parsing.
+- `matching-service`: AI CV-JD matching.
+- `notification-service`: email and web push notifications.
+- `document-storage-service`: uploaded document metadata and object-storage gateway.
+
+### Gateway routing map
+
+- `auth/*`, `users/*` -> `auth-service`
+- `candidates/*`, `cvs/*`, `saved-jobs/*` -> `candidate-service`
+- `companies/*`, `hr-accounts/*` -> `company-service`
+- `jobs/*`, `categories/*` -> `job-service`
+- `applications/*` -> `application-service`
+- `cv-parsing/*` -> `cv-parsing-service`
+- `matching/*` -> `matching-service`
+- `notifications/*` -> `notification-service`
+- `documents/*` -> `document-storage-service`
+
+### Persistence model
+
+- DB-owning services each have their own PostgreSQL database:
+  - `auth_service_db`
+  - `candidate_service_db`
+  - `company_service_db`
+  - `job_service_db`
+  - `application_service_db`
+  - `cv_parsing_service_db`
+  - `matching_service_db`
+  - `document_storage_service_db`
+- `gateway` and `notification-service` do not own a Postgres database in the current layout.
+- Cross-service relations must store foreign IDs only, never ORM relations across apps.
+
+### Infra model
+
+- `RabbitMQ` is the async backbone for domain events.
+- `Redis` is for cache, token store, and rate limit support.
+- `MinIO` is the object storage backend.
+- `document-storage-service` is the intended boundary between business services and MinIO/S3.
+- Shared reusable adapters live in `@nexhire/infra`.
+- Shared contracts and cross-cutting Nest pieces live in `@nexhire/shared`.
+
+### Important implementation notes
+
+- Build currently succeeds with `npm run build`.
+- For a new coding session, read these files first before scanning feature code:
+  - `development-rules/README.md`
+  - `README.md`
+  - `nest-cli.json`
+  - `package.json`
+  - `apps/gateway/src/config/gateway.config.ts`
+  - `apps/gateway/src/proxy/proxy.controller.ts`
+- When adding a new service:
+  - register it in `nest-cli.json`
+  - add `start:*` script in `package.json`
+  - update `.env.example`
+  - update `scripts/migration.sh`, `scripts/generate.sh`, `scripts/migrate.sh`
+  - update `scripts/init-databases.sql` if the service owns a DB
+  - update gateway config, validation, and proxy routing if it is HTTP-exposed
+  - update this file and `README.md`
+- Every DB-owning app should have:
+  - `data-source.ts`
+  - `src/<service>.module.ts`
+  - `src/config/*`
+  - `src/health/*`
+  - `src/migrations/`
+  - `Dockerfile`
+  - `tsconfig.app.json`
+
+### Known follow-up work
+
+- `cv-parsing-service` and `matching-service` should be checked carefully whenever config namespaces change because their Gemini client wiring is easy to drift.
+- `document-storage-service` is currently scaffolded as architecture groundwork; it still needs full document entity/DTO/upload-download-delete workflow if product work continues there.
+- Some rule files are intentionally shortened summaries; expand them if the team wants stronger prescriptive guidance again.

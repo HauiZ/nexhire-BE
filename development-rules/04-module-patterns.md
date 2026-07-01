@@ -1,4 +1,4 @@
-# 04 — Module Patterns (NestJS)
+# 04 - Module Patterns (NestJS)
 
 ## 1. Module per feature
 
@@ -11,7 +11,7 @@
   imports: [TypeOrmModule.forFeature([Application])],
   controllers: [ApplicationController],
   providers: [ApplicationService],
-  exports: [ApplicationService], // export only what other modules truly need
+  exports: [ApplicationService],
 })
 export class ApplicationModule {}
 ```
@@ -22,45 +22,51 @@ export class ApplicationModule {}
 // apps/application-service/src/application-service.module.ts
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [cvappConfig] }),
-    TypeOrmModule.forRootAsync({ useFactory: typeOrmFactory, inject: [ConfigService] }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [databaseConfigFor('APPLICATION_SERVICE'), redisConfig, applicationServiceConfig],
+      validationSchema,
+    }),
+    TypeOrmModule.forRootAsync({ inject: [ConfigService], useFactory: buildTypeOrmOptions() }),
     HttpModule,
-    CvModule,
+    HealthModule,
     ApplicationModule,
   ],
 })
-export class CvAppModule {}
+export class ApplicationServiceModule {}
 ```
 
-- `ConfigModule` is `isGlobal: true` — no need to re-import in feature modules.
-- `TypeOrmModule.forRootAsync` reads connection + `schema` from config (never hardcoded).
+- `ConfigModule` is `isGlobal: true` so feature modules do not re-import it.
+- `TypeOrmModule.forRootAsync` reads connection and schema from config, never hardcoded values.
 
 ## 3. `forRoot` vs `forFeature`
 
-- `forRoot` / `forRootAsync` = configure a module **once** at the root (DB connection, mailer, throttler).
-- `forFeature` = register the specific entities/repositories a feature needs. Use it in feature modules, not the root.
+- `forRoot` / `forRootAsync` configures a module once at the root level.
+- `forFeature` registers only the entities and repositories a feature needs.
 
-## 4. Exports & encapsulation
+## 4. Exports and encapsulation
 
-- A module is a black box: only `exports` are visible to importers. Export the **service**, not the repository.
-- Don't export an entity/repository so another module can query your tables directly — that breaks the boundary. Expose a service method instead.
-- Never export a provider just "in case". Export the minimum.
+- A module is a black box: only `exports` are visible to importers.
+- Export the service, not the repository.
+- Do not export repositories just so other modules can query your tables directly.
 
 ## 5. Global vs feature providers
 
-- Truly cross-cutting providers (logger, global filter/interceptor) are registered with `APP_FILTER` / `APP_INTERCEPTOR` / `APP_GUARD` in the root module (or pulled from `shared`).
-- Feature-specific providers stay in the feature module.
+- Cross-cutting providers use `APP_FILTER`, `APP_INTERCEPTOR`, or `APP_GUARD` in the root module.
+- Feature-specific providers stay inside the owning feature module.
 
 ## 6. Shared modules
 
-- Reusable Nest building blocks (guards, filters, decorators) come from `@nexhire/shared`. If they need DI wiring, expose a `SharedModule` from the package and import it where needed.
+- Reusable Nest building blocks come from `@nexhire/shared`.
+- If shared code needs DI wiring, expose a shared module and import it explicitly.
 
 ## 7. Dynamic modules
 
-- When a module needs runtime options (e.g. a storage module configured with a bucket), expose a static `register()/registerAsync()` returning a `DynamicModule`. Keep options typed.
+- When runtime options are required, expose `register()` or `registerAsync()` and keep options typed.
 
 ## 8. Rules
 
-- No business logic in a module file — modules only wire dependencies.
-- A controller is declared in exactly one module. A provider is provided by the module that owns it; others import that module.
-- Keep the import graph acyclic (see `03-import-conventions.md §4`).
+- No business logic in module files.
+- A controller is declared in exactly one module.
+- A provider is owned by one module; other modules consume it through imports and exports.
+- Keep the import graph acyclic.

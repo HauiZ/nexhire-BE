@@ -14,16 +14,16 @@ export class GeminiClient {
   private readonly modelName: string;
 
   constructor(private readonly config: ConfigService) {
-    this.client = new GoogleGenerativeAI(this.config.get<string>('ai.gemini.apiKey') as string);
-    this.modelName = this.config.get<string>('ai.gemini.model') as string;
+    this.client = new GoogleGenerativeAI(this.config.get<string>('matchingService.gemini.apiKey') as string);
+    this.modelName = this.config.get<string>('matchingService.gemini.model') as string;
   }
 
   async generate(prompt: string): Promise<string> {
     const model = this.client.getGenerativeModel({
       model: this.modelName,
       generationConfig: {
-        maxOutputTokens: this.config.get<number>('ai.gemini.maxOutputTokens'),
-        temperature: this.config.get<number>('ai.gemini.temperature'),
+        maxOutputTokens: this.config.get<number>('matchingService.gemini.maxOutputTokens'),
+        temperature: this.config.get<number>('matchingService.gemini.temperature'),
       },
     });
 
