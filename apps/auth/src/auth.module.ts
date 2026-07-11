@@ -12,6 +12,7 @@ import {
 import { authConfig } from './config/auth.config';
 import { validationSchema } from './config/env.validation';
 import { HealthModule } from './health/health.module';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
