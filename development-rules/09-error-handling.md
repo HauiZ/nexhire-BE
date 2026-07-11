@@ -34,7 +34,14 @@
 
 - Keep stable error codes in `@nexhire/shared/constants`.
 - Frontend logic keys off `code`, not free-form messages.
-- Add new error codes in `@nexhire/shared/constants/error-codes.ts`; do not invent one-off strings in feature code.
+- Error codes are frontend i18n keys and must be stable after release.
+- Use namespaced codes in the form `<DOMAIN>.<ERROR_KEY>`, for example:
+  - `AUTH.INVALID_CREDENTIALS`
+  - `DOCUMENT.FILE_REQUIRED`
+  - `COMMON.VALIDATION_FAILED`
+- `message` is an English fallback/dev-readable message only; do not require the frontend to translate by message text.
+- Add new public API error codes in `@nexhire/shared/constants/error-codes.ts`; do not invent one-off strings in feature code.
+- Prefer service/domain-specific codes for business errors. Use `COMMON.*` only for generic framework/fallback errors such as validation, unauthenticated, forbidden, not found, conflict, rate limit, and internal error.
 
 ## 6. Validation errors
 

@@ -336,7 +336,7 @@ describe('AuthService', () => {
       }),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: ERROR_CODES.FORBIDDEN,
+        code: ERROR_CODES.AUTH.ACCOUNT_TEMPORARILY_LOCKED,
       }),
       status: 423,
     });
@@ -473,7 +473,7 @@ describe('AuthService', () => {
       }),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: ERROR_CODES.RATE_LIMITED,
+        code: ERROR_CODES.AUTH.VERIFICATION_RESEND_COOLDOWN,
       }),
       status: 429,
     });
@@ -570,7 +570,7 @@ describe('AuthService', () => {
       }),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: ERROR_CODES.RATE_LIMITED,
+        code: ERROR_CODES.AUTH.PASSWORD_RESET_RESEND_COOLDOWN,
       }),
       status: 429,
     });

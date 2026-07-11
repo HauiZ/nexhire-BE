@@ -49,10 +49,10 @@ export class ApiErrorDetailDto {
 }
 
 export class ApiErrorBodyDto {
-  @ApiProperty()
+  @ApiProperty({ example: 'AUTH.INVALID_CREDENTIALS' })
   code: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'Invalid email or password' })
   message: string;
 
   @ApiPropertyOptional({ type: [ApiErrorDetailDto] })

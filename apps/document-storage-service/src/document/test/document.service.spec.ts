@@ -114,7 +114,7 @@ describe('DocumentService', () => {
       }),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.DOCUMENT.FILE_REQUIRED,
         message: 'File is required',
       }),
     });

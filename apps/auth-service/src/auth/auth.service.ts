@@ -73,7 +73,7 @@ export class AuthService {
     const existing = await this.userRepo.findOne({ where: { email } });
     if (existing) {
       throw new ConflictException({
-        code: ERROR_CODES.CONFLICT,
+        code: ERROR_CODES.AUTH.EMAIL_ALREADY_REGISTERED,
         message: 'Email is already registered',
       });
     }
@@ -83,7 +83,7 @@ export class AuthService {
     });
     if (!candidateRole) {
       throw new ConflictException({
-        code: ERROR_CODES.CONFLICT,
+        code: ERROR_CODES.AUTH.CANDIDATE_ROLE_NOT_PROVISIONED,
         message: 'Candidate role is not provisioned',
       });
     }
@@ -163,7 +163,7 @@ export class AuthService {
 
     if (credential.lockedUntil && credential.lockedUntil.getTime() > Date.now()) {
       throw new HttpException({
-        code: ERROR_CODES.FORBIDDEN,
+        code: ERROR_CODES.AUTH.ACCOUNT_TEMPORARILY_LOCKED,
         message: 'Account is temporarily locked',
       }, AuthService.HTTP_STATUS_LOCKED);
     }
@@ -189,7 +189,7 @@ export class AuthService {
 
     if (!verification?.user) {
       throw new NotFoundException({
-        code: ERROR_CODES.NOT_FOUND,
+        code: ERROR_CODES.AUTH.EMAIL_VERIFICATION_NOT_FOUND,
         message: 'Email verification request was not found',
       });
     }
@@ -205,14 +205,14 @@ export class AuthService {
 
     if (verification.tokenHash !== this.hashToken(dto.token.trim())) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.AUTH.EMAIL_VERIFICATION_TOKEN_INVALID,
         message: 'Email verification token is invalid',
       });
     }
 
     if (verification.expiresAt.getTime() <= Date.now()) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.AUTH.EMAIL_VERIFICATION_TOKEN_EXPIRED,
         message: 'Email verification token has expired',
       });
     }
@@ -240,14 +240,14 @@ export class AuthService {
     const user = await this.userRepo.findOne({ where: { email } });
     if (!user) {
       throw new NotFoundException({
-        code: ERROR_CODES.NOT_FOUND,
+        code: ERROR_CODES.AUTH.USER_NOT_FOUND,
         message: 'User was not found',
       });
     }
 
     if (user.emailVerified) {
       throw new ConflictException({
-        code: ERROR_CODES.CONFLICT,
+        code: ERROR_CODES.AUTH.EMAIL_ALREADY_VERIFIED,
         message: 'Email is already verified',
       });
     }
@@ -259,7 +259,7 @@ export class AuthService {
 
     if (!verification) {
       throw new NotFoundException({
-        code: ERROR_CODES.NOT_FOUND,
+        code: ERROR_CODES.AUTH.EMAIL_VERIFICATION_NOT_FOUND,
         message: 'Email verification request was not found',
       });
     }
@@ -325,21 +325,21 @@ export class AuthService {
 
     if (!resetToken) {
       throw new NotFoundException({
-        code: ERROR_CODES.NOT_FOUND,
+        code: ERROR_CODES.AUTH.PASSWORD_RESET_NOT_FOUND,
         message: 'Password reset request was not found',
       });
     }
 
     if (resetToken.tokenHash !== this.hashToken(dto.token.trim())) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.AUTH.PASSWORD_RESET_TOKEN_INVALID,
         message: 'Password reset token is invalid',
       });
     }
 
     if (resetToken.expiresAt.getTime() <= Date.now()) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.AUTH.PASSWORD_RESET_TOKEN_EXPIRED,
         message: 'Password reset token has expired',
       });
     }
@@ -347,7 +347,7 @@ export class AuthService {
     const credential = await this.credentialRepo.findOne({ where: { userId: resetToken.userId } });
     if (!credential) {
       throw new NotFoundException({
-        code: ERROR_CODES.NOT_FOUND,
+        code: ERROR_CODES.AUTH.USER_CREDENTIAL_NOT_FOUND,
         message: 'User credential was not found',
       });
     }
@@ -355,7 +355,7 @@ export class AuthService {
     const isSamePassword = await bcrypt.compare(dto.newPassword, credential.passwordHash);
     if (isSamePassword) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.AUTH.PASSWORD_REUSE_NOT_ALLOWED,
         message: 'New password must be different from current password',
       });
     }
@@ -386,7 +386,7 @@ export class AuthService {
     const credential = await this.credentialRepo.findOne({ where: { userId } });
     if (!credential) {
       throw new NotFoundException({
-        code: ERROR_CODES.NOT_FOUND,
+        code: ERROR_CODES.AUTH.USER_CREDENTIAL_NOT_FOUND,
         message: 'User credential was not found',
       });
     }
@@ -402,7 +402,7 @@ export class AuthService {
     const isSamePassword = await bcrypt.compare(dto.newPassword, credential.passwordHash);
     if (isSamePassword) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.AUTH.PASSWORD_REUSE_NOT_ALLOWED,
         message: 'New password must be different from current password',
       });
     }
@@ -531,14 +531,14 @@ export class AuthService {
 
   private invalidCredentials(): UnauthorizedException {
     return new UnauthorizedException({
-      code: ERROR_CODES.UNAUTHENTICATED,
+      code: ERROR_CODES.AUTH.INVALID_CREDENTIALS,
       message: 'Invalid email or password',
     });
   }
 
   private invalidRefreshToken(): UnauthorizedException {
     return new UnauthorizedException({
-      code: ERROR_CODES.UNAUTHENTICATED,
+      code: ERROR_CODES.AUTH.INVALID_REFRESH_TOKEN,
       message: 'Invalid refresh token',
     });
   }
@@ -572,14 +572,14 @@ export class AuthService {
 
     if (verification.expiresAt.getTime() <= now) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.AUTH.EMAIL_VERIFICATION_TOKEN_EXPIRED,
         message: 'Current verification token has expired',
       });
     }
 
     if (verification.resendCount >= maxResends) {
       throw new HttpException({
-        code: ERROR_CODES.RATE_LIMITED,
+        code: ERROR_CODES.AUTH.VERIFICATION_RESEND_LIMIT_REACHED,
         message: 'Verification resend limit reached',
       }, HttpStatus.TOO_MANY_REQUESTS);
     }
@@ -587,7 +587,7 @@ export class AuthService {
     const earliestNextResend = verification.lastSentAt.getTime() + resendCooldownSeconds * 1000;
     if (earliestNextResend > now) {
       throw new HttpException({
-        code: ERROR_CODES.RATE_LIMITED,
+        code: ERROR_CODES.AUTH.VERIFICATION_RESEND_COOLDOWN,
         message: `Please wait ${Math.ceil((earliestNextResend - now) / 1000)} seconds before resending`,
       }, HttpStatus.TOO_MANY_REQUESTS);
     }
@@ -599,7 +599,7 @@ export class AuthService {
 
     if (resetToken.resendCount >= maxResends) {
       throw new HttpException({
-        code: ERROR_CODES.RATE_LIMITED,
+        code: ERROR_CODES.AUTH.PASSWORD_RESET_RESEND_LIMIT_REACHED,
         message: 'Password reset resend limit reached',
       }, HttpStatus.TOO_MANY_REQUESTS);
     }
@@ -607,7 +607,7 @@ export class AuthService {
     const earliestNextResend = resetToken.lastSentAt.getTime() + resendCooldownSeconds * 1000;
     if (earliestNextResend > now) {
       throw new HttpException({
-        code: ERROR_CODES.RATE_LIMITED,
+        code: ERROR_CODES.AUTH.PASSWORD_RESET_RESEND_COOLDOWN,
         message: `Please wait ${Math.ceil((earliestNextResend - now) / 1000)} seconds before resending`,
       }, HttpStatus.TOO_MANY_REQUESTS);
     }

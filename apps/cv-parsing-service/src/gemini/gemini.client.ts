@@ -33,7 +33,7 @@ export class GeminiClient {
     } catch (err) {
       this.logger.error(`Gemini request failed: ${(err as Error).message}`);
       throw new ServiceUnavailableException({
-        code: ERROR_CODES.AI_UNAVAILABLE,
+        code: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
         message: 'AI service is temporarily unavailable',
       });
     }

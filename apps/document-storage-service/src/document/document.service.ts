@@ -28,7 +28,7 @@ export class DocumentService {
   ): Promise<UploadDocumentResponseDto> {
     if (!file) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.DOCUMENT.FILE_REQUIRED,
         message: 'File is required',
       });
     }
@@ -98,7 +98,7 @@ export class DocumentService {
   private validateFile(documentType: DocumentType, file: UploadedDocumentFile): void {
     if (file.size > DOCUMENT_MAX_UPLOAD_SIZE_BYTES) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.DOCUMENT.FILE_TOO_LARGE,
         message: 'File size must not exceed 10MB',
       });
     }
@@ -106,7 +106,7 @@ export class DocumentService {
     const allowedMimeTypes = this.getAllowedMimeTypes(documentType);
     if (!allowedMimeTypes.includes(file.mimetype)) {
       throw new BadRequestException({
-        code: ERROR_CODES.VALIDATION_FAILED,
+        code: ERROR_CODES.DOCUMENT.UNSUPPORTED_FILE_TYPE,
         message: `File type ${file.mimetype} is not allowed for ${documentType}`,
       });
     }

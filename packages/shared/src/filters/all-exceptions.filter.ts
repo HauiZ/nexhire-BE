@@ -51,7 +51,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         // class-validator returns an array of messages
         if (Array.isArray(rawMessage)) {
           return {
-            code: ERROR_CODES.VALIDATION_FAILED,
+            code: ERROR_CODES.COMMON.VALIDATION_FAILED,
             message: 'Validation failed',
             details: rawMessage.map((m) => ({ field: '', issue: String(m) })),
           };
@@ -65,7 +65,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       return { code: this.codeForStatus(status), message: exception.message, details: undefined };
     }
     return {
-      code: ERROR_CODES.INTERNAL_ERROR,
+      code: ERROR_CODES.COMMON.INTERNAL_ERROR,
       message: 'Internal server error',
       details: undefined,
     };
@@ -74,19 +74,19 @@ export class AllExceptionsFilter implements ExceptionFilter {
   private codeForStatus(status: number): string {
     switch (status) {
       case HttpStatus.BAD_REQUEST:
-        return ERROR_CODES.VALIDATION_FAILED;
+        return ERROR_CODES.COMMON.VALIDATION_FAILED;
       case HttpStatus.UNAUTHORIZED:
-        return ERROR_CODES.UNAUTHENTICATED;
+        return ERROR_CODES.COMMON.UNAUTHENTICATED;
       case HttpStatus.FORBIDDEN:
-        return ERROR_CODES.FORBIDDEN;
+        return ERROR_CODES.COMMON.FORBIDDEN;
       case HttpStatus.NOT_FOUND:
-        return ERROR_CODES.NOT_FOUND;
+        return ERROR_CODES.COMMON.NOT_FOUND;
       case HttpStatus.CONFLICT:
-        return ERROR_CODES.CONFLICT;
+        return ERROR_CODES.COMMON.CONFLICT;
       case HttpStatus.TOO_MANY_REQUESTS:
-        return ERROR_CODES.RATE_LIMITED;
+        return ERROR_CODES.COMMON.RATE_LIMITED;
       default:
-        return ERROR_CODES.INTERNAL_ERROR;
+        return ERROR_CODES.COMMON.INTERNAL_ERROR;
     }
   }
 }
