@@ -1,4 +1,4 @@
-import { createHash, randomInt } from 'crypto';
+import { createHash, randomInt, randomUUID } from 'crypto';
 import {
   BadRequestException,
   ConflictException,
@@ -36,6 +36,9 @@ import { Role } from './entities/role.entity';
 import { UserCredential } from './entities/user-credential.entity';
 import { UserRoleEntity } from './entities/user-role.entity';
 import { User } from './entities/user.entity';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { LogoutResponseDto } from './dto/logout-response.dto';
+import { TokenService } from '../token/token.service';
 
 @Injectable()
 export class AuthService {
@@ -48,6 +51,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly eventPublisher: EventPublisher,
+    private readonly tokenService: TokenService,
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
     @InjectRepository(UserCredential)
@@ -370,6 +374,7 @@ export class AuthService {
         lockedUntil: null,
       });
     });
+    await this.tokenService.revokeAllUserRefreshTokens(resetToken.userId);
 
     return { message: 'Password reset successfully' };
   }
@@ -409,8 +414,44 @@ export class AuthService {
       failedLoginAttempts: 0,
       lockedUntil: null,
     });
+    await this.tokenService.revokeAllUserRefreshTokens(userId);
 
     return { message: 'Password changed successfully' };
+  }
+
+  async refreshToken(dto: RefreshTokenDto): Promise<AuthResponseDto> {
+    const payload = await this.verifyRefreshToken(dto.refreshToken);
+    if (!payload.jti || payload.tokenVersion === undefined) {
+      throw this.invalidRefreshToken();
+    }
+
+    const isStoredTokenValid = await this.tokenService.consumeRefreshToken({
+      userId: payload.sub,
+      jti: payload.jti,
+      refreshToken: dto.refreshToken,
+      tokenVersion: payload.tokenVersion,
+    });
+    if (!isStoredTokenValid) {
+      throw this.invalidRefreshToken();
+    }
+
+    const user = await this.userRepo.findOne({ where: { id: payload.sub } });
+    if (!user) {
+      throw this.invalidRefreshToken();
+    }
+
+    const primaryRole = await this.resolvePrimaryRole(user.id);
+    return this.buildAuthResponse(user, primaryRole);
+  }
+
+  async logout(dto: RefreshTokenDto): Promise<LogoutResponseDto> {
+    const payload = await this.verifyRefreshToken(dto.refreshToken);
+    if (!payload.jti) {
+      throw this.invalidRefreshToken();
+    }
+
+    await this.tokenService.revokeRefreshToken(payload.sub, payload.jti);
+    return { message: 'Logged out successfully' };
   }
 
   private async resolvePrimaryRole(userId: string): Promise<UserRole> {
@@ -428,6 +469,18 @@ export class AuthService {
     const payload: JwtPayload = {
       sub: user.id,
       role,
+      jti: randomUUID(),
+    };
+    const jti = randomUUID();
+    const refreshTokenExpiresIn = this.configService.get<number>(
+      'authService.jwt.refreshTtl',
+      604800,
+    );
+    const tokenVersion = await this.tokenService.getCurrentTokenVersion(user.id);
+    const refreshPayload: JwtPayload = {
+      ...payload,
+      jti,
+      tokenVersion,
     };
 
     const accessToken = await this.jwtService.signAsync(payload, {
@@ -435,9 +488,17 @@ export class AuthService {
       expiresIn: this.configService.get<number>('authService.jwt.accessTtl'),
     });
 
-    const refreshToken = await this.jwtService.signAsync(payload, {
+    const refreshToken = await this.jwtService.signAsync(refreshPayload, {
       secret: this.configService.get<string>('authService.jwt.refreshSecret'),
-      expiresIn: this.configService.get<number>('authService.jwt.refreshTtl'),
+      expiresIn: refreshTokenExpiresIn,
+    });
+
+    await this.tokenService.storeRefreshToken({
+      userId: user.id,
+      jti,
+      refreshToken,
+      ttlSeconds: refreshTokenExpiresIn,
+      tokenVersion,
     });
 
     return {
@@ -453,15 +514,32 @@ export class AuthService {
         accessToken,
         refreshToken,
         accessTokenExpiresIn: this.configService.get<number>('authService.jwt.accessTtl', 900),
-        refreshTokenExpiresIn: this.configService.get<number>('authService.jwt.refreshTtl', 604800),
+        refreshTokenExpiresIn,
       },
     };
+  }
+
+  private async verifyRefreshToken(refreshToken: string): Promise<JwtPayload> {
+    try {
+      return await this.jwtService.verifyAsync<JwtPayload>(refreshToken, {
+        secret: this.configService.get<string>('authService.jwt.refreshSecret'),
+      });
+    } catch {
+      throw this.invalidRefreshToken();
+    }
   }
 
   private invalidCredentials(): UnauthorizedException {
     return new UnauthorizedException({
       code: ERROR_CODES.UNAUTHENTICATED,
       message: 'Invalid email or password',
+    });
+  }
+
+  private invalidRefreshToken(): UnauthorizedException {
+    return new UnauthorizedException({
+      code: ERROR_CODES.UNAUTHENTICATED,
+      message: 'Invalid refresh token',
     });
   }
 

@@ -13,6 +13,8 @@ export interface JwtPayload {
   sub: string;
   role: UserRole;
   companyId?: string;
+  jti?: string;
+  tokenVersion?: number;
   iat?: number;
   exp?: number;
 }

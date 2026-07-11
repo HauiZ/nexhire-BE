@@ -9,6 +9,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { OptionalJwtAuthGuard } from './guards/optional-jwt.guard';
 import { ProxyModule } from './proxy/proxy.module';
 import { HealthModule } from './health/health.module';
+import { buildGatewayThrottlers } from './rate-limit/auth-rate-limit';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { HealthModule } from './health/health.module';
       load: [gatewayConfig],
       validationSchema,
     }),
-    ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
+    ThrottlerModule.forRoot(buildGatewayThrottlers()),
     PassportModule,
     ProxyModule,
     HealthModule,

@@ -6,7 +6,6 @@ import {
   buildTypeOrmOptions,
   databaseConfigFor,
   redisConfig,
-  StorageModule,
   storageConfig,
 } from '@nexhire/infra';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
@@ -31,7 +30,6 @@ import { HealthModule } from './health/health.module';
       inject: [ConfigService],
       useFactory: buildTypeOrmOptions(),
     }),
-    StorageModule,
     HealthModule,
     DocumentModule,
   ],

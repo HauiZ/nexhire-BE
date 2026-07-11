@@ -17,6 +17,7 @@ import { Role } from '../entities/role.entity';
 import { UserCredential } from '../entities/user-credential.entity';
 import { UserRoleEntity } from '../entities/user-role.entity';
 import { User } from '../entities/user.entity';
+import { TokenService } from '../../token/token.service';
 
 jest.mock('bcrypt', () => ({
   hash: jest.fn(),
@@ -42,9 +43,17 @@ function createRepoMock(): MockRepo {
 describe('AuthService', () => {
   let service: AuthService;
   let dataSource: { transaction: jest.Mock };
-  let jwtService: { signAsync: jest.Mock };
+  let jwtService: { signAsync: jest.Mock; verifyAsync: jest.Mock };
   let configService: { get: jest.Mock };
   let eventPublisher: { publish: jest.Mock };
+  let tokenService: {
+    getCurrentTokenVersion: jest.Mock;
+    storeRefreshToken: jest.Mock;
+    validateRefreshToken: jest.Mock;
+    consumeRefreshToken: jest.Mock;
+    revokeRefreshToken: jest.Mock;
+    revokeAllUserRefreshTokens: jest.Mock;
+  };
   let userRepo: MockRepo;
   let credentialRepo: MockRepo;
   let roleRepo: MockRepo;
@@ -58,6 +67,7 @@ describe('AuthService', () => {
     };
     jwtService = {
       signAsync: jest.fn(),
+      verifyAsync: jest.fn(),
     };
     configService = {
       get: jest.fn((key: string, fallback?: unknown) => {
@@ -82,6 +92,14 @@ describe('AuthService', () => {
     eventPublisher = {
       publish: jest.fn(),
     };
+    tokenService = {
+      getCurrentTokenVersion: jest.fn().mockResolvedValue(0),
+      storeRefreshToken: jest.fn(),
+      validateRefreshToken: jest.fn(),
+      consumeRefreshToken: jest.fn(),
+      revokeRefreshToken: jest.fn(),
+      revokeAllUserRefreshTokens: jest.fn(),
+    };
     jest.restoreAllMocks();
     userRepo = createRepoMock();
     credentialRepo = createRepoMock();
@@ -95,6 +113,7 @@ describe('AuthService', () => {
       jwtService as unknown as JwtService,
       configService as unknown as ConfigService,
       eventPublisher as unknown as EventPublisher,
+      tokenService as unknown as TokenService,
       userRepo as unknown as Repository<User>,
       credentialRepo as unknown as Repository<UserCredential>,
       roleRepo as unknown as Repository<Role>,
@@ -196,6 +215,14 @@ describe('AuthService', () => {
         }),
       }),
     );
+    expect(tokenService.storeRefreshToken).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        refreshToken: 'refresh-token',
+        ttlSeconds: 604800,
+        tokenVersion: 0,
+      }),
+    );
   });
 
   it('rejects register when email already exists', async () => {
@@ -255,6 +282,12 @@ describe('AuthService', () => {
       lastLoginAt: expect.any(Date),
     });
     expect(result.user.role).toBe(UserRole.CANDIDATE);
+    expect(tokenService.storeRefreshToken).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        refreshToken: 'refresh-token',
+      }),
+    );
   });
 
   it('rejects login with invalid password and increments failed attempts', async () => {
@@ -590,6 +623,7 @@ describe('AuthService', () => {
         lockedUntil: null,
       }),
     );
+    expect(tokenService.revokeAllUserRefreshTokens).toHaveBeenCalledWith('user-1');
     expect(result).toEqual({ message: 'Password reset successfully' });
   });
 
@@ -643,6 +677,7 @@ describe('AuthService', () => {
         lockedUntil: null,
       }),
     );
+    expect(tokenService.revokeAllUserRefreshTokens).toHaveBeenCalledWith('user-1');
     expect(result).toEqual({ message: 'Password changed successfully' });
   });
 
@@ -661,5 +696,89 @@ describe('AuthService', () => {
       }),
     ).rejects.toBeInstanceOf(UnauthorizedException);
     expect(credentialRepo.update).not.toHaveBeenCalled();
+  });
+
+  it('refreshes token pair with refresh token rotation', async () => {
+    jwtService.verifyAsync.mockResolvedValue({
+      sub: 'user-1',
+      role: UserRole.CANDIDATE,
+      jti: 'old-jti',
+      tokenVersion: 0,
+    });
+    tokenService.consumeRefreshToken.mockResolvedValue(true);
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Van A',
+      phone: '0987654321',
+      emailVerified: true,
+    } as User);
+    (userRoleRepo.findOne as jest.Mock).mockResolvedValue({
+      userId: 'user-1',
+      role: { name: UserRole.CANDIDATE },
+    } as UserRoleEntity);
+    jwtService.signAsync.mockResolvedValueOnce('new-access-token').mockResolvedValueOnce('new-refresh-token');
+
+    const result = await service.refreshToken({
+      refreshToken: 'old-refresh-token',
+    });
+
+    expect(jwtService.verifyAsync).toHaveBeenCalledWith('old-refresh-token', {
+      secret: 'refresh-secret',
+    });
+    expect(tokenService.consumeRefreshToken).toHaveBeenCalledWith({
+      userId: 'user-1',
+      jti: 'old-jti',
+      refreshToken: 'old-refresh-token',
+      tokenVersion: 0,
+    });
+    expect(tokenService.revokeRefreshToken).not.toHaveBeenCalled();
+    expect(tokenService.storeRefreshToken).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        refreshToken: 'new-refresh-token',
+        tokenVersion: 0,
+      }),
+    );
+    expect(result.tokens).toEqual(
+      expect.objectContaining({
+        accessToken: 'new-access-token',
+        refreshToken: 'new-refresh-token',
+      }),
+    );
+  });
+
+  it('rejects refresh when token is not found in Redis', async () => {
+    jwtService.verifyAsync.mockResolvedValue({
+      sub: 'user-1',
+      role: UserRole.CANDIDATE,
+      jti: 'old-jti',
+      tokenVersion: 0,
+    });
+    tokenService.consumeRefreshToken.mockResolvedValue(false);
+
+    await expect(
+      service.refreshToken({
+        refreshToken: 'old-refresh-token',
+      }),
+    ).rejects.toBeInstanceOf(UnauthorizedException);
+    expect(tokenService.revokeRefreshToken).not.toHaveBeenCalled();
+    expect(jwtService.signAsync).not.toHaveBeenCalled();
+  });
+
+  it('logs out by revoking the current refresh token', async () => {
+    jwtService.verifyAsync.mockResolvedValue({
+      sub: 'user-1',
+      role: UserRole.CANDIDATE,
+      jti: 'refresh-jti',
+      tokenVersion: 0,
+    });
+
+    const result = await service.logout({
+      refreshToken: 'refresh-token',
+    });
+
+    expect(tokenService.revokeRefreshToken).toHaveBeenCalledWith('user-1', 'refresh-jti');
+    expect(result).toEqual({ message: 'Logged out successfully' });
   });
 });

@@ -7,6 +7,8 @@ import { ChangePasswordResponseDto } from './dto/change-password-response.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ForgotPasswordResponseDto } from './dto/forgot-password-response.dto';
 import { LoginDto } from './dto/login.dto';
+import { LogoutResponseDto } from './dto/logout-response.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RegisterDto } from './dto/register.dto';
 import { ResendVerificationDto } from './dto/resend-verification.dto';
 import { ResendVerificationResponseDto } from './dto/resend-verification-response.dto';
@@ -38,6 +40,26 @@ export class AuthController {
   @ApiErrorResponses({ statuses: [400, 401, 422, 500] })
   login(@Body() dto: LoginDto): Promise<AuthResponseDto> {
     return this.authService.login(dto);
+  }
+
+  @Post('refresh')
+  @Public()
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Rotate refresh token and issue a new token pair' })
+  @ApiSuccessResponse(AuthResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 422, 500] })
+  refresh(@Body() dto: RefreshTokenDto): Promise<AuthResponseDto> {
+    return this.authService.refreshToken(dto);
+  }
+
+  @Post('logout')
+  @Public()
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Revoke the current refresh token' })
+  @ApiSuccessResponse(LogoutResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 422, 500] })
+  logout(@Body() dto: RefreshTokenDto): Promise<LogoutResponseDto> {
+    return this.authService.logout(dto);
   }
 
   @Post('verify-email')

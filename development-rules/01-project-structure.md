@@ -22,7 +22,10 @@ nexhire-be/
     migrate.js
     generate.js
     migration.js
+    test-script.js
     init-databases.sql
+  test/
+    test-flows/
   docker-compose.yml
   nest-cli.json
   tsconfig.json
@@ -102,6 +105,7 @@ apps/<service>/
 | Service env validation | `apps/<service>/src/config/env.validation.ts` |
 | Shared infra config | `packages/infra/src/config/*` |
 | Shared contracts | `packages/shared/src/*` |
+| Manual API flow tests | `test/test-flows/*.ts` |
 
 ## 6. Adding a service
 

@@ -10,10 +10,12 @@ import { Role } from './entities/role.entity';
 import { UserCredential } from './entities/user-credential.entity';
 import { UserRoleEntity } from './entities/user-role.entity';
 import { User } from './entities/user.entity';
+import { TokenModule } from '../token/token.module';
 
 @Module({
   imports: [
     ConfigModule,
+    TokenModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: () => ({}),

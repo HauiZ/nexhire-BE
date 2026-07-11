@@ -66,7 +66,9 @@ if (job.companyId !== user.companyId) {
 
 ## 8. Auth endpoints hardening
 
-- `login`, `register`, `refresh`, `forgot-password`, and `resend-verification` are `@Public()` but should be rate-limited more strictly than normal endpoints.
+- `login`, `register`, `refresh`, `forgot-password`, `reset-password`, and `resend-verification` are `@Public()` but must be rate-limited more strictly than normal endpoints.
+- Gateway owns the first HTTP-layer throttle for public auth endpoints; services still own business anti-abuse rules such as resend cooldowns, failed-login lockout, and single-use tokens.
+- If an internal service becomes directly internet-exposed, duplicate the relevant endpoint throttle there too.
 - Passwords are hashed with bcrypt (`rounds: 12`). Never store/log plaintext or full tokens.
 - Email verification and password reset flows use single-use, expiring tokens stored/validated server-side.
 - Public account lookup flows should avoid user enumeration unless product requirements explicitly allow it.

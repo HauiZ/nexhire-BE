@@ -98,7 +98,7 @@ Use this section as the first quick-read context when starting a new session.
 
 ### Domain boundaries
 
-- `auth-service`: login, JWT issuing, refresh token flow, authorization primitives.
+- `auth-service`: login, JWT issuing, Redis-backed refresh token rotation/revocation, logout, password and email flows, authorization primitives.
 - `candidate-service`: candidate profile, CVs, saved jobs.
 - `company-service`: company profile and HR accounts.
 - `job-service`: jobs and job categories.
@@ -106,7 +106,7 @@ Use this section as the first quick-read context when starting a new session.
 - `cv-parsing-service`: AI CV parsing.
 - `matching-service`: AI CV-JD matching.
 - `notification-service`: email and web push notifications.
-- `document-storage-service`: uploaded document metadata and object-storage gateway.
+- `document-storage-service`: uploaded document metadata, upload API, and object-storage gateway.
 
 ### Gateway routing map
 
@@ -139,6 +139,7 @@ Use this section as the first quick-read context when starting a new session.
 - `RabbitMQ` is the async backbone for domain events.
 - `Redis` is for cache, token store, and rate limit support.
 - `MinIO` is the object storage backend.
+- `gateway` applies a global throttle plus stricter route-specific throttles for sensitive public auth endpoints.
 - `document-storage-service` is the intended boundary between business services and MinIO/S3.
 - Shared reusable adapters live in `@nexhire/infra`.
 - Shared contracts and cross-cutting Nest pieces live in `@nexhire/shared`.
@@ -161,6 +162,9 @@ Use this section as the first quick-read context when starting a new session.
   - update `scripts/init-databases.sql` if the service owns a DB
   - update gateway config, validation, and proxy routing if it is HTTP-exposed
   - update this file and `README.md`
+- Manual live API flow scripts live under `test/test-flows/` and run with:
+  - `npm run test:script test\test-flows\test-auth-api.ts`
+  - `npm run test:script test\test-flows\test-document-storage-api.ts`
 - Every DB-owning app should have:
   - `data-source.ts`
   - `src/<service>.module.ts`
@@ -172,7 +176,7 @@ Use this section as the first quick-read context when starting a new session.
 
 ### Known follow-up work
 
-- `auth-service` currently issues access/refresh JWTs, but refresh-token rotation, Redis-backed revocation/logout, and stricter endpoint rate limits still need implementation.
+- `auth-service` has Redis-backed refresh token rotation/revocation/logout and gateway-level auth endpoint throttles; consider Redis-backed/shared throttler storage before horizontal gateway scaling.
 - `cv-parsing-service` and `matching-service` should be checked carefully whenever config namespaces change because their Gemini client wiring is easy to drift.
-- `document-storage-service` is currently scaffolded as architecture groundwork; it still needs full document entity/DTO/upload-download-delete workflow if product work continues there.
+- `document-storage-service` currently supports upload + metadata persistence; it still needs download/list/delete workflows if product work continues there.
 - Some rule files are intentionally shortened summaries; expand them if the team wants stronger prescriptive guidance again.

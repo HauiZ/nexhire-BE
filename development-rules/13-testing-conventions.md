@@ -26,6 +26,11 @@ npx jest apps/auth-service/src/auth/test/auth.service.spec.ts --runInBand
 
 - Unit tests live under a per-module `test/` folder, for example `src/auth/test/auth.service.spec.ts`.
 - E2E tests live under `apps/<service>/test/*.e2e-spec.ts`.
+- Manual flow scripts live under `test/test-flows/`.
+- Manual flow scripts run with `npm run test:script <script-path> [...args]`.
+- Prefer TypeScript scripts that call HTTP APIs directly.
+- Each manual script should represent one complete business flow; avoid tiny endpoint-per-file scripts.
+- Prefer names like `test/test-flows/test-auth-api.ts` or `test/test-flows/test-document-storage-api.ts`.
 - Test names describe behavior, not implementation: `it('rejects a duplicate application to the same job')`.
 
 ## 3. Required coverage by risk
@@ -71,7 +76,8 @@ const moduleRef = await Test.createTestingModule({
 
 ## 7. Definition of done
 
-- Feature code has focused tests.
+- Every completed business logic change has focused unit tests in the same module.
+- User-facing API flows that need manual local verification include or update a script under `test/test-flows/`.
 - Schema changes have migrations.
 - Swagger annotations are present.
 - Build passes.
