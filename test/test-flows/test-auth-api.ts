@@ -131,6 +131,7 @@ async function register(): Promise<AuthResponse | null> {
       phone: '0987654321',
       email: TEST_EMAIL,
       password: TEST_PASSWORD,
+      role: 'CANDIDATE',
     },
   });
 

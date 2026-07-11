@@ -1,14 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { UserRole } from '@nexhire/shared';
 
 export class AuthUserDto {
   @ApiProperty()
   id: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional({ nullable: true })
   fullName: string | null;
 
-  @ApiProperty()
+  @ApiPropertyOptional({ nullable: true })
   phone: string | null;
 
   @ApiProperty()

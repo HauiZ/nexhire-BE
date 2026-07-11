@@ -20,4 +20,7 @@ export const validationSchema = Joi.object({
   SMTP_FROM: Joi.string().default('NexHire <noreply@nexhire.vn>'),
   NOTIFICATION_QUEUE_EMAIL_VERIFICATION: Joi.string().default('notification.email.verification'),
   NOTIFICATION_QUEUE_PASSWORD_RESET: Joi.string().default('notification.email.password-reset'),
+  FRONTEND_URL: Joi.string().uri().default('http://localhost:5173'),
+  FRONTEND_VERIFY_EMAIL_PATH: Joi.string().default('/verify-email'),
+  FRONTEND_RESET_PASSWORD_PATH: Joi.string().default('/reset-password'),
 });

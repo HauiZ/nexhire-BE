@@ -1,5 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEmail, IsEnum, IsString, MaxLength, MinLength } from 'class-validator';
+import { UserRole } from '@nexhire/shared';
 
 export class RegisterDto {
   @ApiProperty({ example: 'Nguyen Van A' })
@@ -24,4 +25,11 @@ export class RegisterDto {
   @MinLength(8)
   @MaxLength(128)
   password: string;
+
+  @ApiProperty({
+    enum: [UserRole.CANDIDATE, UserRole.RECRUITER],
+    description: 'Public self-registration role. ADMIN accounts cannot self-register.',
+  })
+  @IsEnum(UserRole)
+  role: UserRole;
 }

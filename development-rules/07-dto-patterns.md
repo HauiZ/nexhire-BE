@@ -9,6 +9,8 @@
 
 - Decorate every field with the correct validator.
 - Use `@IsOptional()` only for optional fields.
+- Required fields use `@ApiProperty`; optional fields use `@ApiPropertyOptional`.
+- Nullable response fields must set `nullable: true` in Swagger decorators.
 - Do not include server-controlled fields in create DTOs.
 
 ## 3. Update DTOs
@@ -41,4 +43,5 @@
 
 - No business logic in DTOs.
 - Every DTO field has `@ApiProperty` or `@ApiPropertyOptional`.
+- API docs must match DTO required/optional/nullability exactly.
 - Do not reuse request DTOs as response DTOs.

@@ -70,6 +70,14 @@ export class AuthService {
     const fullName = dto.fullName.trim();
     const phone = dto.phone.trim();
     const email = dto.email.trim().toLowerCase();
+    const registrationRole = dto.role;
+    if (registrationRole === UserRole.ADMIN) {
+      throw new BadRequestException({
+        code: ERROR_CODES.AUTH.REGISTRATION_ROLE_NOT_ALLOWED,
+        message: 'Admin accounts cannot self-register',
+      });
+    }
+
     const existing = await this.userRepo.findOne({ where: { email } });
     if (existing) {
       throw new ConflictException({
@@ -78,13 +86,13 @@ export class AuthService {
       });
     }
 
-    const candidateRole = await this.roleRepo.findOne({
-      where: { name: UserRole.CANDIDATE },
+    const role = await this.roleRepo.findOne({
+      where: { name: registrationRole },
     });
-    if (!candidateRole) {
+    if (!role) {
       throw new ConflictException({
-        code: ERROR_CODES.AUTH.CANDIDATE_ROLE_NOT_PROVISIONED,
-        message: 'Candidate role is not provisioned',
+        code: ERROR_CODES.AUTH.ROLE_NOT_PROVISIONED,
+        message: `${registrationRole} role is not provisioned`,
       });
     }
 
@@ -125,7 +133,7 @@ export class AuthService {
         UserRoleEntity,
         manager.create(UserRoleEntity, {
           userId: createdUser.id,
-          roleId: candidateRole.id,
+          roleId: role.id,
         }),
       );
 
@@ -146,7 +154,7 @@ export class AuthService {
     });
 
     await this.publishVerificationEmail(email, fullName, verificationToken, verificationExpiresAt);
-    return this.buildAuthResponse(user, UserRole.CANDIDATE);
+    return this.buildAuthResponse(user, registrationRole);
   }
 
   async login(dto: LoginDto): Promise<AuthResponseDto> {

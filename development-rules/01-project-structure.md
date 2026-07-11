@@ -18,6 +18,7 @@ nexhire-be/
   packages/
     shared/
     infra/
+  api-docs/
   scripts/
     migrate.js
     generate.js
@@ -103,6 +104,7 @@ apps/<service>/
 | Unit tests | `apps/<service>/src/<feature>/test/*.spec.ts` |
 | Service env config | `apps/<service>/src/config/<service>.config.ts` |
 | Service env validation | `apps/<service>/src/config/env.validation.ts` |
+| FE-facing API contracts | `api-docs/<service>.md` |
 | Shared infra config | `packages/infra/src/config/*` |
 | Shared contracts | `packages/shared/src/*` |
 | Manual API flow tests | `test/test-flows/*.ts` |

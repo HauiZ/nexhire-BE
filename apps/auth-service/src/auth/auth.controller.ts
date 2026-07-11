@@ -25,7 +25,7 @@ export class AuthController {
 
   @Post('register')
   @Public()
-  @ApiOperation({ summary: 'Register a new candidate account' })
+  @ApiOperation({ summary: 'Register a new candidate or recruiter account' })
   @ApiSuccessResponse(AuthResponseDto, { status: 201 })
   @ApiErrorResponses({ statuses: [400, 409, 422, 500] })
   register(@Body() dto: RegisterDto): Promise<AuthResponseDto> {

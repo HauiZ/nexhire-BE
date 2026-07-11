@@ -60,12 +60,21 @@ export class ApplicationController {
 - Auth-protected routes still need `@ApiBearerAuth()`.
 - Missing Swagger annotations is failing review.
 
-## 7. Errors
+## 7. API docs (required)
+
+- Every FE-facing endpoint must be documented in `api-docs/<service>.md`.
+- When adding, changing, or removing an endpoint, update the matching API docs file in the same change.
+- API docs must include method/path, auth requirement, request params/query/body, success response, and expected error codes.
+- Request/response fields in API docs must explicitly state required/optional and nullable/non-nullable behavior.
+- Document the payload inside the standard response envelope.
+- Swagger and `api-docs` must not disagree; if they do, update both before merging.
+
+## 8. Errors
 
 - Controllers do not swallow or remap errors.
 - Let services throw typed `HttpException`s; the global filter formats them.
 
-## 8. Versioning
+## 9. Versioning
 
 - All routes live under the global prefix `api/v1`.
 - Do not repeat versioning in each controller.

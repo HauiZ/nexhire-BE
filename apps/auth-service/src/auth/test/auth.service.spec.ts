@@ -130,12 +130,16 @@ describe('AuthService', () => {
       name: UserRole.CANDIDATE,
     } as Role);
     (bcrypt.hash as jest.Mock).mockResolvedValue('hashed-password');
-    jest.spyOn(service as never, 'generateVerificationToken' as never).mockReturnValue('123456' as never);
+    jest
+      .spyOn(service as never, 'generateVerificationToken' as never)
+      .mockReturnValue('123456' as never);
     const verificationExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
     jest
       .spyOn(service as never, 'buildVerificationExpiry' as never)
       .mockReturnValue(verificationExpiresAt as never);
-    jwtService.signAsync.mockResolvedValueOnce('access-token').mockResolvedValueOnce('refresh-token');
+    jwtService.signAsync
+      .mockResolvedValueOnce('access-token')
+      .mockResolvedValueOnce('refresh-token');
 
     const manager = {
       create: jest.fn((_: unknown, entity: unknown) => entity),
@@ -147,8 +151,8 @@ describe('AuthService', () => {
         }))
         .mockImplementation(async (_entity: unknown, payload: Record<string, unknown>) => payload),
     };
-    dataSource.transaction.mockImplementation(async (callback: (entityManager: typeof manager) => Promise<unknown>) =>
-      callback(manager),
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<unknown>) => callback(manager),
     );
 
     const result = await service.register({
@@ -156,6 +160,7 @@ describe('AuthService', () => {
       phone: '0987654321',
       email: 'candidate@nexhire.vn',
       password: 'StrongPassword123!',
+      role: UserRole.CANDIDATE,
     });
 
     expect(bcrypt.hash).toHaveBeenCalledWith('StrongPassword123!', 12);
@@ -225,6 +230,65 @@ describe('AuthService', () => {
     );
   });
 
+  it('registers a recruiter account when role is requested', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue(null);
+    (roleRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'role-recruiter',
+      name: UserRole.RECRUITER,
+    } as Role);
+    (bcrypt.hash as jest.Mock).mockResolvedValue('hashed-password');
+    jest
+      .spyOn(service as never, 'generateVerificationToken' as never)
+      .mockReturnValue('123456' as never);
+    jest
+      .spyOn(service as never, 'buildVerificationExpiry' as never)
+      .mockReturnValue(new Date(Date.now() + 15 * 60 * 1000) as never);
+    jwtService.signAsync
+      .mockResolvedValueOnce('access-token')
+      .mockResolvedValueOnce('refresh-token');
+
+    const manager = {
+      create: jest.fn((_: unknown, entity: unknown) => entity),
+      save: jest
+        .fn()
+        .mockImplementationOnce(async (_entity: unknown, payload: Record<string, unknown>) => ({
+          id: 'user-1',
+          ...payload,
+        }))
+        .mockImplementation(async (_entity: unknown, payload: Record<string, unknown>) => payload),
+    };
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<unknown>) => callback(manager),
+    );
+
+    const result = await service.register({
+      fullName: 'Tran Thi B',
+      phone: '0987654321',
+      email: 'recruiter@nexhire.vn',
+      password: 'StrongPassword123!',
+      role: UserRole.RECRUITER,
+    });
+
+    expect(roleRepo.findOne).toHaveBeenCalledWith({
+      where: { name: UserRole.RECRUITER },
+    });
+    expect(manager.save).toHaveBeenNthCalledWith(
+      3,
+      UserRoleEntity,
+      expect.objectContaining({
+        userId: 'user-1',
+        roleId: 'role-recruiter',
+      }),
+    );
+    expect(result.user.role).toBe(UserRole.RECRUITER);
+    expect(tokenService.storeRefreshToken).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        refreshToken: 'refresh-token',
+      }),
+    );
+  });
+
   it('rejects register when email already exists', async () => {
     (userRepo.findOne as jest.Mock).mockResolvedValue({ id: 'user-1' } as User);
 
@@ -234,9 +298,48 @@ describe('AuthService', () => {
         phone: '0987654321',
         email: 'candidate@nexhire.vn',
         password: 'StrongPassword123!',
+        role: UserRole.CANDIDATE,
       }),
     ).rejects.toBeInstanceOf(ConflictException);
     expect(roleRepo.findOne).not.toHaveBeenCalled();
+  });
+
+  it('rejects public admin self-registration', async () => {
+    await expect(
+      service.register({
+        fullName: 'Admin User',
+        phone: '0987654321',
+        email: 'admin@nexhire.vn',
+        password: 'StrongPassword123!',
+        role: UserRole.ADMIN as UserRole.CANDIDATE,
+      }),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.AUTH.REGISTRATION_ROLE_NOT_ALLOWED,
+      }),
+    });
+    expect(userRepo.findOne).not.toHaveBeenCalled();
+    expect(roleRepo.findOne).not.toHaveBeenCalled();
+  });
+
+  it('rejects register when the requested role is not provisioned', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue(null);
+    (roleRepo.findOne as jest.Mock).mockResolvedValue(null);
+
+    await expect(
+      service.register({
+        fullName: 'Tran Thi B',
+        phone: '0987654321',
+        email: 'recruiter@nexhire.vn',
+        password: 'StrongPassword123!',
+        role: UserRole.RECRUITER,
+      }),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.AUTH.ROLE_NOT_PROVISIONED,
+      }),
+    });
+    expect(dataSource.transaction).not.toHaveBeenCalled();
   });
 
   it('logs in successfully and resets login state', async () => {
@@ -259,13 +362,15 @@ describe('AuthService', () => {
       userId: 'user-1',
       role: { name: UserRole.CANDIDATE },
     } as UserRoleEntity);
-    jwtService.signAsync.mockResolvedValueOnce('access-token').mockResolvedValueOnce('refresh-token');
+    jwtService.signAsync
+      .mockResolvedValueOnce('access-token')
+      .mockResolvedValueOnce('refresh-token');
 
     const manager = {
       update: jest.fn(),
     };
-    dataSource.transaction.mockImplementation(async (callback: (entityManager: typeof manager) => Promise<unknown>) =>
-      callback(manager),
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<unknown>) => callback(manager),
     );
 
     const result = await service.login({
@@ -357,8 +462,8 @@ describe('AuthService', () => {
     const manager = {
       update: jest.fn(),
     };
-    dataSource.transaction.mockImplementation(async (callback: (entityManager: typeof manager) => Promise<void>) =>
-      callback(manager),
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<void>) => callback(manager),
     );
 
     const result = await service.verifyEmail({
@@ -419,9 +524,13 @@ describe('AuthService', () => {
       resendCount: 1,
       verifiedAt: null,
     } as EmailVerification);
-    jest.spyOn(service as never, 'generateVerificationToken' as never).mockReturnValue('654321' as never);
+    jest
+      .spyOn(service as never, 'generateVerificationToken' as never)
+      .mockReturnValue('654321' as never);
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
-    jest.spyOn(service as never, 'buildVerificationExpiry' as never).mockReturnValue(expiresAt as never);
+    jest
+      .spyOn(service as never, 'buildVerificationExpiry' as never)
+      .mockReturnValue(expiresAt as never);
 
     const result = await service.resendVerification({
       email: 'candidate@nexhire.vn',
@@ -518,9 +627,13 @@ describe('AuthService', () => {
       fullName: 'Nguyen Van A',
     } as User);
     (passwordResetTokenRepo.findOne as jest.Mock).mockResolvedValue(null);
-    jest.spyOn(service as never, 'generatePasswordResetToken' as never).mockReturnValue('112233' as never);
+    jest
+      .spyOn(service as never, 'generatePasswordResetToken' as never)
+      .mockReturnValue('112233' as never);
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
-    jest.spyOn(service as never, 'buildPasswordResetExpiry' as never).mockReturnValue(expiresAt as never);
+    jest
+      .spyOn(service as never, 'buildPasswordResetExpiry' as never)
+      .mockReturnValue(expiresAt as never);
 
     const result = await service.forgotPassword({
       email: 'candidate@nexhire.vn',
@@ -599,8 +712,8 @@ describe('AuthService', () => {
     const manager = {
       update: jest.fn(),
     };
-    dataSource.transaction.mockImplementation(async (callback: (entityManager: typeof manager) => Promise<void>) =>
-      callback(manager),
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<void>) => callback(manager),
     );
 
     const result = await service.resetPassword({
@@ -717,7 +830,9 @@ describe('AuthService', () => {
       userId: 'user-1',
       role: { name: UserRole.CANDIDATE },
     } as UserRoleEntity);
-    jwtService.signAsync.mockResolvedValueOnce('new-access-token').mockResolvedValueOnce('new-refresh-token');
+    jwtService.signAsync
+      .mockResolvedValueOnce('new-access-token')
+      .mockResolvedValueOnce('new-refresh-token');
 
     const result = await service.refreshToken({
       refreshToken: 'old-refresh-token',

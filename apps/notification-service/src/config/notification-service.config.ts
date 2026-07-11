@@ -14,6 +14,11 @@ export const notificationServiceConfig = registerAs('notificationService', () =>
     emailVerification: process.env.NOTIFICATION_QUEUE_EMAIL_VERIFICATION ?? 'notification.email.verification',
     passwordReset: process.env.NOTIFICATION_QUEUE_PASSWORD_RESET ?? 'notification.email.password-reset',
   },
+  frontend: {
+    url: process.env.FRONTEND_URL ?? 'http://localhost:5173',
+    verifyEmailPath: process.env.FRONTEND_VERIFY_EMAIL_PATH ?? '/verify-email',
+    resetPasswordPath: process.env.FRONTEND_RESET_PASSWORD_PATH ?? '/reset-password',
+  },
   redis: {
     host: process.env.REDIS_HOST ?? 'localhost',
     port: parseInt(process.env.REDIS_PORT ?? '6379', 10),

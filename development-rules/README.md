@@ -74,6 +74,7 @@
 - Events and headers use shared constants.
 - Env changes update `.env.example`, validation schema, and namespaced config.
 - Unit tests cover core happy paths and risky error paths.
+- FE-facing API changes update the matching `api-docs/<service>.md` file.
 - `npm run build` and relevant tests pass.
 
 ## Operational memory
@@ -165,6 +166,7 @@ Use this section as the first quick-read context when starting a new session.
 - Manual live API flow scripts live under `test/test-flows/` and run with:
   - `npm run test:script test\test-flows\test-auth-api.ts`
   - `npm run test:script test\test-flows\test-document-storage-api.ts`
+- FE-facing API contracts live under `api-docs/`; update the matching service file whenever controller request/response behavior changes.
 - Every DB-owning app should have:
   - `data-source.ts`
   - `src/<service>.module.ts`

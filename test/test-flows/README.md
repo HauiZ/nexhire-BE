@@ -51,3 +51,23 @@ It covers:
 - old-password login rejection
 - new-password login
 - forgot password request
+
+## Candidate service
+
+```powershell
+npm run test:script test\test-flows\test-candidate-api.ts
+```
+
+It covers:
+
+- lazy-create/get current candidate profile aggregate
+- aggregate profile patch
+- replace collection semantics
+- duplicate skill rejection
+
+Optional env:
+
+```powershell
+$env:CANDIDATE_TEST_BASE_URL="http://localhost:3002"
+$env:CANDIDATE_TEST_USER_ID="b8b33c46-4bb0-4a33-8b0d-927e081a38a5"
+```
