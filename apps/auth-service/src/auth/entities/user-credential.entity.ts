@@ -12,7 +12,7 @@ import { User } from './user.entity';
 
 @Entity('user_credentials')
 export class UserCredential {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_user_credentials_id' })
   id: string;
 
   @Column({ name: 'user_id', type: 'uuid', unique: true })

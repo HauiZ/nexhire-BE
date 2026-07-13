@@ -21,6 +21,8 @@
     "start:all": "concurrently -n gateway,auth,candidate,company,job,application,cv-parsing,matching,notification,document-storage -c blue,green,yellow,magenta,cyan,gray,white,red,blue,green \"npm run start:gateway\" \"npm run start:auth-service\" \"npm run start:candidate-service\" \"npm run start:company-service\" \"npm run start:job-service\" \"npm run start:application-service\" \"npm run start:cv-parsing-service\" \"npm run start:matching-service\" \"npm run start:notification-service\" \"npm run start:document-storage-service\"",
     "db:all:run": "node scripts/migrate.js",
     "db:all:generate": "node scripts/generate.js",
+    "db:migration:lint": "node scripts/migration-lint.js",
+    "db:provision": "node scripts/provision-databases.js",
     "db:auth:run": "node scripts/migration.js run auth-service",
     "db:auth:show": "node scripts/migration.js show auth-service",
     "db:auth:revert": "node scripts/migration.js revert auth-service",
@@ -131,4 +133,3 @@
     "typescript": "^5.6.2"
   }
 }
-

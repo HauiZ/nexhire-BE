@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -9,8 +10,9 @@ import {
 import { User } from './user.entity';
 
 @Entity('email_verifications')
+@Index('uq_email_verifications_token_hash', ['tokenHash'], { unique: true })
 export class EmailVerification {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_email_verifications_id' })
   id: string;
 
   @Column({ name: 'user_id', type: 'uuid' })
@@ -19,7 +21,7 @@ export class EmailVerification {
   @Column({ length: 255 })
   email: string;
 
-  @Column({ name: 'token_hash', type: 'text', unique: true })
+  @Column({ name: 'token_hash', type: 'text' })
   tokenHash: string;
 
   @Column({ name: 'expires_at', type: 'timestamptz' })

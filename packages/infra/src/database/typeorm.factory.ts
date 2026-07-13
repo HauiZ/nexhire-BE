@@ -10,6 +10,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 export function buildTypeOrmOptions() {
   return (config: ConfigService): TypeOrmModuleOptions => ({
     type: 'postgres',
+    uuidExtension: 'pgcrypto',
     host: config.get<string>('db.host'),
     port: config.get<number>('db.port'),
     username: config.get<string>('db.user'),
@@ -28,6 +29,7 @@ export function buildTypeOrmOptions() {
 export function buildDataSourceOptions(rootDir: string, prefix: string) {
   return {
     type: 'postgres' as const,
+    uuidExtension: 'pgcrypto' as const,
     host: process.env.DB_HOST ?? 'localhost',
     port: parseInt(process.env.DB_PORT ?? '5432', 10),
     username: process.env[`${prefix}_DB_USER`],

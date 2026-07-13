@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -13,11 +14,12 @@ import { UserCredential } from './user-credential.entity';
 import { UserRoleEntity } from './user-role.entity';
 
 @Entity('users')
+@Index('uq_users_email', ['email'], { unique: true })
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_users_id' })
   id: string;
 
-  @Column({ unique: true, length: 255 })
+  @Column({ length: 255 })
   email: string;
 
   @Column({ type: 'varchar', length: 30, nullable: true })

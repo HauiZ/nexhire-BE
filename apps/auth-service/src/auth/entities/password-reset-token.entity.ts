@@ -14,7 +14,7 @@ import { User } from './user.entity';
 @Index('idx_password_reset_tokens_email_used_at_created_at', ['email', 'usedAt', 'createdAt'])
 @Index('idx_password_reset_tokens_user_id_used_at_created_at', ['userId', 'usedAt', 'createdAt'])
 export class PasswordResetToken {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_password_reset_tokens_id' })
   id: string;
 
   @Column({ name: 'user_id', type: 'uuid' })

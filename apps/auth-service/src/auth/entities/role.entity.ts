@@ -1,17 +1,17 @@
 import { UserRole } from '@nexhire/shared';
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserRoleEntity } from './user-role.entity';
 
 @Entity('roles')
+@Index('uq_roles_name', ['name'], { unique: true })
 export class Role {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_roles_id' })
   id: string;
 
   @Column({
     type: 'enum',
     enum: UserRole,
     enumName: 'user_role_enum',
-    unique: true,
   })
   name: UserRole;
 

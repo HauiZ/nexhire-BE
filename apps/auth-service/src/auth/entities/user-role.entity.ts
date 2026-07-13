@@ -13,7 +13,7 @@ import { User } from './user.entity';
 @Entity('user_roles')
 @Unique('uq_user_roles_user_role', ['userId', 'roleId'])
 export class UserRoleEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_user_roles_id' })
   id: string;
 
   @ManyToOne(() => User, (user) => user.userRoles, { onDelete: 'CASCADE' })

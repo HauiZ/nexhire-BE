@@ -11,6 +11,11 @@ DO $$ BEGIN
 END $$;
 SELECT 'CREATE DATABASE auth_service_db OWNER auth_service_user'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'auth_service_db')\gexec
+ALTER DATABASE auth_service_db OWNER TO auth_service_user;
+\connect auth_service_db
+ALTER SCHEMA public OWNER TO auth_service_user;
+GRANT USAGE, CREATE ON SCHEMA public TO auth_service_user;
+\connect postgres
 
 -- candidate-service
 DO $$ BEGIN
@@ -20,6 +25,11 @@ DO $$ BEGIN
 END $$;
 SELECT 'CREATE DATABASE candidate_service_db OWNER candidate_service_user'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'candidate_service_db')\gexec
+ALTER DATABASE candidate_service_db OWNER TO candidate_service_user;
+\connect candidate_service_db
+ALTER SCHEMA public OWNER TO candidate_service_user;
+GRANT USAGE, CREATE ON SCHEMA public TO candidate_service_user;
+\connect postgres
 
 -- company-service
 DO $$ BEGIN
@@ -29,6 +39,11 @@ DO $$ BEGIN
 END $$;
 SELECT 'CREATE DATABASE company_service_db OWNER company_service_user'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'company_service_db')\gexec
+ALTER DATABASE company_service_db OWNER TO company_service_user;
+\connect company_service_db
+ALTER SCHEMA public OWNER TO company_service_user;
+GRANT USAGE, CREATE ON SCHEMA public TO company_service_user;
+\connect postgres
 
 -- job-service
 DO $$ BEGIN
@@ -38,6 +53,11 @@ DO $$ BEGIN
 END $$;
 SELECT 'CREATE DATABASE job_service_db OWNER job_service_user'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'job_service_db')\gexec
+ALTER DATABASE job_service_db OWNER TO job_service_user;
+\connect job_service_db
+ALTER SCHEMA public OWNER TO job_service_user;
+GRANT USAGE, CREATE ON SCHEMA public TO job_service_user;
+\connect postgres
 
 -- application-service
 DO $$ BEGIN
@@ -47,6 +67,11 @@ DO $$ BEGIN
 END $$;
 SELECT 'CREATE DATABASE application_service_db OWNER application_service_user'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'application_service_db')\gexec
+ALTER DATABASE application_service_db OWNER TO application_service_user;
+\connect application_service_db
+ALTER SCHEMA public OWNER TO application_service_user;
+GRANT USAGE, CREATE ON SCHEMA public TO application_service_user;
+\connect postgres
 
 -- cv-parsing-service
 DO $$ BEGIN
@@ -56,6 +81,11 @@ DO $$ BEGIN
 END $$;
 SELECT 'CREATE DATABASE cv_parsing_service_db OWNER cv_parsing_service_user'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'cv_parsing_service_db')\gexec
+ALTER DATABASE cv_parsing_service_db OWNER TO cv_parsing_service_user;
+\connect cv_parsing_service_db
+ALTER SCHEMA public OWNER TO cv_parsing_service_user;
+GRANT USAGE, CREATE ON SCHEMA public TO cv_parsing_service_user;
+\connect postgres
 
 -- matching-service
 DO $$ BEGIN
@@ -65,6 +95,11 @@ DO $$ BEGIN
 END $$;
 SELECT 'CREATE DATABASE matching_service_db OWNER matching_service_user'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'matching_service_db')\gexec
+ALTER DATABASE matching_service_db OWNER TO matching_service_user;
+\connect matching_service_db
+ALTER SCHEMA public OWNER TO matching_service_user;
+GRANT USAGE, CREATE ON SCHEMA public TO matching_service_user;
+\connect postgres
 
 -- document-storage-service
 DO $$ BEGIN
@@ -74,3 +109,8 @@ DO $$ BEGIN
 END $$;
 SELECT 'CREATE DATABASE document_storage_service_db OWNER document_storage_service_user'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'document_storage_service_db')\gexec
+ALTER DATABASE document_storage_service_db OWNER TO document_storage_service_user;
+\connect document_storage_service_db
+ALTER SCHEMA public OWNER TO document_storage_service_user;
+GRANT USAGE, CREATE ON SCHEMA public TO document_storage_service_user;
+\connect postgres
