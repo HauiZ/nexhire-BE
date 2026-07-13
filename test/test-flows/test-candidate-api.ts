@@ -1,9 +1,12 @@
 import 'dotenv/config';
 import { randomUUID } from 'crypto';
 
-const BASE_URL = process.env.CANDIDATE_TEST_BASE_URL ?? 'http://localhost:3002';
-const USER_ID = process.env.CANDIDATE_TEST_USER_ID ?? randomUUID();
+const BASE_URL = process.env.CANDIDATE_TEST_BASE_URL ?? 'http://localhost:3000/api/v1';
+const TEST_EMAIL = `candidate-test-${Date.now()}@nexhire.local`;
+const TEST_PASSWORD = 'StrongPassword123!';
 const USER_ROLE = 'CANDIDATE';
+let userId = process.env.CANDIDATE_TEST_USER_ID ?? randomUUID();
+let accessToken = process.env.CANDIDATE_TEST_TOKEN;
 
 const colors = {
   reset: '\x1b[0m',
@@ -40,6 +43,17 @@ interface ApiEnvelope<T> {
   data?: T;
 }
 
+interface AuthResponse {
+  user: {
+    id: string;
+    email: string;
+    role: string;
+  };
+  tokens: {
+    accessToken: string;
+  };
+}
+
 let passed = 0;
 let failed = 0;
 
@@ -62,8 +76,26 @@ function fail(message: string, data?: unknown): void {
   failed++;
   log(`FAIL ${message}`, 'red');
   if (data !== undefined) {
-    console.log(JSON.stringify(data, null, 2));
+    console.log(formatError(data));
   }
+}
+
+function formatError(data: unknown): string {
+  if (data instanceof Error) {
+    const errorWithCause = data as Error & { cause?: unknown };
+
+    return JSON.stringify(
+      {
+        name: data.name,
+        message: data.message,
+        cause: errorWithCause.cause,
+      },
+      null,
+      2,
+    );
+  }
+
+  return JSON.stringify(data, null, 2);
 }
 
 function unwrap<T>(payload: ApiEnvelope<T> | T): T {
@@ -80,11 +112,18 @@ function unwrap<T>(payload: ApiEnvelope<T> | T): T {
 }
 
 function buildHeaders(): Record<string, string> {
-  return {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    'x-user-id': USER_ID,
-    'x-user-role': USER_ROLE,
   };
+
+  if (accessToken) {
+    headers.Authorization = `Bearer ${accessToken}`;
+    return headers;
+  }
+
+  headers['x-user-id'] = userId;
+  headers['x-user-role'] = USER_ROLE;
+  return headers;
 }
 
 async function request<T>(
@@ -110,6 +149,31 @@ async function request<T>(
   };
 }
 
+async function ensureGatewayIdentity(): Promise<void> {
+  if (accessToken || process.env.CANDIDATE_TEST_USER_ID) {
+    return;
+  }
+
+  logSection('0. Register candidate test identity');
+  log(`Email: ${TEST_EMAIL}`, 'yellow');
+
+  const response = await request<AuthResponse>('POST', '/auth/register', {
+    fullName: 'Candidate Flow Test',
+    phone: '0987654321',
+    email: TEST_EMAIL,
+    password: TEST_PASSWORD,
+    role: USER_ROLE,
+  });
+
+  if (!expectStatus(response.status, 201, 'register candidate test identity', response.raw)) {
+    process.exit(1);
+  }
+
+  userId = response.data.user.id;
+  accessToken = response.data.tokens.accessToken;
+  pass('gateway identity token ready');
+}
+
 function expectStatus(actual: number, expected: number, label: string, data?: unknown): boolean {
   if (actual === expected) {
     pass(`${label} -> ${expected}`);
@@ -127,7 +191,7 @@ async function getProfile(label: string): Promise<CandidateProfileResponse | nul
     return null;
   }
 
-  if (response.data.profile?.userId === USER_ID && Array.isArray(response.data.skills)) {
+  if (response.data.profile?.userId === userId && Array.isArray(response.data.skills)) {
     pass('profile aggregate response shape is valid');
     return response.data;
   }
@@ -219,8 +283,9 @@ async function rejectDuplicateSkill(): Promise<void> {
 async function main(): Promise<void> {
   log('CANDIDATE PROFILE API LIVE TEST', 'cyan');
   log(`Base URL: ${BASE_URL}`, 'yellow');
-  log(`User ID: ${USER_ID}`, 'yellow');
+  log(`User ID: ${userId}`, 'yellow');
 
+  await ensureGatewayIdentity();
   await getProfile('1. Get or lazy-create profile');
   await updateProfile();
   await clearSkills();

@@ -25,7 +25,7 @@ It covers:
 Optional env:
 
 ```powershell
-$env:DOCUMENT_STORAGE_TEST_BASE_URL="http://localhost:3009"
+$env:DOCUMENT_STORAGE_TEST_BASE_URL="http://localhost:3000/api/v1"
 $env:DOCUMENT_STORAGE_TEST_OWNER_ID="b8b33c46-4bb0-4a33-8b0d-927e081a38a5"
 $env:DOCUMENT_STORAGE_TEST_USER_ID="internal-test-user-id"
 $env:DOCUMENT_STORAGE_TEST_USER_ROLE="CANDIDATE"
@@ -38,6 +38,9 @@ Run the default auth live-test flow:
 ```powershell
 npm run test:script test\test-flows\test-auth-api.ts
 ```
+
+By default this runs through the gateway at `http://localhost:3000/api/v1`.
+To call auth-service directly instead, use `http://localhost:3001/api/v1`.
 
 It covers:
 
@@ -68,6 +71,6 @@ It covers:
 Optional env:
 
 ```powershell
-$env:CANDIDATE_TEST_BASE_URL="http://localhost:3002"
+$env:CANDIDATE_TEST_BASE_URL="http://localhost:3000/api/v1"
 $env:CANDIDATE_TEST_USER_ID="b8b33c46-4bb0-4a33-8b0d-927e081a38a5"
 ```

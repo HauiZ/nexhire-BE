@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
-const BASE_URL = process.env.AUTH_TEST_BASE_URL ?? 'http://localhost:3001';
+const BASE_URL = process.env.AUTH_TEST_BASE_URL ?? 'http://localhost:3000/api/v1';
+const RATE_LIMIT_RETRY_MS = Number(process.env.AUTH_TEST_RATE_LIMIT_RETRY_MS ?? 61_000);
 const TEST_EMAIL = `auth-test-${Date.now()}@nexhire.local`;
 const TEST_PASSWORD = 'StrongPassword123!';
 const NEW_PASSWORD = 'NewStrongPassword123!';
@@ -60,8 +61,26 @@ function fail(message: string, data?: unknown): void {
   failed++;
   log(`✗ ${message}`, 'red');
   if (data !== undefined) {
-    console.log(JSON.stringify(data, null, 2));
+    console.log(formatError(data));
   }
+}
+
+function formatError(data: unknown): string {
+  if (data instanceof Error) {
+    const errorWithCause = data as Error & { cause?: unknown };
+
+    return JSON.stringify(
+      {
+        name: data.name,
+        message: data.message,
+        cause: errorWithCause.cause,
+      },
+      null,
+      2,
+    );
+  }
+
+  return JSON.stringify(data, null, 2);
 }
 
 function unwrap<T>(payload: ApiEnvelope<T> | T): T {
@@ -85,6 +104,18 @@ async function request<T>(
     headers?: Record<string, string>;
   } = {},
 ): Promise<{ status: number; data: T; raw: unknown }> {
+  return requestOnce<T>(method, path, options, true);
+}
+
+async function requestOnce<T>(
+  method: string,
+  path: string,
+  options: {
+    body?: Record<string, unknown>;
+    headers?: Record<string, string>;
+  },
+  retryRateLimit: boolean,
+): Promise<{ status: number; data: T; raw: unknown }> {
   const url = `${BASE_URL}${path}`;
   log(`${method} ${url}`, 'blue');
 
@@ -99,11 +130,22 @@ async function request<T>(
 
   const text = await response.text();
   const raw = text ? JSON.parse(text) : {};
+
+  if (response.status === 429 && retryRateLimit) {
+    log(`Rate limited; retrying after ${RATE_LIMIT_RETRY_MS}ms`, 'yellow');
+    await sleep(RATE_LIMIT_RETRY_MS);
+    return requestOnce<T>(method, path, options, false);
+  }
+
   return {
     status: response.status,
     data: unwrap<T>(raw),
     raw,
   };
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function expectStatus(
@@ -212,12 +254,11 @@ async function logout(refreshToken: string): Promise<void> {
   expectStatus(response.status, 200, 'logout', response.raw);
 }
 
-async function changePassword(user: AuthResponse['user']): Promise<void> {
+async function changePassword(accessToken: string): Promise<void> {
   logSection('Change password');
   const response = await request<unknown>('POST', '/auth/change-password', {
     headers: {
-      'x-user-id': user.id,
-      'x-user-role': user.role,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: {
       currentPassword: TEST_PASSWORD,
@@ -274,7 +315,7 @@ async function main(): Promise<void> {
 
   const changePasswordLogin = await login();
   if (changePasswordLogin) {
-    await changePassword(changePasswordLogin.user);
+    await changePassword(changePasswordLogin.tokens.accessToken);
     await login(TEST_PASSWORD, 401);
     await login(NEW_PASSWORD, 200);
   }

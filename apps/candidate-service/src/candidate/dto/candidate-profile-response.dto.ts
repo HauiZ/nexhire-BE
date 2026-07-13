@@ -148,8 +148,8 @@ export class CandidateProfileResponseDto {
   @ApiProperty({ type: [CandidateEducationResponseDto] })
   educations: CandidateEducationResponseDto[];
 
-  @ApiPropertyOptional({ nullable: true })
-  defaultCv: null;
+  @ApiProperty({ type: 'object', nullable: true })
+  defaultCv: Record<string, unknown> | null;
 
   @ApiProperty({ type: [Object] })
   cvs: never[];

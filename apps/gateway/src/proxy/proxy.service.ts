@@ -34,20 +34,24 @@ export class ProxyService {
     const baseUrl = this.config.get<string>(`gateway.services.${service}`);
     const url = `${baseUrl}${req.originalUrl}`;
     const user = req.user as AuthUser | undefined;
+    const contentType = req.headers['content-type'] ?? 'application/json';
+    const isMultipart = contentType.includes('multipart/form-data');
 
     try {
       const response = await firstValueFrom(
         this.http.request({
           method: req.method as never,
           url,
-          data: req.body,
+          data: isMultipart ? req : req.body,
           params: req.query,
+          maxBodyLength: Infinity,
+          maxContentLength: Infinity,
           timeout:
             service === 'cvParsingService' || service === 'matchingService'
               ? 30_000
               : 5_000,
           headers: {
-            'content-type': req.headers['content-type'] ?? 'application/json',
+            'content-type': contentType,
             [HEADERS.REQUEST_ID]: (req.headers[HEADERS.REQUEST_ID] as string) ?? '',
             ...(user
               ? {

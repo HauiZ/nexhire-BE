@@ -1,10 +1,13 @@
 import 'dotenv/config';
 import { randomUUID } from 'crypto';
 
-const BASE_URL = process.env.DOCUMENT_STORAGE_TEST_BASE_URL ?? 'http://localhost:3009';
+const BASE_URL = process.env.DOCUMENT_STORAGE_TEST_BASE_URL ?? 'http://localhost:3000/api/v1';
 const OWNER_ID = process.env.DOCUMENT_STORAGE_TEST_OWNER_ID ?? randomUUID();
+const TEST_EMAIL = `document-test-${Date.now()}@nexhire.local`;
+const TEST_PASSWORD = 'StrongPassword123!';
 const USER_ID = process.env.DOCUMENT_STORAGE_TEST_USER_ID ?? randomUUID();
 const USER_ROLE = process.env.DOCUMENT_STORAGE_TEST_USER_ROLE ?? 'CANDIDATE';
+let accessToken = process.env.DOCUMENT_STORAGE_TEST_TOKEN;
 
 const colors = {
   reset: '\x1b[0m',
@@ -32,6 +35,17 @@ interface ApiEnvelope<T> {
   data?: T;
 }
 
+interface AuthResponse {
+  user: {
+    id: string;
+    email: string;
+    role: string;
+  };
+  tokens: {
+    accessToken: string;
+  };
+}
+
 let passed = 0;
 let failed = 0;
 
@@ -54,8 +68,26 @@ function fail(message: string, data?: unknown): void {
   failed++;
   log(`✗ ${message}`, 'red');
   if (data !== undefined) {
-    console.log(JSON.stringify(data, null, 2));
+    console.log(formatError(data));
   }
+}
+
+function formatError(data: unknown): string {
+  if (data instanceof Error) {
+    const errorWithCause = data as Error & { cause?: unknown };
+
+    return JSON.stringify(
+      {
+        name: data.name,
+        message: data.message,
+        cause: errorWithCause.cause,
+      },
+      null,
+      2,
+    );
+  }
+
+  return JSON.stringify(data, null, 2);
 }
 
 function unwrap<T>(payload: ApiEnvelope<T> | T): T {
@@ -72,16 +104,40 @@ function unwrap<T>(payload: ApiEnvelope<T> | T): T {
 }
 
 function buildHeaders(): Record<string, string> {
-  const headers: Record<string, string> = {
-    'x-user-id': USER_ID,
-    'x-user-role': USER_ROLE,
-  };
-  const token = process.env.DOCUMENT_STORAGE_TEST_TOKEN;
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
+  const headers: Record<string, string> = {};
+  if (accessToken) {
+    headers.Authorization = `Bearer ${accessToken}`;
+    return headers;
   }
 
+  headers['x-user-id'] = USER_ID;
+  headers['x-user-role'] = USER_ROLE;
   return headers;
+}
+
+async function request<T>(
+  method: string,
+  path: string,
+  body?: Record<string, unknown>,
+): Promise<{ status: number; data: T; raw: unknown }> {
+  const url = `${BASE_URL}${path}`;
+  log(`${method} ${url}`, 'blue');
+
+  const response = await fetch(url, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const text = await response.text();
+  const raw = text ? JSON.parse(text) : {};
+
+  return {
+    status: response.status,
+    data: unwrap<T>(raw),
+    raw,
+  };
 }
 
 async function upload(
@@ -124,6 +180,30 @@ function createPdfBlob(): Blob {
   return new Blob([Buffer.from('%PDF-1.4\n% NexHire test PDF\n')], {
     type: 'application/pdf',
   });
+}
+
+async function ensureGatewayIdentity(): Promise<void> {
+  if (accessToken || process.env.DOCUMENT_STORAGE_TEST_USER_ID) {
+    return;
+  }
+
+  logSection('0. Register document test identity');
+  log(`Email: ${TEST_EMAIL}`, 'yellow');
+
+  const response = await request<AuthResponse>('POST', '/auth/register', {
+    fullName: 'Document Flow Test',
+    phone: '0987654321',
+    email: TEST_EMAIL,
+    password: TEST_PASSWORD,
+    role: USER_ROLE,
+  });
+
+  if (!expectStatus(response.status, 201, 'register document test identity', response.raw)) {
+    process.exit(1);
+  }
+
+  accessToken = response.data.tokens.accessToken;
+  pass('gateway identity token ready');
 }
 
 async function testUploadCvPdf(): Promise<UploadDocumentResponse | null> {
@@ -188,6 +268,7 @@ async function main(): Promise<void> {
   log(`Base URL: ${BASE_URL}`, 'yellow');
   log(`Owner ID: ${OWNER_ID}`, 'yellow');
 
+  await ensureGatewayIdentity();
   await testUploadCvPdf();
   await testMissingFileRejected();
   await testAvatarRejectsPdf();
