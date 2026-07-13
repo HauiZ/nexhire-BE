@@ -2,6 +2,7 @@ import { createHash, randomInt, randomUUID } from 'crypto';
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -182,9 +183,9 @@ export class AuthService {
       throw this.invalidCredentials();
     }
 
+    await this.assertUserCanLoginAs(user.id, dto.role);
     await this.resetLoginState(user.id, credential.id);
-    const primaryRole = await this.resolvePrimaryRole(user.id);
-    return this.buildAuthResponse(user, primaryRole);
+    return this.buildAuthResponse(user, dto.role);
   }
 
   async verifyEmail(dto: VerifyEmailDto): Promise<VerifyEmailResponseDto> {
@@ -448,8 +449,8 @@ export class AuthService {
       throw this.invalidRefreshToken();
     }
 
-    const primaryRole = await this.resolvePrimaryRole(user.id);
-    return this.buildAuthResponse(user, primaryRole);
+    await this.assertUserCanLoginAs(user.id, payload.role);
+    return this.buildAuthResponse(user, payload.role);
   }
 
   async logout(dto: RefreshTokenDto): Promise<LogoutResponseDto> {
@@ -462,15 +463,21 @@ export class AuthService {
     return { message: 'Logged out successfully' };
   }
 
-  private async resolvePrimaryRole(userId: string): Promise<UserRole> {
+  private async assertUserCanLoginAs(userId: string, role: UserRole): Promise<void> {
     const userRole = await this.userRoleRepo.findOne({
-      where: { userId },
+      where: {
+        userId,
+        role: { name: role },
+      },
       relations: { role: true },
     });
+
     if (!userRole?.role?.name) {
-      throw this.invalidCredentials();
+      throw new ForbiddenException({
+        code: ERROR_CODES.AUTH.LOGIN_ROLE_NOT_ALLOWED,
+        message: `Account is not allowed to login as ${role.toLowerCase()}`,
+      });
     }
-    return userRole.role.name;
   }
 
   private async buildAuthResponse(user: User, role: UserRole): Promise<AuthResponseDto> {

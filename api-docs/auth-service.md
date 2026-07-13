@@ -91,7 +91,7 @@ Errors:
 
 ### `POST /api/v1/auth/login`
 
-Summary: Login with email and password.
+Summary: Login with email, password, and required role context. FE can have separate candidate/recruiter login pages, but both call this same endpoint and send the matching `role` in body.
 
 Auth:
 - Public
@@ -102,11 +102,23 @@ Request body:
 | ----- | ---- | -------- | ---- |
 | `email` | string | Yes | Valid email, max 255 |
 | `password` | string | Yes | 8-128 chars |
+| `role` | enum | Yes | Login context: `CANDIDATE` or `RECRUITER` |
 
 ```json
 {
   "email": "candidate@nexhire.vn",
-  "password": "StrongPassword123!"
+  "password": "StrongPassword123!",
+  "role": "CANDIDATE"
+}
+```
+
+Recruiter login page should send:
+
+```json
+{
+  "email": "hr@company.vn",
+  "password": "StrongPassword123!",
+  "role": "RECRUITER"
 }
 ```
 
@@ -139,7 +151,9 @@ Errors:
 | Status | Code | Meaning |
 | ------ | ---- | ------- |
 | 401 | `AUTH.INVALID_CREDENTIALS` | Email or password is invalid |
+| 403 | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Account does not have the requested login role |
 | 423 | `AUTH.ACCOUNT_TEMPORARILY_LOCKED` | Account is temporarily locked |
+| 422 | validation error | Invalid request body |
 
 ### `POST /api/v1/auth/refresh`
 
@@ -167,6 +181,7 @@ Errors:
 | Status | Code | Meaning |
 | ------ | ---- | ------- |
 | 401 | `AUTH.INVALID_REFRESH_TOKEN` | Refresh token is invalid, expired, reused, or revoked |
+| 403 | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Refresh token role is no longer assigned to the account |
 
 ### `POST /api/v1/auth/logout`
 

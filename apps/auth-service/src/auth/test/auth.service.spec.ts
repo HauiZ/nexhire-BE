@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   HttpException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -376,9 +377,17 @@ describe('AuthService', () => {
     const result = await service.login({
       email: 'candidate@nexhire.vn',
       password: 'StrongPassword123!',
+      role: UserRole.CANDIDATE,
     });
 
     expect(bcrypt.compare).toHaveBeenCalledWith('StrongPassword123!', 'hashed-password');
+    expect(userRoleRepo.findOne).toHaveBeenCalledWith({
+      where: {
+        userId: 'user-1',
+        role: { name: UserRole.CANDIDATE },
+      },
+      relations: { role: true },
+    });
     expect(manager.update).toHaveBeenNthCalledWith(1, UserCredential, 'credential-1', {
       failedLoginAttempts: 0,
       lockedUntil: null,
@@ -393,6 +402,48 @@ describe('AuthService', () => {
         refreshToken: 'refresh-token',
       }),
     );
+  });
+
+  it('rejects login when requested role is not assigned to user', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Van A',
+      phone: '0987654321',
+      emailVerified: false,
+    } as User);
+    (credentialRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'credential-1',
+      userId: 'user-1',
+      passwordHash: 'hashed-password',
+      failedLoginAttempts: 0,
+      lockedUntil: null,
+    } as UserCredential);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+    (userRoleRepo.findOne as jest.Mock).mockResolvedValue(null);
+
+    const manager = {
+      update: jest.fn(),
+    };
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<unknown>) => callback(manager),
+    );
+
+    const loginPromise = service.login({
+      email: 'candidate@nexhire.vn',
+      password: 'StrongPassword123!',
+      role: UserRole.RECRUITER,
+    });
+
+    await expect(loginPromise).rejects.toBeInstanceOf(ForbiddenException);
+    await expect(loginPromise).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.AUTH.LOGIN_ROLE_NOT_ALLOWED,
+      }),
+    });
+    expect(manager.update).not.toHaveBeenCalled();
+    expect(jwtService.signAsync).not.toHaveBeenCalled();
+    expect(tokenService.storeRefreshToken).not.toHaveBeenCalled();
   });
 
   it('rejects login with invalid password and increments failed attempts', async () => {
@@ -413,6 +464,7 @@ describe('AuthService', () => {
       service.login({
         email: 'candidate@nexhire.vn',
         password: 'WrongPassword!',
+        role: UserRole.CANDIDATE,
       }),
     ).rejects.toBeInstanceOf(UnauthorizedException);
     expect(credentialRepo.update).toHaveBeenCalledWith('credential-1', {
@@ -438,6 +490,7 @@ describe('AuthService', () => {
       service.login({
         email: 'candidate@nexhire.vn',
         password: 'StrongPassword123!',
+        role: UserRole.CANDIDATE,
       }),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
@@ -847,6 +900,13 @@ describe('AuthService', () => {
       refreshToken: 'old-refresh-token',
       tokenVersion: 0,
     });
+    expect(userRoleRepo.findOne).toHaveBeenCalledWith({
+      where: {
+        userId: 'user-1',
+        role: { name: UserRole.CANDIDATE },
+      },
+      relations: { role: true },
+    });
     expect(tokenService.revokeRefreshToken).not.toHaveBeenCalled();
     expect(tokenService.storeRefreshToken).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -861,6 +921,7 @@ describe('AuthService', () => {
         refreshToken: 'new-refresh-token',
       }),
     );
+    expect(result.user.role).toBe(UserRole.CANDIDATE);
   });
 
   it('rejects refresh when token is not found in Redis', async () => {

@@ -156,6 +156,7 @@ async function registerDuplicate(): Promise<void> {
       phone: '0987654321',
       email: TEST_EMAIL,
       password: TEST_PASSWORD,
+      role: 'CANDIDATE',
     },
   });
 
@@ -168,6 +169,7 @@ async function login(password = TEST_PASSWORD, expectedStatus = 200): Promise<Au
     body: {
       email: TEST_EMAIL,
       password,
+      role: 'CANDIDATE',
     },
   });
 
