@@ -18,7 +18,7 @@ import { CandidateSkill } from '../entities/candidate-skill.entity';
 import { DocumentClientService } from '../../document-client/document-client.service';
 import { AuthClientService } from '../auth-client.service';
 
-type MockRepo<T> = {
+type MockRepo = {
   create: jest.Mock;
   find: jest.Mock;
   findOne: jest.Mock;
@@ -36,9 +36,9 @@ type MockManager = {
   update: jest.Mock;
 };
 
-function createRepoMock<T>(): MockRepo<T> {
+function createRepoMock(): MockRepo {
   return {
-    create: jest.fn((entity: T) => entity),
+    create: jest.fn((entity) => entity),
     find: jest.fn().mockResolvedValue([]),
     findOne: jest.fn(),
     save: jest.fn((entity: T) => Promise.resolve(entity)),
