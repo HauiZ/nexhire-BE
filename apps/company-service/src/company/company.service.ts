@@ -8,7 +8,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CompanyStatus } from '@nexhire/shared';
+import { ERROR_CODES, CompanyStatus } from '@nexhire/shared';
 
 import { Company } from './entities/company.entity';
 import { CreateCompanyDto } from './dto/create-company.dto';

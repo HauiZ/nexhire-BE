@@ -60,7 +60,10 @@ describe('TokenService', () => {
     redis.multi.mockReturnValue({
       get: jest.fn().mockReturnThis(),
       del: jest.fn().mockReturnThis(),
-      exec: jest.fn().mockResolvedValue([[null, storedValue], [null, 1]]),
+      exec: jest.fn().mockResolvedValue([
+        [null, storedValue],
+        [null, 1],
+      ]),
     });
 
     const result = await service.consumeRefreshToken({
@@ -79,7 +82,10 @@ describe('TokenService', () => {
     redis.multi.mockReturnValue({
       get: jest.fn().mockReturnThis(),
       del: jest.fn().mockReturnThis(),
-      exec: jest.fn().mockResolvedValue([[null, '{bad-json'], [null, 1]]),
+      exec: jest.fn().mockResolvedValue([
+        [null, '{bad-json'],
+        [null, 1],
+      ]),
     });
 
     await expect(

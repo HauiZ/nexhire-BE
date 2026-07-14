@@ -54,10 +54,7 @@ function buildSuccessSchema(model: Type<unknown>, options: ApiSuccessResponseOpt
   return schema;
 }
 
-function buildErrorResponseOptions(
-  status: number,
-  description: string,
-): ApiResponseOptions {
+function buildErrorResponseOptions(status: number, description: string): ApiResponseOptions {
   return {
     status,
     description,
@@ -67,10 +64,7 @@ function buildErrorResponseOptions(
   };
 }
 
-export function ApiSuccessResponse(
-  model: Type<unknown>,
-  options: ApiSuccessResponseOptions = {},
-) {
+export function ApiSuccessResponse(model: Type<unknown>, options: ApiSuccessResponseOptions = {}) {
   const status = options.status ?? 200;
   const responseDecorator =
     status === 201

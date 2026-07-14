@@ -18,4 +18,3 @@ export class HealthController {
     return this.health.check([() => this.db.pingCheck('database')]);
   }
 }
-

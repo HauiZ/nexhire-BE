@@ -6,7 +6,7 @@ export class CompanyMapper {
     return {
       id: company.id,
       name: company.name,
-      // TypeORM có thể trả ra null cho các trường nullable, 
+      // TypeORM có thể trả ra null cho các trường nullable,
       // ta dùng toán tử ?? để ép về undefined cho chuẩn DTO
       logo: company.logo ?? undefined,
       description: company.description ?? undefined,
