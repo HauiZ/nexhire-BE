@@ -2,12 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  buildTypeOrmOptions,
-  databaseConfigFor,
-  redisConfig,
-  storageConfig,
-} from '@nexhire/infra';
+import { buildTypeOrmOptions, databaseConfigFor, redisConfig, storageConfig } from '@nexhire/infra';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { documentStorageServiceConfig } from './config/document-storage-service.config';
 import { validationSchema } from './config/env.validation';

@@ -14,7 +14,9 @@ export class GeminiClient {
   private readonly modelName: string;
 
   constructor(private readonly config: ConfigService) {
-    this.client = new GoogleGenerativeAI(this.config.get<string>('cvParsingService.gemini.apiKey') as string);
+    this.client = new GoogleGenerativeAI(
+      this.config.get<string>('cvParsingService.gemini.apiKey') as string,
+    );
     this.modelName = this.config.get<string>('cvParsingService.gemini.model') as string;
   }
 

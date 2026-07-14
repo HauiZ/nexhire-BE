@@ -12,7 +12,11 @@ import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [databaseConfigFor('MATCHING_SERVICE'), redisConfig, matchingServiceConfig], validationSchema }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [databaseConfigFor('MATCHING_SERVICE'), redisConfig, matchingServiceConfig],
+      validationSchema,
+    }),
     TypeOrmModule.forRootAsync({ inject: [ConfigService], useFactory: buildTypeOrmOptions() }),
     HttpModule,
     HealthModule,
