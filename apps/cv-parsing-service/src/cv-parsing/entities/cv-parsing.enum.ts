@@ -1,0 +1,17 @@
+export enum CvParseProvider {
+  SKIMA = 'SKIMA',
+  GEMINI = 'GEMINI',
+}
+
+export enum CvParseRequestStatus {
+  QUEUED = 'QUEUED',
+  PROCESSING = 'PROCESSING',
+  SUCCEEDED = 'SUCCEEDED',
+  FAILED = 'FAILED',
+}
+
+export enum CvParseContext {
+  PROFILE_UPDATE = 'PROFILE_UPDATE',
+  MATCHING_APPLICATION = 'MATCHING_APPLICATION',
+  MANUAL_REVIEW = 'MANUAL_REVIEW',
+}

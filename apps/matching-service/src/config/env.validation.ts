@@ -12,4 +12,8 @@ export const validationSchema = Joi.object({
   REDIS_PORT: Joi.number().default(6379),
   GEMINI_API_KEY: Joi.string().required(),
   GEMINI_MODEL: Joi.string().default('gemini-1.5-flash'),
+  SKIMA_API_KEY: Joi.string().allow('').optional(),
+  SKIMA_BASE_URL: Joi.string().uri().default('https://api.skima.ai'),
+  SKIMA_TIMEOUT_MS: Joi.number().default(30000),
+  SKIMA_PROVIDER_VERSION: Joi.string().allow('').optional(),
 });

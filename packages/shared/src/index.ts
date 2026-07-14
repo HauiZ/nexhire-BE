@@ -11,6 +11,8 @@ export * from './constants/error-codes';
 
 // ── interfaces ──
 export * from './interfaces/auth-user.interface';
+export * from './interfaces/parsed-resume.interface';
+export * from './interfaces/match-result-payload.interface';
 
 // ── dto ──
 export * from './dto/pagination-query.dto';
