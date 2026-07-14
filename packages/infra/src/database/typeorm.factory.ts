@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { NexHireNamingStrategy } from './naming.strategy';
 
 /**
  * Builds TypeORM module options for a service. Each service connects to its
@@ -17,6 +18,7 @@ export function buildTypeOrmOptions() {
     password: config.get<string>('db.pass'),
     database: config.get<string>('db.name'),
     autoLoadEntities: true,
+    namingStrategy: new NexHireNamingStrategy(),
     synchronize: false,
     logging: config.get<string>('NODE_ENV') === 'development' ? ['error', 'warn'] : ['error'],
   });
@@ -37,6 +39,7 @@ export function buildDataSourceOptions(rootDir: string, prefix: string) {
     database: process.env[`${prefix}_DB_NAME`],
     entities: [`${rootDir}/src/**/*.entity.ts`],
     migrations: [`${rootDir}/src/migrations/*.ts`],
+    namingStrategy: new NexHireNamingStrategy(),
     synchronize: false,
   };
 }

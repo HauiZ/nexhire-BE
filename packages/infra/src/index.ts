@@ -3,6 +3,7 @@ export * from './config/infra.config';
 
 // ── database (persistence, DB-per-service) ──
 export * from './database/base.entity';
+export * from './database/naming.strategy';
 export * from './database/typeorm.factory';
 
 // ── redis (cache / rate limit / token store) ──

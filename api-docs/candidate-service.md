@@ -1,6 +1,7 @@
 # Candidate Service API Docs
 
 Base path through gateway:
+
 - `/api/v1/candidates`
 - `/api/v1/cvs`
 - `/api/v1/saved-jobs`
@@ -23,14 +24,15 @@ Candidate-service is being designed around:
 Summary: Get the current candidate profile aggregate.
 
 Auth:
+
 - Required
 - Roles: `CANDIDATE`
 
 Headers:
 
-| Header | Required | Note |
-| ------ | -------- | ---- |
-| `Authorization: Bearer <accessToken>` | Yes | Sent by FE to gateway |
+| Header                                | Required | Note                  |
+| ------------------------------------- | -------- | --------------------- |
+| `Authorization: Bearer <accessToken>` | Yes      | Sent by FE to gateway |
 
 Success response:
 
@@ -92,94 +94,137 @@ Success response:
         "source": "MANUAL"
       }
     ],
+    "certifications": [
+      {
+        "id": "e12f44a5-5b0e-4fcf-88bb-d8f7168b54ed",
+        "name": "AWS Certified Solutions Architect - Associate",
+        "issuer": "Amazon Web Services",
+        "credentialUrl": "https://www.credly.com/badges/example",
+        "issuedYear": 2025,
+        "description": null,
+        "source": "MANUAL"
+      }
+    ],
+    "projects": [
+      {
+        "id": "05c5a1f7-9146-4d72-aea7-52712aa91062",
+        "name": "NexHire ATS",
+        "description": "Built candidate profile and CV workflow.",
+        "technologies": ["NestJS", "PostgreSQL"],
+        "projectUrl": "https://nexhire.example.com",
+        "source": "MANUAL"
+      }
+    ],
     "defaultCv": null,
     "cvs": [],
-    "completionPercent": 70
+    "completionPercent": 100
   }
 }
 ```
 
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 401 | unauthorized | Missing/invalid access token |
-| 403 | forbidden | User role is not allowed |
+| Status | Code         | Meaning                      |
+| ------ | ------------ | ---------------------------- |
+| 401    | unauthorized | Missing/invalid access token |
+| 403    | forbidden    | User role is not allowed     |
 
 ### `PATCH /api/v1/candidates/me`
 
 Summary: Update the current candidate profile aggregate. Arrays in the request replace the corresponding aggregate section.
 
 Auth:
+
 - Required
 - Roles: `CANDIDATE`
 
 Headers:
 
-| Header | Required | Note |
-| ------ | -------- | ---- |
-| `Authorization: Bearer <accessToken>` | Yes | Sent by FE to gateway |
+| Header                                | Required | Note                  |
+| ------------------------------------- | -------- | --------------------- |
+| `Authorization: Bearer <accessToken>` | Yes      | Sent by FE to gateway |
 
 Request body:
 
 Top-level fields:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `profile` | object | No | Omitted means keep current profile fields unchanged |
-| `skills` | array | No | Omitted means keep current skills unchanged; empty array clears skills |
-| `experiences` | array | No | Omitted means keep current experiences unchanged; empty array clears experiences |
-| `educations` | array | No | Omitted means keep current educations unchanged; empty array clears educations |
+| Field            | Type   | Required | Note                                                                                   |
+| ---------------- | ------ | -------- | -------------------------------------------------------------------------------------- |
+| `profile`        | object | No       | Omitted means keep current profile fields unchanged                                    |
+| `skills`         | array  | No       | Omitted means keep current skills unchanged; empty array clears skills                 |
+| `experiences`    | array  | No       | Omitted means keep current experiences unchanged; empty array clears experiences       |
+| `educations`     | array  | No       | Omitted means keep current educations unchanged; empty array clears educations         |
+| `certifications` | array  | No       | Omitted means keep current certifications unchanged; empty array clears certifications |
+| `projects`       | array  | No       | Omitted means keep current projects unchanged; empty array clears projects             |
 
 `profile` fields:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `fullName` | string | No | Max 255; blank string is stored as `null` |
-| `phone` | string | No | Max 30; blank string is stored as `null` |
-| `contactEmail` | string | No | Valid email, max 255; blank string is stored as `null` |
-| `headline` | string | No | Max 255; blank string is stored as `null` |
-| `summary` | string | No | Max 2000; blank string is stored as `null` |
-| `location` | string | No | Max 255; blank string is stored as `null` |
-| `portfolioUrl` | string | No | Full URL with protocol; blank string is stored as `null` |
-| `linkedinUrl` | string | No | Full URL with protocol; blank string is stored as `null` |
-| `openToWork` | boolean | No | Candidate availability flag |
-| `visibility` | enum | No | `PUBLIC`, `PRIVATE` |
-| `avatarDocumentId` | uuid | No | Document id for avatar; blank string is stored as `null` |
+| Field              | Type    | Required | Note                                                     |
+| ------------------ | ------- | -------- | -------------------------------------------------------- |
+| `fullName`         | string  | No       | Max 255; blank string is stored as `null`                |
+| `phone`            | string  | No       | Max 30; blank string is stored as `null`                 |
+| `contactEmail`     | string  | No       | Valid email, max 255; blank string is stored as `null`   |
+| `headline`         | string  | No       | Max 255; blank string is stored as `null`                |
+| `summary`          | string  | No       | Max 2000; blank string is stored as `null`               |
+| `location`         | string  | No       | Max 255; blank string is stored as `null`                |
+| `portfolioUrl`     | string  | No       | Full URL with protocol; blank string is stored as `null` |
+| `linkedinUrl`      | string  | No       | Full URL with protocol; blank string is stored as `null` |
+| `openToWork`       | boolean | No       | Candidate availability flag                              |
+| `visibility`       | enum    | No       | `PUBLIC`, `PRIVATE`                                      |
+| `avatarDocumentId` | uuid    | No       | Document id for avatar; blank string is stored as `null` |
 
 `skills[]` fields:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `name` | string | Yes | Max 120, unique after normalization |
-| `level` | enum | No | `BEGINNER`, `INTERMEDIATE`, `ADVANCED`, `EXPERT` |
-| `yearsOfExperience` | number | No | 0-60, max 1 decimal place |
+| Field               | Type   | Required | Note                                             |
+| ------------------- | ------ | -------- | ------------------------------------------------ |
+| `name`              | string | Yes      | Max 120, unique after normalization              |
+| `level`             | enum   | No       | `BEGINNER`, `INTERMEDIATE`, `ADVANCED`, `EXPERT` |
+| `yearsOfExperience` | number | No       | 0-60, max 1 decimal place                        |
 
 `experiences[]` fields:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `companyName` | string | Yes | Max 255 |
-| `position` | string | Yes | Max 255 |
-| `employmentType` | enum | No | `FULL_TIME`, `PART_TIME`, `CONTRACT`, `INTERNSHIP`, `FREELANCE` |
-| `startMonth` | number | No | 1-12; requires `startYear` if present |
-| `startYear` | number | No | 1900-2100 |
-| `endMonth` | number | No | 1-12; requires `endYear` if present |
-| `endYear` | number | No | 1900-2100 |
-| `isCurrent` | boolean | No | If true, end date is stored as `null` |
-| `description` | string | No | Max 2000 |
+| Field            | Type    | Required | Note                                                            |
+| ---------------- | ------- | -------- | --------------------------------------------------------------- |
+| `companyName`    | string  | Yes      | Max 255                                                         |
+| `position`       | string  | Yes      | Max 255                                                         |
+| `employmentType` | enum    | No       | `FULL_TIME`, `PART_TIME`, `CONTRACT`, `INTERNSHIP`, `FREELANCE` |
+| `startMonth`     | number  | No       | 1-12; requires `startYear` if present                           |
+| `startYear`      | number  | No       | 1900-2100                                                       |
+| `endMonth`       | number  | No       | 1-12; requires `endYear` if present                             |
+| `endYear`        | number  | No       | 1900-2100                                                       |
+| `isCurrent`      | boolean | No       | If true, end date is stored as `null`                           |
+| `description`    | string  | No       | Max 2000                                                        |
 
 `educations[]` fields:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `schoolName` | string | Yes | Max 255 |
-| `degree` | string | No | Max 255 |
-| `fieldOfStudy` | string | No | Max 255 |
-| `startYear` | number | No | 1900-2100 |
-| `endYear` | number | No | 1900-2100 |
-| `isCurrent` | boolean | No | If true, `endYear` is stored as `null` |
-| `description` | string | No | Max 2000 |
+| Field          | Type    | Required | Note                                   |
+| -------------- | ------- | -------- | -------------------------------------- |
+| `schoolName`   | string  | Yes      | Max 255                                |
+| `degree`       | string  | No       | Max 255                                |
+| `fieldOfStudy` | string  | No       | Max 255                                |
+| `startYear`    | number  | No       | 1900-2100                              |
+| `endYear`      | number  | No       | 1900-2100                              |
+| `isCurrent`    | boolean | No       | If true, `endYear` is stored as `null` |
+| `description`  | string  | No       | Max 2000                               |
+
+`certifications[]` fields:
+
+| Field           | Type   | Required | Note                   |
+| --------------- | ------ | -------- | ---------------------- |
+| `name`          | string | Yes      | Max 255                |
+| `issuer`        | string | No       | Max 255                |
+| `credentialUrl` | string | No       | Full URL with protocol |
+| `issuedYear`    | number | No       | 1900-2100              |
+| `description`   | string | No       | Max 2000               |
+
+`projects[]` fields:
+
+| Field          | Type     | Required | Note                                                                      |
+| -------------- | -------- | -------- | ------------------------------------------------------------------------- |
+| `name`         | string   | Yes      | Max 255                                                                   |
+| `description`  | string   | No       | Max 2000                                                                  |
+| `technologies` | string[] | No       | Max 30 items; each item max 80 chars; duplicate names are normalized away |
+| `projectUrl`   | string   | No       | Full URL with protocol                                                    |
 
 ```json
 {
@@ -223,6 +268,22 @@ Top-level fields:
       "endYear": 2019,
       "isCurrent": false
     }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect - Associate",
+      "issuer": "Amazon Web Services",
+      "credentialUrl": "https://www.credly.com/badges/example",
+      "issuedYear": 2025
+    }
+  ],
+  "projects": [
+    {
+      "name": "NexHire ATS",
+      "description": "Built candidate profile and CV workflow.",
+      "technologies": ["NestJS", "PostgreSQL"],
+      "projectUrl": "https://nexhire.example.com"
+    }
   ]
 }
 ```
@@ -231,18 +292,18 @@ Success response: same shape as `GET /api/v1/candidates/me`.
 
 Allowed enums:
 
-| Field | Values |
-| ----- | ------ |
-| `profile.visibility` | `PUBLIC`, `PRIVATE` |
-| `skills[].level` | `BEGINNER`, `INTERMEDIATE`, `ADVANCED`, `EXPERT` |
+| Field                          | Values                                                          |
+| ------------------------------ | --------------------------------------------------------------- |
+| `profile.visibility`           | `PUBLIC`, `PRIVATE`                                             |
+| `skills[].level`               | `BEGINNER`, `INTERMEDIATE`, `ADVANCED`, `EXPERT`                |
 | `experiences[].employmentType` | `FULL_TIME`, `PART_TIME`, `CONTRACT`, `INTERNSHIP`, `FREELANCE` |
 
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 400 | validation error | Invalid date/year/month or profile aggregate |
-| 401 | unauthorized | Missing/invalid access token |
-| 403 | forbidden | User role is not allowed |
-| 409 | conflict | Duplicate skill/profile conflict |
-| 422 | validation error | Invalid request body |
+| Status | Code             | Meaning                                      |
+| ------ | ---------------- | -------------------------------------------- |
+| 400    | validation error | Invalid date/year/month or profile aggregate |
+| 401    | unauthorized     | Missing/invalid access token                 |
+| 403    | forbidden        | User role is not allowed                     |
+| 409    | conflict         | Duplicate skill/profile conflict             |
+| 422    | validation error | Invalid request body                         |

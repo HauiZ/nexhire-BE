@@ -2,6 +2,7 @@ import { ERROR_CODES } from '@nexhire/shared';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 
 import { CandidateService } from '../candidate.service';
+import { CandidateCertification } from '../entities/candidate-certification.entity';
 import { CandidateEducation } from '../entities/candidate-education.entity';
 import { CandidateExperience } from '../entities/candidate-experience.entity';
 import {
@@ -10,6 +11,7 @@ import {
   CandidateSkillLevel,
 } from '../entities/candidate.enum';
 import { CandidateProfile } from '../entities/candidate-profile.entity';
+import { CandidateProject } from '../entities/candidate-project.entity';
 import { CandidateSkill } from '../entities/candidate-skill.entity';
 
 type MockRepo<T> = {
@@ -57,6 +59,9 @@ function createProfile(overrides: Partial<CandidateProfile> = {}): CandidateProf
     skills: [],
     educations: [],
     experiences: [],
+    certifications: [],
+    projects: [],
+    cvs: [],
     ...overrides,
   };
 }
@@ -79,6 +84,8 @@ describe('CandidateService', () => {
   let skillRepo: MockRepo<CandidateSkill>;
   let educationRepo: MockRepo<CandidateEducation>;
   let experienceRepo: MockRepo<CandidateExperience>;
+  let certificationRepo: MockRepo<CandidateCertification>;
+  let projectRepo: MockRepo<CandidateProject>;
 
   beforeEach(() => {
     dataSource = {
@@ -88,6 +95,8 @@ describe('CandidateService', () => {
     skillRepo = createRepoMock<CandidateSkill>();
     educationRepo = createRepoMock<CandidateEducation>();
     experienceRepo = createRepoMock<CandidateExperience>();
+    certificationRepo = createRepoMock<CandidateCertification>();
+    projectRepo = createRepoMock<CandidateProject>();
 
     service = new CandidateService(
       dataSource as unknown as DataSource,
@@ -95,6 +104,8 @@ describe('CandidateService', () => {
       skillRepo as unknown as Repository<CandidateSkill>,
       educationRepo as unknown as Repository<CandidateEducation>,
       experienceRepo as unknown as Repository<CandidateExperience>,
+      certificationRepo as unknown as Repository<CandidateCertification>,
+      projectRepo as unknown as Repository<CandidateProject>,
     );
   });
 
@@ -122,6 +133,8 @@ describe('CandidateService', () => {
         skills: [],
         experiences: [],
         educations: [],
+        certifications: [],
+        projects: [],
         defaultCv: null,
         cvs: [],
         completionPercent: 0,
@@ -193,6 +206,33 @@ describe('CandidateService', () => {
         updatedAt: new Date(),
       } as CandidateEducation,
     ]);
+    certificationRepo.find.mockResolvedValue([
+      {
+        id: 'certification-1',
+        candidateId: 'candidate-1',
+        name: 'AWS Certified Solutions Architect - Associate',
+        issuer: 'Amazon Web Services',
+        credentialUrl: 'https://www.credly.com/badges/example',
+        issuedYear: 2025,
+        description: null,
+        source: CandidateDataSource.MANUAL,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as CandidateCertification,
+    ]);
+    projectRepo.find.mockResolvedValue([
+      {
+        id: 'project-1',
+        candidateId: 'candidate-1',
+        name: 'NexHire ATS',
+        description: 'Built candidate profile APIs',
+        technologies: ['NestJS', 'PostgreSQL'],
+        projectUrl: 'https://nexhire.example.com',
+        source: CandidateDataSource.MANUAL,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as CandidateProject,
+    ]);
 
     const result = await service.updateMe('user-1', {
       profile: {
@@ -229,6 +269,22 @@ describe('CandidateService', () => {
           endYear: 2019,
         },
       ],
+      certifications: [
+        {
+          name: 'AWS Certified Solutions Architect - Associate',
+          issuer: 'Amazon Web Services',
+          credentialUrl: 'https://www.credly.com/badges/example',
+          issuedYear: 2025,
+        },
+      ],
+      projects: [
+        {
+          name: 'NexHire ATS',
+          description: 'Built candidate profile APIs',
+          technologies: [' NestJS ', 'PostgreSQL', 'nestjs'],
+          projectUrl: 'https://nexhire.example.com',
+        },
+      ],
     });
 
     expect(manager.update).toHaveBeenCalledWith(
@@ -248,12 +304,27 @@ describe('CandidateService', () => {
     expect(manager.delete).toHaveBeenCalledWith(CandidateEducation, {
       candidateId: 'candidate-1',
     });
+    expect(manager.delete).toHaveBeenCalledWith(CandidateCertification, {
+      candidateId: 'candidate-1',
+    });
+    expect(manager.delete).toHaveBeenCalledWith(CandidateProject, {
+      candidateId: 'candidate-1',
+    });
     expect(manager.save).toHaveBeenCalledWith(
       CandidateSkill,
       expect.arrayContaining([
         expect.objectContaining({
           name: 'TypeScript',
           normalizedName: 'typescript',
+        }),
+      ]),
+    );
+    expect(manager.save).toHaveBeenCalledWith(
+      CandidateProject,
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: 'NexHire ATS',
+          technologies: ['NestJS', 'PostgreSQL'],
         }),
       ]),
     );
@@ -280,6 +351,12 @@ describe('CandidateService', () => {
       candidateId: 'candidate-1',
     });
     expect(manager.delete).not.toHaveBeenCalledWith(CandidateExperience, {
+      candidateId: 'candidate-1',
+    });
+    expect(manager.delete).not.toHaveBeenCalledWith(CandidateCertification, {
+      candidateId: 'candidate-1',
+    });
+    expect(manager.delete).not.toHaveBeenCalledWith(CandidateProject, {
       candidateId: 'candidate-1',
     });
   });

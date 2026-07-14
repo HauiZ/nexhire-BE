@@ -8,9 +8,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { CandidateCertification } from './candidate-certification.entity';
 import { CandidateEducation } from './candidate-education.entity';
+import { CandidateCv } from './candidate-cv.entity';
 import { CandidateExperience } from './candidate-experience.entity';
 import { CandidateProfileVisibility } from './candidate.enum';
+import { CandidateProject } from './candidate-project.entity';
 import { CandidateSkill } from './candidate-skill.entity';
 
 @Entity('candidate_profiles')
@@ -80,4 +83,13 @@ export class CandidateProfile {
 
   @OneToMany(() => CandidateExperience, (experience) => experience.candidate)
   experiences: CandidateExperience[];
+
+  @OneToMany(() => CandidateCertification, (certification) => certification.candidate)
+  certifications: CandidateCertification[];
+
+  @OneToMany(() => CandidateProject, (project) => project.candidate)
+  projects: CandidateProject[];
+
+  @OneToMany(() => CandidateCv, (cv) => cv.candidate)
+  cvs: CandidateCv[];
 }

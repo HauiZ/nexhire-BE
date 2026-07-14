@@ -215,6 +215,66 @@ export class CandidateExperienceInputDto {
   description?: string;
 }
 
+export class CandidateCertificationInputDto {
+  @ApiProperty({ example: 'AWS Certified Solutions Architect - Associate' })
+  @IsString()
+  @MaxLength(255)
+  name: string;
+
+  @ApiPropertyOptional({ example: 'Amazon Web Services' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  issuer?: string;
+
+  @ApiPropertyOptional({ example: 'https://www.credly.com/badges/example' })
+  @IsOptional()
+  @IsUrl({ require_protocol: true })
+  @MaxLength(500)
+  credentialUrl?: string;
+
+  @ApiPropertyOptional({ example: 2025 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1900)
+  @Max(2100)
+  issuedYear?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  description?: string;
+}
+
+export class CandidateProjectInputDto {
+  @ApiProperty({ example: 'NexHire ATS' })
+  @IsString()
+  @MaxLength(255)
+  name: string;
+
+  @ApiPropertyOptional({ example: 'Built candidate profile and CV workflow.' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  description?: string;
+
+  @ApiPropertyOptional({ type: [String], example: ['NestJS', 'PostgreSQL'] })
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(30)
+  @IsString({ each: true })
+  @MaxLength(80, { each: true })
+  technologies?: string[];
+
+  @ApiPropertyOptional({ example: 'https://nexhire.example.com' })
+  @IsOptional()
+  @IsUrl({ require_protocol: true })
+  @MaxLength(500)
+  projectUrl?: string;
+}
+
 export class UpdateCandidateProfileDto {
   @ApiPropertyOptional({ type: UpdateCandidateProfileFieldsDto })
   @IsOptional()
@@ -245,4 +305,20 @@ export class UpdateCandidateProfileDto {
   @ValidateNested({ each: true })
   @Type(() => CandidateEducationInputDto)
   educations?: CandidateEducationInputDto[];
+
+  @ApiPropertyOptional({ type: [CandidateCertificationInputDto] })
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(50)
+  @ValidateNested({ each: true })
+  @Type(() => CandidateCertificationInputDto)
+  certifications?: CandidateCertificationInputDto[];
+
+  @ApiPropertyOptional({ type: [CandidateProjectInputDto] })
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(50)
+  @ValidateNested({ each: true })
+  @Type(() => CandidateProjectInputDto)
+  projects?: CandidateProjectInputDto[];
 }

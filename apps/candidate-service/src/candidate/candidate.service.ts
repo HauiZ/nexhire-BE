@@ -3,23 +3,29 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ERROR_CODES } from '@nexhire/shared';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 import {
+  CandidateCertificationInputDto,
   CandidateEducationInputDto,
   CandidateExperienceInputDto,
+  CandidateProjectInputDto,
   CandidateSkillInputDto,
   UpdateCandidateProfileDto,
   UpdateCandidateProfileFieldsDto,
 } from './dto/update-candidate-profile.dto';
 import {
+  CandidateCertificationResponseDto,
   CandidateEducationResponseDto,
   CandidateExperienceResponseDto,
   CandidateProfileFieldsResponseDto,
   CandidateProfileResponseDto,
+  CandidateProjectResponseDto,
   CandidateSkillResponseDto,
 } from './dto/candidate-profile-response.dto';
+import { CandidateCertification } from './entities/candidate-certification.entity';
 import { CandidateEducation } from './entities/candidate-education.entity';
 import { CandidateExperience } from './entities/candidate-experience.entity';
 import { CandidateDataSource, CandidateProfileVisibility } from './entities/candidate.enum';
 import { CandidateProfile } from './entities/candidate-profile.entity';
+import { CandidateProject } from './entities/candidate-project.entity';
 import { CandidateSkill } from './entities/candidate-skill.entity';
 
 @Injectable()
@@ -34,6 +40,10 @@ export class CandidateService {
     private readonly educationRepo: Repository<CandidateEducation>,
     @InjectRepository(CandidateExperience)
     private readonly experienceRepo: Repository<CandidateExperience>,
+    @InjectRepository(CandidateCertification)
+    private readonly certificationRepo: Repository<CandidateCertification>,
+    @InjectRepository(CandidateProject)
+    private readonly projectRepo: Repository<CandidateProject>,
   ) {}
 
   async getMe(userId: string): Promise<CandidateProfileResponseDto> {
@@ -68,6 +78,14 @@ export class CandidateService {
         await this.replaceExperiences(manager, currentProfile.id, dto.experiences);
       }
 
+      if (dto.certifications !== undefined) {
+        await this.replaceCertifications(manager, currentProfile.id, dto.certifications);
+      }
+
+      if (dto.projects !== undefined) {
+        await this.replaceProjects(manager, currentProfile.id, dto.projects);
+      }
+
       return manager.findOneOrFail(CandidateProfile, {
         where: { id: currentProfile.id },
       });
@@ -97,12 +115,14 @@ export class CandidateService {
         linkedinUrl: null,
         openToWork: true,
         visibility: CandidateProfileVisibility.PUBLIC,
+        certifications: [],
+        projects: [],
       }),
     );
   }
 
   private async buildAggregate(profile: CandidateProfile): Promise<CandidateProfileResponseDto> {
-    const [skills, experiences, educations] = await Promise.all([
+    const [skills, experiences, educations, certifications, projects] = await Promise.all([
       this.skillRepo.find({
         where: { candidateId: profile.id },
         order: { createdAt: 'ASC' },
@@ -115,6 +135,14 @@ export class CandidateService {
         where: { candidateId: profile.id },
         order: { startYear: 'DESC', createdAt: 'ASC' },
       }),
+      this.certificationRepo.find({
+        where: { candidateId: profile.id },
+        order: { issuedYear: 'DESC', createdAt: 'ASC' },
+      }),
+      this.projectRepo.find({
+        where: { candidateId: profile.id },
+        order: { createdAt: 'ASC' },
+      }),
     ]);
 
     return {
@@ -122,9 +150,18 @@ export class CandidateService {
       skills: skills.map((skill) => this.mapSkill(skill)),
       experiences: experiences.map((experience) => this.mapExperience(experience)),
       educations: educations.map((education) => this.mapEducation(education)),
+      certifications: certifications.map((certification) => this.mapCertification(certification)),
+      projects: projects.map((project) => this.mapProject(project)),
       defaultCv: null,
       cvs: [],
-      completionPercent: this.calculateCompletionPercent(profile, skills, experiences, educations),
+      completionPercent: this.calculateCompletionPercent(
+        profile,
+        skills,
+        experiences,
+        educations,
+        certifications,
+        projects,
+      ),
     };
   }
 
@@ -249,6 +286,57 @@ export class CandidateService {
     );
   }
 
+  private async replaceCertifications(
+    manager: EntityManager,
+    candidateId: string,
+    certifications: CandidateCertificationInputDto[],
+  ): Promise<void> {
+    await manager.delete(CandidateCertification, { candidateId });
+    if (certifications.length === 0) {
+      return;
+    }
+
+    await manager.save(
+      CandidateCertification,
+      certifications.map((certification) =>
+        manager.create(CandidateCertification, {
+          candidateId,
+          name: certification.name.trim(),
+          issuer: this.nullableString(certification.issuer),
+          credentialUrl: this.nullableString(certification.credentialUrl),
+          issuedYear: certification.issuedYear ?? null,
+          description: this.nullableString(certification.description),
+          source: CandidateDataSource.MANUAL,
+        }),
+      ),
+    );
+  }
+
+  private async replaceProjects(
+    manager: EntityManager,
+    candidateId: string,
+    projects: CandidateProjectInputDto[],
+  ): Promise<void> {
+    await manager.delete(CandidateProject, { candidateId });
+    if (projects.length === 0) {
+      return;
+    }
+
+    await manager.save(
+      CandidateProject,
+      projects.map((project) =>
+        manager.create(CandidateProject, {
+          candidateId,
+          name: project.name.trim(),
+          description: this.nullableString(project.description),
+          technologies: this.normalizeTechnologies(project.technologies ?? []),
+          projectUrl: this.nullableString(project.projectUrl),
+          source: CandidateDataSource.MANUAL,
+        }),
+      ),
+    );
+  }
+
   private assertEducationDateRange(education: CandidateEducationInputDto): void {
     if (education.isCurrent) {
       return;
@@ -302,6 +390,8 @@ export class CandidateService {
     skills: CandidateSkill[],
     experiences: CandidateExperience[],
     educations: CandidateEducation[],
+    certifications: CandidateCertification[],
+    projects: CandidateProject[],
   ): number {
     const checks = [
       profile.fullName,
@@ -314,6 +404,8 @@ export class CandidateService {
       skills.length > 0,
       experiences.length > 0,
       educations.length > 0,
+      certifications.length > 0,
+      projects.length > 0,
     ];
     const completed = checks.filter((value) => Boolean(value)).length;
     return Math.round((completed / checks.length) * 100);
@@ -379,6 +471,31 @@ export class CandidateService {
     };
   }
 
+  private mapCertification(
+    certification: CandidateCertification,
+  ): CandidateCertificationResponseDto {
+    return {
+      id: certification.id,
+      name: certification.name,
+      issuer: certification.issuer,
+      credentialUrl: certification.credentialUrl,
+      issuedYear: certification.issuedYear,
+      description: certification.description,
+      source: certification.source,
+    };
+  }
+
+  private mapProject(project: CandidateProject): CandidateProjectResponseDto {
+    return {
+      id: project.id,
+      name: project.name,
+      description: project.description,
+      technologies: project.technologies,
+      projectUrl: project.projectUrl,
+      source: project.source,
+    };
+  }
+
   private nullableString(value: string | undefined): string | null {
     if (value === undefined) {
       return null;
@@ -389,5 +506,20 @@ export class CandidateService {
 
   private normalizeSkillName(value: string): string {
     return value.trim().replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  private normalizeTechnologies(values: string[]): string[] {
+    const seen = new Set<string>();
+    const technologies: string[] = [];
+    for (const value of values) {
+      const normalized = value.trim().replace(/\s+/g, ' ');
+      const key = normalized.toLowerCase();
+      if (!normalized || seen.has(key)) {
+        continue;
+      }
+      seen.add(key);
+      technologies.push(normalized);
+    }
+    return technologies;
   }
 }

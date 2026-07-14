@@ -135,6 +135,49 @@ export class CandidateEducationResponseDto {
   source: CandidateDataSource;
 }
 
+export class CandidateCertificationResponseDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  name: string;
+
+  @ApiPropertyOptional()
+  issuer: string | null;
+
+  @ApiPropertyOptional()
+  credentialUrl: string | null;
+
+  @ApiPropertyOptional()
+  issuedYear: number | null;
+
+  @ApiPropertyOptional()
+  description: string | null;
+
+  @ApiProperty({ enum: CandidateDataSource })
+  source: CandidateDataSource;
+}
+
+export class CandidateProjectResponseDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  name: string;
+
+  @ApiPropertyOptional()
+  description: string | null;
+
+  @ApiProperty({ type: [String] })
+  technologies: string[];
+
+  @ApiPropertyOptional()
+  projectUrl: string | null;
+
+  @ApiProperty({ enum: CandidateDataSource })
+  source: CandidateDataSource;
+}
+
 export class CandidateProfileResponseDto {
   @ApiProperty({ type: CandidateProfileFieldsResponseDto })
   profile: CandidateProfileFieldsResponseDto;
@@ -147,6 +190,12 @@ export class CandidateProfileResponseDto {
 
   @ApiProperty({ type: [CandidateEducationResponseDto] })
   educations: CandidateEducationResponseDto[];
+
+  @ApiProperty({ type: [CandidateCertificationResponseDto] })
+  certifications: CandidateCertificationResponseDto[];
+
+  @ApiProperty({ type: [CandidateProjectResponseDto] })
+  projects: CandidateProjectResponseDto[];
 
   @ApiProperty({ type: 'object', nullable: true })
   defaultCv: Record<string, unknown> | null;

@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { UserStatus } from './auth.enum';
 import { EmailVerification } from './email-verification.entity';
+import { PasswordResetToken } from './password-reset-token.entity';
 import { UserCredential } from './user-credential.entity';
 import { UserRoleEntity } from './user-role.entity';
 
@@ -59,4 +60,7 @@ export class User {
 
   @OneToMany(() => EmailVerification, (verification) => verification.user)
   emailVerifications: EmailVerification[];
+
+  @OneToMany(() => PasswordResetToken, (token) => token.user)
+  passwordResetTokens: PasswordResetToken[];
 }

@@ -23,3 +23,10 @@ export enum CandidateEmploymentType {
   INTERNSHIP = 'INTERNSHIP',
   FREELANCE = 'FREELANCE',
 }
+
+export enum CandidateCvParseStatus {
+  NOT_PARSED = 'NOT_PARSED',
+  PARSING = 'PARSING',
+  PARSED = 'PARSED',
+  FAILED = 'FAILED',
+}
