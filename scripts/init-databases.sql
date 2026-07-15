@@ -101,6 +101,20 @@ ALTER SCHEMA public OWNER TO matching_service_user;
 GRANT USAGE, CREATE ON SCHEMA public TO matching_service_user;
 \connect postgres
 
+-- notification-service
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'notification_service_user') THEN
+    CREATE ROLE notification_service_user LOGIN PASSWORD 'notification_service_pass';
+  END IF;
+END $$;
+SELECT 'CREATE DATABASE notification_service_db OWNER notification_service_user'
+  WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'notification_service_db')\gexec
+ALTER DATABASE notification_service_db OWNER TO notification_service_user;
+\connect notification_service_db
+ALTER SCHEMA public OWNER TO notification_service_user;
+GRANT USAGE, CREATE ON SCHEMA public TO notification_service_user;
+\connect postgres
+
 -- document-storage-service
 DO $$ BEGIN
   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'document_storage_service_user') THEN

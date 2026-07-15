@@ -1,0 +1,15 @@
+export enum NotificationRecipientType {
+  USER = 'USER',
+  COMPANY = 'COMPANY',
+}
+
+export enum NotificationSenderType {
+  SYSTEM = 'SYSTEM',
+  CANDIDATE = 'CANDIDATE',
+  COMPANY = 'COMPANY',
+}
+
+export enum NotificationType {
+  APPLICATION_SUBMITTED = 'APPLICATION_SUBMITTED',
+  APPLICATION_STAGE_CHANGED = 'APPLICATION_STAGE_CHANGED',
+}

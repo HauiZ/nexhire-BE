@@ -1,0 +1,319 @@
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ApplicationStage, AuthUser, ERROR_CODES, UserRole } from '@nexhire/shared';
+import { Brackets, Repository } from 'typeorm';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { NotificationQueryDto } from './dto/notification-query.dto';
+import {
+  NotificationResponseDto,
+  UnreadNotificationCountDto,
+} from './dto/notification-response.dto';
+import { Notification } from './entities/notification.entity';
+import {
+  NotificationRecipientType,
+  NotificationSenderType,
+  NotificationType,
+} from './entities/notification.enum';
+
+export interface ApplicationSubmittedNotificationPayload {
+  applicationId: string;
+  jobId: string;
+  jobTitle?: string | null;
+  companyId: string;
+  companyName?: string | null;
+  companyLogoUrl?: string | null;
+  candidateId: string;
+  candidateUserId: string;
+  candidateFullName?: string | null;
+  candidateAvatarDocumentId?: string | null;
+  submittedAt?: string;
+}
+
+export interface ApplicationStageChangedNotificationPayload {
+  applicationId: string;
+  jobId: string;
+  jobTitle?: string | null;
+  companyId: string;
+  companyName?: string | null;
+  companyLogoUrl?: string | null;
+  candidateId: string;
+  candidateUserId: string;
+  candidateFullName?: string | null;
+  candidateAvatarDocumentId?: string | null;
+  previousStatus: ApplicationStage;
+  status: ApplicationStage;
+  note?: string | null;
+  changedAt?: string;
+}
+
+@Injectable()
+export class NotificationService {
+  constructor(
+    @InjectRepository(Notification)
+    private readonly notificationRepo: Repository<Notification>,
+  ) {}
+
+  async list(user: AuthUser, query: NotificationQueryDto) {
+    const qb = this.notificationRepo
+      .createQueryBuilder('notification')
+      .where(this.scopeWhere(user))
+      .orderBy('notification.createdAt', 'DESC')
+      .skip(query.skip)
+      .take(query.limit);
+
+    if (query.readStatus === 'READ') {
+      qb.andWhere('notification.readAt IS NOT NULL');
+    }
+    if (query.readStatus === 'UNREAD') {
+      qb.andWhere('notification.readAt IS NULL');
+    }
+
+    const [notifications, total] = await qb.getManyAndCount();
+    return {
+      data: notifications.map((notification) => this.mapNotification(notification)),
+      meta: {
+        page: query.page,
+        limit: query.limit,
+        total,
+        totalPages: Math.ceil(total / query.limit),
+      },
+    };
+  }
+
+  async unreadCount(user: AuthUser): Promise<UnreadNotificationCountDto> {
+    const count = await this.notificationRepo
+      .createQueryBuilder('notification')
+      .where(this.scopeWhere(user))
+      .andWhere('notification.readAt IS NULL')
+      .getCount();
+    return { count };
+  }
+
+  async markRead(user: AuthUser, id: string): Promise<NotificationResponseDto> {
+    const notification = await this.findScopedNotification(user, id);
+    notification.readAt = notification.readAt ?? new Date();
+    return this.mapNotification(await this.notificationRepo.save(notification));
+  }
+
+  async markAllRead(user: AuthUser): Promise<UnreadNotificationCountDto> {
+    const now = new Date();
+    const qb = this.notificationRepo
+      .createQueryBuilder()
+      .update(Notification)
+      .set({ readAt: now })
+      .where('read_at IS NULL');
+
+    if (user.role === UserRole.CANDIDATE) {
+      qb.andWhere('recipient_type = :recipientType', {
+        recipientType: NotificationRecipientType.USER,
+      }).andWhere('recipient_user_id = :userId', { userId: user.id });
+    } else if (user.role === UserRole.RECRUITER && user.companyId) {
+      qb.andWhere('recipient_type = :recipientType', {
+        recipientType: NotificationRecipientType.COMPANY,
+      }).andWhere('recipient_company_id = :companyId', { companyId: user.companyId });
+    } else {
+      throw this.forbidden();
+    }
+
+    const result = await qb.execute();
+    return { count: result.affected ?? 0 };
+  }
+
+  async createApplicationSubmittedNotifications(
+    payload: ApplicationSubmittedNotificationPayload,
+  ): Promise<void> {
+    const jobTitle = payload.jobTitle ?? 'một vị trí tuyển dụng';
+    const candidateName = payload.candidateFullName ?? 'Một ứng viên';
+    await this.insertNotifications([
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: payload.candidateUserId,
+        recipientCompanyId: null,
+        dedupeKey: `application-submitted:user:${payload.applicationId}`,
+        senderType: NotificationSenderType.COMPANY,
+        senderEntityId: payload.companyId,
+        senderName: payload.companyName ?? null,
+        senderAvatarDocumentId: null,
+        senderLogoUrl: payload.companyLogoUrl ?? null,
+        type: NotificationType.APPLICATION_SUBMITTED,
+        title: 'Ứng tuyển thành công',
+        body: `Hồ sơ của bạn đã được gửi tới ${payload.companyName ?? 'công ty'} cho ${jobTitle}.`,
+        data: this.applicationData(payload),
+        readAt: null,
+      }),
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.COMPANY,
+        recipientUserId: null,
+        recipientCompanyId: payload.companyId,
+        dedupeKey: `application-submitted:company:${payload.applicationId}`,
+        senderType: NotificationSenderType.CANDIDATE,
+        senderEntityId: payload.candidateId,
+        senderName: payload.candidateFullName ?? null,
+        senderAvatarDocumentId: payload.candidateAvatarDocumentId ?? null,
+        senderLogoUrl: null,
+        type: NotificationType.APPLICATION_SUBMITTED,
+        title: 'Có hồ sơ ứng tuyển mới',
+        body: `${candidateName} vừa ứng tuyển vào ${jobTitle}.`,
+        data: this.applicationData(payload),
+        readAt: null,
+      }),
+    ]);
+  }
+
+  async createApplicationStageChangedNotification(
+    payload: ApplicationStageChangedNotificationPayload,
+  ): Promise<void> {
+    const message = this.stageMessage(payload.status, payload.companyName);
+    if (!message) {
+      return;
+    }
+
+    await this.insertNotifications([
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: payload.candidateUserId,
+        recipientCompanyId: null,
+        dedupeKey: `application-stage:user:${payload.applicationId}:${payload.status}:${payload.changedAt ?? 'unknown'}`,
+        senderType: NotificationSenderType.COMPANY,
+        senderEntityId: payload.companyId,
+        senderName: payload.companyName ?? null,
+        senderAvatarDocumentId: null,
+        senderLogoUrl: payload.companyLogoUrl ?? null,
+        type: NotificationType.APPLICATION_STAGE_CHANGED,
+        title: message.title,
+        body: message.body,
+        data: this.applicationData(payload),
+        readAt: null,
+      }),
+    ]);
+  }
+
+  private async findScopedNotification(user: AuthUser, id: string): Promise<Notification> {
+    const notification = await this.notificationRepo
+      .createQueryBuilder('notification')
+      .where('notification.id = :id', { id })
+      .andWhere(this.scopeWhere(user))
+      .getOne();
+    if (!notification) {
+      throw new NotFoundException({
+        code: ERROR_CODES.COMMON.NOT_FOUND,
+        message: 'Notification not found',
+      });
+    }
+    return notification;
+  }
+
+  private scopeWhere(user: AuthUser): Brackets {
+    return new Brackets((where) => {
+      if (user.role === UserRole.CANDIDATE) {
+        where
+          .where('notification.recipientType = :recipientType', {
+            recipientType: NotificationRecipientType.USER,
+          })
+          .andWhere('notification.recipientUserId = :userId', { userId: user.id });
+        return;
+      }
+      if (user.role === UserRole.RECRUITER && user.companyId) {
+        where
+          .where('notification.recipientType = :recipientType', {
+            recipientType: NotificationRecipientType.COMPANY,
+          })
+          .andWhere('notification.recipientCompanyId = :companyId', {
+            companyId: user.companyId,
+          });
+        return;
+      }
+      throw this.forbidden();
+    });
+  }
+
+  private forbidden(): ForbiddenException {
+    return new ForbiddenException({
+      code: ERROR_CODES.COMMON.FORBIDDEN,
+      message: 'Notifications are only available to candidates and recruiters',
+    });
+  }
+
+  private stageMessage(
+    status: ApplicationStage,
+    companyName?: string | null,
+  ): { title: string; body: string } | null {
+    if (status === ApplicationStage.OFFERED) {
+      return {
+        title: 'Hồ sơ được quan tâm',
+        body: `${companyName ?? 'Nhà tuyển dụng'} đã quan tâm hồ sơ của bạn. Vui lòng chờ email hoặc liên hệ phỏng vấn.`,
+      };
+    }
+    if (status === ApplicationStage.REJECTED) {
+      return {
+        title: 'Hồ sơ chưa phù hợp',
+        body: `${companyName ?? 'Nhà tuyển dụng'} đã cập nhật kết quả hồ sơ của bạn.`,
+      };
+    }
+    if (status === ApplicationStage.CANCELLED) {
+      return {
+        title: 'Tin tuyển dụng đã đóng',
+        body: `Hồ sơ của bạn đã được hủy vì tin tuyển dụng không còn nhận xử lý.`,
+      };
+    }
+    return null;
+  }
+
+  private applicationData(
+    payload: ApplicationSubmittedNotificationPayload | ApplicationStageChangedNotificationPayload,
+  ): Record<string, unknown> {
+    return {
+      applicationId: payload.applicationId,
+      jobId: payload.jobId,
+      jobTitle: payload.jobTitle ?? null,
+      companyId: payload.companyId,
+      companyName: payload.companyName ?? null,
+      companyLogoUrl: payload.companyLogoUrl ?? null,
+      candidateId: payload.candidateId,
+      candidateUserId: payload.candidateUserId,
+      candidateFullName: payload.candidateFullName ?? null,
+      candidateAvatarDocumentId: payload.candidateAvatarDocumentId ?? null,
+      ...('status' in payload
+        ? {
+            previousStatus: payload.previousStatus,
+            status: payload.status,
+            note: payload.note ?? null,
+          }
+        : {}),
+    };
+  }
+
+  private async insertNotifications(notifications: Notification[]): Promise<void> {
+    if (notifications.length === 0) {
+      return;
+    }
+    await this.notificationRepo
+      .createQueryBuilder()
+      .insert()
+      .into(Notification)
+      .values(notifications as QueryDeepPartialEntity<Notification>[])
+      .orIgnore()
+      .execute();
+  }
+
+  private mapNotification(notification: Notification): NotificationResponseDto {
+    return {
+      id: notification.id,
+      recipientType: notification.recipientType,
+      recipientUserId: notification.recipientUserId,
+      recipientCompanyId: notification.recipientCompanyId,
+      senderType: notification.senderType,
+      senderEntityId: notification.senderEntityId,
+      senderName: notification.senderName,
+      senderAvatarDocumentId: notification.senderAvatarDocumentId,
+      senderLogoUrl: notification.senderLogoUrl,
+      type: notification.type,
+      title: notification.title,
+      body: notification.body,
+      data: notification.data,
+      readAt: notification.readAt,
+      createdAt: notification.createdAt,
+      updatedAt: notification.updatedAt,
+    };
+  }
+}

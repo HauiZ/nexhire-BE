@@ -4,9 +4,11 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { rabbitmqConfig } from '@nexhire/infra';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { buildTypeOrmOptions, databaseConfigFor, rabbitmqConfig } from '@nexhire/infra';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { EmailModule } from './email/email.module';
+import { NotificationModule } from './in-app/notification.module';
 import { WebPushModule } from './web-push/web-push.module';
 import { notificationServiceConfig } from './config/notification-service.config';
 import { validationSchema } from './config/env.validation';
@@ -16,9 +18,10 @@ import { HealthModule } from './health/health.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [rabbitmqConfig, notificationServiceConfig],
+      load: [databaseConfigFor('NOTIFICATION_SERVICE'), rabbitmqConfig, notificationServiceConfig],
       validationSchema,
     }),
+    TypeOrmModule.forRootAsync({ inject: [ConfigService], useFactory: buildTypeOrmOptions() }),
     MailerModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -40,6 +43,7 @@ import { HealthModule } from './health/health.module';
       }),
     }),
     HealthModule,
+    NotificationModule,
     EmailModule,
     WebPushModule,
   ],

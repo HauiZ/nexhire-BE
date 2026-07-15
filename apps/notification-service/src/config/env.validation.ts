@@ -3,9 +3,16 @@ import * as Joi from 'joi';
 export const validationSchema = Joi.object({
   NODE_ENV: Joi.string().valid('development', 'test', 'production').default('development'),
   NOTIFICATION_SERVICE_PORT: Joi.number().default(3008),
+  DB_HOST: Joi.string().required(),
+  DB_PORT: Joi.number().default(5432),
+  NOTIFICATION_SERVICE_DB_NAME: Joi.string().required(),
+  NOTIFICATION_SERVICE_DB_USER: Joi.string().required(),
+  NOTIFICATION_SERVICE_DB_PASS: Joi.string().required(),
   REDIS_HOST: Joi.string().required(),
   REDIS_PORT: Joi.number().default(6379),
-  RABBITMQ_URL: Joi.string().uri({ scheme: ['amqp', 'amqps'] }).optional(),
+  RABBITMQ_URL: Joi.string()
+    .uri({ scheme: ['amqp', 'amqps'] })
+    .optional(),
   RABBITMQ_EXCHANGE: Joi.string().default('nexhire.events'),
   SMTP_HOST: Joi.string().optional(),
   SMTP_PORT: Joi.number().optional(),
@@ -20,6 +27,7 @@ export const validationSchema = Joi.object({
   SMTP_FROM: Joi.string().default('NexHire <noreply@nexhire.vn>'),
   NOTIFICATION_QUEUE_EMAIL_VERIFICATION: Joi.string().default('notification.email.verification'),
   NOTIFICATION_QUEUE_PASSWORD_RESET: Joi.string().default('notification.email.password-reset'),
+  NOTIFICATION_QUEUE_IN_APP_APPLICATION: Joi.string().default('notification.in-app.application'),
   FRONTEND_URL: Joi.string().uri().default('http://localhost:5173'),
   FRONTEND_VERIFY_EMAIL_PATH: Joi.string().default('/verify-email'),
   FRONTEND_RESET_PASSWORD_PATH: Joi.string().default('/reset-password'),

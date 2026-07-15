@@ -11,8 +11,12 @@ export const notificationServiceConfig = registerAs('notificationService', () =>
     from: process.env.SMTP_FROM ?? 'NexHire <noreply@nexhire.vn>',
   },
   queues: {
-    emailVerification: process.env.NOTIFICATION_QUEUE_EMAIL_VERIFICATION ?? 'notification.email.verification',
-    passwordReset: process.env.NOTIFICATION_QUEUE_PASSWORD_RESET ?? 'notification.email.password-reset',
+    emailVerification:
+      process.env.NOTIFICATION_QUEUE_EMAIL_VERIFICATION ?? 'notification.email.verification',
+    passwordReset:
+      process.env.NOTIFICATION_QUEUE_PASSWORD_RESET ?? 'notification.email.password-reset',
+    inAppApplication:
+      process.env.NOTIFICATION_QUEUE_IN_APP_APPLICATION ?? 'notification.in-app.application',
   },
   frontend: {
     url: process.env.FRONTEND_URL ?? 'http://localhost:5173',
