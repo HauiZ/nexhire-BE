@@ -1,6 +1,22 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ApiErrorResponses, ApiSuccessResponse, CurrentUser, Public, AuthUser } from '@nexhire/shared';
+import {
+  ApiErrorResponses,
+  ApiSuccessResponse,
+  CurrentUser,
+  Public,
+  AuthUser,
+  InternalServiceTokenGuard,
+} from '@nexhire/shared';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordResponseDto } from './dto/change-password-response.dto';
@@ -17,6 +33,7 @@ import { ResetPasswordResponseDto } from './dto/reset-password-response.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyEmailResponseDto } from './dto/verify-email-response.dto';
 import { AuthService } from './auth.service';
+import { UserContactSnapshotDto } from './dto/user-contact-snapshot.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -78,9 +95,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Resend email verification token with anti-spam limits' })
   @ApiSuccessResponse(ResendVerificationResponseDto)
   @ApiErrorResponses({ statuses: [400, 404, 409, 422, 429, 500] })
-  resendVerification(
-    @Body() dto: ResendVerificationDto,
-  ): Promise<ResendVerificationResponseDto> {
+  resendVerification(@Body() dto: ResendVerificationDto): Promise<ResendVerificationResponseDto> {
     return this.authService.resendVerification(dto);
   }
 
@@ -115,5 +130,20 @@ export class AuthController {
     @Body() dto: ChangePasswordDto,
   ): Promise<ChangePasswordResponseDto> {
     return this.authService.changePassword(user.id, dto);
+  }
+}
+
+@ApiTags('internal-auth')
+@Controller('internal/auth')
+@UseGuards(InternalServiceTokenGuard)
+export class AuthInternalController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Get('users/:id/contact-snapshot')
+  @ApiOperation({ summary: 'Get user contact snapshot for internal services' })
+  @ApiSuccessResponse(UserContactSnapshotDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  getUserContactSnapshot(@Param('id', ParseUUIDPipe) id: string): Promise<UserContactSnapshotDto> {
+    return this.authService.getUserContactSnapshot(id);
   }
 }

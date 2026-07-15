@@ -10,11 +10,18 @@ export const validationSchema = Joi.object({
   AUTH_SERVICE_DB_PASS: Joi.string().required(),
   REDIS_HOST: Joi.string().required(),
   REDIS_PORT: Joi.number().default(6379),
+  INTERNAL_SERVICE_TOKEN: Joi.when('NODE_ENV', {
+    is: 'production',
+    then: Joi.string().required(),
+    otherwise: Joi.string().default('dev-internal-service-token'),
+  }),
   JWT_ACCESS_SECRET: Joi.string().min(32).required(),
   JWT_REFRESH_SECRET: Joi.string().min(32).required(),
   JWT_ACCESS_TTL: Joi.number().default(900),
   JWT_REFRESH_TTL: Joi.number().default(604800),
-  RABBITMQ_URL: Joi.string().uri({ scheme: ['amqp', 'amqps'] }).optional(),
+  RABBITMQ_URL: Joi.string()
+    .uri({ scheme: ['amqp', 'amqps'] })
+    .optional(),
   RABBITMQ_EXCHANGE: Joi.string().default('nexhire.events'),
   EMAIL_VERIFICATION_TOKEN_LENGTH: Joi.number().integer().min(4).max(10).default(6),
   EMAIL_VERIFICATION_TOKEN_TTL_MINUTES: Joi.number().integer().min(1).max(1440).default(15),

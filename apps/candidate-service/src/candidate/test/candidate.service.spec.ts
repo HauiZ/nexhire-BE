@@ -1,5 +1,6 @@
 import { ERROR_CODES, UserRole } from '@nexhire/shared';
 import { DataSource, EntityManager, Repository } from 'typeorm';
+import { EventPublisher } from '@nexhire/infra';
 
 import { CandidateService } from '../candidate.service';
 import { CandidateCertification } from '../entities/candidate-certification.entity';
@@ -15,6 +16,7 @@ import { CandidateProfile } from '../entities/candidate-profile.entity';
 import { CandidateProject } from '../entities/candidate-project.entity';
 import { CandidateSkill } from '../entities/candidate-skill.entity';
 import { DocumentClientService } from '../../document-client/document-client.service';
+import { AuthClientService } from '../auth-client.service';
 
 type MockRepo<T> = {
   create: jest.Mock;
@@ -94,6 +96,8 @@ describe('CandidateService', () => {
   let projectRepo: MockRepo<CandidateProject>;
   let cvRepo: MockRepo<CandidateCv>;
   let documentClientService: { uploadCandidateDocument: jest.Mock };
+  let authClientService: { getUserEmail: jest.Mock };
+  let eventPublisher: { publish: jest.Mock };
 
   beforeEach(() => {
     dataSource = {
@@ -109,6 +113,12 @@ describe('CandidateService', () => {
     documentClientService = {
       uploadCandidateDocument: jest.fn(),
     };
+    authClientService = {
+      getUserEmail: jest.fn().mockResolvedValue(null),
+    };
+    eventPublisher = {
+      publish: jest.fn().mockResolvedValue(undefined),
+    };
 
     service = new CandidateService(
       dataSource as unknown as DataSource,
@@ -120,6 +130,8 @@ describe('CandidateService', () => {
       projectRepo as unknown as Repository<CandidateProject>,
       cvRepo as unknown as Repository<CandidateCv>,
       documentClientService as unknown as DocumentClientService,
+      authClientService as unknown as AuthClientService,
+      eventPublisher as unknown as EventPublisher,
     );
   });
 
@@ -154,6 +166,19 @@ describe('CandidateService', () => {
         completionPercent: 0,
       }),
     );
+    expect(eventPublisher.publish).not.toHaveBeenCalled();
+  });
+
+  it('falls back to login email when profile contact email is empty', async () => {
+    profileRepo.findOne.mockResolvedValue(createProfile({ contactEmail: null }));
+    authClientService.getUserEmail.mockResolvedValue('candidate@nexhire.vn');
+
+    const result = await service.getMe('user-1');
+
+    expect(authClientService.getUserEmail).toHaveBeenCalledWith('user-1');
+    expect(result.profile.contactEmail).toBe('candidate@nexhire.vn');
+    expect(result.completionPercent).toBe(8);
+    expect(eventPublisher.publish).not.toHaveBeenCalled();
   });
 
   it('updates profile fields and replaces provided collections', async () => {
@@ -342,6 +367,16 @@ describe('CandidateService', () => {
         }),
       ]),
     );
+    expect(eventPublisher.publish).toHaveBeenCalledWith(
+      'candidate.profile-snapshot-changed',
+      expect.objectContaining({
+        candidateId: 'candidate-1',
+        candidateUserId: 'user-1',
+        fullName: 'Nguyen Minh Khoa',
+        email: 'khoa@example.com',
+        phone: '0912345678',
+      }),
+    );
     expect(result.completionPercent).toBe(100);
   });
 
@@ -464,5 +499,49 @@ describe('CandidateService', () => {
     });
     expect(result.parseStatus).toBe('FAILED');
     expect(result.parsedAt).toBeNull();
+  });
+
+  it('returns candidate and CV snapshot for applications with email fallback', async () => {
+    profileRepo.findOne.mockResolvedValue(createProfile({ contactEmail: null }));
+    authClientService.getUserEmail.mockResolvedValue('candidate@nexhire.vn');
+    cvRepo.findOne.mockResolvedValue({
+      id: 'cv-1',
+      candidateId: 'candidate-1',
+      documentId: 'document-1',
+      title: 'Main CV',
+      isDefault: true,
+      parseStatus: 'PARSED',
+      parsedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as CandidateCv);
+
+    const result = await service.getApplicationSnapshot('user-1', 'cv-1');
+
+    expect(cvRepo.findOne).toHaveBeenCalledWith({
+      where: { id: 'cv-1', candidateId: 'candidate-1' },
+    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        candidateId: 'candidate-1',
+        candidateUserId: 'user-1',
+        email: 'candidate@nexhire.vn',
+        candidateCvId: 'cv-1',
+        cvDocumentId: 'document-1',
+        cvParseStatus: 'PARSED',
+      }),
+    );
+  });
+
+  it('rejects application snapshot when the CV does not belong to the candidate', async () => {
+    profileRepo.findOne.mockResolvedValue(createProfile());
+    cvRepo.findOne.mockResolvedValue(null);
+
+    await expect(service.getApplicationSnapshot('user-1', 'missing-cv')).rejects.toMatchObject({
+      status: 400,
+      response: expect.objectContaining({
+        code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
+      }),
+    });
   });
 });

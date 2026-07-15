@@ -4,6 +4,7 @@ export const candidateServiceConfig = registerAs('candidateService', () => ({
   port: parseInt(process.env.CANDIDATE_SERVICE_PORT ?? '3002', 10),
   internalServiceToken: process.env.INTERNAL_SERVICE_TOKEN ?? 'dev-internal-service-token',
   services: {
+    authService: process.env.AUTH_SERVICE_URL ?? 'http://localhost:3001',
     documentStorageService: process.env.DOCUMENT_STORAGE_SERVICE_URL ?? 'http://localhost:3009',
     cvParsingService: process.env.CV_PARSING_SERVICE_URL ?? 'http://localhost:3006',
   },

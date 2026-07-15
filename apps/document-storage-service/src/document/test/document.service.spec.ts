@@ -15,6 +15,7 @@ type MockStorageService = {
 
 type MockRepo = {
   create: jest.Mock;
+  findOne: jest.Mock;
   save: jest.Mock;
 };
 
@@ -29,6 +30,7 @@ function createStorageMock(): MockStorageService {
 function createRepoMock(): MockRepo {
   return {
     create: jest.fn((entity: unknown) => entity),
+    findOne: jest.fn(),
     save: jest.fn((entity: unknown) => entity),
   };
 }
@@ -70,9 +72,7 @@ describe('DocumentService', () => {
     const result = await service.upload(dto, file);
 
     expect(storageService.put).toHaveBeenCalledWith(
-      expect.stringMatching(
-        /^candidate\/b8b33c46-4bb0-4a33-8b0d-927e081a38a5\/cv\/.+\.pdf$/,
-      ),
+      expect.stringMatching(/^candidate\/b8b33c46-4bb0-4a33-8b0d-927e081a38a5\/cv\/.+\.pdf$/),
       file.buffer,
       file.size,
       file.mimetype,
@@ -178,10 +178,46 @@ describe('DocumentService', () => {
 
     expect(storageService.put).toHaveBeenCalled();
     expect(storageService.remove).toHaveBeenCalledWith(
-      expect.stringMatching(
-        /^candidate\/b8b33c46-4bb0-4a33-8b0d-927e081a38a5\/cv\/.+\.pdf$/,
-      ),
+      expect.stringMatching(/^candidate\/b8b33c46-4bb0-4a33-8b0d-927e081a38a5\/cv\/.+\.pdf$/),
     );
     expect(documentRepo.save).not.toHaveBeenCalled();
+  });
+
+  it('creates a download URL for an existing document', async () => {
+    documentRepo.findOne.mockResolvedValue({
+      id: 'document-1',
+      documentType: DocumentType.CV,
+      ownerType: DocumentOwnerType.CANDIDATE,
+      ownerId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+      fileName: 'candidate-cv.pdf',
+      mimeType: 'application/pdf',
+      size: 1024,
+      key: 'candidate/b8b33c46-4bb0-4a33-8b0d-927e081a38a5/cv/document-1.pdf',
+    });
+
+    const result = await service.createDownloadUrl('document-1');
+
+    expect(documentRepo.findOne).toHaveBeenCalledWith({ where: { id: 'document-1' } });
+    expect(storageService.presignedGetUrl).toHaveBeenCalledWith(
+      'candidate/b8b33c46-4bb0-4a33-8b0d-927e081a38a5/cv/document-1.pdf',
+      3600,
+    );
+    expect(result).toEqual(
+      expect.objectContaining({
+        id: 'document-1',
+        fileName: 'candidate-cv.pdf',
+        url: 'https://storage.local/presigned-url',
+        expiresInSeconds: 3600,
+      }),
+    );
+  });
+
+  it('returns not found when creating a download URL for a missing document', async () => {
+    documentRepo.findOne.mockResolvedValue(null);
+
+    await expect(service.createDownloadUrl('missing-document')).rejects.toMatchObject({
+      status: 404,
+    });
+    expect(storageService.presignedGetUrl).not.toHaveBeenCalled();
   });
 });

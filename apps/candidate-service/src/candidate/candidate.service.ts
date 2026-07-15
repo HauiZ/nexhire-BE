@@ -1,6 +1,7 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthUser, ERROR_CODES, ParsedResume } from '@nexhire/shared';
+import { AuthUser, ERROR_CODES, EVENTS, ParsedResume } from '@nexhire/shared';
+import { EventPublisher } from '@nexhire/infra';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 import {
   CandidateCertificationInputDto,
@@ -35,12 +36,14 @@ import { CandidateProfile } from './entities/candidate-profile.entity';
 import { CandidateProject } from './entities/candidate-project.entity';
 import { CandidateSkill } from './entities/candidate-skill.entity';
 import { CandidateCvResponseDto } from '../cv/dto/cv-response.dto';
+import { CandidateApplicationSnapshotDto } from './dto/candidate-application-snapshot.dto';
 import {
   CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES,
   CANDIDATE_AVATAR_MIME_TYPES,
 } from '../document-client/document-upload.constants';
 import { DocumentClientService } from '../document-client/document-client.service';
 import { CandidateUploadedFile } from '../document-client/interfaces/candidate-uploaded-file.interface';
+import { AuthClientService } from './auth-client.service';
 
 @Injectable()
 export class CandidateService {
@@ -61,6 +64,8 @@ export class CandidateService {
     @InjectRepository(CandidateCv)
     private readonly cvRepo: Repository<CandidateCv>,
     private readonly documentClientService: DocumentClientService,
+    private readonly authClientService: AuthClientService,
+    private readonly eventPublisher: EventPublisher,
   ) {}
 
   async getMe(userId: string): Promise<CandidateProfileResponseDto> {
@@ -108,7 +113,9 @@ export class CandidateService {
       });
     });
 
-    return this.buildAggregate(profile);
+    const aggregate = await this.buildAggregate(profile);
+    await this.publishProfileSnapshotChanged(profile);
+    return aggregate;
   }
 
   async ensureProfileForUser(userId: string, manager?: EntityManager): Promise<CandidateProfile> {
@@ -122,7 +129,9 @@ export class CandidateService {
     const profile = await this.ensureProfile(userId);
     await this.profileRepo.update(profile.id, { avatarDocumentId: documentId });
     const updatedProfile = await this.profileRepo.findOneOrFail({ where: { id: profile.id } });
-    return this.buildAggregate(updatedProfile);
+    const aggregate = await this.buildAggregate(updatedProfile);
+    await this.publishProfileSnapshotChanged(updatedProfile);
+    return aggregate;
   }
 
   async uploadAvatar(
@@ -257,6 +266,33 @@ export class CandidateService {
     });
   }
 
+  async getApplicationSnapshot(
+    userId: string,
+    candidateCvId: string,
+  ): Promise<CandidateApplicationSnapshotDto> {
+    const profile = await this.ensureProfile(userId);
+    const cv = await this.cvRepo.findOne({ where: { id: candidateCvId, candidateId: profile.id } });
+    if (!cv) {
+      throw new BadRequestException({
+        code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
+        message: 'Candidate CV not found',
+      });
+    }
+
+    return {
+      candidateId: profile.id,
+      candidateUserId: profile.userId,
+      fullName: profile.fullName,
+      email: await this.resolveContactEmail(profile),
+      phone: profile.phone,
+      avatarDocumentId: profile.avatarDocumentId,
+      candidateCvId: cv.id,
+      cvDocumentId: cv.documentId,
+      cvTitle: cv.title,
+      cvParseStatus: cv.parseStatus,
+    };
+  }
+
   private async ensureProfile(userId: string, manager?: EntityManager): Promise<CandidateProfile> {
     const repo = manager?.getRepository(CandidateProfile) ?? this.profileRepo;
     const existing = await repo.findOne({ where: { userId } });
@@ -312,9 +348,10 @@ export class CandidateService {
       }),
     ]);
     const cvResponses = cvs.map((cv) => this.mapCv(cv));
+    const contactEmail = await this.resolveContactEmail(profile);
 
     return {
-      profile: this.mapProfile(profile),
+      profile: this.mapProfile(profile, contactEmail),
       skills: skills.map((skill) => this.mapSkill(skill)),
       experiences: experiences.map((experience) => this.mapExperience(experience)),
       educations: educations.map((education) => this.mapEducation(education)),
@@ -324,6 +361,7 @@ export class CandidateService {
       cvs: cvResponses,
       completionPercent: this.calculateCompletionPercent(
         profile,
+        contactEmail,
         skills,
         experiences,
         educations,
@@ -565,6 +603,7 @@ export class CandidateService {
 
   private calculateCompletionPercent(
     profile: CandidateProfile,
+    contactEmail: string | null,
     skills: CandidateSkill[],
     experiences: CandidateExperience[],
     educations: CandidateEducation[],
@@ -574,7 +613,7 @@ export class CandidateService {
     const checks = [
       profile.fullName,
       profile.phone,
-      profile.contactEmail,
+      contactEmail,
       profile.headline,
       profile.summary,
       profile.location,
@@ -589,13 +628,16 @@ export class CandidateService {
     return Math.round((completed / checks.length) * 100);
   }
 
-  private mapProfile(profile: CandidateProfile): CandidateProfileFieldsResponseDto {
+  private mapProfile(
+    profile: CandidateProfile,
+    contactEmail: string | null,
+  ): CandidateProfileFieldsResponseDto {
     return {
       id: profile.id,
       userId: profile.userId,
       fullName: profile.fullName,
       phone: profile.phone,
-      contactEmail: profile.contactEmail,
+      contactEmail,
       avatarDocumentId: profile.avatarDocumentId,
       headline: profile.headline,
       summary: profile.summary,
@@ -693,6 +735,27 @@ export class CandidateService {
     }
     const trimmed = value.trim();
     return trimmed.length > 0 ? trimmed : null;
+  }
+
+  private async resolveContactEmail(profile: CandidateProfile): Promise<string | null> {
+    if (profile.contactEmail?.trim()) {
+      return profile.contactEmail;
+    }
+    return this.authClientService.getUserEmail(profile.userId);
+  }
+
+  private async publishProfileSnapshotChanged(profile: CandidateProfile): Promise<void> {
+    await this.eventPublisher
+      .publish(EVENTS.CANDIDATE_PROFILE_SNAPSHOT_CHANGED, {
+        candidateId: profile.id,
+        candidateUserId: profile.userId,
+        fullName: profile.fullName,
+        email: await this.resolveContactEmail(profile),
+        phone: profile.phone,
+        avatarDocumentId: profile.avatarDocumentId,
+        changedAt: new Date().toISOString(),
+      })
+      .catch(() => undefined);
   }
 
   private normalizeSkillName(value: string): string {

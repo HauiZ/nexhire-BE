@@ -2,7 +2,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthController } from './auth.controller';
+import { AuthController, AuthInternalController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { EmailVerification } from './entities/email-verification.entity';
 import { PasswordResetToken } from './entities/password-reset-token.entity';
@@ -29,7 +29,7 @@ import { TokenModule } from '../token/token.module';
       PasswordResetToken,
     ]),
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, AuthInternalController],
   providers: [AuthService],
   exports: [AuthService],
 })

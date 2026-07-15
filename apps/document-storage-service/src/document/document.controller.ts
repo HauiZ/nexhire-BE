@@ -1,8 +1,19 @@
-import { Body, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ApiErrorResponses, ApiSuccessResponse } from '@nexhire/shared';
+import { ApiErrorResponses, ApiSuccessResponse, InternalServiceTokenGuard } from '@nexhire/shared';
 import { DocumentService } from './document.service';
+import { DocumentDownloadResponseDto } from './dto/document-download-response.dto';
 import { UploadDocumentDto } from './dto/upload-document.dto';
 import { UploadDocumentResponseDto } from './dto/upload-document-response.dto';
 import { DocumentOwnerType, DocumentType } from './entities/document.enum';
@@ -58,5 +69,22 @@ export class DocumentController {
     @UploadedFile() file?: UploadedDocumentFile,
   ): Promise<UploadDocumentResponseDto> {
     return this.documentService.upload(dto, file);
+  }
+}
+
+@ApiTags('internal-documents')
+@Controller('internal/documents')
+@UseGuards(InternalServiceTokenGuard)
+export class DocumentInternalController {
+  constructor(private readonly documentService: DocumentService) {}
+
+  @Get(':id/download-url')
+  @ApiOperation({ summary: 'Create a short-lived download URL for an internal caller' })
+  @ApiSuccessResponse(DocumentDownloadResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  getInternalDownloadUrl(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<DocumentDownloadResponseDto> {
+    return this.documentService.createDownloadUrl(id);
   }
 }

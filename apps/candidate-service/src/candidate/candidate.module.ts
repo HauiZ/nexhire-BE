@@ -1,6 +1,8 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DocumentClientModule } from '../document-client/document-client.module';
+import { AuthClientService } from './auth-client.service';
 import { CandidateController } from './candidate.controller';
 import { CandidateInternalController } from './candidate-internal.controller';
 import { CandidateService } from './candidate.service';
@@ -14,6 +16,7 @@ import { CandidateSkill } from './entities/candidate-skill.entity';
 
 @Module({
   imports: [
+    HttpModule,
     DocumentClientModule,
     TypeOrmModule.forFeature([
       CandidateProfile,
@@ -26,7 +29,7 @@ import { CandidateSkill } from './entities/candidate-skill.entity';
     ]),
   ],
   controllers: [CandidateController, CandidateInternalController],
-  providers: [CandidateService],
+  providers: [CandidateService, AuthClientService],
   exports: [CandidateService],
 })
 export class CandidateModule {}

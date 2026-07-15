@@ -10,11 +10,7 @@ import {
 import { DocumentOwnerType, DocumentType } from './document.enum';
 
 @Entity('documents')
-@Index('idx_documents_owner_type_owner_id_document_type', [
-  'ownerType',
-  'ownerId',
-  'documentType',
-])
+@Index('idx_documents_owner_type_owner_id_document_type', ['ownerType', 'ownerId', 'documentType'])
 @Index('idx_documents_key', ['key'], { unique: true })
 export class Document {
   @PrimaryColumn({

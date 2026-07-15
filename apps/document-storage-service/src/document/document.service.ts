@@ -1,11 +1,12 @@
 import { randomUUID } from 'crypto';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ERROR_CODES } from '@nexhire/shared';
 import { StorageService } from '@nexhire/infra';
 import { extname } from 'path';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UploadDocumentDto } from './dto/upload-document.dto';
+import { DocumentDownloadResponseDto } from './dto/document-download-response.dto';
 import { UploadDocumentResponseDto } from './dto/upload-document-response.dto';
 import { DocumentType } from './entities/document.enum';
 import { Document } from './entities/document.entity';
@@ -58,6 +59,28 @@ export class DocumentService {
       size: document.size,
       key: document.key,
       url,
+    };
+  }
+
+  async createDownloadUrl(id: string): Promise<DocumentDownloadResponseDto> {
+    const document = await this.documentRepo.findOne({ where: { id } });
+    if (!document) {
+      throw new NotFoundException({
+        code: ERROR_CODES.COMMON.NOT_FOUND,
+        message: 'Document not found',
+      });
+    }
+
+    return {
+      id: document.id,
+      documentType: document.documentType,
+      ownerType: document.ownerType,
+      ownerId: document.ownerId,
+      fileName: document.fileName,
+      mimeType: document.mimeType,
+      size: document.size,
+      url: await this.storageService.presignedGetUrl(document.key, this.downloadUrlTtlSeconds),
+      expiresInSeconds: this.downloadUrlTtlSeconds,
     };
   }
 

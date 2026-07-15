@@ -78,6 +78,21 @@ export class ProxyController {
     return this.proxy.forward('applicationService', req, res);
   }
 
+  @All('applications')
+  applicationsRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('applicationService', req, res);
+  }
+
+  @All('recruiter/applications/*')
+  recruiterApplications(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('applicationService', req, res);
+  }
+
+  @All('recruiter/applications')
+  recruiterApplicationsRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('applicationService', req, res);
+  }
+
   @All('saved-jobs/*')
   savedJobs(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('candidateService', req, res);
@@ -95,6 +110,11 @@ export class ProxyController {
 
   @All('notifications/*')
   notifications(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('notificationService', req, res);
+  }
+
+  @All('notifications')
+  notificationsRoot(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('notificationService', req, res);
   }
 

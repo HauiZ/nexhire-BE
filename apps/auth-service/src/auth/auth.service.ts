@@ -39,6 +39,7 @@ import { UserRoleEntity } from './entities/user-role.entity';
 import { User } from './entities/user.entity';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { LogoutResponseDto } from './dto/logout-response.dto';
+import { UserContactSnapshotDto } from './dto/user-contact-snapshot.dto';
 import { TokenService } from '../token/token.service';
 
 @Injectable()
@@ -158,6 +159,22 @@ export class AuthService {
     return this.buildAuthResponse(user, registrationRole);
   }
 
+  async getUserContactSnapshot(id: string): Promise<UserContactSnapshotDto> {
+    const user = await this.userRepo.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException({
+        code: ERROR_CODES.AUTH.USER_NOT_FOUND,
+        message: 'User not found',
+      });
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+    };
+  }
+
   async login(dto: LoginDto): Promise<AuthResponseDto> {
     const email = dto.email.trim().toLowerCase();
     const user = await this.userRepo.findOne({ where: { email } });
@@ -171,10 +188,13 @@ export class AuthService {
     }
 
     if (credential.lockedUntil && credential.lockedUntil.getTime() > Date.now()) {
-      throw new HttpException({
-        code: ERROR_CODES.AUTH.ACCOUNT_TEMPORARILY_LOCKED,
-        message: 'Account is temporarily locked',
-      }, AuthService.HTTP_STATUS_LOCKED);
+      throw new HttpException(
+        {
+          code: ERROR_CODES.AUTH.ACCOUNT_TEMPORARILY_LOCKED,
+          message: 'Account is temporarily locked',
+        },
+        AuthService.HTTP_STATUS_LOCKED,
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(dto.password, credential.passwordHash);
@@ -388,10 +408,7 @@ export class AuthService {
     return { message: 'Password reset successfully' };
   }
 
-  async changePassword(
-    userId: string,
-    dto: ChangePasswordDto,
-  ): Promise<ChangePasswordResponseDto> {
+  async changePassword(userId: string, dto: ChangePasswordDto): Promise<ChangePasswordResponseDto> {
     const credential = await this.credentialRepo.findOne({ where: { userId } });
     if (!credential) {
       throw new NotFoundException({
@@ -563,10 +580,7 @@ export class AuthService {
   }
 
   private async hashPassword(password: string): Promise<string> {
-    return bcrypt.hash(
-      password,
-      this.configService.get<number>('authService.bcryptRounds', 12),
-    );
+    return bcrypt.hash(password, this.configService.get<number>('authService.bcryptRounds', 12));
   }
 
   private generateVerificationToken(): string {
@@ -593,18 +607,24 @@ export class AuthService {
     }
 
     if (verification.resendCount >= maxResends) {
-      throw new HttpException({
-        code: ERROR_CODES.AUTH.VERIFICATION_RESEND_LIMIT_REACHED,
-        message: 'Verification resend limit reached',
-      }, HttpStatus.TOO_MANY_REQUESTS);
+      throw new HttpException(
+        {
+          code: ERROR_CODES.AUTH.VERIFICATION_RESEND_LIMIT_REACHED,
+          message: 'Verification resend limit reached',
+        },
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
     }
 
     const earliestNextResend = verification.lastSentAt.getTime() + resendCooldownSeconds * 1000;
     if (earliestNextResend > now) {
-      throw new HttpException({
-        code: ERROR_CODES.AUTH.VERIFICATION_RESEND_COOLDOWN,
-        message: `Please wait ${Math.ceil((earliestNextResend - now) / 1000)} seconds before resending`,
-      }, HttpStatus.TOO_MANY_REQUESTS);
+      throw new HttpException(
+        {
+          code: ERROR_CODES.AUTH.VERIFICATION_RESEND_COOLDOWN,
+          message: `Please wait ${Math.ceil((earliestNextResend - now) / 1000)} seconds before resending`,
+        },
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
     }
   }
 
@@ -613,18 +633,24 @@ export class AuthService {
     const now = Date.now();
 
     if (resetToken.resendCount >= maxResends) {
-      throw new HttpException({
-        code: ERROR_CODES.AUTH.PASSWORD_RESET_RESEND_LIMIT_REACHED,
-        message: 'Password reset resend limit reached',
-      }, HttpStatus.TOO_MANY_REQUESTS);
+      throw new HttpException(
+        {
+          code: ERROR_CODES.AUTH.PASSWORD_RESET_RESEND_LIMIT_REACHED,
+          message: 'Password reset resend limit reached',
+        },
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
     }
 
     const earliestNextResend = resetToken.lastSentAt.getTime() + resendCooldownSeconds * 1000;
     if (earliestNextResend > now) {
-      throw new HttpException({
-        code: ERROR_CODES.AUTH.PASSWORD_RESET_RESEND_COOLDOWN,
-        message: `Please wait ${Math.ceil((earliestNextResend - now) / 1000)} seconds before resending`,
-      }, HttpStatus.TOO_MANY_REQUESTS);
+      throw new HttpException(
+        {
+          code: ERROR_CODES.AUTH.PASSWORD_RESET_RESEND_COOLDOWN,
+          message: `Please wait ${Math.ceil((earliestNextResend - now) / 1000)} seconds before resending`,
+        },
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
     }
   }
 
@@ -701,7 +727,10 @@ export class AuthService {
   } {
     return {
       tokenLength: this.configService.get<number>('authService.verification.tokenLength', 6),
-      tokenTtlMinutes: this.configService.get<number>('authService.verification.tokenTtlMinutes', 15),
+      tokenTtlMinutes: this.configService.get<number>(
+        'authService.verification.tokenTtlMinutes',
+        15,
+      ),
       resendCooldownSeconds: this.configService.get<number>(
         'authService.verification.resendCooldownSeconds',
         60,
@@ -718,7 +747,10 @@ export class AuthService {
   } {
     return {
       tokenLength: this.configService.get<number>('authService.passwordReset.tokenLength', 6),
-      tokenTtlMinutes: this.configService.get<number>('authService.passwordReset.tokenTtlMinutes', 15),
+      tokenTtlMinutes: this.configService.get<number>(
+        'authService.passwordReset.tokenTtlMinutes',
+        15,
+      ),
       resendCooldownSeconds: this.configService.get<number>(
         'authService.passwordReset.resendCooldownSeconds',
         60,

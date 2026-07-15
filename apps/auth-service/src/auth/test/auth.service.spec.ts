@@ -957,4 +957,32 @@ describe('AuthService', () => {
     expect(tokenService.revokeRefreshToken).toHaveBeenCalledWith('user-1', 'refresh-jti');
     expect(result).toEqual({ message: 'Logged out successfully' });
   });
+
+  it('returns a user contact snapshot for internal service calls', async () => {
+    userRepo.findOne.mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Van A',
+    } as User);
+
+    const result = await service.getUserContactSnapshot('user-1');
+
+    expect(userRepo.findOne).toHaveBeenCalledWith({ where: { id: 'user-1' } });
+    expect(result).toEqual({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Van A',
+    });
+  });
+
+  it('returns not found for a missing user contact snapshot', async () => {
+    userRepo.findOne.mockResolvedValue(null);
+
+    await expect(service.getUserContactSnapshot('missing-user')).rejects.toMatchObject({
+      status: 404,
+      response: expect.objectContaining({
+        code: ERROR_CODES.AUTH.USER_NOT_FOUND,
+      }),
+    });
+  });
 });
