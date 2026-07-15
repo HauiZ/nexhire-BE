@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Patch } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Patch, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
   ApiSuccessResponse,
@@ -11,6 +12,8 @@ import {
 import { CandidateProfileResponseDto } from './dto/candidate-profile-response.dto';
 import { UpdateCandidateProfileDto } from './dto/update-candidate-profile.dto';
 import { CandidateService } from './candidate.service';
+import { CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES } from '../document-client/document-upload.constants';
+import { CandidateUploadedFile } from '../document-client/interfaces/candidate-uploaded-file.interface';
 
 @ApiTags('candidates')
 @Controller('candidates')
@@ -38,5 +41,36 @@ export class CandidateController {
     @Body() dto: UpdateCandidateProfileDto,
   ): Promise<CandidateProfileResponseDto> {
     return this.candidateService.updateMe(user.id, dto);
+  }
+
+  @Patch('me/avatar')
+  @Roles(UserRole.CANDIDATE)
+  @ApiBearerAuth()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES },
+    }),
+  )
+  @ApiOperation({ summary: 'Upload and set the current candidate avatar' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiSuccessResponse(CandidateProfileResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500, 503] })
+  uploadAvatar(
+    @CurrentUser() user: AuthUser,
+    @UploadedFile() file?: CandidateUploadedFile,
+  ): Promise<CandidateProfileResponseDto> {
+    return this.candidateService.uploadAvatar(user, file);
   }
 }

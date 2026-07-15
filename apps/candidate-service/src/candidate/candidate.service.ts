@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ERROR_CODES } from '@nexhire/shared';
+import { AuthUser, ERROR_CODES, ParsedResume } from '@nexhire/shared';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 import {
   CandidateCertificationInputDto,
@@ -21,12 +21,26 @@ import {
   CandidateSkillResponseDto,
 } from './dto/candidate-profile-response.dto';
 import { CandidateCertification } from './entities/candidate-certification.entity';
+import { CandidateCv } from './entities/candidate-cv.entity';
 import { CandidateEducation } from './entities/candidate-education.entity';
 import { CandidateExperience } from './entities/candidate-experience.entity';
-import { CandidateDataSource, CandidateProfileVisibility } from './entities/candidate.enum';
+import {
+  CandidateDataSource,
+  CandidateCvParseStatus,
+  CandidateEmploymentType,
+  CandidateProfileVisibility,
+  CandidateSkillLevel,
+} from './entities/candidate.enum';
 import { CandidateProfile } from './entities/candidate-profile.entity';
 import { CandidateProject } from './entities/candidate-project.entity';
 import { CandidateSkill } from './entities/candidate-skill.entity';
+import { CandidateCvResponseDto } from '../cv/dto/cv-response.dto';
+import {
+  CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES,
+  CANDIDATE_AVATAR_MIME_TYPES,
+} from '../document-client/document-upload.constants';
+import { DocumentClientService } from '../document-client/document-client.service';
+import { CandidateUploadedFile } from '../document-client/interfaces/candidate-uploaded-file.interface';
 
 @Injectable()
 export class CandidateService {
@@ -44,6 +58,9 @@ export class CandidateService {
     private readonly certificationRepo: Repository<CandidateCertification>,
     @InjectRepository(CandidateProject)
     private readonly projectRepo: Repository<CandidateProject>,
+    @InjectRepository(CandidateCv)
+    private readonly cvRepo: Repository<CandidateCv>,
+    private readonly documentClientService: DocumentClientService,
   ) {}
 
   async getMe(userId: string): Promise<CandidateProfileResponseDto> {
@@ -94,6 +111,152 @@ export class CandidateService {
     return this.buildAggregate(profile);
   }
 
+  async ensureProfileForUser(userId: string, manager?: EntityManager): Promise<CandidateProfile> {
+    return this.ensureProfile(userId, manager);
+  }
+
+  async setAvatarDocument(
+    userId: string,
+    documentId: string,
+  ): Promise<CandidateProfileResponseDto> {
+    const profile = await this.ensureProfile(userId);
+    await this.profileRepo.update(profile.id, { avatarDocumentId: documentId });
+    const updatedProfile = await this.profileRepo.findOneOrFail({ where: { id: profile.id } });
+    return this.buildAggregate(updatedProfile);
+  }
+
+  async uploadAvatar(
+    user: AuthUser,
+    file?: CandidateUploadedFile,
+  ): Promise<CandidateProfileResponseDto> {
+    if (!file) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.FILE_REQUIRED,
+        message: 'Avatar file is required',
+      });
+    }
+    this.assertUploadedFile(
+      file,
+      CANDIDATE_AVATAR_MIME_TYPES,
+      CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES,
+    );
+
+    const profile = await this.ensureProfile(user.id);
+    const document = await this.documentClientService.uploadCandidateDocument(
+      user,
+      profile.id,
+      'AVATAR',
+      file,
+    );
+    return this.setAvatarDocument(user.id, document.id);
+  }
+
+  async applyParsedResume(
+    candidateId: string,
+    parsedResume: ParsedResume,
+    candidateCvId?: string,
+  ): Promise<CandidateProfileResponseDto> {
+    const profile = await this.dataSource.transaction(async (manager) => {
+      const currentProfile = await manager.findOneOrFail(CandidateProfile, {
+        where: { id: candidateId },
+      });
+
+      await manager.update(
+        CandidateProfile,
+        currentProfile.id,
+        this.buildProfilePatch({
+          fullName: parsedResume.profile.fullName,
+          phone: parsedResume.profile.phone,
+          contactEmail: parsedResume.profile.contactEmail,
+          headline: parsedResume.profile.headline,
+          summary: parsedResume.profile.summary,
+          location: parsedResume.profile.location,
+          portfolioUrl: parsedResume.profile.portfolioUrl,
+          linkedinUrl: parsedResume.profile.linkedinUrl,
+        }),
+      );
+
+      await this.replaceSkills(
+        manager,
+        currentProfile.id,
+        parsedResume.skills.map((skill) => ({
+          name: skill.name,
+          level: this.normalizeSkillLevel(skill.level),
+          yearsOfExperience: skill.yearsOfExperience,
+        })),
+        CandidateDataSource.CV_PARSE,
+      );
+      await this.replaceEducations(
+        manager,
+        currentProfile.id,
+        parsedResume.educations,
+        CandidateDataSource.CV_PARSE,
+      );
+      await this.replaceExperiences(
+        manager,
+        currentProfile.id,
+        parsedResume.experiences.map((experience) => ({
+          ...experience,
+          employmentType: this.normalizeEmploymentType(experience.employmentType),
+        })),
+        CandidateDataSource.CV_PARSE,
+      );
+      await this.replaceCertifications(
+        manager,
+        currentProfile.id,
+        parsedResume.certifications,
+        CandidateDataSource.CV_PARSE,
+      );
+      await this.replaceProjects(
+        manager,
+        currentProfile.id,
+        parsedResume.projects,
+        CandidateDataSource.CV_PARSE,
+      );
+
+      if (candidateCvId) {
+        await manager.update(
+          CandidateCv,
+          { id: candidateCvId, candidateId: currentProfile.id },
+          {
+            parseStatus: CandidateCvParseStatus.PARSED,
+            parsedAt: new Date(),
+          },
+        );
+      }
+
+      return manager.findOneOrFail(CandidateProfile, {
+        where: { id: currentProfile.id },
+      });
+    });
+
+    return this.buildAggregate(profile);
+  }
+
+  async markCvParseFailed(
+    candidateId: string,
+    candidateCvId: string,
+    _errorMessage?: string,
+  ): Promise<CandidateCvResponseDto> {
+    const cv = await this.cvRepo.findOne({ where: { id: candidateCvId, candidateId } });
+    if (!cv) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.NOT_FOUND,
+        message: 'Candidate CV not found',
+      });
+    }
+
+    await this.cvRepo.update(candidateCvId, {
+      parseStatus: CandidateCvParseStatus.FAILED,
+      parsedAt: null,
+    });
+    return this.mapCv({
+      ...cv,
+      parseStatus: CandidateCvParseStatus.FAILED,
+      parsedAt: null,
+    });
+  }
+
   private async ensureProfile(userId: string, manager?: EntityManager): Promise<CandidateProfile> {
     const repo = manager?.getRepository(CandidateProfile) ?? this.profileRepo;
     const existing = await repo.findOne({ where: { userId } });
@@ -122,7 +285,7 @@ export class CandidateService {
   }
 
   private async buildAggregate(profile: CandidateProfile): Promise<CandidateProfileResponseDto> {
-    const [skills, experiences, educations, certifications, projects] = await Promise.all([
+    const [skills, experiences, educations, certifications, projects, cvs] = await Promise.all([
       this.skillRepo.find({
         where: { candidateId: profile.id },
         order: { createdAt: 'ASC' },
@@ -143,7 +306,12 @@ export class CandidateService {
         where: { candidateId: profile.id },
         order: { createdAt: 'ASC' },
       }),
+      this.cvRepo.find({
+        where: { candidateId: profile.id },
+        order: { isDefault: 'DESC', createdAt: 'DESC' },
+      }),
     ]);
+    const cvResponses = cvs.map((cv) => this.mapCv(cv));
 
     return {
       profile: this.mapProfile(profile),
@@ -152,8 +320,8 @@ export class CandidateService {
       educations: educations.map((education) => this.mapEducation(education)),
       certifications: certifications.map((certification) => this.mapCertification(certification)),
       projects: projects.map((project) => this.mapProject(project)),
-      defaultCv: null,
-      cvs: [],
+      defaultCv: cvResponses.find((cv) => cv.isDefault) ?? null,
+      cvs: cvResponses,
       completionPercent: this.calculateCompletionPercent(
         profile,
         skills,
@@ -193,6 +361,7 @@ export class CandidateService {
     manager: EntityManager,
     candidateId: string,
     skills: CandidateSkillInputDto[],
+    source = CandidateDataSource.MANUAL,
   ): Promise<void> {
     const normalizedNames = new Set<string>();
     for (const skill of skills) {
@@ -206,21 +375,26 @@ export class CandidateService {
       normalizedNames.add(normalizedName);
     }
 
-    await manager.delete(CandidateSkill, { candidateId });
-    if (skills.length === 0) {
+    const writableSkills =
+      source === CandidateDataSource.CV_PARSE
+        ? await this.filterParsedSkillsAgainstManualSkills(manager, candidateId, skills)
+        : skills;
+
+    await this.deleteExistingSection(manager, CandidateSkill, candidateId, source);
+    if (writableSkills.length === 0) {
       return;
     }
 
     await manager.save(
       CandidateSkill,
-      skills.map((skill) =>
+      writableSkills.map((skill) =>
         manager.create(CandidateSkill, {
           candidateId,
           name: skill.name.trim(),
           normalizedName: this.normalizeSkillName(skill.name),
           level: skill.level ?? null,
           yearsOfExperience: skill.yearsOfExperience ?? null,
-          source: CandidateDataSource.MANUAL,
+          source,
         }),
       ),
     );
@@ -230,9 +404,10 @@ export class CandidateService {
     manager: EntityManager,
     candidateId: string,
     educations: CandidateEducationInputDto[],
+    source = CandidateDataSource.MANUAL,
   ): Promise<void> {
     educations.forEach((education) => this.assertEducationDateRange(education));
-    await manager.delete(CandidateEducation, { candidateId });
+    await this.deleteExistingSection(manager, CandidateEducation, candidateId, source);
     if (educations.length === 0) {
       return;
     }
@@ -249,7 +424,7 @@ export class CandidateService {
           endYear: education.isCurrent ? null : (education.endYear ?? null),
           isCurrent: education.isCurrent ?? false,
           description: this.nullableString(education.description),
-          source: CandidateDataSource.MANUAL,
+          source,
         }),
       ),
     );
@@ -259,9 +434,10 @@ export class CandidateService {
     manager: EntityManager,
     candidateId: string,
     experiences: CandidateExperienceInputDto[],
+    source = CandidateDataSource.MANUAL,
   ): Promise<void> {
     experiences.forEach((experience) => this.assertExperienceDateRange(experience));
-    await manager.delete(CandidateExperience, { candidateId });
+    await this.deleteExistingSection(manager, CandidateExperience, candidateId, source);
     if (experiences.length === 0) {
       return;
     }
@@ -280,7 +456,7 @@ export class CandidateService {
           endYear: experience.isCurrent ? null : (experience.endYear ?? null),
           isCurrent: experience.isCurrent ?? false,
           description: this.nullableString(experience.description),
-          source: CandidateDataSource.MANUAL,
+          source,
         }),
       ),
     );
@@ -290,8 +466,9 @@ export class CandidateService {
     manager: EntityManager,
     candidateId: string,
     certifications: CandidateCertificationInputDto[],
+    source = CandidateDataSource.MANUAL,
   ): Promise<void> {
-    await manager.delete(CandidateCertification, { candidateId });
+    await this.deleteExistingSection(manager, CandidateCertification, candidateId, source);
     if (certifications.length === 0) {
       return;
     }
@@ -306,7 +483,7 @@ export class CandidateService {
           credentialUrl: this.nullableString(certification.credentialUrl),
           issuedYear: certification.issuedYear ?? null,
           description: this.nullableString(certification.description),
-          source: CandidateDataSource.MANUAL,
+          source,
         }),
       ),
     );
@@ -316,8 +493,9 @@ export class CandidateService {
     manager: EntityManager,
     candidateId: string,
     projects: CandidateProjectInputDto[],
+    source = CandidateDataSource.MANUAL,
   ): Promise<void> {
-    await manager.delete(CandidateProject, { candidateId });
+    await this.deleteExistingSection(manager, CandidateProject, candidateId, source);
     if (projects.length === 0) {
       return;
     }
@@ -331,7 +509,7 @@ export class CandidateService {
           description: this.nullableString(project.description),
           technologies: this.normalizeTechnologies(project.technologies ?? []),
           projectUrl: this.nullableString(project.projectUrl),
-          source: CandidateDataSource.MANUAL,
+          source,
         }),
       ),
     );
@@ -496,6 +674,19 @@ export class CandidateService {
     };
   }
 
+  private mapCv(cv: CandidateCv): CandidateCvResponseDto {
+    return {
+      id: cv.id,
+      documentId: cv.documentId,
+      title: cv.title,
+      isDefault: cv.isDefault,
+      parseStatus: cv.parseStatus,
+      parsedAt: cv.parsedAt,
+      createdAt: cv.createdAt,
+      updatedAt: cv.updatedAt,
+    };
+  }
+
   private nullableString(value: string | undefined): string | null {
     if (value === undefined) {
       return null;
@@ -521,5 +712,72 @@ export class CandidateService {
       technologies.push(normalized);
     }
     return technologies;
+  }
+
+  private normalizeSkillLevel(value: string | undefined): CandidateSkillLevel | undefined {
+    if (!value) {
+      return undefined;
+    }
+    const normalized = value.trim().toUpperCase();
+    return Object.values(CandidateSkillLevel).find((level) => level === normalized);
+  }
+
+  private normalizeEmploymentType(value: string | undefined): CandidateEmploymentType | undefined {
+    if (!value) {
+      return undefined;
+    }
+    const normalized = value
+      .trim()
+      .toUpperCase()
+      .replace(/[\s-]+/g, '_');
+    return Object.values(CandidateEmploymentType).find((type) => type === normalized);
+  }
+
+  private assertUploadedFile(
+    file: CandidateUploadedFile,
+    allowedMimeTypes: Set<string>,
+    maxSizeBytes: number,
+  ): void {
+    if (!allowedMimeTypes.has(file.mimetype)) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.UNSUPPORTED_FILE_TYPE,
+        message: 'Unsupported file type',
+      });
+    }
+    if (file.size > maxSizeBytes) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.FILE_TOO_LARGE,
+        message: 'File is too large',
+      });
+    }
+  }
+
+  private async filterParsedSkillsAgainstManualSkills(
+    manager: EntityManager,
+    candidateId: string,
+    skills: CandidateSkillInputDto[],
+  ): Promise<CandidateSkillInputDto[]> {
+    const manualSkills = await manager.find(CandidateSkill, {
+      where: { candidateId, source: CandidateDataSource.MANUAL },
+    });
+    const manualSkillNames = new Set(
+      manualSkills.map((skill) => this.normalizeSkillName(skill.name)),
+    );
+    return skills.filter((skill) => !manualSkillNames.has(this.normalizeSkillName(skill.name)));
+  }
+
+  private async deleteExistingSection<
+    T extends { candidateId: string; source: CandidateDataSource },
+  >(
+    manager: EntityManager,
+    entity: new () => T,
+    candidateId: string,
+    source: CandidateDataSource,
+  ): Promise<void> {
+    if (source === CandidateDataSource.CV_PARSE) {
+      await manager.delete(entity, { candidateId, source });
+      return;
+    }
+    await manager.delete(entity, { candidateId });
   }
 }

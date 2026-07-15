@@ -27,11 +27,17 @@ export class CvParseRequest {
   @Column({ name: 'candidate_id', type: 'uuid' })
   candidateId: string;
 
+  @Column({ name: 'requested_by_user_id', type: 'uuid' })
+  requestedByUserId: string;
+
   @Column({ name: 'candidate_cv_id', type: 'uuid' })
   candidateCvId: string;
 
   @Column({ name: 'document_id', type: 'uuid' })
   documentId: string;
+
+  @Column({ name: 'document_url', type: 'text', nullable: true })
+  documentUrl: string | null;
 
   @Column({
     name: 'context',

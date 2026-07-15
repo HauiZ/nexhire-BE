@@ -28,6 +28,7 @@ export * from './decorators/api-query.decorator';
 // ── guards ──
 export * from './guards/jwt-auth.guard';
 export * from './guards/internal-auth.guard';
+export * from './guards/internal-service-token.guard';
 export * from './guards/roles.guard';
 
 // ── filters / interceptors ──

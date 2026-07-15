@@ -1,8 +1,9 @@
-import { ERROR_CODES } from '@nexhire/shared';
+import { ERROR_CODES, UserRole } from '@nexhire/shared';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 
 import { CandidateService } from '../candidate.service';
 import { CandidateCertification } from '../entities/candidate-certification.entity';
+import { CandidateCv } from '../entities/candidate-cv.entity';
 import { CandidateEducation } from '../entities/candidate-education.entity';
 import { CandidateExperience } from '../entities/candidate-experience.entity';
 import {
@@ -13,17 +14,20 @@ import {
 import { CandidateProfile } from '../entities/candidate-profile.entity';
 import { CandidateProject } from '../entities/candidate-project.entity';
 import { CandidateSkill } from '../entities/candidate-skill.entity';
+import { DocumentClientService } from '../../document-client/document-client.service';
 
 type MockRepo<T> = {
   create: jest.Mock;
   find: jest.Mock;
   findOne: jest.Mock;
   save: jest.Mock;
+  update: jest.Mock;
 };
 
 type MockManager = {
   create: jest.Mock;
   delete: jest.Mock;
+  find: jest.Mock;
   findOneOrFail: jest.Mock;
   getRepository: jest.Mock;
   save: jest.Mock;
@@ -36,6 +40,7 @@ function createRepoMock<T>(): MockRepo<T> {
     find: jest.fn().mockResolvedValue([]),
     findOne: jest.fn(),
     save: jest.fn((entity: T) => Promise.resolve(entity)),
+    update: jest.fn().mockResolvedValue(undefined),
   };
 }
 
@@ -70,6 +75,7 @@ function createManager(profileRepo: MockRepo<CandidateProfile>): MockManager {
   return {
     create: jest.fn((_entity: unknown, payload: unknown) => payload),
     delete: jest.fn().mockResolvedValue(undefined),
+    find: jest.fn().mockResolvedValue([]),
     findOneOrFail: jest.fn().mockResolvedValue(createProfile()),
     getRepository: jest.fn(() => profileRepo),
     save: jest.fn((_entity: unknown, payload: unknown) => Promise.resolve(payload)),
@@ -86,6 +92,8 @@ describe('CandidateService', () => {
   let experienceRepo: MockRepo<CandidateExperience>;
   let certificationRepo: MockRepo<CandidateCertification>;
   let projectRepo: MockRepo<CandidateProject>;
+  let cvRepo: MockRepo<CandidateCv>;
+  let documentClientService: { uploadCandidateDocument: jest.Mock };
 
   beforeEach(() => {
     dataSource = {
@@ -97,6 +105,10 @@ describe('CandidateService', () => {
     experienceRepo = createRepoMock<CandidateExperience>();
     certificationRepo = createRepoMock<CandidateCertification>();
     projectRepo = createRepoMock<CandidateProject>();
+    cvRepo = createRepoMock<CandidateCv>();
+    documentClientService = {
+      uploadCandidateDocument: jest.fn(),
+    };
 
     service = new CandidateService(
       dataSource as unknown as DataSource,
@@ -106,6 +118,8 @@ describe('CandidateService', () => {
       experienceRepo as unknown as Repository<CandidateExperience>,
       certificationRepo as unknown as Repository<CandidateCertification>,
       projectRepo as unknown as Repository<CandidateProject>,
+      cvRepo as unknown as Repository<CandidateCv>,
+      documentClientService as unknown as DocumentClientService,
     );
   });
 
@@ -407,5 +421,48 @@ describe('CandidateService', () => {
     expect(manager.delete).not.toHaveBeenCalledWith(CandidateExperience, {
       candidateId: 'candidate-1',
     });
+  });
+
+  it('rejects unsupported avatar file types', async () => {
+    await expect(
+      service.uploadAvatar(
+        { id: 'user-1', role: UserRole.CANDIDATE },
+        {
+          originalname: 'avatar.pdf',
+          mimetype: 'application/pdf',
+          size: 100,
+          buffer: Buffer.from('file'),
+        },
+      ),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.DOCUMENT.UNSUPPORTED_FILE_TYPE,
+      }),
+    });
+    expect(documentClientService.uploadCandidateDocument).not.toHaveBeenCalled();
+  });
+
+  it('marks a candidate CV parse attempt as failed', async () => {
+    const cv = {
+      id: 'cv-1',
+      candidateId: 'candidate-1',
+      documentId: 'document-1',
+      title: 'CV',
+      isDefault: true,
+      parseStatus: 'PARSING',
+      parsedAt: new Date('2026-01-01T00:00:00.000Z'),
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+    } as CandidateCv;
+    cvRepo.findOne.mockResolvedValue(cv);
+
+    const result = await service.markCvParseFailed('candidate-1', 'cv-1');
+
+    expect(cvRepo.update).toHaveBeenCalledWith('cv-1', {
+      parseStatus: 'FAILED',
+      parsedAt: null,
+    });
+    expect(result.parseStatus).toBe('FAILED');
+    expect(result.parsedAt).toBeNull();
   });
 });

@@ -4,4 +4,5 @@ export const HEADERS = {
   USER_ID: 'x-user-id',
   USER_ROLE: 'x-user-role',
   COMPANY_ID: 'x-company-id',
+  INTERNAL_SERVICE_TOKEN: 'x-internal-service-token',
 } as const;

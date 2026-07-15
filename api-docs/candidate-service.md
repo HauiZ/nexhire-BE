@@ -307,3 +307,83 @@ Errors:
 | 403    | forbidden        | User role is not allowed                     |
 | 409    | conflict         | Duplicate skill/profile conflict             |
 | 422    | validation error | Invalid request body                         |
+
+### `PATCH /api/v1/candidates/me/avatar`
+
+Summary: Upload an avatar document and set it as the current candidate profile avatar.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Request body: `multipart/form-data`
+
+| Field  | Type | Required | Note                                                 |
+| ------ | ---- | -------- | ---------------------------------------------------- |
+| `file` | file | Yes      | `image/jpeg`, `image/png`, or `image/webp`; max 5 MB |
+
+Success response: same shape as `GET /api/v1/candidates/me`, with `profile.avatarDocumentId` set to the uploaded document id.
+
+Errors:
+
+| Status | Code             | Meaning                        |
+| ------ | ---------------- | ------------------------------ |
+| 400    | validation error | Missing file or invalid file   |
+| 401    | unauthorized     | Missing/invalid access token   |
+| 403    | forbidden        | User role is not allowed       |
+| 503    | AI/service error | Downstream service unavailable |
+
+### `POST /api/v1/cvs/upload`
+
+Summary: Upload a CV document, create a CV library record, and trigger automatic parsing for profile update.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Request body: `multipart/form-data`
+
+| Field       | Type    | Required | Note                                                   |
+| ----------- | ------- | -------- | ------------------------------------------------------ |
+| `file`      | file    | Yes      | PDF/DOC/DOCX; max 10 MB                                |
+| `title`     | string  | No       | Max 255; defaults to uploaded file name                |
+| `isDefault` | boolean | No       | If true, clears previous default CV for this candidate |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "bb4f26c9-2bb3-4177-8483-ff057db9f675",
+    "documentId": "2f67a247-7ff0-4e50-bff7-a2dcfbf6de2e",
+    "title": "Backend Engineer CV",
+    "isDefault": true,
+    "parseStatus": "PARSING",
+    "parsedAt": null,
+    "createdAt": "2026-07-15T10:00:00.000Z",
+    "updatedAt": "2026-07-15T10:00:00.000Z"
+  }
+}
+```
+
+Notes:
+
+- The uploaded file is stored through `document-storage-service`.
+- The CV record is created in `candidate_cvs`.
+- Candidate-service calls `cv-parsing-service` to create a parse request with context `PROFILE_UPDATE`.
+- Parsing runs in the cv-parsing service background flow after the request is queued.
+- If the parse trigger fails, the CV record is still created with `parseStatus = FAILED`.
+- Profile update from parsed data is applied by the parsing flow once normalized `ParsedResume` is available.
+
+Errors:
+
+| Status | Code             | Meaning                        |
+| ------ | ---------------- | ------------------------------ |
+| 400    | validation error | Missing file or invalid file   |
+| 401    | unauthorized     | Missing/invalid access token   |
+| 403    | forbidden        | User role is not allowed       |
+| 409    | conflict         | Duplicate CV document conflict |
+| 503    | AI/service error | Downstream service unavailable |

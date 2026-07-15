@@ -6,6 +6,7 @@ import {
   CandidateProfileVisibility,
   CandidateSkillLevel,
 } from '../entities/candidate.enum';
+import { CandidateCvResponseDto } from '../../cv/dto/cv-response.dto';
 
 export class CandidateProfileFieldsResponseDto {
   @ApiProperty()
@@ -197,11 +198,11 @@ export class CandidateProfileResponseDto {
   @ApiProperty({ type: [CandidateProjectResponseDto] })
   projects: CandidateProjectResponseDto[];
 
-  @ApiProperty({ type: 'object', nullable: true })
-  defaultCv: Record<string, unknown> | null;
+  @ApiProperty({ type: CandidateCvResponseDto, nullable: true })
+  defaultCv: CandidateCvResponseDto | null;
 
-  @ApiProperty({ type: [Object] })
-  cvs: never[];
+  @ApiProperty({ type: [CandidateCvResponseDto] })
+  cvs: CandidateCvResponseDto[];
 
   @ApiProperty({ example: 70 })
   completionPercent: number;

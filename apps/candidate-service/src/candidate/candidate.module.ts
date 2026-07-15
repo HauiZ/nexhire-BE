@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DocumentClientModule } from '../document-client/document-client.module';
 import { CandidateController } from './candidate.controller';
+import { CandidateInternalController } from './candidate-internal.controller';
 import { CandidateService } from './candidate.service';
 import { CandidateCertification } from './entities/candidate-certification.entity';
 import { CandidateCv } from './entities/candidate-cv.entity';
@@ -12,6 +14,7 @@ import { CandidateSkill } from './entities/candidate-skill.entity';
 
 @Module({
   imports: [
+    DocumentClientModule,
     TypeOrmModule.forFeature([
       CandidateProfile,
       CandidateSkill,
@@ -22,7 +25,7 @@ import { CandidateSkill } from './entities/candidate-skill.entity';
       CandidateCv,
     ]),
   ],
-  controllers: [CandidateController],
+  controllers: [CandidateController, CandidateInternalController],
   providers: [CandidateService],
   exports: [CandidateService],
 })
