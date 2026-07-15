@@ -5,3 +5,18 @@ export enum JobType {
   INTERNSHIP = 'INTERNSHIP',
   FREELANCE = 'FREELANCE',
 }
+
+export enum JobWorkingType {
+  ONSITE = 'ONSITE',
+  REMOTE = 'REMOTE',
+  HYBRID = 'HYBRID',
+}
+
+export enum JobExperienceLevel {
+  INTERN = 'INTERN',
+  FRESHER = 'FRESHER',
+  JUNIOR = 'JUNIOR',
+  MIDDLE = 'MIDDLE',
+  SENIOR = 'SENIOR',
+  LEAD = 'LEAD',
+}

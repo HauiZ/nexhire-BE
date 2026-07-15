@@ -1,4 +1,901 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import {
+  AuthUser,
+  ERROR_CODES,
+  EVENTS,
+  JobModerationDecision,
+  JobRevisionStatus,
+  JobReviewDecision,
+  JobStatus,
+  UserRole,
+} from '@nexhire/shared';
+import { EventPublisher } from '@nexhire/infra';
+import { Brackets, DataSource, In, Repository } from 'typeorm';
+import { CompanySnapshotService } from './company-snapshot.service';
+import { JobModerationResult, JobModerationService } from './job-moderation.service';
+import {
+  CreateJobDto,
+  CreateJobRevisionDto,
+  UpdateJobDto,
+  UpdateJobRevisionDto,
+} from './dto/job-input.dto';
+import {
+  AdminJobReviewQueueQueryDto,
+  PublicJobQueryDto,
+  RecruiterJobQueryDto,
+} from './dto/job-query.dto';
+import { ReviewJobDto } from './dto/job-review.dto';
+import {
+  JobResponseDto,
+  JobRevisionResponseDto,
+  PublicJobListItemDto,
+} from './dto/job-response.dto';
+import { JobModerationReview } from './entities/job-moderation-review.entity';
+import { JobRevision } from './entities/job-revision.entity';
+import { Job } from './entities/job.entity';
+import {
+  CompanyStatusSnapshot,
+  CompanyTrustLevel,
+  JobModerationTargetType,
+} from './entities/job.enum';
+
+type Paginated<T> = {
+  data: T[];
+  meta: { page: number; limit: number; total: number; totalPages: number };
+};
+
+const ACTIVE_REVIEW_STATUSES = [
+  JobStatus.PENDING_REVIEW,
+  JobStatus.NEEDS_REVIEW,
+  JobStatus.SHOULD_REJECT,
+];
+
+const ACTIVE_REVISION_STATUSES = [
+  JobRevisionStatus.DRAFT,
+  JobRevisionStatus.PENDING_REVIEW,
+  JobRevisionStatus.NEEDS_REVIEW,
+  JobRevisionStatus.SHOULD_REJECT,
+];
+
+const COMPANY_STATUS_NOT_APPROVED_MESSAGE = 'Company is no longer approved for job posting';
+
+export interface CompanyPostingSnapshotChangedPayload {
+  companyId: string;
+  companyName?: string | null;
+  companyStatus: CompanyStatusSnapshot;
+  companyTrustLevel?: CompanyTrustLevel;
+  changedAt?: string;
+}
+
+export interface ApplicationSubmittedPayload {
+  applicationId: string;
+  jobId: string;
+  candidateId: string;
+  submittedAt?: string;
+}
+
+const MAJOR_FIELDS: Array<keyof UpdateJobDto> = [
+  'title',
+  'description',
+  'requirements',
+  'benefits',
+  'categoryId',
+  'employmentType',
+  'workingType',
+  'experienceLevel',
+  'location',
+  'salaryMin',
+  'salaryMax',
+  'salaryCurrency',
+];
 
 @Injectable()
-export class JobService {}
+export class JobService {
+  constructor(
+    private readonly dataSource: DataSource,
+    private readonly companySnapshotService: CompanySnapshotService,
+    private readonly moderationService: JobModerationService,
+    private readonly eventPublisher: EventPublisher,
+    @InjectRepository(Job)
+    private readonly jobRepo: Repository<Job>,
+    @InjectRepository(JobRevision)
+    private readonly revisionRepo: Repository<JobRevision>,
+    @InjectRepository(JobModerationReview)
+    private readonly moderationReviewRepo: Repository<JobModerationReview>,
+  ) {}
+
+  async listPublic(query: PublicJobQueryDto): Promise<Paginated<PublicJobListItemDto>> {
+    const qb = this.jobRepo
+      .createQueryBuilder('job')
+      .where('job.status = :status', { status: JobStatus.PUBLISHED })
+      .orderBy('job.publishedAt', 'DESC')
+      .addOrderBy('job.createdAt', 'DESC')
+      .skip(query.skip)
+      .take(query.limit);
+
+    this.applyPublicFilters(qb, query);
+
+    const [jobs, total] = await qb.getManyAndCount();
+    return this.paginate(
+      jobs.map((job) => this.mapPublicJob(job)),
+      query.page,
+      query.limit,
+      total,
+    );
+  }
+
+  async getPublic(id: string): Promise<JobResponseDto> {
+    const job = await this.jobRepo.findOne({ where: { id, status: JobStatus.PUBLISHED } });
+    if (!job) {
+      throw new NotFoundException({
+        code: ERROR_CODES.JOB.JOB_NOT_PUBLIC,
+        message: 'Published job was not found',
+      });
+    }
+    return this.mapJob(job);
+  }
+
+  async createDraft(user: AuthUser, dto: CreateJobDto): Promise<JobResponseDto> {
+    this.assertRecruiter(user);
+    this.assertJobInput(dto);
+    const company = await this.companySnapshotService.getPostingSnapshot(user);
+
+    const job = await this.jobRepo.save(
+      this.jobRepo.create({
+        ...this.jobInput(dto),
+        companyId: company.companyId,
+        companyName: company.companyName,
+        companyStatus: company.companyStatus,
+        companyTrustLevel: company.companyTrustLevel,
+        companySnapshotAt: company.snapshotAt,
+        createdByUserId: user.id,
+        status: JobStatus.DRAFT,
+        version: 1,
+        applicationCount: 0,
+        moderationReasons: [],
+        moderationMatchedRules: [],
+      }),
+    );
+
+    return this.mapJob(job);
+  }
+
+  async listMine(user: AuthUser, query: RecruiterJobQueryDto): Promise<Paginated<JobResponseDto>> {
+    this.assertRecruiter(user);
+    const qb = this.jobRepo
+      .createQueryBuilder('job')
+      .where('job.companyId = :companyId', { companyId: user.companyId })
+      .orderBy('job.createdAt', 'DESC')
+      .skip(query.skip)
+      .take(query.limit);
+
+    if (query.status) {
+      qb.andWhere('job.status = :status', { status: query.status });
+    }
+    this.applyPublicFilters(qb, query);
+
+    const [jobs, total] = await qb.getManyAndCount();
+    return this.paginate(
+      jobs.map((job) => this.mapJob(job)),
+      query.page,
+      query.limit,
+      total,
+    );
+  }
+
+  async getMine(user: AuthUser, id: string): Promise<JobResponseDto> {
+    const job = await this.findCompanyJob(user, id);
+    return this.mapJob(job);
+  }
+
+  async updateMine(user: AuthUser, id: string, dto: UpdateJobDto): Promise<JobResponseDto> {
+    this.assertJobInput(dto);
+    const job = await this.findCompanyJob(user, id);
+
+    if (job.status === JobStatus.PUBLISHED && this.hasMajorChange(job, dto)) {
+      if (job.applicationCount > 0) {
+        throw new ConflictException({
+          code: ERROR_CODES.JOB.MAJOR_UPDATE_REQUIRES_REVISION,
+          message: 'Major updates to a published job with applications must use a revision',
+        });
+      }
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.MAJOR_UPDATE_REQUIRES_REVIEW,
+        message: 'Major updates to a published job must be reviewed before going public',
+      });
+    }
+
+    if (![JobStatus.DRAFT, JobStatus.PUBLISHED].includes(job.status)) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.JOB_NOT_EDITABLE,
+        message: 'Only draft or published jobs can be edited by recruiters',
+      });
+    }
+
+    Object.assign(job, this.jobInput(dto));
+    const updated = await this.jobRepo.save(job);
+    return this.mapJob(updated);
+  }
+
+  async submitMine(user: AuthUser, id: string): Promise<JobResponseDto> {
+    const job = await this.findCompanyJob(user, id);
+    if (job.status !== JobStatus.DRAFT) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.JOB_NOT_EDITABLE,
+        message: 'Only draft jobs can be submitted for review',
+      });
+    }
+
+    const company = await this.companySnapshotService.getPostingSnapshot(user);
+    const moderation = this.moderationService.moderate(job, company);
+    const updated = await this.dataSource.transaction(async (manager) => {
+      Object.assign(job, {
+        companyName: company.companyName,
+        companyStatus: company.companyStatus,
+        companyTrustLevel: company.companyTrustLevel,
+        companySnapshotAt: company.snapshotAt,
+        status: this.statusForDecision(moderation.decision),
+        riskScore: moderation.riskScore,
+        riskLevel: moderation.riskLevel,
+        moderationDecision: moderation.decision,
+        moderationReasons: moderation.reasons,
+        moderationMatchedRules: moderation.matchedRules,
+        reviewedByUserId: null,
+        reviewedAt: null,
+        reviewReason: null,
+      });
+      const saved = await manager.save(Job, job);
+      await this.recordModeration(manager.getRepository(JobModerationReview), {
+        jobId: saved.id,
+        targetType: JobModerationTargetType.JOB,
+        targetId: saved.id,
+        moderation,
+      });
+      return saved;
+    });
+
+    return this.mapJob(updated);
+  }
+
+  async createRevision(
+    user: AuthUser,
+    jobId: string,
+    dto: CreateJobRevisionDto,
+  ): Promise<JobRevisionResponseDto> {
+    this.assertJobInput(dto);
+    const job = await this.findCompanyJob(user, jobId);
+    if (job.status !== JobStatus.PUBLISHED || job.applicationCount <= 0) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.JOB_NOT_EDITABLE,
+        message: 'Revisions are only required for published jobs with applications',
+      });
+    }
+    await this.assertNoActiveRevision(job.id);
+
+    const revision = await this.revisionRepo.save(
+      this.revisionRepo.create({
+        ...this.revisionInput(dto),
+        jobId: job.id,
+        companyId: job.companyId,
+        createdByUserId: user.id,
+        status: JobRevisionStatus.DRAFT,
+        moderationReasons: [],
+        moderationMatchedRules: [],
+      }),
+    );
+    return this.mapRevision(revision);
+  }
+
+  async updateRevision(
+    user: AuthUser,
+    jobId: string,
+    revisionId: string,
+    dto: UpdateJobRevisionDto,
+  ): Promise<JobRevisionResponseDto> {
+    this.assertJobInput(dto);
+    await this.findCompanyJob(user, jobId);
+    const revision = await this.findCompanyRevision(user, jobId, revisionId);
+    if (revision.status !== JobRevisionStatus.DRAFT) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.REVISION_NOT_EDITABLE,
+        message: 'Only draft revisions can be edited',
+      });
+    }
+    Object.assign(revision, this.revisionInput(dto));
+    return this.mapRevision(await this.revisionRepo.save(revision));
+  }
+
+  async submitRevision(
+    user: AuthUser,
+    jobId: string,
+    revisionId: string,
+  ): Promise<JobRevisionResponseDto> {
+    const job = await this.findCompanyJob(user, jobId);
+    const revision = await this.findCompanyRevision(user, jobId, revisionId);
+    if (revision.status !== JobRevisionStatus.DRAFT) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.REVISION_NOT_EDITABLE,
+        message: 'Only draft revisions can be submitted for review',
+      });
+    }
+
+    const company = await this.companySnapshotService.getPostingSnapshot(user);
+    const moderation = this.moderationService.moderate(revision, company);
+    const updated = await this.dataSource.transaction(async (manager) => {
+      Object.assign(revision, {
+        status: this.revisionStatusForDecision(moderation.decision),
+        riskScore: moderation.riskScore,
+        riskLevel: moderation.riskLevel,
+        moderationDecision: moderation.decision,
+        moderationReasons: moderation.reasons,
+        moderationMatchedRules: moderation.matchedRules,
+      });
+      const saved = await manager.save(JobRevision, revision);
+      await this.recordModeration(manager.getRepository(JobModerationReview), {
+        jobId: job.id,
+        targetType: JobModerationTargetType.REVISION,
+        targetId: saved.id,
+        moderation,
+      });
+      return saved;
+    });
+
+    return this.mapRevision(updated);
+  }
+
+  async listReviewQueue(query: AdminJobReviewQueueQueryDto): Promise<Paginated<JobResponseDto>> {
+    const qb = this.jobRepo
+      .createQueryBuilder('job')
+      .where('job.status IN (:...statuses)', {
+        statuses: query.status ? [query.status] : ACTIVE_REVIEW_STATUSES,
+      })
+      .orderBy('job.createdAt', 'ASC')
+      .skip(query.skip)
+      .take(query.limit);
+
+    if (query.search) {
+      qb.andWhere(
+        new Brackets((where) => {
+          where
+            .where('job.title ILIKE :search', { search: `%${query.search}%` })
+            .orWhere('job.companyName ILIKE :search', { search: `%${query.search}%` });
+        }),
+      );
+    }
+
+    const [jobs, total] = await qb.getManyAndCount();
+    return this.paginate(
+      jobs.map((job) => this.mapJob(job)),
+      query.page,
+      query.limit,
+      total,
+    );
+  }
+
+  async reviewJob(admin: AuthUser, id: string, dto: ReviewJobDto): Promise<JobResponseDto> {
+    this.assertAdmin(admin);
+    const job = await this.jobRepo.findOne({ where: { id } });
+    if (!job) {
+      throw this.jobNotFound();
+    }
+    if (!ACTIVE_REVIEW_STATUSES.includes(job.status)) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.JOB_NOT_EDITABLE,
+        message: 'Only jobs waiting for review can be reviewed',
+      });
+    }
+    if (dto.decision === JobReviewDecision.REJECT && !dto.reason?.trim()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.JOB.REVIEW_DECISION_REASON_REQUIRED,
+        message: 'Rejecting a job requires a reason',
+      });
+    }
+    if (
+      dto.decision === JobReviewDecision.APPROVE &&
+      job.companyStatus !== CompanyStatusSnapshot.APPROVED
+    ) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.JOB.COMPANY_NOT_APPROVED,
+        message: 'Company must be approved before a job can be published',
+      });
+    }
+
+    job.status =
+      dto.decision === JobReviewDecision.APPROVE ? JobStatus.PUBLISHED : JobStatus.REJECTED;
+    job.reviewedByUserId = admin.id;
+    job.reviewedAt = new Date();
+    job.reviewReason = dto.reason?.trim() || null;
+    if (job.status === JobStatus.PUBLISHED) {
+      job.publishedAt = job.publishedAt ?? new Date();
+    }
+
+    const saved = await this.jobRepo.save(job);
+    await this.markLatestReview(saved.id, saved.id, admin, dto);
+    if (saved.status === JobStatus.PUBLISHED) {
+      await this.publishEvent(EVENTS.JOB_PUBLISHED, {
+        jobId: saved.id,
+        companyId: saved.companyId,
+        version: saved.version,
+        publishedAt: saved.publishedAt?.toISOString(),
+      });
+    }
+    return this.mapJob(saved);
+  }
+
+  async listRevisionReviewQueue(): Promise<JobRevisionResponseDto[]> {
+    const revisions = await this.revisionRepo.find({
+      where: {
+        status: In([
+          JobRevisionStatus.PENDING_REVIEW,
+          JobRevisionStatus.NEEDS_REVIEW,
+          JobRevisionStatus.SHOULD_REJECT,
+        ]),
+      },
+      order: { createdAt: 'ASC' },
+    });
+    return revisions.map((revision) => this.mapRevision(revision));
+  }
+
+  async reviewRevision(
+    admin: AuthUser,
+    revisionId: string,
+    dto: ReviewJobDto,
+  ): Promise<JobRevisionResponseDto> {
+    this.assertAdmin(admin);
+    const revision = await this.revisionRepo.findOne({ where: { id: revisionId } });
+    if (!revision) {
+      throw new NotFoundException({
+        code: ERROR_CODES.JOB.REVISION_NOT_FOUND,
+        message: 'Job revision was not found',
+      });
+    }
+    if (
+      ![
+        JobRevisionStatus.PENDING_REVIEW,
+        JobRevisionStatus.NEEDS_REVIEW,
+        JobRevisionStatus.SHOULD_REJECT,
+      ].includes(revision.status)
+    ) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.REVISION_NOT_EDITABLE,
+        message: 'Only revisions waiting for review can be reviewed',
+      });
+    }
+    if (dto.decision === JobReviewDecision.REJECT && !dto.reason?.trim()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.JOB.REVIEW_DECISION_REASON_REQUIRED,
+        message: 'Rejecting a revision requires a reason',
+      });
+    }
+
+    const saved = await this.dataSource.transaction(async (manager) => {
+      revision.status =
+        dto.decision === JobReviewDecision.APPROVE
+          ? JobRevisionStatus.APPROVED
+          : JobRevisionStatus.REJECTED;
+      revision.reviewedByUserId = admin.id;
+      revision.reviewedAt = new Date();
+      revision.reviewReason = dto.reason?.trim() || null;
+      const savedRevision = await manager.save(JobRevision, revision);
+
+      if (dto.decision === JobReviewDecision.APPROVE) {
+        const job = await manager.findOneByOrFail(Job, { id: revision.jobId });
+        if (job.companyStatus !== CompanyStatusSnapshot.APPROVED) {
+          throw new ForbiddenException({
+            code: ERROR_CODES.JOB.COMPANY_NOT_APPROVED,
+            message: 'Company must be approved before a revision can be published',
+          });
+        }
+        Object.assign(job, this.jobInput(revision));
+        job.version += 1;
+        await manager.save(Job, job);
+      }
+
+      await this.markLatestReviewTx(
+        manager.getRepository(JobModerationReview),
+        revision.jobId,
+        revision.id,
+        admin,
+        dto,
+      );
+      return savedRevision;
+    });
+
+    if (saved.status === JobRevisionStatus.APPROVED) {
+      await this.publishEvent(EVENTS.JOB_REVISION_APPROVED, {
+        jobId: saved.jobId,
+        companyId: saved.companyId,
+        revisionId: saved.id,
+        approvedAt: saved.reviewedAt?.toISOString(),
+      });
+    }
+
+    return this.mapRevision(saved);
+  }
+
+  async syncCompanyPostingSnapshot(payload: CompanyPostingSnapshotChangedPayload): Promise<void> {
+    const snapshotAt = payload.changedAt ? new Date(payload.changedAt) : new Date();
+    const companyTrustLevel = payload.companyTrustLevel ?? CompanyTrustLevel.MEDIUM;
+    const snapshotPatch = {
+      companyName: payload.companyName ?? null,
+      companyStatus: payload.companyStatus,
+      companyTrustLevel,
+      companySnapshotAt: snapshotAt,
+    };
+
+    await this.dataSource.transaction(async (manager) => {
+      await manager.update(Job, { companyId: payload.companyId }, snapshotPatch);
+
+      if (payload.companyStatus !== CompanyStatusSnapshot.APPROVED) {
+        await manager
+          .createQueryBuilder()
+          .update(Job)
+          .set({
+            status: JobStatus.SHOULD_REJECT,
+            reviewReason: COMPANY_STATUS_NOT_APPROVED_MESSAGE,
+            publishedAt: null,
+          })
+          .where('company_id = :companyId', { companyId: payload.companyId })
+          .andWhere('status IN (:...statuses)', {
+            statuses: [JobStatus.PUBLISHED, ...ACTIVE_REVIEW_STATUSES],
+          })
+          .execute();
+
+        await manager
+          .createQueryBuilder()
+          .update(JobRevision)
+          .set({
+            status: JobRevisionStatus.SHOULD_REJECT,
+            reviewReason: COMPANY_STATUS_NOT_APPROVED_MESSAGE,
+          })
+          .where('company_id = :companyId', { companyId: payload.companyId })
+          .andWhere('status IN (:...statuses)', {
+            statuses: [
+              JobRevisionStatus.PENDING_REVIEW,
+              JobRevisionStatus.NEEDS_REVIEW,
+              JobRevisionStatus.SHOULD_REJECT,
+            ],
+          })
+          .execute();
+      }
+    });
+  }
+
+  async recordApplicationSubmitted(payload: ApplicationSubmittedPayload): Promise<void> {
+    await this.jobRepo.increment({ id: payload.jobId }, 'applicationCount', 1);
+  }
+
+  private applyPublicFilters(
+    qb: ReturnType<Repository<Job>['createQueryBuilder']>,
+    query: PublicJobQueryDto,
+  ): void {
+    if (query.search) {
+      qb.andWhere(
+        new Brackets((where) => {
+          where
+            .where('job.title ILIKE :search', { search: `%${query.search}%` })
+            .orWhere('job.description ILIKE :search', { search: `%${query.search}%` });
+        }),
+      );
+    }
+    if (query.location) {
+      qb.andWhere('job.location ILIKE :location', { location: `%${query.location}%` });
+    }
+    if (query.employmentType) {
+      qb.andWhere('job.employmentType = :employmentType', { employmentType: query.employmentType });
+    }
+    if (query.workingType) {
+      qb.andWhere('job.workingType = :workingType', { workingType: query.workingType });
+    }
+    if (query.experienceLevel) {
+      qb.andWhere('job.experienceLevel = :experienceLevel', {
+        experienceLevel: query.experienceLevel,
+      });
+    }
+    if (query.categoryId) {
+      qb.andWhere('job.categoryId = :categoryId', { categoryId: query.categoryId });
+    }
+  }
+
+  private async findCompanyJob(user: AuthUser, id: string): Promise<Job> {
+    this.assertRecruiter(user);
+    const job = await this.jobRepo.findOne({ where: { id, companyId: user.companyId } });
+    if (!job) {
+      throw this.jobNotFound();
+    }
+    return job;
+  }
+
+  private async findCompanyRevision(
+    user: AuthUser,
+    jobId: string,
+    revisionId: string,
+  ): Promise<JobRevision> {
+    const revision = await this.revisionRepo.findOne({
+      where: { id: revisionId, jobId, companyId: user.companyId },
+    });
+    if (!revision) {
+      throw new NotFoundException({
+        code: ERROR_CODES.JOB.REVISION_NOT_FOUND,
+        message: 'Job revision was not found',
+      });
+    }
+    return revision;
+  }
+
+  private async assertNoActiveRevision(jobId: string): Promise<void> {
+    const existing = await this.revisionRepo.findOne({
+      where: { jobId, status: In(ACTIVE_REVISION_STATUSES) },
+    });
+    if (existing) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.ACTIVE_REVISION_EXISTS,
+        message: 'This job already has an active revision',
+      });
+    }
+  }
+
+  private assertRecruiter(user: AuthUser): void {
+    if (user.role !== UserRole.RECRUITER || !user.companyId) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.COMMON.FORBIDDEN,
+        message: 'Only recruiters with a company can manage jobs',
+      });
+    }
+  }
+
+  private assertAdmin(user: AuthUser): void {
+    if (user.role !== UserRole.ADMIN) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.COMMON.FORBIDDEN,
+        message: 'Only admins can review jobs',
+      });
+    }
+  }
+
+  private assertJobInput(dto: UpdateJobDto): void {
+    if (
+      dto.salaryMin !== undefined &&
+      dto.salaryMax !== undefined &&
+      dto.salaryMin > dto.salaryMax
+    ) {
+      throw new BadRequestException({
+        code: ERROR_CODES.JOB.INVALID_SALARY_RANGE,
+        message: 'Minimum salary cannot be greater than maximum salary',
+      });
+    }
+    if (dto.deadline && dto.deadline.getTime() <= Date.now()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.JOB.INVALID_DEADLINE,
+        message: 'Job deadline must be in the future',
+      });
+    }
+  }
+
+  private hasMajorChange(job: Job, dto: UpdateJobDto): boolean {
+    return MAJOR_FIELDS.some((field) => (job[field] ?? null) !== (dto[field] ?? null));
+  }
+
+  private jobInput(dto: UpdateJobDto | JobRevision) {
+    return {
+      title: dto.title.trim(),
+      description: dto.description.trim(),
+      requirements: dto.requirements.trim(),
+      benefits: dto.benefits?.trim() || null,
+      categoryId: dto.categoryId ?? null,
+      employmentType: dto.employmentType,
+      workingType: dto.workingType,
+      experienceLevel: dto.experienceLevel,
+      location: dto.location.trim(),
+      salaryMin: dto.salaryMin ?? null,
+      salaryMax: dto.salaryMax ?? null,
+      salaryCurrency: (dto.salaryCurrency ?? 'VND').toUpperCase(),
+      isSalaryVisible: dto.isSalaryVisible ?? true,
+      deadline: dto.deadline ?? null,
+      numberOfOpenings: dto.numberOfOpenings ?? null,
+    };
+  }
+
+  private revisionInput(dto: CreateJobRevisionDto) {
+    return {
+      ...this.jobInput(dto),
+      changeSummary: dto.changeSummary?.trim() || null,
+    };
+  }
+
+  private statusForDecision(decision: JobModerationDecision): JobStatus {
+    if (decision === JobModerationDecision.SHOULD_REJECT) {
+      return JobStatus.SHOULD_REJECT;
+    }
+    if (decision === JobModerationDecision.NEEDS_REVIEW) {
+      return JobStatus.NEEDS_REVIEW;
+    }
+    return JobStatus.PENDING_REVIEW;
+  }
+
+  private revisionStatusForDecision(decision: JobModerationDecision): JobRevisionStatus {
+    if (decision === JobModerationDecision.SHOULD_REJECT) {
+      return JobRevisionStatus.SHOULD_REJECT;
+    }
+    if (decision === JobModerationDecision.NEEDS_REVIEW) {
+      return JobRevisionStatus.NEEDS_REVIEW;
+    }
+    return JobRevisionStatus.PENDING_REVIEW;
+  }
+
+  private async recordModeration(
+    repo: Repository<JobModerationReview>,
+    input: {
+      jobId: string;
+      targetType: JobModerationTargetType;
+      targetId: string;
+      moderation: JobModerationResult;
+    },
+  ): Promise<void> {
+    await repo.save(
+      repo.create({
+        jobId: input.jobId,
+        targetType: input.targetType,
+        targetId: input.targetId,
+        riskScore: input.moderation.riskScore,
+        riskLevel: input.moderation.riskLevel,
+        decision: input.moderation.decision,
+        reasons: input.moderation.reasons,
+        matchedRules: input.moderation.matchedRules,
+      }),
+    );
+  }
+
+  private async markLatestReview(
+    jobId: string,
+    targetId: string,
+    admin: AuthUser,
+    dto: ReviewJobDto,
+  ): Promise<void> {
+    await this.markLatestReviewTx(this.moderationReviewRepo, jobId, targetId, admin, dto);
+  }
+
+  private async markLatestReviewTx(
+    repo: Repository<JobModerationReview>,
+    jobId: string,
+    targetId: string,
+    admin: AuthUser,
+    dto: ReviewJobDto,
+  ): Promise<void> {
+    const review = await repo.findOne({
+      where: { jobId, targetId },
+      order: { createdAt: 'DESC' },
+    });
+    if (!review) {
+      return;
+    }
+    review.reviewedByUserId = admin.id;
+    review.reviewedAt = new Date();
+    review.adminDecision = dto.decision;
+    review.adminReason = dto.reason?.trim() || null;
+    await repo.save(review);
+  }
+
+  private async publishEvent(routingKey: string, payload: unknown): Promise<void> {
+    await this.eventPublisher.publish(routingKey, payload).catch(() => undefined);
+  }
+
+  private paginate<T>(data: T[], page: number, limit: number, total: number): Paginated<T> {
+    return {
+      data,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  private mapPublicJob(job: Job): PublicJobListItemDto {
+    return {
+      id: job.id,
+      companyId: job.companyId,
+      companyName: job.companyName,
+      title: job.title,
+      categoryId: job.categoryId,
+      employmentType: job.employmentType,
+      workingType: job.workingType,
+      experienceLevel: job.experienceLevel,
+      location: job.location,
+      salaryMin: job.isSalaryVisible ? job.salaryMin : null,
+      salaryMax: job.isSalaryVisible ? job.salaryMax : null,
+      salaryCurrency: job.salaryCurrency,
+      isSalaryVisible: job.isSalaryVisible,
+      deadline: job.deadline,
+      publishedAt: job.publishedAt,
+    };
+  }
+
+  private mapJob(job: Job): JobResponseDto {
+    return {
+      id: job.id,
+      companyId: job.companyId,
+      companyName: job.companyName,
+      title: job.title,
+      description: job.description,
+      requirements: job.requirements,
+      benefits: job.benefits,
+      categoryId: job.categoryId,
+      employmentType: job.employmentType,
+      workingType: job.workingType,
+      experienceLevel: job.experienceLevel,
+      location: job.location,
+      salaryMin: job.isSalaryVisible ? job.salaryMin : null,
+      salaryMax: job.isSalaryVisible ? job.salaryMax : null,
+      salaryCurrency: job.salaryCurrency,
+      isSalaryVisible: job.isSalaryVisible,
+      deadline: job.deadline,
+      numberOfOpenings: job.numberOfOpenings,
+      status: job.status,
+      version: job.version,
+      applicationCount: job.applicationCount,
+      publishedAt: job.publishedAt,
+      reviewedAt: job.reviewedAt,
+      reviewReason: job.reviewReason,
+      moderation: {
+        riskScore: job.riskScore,
+        riskLevel: job.riskLevel,
+        decision: job.moderationDecision,
+        reasons: job.moderationReasons,
+        matchedRules: job.moderationMatchedRules,
+      },
+      createdAt: job.createdAt,
+      updatedAt: job.updatedAt,
+    };
+  }
+
+  private mapRevision(revision: JobRevision): JobRevisionResponseDto {
+    return {
+      id: revision.id,
+      jobId: revision.jobId,
+      status: revision.status,
+      title: revision.title,
+      description: revision.description,
+      requirements: revision.requirements,
+      benefits: revision.benefits,
+      categoryId: revision.categoryId,
+      employmentType: revision.employmentType,
+      workingType: revision.workingType,
+      experienceLevel: revision.experienceLevel,
+      location: revision.location,
+      salaryMin: revision.isSalaryVisible ? revision.salaryMin : null,
+      salaryMax: revision.isSalaryVisible ? revision.salaryMax : null,
+      salaryCurrency: revision.salaryCurrency,
+      isSalaryVisible: revision.isSalaryVisible,
+      deadline: revision.deadline,
+      numberOfOpenings: revision.numberOfOpenings,
+      changeSummary: revision.changeSummary,
+      moderation: {
+        riskScore: revision.riskScore,
+        riskLevel: revision.riskLevel,
+        decision: revision.moderationDecision,
+        reasons: revision.moderationReasons,
+        matchedRules: revision.moderationMatchedRules,
+      },
+      reviewedAt: revision.reviewedAt,
+      reviewReason: revision.reviewReason,
+      createdAt: revision.createdAt,
+      updatedAt: revision.updatedAt,
+    };
+  }
+
+  private jobNotFound(): NotFoundException {
+    return new NotFoundException({
+      code: ERROR_CODES.JOB.JOB_NOT_FOUND,
+      message: 'Job was not found',
+    });
+  }
+}

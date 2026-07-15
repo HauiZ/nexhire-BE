@@ -1,6 +1,38 @@
 export enum JobStatus {
   DRAFT = 'DRAFT',
-  OPEN = 'OPEN',
+  PENDING_REVIEW = 'PENDING_REVIEW',
+  NEEDS_REVIEW = 'NEEDS_REVIEW',
+  SHOULD_REJECT = 'SHOULD_REJECT',
+  PUBLISHED = 'PUBLISHED',
+  REJECTED = 'REJECTED',
   CLOSED = 'CLOSED',
-  ARCHIVED = 'ARCHIVED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum JobRevisionStatus {
+  DRAFT = 'DRAFT',
+  PENDING_REVIEW = 'PENDING_REVIEW',
+  NEEDS_REVIEW = 'NEEDS_REVIEW',
+  SHOULD_REJECT = 'SHOULD_REJECT',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum JobModerationRiskLevel {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  CRITICAL = 'CRITICAL',
+}
+
+export enum JobModerationDecision {
+  PENDING_REVIEW = 'PENDING_REVIEW',
+  NEEDS_REVIEW = 'NEEDS_REVIEW',
+  SHOULD_REJECT = 'SHOULD_REJECT',
+}
+
+export enum JobReviewDecision {
+  APPROVE = 'APPROVE',
+  REJECT = 'REJECT',
 }

@@ -102,7 +102,7 @@ Use this section as the first quick-read context when starting a new session.
 - `auth-service`: login, JWT issuing, Redis-backed refresh token rotation/revocation, logout, password and email flows, authorization primitives.
 - `candidate-service`: candidate profile, CVs, saved jobs.
 - `company-service`: company profile and HR accounts.
-- `job-service`: jobs and job categories.
+- `job-service`: job posting lifecycle, moderation-assisted manual review, public job read, and job categories.
 - `application-service`: applications and interview stage flow.
 - `cv-parsing-service`: AI CV parsing.
 - `matching-service`: AI CV-JD matching.
@@ -114,7 +114,7 @@ Use this section as the first quick-read context when starting a new session.
 - `auth/*`, `users/*` -> `auth-service`
 - `candidates/*`, `cvs/*`, `saved-jobs/*` -> `candidate-service`
 - `companies/*`, `hr-accounts/*` -> `company-service`
-- `jobs/*`, `categories/*` -> `job-service`
+- `jobs/*`, `recruiter/jobs/*`, `admin/jobs/*`, `categories/*` -> `job-service`
 - `applications/*` -> `application-service`
 - `cv-parsing/*` -> `cv-parsing-service`
 - `matching/*` -> `matching-service`
@@ -138,6 +138,8 @@ Use this section as the first quick-read context when starting a new session.
 ### Infra model
 
 - `RabbitMQ` is the async backbone for domain events.
+- `company-service` should publish `company.posting-snapshot-changed` whenever company posting eligibility, name, or trust level changes; `job-service` consumes it to keep job company snapshots current.
+- `application-service` should publish `application.submitted` after successful application creation; `job-service` consumes it to keep `jobs.application_count` current for revision gating.
 - `Redis` is for cache, token store, and rate limit support.
 - `MinIO` is the object storage backend.
 - `gateway` applies a global throttle plus stricter route-specific throttles for sensitive public auth endpoints.

@@ -43,6 +43,26 @@ export class ProxyController {
     return this.proxy.forward('jobService', req, res);
   }
 
+  @All('jobs')
+  jobsRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
+  }
+
+  @All('recruiter/jobs/*')
+  recruiterJobs(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
+  }
+
+  @All('recruiter/jobs')
+  recruiterJobsRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
+  }
+
+  @All('admin/jobs/*')
+  adminJobs(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
+  }
+
   @All('categories/*')
   categories(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('jobService', req, res);
@@ -83,4 +103,3 @@ export class ProxyController {
     return this.proxy.forward('documentStorageService', req, res);
   }
 }
-

@@ -82,6 +82,20 @@ FE-facing business endpoints currently documented:
 - `GET /api/v1/candidates/me`
 - `PATCH /api/v1/candidates/me`
 - `POST /api/v1/documents/upload`
+- `GET /api/v1/jobs`
+- `GET /api/v1/jobs/:id`
+- `POST /api/v1/recruiter/jobs`
+- `GET /api/v1/recruiter/jobs`
+- `GET /api/v1/recruiter/jobs/:id`
+- `PATCH /api/v1/recruiter/jobs/:id`
+- `POST /api/v1/recruiter/jobs/:id/submit`
+- `POST /api/v1/recruiter/jobs/:jobId/revisions`
+- `PATCH /api/v1/recruiter/jobs/:jobId/revisions/:revisionId`
+- `POST /api/v1/recruiter/jobs/:jobId/revisions/:revisionId/submit`
+- `GET /api/v1/admin/jobs/review-queue`
+- `POST /api/v1/admin/jobs/:id/review`
+- `GET /api/v1/admin/jobs/revision-review-queue`
+- `POST /api/v1/admin/jobs/revisions/:revisionId/review`
 - `GET /api/v1/health`
 
 Scaffold controllers without business endpoints yet:
@@ -90,7 +104,7 @@ Scaffold controllers without business endpoints yet:
 - `candidate-service`: `cvs`, `saved-jobs`
 - `company-service`: `companies`, `hr-accounts`
 - `cv-parsing-service`: `cv-parsing`
-- `job-service`: `jobs`, `categories`
+- `job-service`: `categories`
 - `matching-service`: `matching`
 - `notification-service`: `notifications/email`, `notifications/web-push`
 - `auth-service`: `tokens`, `permissions`
