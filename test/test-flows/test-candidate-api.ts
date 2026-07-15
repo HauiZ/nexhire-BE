@@ -2,6 +2,10 @@ import 'dotenv/config';
 import { randomUUID } from 'crypto';
 
 const BASE_URL = process.env.CANDIDATE_TEST_BASE_URL ?? 'http://localhost:3000/api/v1';
+const INTERNAL_BASE_URL =
+  process.env.CANDIDATE_INTERNAL_TEST_BASE_URL ?? 'http://localhost:3002/api/v1';
+const INTERNAL_SERVICE_TOKEN =
+  process.env.CANDIDATE_INTERNAL_TEST_TOKEN ?? process.env.INTERNAL_SERVICE_TOKEN;
 const TEST_EMAIL = `candidate-test-${Date.now()}@nexhire.local`;
 const TEST_PASSWORD = 'StrongPassword123!';
 const USER_ROLE = 'CANDIDATE';
@@ -37,6 +41,27 @@ interface CandidateProfileResponse {
   defaultCv: null;
   cvs: unknown[];
   completionPercent: number;
+}
+
+interface CandidateCvResponse {
+  id: string;
+  documentId: string;
+  title: string | null;
+  isDefault: boolean;
+  parseStatus: string;
+}
+
+interface CandidateApplicationSnapshotResponse {
+  candidateId: string;
+  candidateUserId: string;
+  fullName: string | null;
+  email: string | null;
+  phone: string | null;
+  avatarDocumentId: string | null;
+  candidateCvId: string;
+  cvDocumentId: string;
+  cvTitle: string | null;
+  cvParseStatus: string;
 }
 
 interface ApiEnvelope<T> {
@@ -111,10 +136,11 @@ function unwrap<T>(payload: ApiEnvelope<T> | T): T {
   return payload as T;
 }
 
-function buildHeaders(): Record<string, string> {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  };
+function buildHeaders(contentType?: string): Record<string, string> {
+  const headers: Record<string, string> = {};
+  if (contentType) {
+    headers['Content-Type'] = contentType;
+  }
 
   if (accessToken) {
     headers.Authorization = `Bearer ${accessToken}`;
@@ -136,8 +162,52 @@ async function request<T>(
 
   const response = await fetch(url, {
     method,
-    headers: buildHeaders(),
+    headers: buildHeaders('application/json'),
     body: body ? JSON.stringify(body) : undefined,
+  });
+  const text = await response.text();
+  const raw = text ? JSON.parse(text) : {};
+
+  return {
+    status: response.status,
+    data: unwrap<T>(raw),
+    raw,
+  };
+}
+
+async function upload<T>(
+  path: string,
+  form: FormData,
+): Promise<{ status: number; data: T; raw: unknown }> {
+  const url = `${BASE_URL}${path}`;
+  log(`POST ${url}`, 'blue');
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: buildHeaders(),
+    body: form,
+  });
+  const text = await response.text();
+  const raw = text ? JSON.parse(text) : {};
+
+  return {
+    status: response.status,
+    data: unwrap<T>(raw),
+    raw,
+  };
+}
+
+async function patchUpload<T>(
+  path: string,
+  form: FormData,
+): Promise<{ status: number; data: T; raw: unknown }> {
+  const url = `${BASE_URL}${path}`;
+  log(`PATCH ${url}`, 'blue');
+
+  const response = await fetch(url, {
+    method: 'PATCH',
+    headers: buildHeaders(),
+    body: form,
   });
   const text = await response.text();
   const raw = text ? JSON.parse(text) : {};
@@ -280,6 +350,119 @@ async function rejectDuplicateSkill(): Promise<void> {
   expectStatus(response.status, 409, 'duplicate skill rejected', response.raw);
 }
 
+function createPdfBlob(): Blob {
+  return new Blob([Buffer.from('%PDF-1.4\n% NexHire candidate flow CV\n')], {
+    type: 'application/pdf',
+  });
+}
+
+function createPngBlob(): Blob {
+  const pngBytes = Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAFgwJ/lHjH2wAAAABJRU5ErkJggg==',
+    'base64',
+  );
+
+  return new Blob([pngBytes], { type: 'image/png' });
+}
+
+async function uploadAvatar(): Promise<void> {
+  logSection('5. Upload avatar');
+
+  const form = new FormData();
+  form.append('file', createPngBlob(), 'candidate-avatar.png');
+
+  const response = await patchUpload<CandidateProfileResponse>('/candidates/me/avatar', form);
+  if (!expectStatus(response.status, 200, 'upload avatar', response.raw)) {
+    return;
+  }
+
+  if (response.data.profile?.userId === userId) {
+    pass('avatar upload returns profile aggregate');
+    return;
+  }
+
+  fail('avatar upload response shape is invalid', response.raw);
+}
+
+async function uploadCv(): Promise<CandidateCvResponse | null> {
+  logSection('6. Upload CV');
+
+  const form = new FormData();
+  form.append('file', createPdfBlob(), 'candidate-flow-cv.pdf');
+  form.append('title', 'Candidate Flow CV');
+  form.append('isDefault', 'true');
+
+  const response = await upload<CandidateCvResponse>('/cvs/upload', form);
+  if (!expectStatus(response.status, 201, 'upload CV', response.raw)) {
+    return null;
+  }
+
+  if (response.data.id && response.data.documentId && response.data.isDefault) {
+    pass('CV upload returns candidate CV metadata');
+    log(`Candidate CV ID: ${response.data.id}`, 'dim');
+    return response.data;
+  }
+
+  fail('CV upload response shape is invalid', response.raw);
+  return null;
+}
+
+async function verifyCvInProfile(candidateCvId: string): Promise<void> {
+  logSection('7. Verify CV appears in profile aggregate');
+  const profile = await getProfile('Get profile after CV upload');
+  if (!profile) {
+    return;
+  }
+
+  const hasUploadedCv = profile.cvs.some((cv) => {
+    return typeof cv === 'object' && cv !== null && 'id' in cv && cv.id === candidateCvId;
+  });
+
+  if (hasUploadedCv) {
+    pass('uploaded CV is included in profile aggregate');
+    return;
+  }
+
+  fail('uploaded CV is missing from profile aggregate', profile);
+}
+
+async function verifyApplicationSnapshot(candidateCv: CandidateCvResponse): Promise<void> {
+  logSection('8. Internal application snapshot');
+
+  if (!INTERNAL_SERVICE_TOKEN) {
+    log('Skipped: set CANDIDATE_INTERNAL_TEST_TOKEN or INTERNAL_SERVICE_TOKEN.', 'yellow');
+    return;
+  }
+
+  const url = `${INTERNAL_BASE_URL}/internal/candidates/users/${userId}/cvs/${candidateCv.id}/application-snapshot`;
+  log(`GET ${url}`, 'blue');
+
+  const response = await fetch(url, {
+    headers: {
+      'x-internal-service-token': INTERNAL_SERVICE_TOKEN,
+    },
+  });
+  const text = await response.text();
+  const raw = text ? JSON.parse(text) : {};
+  const data = unwrap<CandidateApplicationSnapshotResponse>(raw);
+
+  if (!expectStatus(response.status, 200, 'get application snapshot', raw)) {
+    return;
+  }
+
+  if (
+    data.candidateUserId === userId &&
+    data.candidateCvId === candidateCv.id &&
+    data.cvDocumentId === candidateCv.documentId &&
+    data.email
+  ) {
+    pass('snapshot includes candidate, contact email, and CV metadata');
+    return;
+  }
+
+  fail('application snapshot response shape is invalid', raw);
+}
+
 async function main(): Promise<void> {
   log('CANDIDATE PROFILE API LIVE TEST', 'cyan');
   log(`Base URL: ${BASE_URL}`, 'yellow');
@@ -290,6 +473,12 @@ async function main(): Promise<void> {
   await updateProfile();
   await clearSkills();
   await rejectDuplicateSkill();
+  await uploadAvatar();
+  const candidateCv = await uploadCv();
+  if (candidateCv) {
+    await verifyCvInProfile(candidateCv.id);
+    await verifyApplicationSnapshot(candidateCv);
+  }
 
   logSection('Result');
   log(`Passed: ${passed}`, 'green');
