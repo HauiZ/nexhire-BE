@@ -6,7 +6,15 @@ import {
   JobType,
   JobWorkingType,
 } from '@nexhire/shared';
-import { Column, CreateDateColumn, Entity, Index, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  Index,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { CompanyStatusSnapshot, CompanyTrustLevel } from './job.enum';
 
 @Entity('jobs')
@@ -27,6 +35,9 @@ export class Job {
 
   @Column({ name: 'company_name', type: 'varchar', length: 255, nullable: true })
   companyName: string | null;
+
+  @Column({ name: 'company_logo_url', type: 'text', nullable: true })
+  companyLogoUrl: string | null;
 
   @Column({
     name: 'company_status',
@@ -59,6 +70,9 @@ export class Job {
 
   @Column({ name: 'requirements', type: 'text' })
   requirements: string;
+
+  @Column({ name: 'skills', type: 'text', array: true, default: () => "'{}'" })
+  skills: string[];
 
   @Column({ name: 'benefits', type: 'text', nullable: true })
   benefits: string | null;
@@ -171,9 +185,42 @@ export class Job {
   @Column({ name: 'review_reason', type: 'text', nullable: true })
   reviewReason: string | null;
 
+  @Column({ name: 'unpublished_by_user_id', type: 'uuid', nullable: true })
+  unpublishedByUserId: string | null;
+
+  @Column({ name: 'unpublished_at', type: 'timestamptz', nullable: true })
+  unpublishedAt: Date | null;
+
+  @Column({ name: 'unpublish_reason', type: 'text', nullable: true })
+  unpublishReason: string | null;
+
+  @Column({ name: 'search_title', type: 'text', default: '' })
+  searchTitle: string;
+
+  @Column({ name: 'search_description', type: 'text', default: '' })
+  searchDescription: string;
+
+  @Column({ name: 'search_requirements', type: 'text', default: '' })
+  searchRequirements: string;
+
+  @Column({ name: 'search_skills', type: 'text', default: '' })
+  searchSkills: string;
+
+  @Column({ name: 'search_company_name', type: 'text', default: '' })
+  searchCompanyName: string;
+
+  @Column({ name: 'search_location', type: 'text', default: '' })
+  searchLocation: string;
+
+  @Column({ name: 'search_text', type: 'text', default: '' })
+  searchText: string;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
+  deletedAt: Date | null;
 }

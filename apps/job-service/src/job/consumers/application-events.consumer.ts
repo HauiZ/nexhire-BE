@@ -3,12 +3,11 @@ import { ConfigService } from '@nestjs/config';
 import { EVENTS } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
-import { CompanyStatusSnapshot, CompanyTrustLevel } from './entities/job.enum';
-import { CompanyPostingSnapshotChangedPayload, JobService } from './job.service';
+import { ApplicationSubmittedPayload, JobService } from '../job.service';
 
 @Injectable()
-export class CompanySnapshotEventsConsumer implements OnModuleInit, OnModuleDestroy {
-  private readonly logger = new Logger(CompanySnapshotEventsConsumer.name);
+export class ApplicationEventsConsumer implements OnModuleInit, OnModuleDestroy {
+  private readonly logger = new Logger(ApplicationEventsConsumer.name);
   private connection?: AmqpConnectionManager;
   private channel?: ChannelWrapper;
 
@@ -21,12 +20,12 @@ export class CompanySnapshotEventsConsumer implements OnModuleInit, OnModuleDest
     const url = this.configService.get<string>('rabbitmq.url');
     const exchange = this.configService.get<string>('rabbitmq.exchange');
     const queueName = this.configService.get<string>(
-      'jobService.queues.companySnapshot',
-      'job.company-snapshot',
+      'jobService.queues.applicationSubmitted',
+      'job.application-submitted',
     );
 
     if (!url || !exchange) {
-      this.logger.warn('RabbitMQ config missing, company snapshot consumer is disabled');
+      this.logger.warn('RabbitMQ config missing, application event consumer is disabled');
       return;
     }
 
@@ -40,8 +39,8 @@ export class CompanySnapshotEventsConsumer implements OnModuleInit, OnModuleDest
       setup: async (channel: ConfirmChannel) => {
         await channel.assertExchange(exchange, 'topic', { durable: true });
         await channel.assertQueue(queueName, { durable: true });
-        await channel.bindQueue(queueName, exchange, EVENTS.COMPANY_POSTING_SNAPSHOT_CHANGED);
-        await channel.consume(queueName, (message) => this.consumeSnapshotChanged(message), {
+        await channel.bindQueue(queueName, exchange, EVENTS.APPLICATION_SUBMITTED);
+        await channel.consume(queueName, (message) => this.consumeApplicationSubmitted(message), {
           noAck: false,
         });
       },
@@ -53,36 +52,25 @@ export class CompanySnapshotEventsConsumer implements OnModuleInit, OnModuleDest
     await this.connection?.close();
   }
 
-  private async consumeSnapshotChanged(message: ConsumeMessage | null): Promise<void> {
+  private async consumeApplicationSubmitted(message: ConsumeMessage | null): Promise<void> {
     if (!message || !this.channel) {
       return;
     }
 
     try {
-      const payload = JSON.parse(
-        message.content.toString(),
-      ) as CompanyPostingSnapshotChangedPayload;
+      const payload = JSON.parse(message.content.toString()) as ApplicationSubmittedPayload;
       this.assertPayload(payload);
-      await this.jobService.syncCompanyPostingSnapshot(payload);
+      await this.jobService.recordApplicationSubmitted(payload);
       this.channel.ack(message);
     } catch (error) {
-      this.logger.error('Failed to process company snapshot event', error as Error);
+      this.logger.error('Failed to process application submitted event', error as Error);
       this.channel.nack(message, false, false);
     }
   }
 
-  private assertPayload(payload: CompanyPostingSnapshotChangedPayload): void {
-    if (!payload.companyId || !payload.companyStatus) {
-      throw new Error('Invalid company snapshot event payload');
-    }
-    if (!Object.values(CompanyStatusSnapshot).includes(payload.companyStatus)) {
-      throw new Error(`Invalid company status: ${payload.companyStatus}`);
-    }
-    if (
-      payload.companyTrustLevel &&
-      !Object.values(CompanyTrustLevel).includes(payload.companyTrustLevel)
-    ) {
-      throw new Error(`Invalid company trust level: ${payload.companyTrustLevel}`);
+  private assertPayload(payload: ApplicationSubmittedPayload): void {
+    if (!payload.applicationId || !payload.jobId || !payload.candidateId) {
+      throw new Error('Invalid application submitted event payload');
     }
   }
 }

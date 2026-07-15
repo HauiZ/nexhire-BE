@@ -13,3 +13,11 @@ export class ReviewJobDto {
   @MaxLength(2000)
   reason?: string;
 }
+
+export class JobReasonDto {
+  @ApiPropertyOptional({ example: 'Temporarily paused by company.' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  reason?: string;
+}

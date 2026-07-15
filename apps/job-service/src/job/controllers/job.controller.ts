@@ -1,9 +1,9 @@
 import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiErrorResponses, ApiSuccessResponse, Public } from '@nexhire/shared';
-import { PublicJobQueryDto } from './dto/job-query.dto';
-import { JobResponseDto, PublicJobListItemDto } from './dto/job-response.dto';
-import { JobService } from './job.service';
+import { PublicJobQueryDto } from '../dto/job-query.dto';
+import { PublicJobDetailDto, PublicJobListItemDto } from '../dto/job-response.dto';
+import { JobService } from '../job.service';
 
 @ApiTags('jobs')
 @Controller('jobs')
@@ -22,9 +22,9 @@ export class JobController {
   @Get(':id')
   @Public()
   @ApiOperation({ summary: 'Get a published job detail' })
-  @ApiSuccessResponse(JobResponseDto)
+  @ApiSuccessResponse(PublicJobDetailDto)
   @ApiErrorResponses({ statuses: [404, 500] })
-  getPublic(@Param('id', ParseUUIDPipe) id: string): Promise<JobResponseDto> {
+  getPublic(@Param('id', ParseUUIDPipe) id: string): Promise<PublicJobDetailDto> {
     return this.jobService.getPublic(id);
   }
 }

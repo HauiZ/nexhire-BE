@@ -1,10 +1,11 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AuthUser, ERROR_CODES } from '@nexhire/shared';
-import { CompanyStatusSnapshot, CompanyTrustLevel } from './entities/job.enum';
+import { CompanyStatusSnapshot, CompanyTrustLevel } from '../entities/job.enum';
 
 export interface CompanyPermissionSnapshot {
   companyId: string;
   companyName: string | null;
+  companyLogoUrl: string | null;
   companyStatus: CompanyStatusSnapshot;
   companyTrustLevel: CompanyTrustLevel;
   snapshotAt: Date;
@@ -23,6 +24,7 @@ export class CompanySnapshotService {
     const snapshot: CompanyPermissionSnapshot = {
       companyId: user.companyId,
       companyName: null,
+      companyLogoUrl: null,
       companyStatus: CompanyStatusSnapshot.APPROVED,
       companyTrustLevel: CompanyTrustLevel.MEDIUM,
       snapshotAt: new Date(),

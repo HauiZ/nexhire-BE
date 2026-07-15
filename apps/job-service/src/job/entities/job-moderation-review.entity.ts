@@ -1,5 +1,5 @@
 import { JobModerationDecision, JobModerationRiskLevel, JobReviewDecision } from '@nexhire/shared';
-import { Column, CreateDateColumn, Entity, Index, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, PrimaryColumn } from 'typeorm';
 import { JobModerationTargetType } from './job.enum';
 
 @Entity('job_moderation_reviews')
@@ -73,4 +73,7 @@ export class JobModerationReview {
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
+  deletedAt: Date | null;
 }

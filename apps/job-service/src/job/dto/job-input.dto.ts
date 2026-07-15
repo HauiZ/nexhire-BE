@@ -5,6 +5,9 @@ import {
   IsDate,
   IsEnum,
   IsInt,
+  IsArray,
+  ArrayMaxSize,
+  IsNotEmpty,
   IsOptional,
   IsString,
   IsUUID,
@@ -17,18 +20,28 @@ import { JobExperienceLevel, JobType, JobWorkingType } from '@nexhire/shared';
 export class JobInputDto {
   @ApiProperty({ example: 'Backend Developer' })
   @IsString()
+  @IsNotEmpty()
   @MaxLength(255)
   title: string;
 
   @ApiProperty({ example: 'Develop and maintain REST APIs for NexHire.' })
   @IsString()
+  @IsNotEmpty()
   @MaxLength(12000)
   description: string;
 
   @ApiProperty({ example: 'At least 1 year experience with Node.js and PostgreSQL.' })
   @IsString()
+  @IsNotEmpty()
   @MaxLength(8000)
   requirements: string;
+
+  @ApiProperty({ type: [String], example: ['NestJS', 'PostgreSQL', 'RabbitMQ'] })
+  @IsArray()
+  @ArrayMaxSize(50)
+  @IsString({ each: true })
+  @MaxLength(80, { each: true })
+  skills: string[];
 
   @ApiPropertyOptional({ example: '13th salary, insurance, hybrid work.' })
   @IsOptional()
@@ -55,6 +68,7 @@ export class JobInputDto {
 
   @ApiProperty({ example: 'Ha Noi, Viet Nam' })
   @IsString()
+  @IsNotEmpty()
   @MaxLength(255)
   location: string;
 

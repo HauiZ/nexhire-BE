@@ -9,6 +9,7 @@ import {
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -63,6 +64,9 @@ export class JobRevision {
 
   @Column({ name: 'requirements', type: 'text' })
   requirements: string;
+
+  @Column({ name: 'skills', type: 'text', array: true, default: () => "'{}'" })
+  skills: string[];
 
   @Column({ name: 'benefits', type: 'text', nullable: true })
   benefits: string | null;
@@ -159,4 +163,7 @@ export class JobRevision {
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
+  deletedAt: Date | null;
 }

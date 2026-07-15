@@ -26,6 +26,11 @@ export class JobModerationSnapshotDto {
   matchedRules: string[];
 }
 
+export class DeleteJobResponseDto {
+  @ApiProperty({ example: true })
+  deleted: true;
+}
+
 export class JobResponseDto {
   @ApiProperty()
   id: string;
@@ -36,6 +41,9 @@ export class JobResponseDto {
   @ApiPropertyOptional()
   companyName: string | null;
 
+  @ApiPropertyOptional()
+  companyLogoUrl: string | null;
+
   @ApiProperty()
   title: string;
 
@@ -44,6 +52,9 @@ export class JobResponseDto {
 
   @ApiProperty()
   requirements: string;
+
+  @ApiProperty({ type: [String] })
+  skills: string[];
 
   @ApiPropertyOptional()
   benefits: string | null;
@@ -99,6 +110,12 @@ export class JobResponseDto {
   @ApiPropertyOptional()
   reviewReason: string | null;
 
+  @ApiPropertyOptional()
+  unpublishedAt: Date | null;
+
+  @ApiPropertyOptional()
+  unpublishReason: string | null;
+
   @ApiProperty({ type: JobModerationSnapshotDto })
   moderation: JobModerationSnapshotDto;
 
@@ -114,13 +131,66 @@ export class PublicJobListItemDto {
   id: string;
 
   @ApiProperty()
+  title: string;
+
+  @ApiProperty()
   companyId: string;
 
   @ApiPropertyOptional()
   companyName: string | null;
 
+  @ApiPropertyOptional()
+  companyLogoUrl: string | null;
+
+  @ApiProperty({ enum: JobExperienceLevel })
+  experienceLevel: JobExperienceLevel;
+
+  @ApiProperty()
+  location: string;
+
+  @ApiPropertyOptional()
+  salaryMin: number | null;
+
+  @ApiPropertyOptional()
+  salaryMax: number | null;
+
+  @ApiProperty()
+  salaryCurrency: string;
+
+  @ApiProperty()
+  isSalaryVisible: boolean;
+
+  @ApiPropertyOptional()
+  publishedAt: Date | null;
+}
+
+export class PublicJobDetailDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  companyId: string;
+
+  @ApiPropertyOptional()
+  companyName: string | null;
+
+  @ApiPropertyOptional()
+  companyLogoUrl: string | null;
+
   @ApiProperty()
   title: string;
+
+  @ApiProperty()
+  description: string;
+
+  @ApiProperty()
+  requirements: string;
+
+  @ApiProperty({ type: [String] })
+  skills: string[];
+
+  @ApiPropertyOptional()
+  benefits: string | null;
 
   @ApiPropertyOptional()
   categoryId: string | null;
@@ -152,8 +222,17 @@ export class PublicJobListItemDto {
   @ApiPropertyOptional()
   deadline: Date | null;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  numberOfOpenings: number | null;
+
+  @ApiPropertyOptional()
   publishedAt: Date | null;
+
+  @ApiProperty()
+  createdAt: Date;
+
+  @ApiProperty()
+  updatedAt: Date;
 }
 
 export class JobRevisionResponseDto {
@@ -174,6 +253,9 @@ export class JobRevisionResponseDto {
 
   @ApiProperty()
   requirements: string;
+
+  @ApiProperty({ type: [String] })
+  skills: string[];
 
   @ApiPropertyOptional()
   benefits: string | null;

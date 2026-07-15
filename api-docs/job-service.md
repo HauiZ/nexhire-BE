@@ -23,6 +23,8 @@ Responsibility: job posting lifecycle, manual moderation review, public job read
 - Major fields require a revision when applications exist: `title`, `description`, `requirements`, `benefits`, `categoryId`, `employmentType`, `workingType`, `experienceLevel`, `location`, `salaryMin`, `salaryMax`, `salaryCurrency`.
 - Approved major revisions apply to `jobs`, increment `version`, and emit a notification event.
 - Company snapshot is synced by event `company.posting-snapshot-changed`. If a company becomes non-approved, published/reviewing jobs move to `SHOULD_REJECT` and are no longer public.
+- Public search uses PostgreSQL full-text search over normalized `title`, `description`, `requirements`, `skills`, company snapshot name, and location.
+- Delete is soft delete. Published jobs should be hidden with `UNPUBLISHED`, not deleted.
 
 ## Shared Payload Fields
 
@@ -33,6 +35,7 @@ Create/update job and revision bodies require:
   "title": "Backend Developer",
   "description": "Develop and maintain REST APIs for NexHire.",
   "requirements": "At least 1 year experience with Node.js and PostgreSQL.",
+  "skills": ["NestJS", "PostgreSQL", "RabbitMQ"],
   "benefits": "13th salary and hybrid work.",
   "categoryId": "b8b33c46-4bb0-4a33-8b0d-927e081a38a5",
   "employmentType": "FULL_TIME",
@@ -48,7 +51,7 @@ Create/update job and revision bodies require:
 }
 ```
 
-Required: `title`, `description`, `requirements`, `employmentType`, `workingType`, `experienceLevel`, `location`.
+Required: `title`, `description`, `requirements`, `skills`, `employmentType`, `workingType`, `experienceLevel`, `location`.
 
 Optional nullable: `benefits`, `categoryId`, `salaryMin`, `salaryMax`, `deadline`, `numberOfOpenings`.
 
@@ -58,15 +61,24 @@ Optional nullable: `benefits`, `categoryId`, `salaryMin`, `salaryMax`, `deadline
 
 Auth: public.
 
-Query: `page`, `limit`, `search`, `location`, `employmentType`, `workingType`, `experienceLevel`, `categoryId`.
+Query: `page`, `limit`, `q`, `search`, `skills`, `location`, `employmentType`, `workingType`, `experienceLevel`, `categoryId`, `salaryMin`, `salaryMax`, `sort`.
 
-Returns paginated published job list. Hidden salary jobs return `salaryMin: null` and `salaryMax: null`.
+Returns a lightweight paginated published job list for candidate cards. Items include `id`, `title`, `companyId`, `companyName`, `companyLogoUrl`, salary display fields, `location`, `experienceLevel`, and `publishedAt`. Hidden salary jobs return `salaryMin: null` and `salaryMax: null`.
+
+Full-text search:
+
+- `q` searches normalized title, description, requirements, skills, company snapshot name, and location.
+- `search` is kept as a backwards-compatible alias for `q`.
+- `skills` accepts comma-separated terms, for example `skills=NestJS,PostgreSQL`.
+- Multiple `skills` use OR matching, then results are ranked by how many requested skills they match. A job matching both `NestJS` and `PostgreSQL` ranks above a job matching only one.
+- `sort` supports `relevance`, `latest`, `deadline_asc`, `salary_desc`, `salary_asc`.
+- Salary filters apply only to salary-visible jobs to avoid leaking hidden ranges.
 
 ### GET `/api/v1/jobs/:id`
 
 Auth: public.
 
-Returns one published job detail. Non-published jobs return `404`.
+Returns one published job detail for public readers. The response does not expose moderation, review, unpublish, or application-count fields. Non-published jobs return `404`.
 
 ### POST `/api/v1/recruiter/jobs`
 
@@ -97,6 +109,32 @@ Updates a draft job. Also updates eligible published jobs directly when no prote
 If a published job already has applications and the update changes a major field, returns `409 JOB.MAJOR_UPDATE_REQUIRES_REVISION`.
 
 If a published job has no applications but the update changes a major field, returns `409 JOB.MAJOR_UPDATE_REQUIRES_REVIEW`.
+
+### DELETE `/api/v1/recruiter/jobs/:id`
+
+Auth: recruiter.
+
+Soft deletes an eligible company-owned job. Allowed only for `DRAFT`, `REJECTED`, or `UNPUBLISHED` jobs without applications.
+
+### POST `/api/v1/recruiter/jobs/:id/unpublish`
+
+Auth: recruiter.
+
+Body:
+
+```json
+{
+  "reason": "Temporarily paused by company"
+}
+```
+
+Changes `PUBLISHED -> UNPUBLISHED`, hiding the job from public pages.
+
+### POST `/api/v1/recruiter/jobs/:id/republish`
+
+Auth: recruiter.
+
+Changes `UNPUBLISHED -> PUBLISHED` when the latest company snapshot is `APPROVED`.
 
 ### POST `/api/v1/recruiter/jobs/:id/submit`
 
@@ -153,6 +191,18 @@ Approve -> `PUBLISHED`; reject -> `REJECTED`.
 
 Approve is blocked if the latest company snapshot on the job is not `APPROVED`.
 
+### POST `/api/v1/admin/jobs/:id/unpublish`
+
+Auth: admin.
+
+Admin takedown for public jobs. Reason is required.
+
+### POST `/api/v1/admin/jobs/:id/republish`
+
+Auth: admin.
+
+Republishes an unpublished job when the latest company snapshot is `APPROVED`.
+
 ### GET `/api/v1/admin/jobs/revision-review-queue`
 
 Auth: admin.
@@ -183,6 +233,7 @@ Payload:
 {
   "companyId": "uuid",
   "companyName": "NexHire",
+  "companyLogoUrl": "https://cdn.nexhire.vn/company/nexhire.png",
   "companyStatus": "APPROVED",
   "companyTrustLevel": "MEDIUM",
   "changedAt": "2026-07-15T10:00:00.000Z"
@@ -193,7 +244,7 @@ Payload:
 
 `companyTrustLevel` values: `LOW`, `MEDIUM`, `HIGH`.
 
-Job-service consumes the event and updates job snapshots by `companyId`.
+Job-service consumes the event and updates job snapshots by `companyId`. `companyName` and `companyLogoUrl` are optional patch fields; omitted fields keep their previous snapshot value.
 
 ## Application Submitted Event
 
@@ -230,6 +281,7 @@ When application-service implements apply flow, it should store a snapshot:
   "companyName": null,
   "description": "Develop and maintain REST APIs.",
   "requirements": "At least 1 year experience.",
+  "skills": ["NestJS", "PostgreSQL"],
   "benefits": "Hybrid work.",
   "employmentType": "FULL_TIME",
   "workingType": "HYBRID",

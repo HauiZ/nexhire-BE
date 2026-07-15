@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   ForbiddenException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -18,8 +19,7 @@ import {
 } from '@nexhire/shared';
 import { EventPublisher } from '@nexhire/infra';
 import { Brackets, DataSource, In, Repository } from 'typeorm';
-import { CompanySnapshotService } from './company-snapshot.service';
-import { JobModerationResult, JobModerationService } from './job-moderation.service';
+import { CompanySnapshotService } from './company/company-snapshot.service';
 import {
   CreateJobDto,
   CreateJobRevisionDto,
@@ -31,13 +31,15 @@ import {
   PublicJobQueryDto,
   RecruiterJobQueryDto,
 } from './dto/job-query.dto';
-import { ReviewJobDto } from './dto/job-review.dto';
+import { JobReasonDto, ReviewJobDto } from './dto/job-review.dto';
 import {
   JobResponseDto,
   JobRevisionResponseDto,
+  PublicJobDetailDto,
   PublicJobListItemDto,
 } from './dto/job-response.dto';
 import { JobModerationReview } from './entities/job-moderation-review.entity';
+import { JobProcessedApplicationEvent } from './entities/job-processed-application-event.entity';
 import { JobRevision } from './entities/job-revision.entity';
 import { Job } from './entities/job.entity';
 import {
@@ -45,11 +47,9 @@ import {
   CompanyTrustLevel,
   JobModerationTargetType,
 } from './entities/job.enum';
-
-type Paginated<T> = {
-  data: T[];
-  meta: { page: number; limit: number; total: number; totalPages: number };
-};
+import { JobModerationResult, JobModerationService } from './moderation/job-moderation.service';
+import { JobSearchTextService } from './search/job-search-text.service';
+import { JOB_SEARCH_PROVIDER, JobSearchProvider, Paginated } from './search/job-search.types';
 
 const ACTIVE_REVIEW_STATUSES = [
   JobStatus.PENDING_REVIEW,
@@ -69,6 +69,7 @@ const COMPANY_STATUS_NOT_APPROVED_MESSAGE = 'Company is no longer approved for j
 export interface CompanyPostingSnapshotChangedPayload {
   companyId: string;
   companyName?: string | null;
+  companyLogoUrl?: string | null;
   companyStatus: CompanyStatusSnapshot;
   companyTrustLevel?: CompanyTrustLevel;
   changedAt?: string;
@@ -85,6 +86,7 @@ const MAJOR_FIELDS: Array<keyof UpdateJobDto> = [
   'title',
   'description',
   'requirements',
+  'skills',
   'benefits',
   'categoryId',
   'employmentType',
@@ -102,6 +104,9 @@ export class JobService {
     private readonly dataSource: DataSource,
     private readonly companySnapshotService: CompanySnapshotService,
     private readonly moderationService: JobModerationService,
+    @Inject(JOB_SEARCH_PROVIDER)
+    private readonly jobSearchProvider: JobSearchProvider,
+    private readonly searchTextService: JobSearchTextService,
     private readonly eventPublisher: EventPublisher,
     @InjectRepository(Job)
     private readonly jobRepo: Repository<Job>,
@@ -112,26 +117,10 @@ export class JobService {
   ) {}
 
   async listPublic(query: PublicJobQueryDto): Promise<Paginated<PublicJobListItemDto>> {
-    const qb = this.jobRepo
-      .createQueryBuilder('job')
-      .where('job.status = :status', { status: JobStatus.PUBLISHED })
-      .orderBy('job.publishedAt', 'DESC')
-      .addOrderBy('job.createdAt', 'DESC')
-      .skip(query.skip)
-      .take(query.limit);
-
-    this.applyPublicFilters(qb, query);
-
-    const [jobs, total] = await qb.getManyAndCount();
-    return this.paginate(
-      jobs.map((job) => this.mapPublicJob(job)),
-      query.page,
-      query.limit,
-      total,
-    );
+    return this.jobSearchProvider.searchPublicJobs(query);
   }
 
-  async getPublic(id: string): Promise<JobResponseDto> {
+  async getPublic(id: string): Promise<PublicJobDetailDto> {
     const job = await this.jobRepo.findOne({ where: { id, status: JobStatus.PUBLISHED } });
     if (!job) {
       throw new NotFoundException({
@@ -139,7 +128,7 @@ export class JobService {
         message: 'Published job was not found',
       });
     }
-    return this.mapJob(job);
+    return this.mapPublicJobDetail(job);
   }
 
   async createDraft(user: AuthUser, dto: CreateJobDto): Promise<JobResponseDto> {
@@ -152,6 +141,7 @@ export class JobService {
         ...this.jobInput(dto),
         companyId: company.companyId,
         companyName: company.companyName,
+        companyLogoUrl: company.companyLogoUrl,
         companyStatus: company.companyStatus,
         companyTrustLevel: company.companyTrustLevel,
         companySnapshotAt: company.snapshotAt,
@@ -161,6 +151,7 @@ export class JobService {
         applicationCount: 0,
         moderationReasons: [],
         moderationMatchedRules: [],
+        ...this.searchTextService.buildSearchFields(dto, company.companyName),
       }),
     );
 
@@ -169,25 +160,7 @@ export class JobService {
 
   async listMine(user: AuthUser, query: RecruiterJobQueryDto): Promise<Paginated<JobResponseDto>> {
     this.assertRecruiter(user);
-    const qb = this.jobRepo
-      .createQueryBuilder('job')
-      .where('job.companyId = :companyId', { companyId: user.companyId })
-      .orderBy('job.createdAt', 'DESC')
-      .skip(query.skip)
-      .take(query.limit);
-
-    if (query.status) {
-      qb.andWhere('job.status = :status', { status: query.status });
-    }
-    this.applyPublicFilters(qb, query);
-
-    const [jobs, total] = await qb.getManyAndCount();
-    return this.paginate(
-      jobs.map((job) => this.mapJob(job)),
-      query.page,
-      query.limit,
-      total,
-    );
+    return this.jobSearchProvider.searchCompanyJobs(user.companyId!, query);
   }
 
   async getMine(user: AuthUser, id: string): Promise<JobResponseDto> {
@@ -219,7 +192,11 @@ export class JobService {
       });
     }
 
-    Object.assign(job, this.jobInput(dto));
+    Object.assign(
+      job,
+      this.jobInput(dto),
+      this.searchTextService.buildSearchFields(dto, job.companyName),
+    );
     const updated = await this.jobRepo.save(job);
     return this.mapJob(updated);
   }
@@ -241,6 +218,7 @@ export class JobService {
         companyStatus: company.companyStatus,
         companyTrustLevel: company.companyTrustLevel,
         companySnapshotAt: company.snapshotAt,
+        ...this.searchTextService.buildSearchFields(job, company.companyName),
         status: this.statusForDecision(moderation.decision),
         riskScore: moderation.riskScore,
         riskLevel: moderation.riskLevel,
@@ -288,6 +266,7 @@ export class JobService {
         status: JobRevisionStatus.DRAFT,
         moderationReasons: [],
         moderationMatchedRules: [],
+        deletedAt: null,
       }),
     );
     return this.mapRevision(revision);
@@ -494,6 +473,7 @@ export class JobService {
           });
         }
         Object.assign(job, this.jobInput(revision));
+        Object.assign(job, this.searchTextService.buildSearchFields(revision, job.companyName));
         job.version += 1;
         await manager.save(Job, job);
       }
@@ -522,16 +502,33 @@ export class JobService {
 
   async syncCompanyPostingSnapshot(payload: CompanyPostingSnapshotChangedPayload): Promise<void> {
     const snapshotAt = payload.changedAt ? new Date(payload.changedAt) : new Date();
-    const companyTrustLevel = payload.companyTrustLevel ?? CompanyTrustLevel.MEDIUM;
-    const snapshotPatch = {
-      companyName: payload.companyName ?? null,
+    const snapshotPatch: Partial<Job> = {
       companyStatus: payload.companyStatus,
-      companyTrustLevel,
       companySnapshotAt: snapshotAt,
     };
+    if (payload.companyName !== undefined) {
+      snapshotPatch.companyName = payload.companyName;
+    }
+    if (payload.companyLogoUrl !== undefined) {
+      snapshotPatch.companyLogoUrl = payload.companyLogoUrl;
+    }
+    if (payload.companyTrustLevel !== undefined) {
+      snapshotPatch.companyTrustLevel = payload.companyTrustLevel;
+    }
 
     await this.dataSource.transaction(async (manager) => {
       await manager.update(Job, { companyId: payload.companyId }, snapshotPatch);
+
+      if (payload.companyName !== undefined) {
+        const jobs = await manager.find(Job, { where: { companyId: payload.companyId } });
+        for (const job of jobs) {
+          Object.assign(
+            job,
+            this.searchTextService.buildSearchFields(job, payload.companyName ?? null),
+          );
+        }
+        await manager.save(Job, jobs);
+      }
 
       if (payload.companyStatus !== CompanyStatusSnapshot.APPROVED) {
         await manager
@@ -569,39 +566,73 @@ export class JobService {
   }
 
   async recordApplicationSubmitted(payload: ApplicationSubmittedPayload): Promise<void> {
-    await this.jobRepo.increment({ id: payload.jobId }, 'applicationCount', 1);
-  }
-
-  private applyPublicFilters(
-    qb: ReturnType<Repository<Job>['createQueryBuilder']>,
-    query: PublicJobQueryDto,
-  ): void {
-    if (query.search) {
-      qb.andWhere(
-        new Brackets((where) => {
-          where
-            .where('job.title ILIKE :search', { search: `%${query.search}%` })
-            .orWhere('job.description ILIKE :search', { search: `%${query.search}%` });
+    await this.dataSource.transaction(async (manager) => {
+      const processedRepo = manager.getRepository(JobProcessedApplicationEvent);
+      const existing = await processedRepo.findOne({
+        where: { applicationId: payload.applicationId },
+      });
+      if (existing) {
+        return;
+      }
+      await processedRepo.save(
+        processedRepo.create({
+          applicationId: payload.applicationId,
+          jobId: payload.jobId,
+          candidateId: payload.candidateId,
         }),
       );
-    }
-    if (query.location) {
-      qb.andWhere('job.location ILIKE :location', { location: `%${query.location}%` });
-    }
-    if (query.employmentType) {
-      qb.andWhere('job.employmentType = :employmentType', { employmentType: query.employmentType });
-    }
-    if (query.workingType) {
-      qb.andWhere('job.workingType = :workingType', { workingType: query.workingType });
-    }
-    if (query.experienceLevel) {
-      qb.andWhere('job.experienceLevel = :experienceLevel', {
-        experienceLevel: query.experienceLevel,
+      await manager.increment(Job, { id: payload.jobId }, 'applicationCount', 1);
+    });
+  }
+
+  async deleteMine(user: AuthUser, id: string): Promise<{ deleted: true }> {
+    const job = await this.findCompanyJob(user, id);
+    if (
+      job.applicationCount > 0 ||
+      ![JobStatus.DRAFT, JobStatus.REJECTED, JobStatus.UNPUBLISHED].includes(job.status)
+    ) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.DELETE_NOT_ALLOWED,
+        message: 'Only draft, rejected, or unpublished jobs without applications can be deleted',
       });
     }
-    if (query.categoryId) {
-      qb.andWhere('job.categoryId = :categoryId', { categoryId: query.categoryId });
+    job.deletedAt = new Date();
+    await this.jobRepo.save(job);
+    return { deleted: true };
+  }
+
+  async unpublishMine(user: AuthUser, id: string, dto: JobReasonDto): Promise<JobResponseDto> {
+    const job = await this.findCompanyJob(user, id);
+    return this.unpublishJob(job, user, dto.reason);
+  }
+
+  async republishMine(user: AuthUser, id: string): Promise<JobResponseDto> {
+    const job = await this.findCompanyJob(user, id);
+    return this.republishJob(job);
+  }
+
+  async unpublishByAdmin(admin: AuthUser, id: string, dto: JobReasonDto): Promise<JobResponseDto> {
+    this.assertAdmin(admin);
+    if (!dto.reason?.trim()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.JOB.REVIEW_DECISION_REASON_REQUIRED,
+        message: 'Admin unpublish requires a reason',
+      });
     }
+    const job = await this.jobRepo.findOne({ where: { id } });
+    if (!job) {
+      throw this.jobNotFound();
+    }
+    return this.unpublishJob(job, admin, dto.reason);
+  }
+
+  async republishByAdmin(admin: AuthUser, id: string): Promise<JobResponseDto> {
+    this.assertAdmin(admin);
+    const job = await this.jobRepo.findOne({ where: { id } });
+    if (!job) {
+      throw this.jobNotFound();
+    }
+    return this.republishJob(job);
   }
 
   private async findCompanyJob(user: AuthUser, id: string): Promise<Job> {
@@ -688,6 +719,7 @@ export class JobService {
       title: dto.title.trim(),
       description: dto.description.trim(),
       requirements: dto.requirements.trim(),
+      skills: this.searchTextService.normalizeSkills(dto.skills),
       benefits: dto.benefits?.trim() || null,
       categoryId: dto.categoryId ?? null,
       employmentType: dto.employmentType,
@@ -708,6 +740,41 @@ export class JobService {
       ...this.jobInput(dto),
       changeSummary: dto.changeSummary?.trim() || null,
     };
+  }
+
+  private async unpublishJob(job: Job, user: AuthUser, reason?: string): Promise<JobResponseDto> {
+    if (job.status !== JobStatus.PUBLISHED) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.UNPUBLISH_NOT_ALLOWED,
+        message: 'Only published jobs can be unpublished',
+      });
+    }
+    job.status = JobStatus.UNPUBLISHED;
+    job.unpublishedByUserId = user.id;
+    job.unpublishedAt = new Date();
+    job.unpublishReason = reason?.trim() || null;
+    return this.mapJob(await this.jobRepo.save(job));
+  }
+
+  private async republishJob(job: Job): Promise<JobResponseDto> {
+    if (job.status !== JobStatus.UNPUBLISHED) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.REPUBLISH_NOT_ALLOWED,
+        message: 'Only unpublished jobs can be republished',
+      });
+    }
+    if (job.companyStatus !== CompanyStatusSnapshot.APPROVED) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.JOB.COMPANY_NOT_APPROVED,
+        message: 'Company must be approved before a job can be republished',
+      });
+    }
+    job.status = JobStatus.PUBLISHED;
+    job.unpublishedByUserId = null;
+    job.unpublishedAt = null;
+    job.unpublishReason = null;
+    job.publishedAt = job.publishedAt ?? new Date();
+    return this.mapJob(await this.jobRepo.save(job));
   }
 
   private statusForDecision(decision: JobModerationDecision): JobStatus {
@@ -799,34 +866,16 @@ export class JobService {
     };
   }
 
-  private mapPublicJob(job: Job): PublicJobListItemDto {
-    return {
-      id: job.id,
-      companyId: job.companyId,
-      companyName: job.companyName,
-      title: job.title,
-      categoryId: job.categoryId,
-      employmentType: job.employmentType,
-      workingType: job.workingType,
-      experienceLevel: job.experienceLevel,
-      location: job.location,
-      salaryMin: job.isSalaryVisible ? job.salaryMin : null,
-      salaryMax: job.isSalaryVisible ? job.salaryMax : null,
-      salaryCurrency: job.salaryCurrency,
-      isSalaryVisible: job.isSalaryVisible,
-      deadline: job.deadline,
-      publishedAt: job.publishedAt,
-    };
-  }
-
   private mapJob(job: Job): JobResponseDto {
     return {
       id: job.id,
       companyId: job.companyId,
       companyName: job.companyName,
+      companyLogoUrl: job.companyLogoUrl,
       title: job.title,
       description: job.description,
       requirements: job.requirements,
+      skills: job.skills,
       benefits: job.benefits,
       categoryId: job.categoryId,
       employmentType: job.employmentType,
@@ -845,6 +894,8 @@ export class JobService {
       publishedAt: job.publishedAt,
       reviewedAt: job.reviewedAt,
       reviewReason: job.reviewReason,
+      unpublishedAt: job.unpublishedAt,
+      unpublishReason: job.unpublishReason,
       moderation: {
         riskScore: job.riskScore,
         riskLevel: job.riskLevel,
@@ -852,6 +903,34 @@ export class JobService {
         reasons: job.moderationReasons,
         matchedRules: job.moderationMatchedRules,
       },
+      createdAt: job.createdAt,
+      updatedAt: job.updatedAt,
+    };
+  }
+
+  private mapPublicJobDetail(job: Job): PublicJobDetailDto {
+    return {
+      id: job.id,
+      companyId: job.companyId,
+      companyName: job.companyName,
+      companyLogoUrl: job.companyLogoUrl,
+      title: job.title,
+      description: job.description,
+      requirements: job.requirements,
+      skills: job.skills,
+      benefits: job.benefits,
+      categoryId: job.categoryId,
+      employmentType: job.employmentType,
+      workingType: job.workingType,
+      experienceLevel: job.experienceLevel,
+      location: job.location,
+      salaryMin: job.isSalaryVisible ? job.salaryMin : null,
+      salaryMax: job.isSalaryVisible ? job.salaryMax : null,
+      salaryCurrency: job.salaryCurrency,
+      isSalaryVisible: job.isSalaryVisible,
+      deadline: job.deadline,
+      numberOfOpenings: job.numberOfOpenings,
+      publishedAt: job.publishedAt,
       createdAt: job.createdAt,
       updatedAt: job.updatedAt,
     };
@@ -865,6 +944,7 @@ export class JobService {
       title: revision.title,
       description: revision.description,
       requirements: revision.requirements,
+      skills: revision.skills,
       benefits: revision.benefits,
       categoryId: revision.categoryId,
       employmentType: revision.employmentType,

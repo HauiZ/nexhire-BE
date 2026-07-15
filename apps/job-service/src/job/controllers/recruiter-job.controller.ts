@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
@@ -13,10 +23,15 @@ import {
   CreateJobRevisionDto,
   UpdateJobDto,
   UpdateJobRevisionDto,
-} from './dto/job-input.dto';
-import { RecruiterJobQueryDto } from './dto/job-query.dto';
-import { JobResponseDto, JobRevisionResponseDto } from './dto/job-response.dto';
-import { JobService } from './job.service';
+} from '../dto/job-input.dto';
+import { RecruiterJobQueryDto } from '../dto/job-query.dto';
+import {
+  DeleteJobResponseDto,
+  JobResponseDto,
+  JobRevisionResponseDto,
+} from '../dto/job-response.dto';
+import { JobReasonDto } from '../dto/job-review.dto';
+import { JobService } from '../job.service';
 
 @ApiTags('recruiter-jobs')
 @Controller('recruiter/jobs')
@@ -73,6 +88,40 @@ export class RecruiterJobController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<JobResponseDto> {
     return this.jobService.submitMine(user, id);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Soft delete an eligible company-owned job' })
+  @ApiSuccessResponse(DeleteJobResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 409, 500] })
+  deleteMine(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<{ deleted: true }> {
+    return this.jobService.deleteMine(user, id);
+  }
+
+  @Post(':id/unpublish')
+  @ApiOperation({ summary: 'Hide a published job from the public page' })
+  @ApiSuccessResponse(JobResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
+  unpublishMine(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: JobReasonDto,
+  ): Promise<JobResponseDto> {
+    return this.jobService.unpublishMine(user, id, dto);
+  }
+
+  @Post(':id/republish')
+  @ApiOperation({ summary: 'Show an unpublished job on the public page again' })
+  @ApiSuccessResponse(JobResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
+  republishMine(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<JobResponseDto> {
+    return this.jobService.republishMine(user, id);
   }
 
   @Post(':jobId/revisions')

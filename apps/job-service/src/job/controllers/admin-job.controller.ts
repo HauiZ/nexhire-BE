@@ -8,10 +8,10 @@ import {
   Roles,
   UserRole,
 } from '@nexhire/shared';
-import { AdminJobReviewQueueQueryDto } from './dto/job-query.dto';
-import { ReviewJobDto } from './dto/job-review.dto';
-import { JobResponseDto, JobRevisionResponseDto } from './dto/job-response.dto';
-import { JobService } from './job.service';
+import { AdminJobReviewQueueQueryDto } from '../dto/job-query.dto';
+import { JobResponseDto, JobRevisionResponseDto } from '../dto/job-response.dto';
+import { JobReasonDto, ReviewJobDto } from '../dto/job-review.dto';
+import { JobService } from '../job.service';
 
 @ApiTags('admin-jobs')
 @Controller('admin/jobs')
@@ -38,6 +38,29 @@ export class AdminJobController {
     @Body() dto: ReviewJobDto,
   ): Promise<JobResponseDto> {
     return this.jobService.reviewJob(admin, id, dto);
+  }
+
+  @Post(':id/unpublish')
+  @ApiOperation({ summary: 'Admin takedown: hide a published job from public pages' })
+  @ApiSuccessResponse(JobResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
+  unpublishByAdmin(
+    @CurrentUser() admin: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: JobReasonDto,
+  ): Promise<JobResponseDto> {
+    return this.jobService.unpublishByAdmin(admin, id, dto);
+  }
+
+  @Post(':id/republish')
+  @ApiOperation({ summary: 'Admin restore: show an unpublished job publicly again' })
+  @ApiSuccessResponse(JobResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
+  republishByAdmin(
+    @CurrentUser() admin: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<JobResponseDto> {
+    return this.jobService.republishByAdmin(admin, id);
   }
 
   @Get('revision-review-queue')

@@ -6,13 +6,14 @@ import {
   JobType,
   JobWorkingType,
 } from '@nexhire/shared';
-import { CompanyPermissionSnapshot } from './company-snapshot.service';
-import { CompanyTrustLevel } from './entities/job.enum';
+import { CompanyPermissionSnapshot } from '../company/company-snapshot.service';
+import { CompanyTrustLevel } from '../entities/job.enum';
 
 export interface JobModerationInput {
   title: string;
   description: string;
   requirements: string;
+  skills: string[];
   benefits?: string | null;
   salaryMin?: number | null;
   salaryMax?: number | null;
@@ -56,7 +57,9 @@ export class JobModerationService {
     };
 
     const searchableText = this.normalizeText(
-      `${job.title} ${job.description} ${job.requirements} ${job.benefits ?? ''}`,
+      `${job.title} ${job.description} ${job.requirements} ${job.skills.join(' ')} ${
+        job.benefits ?? ''
+      }`,
     );
 
     for (const item of this.keywordRules()) {

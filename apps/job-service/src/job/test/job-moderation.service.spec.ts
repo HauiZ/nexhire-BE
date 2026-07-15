@@ -5,7 +5,7 @@ import {
   JobWorkingType,
 } from '@nexhire/shared';
 import { CompanyTrustLevel } from '../entities/job.enum';
-import { JobModerationService } from '../job-moderation.service';
+import { JobModerationService } from '../moderation/job-moderation.service';
 
 describe('JobModerationService', () => {
   let service: JobModerationService;
@@ -22,6 +22,7 @@ describe('JobModerationService', () => {
           'Develop and maintain REST APIs for a recruitment platform using NestJS, PostgreSQL, and RabbitMQ with a collaborative engineering team.',
         requirements:
           'At least one year of experience with Node.js, TypeScript, PostgreSQL, Git, and REST API development.',
+        skills: ['NestJS', 'PostgreSQL', 'RabbitMQ'],
         benefits: 'Hybrid work, insurance, learning budget, and annual performance review.',
         salaryMin: 15_000_000,
         salaryMax: 25_000_000,
@@ -45,6 +46,7 @@ describe('JobModerationService', () => {
         description:
           'Support customer outreach and weekly reporting. Lien he telegram de trao doi them ve lich lam viec.',
         requirements: 'Can giao tiep tot.',
+        skills: ['Sales'],
         salaryMin: 10_000_000,
         salaryMax: 15_000_000,
         experienceLevel: JobExperienceLevel.FRESHER,
@@ -68,6 +70,7 @@ describe('JobModerationService', () => {
         description:
           'Ung vien can dong phi ho so va chuyen khoan truoc de nhan viec. Vui long nap tien theo huong dan.',
         requirements: 'Co dien thoai va tai khoan ngan hang.',
+        skills: ['Online sales'],
         salaryMin: 10_000_000,
         salaryMax: 50_000_000,
         experienceLevel: JobExperienceLevel.INTERN,

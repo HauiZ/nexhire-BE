@@ -88,12 +88,17 @@ FE-facing business endpoints currently documented:
 - `GET /api/v1/recruiter/jobs`
 - `GET /api/v1/recruiter/jobs/:id`
 - `PATCH /api/v1/recruiter/jobs/:id`
+- `DELETE /api/v1/recruiter/jobs/:id`
 - `POST /api/v1/recruiter/jobs/:id/submit`
+- `POST /api/v1/recruiter/jobs/:id/unpublish`
+- `POST /api/v1/recruiter/jobs/:id/republish`
 - `POST /api/v1/recruiter/jobs/:jobId/revisions`
 - `PATCH /api/v1/recruiter/jobs/:jobId/revisions/:revisionId`
 - `POST /api/v1/recruiter/jobs/:jobId/revisions/:revisionId/submit`
 - `GET /api/v1/admin/jobs/review-queue`
 - `POST /api/v1/admin/jobs/:id/review`
+- `POST /api/v1/admin/jobs/:id/unpublish`
+- `POST /api/v1/admin/jobs/:id/republish`
 - `GET /api/v1/admin/jobs/revision-review-queue`
 - `POST /api/v1/admin/jobs/revisions/:revisionId/review`
 - `GET /api/v1/health`
