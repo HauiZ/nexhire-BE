@@ -248,7 +248,7 @@ Job-service consumes the event and updates job snapshots by `companyId`. `compan
 
 ## Application Submitted Event
 
-Application-service should publish this event after a successful application submit:
+Application-service publishes this event after a successful application submit:
 
 Routing key:
 
@@ -262,35 +262,74 @@ Payload:
 {
   "applicationId": "uuid",
   "jobId": "uuid",
+  "jobTitle": "Backend Developer",
   "candidateId": "uuid",
+  "candidateUserId": "uuid",
+  "candidateFullName": "Nguyen Minh Khoa",
+  "candidateAvatarDocumentId": "uuid",
+  "companyId": "uuid",
+  "companyName": "NexHire",
+  "companyLogoUrl": "https://cdn.nexhire.vn/company/nexhire.png",
   "submittedAt": "2026-07-15T10:00:00.000Z"
 }
 ```
 
 Job-service consumes the event and increments `jobs.applicationCount`, which protects published jobs from direct major edits after candidates have applied.
 
-## Application Snapshot Contract
+## Internal Application Snapshot Endpoint
 
-When application-service implements apply flow, it should store a snapshot:
+### `GET /api/v1/internal/jobs/:id/application-snapshot`
+
+Internal only.
+
+Summary: Get job/company snapshot and applyability for application-service before creating an application.
+
+Auth:
+
+- Required
+- Internal service token header: `x-internal-service-token`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "companyId": "uuid",
+    "companyName": "NexHire",
+    "companyLogoUrl": "https://cdn.nexhire.vn/company/nexhire.png",
+    "title": "Backend Developer",
+    "status": "PUBLISHED",
+    "deadline": "2026-09-30T17:00:00.000Z",
+    "isApplyable": true
+  }
+}
+```
+
+Rules:
+
+- `isApplyable = true` only for a published job that is not expired/closed/unpublished by status rules.
+- Application-service rejects new applications when `isApplyable = false`.
+
+Errors:
+
+| Status | Meaning |
+| ------ | ------- |
+| 401 | Missing/invalid internal service token |
+| 403 | Internal caller is not allowed |
+| 404 | Job not found |
+
+## Application Snapshot Stored By Application-Service
+
+Application-service stores this snapshot at submit time:
 
 ```json
 {
   "jobId": "uuid",
   "jobTitle": "Backend Developer",
   "companyId": "uuid",
-  "companyName": null,
-  "description": "Develop and maintain REST APIs.",
-  "requirements": "At least 1 year experience.",
-  "skills": ["NestJS", "PostgreSQL"],
-  "benefits": "Hybrid work.",
-  "employmentType": "FULL_TIME",
-  "workingType": "HYBRID",
-  "experienceLevel": "JUNIOR",
-  "location": "Ha Noi, Viet Nam",
-  "salaryMin": 15000000,
-  "salaryMax": 25000000,
-  "salaryCurrency": "VND",
-  "isSalaryVisible": true,
-  "appliedAtJobVersion": 1
+  "companyName": "NexHire",
+  "companyLogoUrl": "https://cdn.nexhire.vn/company/nexhire.png"
 }
 ```

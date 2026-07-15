@@ -81,6 +81,8 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/auth/change-password`
 - `GET /api/v1/candidates/me`
 - `PATCH /api/v1/candidates/me`
+- `PATCH /api/v1/candidates/me/avatar`
+- `POST /api/v1/cvs/upload`
 - `POST /api/v1/documents/upload`
 - `GET /api/v1/jobs`
 - `GET /api/v1/jobs/:id`
@@ -101,12 +103,24 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/admin/jobs/:id/republish`
 - `GET /api/v1/admin/jobs/revision-review-queue`
 - `POST /api/v1/admin/jobs/revisions/:revisionId/review`
+- `POST /api/v1/applications`
+- `GET /api/v1/applications/me`
+- `GET /api/v1/applications/me/:id`
+- `GET /api/v1/applications/me/:id/cv`
+- `POST /api/v1/applications/me/:id/withdraw`
+- `GET /api/v1/recruiter/applications`
+- `GET /api/v1/recruiter/applications/:id`
+- `GET /api/v1/recruiter/applications/:id/cv`
+- `PATCH /api/v1/recruiter/applications/:id/status`
+- `GET /api/v1/notifications`
+- `GET /api/v1/notifications/unread-count`
+- `PATCH /api/v1/notifications/read-all`
+- `PATCH /api/v1/notifications/:id/read`
 - `GET /api/v1/health`
 
 Scaffold controllers without business endpoints yet:
 
-- `application-service`: `applications`
-- `candidate-service`: `cvs`, `saved-jobs`
+- `candidate-service`: `saved-jobs`
 - `company-service`: `companies`, `hr-accounts`
 - `cv-parsing-service`: `cv-parsing`
 - `job-service`: `categories`

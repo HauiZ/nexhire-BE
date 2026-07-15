@@ -426,3 +426,37 @@ Errors:
 | 401 | `AUTH.INVALID_CREDENTIALS` | Current password is invalid |
 | 404 | `AUTH.USER_CREDENTIAL_NOT_FOUND` | Credential record not found |
 | 422 | validation error | Invalid request body |
+
+## Internal endpoints
+
+### `GET /api/v1/internal/auth/users/:id/contact-snapshot`
+
+Internal only.
+
+Summary: Get auth user contact snapshot for services that need login-email fallback.
+
+Auth:
+
+- Required
+- Internal service token header: `x-internal-service-token`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "f9ae2e14-f689-4a3e-8c2f-249776d0b650",
+    "email": "candidate@nexhire.vn",
+    "fullName": "Nguyen Van A"
+  }
+}
+```
+
+Errors:
+
+| Status | Meaning |
+| ------ | ------- |
+| 401 | Missing/invalid internal service token |
+| 403 | Internal caller is not allowed |
+| 404 | User not found |

@@ -16,6 +16,8 @@ Candidate-service is being designed around:
 - CV Library as saved CV references,
 - profile update from CV only after user confirmation,
 - parsing only for `PROFILE_UPDATE` or `MATCHING_APPLICATION` contexts.
+- `profile.contactEmail` falls back to auth-service login email when candidate contact email is empty.
+- Candidate profile changes publish `candidate.profile-snapshot-changed` so application-service can refresh display snapshots.
 
 ## Endpoints
 
@@ -387,3 +389,65 @@ Errors:
 | 403    | forbidden        | User role is not allowed       |
 | 409    | conflict         | Duplicate CV document conflict |
 | 503    | AI/service error | Downstream service unavailable |
+
+## Internal endpoints
+
+### `GET /api/v1/internal/candidates/users/:userId/cvs/:candidateCvId/application-snapshot`
+
+Internal only.
+
+Summary: Get candidate/contact/CV snapshot for application-service before creating an application.
+
+Auth:
+
+- Required
+- Internal service token header: `x-internal-service-token`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "candidateId": "d6dd534c-fd20-4cec-87c9-a6178e78f933",
+    "candidateUserId": "f9ae2e14-f689-4a3e-8c2f-249776d0b650",
+    "fullName": "Nguyen Minh Khoa",
+    "email": "khoa.nguyen@example.com",
+    "phone": "0912345678",
+    "avatarDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
+    "candidateCvId": "3c31a5db-870d-4f70-a589-0556f35b46d4",
+    "cvDocumentId": "7bb46232-eb8d-40c8-ae0a-7e49ab98e26b",
+    "cvTitle": "Backend Engineer CV",
+    "cvParseStatus": "PARSED"
+  }
+}
+```
+
+Notes:
+
+- `email` uses `profile.contactEmail` first, then falls back to auth-service login email.
+- CV metadata is snapshotted for application display/history; later CV changes do not mutate existing application CV snapshots.
+
+Errors:
+
+| Status | Meaning |
+| ------ | ------- |
+| 401 | Missing/invalid internal service token |
+| 403 | Internal caller is not allowed |
+| 404 | Candidate profile or CV not found |
+
+### `POST /api/v1/internal/candidates/:candidateId/apply-parsed-resume`
+
+Internal only.
+
+Summary: Apply normalized parsed resume data into candidate profile sections after parsing.
+
+Auth: internal service token.
+
+### `POST /api/v1/internal/candidates/:candidateId/cvs/:candidateCvId/parse-failed`
+
+Internal only.
+
+Summary: Mark a CV parse attempt as failed.
+
+Auth: internal service token.
