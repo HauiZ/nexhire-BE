@@ -105,6 +105,9 @@ export class JobResponseDto {
   publishedAt: Date | null;
 
   @ApiPropertyOptional()
+  closedAt: Date | null;
+
+  @ApiPropertyOptional()
   reviewedAt: Date | null;
 
   @ApiPropertyOptional()
@@ -233,6 +236,32 @@ export class PublicJobDetailDto {
 
   @ApiProperty()
   updatedAt: Date;
+}
+
+export class JobApplicationSnapshotDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  companyId: string;
+
+  @ApiPropertyOptional()
+  companyName: string | null;
+
+  @ApiPropertyOptional()
+  companyLogoUrl: string | null;
+
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty({ enum: JobStatus })
+  status: JobStatus;
+
+  @ApiPropertyOptional()
+  deadline: Date | null;
+
+  @ApiProperty()
+  isApplyable: boolean;
 }
 
 export class JobRevisionResponseDto {

@@ -4,7 +4,7 @@ import { CompanySnapshotService } from './company/company-snapshot.service';
 import { ApplicationEventsConsumer } from './consumers/application-events.consumer';
 import { CompanySnapshotEventsConsumer } from './consumers/company-snapshot-events.consumer';
 import { AdminJobController } from './controllers/admin-job.controller';
-import { JobController } from './controllers/job.controller';
+import { JobController, JobInternalController } from './controllers/job.controller';
 import { RecruiterJobController } from './controllers/recruiter-job.controller';
 import { JobModerationReview } from './entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from './entities/job-processed-application-event.entity';
@@ -20,7 +20,7 @@ import { PostgresJobSearchProvider } from './search/postgres-job-search.provider
   imports: [
     TypeOrmModule.forFeature([Job, JobRevision, JobModerationReview, JobProcessedApplicationEvent]),
   ],
-  controllers: [JobController, RecruiterJobController, AdminJobController],
+  controllers: [JobController, JobInternalController, RecruiterJobController, AdminJobController],
   providers: [
     JobService,
     JobModerationService,

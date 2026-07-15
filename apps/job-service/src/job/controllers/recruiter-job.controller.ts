@@ -124,6 +124,18 @@ export class RecruiterJobController {
     return this.jobService.republishMine(user, id);
   }
 
+  @Post(':id/close')
+  @ApiOperation({ summary: 'Permanently close a job and cancel pending applications' })
+  @ApiSuccessResponse(JobResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
+  closeMine(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: JobReasonDto,
+  ): Promise<JobResponseDto> {
+    return this.jobService.closeMine(user, id, dto);
+  }
+
   @Post(':jobId/revisions')
   @ApiOperation({ summary: 'Create a full-snapshot major revision draft' })
   @ApiSuccessResponse(JobRevisionResponseDto, { status: 201 })

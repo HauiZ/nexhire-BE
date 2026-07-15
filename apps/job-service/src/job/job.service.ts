@@ -34,6 +34,7 @@ import {
 import { JobReasonDto, ReviewJobDto } from './dto/job-review.dto';
 import {
   JobResponseDto,
+  JobApplicationSnapshotDto,
   JobRevisionResponseDto,
   PublicJobDetailDto,
   PublicJobListItemDto,
@@ -129,6 +130,24 @@ export class JobService {
       });
     }
     return this.mapPublicJobDetail(job);
+  }
+
+  async getApplicationSnapshot(id: string): Promise<JobApplicationSnapshotDto> {
+    const job = await this.jobRepo.findOne({ where: { id } });
+    if (!job) {
+      throw this.jobNotFound();
+    }
+    const isDeadlineOpen = !job.deadline || job.deadline.getTime() > Date.now();
+    return {
+      id: job.id,
+      companyId: job.companyId,
+      companyName: job.companyName,
+      companyLogoUrl: job.companyLogoUrl,
+      title: job.title,
+      status: job.status,
+      deadline: job.deadline,
+      isApplyable: job.status === JobStatus.PUBLISHED && isDeadlineOpen,
+    };
   }
 
   async createDraft(user: AuthUser, dto: CreateJobDto): Promise<JobResponseDto> {
@@ -611,6 +630,11 @@ export class JobService {
     return this.republishJob(job);
   }
 
+  async closeMine(user: AuthUser, id: string, dto: JobReasonDto): Promise<JobResponseDto> {
+    const job = await this.findCompanyJob(user, id);
+    return this.closeJob(job, user, dto.reason);
+  }
+
   async unpublishByAdmin(admin: AuthUser, id: string, dto: JobReasonDto): Promise<JobResponseDto> {
     this.assertAdmin(admin);
     if (!dto.reason?.trim()) {
@@ -633,6 +657,15 @@ export class JobService {
       throw this.jobNotFound();
     }
     return this.republishJob(job);
+  }
+
+  async closeByAdmin(admin: AuthUser, id: string, dto: JobReasonDto): Promise<JobResponseDto> {
+    this.assertAdmin(admin);
+    const job = await this.jobRepo.findOne({ where: { id } });
+    if (!job) {
+      throw this.jobNotFound();
+    }
+    return this.closeJob(job, admin, dto.reason);
   }
 
   private async findCompanyJob(user: AuthUser, id: string): Promise<Job> {
@@ -753,7 +786,14 @@ export class JobService {
     job.unpublishedByUserId = user.id;
     job.unpublishedAt = new Date();
     job.unpublishReason = reason?.trim() || null;
-    return this.mapJob(await this.jobRepo.save(job));
+    const saved = await this.jobRepo.save(job);
+    await this.publishEvent(EVENTS.JOB_UNPUBLISHED, {
+      jobId: saved.id,
+      companyId: saved.companyId,
+      unpublishedAt: saved.unpublishedAt?.toISOString(),
+      reason: saved.unpublishReason,
+    });
+    return this.mapJob(saved);
   }
 
   private async republishJob(job: Job): Promise<JobResponseDto> {
@@ -775,6 +815,33 @@ export class JobService {
     job.unpublishReason = null;
     job.publishedAt = job.publishedAt ?? new Date();
     return this.mapJob(await this.jobRepo.save(job));
+  }
+
+  private async closeJob(job: Job, user: AuthUser, reason?: string): Promise<JobResponseDto> {
+    if (![JobStatus.PUBLISHED, JobStatus.UNPUBLISHED].includes(job.status)) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.CLOSE_NOT_ALLOWED,
+        message: 'Only published or unpublished jobs can be closed',
+      });
+    }
+    const closedAt = new Date();
+    job.status = JobStatus.CLOSED;
+    job.closedAt = closedAt;
+    job.reviewedByUserId = user.id;
+    job.reviewReason = reason?.trim() || null;
+    if (!job.unpublishedAt) {
+      job.unpublishedByUserId = user.id;
+      job.unpublishedAt = closedAt;
+      job.unpublishReason = reason?.trim() || 'Job closed';
+    }
+    const saved = await this.jobRepo.save(job);
+    await this.publishEvent(EVENTS.JOB_CLOSED, {
+      jobId: saved.id,
+      companyId: saved.companyId,
+      closedAt: saved.closedAt?.toISOString(),
+      reason: saved.reviewReason,
+    });
+    return this.mapJob(saved);
   }
 
   private statusForDecision(decision: JobModerationDecision): JobStatus {
@@ -892,6 +959,7 @@ export class JobService {
       version: job.version,
       applicationCount: job.applicationCount,
       publishedAt: job.publishedAt,
+      closedAt: job.closedAt,
       reviewedAt: job.reviewedAt,
       reviewReason: job.reviewReason,
       unpublishedAt: job.unpublishedAt,

@@ -1,8 +1,17 @@
-import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ApiErrorResponses, ApiSuccessResponse, Public } from '@nexhire/shared';
+import {
+  ApiErrorResponses,
+  ApiSuccessResponse,
+  InternalServiceTokenGuard,
+  Public,
+} from '@nexhire/shared';
 import { PublicJobQueryDto } from '../dto/job-query.dto';
-import { PublicJobDetailDto, PublicJobListItemDto } from '../dto/job-response.dto';
+import {
+  JobApplicationSnapshotDto,
+  PublicJobDetailDto,
+  PublicJobListItemDto,
+} from '../dto/job-response.dto';
 import { JobService } from '../job.service';
 
 @ApiTags('jobs')
@@ -26,5 +35,22 @@ export class JobController {
   @ApiErrorResponses({ statuses: [404, 500] })
   getPublic(@Param('id', ParseUUIDPipe) id: string): Promise<PublicJobDetailDto> {
     return this.jobService.getPublic(id);
+  }
+}
+
+@ApiTags('internal-jobs')
+@Controller('internal/jobs')
+@UseGuards(InternalServiceTokenGuard)
+export class JobInternalController {
+  constructor(private readonly jobService: JobService) {}
+
+  @Get(':id/application-snapshot')
+  @ApiOperation({ summary: 'Get job snapshot for a candidate application' })
+  @ApiSuccessResponse(JobApplicationSnapshotDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  getApplicationSnapshot(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<JobApplicationSnapshotDto> {
+    return this.jobService.getApplicationSnapshot(id);
   }
 }

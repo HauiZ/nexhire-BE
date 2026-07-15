@@ -252,6 +252,7 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
       version: job.version,
       applicationCount: job.applicationCount,
       publishedAt: job.publishedAt,
+      closedAt: job.closedAt,
       reviewedAt: job.reviewedAt,
       reviewReason: job.reviewReason,
       unpublishedAt: job.unpublishedAt,

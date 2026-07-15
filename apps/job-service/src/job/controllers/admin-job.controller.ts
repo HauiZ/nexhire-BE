@@ -63,6 +63,18 @@ export class AdminJobController {
     return this.jobService.republishByAdmin(admin, id);
   }
 
+  @Post(':id/close')
+  @ApiOperation({ summary: 'Admin close: permanently stop recruitment for a job' })
+  @ApiSuccessResponse(JobResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
+  closeByAdmin(
+    @CurrentUser() admin: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: JobReasonDto,
+  ): Promise<JobResponseDto> {
+    return this.jobService.closeByAdmin(admin, id, dto);
+  }
+
   @Get('revision-review-queue')
   @ApiOperation({ summary: 'List major revisions waiting for manual review' })
   @ApiSuccessResponse(JobRevisionResponseDto, { isArray: true })

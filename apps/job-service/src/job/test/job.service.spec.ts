@@ -23,7 +23,11 @@ import { JOB_SEARCH_PROVIDER } from '../search/job-search.types';
 
 describe('JobService', () => {
   let service: JobService;
-  let jobRepo: jest.Mocked<Pick<Repository<Job>, 'findOne'>>;
+  let jobRepo: {
+    findOne: jest.Mock;
+    save: jest.Mock;
+  };
+  let eventPublisher: { publish: jest.Mock };
   let processedEventRepo: {
     findOne: jest.Mock;
     create: jest.Mock;
@@ -100,7 +104,9 @@ describe('JobService', () => {
   beforeEach(async () => {
     jobRepo = {
       findOne: jest.fn(),
+      save: jest.fn((job: Job) => Promise.resolve(job)),
     };
+    eventPublisher = { publish: jest.fn().mockResolvedValue(undefined) };
     processedEventRepo = {
       findOne: jest.fn(),
       create: jest.fn((value) => value),
@@ -125,7 +131,7 @@ describe('JobService', () => {
           useValue: { searchPublicJobs: jest.fn(), searchCompanyJobs: jest.fn() },
         },
         JobSearchTextService,
-        { provide: EventPublisher, useValue: { publish: jest.fn() } },
+        { provide: EventPublisher, useValue: eventPublisher },
         { provide: getRepositoryToken(Job), useValue: jobRepo },
         { provide: getRepositoryToken(JobRevision), useValue: {} },
         { provide: getRepositoryToken(JobModerationReview), useValue: {} },
@@ -186,6 +192,33 @@ describe('JobService', () => {
     );
   });
 
+  it('returns an application snapshot for apply checks', async () => {
+    jobRepo.findOne.mockResolvedValue({ ...publishedJob });
+
+    const result = await service.getApplicationSnapshot(publishedJob.id);
+
+    expect(jobRepo.findOne).toHaveBeenCalledWith({ where: { id: publishedJob.id } });
+    expect(result).toEqual(
+      expect.objectContaining({
+        id: publishedJob.id,
+        companyId: publishedJob.companyId,
+        companyName: publishedJob.companyName,
+        companyLogoUrl: publishedJob.companyLogoUrl,
+        title: publishedJob.title,
+        status: JobStatus.PUBLISHED,
+        isApplyable: true,
+      }),
+    );
+  });
+
+  it('marks an application snapshot as not applyable when the job is unpublished', async () => {
+    jobRepo.findOne.mockResolvedValue({ ...publishedJob, status: JobStatus.UNPUBLISHED });
+
+    const result = await service.getApplicationSnapshot(publishedJob.id);
+
+    expect(result.isApplyable).toBe(false);
+  });
+
   it('does not increment application count for duplicate submitted events', async () => {
     processedEventRepo.findOne.mockResolvedValue({
       applicationId: '44444444-4444-4444-4444-444444444444',
@@ -198,5 +231,32 @@ describe('JobService', () => {
     });
 
     expect(manager.increment).not.toHaveBeenCalled();
+  });
+
+  it('closes a published job and publishes job.closed', async () => {
+    jobRepo.findOne.mockResolvedValue({ ...publishedJob });
+
+    const result = await service.closeMine(user, publishedJob.id, { reason: 'Position filled' });
+
+    expect(jobRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: JobStatus.CLOSED,
+        closedAt: expect.any(Date),
+        reviewedByUserId: user.id,
+        reviewReason: 'Position filled',
+        unpublishedByUserId: user.id,
+        unpublishedAt: expect.any(Date),
+        unpublishReason: 'Position filled',
+      }),
+    );
+    expect(eventPublisher.publish).toHaveBeenCalledWith(
+      'job.closed',
+      expect.objectContaining({
+        jobId: publishedJob.id,
+        companyId: publishedJob.companyId,
+        reason: 'Position filled',
+      }),
+    );
+    expect(result.status).toBe(JobStatus.CLOSED);
   });
 });
