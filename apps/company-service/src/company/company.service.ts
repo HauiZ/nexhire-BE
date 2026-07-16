@@ -1,145 +1,163 @@
 import {
+  BadRequestException,
+  ConflictException,
+  ForbiddenException,
   Injectable,
   Logger,
-  ConflictException,
   NotFoundException,
-  ForbiddenException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CompanyStatus, ERROR_CODES } from '@nexhire/shared';
 import { Repository } from 'typeorm';
-
-import { ERROR_CODES, CompanyStatus } from '@nexhire/shared';
-
-import { Company } from './entities/company.entity';
-import { CreateCompanyDto } from './dto/create-company.dto';
-import { UpdateCompanyDto } from './dto/update-company.dto';
-import { CompanyResponseDto } from './dto/company-response.dto';
 import { CompanyMapper } from './company.mapper';
-import { JobClient } from './job.client'; // Rule 12: Dùng Http client để gọi sang job-service
+import { CompanyResponseDto } from './dto/company-response.dto';
+import { CreateCompanyDto } from './dto/create-company.dto';
+import { PublicCompanyProfileDto } from './dto/public-company-profile.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
+import { VerifyAction } from './dto/verify-company.dto';
+import { Company } from './entities/company.entity';
 
 @Injectable()
 export class CompanyService {
-  // Rule 14 & 06: Dùng context logger thay cho console.log
   private readonly logger = new Logger(CompanyService.name);
 
   constructor(
     @InjectRepository(Company)
     private readonly companyRepo: Repository<Company>,
-    private readonly jobClient: JobClient, // Rule 12: Inject Http client gọi sang job-service
   ) {}
 
-  // 1. Dành cho Recruiter: Tạo công ty
   async create(userId: string, dto: CreateCompanyDto): Promise<CompanyResponseDto> {
-    // 1 Recruiter thường chỉ có 1 công ty
     const existing = await this.companyRepo.findOne({ where: { ownerId: userId } });
     if (existing) {
-      throw new ConflictException('You already have a company profile');
+      throw new ConflictException({
+        code: ERROR_CODES.COMPANY.ALREADY_EXISTS,
+        message: 'You already have a company profile',
+      });
     }
 
-    // Check trùng mã số thuế
-    const taxExist = await this.companyRepo.findOne({ where: { taxCode: dto.taxCode } });
-    if (taxExist) {
-      throw new ConflictException('Tax code already in use');
+    const taxCode = this.normalizeTaxCode(dto.taxCode);
+    const taxExists = await this.companyRepo.findOne({ where: { taxCode } });
+    if (taxExists) {
+      throw new ConflictException({
+        code: ERROR_CODES.COMPANY.TAX_CODE_IN_USE,
+        message: 'Tax code already in use',
+      });
     }
 
     const company = this.companyRepo.create({
       ...dto,
+      taxCode,
       ownerId: userId,
       status: CompanyStatus.PENDING,
     });
-    
-    const saved = await this.companyRepo.save(company);
-    this.logger.log(`Company created with ID: ${saved.id} by user: ${userId}`);
 
-    // Rule 07: Map qua DTO trước khi trả về Controller
-    return CompanyMapper.toResponse(saved); 
+    const saved = await this.companyRepo.save(company);
+    this.logger.log(`Company created companyId=${saved.id} ownerId=${userId}`);
+    return CompanyMapper.toResponse(saved);
   }
 
-  // 2. Dành cho Recruiter: Lấy profile công ty của chính mình
   async findByOwner(userId: string): Promise<CompanyResponseDto> {
     const company = await this.companyRepo.findOne({ where: { ownerId: userId } });
     if (!company) {
-      throw new NotFoundException('Company profile not found');
+      throw new NotFoundException({
+        code: ERROR_CODES.COMPANY.NOT_FOUND,
+        message: 'Company profile not found',
+      });
     }
     return CompanyMapper.toResponse(company);
   }
 
-  // 3. Dành cho Recruiter: Cập nhật thông tin
-  async update(companyId: string, userId: string, dto: UpdateCompanyDto): Promise<CompanyResponseDto> {
+  async update(
+    companyId: string,
+    userId: string,
+    dto: UpdateCompanyDto,
+  ): Promise<CompanyResponseDto> {
     const company = await this.companyRepo.findOne({ where: { id: companyId } });
     if (!company) {
-      throw new NotFoundException(`Company ${companyId} not found`);
-    }
-    
-    // Rule 11: Ownership check - Chỉ chủ mới được sửa
-    if (company.ownerId !== userId) {
-      throw new ForbiddenException('You can only update your own company');
+      throw new NotFoundException({
+        code: ERROR_CODES.COMPANY.NOT_FOUND,
+        message: `Company ${companyId} not found`,
+      });
     }
 
-    // Nếu thay đổi mã số thuế, cần check trùng lặp
-    if (dto.taxCode && dto.taxCode !== company.taxCode) {
-      const taxExist = await this.companyRepo.findOne({ where: { taxCode: dto.taxCode } });
-      if (taxExist) {
-        throw new ConflictException('Tax code already in use');
+    if (company.ownerId !== userId) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.COMMON.FORBIDDEN,
+        message: 'You can only update your own company',
+      });
+    }
+
+    const patch = { ...dto };
+    if (patch.taxCode !== undefined) {
+      patch.taxCode = this.normalizeTaxCode(patch.taxCode);
+      if (patch.taxCode !== company.taxCode) {
+        const taxExists = await this.companyRepo.findOne({ where: { taxCode: patch.taxCode } });
+        if (taxExists) {
+          throw new ConflictException({
+            code: ERROR_CODES.COMPANY.TAX_CODE_IN_USE,
+            message: 'Tax code already in use',
+          });
+        }
       }
     }
 
-    // Nếu sửa thông tin quan trọng (Tên hoặc MST), đưa trạng thái về PENDING chờ Admin duyệt lại
-    if (dto.taxCode || dto.name) {
+    if (patch.taxCode !== undefined || patch.name !== undefined) {
       company.status = CompanyStatus.PENDING;
-      this.logger.log(`Company ${companyId} status reverted to PENDING due to major updates`);
+      this.logger.log(`Company status reset to PENDING companyId=${companyId}`);
     }
 
-    Object.assign(company, dto);
-    const updated = await this.companyRepo.save(company);
-
-    return CompanyMapper.toResponse(updated);
+    Object.assign(company, patch);
+    return CompanyMapper.toResponse(await this.companyRepo.save(company));
   }
 
-  // 4. Dành cho Admin: Lấy danh sách chờ duyệt
   async getPending(): Promise<CompanyResponseDto[]> {
     const companies = await this.companyRepo.find({
       where: { status: CompanyStatus.PENDING },
-      order: { createdAt: 'DESC' }, // Hiển thị công ty tạo mới nhất lên đầu
+      order: { createdAt: 'DESC' },
     });
-    
     return companies.map(CompanyMapper.toResponse);
   }
 
-  // 5. Dành cho Admin: Duyệt công ty
-  async verify(companyId: string, action: 'APPROVE' | 'REJECT'): Promise<CompanyResponseDto> {
+  async verify(companyId: string, action: VerifyAction): Promise<CompanyResponseDto> {
     const company = await this.companyRepo.findOne({ where: { id: companyId } });
     if (!company) {
-      throw new NotFoundException(`Company ${companyId} not found`);
+      throw new NotFoundException({
+        code: ERROR_CODES.COMPANY.NOT_FOUND,
+        message: `Company ${companyId} not found`,
+      });
     }
 
-    company.status = action === 'APPROVE' ? CompanyStatus.APPROVED : CompanyStatus.REJECTED;
+    if (action === VerifyAction.APPROVE) {
+      company.status = CompanyStatus.APPROVED;
+    } else if (action === VerifyAction.REJECT) {
+      company.status = CompanyStatus.REJECTED;
+    } else {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMPANY.INVALID_VERIFY_ACTION,
+        message: 'Invalid verify action',
+      });
+    }
+
     const saved = await this.companyRepo.save(company);
-    
-    this.logger.log(`Company ${companyId} has been ${action}D`);
-    
+    this.logger.log(`Company verified companyId=${companyId} action=${action}`);
     return CompanyMapper.toResponse(saved);
   }
 
-  // 6. Dành cho Public: Xem thông tin công ty và Job
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async getPublicProfileWithJobs(companyId: string): Promise<CompanyResponseDto & { activeJobs: any[] }> {
-    const company = await this.companyRepo.findOne({ 
-      where: { id: companyId, status: CompanyStatus.APPROVED } 
+  async getPublicProfile(companyId: string): Promise<PublicCompanyProfileDto> {
+    const company = await this.companyRepo.findOne({
+      where: { id: companyId, status: CompanyStatus.APPROVED },
     });
-    
     if (!company) {
-      throw new NotFoundException('Company not found or not yet approved');
+      throw new NotFoundException({
+        code: ERROR_CODES.COMPANY.NOT_FOUND,
+        message: 'Company not found or not yet approved',
+      });
     }
 
-    // Gọi HTTP sang job-service lấy danh sách job (jobClient sẽ tự catch error nếu lỗi)
-    const activeJobs = await this.jobClient.getActiveJobsByCompany(companyId);
+    return CompanyMapper.toPublicResponse(company);
+  }
 
-    const companyRes = CompanyMapper.toResponse(company);
-    
-    return {
-      ...companyRes,
-      activeJobs,
-    };
+  private normalizeTaxCode(value: string): string {
+    return value.trim();
   }
 }

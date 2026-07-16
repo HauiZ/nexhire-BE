@@ -12,11 +12,7 @@ import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [databaseConfigFor('CV_PARSING_SERVICE'), redisConfig, cvParsingServiceConfig],
-      validationSchema,
-    }),
+    ConfigModule.forRoot({ isGlobal: true, load: [databaseConfigFor('CV_PARSING_SERVICE'), redisConfig, cvParsingServiceConfig], validationSchema }),
     TypeOrmModule.forRootAsync({ inject: [ConfigService], useFactory: buildTypeOrmOptions() }),
     HttpModule,
     HealthModule,

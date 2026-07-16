@@ -505,7 +505,7 @@ describe('AuthService', () => {
       id: 'verification-1',
       userId: 'user-1',
       email: 'candidate@nexhire.vn',
-      tokenHash: hashToken('123456'),
+      tokenHash: (service as any).hashToken('123456'),
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
       verifiedAt: null,
       user: { id: 'user-1' },
@@ -534,10 +534,6 @@ describe('AuthService', () => {
       emailVerified: true,
     });
   });
-
-  function hashToken(token: string): string {
-    return (service as AuthService & { hashToken(token: string): string }).hashToken(token);
-  }
 
   it('returns idempotent success when email is already verified', async () => {
     const verifiedAt = new Date();
@@ -594,7 +590,7 @@ describe('AuthService', () => {
     });
 
     expect(emailVerificationRepo.update).toHaveBeenCalledWith('verification-1', {
-      tokenHash: hashToken('654321'),
+      tokenHash: (service as any).hashToken('654321'),
       expiresAt,
       lastSentAt: expect.any(Date),
       resendCount: 2,
@@ -700,7 +696,7 @@ describe('AuthService', () => {
       expect.objectContaining({
         userId: 'user-1',
         email: 'candidate@nexhire.vn',
-        tokenHash: hashToken('112233'),
+        tokenHash: (service as any).hashToken('112233'),
         expiresAt,
         usedAt: null,
         resendCount: 0,
@@ -753,7 +749,7 @@ describe('AuthService', () => {
       id: 'reset-1',
       userId: 'user-1',
       email: 'candidate@nexhire.vn',
-      tokenHash: hashToken('112233'),
+      tokenHash: (service as any).hashToken('112233'),
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
       usedAt: null,
     } as PasswordResetToken;
@@ -802,7 +798,7 @@ describe('AuthService', () => {
       id: 'reset-1',
       userId: 'user-1',
       email: 'candidate@nexhire.vn',
-      tokenHash: hashToken('112233'),
+      tokenHash: (service as any).hashToken('112233'),
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
       usedAt: null,
     } as PasswordResetToken);
