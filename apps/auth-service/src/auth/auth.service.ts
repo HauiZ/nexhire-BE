@@ -13,10 +13,11 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ERROR_CODES, JwtPayload, UserRole } from '@nexhire/shared';
+import { AuthUser, ERROR_CODES, JwtPayload, UserRole } from '@nexhire/shared';
 import * as bcrypt from 'bcrypt';
 import { DataSource, IsNull, Repository } from 'typeorm';
 import { AuthResponseDto } from './dto/auth-response.dto';
+import { AuthMeResponseDto } from './dto/auth-me-response.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordResponseDto } from './dto/change-password-response.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -180,6 +181,30 @@ export class AuthService {
       id: user.id,
       email: user.email,
       fullName: user.fullName,
+    };
+  }
+
+  async getMe(currentUser: AuthUser): Promise<AuthMeResponseDto> {
+    const user = await this.userRepo.findOne({ where: { id: currentUser.id } });
+    if (!user) {
+      throw new NotFoundException({
+        code: ERROR_CODES.AUTH.USER_NOT_FOUND,
+        message: 'User not found',
+      });
+    }
+
+    await this.assertUserCanLoginAs(user.id, currentUser.role);
+    const companyLink =
+      currentUser.role === UserRole.RECRUITER
+        ? await this.recruiterCompanyLinkRepo.findOne({ where: { userId: user.id } })
+        : null;
+
+    return {
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+      role: currentUser.role,
+      logoUrl: companyLink?.companyLogoUrl ?? user.avatarUrl,
     };
   }
 

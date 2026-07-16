@@ -11,6 +11,7 @@ interface CompanyPostingSnapshotChangedPayload {
   companyId: string;
   ownerUserId: string;
   companyName?: string | null;
+  companyLogoUrl?: string | null;
   companyStatus: CompanyStatus;
   changedAt?: string;
 }
@@ -93,6 +94,7 @@ export class CompanyLinkEventsConsumer implements OnModuleInit, OnModuleDestroy 
     if (existing) {
       existing.companyId = payload.companyId;
       existing.companyName = payload.companyName ?? null;
+      existing.companyLogoUrl = payload.companyLogoUrl ?? null;
       existing.companyStatus = payload.companyStatus;
       existing.lastSyncedAt = lastSyncedAt;
       await this.linkRepo.save(existing);
@@ -104,6 +106,7 @@ export class CompanyLinkEventsConsumer implements OnModuleInit, OnModuleDestroy 
         userId: payload.ownerUserId,
         companyId: payload.companyId,
         companyName: payload.companyName ?? null,
+        companyLogoUrl: payload.companyLogoUrl ?? null,
         companyStatus: payload.companyStatus,
         lastSyncedAt,
       }),

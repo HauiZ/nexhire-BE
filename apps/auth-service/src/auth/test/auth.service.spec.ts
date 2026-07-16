@@ -1060,6 +1060,87 @@ describe('AuthService', () => {
     expect(result).toEqual({ message: 'Logged out successfully' });
   });
 
+  it('returns current user header profile from the latest auth user record', async () => {
+    userRepo.findOne.mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Minh Khoa',
+      avatarUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
+    } as User);
+    userRoleRepo.findOne.mockResolvedValue({
+      role: { name: UserRole.CANDIDATE },
+    } as UserRoleEntity);
+
+    const result = await service.getMe({
+      id: 'user-1',
+      role: UserRole.CANDIDATE,
+    });
+
+    expect(userRepo.findOne).toHaveBeenCalledWith({ where: { id: 'user-1' } });
+    expect(userRoleRepo.findOne).toHaveBeenCalledWith({
+      where: {
+        userId: 'user-1',
+        role: { name: UserRole.CANDIDATE },
+      },
+      relations: { role: true },
+    });
+    expect(result).toEqual({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Minh Khoa',
+      role: UserRole.CANDIDATE,
+      logoUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
+    });
+  });
+
+  it('returns company logo for recruiter header profile', async () => {
+    userRepo.findOne.mockResolvedValue({
+      id: 'user-1',
+      email: 'recruiter@nexhire.vn',
+      fullName: 'Recruiter One',
+      avatarUrl: 'https://cdn.nexhire.vn/avatar/recruiter.png',
+    } as User);
+    userRoleRepo.findOne.mockResolvedValue({
+      role: { name: UserRole.RECRUITER },
+    } as UserRoleEntity);
+    recruiterCompanyLinkRepo.findOne.mockResolvedValue({
+      companyLogoUrl: 'https://cdn.nexhire.vn/company/logo.png',
+    } as RecruiterCompanyLink);
+
+    const result = await service.getMe({
+      id: 'user-1',
+      role: UserRole.RECRUITER,
+    });
+
+    expect(recruiterCompanyLinkRepo.findOne).toHaveBeenCalledWith({
+      where: { userId: 'user-1' },
+    });
+    expect(result).toEqual({
+      id: 'user-1',
+      email: 'recruiter@nexhire.vn',
+      fullName: 'Recruiter One',
+      role: UserRole.RECRUITER,
+      logoUrl: 'https://cdn.nexhire.vn/company/logo.png',
+    });
+  });
+
+  it('rejects current user header profile when token role is no longer assigned', async () => {
+    userRepo.findOne.mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Minh Khoa',
+      avatarUrl: null,
+    } as User);
+    userRoleRepo.findOne.mockResolvedValue(null);
+
+    await expect(
+      service.getMe({
+        id: 'user-1',
+        role: UserRole.RECRUITER,
+      }),
+    ).rejects.toBeInstanceOf(ForbiddenException);
+  });
+
   it('returns a user contact snapshot for internal service calls', async () => {
     userRepo.findOne.mockResolvedValue({
       id: 'user-1',

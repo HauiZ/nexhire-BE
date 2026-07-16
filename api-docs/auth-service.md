@@ -192,6 +192,56 @@ Errors:
 | 401    | `AUTH.INVALID_REFRESH_TOKEN`  | Refresh token is invalid, expired, reused, or revoked   |
 | 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Refresh token role is no longer assigned to the account |
 
+### `GET /api/v1/auth/me`
+
+Summary: Get the current authenticated user profile for the app header.
+
+Auth:
+
+- Required
+- Sent through gateway with `Authorization: Bearer <accessToken>`
+
+Request body: none.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "b7f07d2a-59d1-4f3e-91ec-f3ad07a01c4a",
+    "email": "khoa@nexhire.vn",
+    "fullName": "Nguyen Minh Khoa",
+    "role": "CANDIDATE",
+    "logoUrl": null
+  }
+}
+```
+
+Field notes:
+
+| Field      | Type              | Nullable | Note                                      |
+| ---------- | ----------------- | -------- | ----------------------------------------- |
+| `id`       | uuid              | No       | Auth user id                              |
+| `email`    | string            | No       | Login email                               |
+| `fullName` | string            | Yes      | User display name                         |
+| `role`     | `UserRole`        | No       | Current role context from access token    |
+| `logoUrl`  | string            | Yes      | Header image URL: recruiter company logo, otherwise user avatar |
+
+Role-specific `logoUrl` behavior:
+
+- `RECRUITER`: uses synced company logo from `recruiter_company_links.company_logo_url`.
+- `CANDIDATE` / `ADMIN`: uses `users.avatar_url`.
+- If recruiter company logo has not synced yet, auth-service falls back to `users.avatar_url`.
+
+Errors:
+
+| Status | Code                          | Meaning                                      |
+| ------ | ----------------------------- | -------------------------------------------- |
+| 401    | `COMMON.UNAUTHENTICATED`      | Missing/invalid access token or identity     |
+| 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Token role is no longer assigned to account  |
+| 404    | `AUTH.USER_NOT_FOUND`         | User in token no longer exists               |
+
 ### `POST /api/v1/auth/logout`
 
 Summary: Revoke the current refresh token.

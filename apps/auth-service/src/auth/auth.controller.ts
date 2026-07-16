@@ -18,6 +18,7 @@ import {
   InternalServiceTokenGuard,
 } from '@nexhire/shared';
 import { AuthResponseDto } from './dto/auth-response.dto';
+import { AuthMeResponseDto } from './dto/auth-me-response.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordResponseDto } from './dto/change-password-response.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -67,6 +68,15 @@ export class AuthController {
   @ApiErrorResponses({ statuses: [400, 401, 422, 500] })
   refresh(@Body() dto: RefreshTokenDto): Promise<AuthResponseDto> {
     return this.authService.refreshToken(dto);
+  }
+
+  @Get('me')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get current authenticated user for app header' })
+  @ApiSuccessResponse(AuthMeResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  me(@CurrentUser() user: AuthUser): Promise<AuthMeResponseDto> {
+    return this.authService.getMe(user);
   }
 
   @Post('logout')
