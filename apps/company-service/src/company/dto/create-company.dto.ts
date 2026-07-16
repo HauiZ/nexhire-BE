@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsOptional, Length, IsUrl } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateCompanyDto {
   @ApiProperty({ example: 'NexHire Tech' })
@@ -29,5 +30,7 @@ export class CreateCompanyDto {
 
   @ApiProperty({ example: '0101234567' })
   @IsString()
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @Length(10, 50)
   taxCode: string;
 }
