@@ -15,7 +15,7 @@ export const validationSchema = Joi.object({
     then: Joi.string().required(),
     otherwise: Joi.string().default('dev-internal-service-token'),
   }),
-  GEMINI_API_KEY: Joi.string().required(),
+  GEMINI_API_KEY: Joi.string().allow('').optional(),
   GEMINI_MODEL: Joi.string().default('gemini-1.5-flash'),
   SKIMA_API_KEY: Joi.string().allow('').optional(),
   SKIMA_BASE_URL: Joi.string().uri().default('https://api.skima.ai'),

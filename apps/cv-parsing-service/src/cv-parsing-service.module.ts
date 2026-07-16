@@ -8,7 +8,6 @@ import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { CvParsingModule } from './cv-parsing/cv-parsing.module';
 import { cvParsingServiceConfig } from './config/cv-parsing-service.config';
 import { validationSchema } from './config/env.validation';
-import { GeminiModule } from './gemini/gemini.module';
 import { HealthModule } from './health/health.module';
 
 @Module({
@@ -16,7 +15,6 @@ import { HealthModule } from './health/health.module';
     ConfigModule.forRoot({ isGlobal: true, load: [databaseConfigFor('CV_PARSING_SERVICE'), redisConfig, cvParsingServiceConfig], validationSchema }),
     TypeOrmModule.forRootAsync({ inject: [ConfigService], useFactory: buildTypeOrmOptions() }),
     HttpModule,
-    GeminiModule,
     HealthModule,
     CvParsingModule,
   ],

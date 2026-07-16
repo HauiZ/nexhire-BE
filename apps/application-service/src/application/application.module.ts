@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApplicationInternalClientService } from './application-internal-client.service';
@@ -8,7 +9,7 @@ import { Application } from './entities/application.entity';
 import { RecruiterApplicationController } from './recruiter-application.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Application])],
+  imports: [HttpModule, TypeOrmModule.forFeature([Application])],
   controllers: [ApplicationController, RecruiterApplicationController],
   providers: [ApplicationService, ApplicationInternalClientService, JobLifecycleEventsConsumer],
   exports: [ApplicationService],

@@ -32,6 +32,9 @@ export class CvParsingService {
   ) {}
 
   async createParseRequest(dto: CreateCvParseRequestDto): Promise<CvParseRequestResponseDto> {
+    const providerVersion =
+      this.configService.get<string | null>('cvParsingService.skima.providerVersion') ?? null;
+
     const request = await this.parseRequestRepo.save(
       this.parseRequestRepo.create({
         candidateId: dto.candidateId,
@@ -42,10 +45,7 @@ export class CvParsingService {
         context: dto.context,
         status: CvParseRequestStatus.QUEUED,
         provider: CvParseProvider.SKIMA,
-        providerVersion: this.configService.get<string>(
-          'cvParsingService.skima.providerVersion',
-          null,
-        ),
+        providerVersion,
         contentHash: null,
         errorCode: null,
         errorMessage: null,

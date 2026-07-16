@@ -8,7 +8,6 @@ import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { MatchingModule } from './matching/matching.module';
 import { matchingServiceConfig } from './config/matching-service.config';
 import { validationSchema } from './config/env.validation';
-import { GeminiModule } from './gemini/gemini.module';
 import { HealthModule } from './health/health.module';
 
 @Module({
@@ -16,7 +15,6 @@ import { HealthModule } from './health/health.module';
     ConfigModule.forRoot({ isGlobal: true, load: [databaseConfigFor('MATCHING_SERVICE'), redisConfig, matchingServiceConfig], validationSchema }),
     TypeOrmModule.forRootAsync({ inject: [ConfigService], useFactory: buildTypeOrmOptions() }),
     HttpModule,
-    GeminiModule,
     HealthModule,
     MatchingModule,
   ],
