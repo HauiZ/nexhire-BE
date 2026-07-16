@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ERROR_CODES } from '@nexhire/shared';
 import { StorageService } from '@nexhire/infra';
 import { extname } from 'path';
@@ -15,6 +15,7 @@ import { DOCUMENT_MAX_UPLOAD_SIZE_BYTES } from './document.constants';
 
 @Injectable()
 export class DocumentService {
+  private readonly logger = new Logger(DocumentService.name);
   private readonly downloadUrlTtlSeconds = 3600;
 
   constructor(
@@ -28,6 +29,9 @@ export class DocumentService {
     file?: UploadedDocumentFile,
   ): Promise<UploadDocumentResponseDto> {
     if (!file) {
+      this.logger.warn(
+        `Upload rejected: file missing ownerType=${dto.ownerType} ownerId=${dto.ownerId} documentType=${dto.documentType}`,
+      );
       throw new BadRequestException({
         code: ERROR_CODES.DOCUMENT.FILE_REQUIRED,
         message: 'File is required',
@@ -48,6 +52,9 @@ export class DocumentService {
     await this.storageService.put(key, file.buffer, file.size, file.mimetype);
     const url = await this.getDownloadUrlOrRemoveObject(key);
     const document = await this.saveMetadataOrRemoveObject(dto, file, id, key);
+    this.logger.log(
+      `Document uploaded id=${document.id} ownerType=${document.ownerType} ownerId=${document.ownerId} documentType=${document.documentType} size=${document.size}`,
+    );
 
     return {
       id: document.id,
@@ -65,6 +72,7 @@ export class DocumentService {
   async createDownloadUrl(id: string): Promise<DocumentDownloadResponseDto> {
     const document = await this.documentRepo.findOne({ where: { id } });
     if (!document) {
+      this.logger.warn(`Download URL rejected: document not found id=${id}`);
       throw new NotFoundException({
         code: ERROR_CODES.COMMON.NOT_FOUND,
         message: 'Document not found',
@@ -104,7 +112,12 @@ export class DocumentService {
         }),
       );
     } catch (error) {
-      await this.storageService.remove(key).catch(() => undefined);
+      this.logger.error(`Failed to save document metadata key=${key}: ${(error as Error).message}`);
+      await this.storageService.remove(key).catch((removeError) => {
+        this.logger.error(
+          `Failed to cleanup object after metadata save failure key=${key}: ${(removeError as Error).message}`,
+        );
+      });
       throw error;
     }
   }
@@ -113,13 +126,21 @@ export class DocumentService {
     try {
       return await this.storageService.presignedGetUrl(key, this.downloadUrlTtlSeconds);
     } catch (error) {
-      await this.storageService.remove(key).catch(() => undefined);
+      this.logger.error(`Failed to create upload response URL key=${key}: ${(error as Error).message}`);
+      await this.storageService.remove(key).catch((removeError) => {
+        this.logger.error(
+          `Failed to cleanup object after URL creation failure key=${key}: ${(removeError as Error).message}`,
+        );
+      });
       throw error;
     }
   }
 
   private validateFile(documentType: DocumentType, file: UploadedDocumentFile): void {
     if (file.size > DOCUMENT_MAX_UPLOAD_SIZE_BYTES) {
+      this.logger.warn(
+        `Upload rejected: file too large documentType=${documentType} size=${file.size}`,
+      );
       throw new BadRequestException({
         code: ERROR_CODES.DOCUMENT.FILE_TOO_LARGE,
         message: 'File size must not exceed 10MB',
@@ -128,6 +149,9 @@ export class DocumentService {
 
     const allowedMimeTypes = this.getAllowedMimeTypes(documentType);
     if (!allowedMimeTypes.includes(file.mimetype)) {
+      this.logger.warn(
+        `Upload rejected: unsupported mime documentType=${documentType} mimeType=${file.mimetype}`,
+      );
       throw new BadRequestException({
         code: ERROR_CODES.DOCUMENT.UNSUPPORTED_FILE_TYPE,
         message: `File type ${file.mimetype} is not allowed for ${documentType}`,

@@ -6,6 +6,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -45,6 +46,7 @@ import { TokenService } from '../token/token.service';
 @Injectable()
 export class AuthService {
   private static readonly HTTP_STATUS_LOCKED = 423;
+  private readonly logger = new Logger(AuthService.name);
   private readonly maxFailedLoginAttempts = 5;
   private readonly lockDurationMinutes = 15;
 
@@ -74,6 +76,7 @@ export class AuthService {
     const email = dto.email.trim().toLowerCase();
     const registrationRole = dto.role;
     if (registrationRole === UserRole.ADMIN) {
+      this.logger.warn(`Rejected public admin self-registration attempt email=${email}`);
       throw new BadRequestException({
         code: ERROR_CODES.AUTH.REGISTRATION_ROLE_NOT_ALLOWED,
         message: 'Admin accounts cannot self-register',
@@ -82,6 +85,7 @@ export class AuthService {
 
     const existing = await this.userRepo.findOne({ where: { email } });
     if (existing) {
+      this.logger.warn(`Rejected duplicate registration email=${email}`);
       throw new ConflictException({
         code: ERROR_CODES.AUTH.EMAIL_ALREADY_REGISTERED,
         message: 'Email is already registered',
@@ -92,6 +96,7 @@ export class AuthService {
       where: { name: registrationRole },
     });
     if (!role) {
+      this.logger.error(`Registration role is not provisioned role=${registrationRole}`);
       throw new ConflictException({
         code: ERROR_CODES.AUTH.ROLE_NOT_PROVISIONED,
         message: `${registrationRole} role is not provisioned`,
@@ -156,6 +161,7 @@ export class AuthService {
     });
 
     await this.publishVerificationEmail(email, fullName, verificationToken, verificationExpiresAt);
+    this.logger.log(`Registered user id=${user.id} role=${registrationRole}`);
     return this.buildAuthResponse(user, registrationRole);
   }
 
@@ -179,15 +185,18 @@ export class AuthService {
     const email = dto.email.trim().toLowerCase();
     const user = await this.userRepo.findOne({ where: { email } });
     if (!user) {
+      this.logger.warn(`Login failed: user not found email=${email}`);
       throw this.invalidCredentials();
     }
 
     const credential = await this.credentialRepo.findOne({ where: { userId: user.id } });
     if (!credential) {
+      this.logger.error(`Login failed: credential missing userId=${user.id}`);
       throw this.invalidCredentials();
     }
 
     if (credential.lockedUntil && credential.lockedUntil.getTime() > Date.now()) {
+      this.logger.warn(`Login blocked: account locked userId=${user.id}`);
       throw new HttpException(
         {
           code: ERROR_CODES.AUTH.ACCOUNT_TEMPORARILY_LOCKED,
@@ -200,6 +209,7 @@ export class AuthService {
     const isPasswordValid = await bcrypt.compare(dto.password, credential.passwordHash);
     if (!isPasswordValid) {
       await this.recordFailedLogin(credential);
+      this.logger.warn(`Login failed: invalid password userId=${user.id}`);
       throw this.invalidCredentials();
     }
 
@@ -255,6 +265,7 @@ export class AuthService {
         emailVerified: true,
       });
     });
+    this.logger.log(`Email verified userId=${verification.userId}`);
 
     return {
       message: 'Email verified successfully',
@@ -308,6 +319,7 @@ export class AuthService {
     });
 
     await this.publishVerificationEmail(email, user.fullName, token, expiresAt);
+    this.logger.log(`Verification email resent userId=${user.id} resendCount=${resendCount}`);
 
     return {
       message: 'Verification email queued successfully',
@@ -327,6 +339,7 @@ export class AuthService {
 
     const user = await this.userRepo.findOne({ where: { email } });
     if (!user) {
+      this.logger.warn(`Password reset requested for unknown email=${email}`);
       return response;
     }
 
@@ -404,6 +417,7 @@ export class AuthService {
       });
     });
     await this.tokenService.revokeAllUserRefreshTokens(resetToken.userId);
+    this.logger.log(`Password reset completed userId=${resetToken.userId}`);
 
     return { message: 'Password reset successfully' };
   }
@@ -441,6 +455,7 @@ export class AuthService {
       lockedUntil: null,
     });
     await this.tokenService.revokeAllUserRefreshTokens(userId);
+    this.logger.log(`Password changed userId=${userId}`);
 
     return { message: 'Password changed successfully' };
   }
@@ -477,6 +492,7 @@ export class AuthService {
     }
 
     await this.tokenService.revokeRefreshToken(payload.sub, payload.jti);
+    this.logger.log(`Logged out userId=${payload.sub}`);
     return { message: 'Logged out successfully' };
   }
 
@@ -490,6 +506,7 @@ export class AuthService {
     });
 
     if (!userRole?.role?.name) {
+      this.logger.warn(`Login role rejected userId=${userId} role=${role}`);
       throw new ForbiddenException({
         code: ERROR_CODES.AUTH.LOGIN_ROLE_NOT_ALLOWED,
         message: `Account is not allowed to login as ${role.toLowerCase()}`,
@@ -782,6 +799,9 @@ export class AuthService {
       failedLoginAttempts: nextAttempts >= this.maxFailedLoginAttempts ? 0 : nextAttempts,
       lockedUntil,
     });
+    this.logger.warn(
+      `Recorded failed login credentialId=${credential.id} attempts=${nextAttempts} locked=${Boolean(lockedUntil)}`,
+    );
   }
 
   private async resetLoginState(userId: string, credentialId: string): Promise<void> {

@@ -3,6 +3,7 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,6 +25,7 @@ import { Application } from './entities/application.entity';
 
 @Injectable()
 export class ApplicationService {
+  private readonly logger = new Logger(ApplicationService.name);
   private readonly activeStatuses = [ApplicationStage.SUBMITTED, ApplicationStage.OFFERED];
 
   constructor(
@@ -43,6 +45,7 @@ export class ApplicationService {
     const cvDocument = await this.internalClient.getDocumentDownload(candidate.cvDocumentId);
 
     if (!job.isApplyable) {
+      this.logger.warn(`Apply rejected: job not applicable jobId=${job.id} userId=${user.id}`);
       throw new ConflictException({
         code: ERROR_CODES.APPLICATION.JOB_NOT_APPLICABLE,
         message: 'This job is not accepting applications',
@@ -57,6 +60,9 @@ export class ApplicationService {
       },
     });
     if (existing) {
+      this.logger.warn(
+        `Apply rejected: duplicate active application applicationId=${existing.id} jobId=${job.id} userId=${user.id}`,
+      );
       throw new ConflictException({
         code: ERROR_CODES.APPLICATION.DUPLICATE_ACTIVE_APPLICATION,
         message: 'Candidate already has an active application for this job',
@@ -107,6 +113,9 @@ export class ApplicationService {
       companyLogoUrl: application.companyLogoUrl,
       submittedAt: application.submittedAt.toISOString(),
     });
+    this.logger.log(
+      `Application submitted applicationId=${application.id} jobId=${application.jobId} candidateUserId=${application.candidateUserId}`,
+    );
 
     return this.mapApplication(application);
   }
@@ -155,6 +164,9 @@ export class ApplicationService {
     application.withdrawnAt = new Date();
     const saved = await this.applicationRepo.save(application);
     await this.publishStageChanged(saved, previousStatus);
+    this.logger.log(
+      `Application withdrawn applicationId=${saved.id} previousStatus=${previousStatus} candidateUserId=${user.id}`,
+    );
     return this.mapApplication(saved);
   }
 
@@ -220,7 +232,11 @@ export class ApplicationService {
     }
     if (application.status === dto.status) {
       application.statusNote = dto.note?.trim() || application.statusNote;
-      return this.mapApplication(await this.applicationRepo.save(application));
+      const saved = await this.applicationRepo.save(application);
+      this.logger.log(
+        `Application note updated applicationId=${saved.id} status=${saved.status} recruiterUserId=${user.id}`,
+      );
+      return this.mapApplication(saved);
     }
 
     const previousStatus = application.status;
@@ -229,6 +245,9 @@ export class ApplicationService {
     application.decidedAt = new Date();
     const saved = await this.applicationRepo.save(application);
     await this.publishStageChanged(saved, previousStatus);
+    this.logger.log(
+      `Application stage changed applicationId=${saved.id} ${previousStatus}->${saved.status} recruiterUserId=${user.id}`,
+    );
     return this.mapApplication(saved);
   }
 
@@ -241,8 +260,9 @@ export class ApplicationService {
     return this.getCvDownload(await this.findCompanyApplication(user, id));
   }
 
-  async handleJobUnpublished(_payload: JobLifecyclePayload): Promise<void> {
+  async handleJobUnpublished(payload: JobLifecyclePayload): Promise<void> {
     // Existing applications remain actionable for recruiters.
+    this.logger.log(`Job unpublished event received jobId=${payload.jobId}; applications unchanged`);
   }
 
   async handleJobClosed(payload: JobLifecyclePayload): Promise<void> {
@@ -257,12 +277,15 @@ export class ApplicationService {
       const saved = await this.applicationRepo.save(application);
       await this.publishStageChanged(saved, previousStatus);
     }
+    this.logger.log(
+      `Job closed event processed jobId=${payload.jobId} cancelledApplications=${applications.length}`,
+    );
   }
 
   async syncCandidateProfileSnapshot(
     payload: CandidateProfileSnapshotChangedPayload,
   ): Promise<void> {
-    await this.applicationRepo.update(
+    const result = await this.applicationRepo.update(
       { candidateUserId: payload.candidateUserId },
       {
         candidateFullName: payload.fullName ?? null,
@@ -270,6 +293,9 @@ export class ApplicationService {
         candidatePhone: payload.phone ?? null,
         candidateAvatarDocumentId: payload.avatarDocumentId ?? null,
       },
+    );
+    this.logger.log(
+      `Candidate application snapshot synced candidateUserId=${payload.candidateUserId} affected=${result?.affected ?? 0}`,
     );
   }
 
@@ -329,7 +355,9 @@ export class ApplicationService {
   }
 
   private async publishEvent(routingKey: string, payload: unknown): Promise<void> {
-    await this.eventPublisher.publish(routingKey, payload).catch(() => undefined);
+    await this.eventPublisher.publish(routingKey, payload).catch((error) => {
+      this.logger.error(`Failed to publish event routingKey=${routingKey}: ${(error as Error).message}`);
+    });
   }
 
   private assertCandidate(user: AuthUser): void {
@@ -417,7 +445,10 @@ export class ApplicationService {
     try {
       const document = await this.internalClient.getDocumentDownload(documentId);
       return document.url;
-    } catch {
+    } catch (error) {
+      this.logger.warn(
+        `Failed to resolve candidate avatar URL documentId=${documentId}: ${(error as Error).message}`,
+      );
       return null;
     }
   }
