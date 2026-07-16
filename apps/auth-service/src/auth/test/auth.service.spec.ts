@@ -238,6 +238,47 @@ describe('AuthService', () => {
     );
   });
 
+  it('keeps registration successful when verification email event publish fails', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue(null);
+    (roleRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'role-candidate',
+      name: UserRole.CANDIDATE,
+    } as Role);
+    (bcrypt.hash as jest.Mock).mockResolvedValue('hashed-password');
+    authEventPublisher.publishVerificationEmailRequested.mockRejectedValue(
+      new Error('rabbit unavailable'),
+    );
+    jwtService.signAsync
+      .mockResolvedValueOnce('access-token')
+      .mockResolvedValueOnce('refresh-token');
+
+    const manager = {
+      create: jest.fn((_: unknown, entity: unknown) => entity),
+      save: jest
+        .fn()
+        .mockImplementationOnce(async (_entity: unknown, payload: Record<string, unknown>) => ({
+          id: 'user-1',
+          ...payload,
+        }))
+        .mockImplementation(async (_entity: unknown, payload: Record<string, unknown>) => payload),
+    };
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<unknown>) => callback(manager),
+    );
+
+    const result = await service.register({
+      fullName: 'Nguyen Van A',
+      phone: '0987654321',
+      email: 'candidate@nexhire.vn',
+      password: 'StrongPassword123!',
+      role: UserRole.CANDIDATE,
+    });
+
+    expect(authEventPublisher.publishVerificationEmailRequested).toHaveBeenCalled();
+    expect(result.tokens.accessToken).toBe('access-token');
+    expect(result.user.email).toBe('candidate@nexhire.vn');
+  });
+
   it('registers a recruiter account when role is requested', async () => {
     (userRepo.findOne as jest.Mock).mockResolvedValue(null);
     (roleRepo.findOne as jest.Mock).mockResolvedValue({

@@ -727,12 +727,20 @@ export class AuthService {
     token: string,
     expiresAt: Date,
   ): Promise<void> {
-    await this.authEventPublisher.publishVerificationEmailRequested({
-      email,
-      fullName,
-      token,
-      expiresAt: expiresAt.toISOString(),
-    });
+    try {
+      await this.authEventPublisher.publishVerificationEmailRequested({
+        email,
+        fullName,
+        token,
+        expiresAt: expiresAt.toISOString(),
+      });
+    } catch (error) {
+      this.logger.warn(
+        `Failed to publish verification email event email=${email}: ${
+          (error as Error).message
+        }`,
+      );
+    }
   }
 
   private async publishPasswordResetEmail(
@@ -741,12 +749,20 @@ export class AuthService {
     token: string,
     expiresAt: Date,
   ): Promise<void> {
-    await this.authEventPublisher.publishPasswordResetRequested({
-      email,
-      fullName,
-      token,
-      expiresAt: expiresAt.toISOString(),
-    });
+    try {
+      await this.authEventPublisher.publishPasswordResetRequested({
+        email,
+        fullName,
+        token,
+        expiresAt: expiresAt.toISOString(),
+      });
+    } catch (error) {
+      this.logger.warn(
+        `Failed to publish password reset email event email=${email}: ${
+          (error as Error).message
+        }`,
+      );
+    }
   }
 
   private getVerificationConfig(): {

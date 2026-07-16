@@ -32,7 +32,7 @@ export class ProxyService {
 
   async forward(service: ServiceKey, req: Request, res: Response): Promise<void> {
     const baseUrl = this.config.get<string>(`gateway.services.${service}`);
-    const url = `${baseUrl}${req.originalUrl}`;
+    const url = `${baseUrl}${req.originalUrl.split('?')[0]}`;
     const user = req.user as AuthUser | undefined;
     const contentType = req.headers['content-type'] ?? 'application/json';
     const isMultipart = contentType.includes('multipart/form-data');
