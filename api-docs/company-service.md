@@ -1,6 +1,7 @@
 # Company Service API Docs
 
 Base path through gateway:
+
 - `/api/v1/companies`
 - `/api/v1/hr-accounts`
 
@@ -15,6 +16,7 @@ Responsibility: company profile and HR accounts.
 **Purpose**: Create a new company profile. A recruiter can only own one company.
 
 **Body**: `CreateCompanyDto`
+
 ```json
 {
   "name": "NexHire Tech",
@@ -27,6 +29,7 @@ Responsibility: company profile and HR accounts.
 ```
 
 **Success response**:
+
 ```json
 {
   "success": true,
@@ -47,6 +50,7 @@ Responsibility: company profile and HR accounts.
 ```
 
 **Error codes**:
+
 - `401 Unauthorized`
 - `403 Forbidden`
 - `409 Conflict`: `COMPANY.ALREADY_EXISTS`, `COMPANY.TAX_CODE_IN_USE`
@@ -63,6 +67,7 @@ Responsibility: company profile and HR accounts.
 **Success response**: `CompanyResponseDto` inside the standard success envelope.
 
 **Error codes**:
+
 - `401 Unauthorized`
 - `403 Forbidden`
 - `404 Not Found`: `COMPANY.NOT_FOUND`
@@ -76,6 +81,7 @@ Responsibility: company profile and HR accounts.
 **Purpose**: Update the company profile. The requester must own the company. Updating `taxCode` or `name` resets status to `PENDING`.
 
 **Params**:
+
 - `id` (UUID, required)
 
 **Body**: `UpdateCompanyDto`
@@ -83,6 +89,7 @@ Responsibility: company profile and HR accounts.
 **Success response**: `CompanyResponseDto` inside the standard success envelope.
 
 **Error codes**:
+
 - `401 Unauthorized`
 - `403 Forbidden`
 - `404 Not Found`: `COMPANY.NOT_FOUND`
@@ -100,6 +107,7 @@ Responsibility: company profile and HR accounts.
 **Success response**: Array of `CompanyResponseDto` inside the standard success envelope.
 
 **Error codes**:
+
 - `401 Unauthorized`
 - `403 Forbidden`
 
@@ -112,9 +120,11 @@ Responsibility: company profile and HR accounts.
 **Purpose**: Approve or reject a company.
 
 **Params**:
+
 - `id` (UUID, required)
 
 **Body**: `VerifyCompanyDto`
+
 ```json
 {
   "action": "APPROVE"
@@ -126,6 +136,7 @@ Responsibility: company profile and HR accounts.
 **Success response**: `CompanyResponseDto` inside the standard success envelope.
 
 **Error codes**:
+
 - `400 Bad Request`: `COMPANY.INVALID_VERIFY_ACTION`
 - `401 Unauthorized`
 - `403 Forbidden`
@@ -141,9 +152,11 @@ Responsibility: company profile and HR accounts.
 **Purpose**: Get an approved company's public profile.
 
 **Params**:
+
 - `id` (UUID, required)
 
 **Success response**:
+
 ```json
 {
   "success": true,
@@ -159,4 +172,5 @@ Responsibility: company profile and HR accounts.
 ```
 
 **Error codes**:
+
 - `404 Not Found`: `COMPANY.NOT_FOUND`
