@@ -221,14 +221,14 @@ Success response:
 
 Field notes:
 
-| Field      | Type              | Nullable | Note                                      |
-| ---------- | ----------------- | -------- | ----------------------------------------- |
-| `id`       | uuid              | No       | Auth user id                              |
-| `email`    | string            | No       | Login email                               |
-| `fullName` | string            | Yes      | User display name                         |
-| `role`     | `UserRole`        | No       | Current role context from access token    |
-| `logoUrl`  | string            | Yes      | Header image URL: recruiter company logo, otherwise user avatar |
-| `logoDocumentId` | uuid       | Yes      | Recruiter company logo document id when available |
+| Field            | Type       | Nullable | Note                                                            |
+| ---------------- | ---------- | -------- | --------------------------------------------------------------- |
+| `id`             | uuid       | No       | Auth user id                                                    |
+| `email`          | string     | No       | Login email                                                     |
+| `fullName`       | string     | Yes      | User display name                                               |
+| `role`           | `UserRole` | No       | Current role context from access token                          |
+| `logoUrl`        | string     | Yes      | Header image URL: recruiter company logo, otherwise user avatar |
+| `logoDocumentId` | uuid       | Yes      | Recruiter company logo document id when available               |
 
 Role-specific `logoUrl` behavior:
 
@@ -239,11 +239,11 @@ Role-specific `logoUrl` behavior:
 
 Errors:
 
-| Status | Code                          | Meaning                                      |
-| ------ | ----------------------------- | -------------------------------------------- |
-| 401    | `COMMON.UNAUTHENTICATED`      | Missing/invalid access token or identity     |
-| 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Token role is no longer assigned to account  |
-| 404    | `AUTH.USER_NOT_FOUND`         | User in token no longer exists               |
+| Status | Code                          | Meaning                                     |
+| ------ | ----------------------------- | ------------------------------------------- |
+| 401    | `COMMON.UNAUTHENTICATED`      | Missing/invalid access token or identity    |
+| 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Token role is no longer assigned to account |
+| 404    | `AUTH.USER_NOT_FOUND`         | User in token no longer exists              |
 
 ### `POST /api/v1/auth/logout`
 
@@ -494,6 +494,152 @@ Errors:
 | 401    | `AUTH.INVALID_CREDENTIALS`        | Current password is invalid      |
 | 404    | `AUTH.USER_CREDENTIAL_NOT_FOUND`  | Credential record not found      |
 | 422    | validation error                  | Invalid request body             |
+
+## Admin user management
+
+Base path through gateway: `/api/v1/admin/users`
+
+Auth:
+
+- Required
+- Role: `ADMIN`
+
+User statuses:
+
+| Status      | Meaning                                                                    |
+| ----------- | -------------------------------------------------------------------------- |
+| `ACTIVE`    | User can login/use the system.                                             |
+| `INACTIVE`  | Account is disabled but not deleted.                                       |
+| `SUSPENDED` | Temporarily disabled by admin.                                             |
+| `LOCKED`    | Locked by system/admin; credential lock still uses temporary 423 response. |
+| `BANNED`    | Disabled for policy violations.                                            |
+| `ARCHIVED`  | Soft-deleted/hidden from normal operations.                                |
+
+`SUSPENDED`, `BANNED`, `ARCHIVED`, `INACTIVE`, and `LOCKED` users cannot login, refresh token, call `/auth/me`, or change password. Admin actions revoke all refresh tokens for that user.
+
+### `GET /api/v1/admin/users`
+
+Summary: List users for admin management.
+
+Query params:
+
+| Field    | Type   | Required | Note                              |
+| -------- | ------ | -------- | --------------------------------- |
+| `page`   | number | No       | Default `1`                       |
+| `limit`  | number | No       | Default `20`, max `100`           |
+| `search` | string | No       | Search email, full name, phone    |
+| `role`   | enum   | No       | `CANDIDATE`, `RECRUITER`, `ADMIN` |
+| `status` | enum   | No       | User status                       |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "b7f07d2a-59d1-4f3e-91ec-f3ad07a01c4a",
+      "email": "candidate@nexhire.vn",
+      "phone": "0901234567",
+      "fullName": "Nguyen Van A",
+      "avatarUrl": null,
+      "status": "ACTIVE",
+      "roles": ["CANDIDATE"],
+      "emailVerified": true,
+      "lastLoginAt": "2026-07-16T08:00:00.000Z",
+      "statusReason": null,
+      "statusChangedBy": null,
+      "statusChangedAt": null,
+      "suspendedAt": null,
+      "bannedAt": null,
+      "archivedAt": null,
+      "createdAt": "2026-07-16T07:00:00.000Z",
+      "updatedAt": "2026-07-16T07:00:00.000Z"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 1
+  }
+}
+```
+
+### `GET /api/v1/admin/users/:id`
+
+Summary: Get one user detail for admin management.
+
+Success response: one `AdminUserResponse` object, same fields as list item.
+
+Errors:
+
+| Status | Code                  | Meaning             |
+| ------ | --------------------- | ------------------- |
+| 404    | `AUTH.USER_NOT_FOUND` | User does not exist |
+
+### `PATCH /api/v1/admin/users/:id/suspend`
+
+Summary: Temporarily disable a user account.
+
+Request body:
+
+```json
+{
+  "reason": "Suspicious activity while support verifies the account"
+}
+```
+
+Success response: updated `AdminUserResponse` with `status: "SUSPENDED"` and `suspendedAt`.
+
+### `PATCH /api/v1/admin/users/:id/ban`
+
+Summary: Disable a user account for policy violations.
+
+Request body:
+
+```json
+{
+  "reason": "Repeated policy violations"
+}
+```
+
+Success response: updated `AdminUserResponse` with `status: "BANNED"` and `bannedAt`.
+
+### `PATCH /api/v1/admin/users/:id/archive`
+
+Summary: Soft-delete/archive a user account. The row remains for audit and foreign-key history.
+
+Request body:
+
+```json
+{
+  "reason": "Test-flow cleanup"
+}
+```
+
+Success response: updated `AdminUserResponse` with `status: "ARCHIVED"` and `archivedAt`.
+
+### `PATCH /api/v1/admin/users/:id/restore`
+
+Summary: Restore a disabled user to `ACTIVE`.
+
+Request body:
+
+```json
+{
+  "reason": "Appeal accepted"
+}
+```
+
+`reason` is optional for restore. Success response clears `suspendedAt`, `bannedAt`, and `archivedAt`.
+
+Admin action errors:
+
+| Status | Code                      | Meaning                                                      |
+| ------ | ------------------------- | ------------------------------------------------------------ |
+| 403    | `AUTH.CANNOT_MANAGE_SELF` | Admin tried to suspend/ban/archive/restore their own account |
+| 404    | `AUTH.USER_NOT_FOUND`     | Target user does not exist                                   |
+| 422    | validation error          | Missing/invalid reason                                       |
 
 ## Internal endpoints
 

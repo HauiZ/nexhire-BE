@@ -11,6 +11,7 @@ import { ERROR_CODES, UserRole } from '@nexhire/shared';
 import * as bcrypt from 'bcrypt';
 import { DataSource, Repository } from 'typeorm';
 import { AuthService } from '../auth.service';
+import { UserStatus } from '../entities/auth.enum';
 import { EmailVerification } from '../entities/email-verification.entity';
 import { PasswordResetToken } from '../entities/password-reset-token.entity';
 import { RecruiterCompanyLink } from '../entities/recruiter-company-link.entity';
@@ -601,6 +602,27 @@ describe('AuthService', () => {
     });
   });
 
+  it('rejects login when account is banned by admin', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      status: UserStatus.BANNED,
+    } as User);
+
+    await expect(
+      service.login({
+        email: 'candidate@nexhire.vn',
+        password: 'StrongPassword123!',
+        role: UserRole.CANDIDATE,
+      }),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.AUTH.ACCOUNT_BANNED,
+      }),
+    });
+    expect(credentialRepo.findOne).not.toHaveBeenCalled();
+  });
+
   it('verifies email and updates both verification and user state', async () => {
     const verification = {
       id: 'verification-1',
@@ -922,6 +944,10 @@ describe('AuthService', () => {
   });
 
   it('changes password for an authenticated user', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      status: UserStatus.ACTIVE,
+    } as User);
     (credentialRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'credential-1',
       userId: 'user-1',
@@ -950,6 +976,10 @@ describe('AuthService', () => {
   });
 
   it('rejects change password when current password is invalid', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      status: UserStatus.ACTIVE,
+    } as User);
     (credentialRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'credential-1',
       userId: 'user-1',

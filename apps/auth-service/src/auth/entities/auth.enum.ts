@@ -3,6 +3,8 @@ export enum UserStatus {
   INACTIVE = 'INACTIVE',
   SUSPENDED = 'SUSPENDED',
   LOCKED = 'LOCKED',
+  BANNED = 'BANNED',
+  ARCHIVED = 'ARCHIVED',
 }
 
 export enum PasswordAlgorithm {

@@ -11,6 +11,7 @@ import {
   RedisModule,
 } from '@nexhire/infra';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
+import { AdminUserModule } from './admin-user/admin-user.module';
 import { AuthModule } from './auth/auth.module';
 import { PermissionModule } from './permission/permission.module';
 import { authServiceConfig } from './config/auth-service.config';
@@ -29,6 +30,7 @@ import { HealthModule } from './health/health.module';
     EventBusModule,
     HealthModule,
     AuthModule,
+    AdminUserModule,
     PermissionModule,
   ],
   providers: [

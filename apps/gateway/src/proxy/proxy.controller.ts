@@ -73,6 +73,16 @@ export class ProxyController {
     return this.proxy.forward('jobService', req, res);
   }
 
+  @All('admin/users/*')
+  adminUsers(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('authService', req, res);
+  }
+
+  @All('admin/users')
+  adminUsersRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('authService', req, res);
+  }
+
   @All('categories/*')
   categories(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('jobService', req, res);

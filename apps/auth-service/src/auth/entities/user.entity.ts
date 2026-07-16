@@ -46,6 +46,24 @@ export class User {
   @Column({ name: 'last_login_at', type: 'timestamptz', nullable: true })
   lastLoginAt: Date | null;
 
+  @Column({ name: 'status_reason', type: 'text', nullable: true })
+  statusReason: string | null;
+
+  @Column({ name: 'status_changed_by', type: 'uuid', nullable: true })
+  statusChangedBy: string | null;
+
+  @Column({ name: 'status_changed_at', type: 'timestamptz', nullable: true })
+  statusChangedAt: Date | null;
+
+  @Column({ name: 'suspended_at', type: 'timestamptz', nullable: true })
+  suspendedAt: Date | null;
+
+  @Column({ name: 'banned_at', type: 'timestamptz', nullable: true })
+  bannedAt: Date | null;
+
+  @Column({ name: 'archived_at', type: 'timestamptz', nullable: true })
+  archivedAt: Date | null;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 

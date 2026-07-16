@@ -177,6 +177,7 @@ export class AuthService {
       });
     }
 
+    this.assertUserActiveForAuth(user);
     return {
       id: user.id,
       email: user.email,
@@ -193,6 +194,7 @@ export class AuthService {
       });
     }
 
+    this.assertUserActiveForAuth(user);
     await this.assertUserCanLoginAs(user.id, currentUser.role);
     const companyLink =
       currentUser.role === UserRole.RECRUITER
@@ -217,6 +219,7 @@ export class AuthService {
       throw this.invalidCredentials();
     }
 
+    this.assertUserActiveForAuth(user);
     const credential = await this.credentialRepo.findOne({ where: { userId: user.id } });
     if (!credential) {
       this.logger.error(`Login failed: credential missing userId=${user.id}`);
@@ -451,6 +454,15 @@ export class AuthService {
   }
 
   async changePassword(userId: string, dto: ChangePasswordDto): Promise<ChangePasswordResponseDto> {
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException({
+        code: ERROR_CODES.AUTH.USER_NOT_FOUND,
+        message: 'User not found',
+      });
+    }
+    this.assertUserActiveForAuth(user);
+
     const credential = await this.credentialRepo.findOne({ where: { userId } });
     if (!credential) {
       throw new NotFoundException({
@@ -509,6 +521,7 @@ export class AuthService {
       throw this.invalidRefreshToken();
     }
 
+    this.assertUserActiveForAuth(user);
     await this.assertUserCanLoginAs(user.id, payload.role);
     return this.buildAuthResponse(user, payload.role);
   }
@@ -540,6 +553,31 @@ export class AuthService {
         message: `Account is not allowed to login as ${role.toLowerCase()}`,
       });
     }
+  }
+
+  private assertUserActiveForAuth(user: User): void {
+    if (!user.status || user.status === UserStatus.ACTIVE) {
+      return;
+    }
+
+    if (user.status === UserStatus.BANNED) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.AUTH.ACCOUNT_BANNED,
+        message: 'Account is banned',
+      });
+    }
+
+    if (user.status === UserStatus.ARCHIVED) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.AUTH.ACCOUNT_ARCHIVED,
+        message: 'Account is archived',
+      });
+    }
+
+    throw new ForbiddenException({
+      code: ERROR_CODES.AUTH.ACCOUNT_NOT_ACTIVE,
+      message: 'Account is not active',
+    });
   }
 
   private async buildAuthResponse(user: User, role: UserRole): Promise<AuthResponseDto> {
@@ -762,9 +800,7 @@ export class AuthService {
       });
     } catch (error) {
       this.logger.warn(
-        `Failed to publish verification email event email=${email}: ${
-          (error as Error).message
-        }`,
+        `Failed to publish verification email event email=${email}: ${(error as Error).message}`,
       );
     }
   }
@@ -784,9 +820,7 @@ export class AuthService {
       });
     } catch (error) {
       this.logger.warn(
-        `Failed to publish password reset email event email=${email}: ${
-          (error as Error).message
-        }`,
+        `Failed to publish password reset email event email=${email}: ${(error as Error).message}`,
       );
     }
   }
