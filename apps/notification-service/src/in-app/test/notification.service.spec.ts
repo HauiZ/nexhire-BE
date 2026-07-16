@@ -1,4 +1,4 @@
-import { ApplicationStage, UserRole } from '@nexhire/shared';
+import { ApplicationStage, CompanyStatus, UserRole } from '@nexhire/shared';
 import { Repository } from 'typeorm';
 import { Notification } from '../entities/notification.entity';
 import {
@@ -107,6 +107,45 @@ describe('NotificationService', () => {
         type: NotificationType.APPLICATION_STAGE_CHANGED,
       }),
     ]);
+  });
+
+  it('creates owner notification when company status changes', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createCompanyVerificationChangedNotification({
+      companyId: 'company-1',
+      ownerUserId: 'owner-1',
+      companyName: 'NexHire',
+      companyStatus: CompanyStatus.APPROVED,
+      changedAt: '2026-07-16T00:00:00.000Z',
+    });
+
+    expect(qb.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: 'owner-1',
+        dedupeKey: 'company-status:user:company-1:APPROVED:2026-07-16T00:00:00.000Z',
+        senderType: NotificationSenderType.SYSTEM,
+        type: NotificationType.COMPANY_VERIFICATION_CHANGED,
+      }),
+    ]);
+  });
+
+  it('does not create company status notification when status is unchanged', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createCompanyVerificationChangedNotification({
+      companyId: 'company-1',
+      ownerUserId: 'owner-1',
+      companyName: 'NexHire',
+      companyStatus: CompanyStatus.APPROVED,
+      previousCompanyStatus: CompanyStatus.APPROVED,
+      changedAt: '2026-07-16T00:00:00.000Z',
+    });
+
+    expect(repo.createQueryBuilder).not.toHaveBeenCalled();
   });
 
   it('scopes unread count to recruiter company', async () => {

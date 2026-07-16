@@ -6,6 +6,7 @@ import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import {
   ApplicationStageChangedNotificationPayload,
   ApplicationSubmittedNotificationPayload,
+  CompanyPostingSnapshotNotificationPayload,
   NotificationService,
 } from './notification.service';
 
@@ -45,6 +46,7 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
         await channel.assertQueue(queueName, { durable: true });
         await channel.bindQueue(queueName, exchange, EVENTS.APPLICATION_SUBMITTED);
         await channel.bindQueue(queueName, exchange, EVENTS.APPLICATION_STAGE_CHANGED);
+        await channel.bindQueue(queueName, exchange, EVENTS.COMPANY_POSTING_SNAPSHOT_CHANGED);
         await channel.consume(queueName, (message) => this.consume(message), { noAck: false });
       },
     });
@@ -65,9 +67,13 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
         await this.notificationService.createApplicationSubmittedNotifications(
           this.parseSubmittedPayload(message),
         );
-      } else {
+      } else if (message.fields.routingKey === EVENTS.APPLICATION_STAGE_CHANGED) {
         await this.notificationService.createApplicationStageChangedNotification(
           this.parseStageChangedPayload(message),
+        );
+      } else if (message.fields.routingKey === EVENTS.COMPANY_POSTING_SNAPSHOT_CHANGED) {
+        await this.notificationService.createCompanyVerificationChangedNotification(
+          this.parseCompanySnapshotPayload(message),
         );
       }
       this.channel.ack(message);
@@ -100,6 +106,18 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
       !payload.status
     ) {
       throw new Error('Invalid application stage changed notification payload');
+    }
+    return payload;
+  }
+
+  private parseCompanySnapshotPayload(
+    message: ConsumeMessage,
+  ): CompanyPostingSnapshotNotificationPayload {
+    const payload = JSON.parse(
+      message.content.toString(),
+    ) as CompanyPostingSnapshotNotificationPayload;
+    if (!payload.companyId || !payload.ownerUserId || !payload.companyStatus) {
+      throw new Error('Invalid company snapshot notification payload');
     }
     return payload;
   }

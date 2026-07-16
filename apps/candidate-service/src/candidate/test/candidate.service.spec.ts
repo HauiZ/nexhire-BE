@@ -1,6 +1,5 @@
 import { ERROR_CODES, UserRole } from '@nexhire/shared';
 import { DataSource, EntityManager, Repository } from 'typeorm';
-import { EventPublisher } from '@nexhire/infra';
 
 import { CandidateService } from '../candidate.service';
 import { CandidateCertification } from '../entities/candidate-certification.entity';
@@ -17,6 +16,7 @@ import { CandidateProject } from '../entities/candidate-project.entity';
 import { CandidateSkill } from '../entities/candidate-skill.entity';
 import { DocumentClientService } from '../../document-client/document-client.service';
 import { AuthClientService } from '../auth-client.service';
+import { CandidateEventPublisher } from '../events/candidate-event.publisher';
 
 type MockRepo<T> = {
   create: jest.Mock;
@@ -97,7 +97,7 @@ describe('CandidateService', () => {
   let cvRepo: MockRepo<CandidateCv>;
   let documentClientService: { uploadCandidateDocument: jest.Mock };
   let authClientService: { getUserEmail: jest.Mock };
-  let eventPublisher: { publish: jest.Mock };
+  let candidateEventPublisher: { publishProfileSnapshotChanged: jest.Mock };
 
   beforeEach(() => {
     dataSource = {
@@ -116,8 +116,8 @@ describe('CandidateService', () => {
     authClientService = {
       getUserEmail: jest.fn().mockResolvedValue(null),
     };
-    eventPublisher = {
-      publish: jest.fn().mockResolvedValue(undefined),
+    candidateEventPublisher = {
+      publishProfileSnapshotChanged: jest.fn().mockResolvedValue(undefined),
     };
 
     service = new CandidateService(
@@ -131,7 +131,7 @@ describe('CandidateService', () => {
       cvRepo as unknown as Repository<CandidateCv>,
       documentClientService as unknown as DocumentClientService,
       authClientService as unknown as AuthClientService,
-      eventPublisher as unknown as EventPublisher,
+      candidateEventPublisher as unknown as CandidateEventPublisher,
     );
   });
 
@@ -166,7 +166,7 @@ describe('CandidateService', () => {
         completionPercent: 0,
       }),
     );
-    expect(eventPublisher.publish).not.toHaveBeenCalled();
+    expect(candidateEventPublisher.publishProfileSnapshotChanged).not.toHaveBeenCalled();
   });
 
   it('falls back to login email when profile contact email is empty', async () => {
@@ -178,7 +178,7 @@ describe('CandidateService', () => {
     expect(authClientService.getUserEmail).toHaveBeenCalledWith('user-1');
     expect(result.profile.contactEmail).toBe('candidate@nexhire.vn');
     expect(result.completionPercent).toBe(8);
-    expect(eventPublisher.publish).not.toHaveBeenCalled();
+    expect(candidateEventPublisher.publishProfileSnapshotChanged).not.toHaveBeenCalled();
   });
 
   it('updates profile fields and replaces provided collections', async () => {
@@ -367,8 +367,7 @@ describe('CandidateService', () => {
         }),
       ]),
     );
-    expect(eventPublisher.publish).toHaveBeenCalledWith(
-      'candidate.profile-snapshot-changed',
+    expect(candidateEventPublisher.publishProfileSnapshotChanged).toHaveBeenCalledWith(
       expect.objectContaining({
         candidateId: 'candidate-1',
         candidateUserId: 'user-1',

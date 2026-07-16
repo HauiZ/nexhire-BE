@@ -7,8 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApplicationStage, AuthUser, ERROR_CODES, EVENTS, UserRole } from '@nexhire/shared';
-import { EventPublisher } from '@nexhire/infra';
+import { ApplicationStage, AuthUser, ERROR_CODES, UserRole } from '@nexhire/shared';
 import { Brackets, In, Repository } from 'typeorm';
 import { ApplicationInternalClientService } from './application-internal-client.service';
 import {
@@ -22,6 +21,7 @@ import {
 } from './dto/application-query.dto';
 import { ApplicationCvDownloadDto, ApplicationResponseDto } from './dto/application-response.dto';
 import { Application } from './entities/application.entity';
+import { ApplicationEventPublisher } from './events/application-event.publisher';
 
 @Injectable()
 export class ApplicationService {
@@ -30,7 +30,7 @@ export class ApplicationService {
 
   constructor(
     private readonly internalClient: ApplicationInternalClientService,
-    private readonly eventPublisher: EventPublisher,
+    private readonly applicationEventPublisher: ApplicationEventPublisher,
     @InjectRepository(Application)
     private readonly applicationRepo: Repository<Application>,
   ) {}
@@ -100,7 +100,7 @@ export class ApplicationService {
       }),
     );
 
-    await this.publishEvent(EVENTS.APPLICATION_SUBMITTED, {
+    await this.applicationEventPublisher.publishApplicationSubmitted({
       applicationId: application.id,
       jobId: application.jobId,
       jobTitle: application.jobTitle,
@@ -336,7 +336,7 @@ export class ApplicationService {
     application: Application,
     previousStatus: ApplicationStage,
   ): Promise<void> {
-    await this.publishEvent(EVENTS.APPLICATION_STAGE_CHANGED, {
+    await this.applicationEventPublisher.publishApplicationStageChanged({
       applicationId: application.id,
       jobId: application.jobId,
       jobTitle: application.jobTitle,
@@ -351,12 +351,6 @@ export class ApplicationService {
       status: application.status,
       note: application.statusNote,
       changedAt: new Date().toISOString(),
-    });
-  }
-
-  private async publishEvent(routingKey: string, payload: unknown): Promise<void> {
-    await this.eventPublisher.publish(routingKey, payload).catch((error) => {
-      this.logger.error(`Failed to publish event routingKey=${routingKey}: ${(error as Error).message}`);
     });
   }
 

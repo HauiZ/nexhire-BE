@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApplicationStage, AuthUser, ERROR_CODES, UserRole } from '@nexhire/shared';
+import { ApplicationStage, AuthUser, CompanyStatus, ERROR_CODES, UserRole } from '@nexhire/shared';
 import { Brackets, Repository } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { NotificationQueryDto } from './dto/notification-query.dto';
@@ -43,6 +43,16 @@ export interface ApplicationStageChangedNotificationPayload {
   previousStatus: ApplicationStage;
   status: ApplicationStage;
   note?: string | null;
+  changedAt?: string;
+}
+
+export interface CompanyPostingSnapshotNotificationPayload {
+  companyId: string;
+  ownerUserId: string;
+  companyName?: string | null;
+  companyLogoUrl?: string | null;
+  companyStatus: CompanyStatus;
+  previousCompanyStatus?: CompanyStatus;
   changedAt?: string;
 }
 
@@ -188,6 +198,45 @@ export class NotificationService {
     ]);
   }
 
+  async createCompanyVerificationChangedNotification(
+    payload: CompanyPostingSnapshotNotificationPayload,
+  ): Promise<void> {
+    if (
+      payload.previousCompanyStatus &&
+      payload.previousCompanyStatus === payload.companyStatus
+    ) {
+      return;
+    }
+    const message = this.companyStatusMessage(payload.companyStatus, payload.companyName);
+    if (!message) {
+      return;
+    }
+
+    await this.insertNotifications([
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: payload.ownerUserId,
+        recipientCompanyId: null,
+        dedupeKey: `company-status:user:${payload.companyId}:${payload.companyStatus}:${payload.changedAt ?? 'unknown'}`,
+        senderType: NotificationSenderType.SYSTEM,
+        senderEntityId: null,
+        senderName: 'NexHire',
+        senderAvatarDocumentId: null,
+        senderLogoUrl: null,
+        type: NotificationType.COMPANY_VERIFICATION_CHANGED,
+        title: message.title,
+        body: message.body,
+        data: {
+          companyId: payload.companyId,
+          companyName: payload.companyName ?? null,
+          companyLogoUrl: payload.companyLogoUrl ?? null,
+          companyStatus: payload.companyStatus,
+        },
+        readAt: null,
+      }),
+    ]);
+  }
+
   private async findScopedNotification(user: AuthUser, id: string): Promise<Notification> {
     const notification = await this.notificationRepo
       .createQueryBuilder('notification')
@@ -254,6 +303,38 @@ export class NotificationService {
       return {
         title: 'Tin tuyển dụng đã đóng',
         body: `Hồ sơ của bạn đã được hủy vì tin tuyển dụng không còn nhận xử lý.`,
+      };
+    }
+    return null;
+  }
+
+  private companyStatusMessage(
+    status: CompanyStatus,
+    companyName?: string | null,
+  ): { title: string; body: string } | null {
+    const name = companyName ?? 'Your company';
+    if (status === CompanyStatus.APPROVED) {
+      return {
+        title: 'Company approved',
+        body: `${name} has been approved. You can now submit jobs for review.`,
+      };
+    }
+    if (status === CompanyStatus.REJECTED) {
+      return {
+        title: 'Company rejected',
+        body: `${name} was not approved. Please update the company profile and submit again.`,
+      };
+    }
+    if (status === CompanyStatus.SUSPENDED) {
+      return {
+        title: 'Company suspended',
+        body: `${name} has been suspended. Public posting is temporarily disabled.`,
+      };
+    }
+    if (status === CompanyStatus.PENDING) {
+      return {
+        title: 'Company pending review',
+        body: `${name} is waiting for admin review before posting jobs.`,
       };
     }
     return null;

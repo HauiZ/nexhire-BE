@@ -60,21 +60,21 @@ Auth:
 
 Query:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `page` | number | No | Default pagination behavior |
-| `limit` | number | No | Default pagination behavior |
-| `readStatus` | enum | No | `ALL`, `READ`, `UNREAD`; default `ALL` |
+| Field        | Type   | Required | Note                                   |
+| ------------ | ------ | -------- | -------------------------------------- |
+| `page`       | number | No       | Default pagination behavior            |
+| `limit`      | number | No       | Default pagination behavior            |
+| `readStatus` | enum   | No       | `ALL`, `READ`, `UNREAD`; default `ALL` |
 
 Success response: paginated array of notification response objects.
 
 Errors:
 
-| Status | Meaning |
-| ------ | ------- |
-| 400 | Invalid query |
-| 401 | Missing/invalid access token |
-| 403 | User role is not allowed |
+| Status | Meaning                      |
+| ------ | ---------------------------- |
+| 400    | Invalid query                |
+| 401    | Missing/invalid access token |
+| 403    | User role is not allowed     |
 
 ### `GET /api/v1/notifications/unread-count`
 
@@ -133,20 +133,23 @@ Success response: notification response object with `readAt` set.
 
 Errors:
 
-| Status | Meaning |
-| ------ | ------- |
-| 401 | Missing/invalid access token |
-| 403 | User role is not allowed |
-| 404 | Notification not found in current scope |
+| Status | Meaning                                 |
+| ------ | --------------------------------------- |
+| 401    | Missing/invalid access token            |
+| 403    | User role is not allowed                |
+| 404    | Notification not found in current scope |
 
 ## Consumed events
 
 Notification-service consumes application events:
 
-| Routing key | Notifications created |
-| ----------- | --------------------- |
-| `application.submitted` | Candidate receives confirmation; recruiter company receives a new application notification |
-| `application.stage-changed` | Candidate receives status update for `OFFERED`, `REJECTED`, or `CANCELLED` |
+| Routing key                        | Notifications created                                                                      |
+| ---------------------------------- | ------------------------------------------------------------------------------------------ |
+| `application.submitted`            | Candidate receives confirmation; recruiter company receives a new application notification |
+| `application.stage-changed`        | Candidate receives status update for `OFFERED`, `REJECTED`, or `CANCELLED`                 |
+| `company.posting-snapshot-changed` | Company owner receives status update for `APPROVED`, `REJECTED`, `SUSPENDED`, or `PENDING`; if `previousCompanyStatus` equals `companyStatus`, notification-service skips the duplicate status notification |
+
+Company trust changes are not shown to candidates/public users. If a trust change changes posting eligibility indirectly, users only see the resulting company/job status messaging.
 
 `SUBMITTED` and `WITHDRAWN` stage-change payloads are ignored by in-app notification handling.
 

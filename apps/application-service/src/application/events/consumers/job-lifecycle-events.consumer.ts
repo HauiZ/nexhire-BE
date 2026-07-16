@@ -7,7 +7,7 @@ import {
   ApplicationService,
   CandidateProfileSnapshotChangedPayload,
   JobLifecyclePayload,
-} from '../application.service';
+} from '../../application.service';
 
 @Injectable()
 export class JobLifecycleEventsConsumer implements OnModuleInit, OnModuleDestroy {

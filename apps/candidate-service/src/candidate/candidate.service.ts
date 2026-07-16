@@ -1,7 +1,6 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthUser, ERROR_CODES, EVENTS, ParsedResume } from '@nexhire/shared';
-import { EventPublisher } from '@nexhire/infra';
+import { AuthUser, ERROR_CODES, ParsedResume } from '@nexhire/shared';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 import {
   CandidateCertificationInputDto,
@@ -44,6 +43,7 @@ import {
 import { DocumentClientService } from '../document-client/document-client.service';
 import { CandidateUploadedFile } from '../document-client/interfaces/candidate-uploaded-file.interface';
 import { AuthClientService } from './auth-client.service';
+import { CandidateEventPublisher } from './events/candidate-event.publisher';
 
 @Injectable()
 export class CandidateService {
@@ -65,7 +65,7 @@ export class CandidateService {
     private readonly cvRepo: Repository<CandidateCv>,
     private readonly documentClientService: DocumentClientService,
     private readonly authClientService: AuthClientService,
-    private readonly eventPublisher: EventPublisher,
+    private readonly candidateEventPublisher: CandidateEventPublisher,
   ) {}
 
   async getMe(userId: string): Promise<CandidateProfileResponseDto> {
@@ -745,17 +745,15 @@ export class CandidateService {
   }
 
   private async publishProfileSnapshotChanged(profile: CandidateProfile): Promise<void> {
-    await this.eventPublisher
-      .publish(EVENTS.CANDIDATE_PROFILE_SNAPSHOT_CHANGED, {
-        candidateId: profile.id,
-        candidateUserId: profile.userId,
-        fullName: profile.fullName,
-        email: await this.resolveContactEmail(profile),
-        phone: profile.phone,
-        avatarDocumentId: profile.avatarDocumentId,
-        changedAt: new Date().toISOString(),
-      })
-      .catch(() => undefined);
+    await this.candidateEventPublisher.publishProfileSnapshotChanged({
+      candidateId: profile.id,
+      candidateUserId: profile.userId,
+      fullName: profile.fullName,
+      email: await this.resolveContactEmail(profile),
+      phone: profile.phone,
+      avatarDocumentId: profile.avatarDocumentId,
+      changedAt: new Date().toISOString(),
+    });
   }
 
   private normalizeSkillName(value: string): string {

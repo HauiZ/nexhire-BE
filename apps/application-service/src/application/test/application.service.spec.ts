@@ -1,9 +1,9 @@
 import { ApplicationStage, UserRole } from '@nexhire/shared';
-import { EventPublisher } from '@nexhire/infra';
 import { Repository } from 'typeorm';
 import { ApplicationInternalClientService } from '../application-internal-client.service';
 import { ApplicationService } from '../application.service';
 import { Application } from '../entities/application.entity';
+import { ApplicationEventPublisher } from '../events/application-event.publisher';
 
 type MockRepo = {
   find: jest.Mock;
@@ -61,7 +61,10 @@ describe('ApplicationService', () => {
     getCandidateApplicationSnapshot: jest.Mock;
     getDocumentDownload: jest.Mock;
   };
-  let eventPublisher: { publish: jest.Mock };
+  let applicationEventPublisher: {
+    publishApplicationSubmitted: jest.Mock;
+    publishApplicationStageChanged: jest.Mock;
+  };
 
   beforeEach(() => {
     repo = {
@@ -104,11 +107,14 @@ describe('ApplicationService', () => {
         expiresInSeconds: 3600,
       }),
     };
-    eventPublisher = { publish: jest.fn().mockResolvedValue(undefined) };
+    applicationEventPublisher = {
+      publishApplicationSubmitted: jest.fn().mockResolvedValue(undefined),
+      publishApplicationStageChanged: jest.fn().mockResolvedValue(undefined),
+    };
 
     service = new ApplicationService(
       internalClient as unknown as ApplicationInternalClientService,
-      eventPublisher as unknown as EventPublisher,
+      applicationEventPublisher as unknown as ApplicationEventPublisher,
       repo as unknown as Repository<Application>,
     );
   });
@@ -133,8 +139,7 @@ describe('ApplicationService', () => {
         status: ApplicationStage.SUBMITTED,
       }),
     );
-    expect(eventPublisher.publish).toHaveBeenCalledWith(
-      'application.submitted',
+    expect(applicationEventPublisher.publishApplicationSubmitted).toHaveBeenCalledWith(
       expect.objectContaining({
         jobId: application.jobId,
         candidateUserId: candidateUser.id,
@@ -162,8 +167,7 @@ describe('ApplicationService', () => {
     const result = await service.withdrawMine(candidateUser, application.id, { note: 'later' });
 
     expect(result.status).toBe(ApplicationStage.WITHDRAWN);
-    expect(eventPublisher.publish).toHaveBeenCalledWith(
-      'application.stage-changed',
+    expect(applicationEventPublisher.publishApplicationStageChanged).toHaveBeenCalledWith(
       expect.objectContaining({
         applicationId: application.id,
         previousStatus: ApplicationStage.SUBMITTED,
@@ -192,8 +196,7 @@ describe('ApplicationService', () => {
     });
 
     expect(result.status).toBe(ApplicationStage.OFFERED);
-    expect(eventPublisher.publish).toHaveBeenCalledWith(
-      'application.stage-changed',
+    expect(applicationEventPublisher.publishApplicationStageChanged).toHaveBeenCalledWith(
       expect.objectContaining({
         applicationId: application.id,
         previousStatus: ApplicationStage.SUBMITTED,
@@ -228,8 +231,7 @@ describe('ApplicationService', () => {
         cancelledAt: expect.any(Date),
       }),
     );
-    expect(eventPublisher.publish).toHaveBeenCalledWith(
-      'application.stage-changed',
+    expect(applicationEventPublisher.publishApplicationStageChanged).toHaveBeenCalledWith(
       expect.objectContaining({
         applicationId: application.id,
         previousStatus: ApplicationStage.SUBMITTED,
