@@ -1,5 +1,5 @@
 import { BaseEntity } from '@nexhire/infra';
-import { CompanyStatus } from '@nexhire/shared';
+import { CompanyStatus, CompanyTrustLevel } from '@nexhire/shared';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity({ name: 'companies' })
@@ -29,4 +29,19 @@ export class Company extends BaseEntity {
 
   @Column({ type: 'enum', enum: CompanyStatus, default: CompanyStatus.PENDING })
   status: CompanyStatus;
+
+  @Column({
+    name: 'trust_level',
+    type: 'enum',
+    enum: CompanyTrustLevel,
+    enumName: 'company_trust_level_enum',
+    default: CompanyTrustLevel.MEDIUM,
+  })
+  trustLevel: CompanyTrustLevel;
+
+  @Column({ name: 'approved_low_risk_count', type: 'integer', default: 0 })
+  approvedLowRiskCount: number;
+
+  @Column({ name: 'negative_trust_signal_count', type: 'integer', default: 0 })
+  negativeTrustSignalCount: number;
 }

@@ -1,6 +1,7 @@
 # Job Service API Docs
 
 Base path through gateway:
+
 - Public: `/api/v1/jobs`
 - Recruiter: `/api/v1/recruiter/jobs`
 - Admin: `/api/v1/admin/jobs`
@@ -9,8 +10,8 @@ Responsibility: job posting lifecycle, manual moderation review, public job read
 
 ## Runtime config
 
-| Env | Default | Purpose |
-| --- | ------- | ------- |
+| Env                                | Default  | Purpose                                                                                 |
+| ---------------------------------- | -------- | --------------------------------------------------------------------------------------- |
 | `JOB_EXPIRATION_SWEEP_INTERVAL_MS` | `300000` | How often job-service sweeps expired published jobs. Minimum accepted value is `10000`. |
 
 ## Rules
@@ -32,6 +33,8 @@ Responsibility: job posting lifecycle, manual moderation review, public job read
 - Public search uses PostgreSQL full-text search over normalized `title`, `description`, `requirements`, `skills`, company snapshot name, and location.
 - Delete is soft delete. Published jobs should be hidden with `UNPUBLISHED`, not deleted.
 - A background scheduler marks published jobs whose `deadline` has passed as `EXPIRED`. The default sweep interval is 5 minutes and can be configured with `JOB_EXPIRATION_SWEEP_INTERVAL_MS`. Expired jobs are hidden from public pages; existing applications remain available for recruiters to process.
+- Before creating/submitting jobs or revisions, job-service calls company-service internal `GET /api/v1/internal/companies/:id/posting-snapshot` using `COMPANY_SERVICE_URL` and `x-internal-service-token`. The JWT `companyId` only identifies recruiter ownership; posting eligibility still comes from company-service status.
+- After admin review, job-service publishes `job.review-trust-signal` so company-service can auto-adjust internal trust level based on approved low-risk or repeated risky/rejected jobs.
 
 ## Shared Payload Fields
 
@@ -242,6 +245,7 @@ Payload:
   "companyName": "NexHire",
   "companyLogoUrl": "https://cdn.nexhire.vn/company/nexhire.png",
   "companyStatus": "APPROVED",
+  "previousCompanyStatus": "PENDING",
   "companyTrustLevel": "MEDIUM",
   "changedAt": "2026-07-15T10:00:00.000Z"
 }
@@ -252,6 +256,7 @@ Payload:
 `companyTrustLevel` values: `LOW`, `MEDIUM`, `HIGH`.
 
 Job-service consumes the event and updates job snapshots by `companyId`. `companyName` and `companyLogoUrl` are optional patch fields; omitted fields keep their previous snapshot value.
+`previousCompanyStatus` is optional and ignored by job-service.
 
 ## Application Submitted Event
 
@@ -321,11 +326,11 @@ Rules:
 
 Errors:
 
-| Status | Meaning |
-| ------ | ------- |
-| 401 | Missing/invalid internal service token |
-| 403 | Internal caller is not allowed |
-| 404 | Job not found |
+| Status | Meaning                                |
+| ------ | -------------------------------------- |
+| 401    | Missing/invalid internal service token |
+| 403    | Internal caller is not allowed         |
+| 404    | Job not found                          |
 
 ## Internal Saved Job Snapshot Endpoint
 

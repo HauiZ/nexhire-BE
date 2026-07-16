@@ -16,6 +16,7 @@ Responsibility: authentication, JWT issuing, refresh-token rotation/revocation, 
     "fullName": "Nguyen Van A",
     "phone": "0901234567",
     "role": "CANDIDATE",
+    "companyId": null,
     "emailVerified": false
   },
   "tokens": {
@@ -34,17 +35,18 @@ Responsibility: authentication, JWT issuing, refresh-token rotation/revocation, 
 Summary: Register a candidate or recruiter account and send email verification. `ADMIN` cannot self-register.
 
 Auth:
+
 - Public
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `email` | string | Yes | Valid email, max 255 |
-| `password` | string | Yes | 8-128 chars |
-| `fullName` | string | Yes | 2-255 chars |
-| `phone` | string | Yes | 8-30 chars |
-| `role` | enum | Yes | `CANDIDATE` or `RECRUITER`; `ADMIN` is rejected |
+| Field      | Type   | Required | Note                                            |
+| ---------- | ------ | -------- | ----------------------------------------------- |
+| `email`    | string | Yes      | Valid email, max 255                            |
+| `password` | string | Yes      | 8-128 chars                                     |
+| `fullName` | string | Yes      | 2-255 chars                                     |
+| `phone`    | string | Yes      | 8-30 chars                                      |
+| `role`     | enum   | Yes      | `CANDIDATE` or `RECRUITER`; `ADMIN` is rejected |
 
 ```json
 {
@@ -82,27 +84,30 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 409 | `AUTH.EMAIL_ALREADY_REGISTERED` | Email already registered |
-| 409 | `AUTH.REGISTRATION_ROLE_NOT_ALLOWED` | Role cannot self-register |
-| 409 | `AUTH.ROLE_NOT_PROVISIONED` | Requested role is missing in seed/provisioning |
-| 422 | validation error | Invalid request body |
+| Status | Code                                 | Meaning                                        |
+| ------ | ------------------------------------ | ---------------------------------------------- |
+| 409    | `AUTH.EMAIL_ALREADY_REGISTERED`      | Email already registered                       |
+| 409    | `AUTH.REGISTRATION_ROLE_NOT_ALLOWED` | Role cannot self-register                      |
+| 409    | `AUTH.ROLE_NOT_PROVISIONED`          | Requested role is missing in seed/provisioning |
+| 422    | validation error                     | Invalid request body                           |
 
 ### `POST /api/v1/auth/login`
 
 Summary: Login with email, password, and required role context. FE can have separate candidate/recruiter login pages, but both call this same endpoint and send the matching `role` in body.
 
+For recruiter login/refresh, auth-service reads its local `recruiter_company_links` table, synced from company-service event `company.posting-snapshot-changed`, and includes `companyId` in both the auth response and JWT payload when the recruiter owns a company. Gateway forwards this as `x-company-id`.
+
 Auth:
+
 - Public
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `email` | string | Yes | Valid email, max 255 |
-| `password` | string | Yes | 8-128 chars |
-| `role` | enum | Yes | Login context: `CANDIDATE` or `RECRUITER` |
+| Field      | Type   | Required | Note                                      |
+| ---------- | ------ | -------- | ----------------------------------------- |
+| `email`    | string | Yes      | Valid email, max 255                      |
+| `password` | string | Yes      | 8-128 chars                               |
+| `role`     | enum   | Yes      | Login context: `CANDIDATE` or `RECRUITER` |
 
 ```json
 {
@@ -134,6 +139,7 @@ Success response:
       "fullName": "Nguyen Van A",
       "phone": "0901234567",
       "role": "CANDIDATE",
+      "companyId": null,
       "emailVerified": true
     },
     "tokens": {
@@ -148,25 +154,26 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 401 | `AUTH.INVALID_CREDENTIALS` | Email or password is invalid |
-| 403 | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Account does not have the requested login role |
-| 423 | `AUTH.ACCOUNT_TEMPORARILY_LOCKED` | Account is temporarily locked |
-| 422 | validation error | Invalid request body |
+| Status | Code                              | Meaning                                        |
+| ------ | --------------------------------- | ---------------------------------------------- |
+| 401    | `AUTH.INVALID_CREDENTIALS`        | Email or password is invalid                   |
+| 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED`     | Account does not have the requested login role |
+| 423    | `AUTH.ACCOUNT_TEMPORARILY_LOCKED` | Account is temporarily locked                  |
+| 422    | validation error                  | Invalid request body                           |
 
 ### `POST /api/v1/auth/refresh`
 
 Summary: Rotate refresh token and issue a new token pair.
 
 Auth:
+
 - Public
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `refreshToken` | string | Yes | Current refresh token |
+| Field          | Type   | Required | Note                  |
+| -------------- | ------ | -------- | --------------------- |
+| `refreshToken` | string | Yes      | Current refresh token |
 
 ```json
 {
@@ -176,25 +183,28 @@ Request body:
 
 Success response: same as Auth response data.
 
+Recruiter refresh also refreshes the embedded `companyId` from the synced company link table.
+
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 401 | `AUTH.INVALID_REFRESH_TOKEN` | Refresh token is invalid, expired, reused, or revoked |
-| 403 | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Refresh token role is no longer assigned to the account |
+| Status | Code                          | Meaning                                                 |
+| ------ | ----------------------------- | ------------------------------------------------------- |
+| 401    | `AUTH.INVALID_REFRESH_TOKEN`  | Refresh token is invalid, expired, reused, or revoked   |
+| 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Refresh token role is no longer assigned to the account |
 
 ### `POST /api/v1/auth/logout`
 
 Summary: Revoke the current refresh token.
 
 Auth:
+
 - Public
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `refreshToken` | string | Yes | Refresh token to revoke |
+| Field          | Type   | Required | Note                    |
+| -------------- | ------ | -------- | ----------------------- |
+| `refreshToken` | string | Yes      | Refresh token to revoke |
 
 ```json
 {
@@ -218,14 +228,15 @@ Success response:
 Summary: Verify user email by OTP token. Link-based verification should read `email` and `token` from query and call this API.
 
 Auth:
+
 - Public
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `email` | string | Yes | Email being verified |
-| `token` | string | Yes | OTP/link token, 4-32 chars |
+| Field   | Type   | Required | Note                       |
+| ------- | ------ | -------- | -------------------------- |
+| `email` | string | Yes      | Email being verified       |
+| `token` | string | Yes      | OTP/link token, 4-32 chars |
 
 ```json
 {
@@ -250,24 +261,25 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 400 | `AUTH.EMAIL_VERIFICATION_TOKEN_INVALID` | Token is invalid |
-| 400 | `AUTH.EMAIL_VERIFICATION_TOKEN_EXPIRED` | Token expired |
-| 404 | `AUTH.EMAIL_VERIFICATION_NOT_FOUND` | Verification request not found |
+| Status | Code                                    | Meaning                        |
+| ------ | --------------------------------------- | ------------------------------ |
+| 400    | `AUTH.EMAIL_VERIFICATION_TOKEN_INVALID` | Token is invalid               |
+| 400    | `AUTH.EMAIL_VERIFICATION_TOKEN_EXPIRED` | Token expired                  |
+| 404    | `AUTH.EMAIL_VERIFICATION_NOT_FOUND`     | Verification request not found |
 
 ### `POST /api/v1/auth/resend-verification`
 
 Summary: Resend email verification OTP/link with cooldown and max resend limit.
 
 Auth:
+
 - Public
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `email` | string | Yes | Email to resend verification for |
+| Field   | Type   | Required | Note                             |
+| ------- | ------ | -------- | -------------------------------- |
+| `email` | string | Yes      | Email to resend verification for |
 
 ```json
 {
@@ -291,24 +303,25 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 409 | `AUTH.EMAIL_ALREADY_VERIFIED` | Email already verified |
-| 429 | `AUTH.VERIFICATION_RESEND_COOLDOWN` | Resend too soon |
-| 429 | `AUTH.VERIFICATION_RESEND_LIMIT_REACHED` | Max resend reached |
+| Status | Code                                     | Meaning                |
+| ------ | ---------------------------------------- | ---------------------- |
+| 409    | `AUTH.EMAIL_ALREADY_VERIFIED`            | Email already verified |
+| 429    | `AUTH.VERIFICATION_RESEND_COOLDOWN`      | Resend too soon        |
+| 429    | `AUTH.VERIFICATION_RESEND_LIMIT_REACHED` | Max resend reached     |
 
 ### `POST /api/v1/auth/forgot-password`
 
 Summary: Request password reset OTP/link by email.
 
 Auth:
+
 - Public
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `email` | string | Yes | Email to request password reset for |
+| Field   | Type   | Required | Note                                |
+| ------- | ------ | -------- | ----------------------------------- |
+| `email` | string | Yes      | Email to request password reset for |
 
 ```json
 {
@@ -330,25 +343,26 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 429 | `AUTH.PASSWORD_RESET_RESEND_COOLDOWN` | Request too soon |
-| 429 | `AUTH.PASSWORD_RESET_RESEND_LIMIT_REACHED` | Max resend reached |
+| Status | Code                                       | Meaning            |
+| ------ | ------------------------------------------ | ------------------ |
+| 429    | `AUTH.PASSWORD_RESET_RESEND_COOLDOWN`      | Request too soon   |
+| 429    | `AUTH.PASSWORD_RESET_RESEND_LIMIT_REACHED` | Max resend reached |
 
 ### `POST /api/v1/auth/reset-password`
 
 Summary: Reset password with email and OTP token. Link-based reset should read `email` and `token` from query, then submit new password with this API.
 
 Auth:
+
 - Public
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `email` | string | Yes | Email being reset |
-| `token` | string | Yes | OTP/link token, 4-10 chars |
-| `newPassword` | string | Yes | 8-128 chars |
+| Field         | Type   | Required | Note                       |
+| ------------- | ------ | -------- | -------------------------- |
+| `email`       | string | Yes      | Email being reset          |
+| `token`       | string | Yes      | OTP/link token, 4-10 chars |
+| `newPassword` | string | Yes      | 8-128 chars                |
 
 ```json
 {
@@ -371,34 +385,35 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 400 | `AUTH.PASSWORD_RESET_TOKEN_INVALID` | Token is invalid |
-| 400 | `AUTH.PASSWORD_RESET_TOKEN_EXPIRED` | Token expired |
-| 400 | `AUTH.PASSWORD_REUSE_NOT_ALLOWED` | New password equals old password |
-| 404 | `AUTH.PASSWORD_RESET_NOT_FOUND` | Reset request not found |
-| 404 | `AUTH.USER_CREDENTIAL_NOT_FOUND` | Credential record not found |
+| Status | Code                                | Meaning                          |
+| ------ | ----------------------------------- | -------------------------------- |
+| 400    | `AUTH.PASSWORD_RESET_TOKEN_INVALID` | Token is invalid                 |
+| 400    | `AUTH.PASSWORD_RESET_TOKEN_EXPIRED` | Token expired                    |
+| 400    | `AUTH.PASSWORD_REUSE_NOT_ALLOWED`   | New password equals old password |
+| 404    | `AUTH.PASSWORD_RESET_NOT_FOUND`     | Reset request not found          |
+| 404    | `AUTH.USER_CREDENTIAL_NOT_FOUND`    | Credential record not found      |
 
 ### `POST /api/v1/auth/change-password`
 
 Summary: Change password for authenticated user.
 
 Auth:
+
 - Required
 - Roles: authenticated user
 
 Headers:
 
-| Header | Required | Note |
-| ------ | -------- | ---- |
-| `Authorization: Bearer <accessToken>` | Yes | Sent by FE to gateway |
+| Header                                | Required | Note                  |
+| ------------------------------------- | -------- | --------------------- |
+| `Authorization: Bearer <accessToken>` | Yes      | Sent by FE to gateway |
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `currentPassword` | string | Yes | 8-128 chars |
-| `newPassword` | string | Yes | 8-128 chars |
+| Field             | Type   | Required | Note        |
+| ----------------- | ------ | -------- | ----------- |
+| `currentPassword` | string | Yes      | 8-128 chars |
+| `newPassword`     | string | Yes      | 8-128 chars |
 
 ```json
 {
@@ -420,12 +435,12 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| ------ | ---- | ------- |
-| 400 | `AUTH.PASSWORD_REUSE_NOT_ALLOWED` | New password equals old password |
-| 401 | `AUTH.INVALID_CREDENTIALS` | Current password is invalid |
-| 404 | `AUTH.USER_CREDENTIAL_NOT_FOUND` | Credential record not found |
-| 422 | validation error | Invalid request body |
+| Status | Code                              | Meaning                          |
+| ------ | --------------------------------- | -------------------------------- |
+| 400    | `AUTH.PASSWORD_REUSE_NOT_ALLOWED` | New password equals old password |
+| 401    | `AUTH.INVALID_CREDENTIALS`        | Current password is invalid      |
+| 404    | `AUTH.USER_CREDENTIAL_NOT_FOUND`  | Credential record not found      |
+| 422    | validation error                  | Invalid request body             |
 
 ## Internal endpoints
 
@@ -455,8 +470,8 @@ Success response:
 
 Errors:
 
-| Status | Meaning |
-| ------ | ------- |
-| 401 | Missing/invalid internal service token |
-| 403 | Internal caller is not allowed |
-| 404 | User not found |
+| Status | Meaning                                |
+| ------ | -------------------------------------- |
+| 401    | Missing/invalid internal service token |
+| 403    | Internal caller is not allowed         |
+| 404    | User not found                         |

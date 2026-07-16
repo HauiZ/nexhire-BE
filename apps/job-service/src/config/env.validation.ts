@@ -20,4 +20,6 @@ export const validationSchema = Joi.object({
   JOB_SERVICE_COMPANY_SNAPSHOT_QUEUE: Joi.string().default('job.company-snapshot'),
   JOB_SERVICE_APPLICATION_SUBMITTED_QUEUE: Joi.string().default('job.application-submitted'),
   JOB_EXPIRATION_SWEEP_INTERVAL_MS: Joi.number().min(10000).default(300000),
+  COMPANY_SERVICE_URL: Joi.string().uri().default('http://localhost:3003'),
+  JOB_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(5000),
 });

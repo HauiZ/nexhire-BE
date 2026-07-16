@@ -15,8 +15,6 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ERROR_CODES, JwtPayload, UserRole } from '@nexhire/shared';
 import * as bcrypt from 'bcrypt';
-import { EventPublisher } from '@nexhire/infra';
-import { EVENTS } from '@nexhire/shared';
 import { DataSource, IsNull, Repository } from 'typeorm';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
@@ -34,6 +32,7 @@ import { VerifyEmailResponseDto } from './dto/verify-email-response.dto';
 import { PasswordAlgorithm, UserStatus } from './entities/auth.enum';
 import { EmailVerification } from './entities/email-verification.entity';
 import { PasswordResetToken } from './entities/password-reset-token.entity';
+import { RecruiterCompanyLink } from './entities/recruiter-company-link.entity';
 import { Role } from './entities/role.entity';
 import { UserCredential } from './entities/user-credential.entity';
 import { UserRoleEntity } from './entities/user-role.entity';
@@ -41,6 +40,7 @@ import { User } from './entities/user.entity';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { LogoutResponseDto } from './dto/logout-response.dto';
 import { UserContactSnapshotDto } from './dto/user-contact-snapshot.dto';
+import { AuthEventPublisher } from './events/auth-event.publisher';
 import { TokenService } from '../token/token.service';
 
 @Injectable()
@@ -54,7 +54,7 @@ export class AuthService {
     private readonly dataSource: DataSource,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-    private readonly eventPublisher: EventPublisher,
+    private readonly authEventPublisher: AuthEventPublisher,
     private readonly tokenService: TokenService,
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
@@ -68,6 +68,8 @@ export class AuthService {
     private readonly emailVerificationRepo: Repository<EmailVerification>,
     @InjectRepository(PasswordResetToken)
     private readonly passwordResetTokenRepo: Repository<PasswordResetToken>,
+    @InjectRepository(RecruiterCompanyLink)
+    private readonly recruiterCompanyLinkRepo: Repository<RecruiterCompanyLink>,
   ) {}
 
   async register(dto: RegisterDto): Promise<AuthResponseDto> {
@@ -515,9 +517,11 @@ export class AuthService {
   }
 
   private async buildAuthResponse(user: User, role: UserRole): Promise<AuthResponseDto> {
+    const companyId = await this.resolveCompanyId(user.id, role);
     const payload: JwtPayload = {
       sub: user.id,
       role,
+      ...(companyId ? { companyId } : {}),
       jti: randomUUID(),
     };
     const jti = randomUUID();
@@ -557,6 +561,7 @@ export class AuthService {
         phone: user.phone,
         email: user.email,
         role,
+        companyId: companyId ?? null,
         emailVerified: user.emailVerified,
       },
       tokens: {
@@ -566,6 +571,14 @@ export class AuthService {
         refreshTokenExpiresIn,
       },
     };
+  }
+
+  private async resolveCompanyId(userId: string, role: UserRole): Promise<string | null> {
+    if (role !== UserRole.RECRUITER) {
+      return null;
+    }
+    const link = await this.recruiterCompanyLinkRepo.findOne({ where: { userId } });
+    return link?.companyId ?? null;
   }
 
   private async verifyRefreshToken(refreshToken: string): Promise<JwtPayload> {
@@ -714,7 +727,7 @@ export class AuthService {
     token: string,
     expiresAt: Date,
   ): Promise<void> {
-    await this.eventPublisher.publish(EVENTS.AUTH_EMAIL_VERIFICATION_REQUESTED, {
+    await this.authEventPublisher.publishVerificationEmailRequested({
       email,
       fullName,
       token,
@@ -728,7 +741,7 @@ export class AuthService {
     token: string,
     expiresAt: Date,
   ): Promise<void> {
-    await this.eventPublisher.publish(EVENTS.AUTH_PASSWORD_RESET_REQUESTED, {
+    await this.authEventPublisher.publishPasswordResetRequested({
       email,
       fullName,
       token,

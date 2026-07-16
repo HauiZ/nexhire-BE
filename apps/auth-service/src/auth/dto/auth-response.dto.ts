@@ -17,6 +17,9 @@ export class AuthUserDto {
   @ApiProperty({ enum: UserRole })
   role: UserRole;
 
+  @ApiPropertyOptional({ format: 'uuid', nullable: true })
+  companyId?: string | null;
+
   @ApiProperty()
   emailVerified: boolean;
 }

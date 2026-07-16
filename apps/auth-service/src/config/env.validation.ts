@@ -23,6 +23,7 @@ export const validationSchema = Joi.object({
     .uri({ scheme: ['amqp', 'amqps'] })
     .optional(),
   RABBITMQ_EXCHANGE: Joi.string().default('nexhire.events'),
+  AUTH_SERVICE_COMPANY_LINK_QUEUE: Joi.string().default('auth.company-link'),
   EMAIL_VERIFICATION_TOKEN_LENGTH: Joi.number().integer().min(4).max(10).default(6),
   EMAIL_VERIFICATION_TOKEN_TTL_MINUTES: Joi.number().integer().min(1).max(1440).default(15),
   EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS: Joi.number().integer().min(10).max(3600).default(60),

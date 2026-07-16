@@ -8,7 +8,6 @@ import {
   JobWorkingType,
   UserRole,
 } from '@nexhire/shared';
-import { EventPublisher } from '@nexhire/infra';
 import { DataSource, Repository } from 'typeorm';
 import { CompanySnapshotService } from '../company/company-snapshot.service';
 import { CompanyStatusSnapshot, CompanyTrustLevel } from '../entities/job.enum';
@@ -16,6 +15,7 @@ import { JobModerationReview } from '../entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from '../entities/job-processed-application-event.entity';
 import { JobRevision } from '../entities/job-revision.entity';
 import { Job } from '../entities/job.entity';
+import { JobEventPublisher } from '../events/job-event.publisher';
 import { JobService } from '../job.service';
 import { JobModerationService } from '../moderation/job-moderation.service';
 import { JobSearchTextService } from '../search/job-search-text.service';
@@ -28,7 +28,13 @@ describe('JobService', () => {
     save: jest.Mock;
     createQueryBuilder: jest.Mock;
   };
-  let eventPublisher: { publish: jest.Mock };
+  let jobEventPublisher: {
+    publishJobPublished: jest.Mock;
+    publishRevisionApproved: jest.Mock;
+    publishJobUnpublished: jest.Mock;
+    publishJobClosed: jest.Mock;
+    publishReviewTrustSignal: jest.Mock;
+  };
   let processedEventRepo: {
     findOne: jest.Mock;
     create: jest.Mock;
@@ -108,7 +114,13 @@ describe('JobService', () => {
       save: jest.fn((job: Job) => Promise.resolve(job)),
       createQueryBuilder: jest.fn(),
     };
-    eventPublisher = { publish: jest.fn().mockResolvedValue(undefined) };
+    jobEventPublisher = {
+      publishJobPublished: jest.fn().mockResolvedValue(undefined),
+      publishRevisionApproved: jest.fn().mockResolvedValue(undefined),
+      publishJobUnpublished: jest.fn().mockResolvedValue(undefined),
+      publishJobClosed: jest.fn().mockResolvedValue(undefined),
+      publishReviewTrustSignal: jest.fn().mockResolvedValue(undefined),
+    };
     processedEventRepo = {
       findOne: jest.fn(),
       create: jest.fn((value) => value),
@@ -133,7 +145,7 @@ describe('JobService', () => {
           useValue: { searchPublicJobs: jest.fn(), searchCompanyJobs: jest.fn() },
         },
         JobSearchTextService,
-        { provide: EventPublisher, useValue: eventPublisher },
+        { provide: JobEventPublisher, useValue: jobEventPublisher },
         { provide: getRepositoryToken(Job), useValue: jobRepo },
         { provide: getRepositoryToken(JobRevision), useValue: {} },
         { provide: getRepositoryToken(JobModerationReview), useValue: {} },
@@ -251,8 +263,7 @@ describe('JobService', () => {
         unpublishReason: 'Position filled',
       }),
     );
-    expect(eventPublisher.publish).toHaveBeenCalledWith(
-      'job.closed',
+    expect(jobEventPublisher.publishJobClosed).toHaveBeenCalledWith(
       expect.objectContaining({
         jobId: publishedJob.id,
         companyId: publishedJob.companyId,

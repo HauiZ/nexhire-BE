@@ -7,17 +7,18 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { EventPublisher } from '@nexhire/infra';
-import { ERROR_CODES, EVENTS, UserRole } from '@nexhire/shared';
+import { ERROR_CODES, UserRole } from '@nexhire/shared';
 import * as bcrypt from 'bcrypt';
 import { DataSource, Repository } from 'typeorm';
 import { AuthService } from '../auth.service';
 import { EmailVerification } from '../entities/email-verification.entity';
 import { PasswordResetToken } from '../entities/password-reset-token.entity';
+import { RecruiterCompanyLink } from '../entities/recruiter-company-link.entity';
 import { Role } from '../entities/role.entity';
 import { UserCredential } from '../entities/user-credential.entity';
 import { UserRoleEntity } from '../entities/user-role.entity';
 import { User } from '../entities/user.entity';
+import { AuthEventPublisher } from '../events/auth-event.publisher';
 import { TokenService } from '../../token/token.service';
 
 jest.mock('bcrypt', () => ({
@@ -46,7 +47,10 @@ describe('AuthService', () => {
   let dataSource: { transaction: jest.Mock };
   let jwtService: { signAsync: jest.Mock; verifyAsync: jest.Mock };
   let configService: { get: jest.Mock };
-  let eventPublisher: { publish: jest.Mock };
+  let authEventPublisher: {
+    publishVerificationEmailRequested: jest.Mock;
+    publishPasswordResetRequested: jest.Mock;
+  };
   let tokenService: {
     getCurrentTokenVersion: jest.Mock;
     storeRefreshToken: jest.Mock;
@@ -61,6 +65,7 @@ describe('AuthService', () => {
   let userRoleRepo: MockRepo;
   let emailVerificationRepo: MockRepo;
   let passwordResetTokenRepo: MockRepo;
+  let recruiterCompanyLinkRepo: MockRepo;
 
   beforeEach(() => {
     dataSource = {
@@ -90,8 +95,9 @@ describe('AuthService', () => {
         return values[key] ?? fallback;
       }),
     };
-    eventPublisher = {
-      publish: jest.fn(),
+    authEventPublisher = {
+      publishVerificationEmailRequested: jest.fn().mockResolvedValue(undefined),
+      publishPasswordResetRequested: jest.fn().mockResolvedValue(undefined),
     };
     tokenService = {
       getCurrentTokenVersion: jest.fn().mockResolvedValue(0),
@@ -108,12 +114,13 @@ describe('AuthService', () => {
     userRoleRepo = createRepoMock();
     emailVerificationRepo = createRepoMock();
     passwordResetTokenRepo = createRepoMock();
+    recruiterCompanyLinkRepo = createRepoMock();
 
     service = new AuthService(
       dataSource as unknown as DataSource,
       jwtService as unknown as JwtService,
       configService as unknown as ConfigService,
-      eventPublisher as unknown as EventPublisher,
+      authEventPublisher as unknown as AuthEventPublisher,
       tokenService as unknown as TokenService,
       userRepo as unknown as Repository<User>,
       credentialRepo as unknown as Repository<UserCredential>,
@@ -121,6 +128,7 @@ describe('AuthService', () => {
       userRoleRepo as unknown as Repository<UserRoleEntity>,
       emailVerificationRepo as unknown as Repository<EmailVerification>,
       passwordResetTokenRepo as unknown as Repository<PasswordResetToken>,
+      recruiterCompanyLinkRepo as unknown as Repository<RecruiterCompanyLink>,
     );
   });
 
@@ -200,8 +208,7 @@ describe('AuthService', () => {
         resendCount: 0,
       }),
     );
-    expect(eventPublisher.publish).toHaveBeenCalledWith(
-      EVENTS.AUTH_EMAIL_VERIFICATION_REQUESTED,
+    expect(authEventPublisher.publishVerificationEmailRequested).toHaveBeenCalledWith(
       expect.objectContaining({
         email: 'candidate@nexhire.vn',
         fullName: 'Nguyen Van A',
@@ -404,6 +411,59 @@ describe('AuthService', () => {
     );
   });
 
+  it('includes companyId in recruiter login tokens when company link exists', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      email: 'recruiter@nexhire.vn',
+      fullName: 'Recruiter One',
+      phone: '0987654321',
+      emailVerified: true,
+    } as User);
+    (credentialRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'credential-1',
+      userId: 'user-1',
+      passwordHash: 'hashed-password',
+      failedLoginAttempts: 0,
+      lockedUntil: null,
+    } as UserCredential);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+    (userRoleRepo.findOne as jest.Mock).mockResolvedValue({
+      userId: 'user-1',
+      role: { name: UserRole.RECRUITER },
+    } as UserRoleEntity);
+    recruiterCompanyLinkRepo.findOne.mockResolvedValue({
+      userId: 'user-1',
+      companyId: 'company-1',
+    } as RecruiterCompanyLink);
+    jwtService.signAsync
+      .mockResolvedValueOnce('access-token')
+      .mockResolvedValueOnce('refresh-token');
+
+    const manager = {
+      update: jest.fn(),
+    };
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<unknown>) => callback(manager),
+    );
+
+    const result = await service.login({
+      email: 'recruiter@nexhire.vn',
+      password: 'StrongPassword123!',
+      role: UserRole.RECRUITER,
+    });
+
+    expect(result.user.companyId).toBe('company-1');
+    expect(jwtService.signAsync).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        sub: 'user-1',
+        role: UserRole.RECRUITER,
+        companyId: 'company-1',
+      }),
+      expect.any(Object),
+    );
+  });
+
   it('rejects login when requested role is not assigned to user', async () => {
     (userRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'user-1',
@@ -595,8 +655,7 @@ describe('AuthService', () => {
       lastSentAt: expect.any(Date),
       resendCount: 2,
     });
-    expect(eventPublisher.publish).toHaveBeenCalledWith(
-      EVENTS.AUTH_EMAIL_VERIFICATION_REQUESTED,
+    expect(authEventPublisher.publishVerificationEmailRequested).toHaveBeenCalledWith(
       expect.objectContaining({
         email: 'candidate@nexhire.vn',
         fullName: 'Nguyen Van A',
@@ -640,7 +699,8 @@ describe('AuthService', () => {
       status: 429,
     });
     expect(emailVerificationRepo.update).not.toHaveBeenCalled();
-    expect(eventPublisher.publish).not.toHaveBeenCalled();
+    expect(authEventPublisher.publishVerificationEmailRequested).not.toHaveBeenCalled();
+    expect(authEventPublisher.publishPasswordResetRequested).not.toHaveBeenCalled();
   });
 
   it('rejects resend when email is already verified', async () => {
@@ -670,7 +730,8 @@ describe('AuthService', () => {
       resendCooldownSeconds: 60,
     });
     expect(passwordResetTokenRepo.findOne).not.toHaveBeenCalled();
-    expect(eventPublisher.publish).not.toHaveBeenCalled();
+    expect(authEventPublisher.publishVerificationEmailRequested).not.toHaveBeenCalled();
+    expect(authEventPublisher.publishPasswordResetRequested).not.toHaveBeenCalled();
   });
 
   it('creates a password reset token and publishes reset email event', async () => {
@@ -702,8 +763,7 @@ describe('AuthService', () => {
         resendCount: 0,
       }),
     );
-    expect(eventPublisher.publish).toHaveBeenCalledWith(
-      EVENTS.AUTH_PASSWORD_RESET_REQUESTED,
+    expect(authEventPublisher.publishPasswordResetRequested).toHaveBeenCalledWith(
       expect.objectContaining({
         email: 'candidate@nexhire.vn',
         fullName: 'Nguyen Van A',
@@ -741,7 +801,8 @@ describe('AuthService', () => {
       status: 429,
     });
     expect(passwordResetTokenRepo.update).not.toHaveBeenCalled();
-    expect(eventPublisher.publish).not.toHaveBeenCalled();
+    expect(authEventPublisher.publishVerificationEmailRequested).not.toHaveBeenCalled();
+    expect(authEventPublisher.publishPasswordResetRequested).not.toHaveBeenCalled();
   });
 
   it('resets password with a valid reset token', async () => {

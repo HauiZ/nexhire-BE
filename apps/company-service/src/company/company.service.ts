@@ -7,15 +7,46 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CompanyStatus, ERROR_CODES } from '@nexhire/shared';
+import {
+  CompanyStatus,
+  CompanyTrustLevel,
+  ERROR_CODES,
+  JobModerationRiskLevel,
+  JobReviewDecision,
+} from '@nexhire/shared';
 import { Repository } from 'typeorm';
 import { CompanyMapper } from './company.mapper';
+import { AdminCompanyResponseDto } from './dto/admin-company-response.dto';
+import { UpdateCompanyTrustLevelDto } from './dto/company-admin-action.dto';
+import { CompanyPostingSnapshotDto } from './dto/company-posting-snapshot.dto';
 import { CompanyResponseDto } from './dto/company-response.dto';
+import { CompanyTrustHistoryResponseDto } from './dto/company-trust-history-response.dto';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { PublicCompanyProfileDto } from './dto/public-company-profile.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { VerifyAction } from './dto/verify-company.dto';
+import { CompanyProcessedTrustSignal } from './entities/company-processed-trust-signal.entity';
+import {
+  CompanyTrustChangeDirection,
+  CompanyTrustChangeSource,
+  CompanyTrustHistory,
+} from './entities/company-trust-history.entity';
 import { Company } from './entities/company.entity';
+import { CompanyEventPublisher } from './events/company-event.publisher';
+
+const POSITIVE_TRUST_SIGNAL_THRESHOLD = 5;
+const NEGATIVE_TRUST_SIGNAL_THRESHOLD = 3;
+
+export interface JobReviewTrustSignalPayload {
+  companyId: string;
+  jobId: string;
+  targetType: 'JOB' | 'REVISION';
+  targetId: string;
+  decision: JobReviewDecision;
+  riskLevel: JobModerationRiskLevel | null;
+  riskScore: number | null;
+  reviewedAt?: string;
+}
 
 @Injectable()
 export class CompanyService {
@@ -24,6 +55,11 @@ export class CompanyService {
   constructor(
     @InjectRepository(Company)
     private readonly companyRepo: Repository<Company>,
+    @InjectRepository(CompanyTrustHistory)
+    private readonly trustHistoryRepo: Repository<CompanyTrustHistory>,
+    @InjectRepository(CompanyProcessedTrustSignal)
+    private readonly processedTrustSignalRepo: Repository<CompanyProcessedTrustSignal>,
+    private readonly companyEventPublisher: CompanyEventPublisher,
   ) {}
 
   async create(userId: string, dto: CreateCompanyDto): Promise<CompanyResponseDto> {
@@ -52,6 +88,7 @@ export class CompanyService {
     });
 
     const saved = await this.companyRepo.save(company);
+    await this.publishPostingSnapshot(saved);
     this.logger.log(`Company created companyId=${saved.id} ownerId=${userId}`);
     return CompanyMapper.toResponse(saved);
   }
@@ -101,24 +138,27 @@ export class CompanyService {
       }
     }
 
+    const previousStatus = company.status;
     if (patch.taxCode !== undefined || patch.name !== undefined) {
       company.status = CompanyStatus.PENDING;
       this.logger.log(`Company status reset to PENDING companyId=${companyId}`);
     }
 
     Object.assign(company, patch);
-    return CompanyMapper.toResponse(await this.companyRepo.save(company));
+    const saved = await this.companyRepo.save(company);
+    await this.publishPostingSnapshot(saved, previousStatus);
+    return CompanyMapper.toResponse(saved);
   }
 
-  async getPending(): Promise<CompanyResponseDto[]> {
+  async getPending(): Promise<AdminCompanyResponseDto[]> {
     const companies = await this.companyRepo.find({
       where: { status: CompanyStatus.PENDING },
       order: { createdAt: 'DESC' },
     });
-    return companies.map(CompanyMapper.toResponse);
+    return companies.map(CompanyMapper.toAdminResponse);
   }
 
-  async verify(companyId: string, action: VerifyAction): Promise<CompanyResponseDto> {
+  async verify(companyId: string, action: VerifyAction): Promise<AdminCompanyResponseDto> {
     const company = await this.companyRepo.findOne({ where: { id: companyId } });
     if (!company) {
       throw new NotFoundException({
@@ -127,6 +167,7 @@ export class CompanyService {
       });
     }
 
+    const previousStatus = company.status;
     if (action === VerifyAction.APPROVE) {
       company.status = CompanyStatus.APPROVED;
     } else if (action === VerifyAction.REJECT) {
@@ -139,8 +180,129 @@ export class CompanyService {
     }
 
     const saved = await this.companyRepo.save(company);
+    await this.publishPostingSnapshot(saved, previousStatus);
     this.logger.log(`Company verified companyId=${companyId} action=${action}`);
-    return CompanyMapper.toResponse(saved);
+    return CompanyMapper.toAdminResponse(saved);
+  }
+
+  async suspend(companyId: string): Promise<AdminCompanyResponseDto> {
+    const company = await this.findCompanyOrThrow(companyId);
+    const previousStatus = company.status;
+    company.status = CompanyStatus.SUSPENDED;
+    const saved = await this.companyRepo.save(company);
+    await this.publishPostingSnapshot(saved, previousStatus);
+    this.logger.log(`Company suspended companyId=${companyId}`);
+    return CompanyMapper.toAdminResponse(saved);
+  }
+
+  async restore(companyId: string): Promise<AdminCompanyResponseDto> {
+    const company = await this.findCompanyOrThrow(companyId);
+    const previousStatus = company.status;
+    company.status = CompanyStatus.PENDING;
+    const saved = await this.companyRepo.save(company);
+    await this.publishPostingSnapshot(saved, previousStatus);
+    this.logger.log(`Company restored to pending companyId=${companyId}`);
+    return CompanyMapper.toAdminResponse(saved);
+  }
+
+  async updateTrustLevel(
+    companyId: string,
+    adminUserId: string,
+    dto: UpdateCompanyTrustLevelDto,
+  ): Promise<AdminCompanyResponseDto> {
+    const company = await this.findCompanyOrThrow(companyId);
+    const previousStatus = company.status;
+    const previousTrustLevel = company.trustLevel;
+    company.trustLevel = dto.trustLevel;
+    company.approvedLowRiskCount = 0;
+    company.negativeTrustSignalCount = 0;
+    const saved = await this.companyRepo.save(company);
+    await this.recordTrustHistoryIfChanged({
+      companyId: saved.id,
+      previousTrustLevel,
+      newTrustLevel: saved.trustLevel,
+      source: CompanyTrustChangeSource.MANUAL,
+      changedByUserId: adminUserId,
+      reason: dto.reason.trim(),
+      metadata: {},
+    });
+    await this.publishPostingSnapshot(saved, previousStatus);
+    this.logger.log(
+      `Company trust level updated companyId=${companyId} trustLevel=${dto.trustLevel} adminUserId=${adminUserId}`,
+    );
+    return CompanyMapper.toAdminResponse(saved);
+  }
+
+  async recordTrustSignal(payload: JobReviewTrustSignalPayload): Promise<void> {
+    const company = await this.findCompanyOrThrow(payload.companyId);
+    const shouldProcess = await this.tryRecordProcessedTrustSignal(payload);
+    if (!shouldProcess) {
+      this.logger.debug(
+        `Duplicate trust signal ignored targetType=${payload.targetType} targetId=${payload.targetId}`,
+      );
+      return;
+    }
+    const previousTrustLevel = company.trustLevel;
+    let autoReason: string | null = null;
+    if (this.isPositiveTrustSignal(payload)) {
+      company.approvedLowRiskCount += 1;
+      company.negativeTrustSignalCount = 0;
+      if (company.approvedLowRiskCount >= POSITIVE_TRUST_SIGNAL_THRESHOLD) {
+        company.trustLevel = this.increaseTrustLevel(company.trustLevel);
+        company.approvedLowRiskCount = 0;
+        autoReason = `${POSITIVE_TRUST_SIGNAL_THRESHOLD} approved low-risk job reviews reached`;
+      }
+    } else if (this.isNegativeTrustSignal(payload)) {
+      company.negativeTrustSignalCount += 1;
+      company.approvedLowRiskCount = 0;
+      if (company.negativeTrustSignalCount >= NEGATIVE_TRUST_SIGNAL_THRESHOLD) {
+        company.trustLevel = this.decreaseTrustLevel(company.trustLevel);
+        company.negativeTrustSignalCount = 0;
+        autoReason = `${NEGATIVE_TRUST_SIGNAL_THRESHOLD} negative job review signals reached`;
+      }
+    } else {
+      return;
+    }
+
+    const saved = await this.companyRepo.save(company);
+    if (autoReason) {
+      await this.recordTrustHistoryIfChanged({
+        companyId: saved.id,
+        previousTrustLevel,
+        newTrustLevel: saved.trustLevel,
+        source: CompanyTrustChangeSource.AUTO,
+        changedByUserId: null,
+        reason: autoReason,
+        metadata: {
+          jobId: payload.jobId,
+          targetType: payload.targetType,
+          targetId: payload.targetId,
+          decision: payload.decision,
+          riskLevel: payload.riskLevel,
+          riskScore: payload.riskScore,
+          reviewedAt: payload.reviewedAt ?? null,
+          positiveThreshold: POSITIVE_TRUST_SIGNAL_THRESHOLD,
+          negativeThreshold: NEGATIVE_TRUST_SIGNAL_THRESHOLD,
+        },
+      });
+    }
+    await this.publishPostingSnapshot(saved, company.status);
+    this.logger.log(
+      `Company trust signal recorded companyId=${company.id} trustLevel=${company.trustLevel} positive=${company.approvedLowRiskCount} negative=${company.negativeTrustSignalCount}`,
+    );
+  }
+
+  async listTrustHistory(companyId: string): Promise<CompanyTrustHistoryResponseDto[]> {
+    await this.findCompanyOrThrow(companyId);
+    const histories = await this.trustHistoryRepo.find({
+      where: { companyId },
+      order: { createdAt: 'DESC' },
+    });
+    return histories.map(CompanyMapper.toTrustHistoryResponse);
+  }
+
+  async getPostingSnapshot(companyId: string): Promise<CompanyPostingSnapshotDto> {
+    return this.toPostingSnapshot(await this.findCompanyOrThrow(companyId));
   }
 
   async getPublicProfile(companyId: string): Promise<PublicCompanyProfileDto> {
@@ -159,5 +321,138 @@ export class CompanyService {
 
   private normalizeTaxCode(value: string): string {
     return value.trim();
+  }
+
+  private async findCompanyOrThrow(companyId: string): Promise<Company> {
+    const company = await this.companyRepo.findOne({ where: { id: companyId } });
+    if (!company) {
+      throw new NotFoundException({
+        code: ERROR_CODES.COMPANY.NOT_FOUND,
+        message: `Company ${companyId} not found`,
+      });
+    }
+    return company;
+  }
+
+  private toPostingSnapshot(
+    company: Company,
+    previousStatus?: CompanyStatus,
+  ): CompanyPostingSnapshotDto {
+    return {
+      companyId: company.id,
+      ownerUserId: company.ownerId,
+      companyName: company.name,
+      companyLogoUrl: company.logo,
+      companyStatus: company.status,
+      previousCompanyStatus: previousStatus,
+      companyTrustLevel: company.trustLevel,
+      changedAt: company.updatedAt.toISOString(),
+    };
+  }
+
+  private async publishPostingSnapshot(
+    company: Company,
+    previousStatus?: CompanyStatus,
+  ): Promise<void> {
+    const payload = this.toPostingSnapshot(company, previousStatus);
+    await this.companyEventPublisher.publishPostingSnapshotChanged(payload);
+  }
+
+  private isPositiveTrustSignal(payload: JobReviewTrustSignalPayload): boolean {
+    return (
+      payload.decision === JobReviewDecision.APPROVE &&
+      payload.riskLevel === JobModerationRiskLevel.LOW
+    );
+  }
+
+  private isNegativeTrustSignal(payload: JobReviewTrustSignalPayload): boolean {
+    return payload.decision === JobReviewDecision.REJECT;
+  }
+
+  private async tryRecordProcessedTrustSignal(
+    payload: JobReviewTrustSignalPayload,
+  ): Promise<boolean> {
+    try {
+      await this.processedTrustSignalRepo.insert({
+        companyId: payload.companyId,
+        targetType: payload.targetType,
+        targetId: payload.targetId,
+      });
+      return true;
+    } catch (error) {
+      if (this.isUniqueConstraintViolation(error)) {
+        return false;
+      }
+      throw error;
+    }
+  }
+
+  private isUniqueConstraintViolation(error: unknown): boolean {
+    return typeof error === 'object' && error !== null && 'code' in error && error.code === '23505';
+  }
+
+  private increaseTrustLevel(current: CompanyTrustLevel): CompanyTrustLevel {
+    if (current === CompanyTrustLevel.LOW) {
+      return CompanyTrustLevel.MEDIUM;
+    }
+    if (current === CompanyTrustLevel.MEDIUM) {
+      return CompanyTrustLevel.HIGH;
+    }
+    return CompanyTrustLevel.HIGH;
+  }
+
+  private decreaseTrustLevel(current: CompanyTrustLevel): CompanyTrustLevel {
+    if (current === CompanyTrustLevel.HIGH) {
+      return CompanyTrustLevel.MEDIUM;
+    }
+    if (current === CompanyTrustLevel.MEDIUM) {
+      return CompanyTrustLevel.LOW;
+    }
+    return CompanyTrustLevel.LOW;
+  }
+
+  private async recordTrustHistoryIfChanged(input: {
+    companyId: string;
+    previousTrustLevel: CompanyTrustLevel;
+    newTrustLevel: CompanyTrustLevel;
+    source: CompanyTrustChangeSource;
+    changedByUserId: string | null;
+    reason: string;
+    metadata: Record<string, unknown>;
+  }): Promise<void> {
+    if (input.previousTrustLevel === input.newTrustLevel) {
+      return;
+    }
+    await this.trustHistoryRepo.save(
+      this.trustHistoryRepo.create({
+        companyId: input.companyId,
+        previousTrustLevel: input.previousTrustLevel,
+        newTrustLevel: input.newTrustLevel,
+        direction: this.resolveTrustDirection(input.previousTrustLevel, input.newTrustLevel),
+        source: input.source,
+        changedByUserId: input.changedByUserId,
+        reason: input.reason,
+        metadata: input.metadata,
+      }),
+    );
+  }
+
+  private resolveTrustDirection(
+    previous: CompanyTrustLevel,
+    next: CompanyTrustLevel,
+  ): CompanyTrustChangeDirection {
+    return this.trustRank(next) > this.trustRank(previous)
+      ? CompanyTrustChangeDirection.INCREASE
+      : CompanyTrustChangeDirection.DECREASE;
+  }
+
+  private trustRank(level: CompanyTrustLevel): number {
+    if (level === CompanyTrustLevel.LOW) {
+      return 1;
+    }
+    if (level === CompanyTrustLevel.MEDIUM) {
+      return 2;
+    }
+    return 3;
   }
 }

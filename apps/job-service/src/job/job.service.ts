@@ -11,14 +11,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   AuthUser,
   ERROR_CODES,
-  EVENTS,
   JobModerationDecision,
+  JobModerationRiskLevel,
   JobRevisionStatus,
   JobReviewDecision,
   JobStatus,
   UserRole,
 } from '@nexhire/shared';
-import { EventPublisher } from '@nexhire/infra';
 import { Brackets, DataSource, In, Repository } from 'typeorm';
 import { CompanySnapshotService } from './company/company-snapshot.service';
 import {
@@ -50,6 +49,7 @@ import {
   CompanyTrustLevel,
   JobModerationTargetType,
 } from './entities/job.enum';
+import { JobEventPublisher } from './events/job-event.publisher';
 import { JobModerationResult, JobModerationService } from './moderation/job-moderation.service';
 import { JobSearchTextService } from './search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER, JobSearchProvider, Paginated } from './search/job-search.types';
@@ -112,7 +112,7 @@ export class JobService {
     @Inject(JOB_SEARCH_PROVIDER)
     private readonly jobSearchProvider: JobSearchProvider,
     private readonly searchTextService: JobSearchTextService,
-    private readonly eventPublisher: EventPublisher,
+    private readonly jobEventPublisher: JobEventPublisher,
     @InjectRepository(Job)
     private readonly jobRepo: Repository<Job>,
     @InjectRepository(JobRevision)
@@ -206,7 +206,9 @@ export class JobService {
         ...this.searchTextService.buildSearchFields(dto, company.companyName),
       }),
     );
-    this.logger.log(`Job draft created jobId=${job.id} companyId=${job.companyId} userId=${user.id}`);
+    this.logger.log(
+      `Job draft created jobId=${job.id} companyId=${job.companyId} userId=${user.id}`,
+    );
 
     return this.mapJob(job);
   }
@@ -330,7 +332,9 @@ export class JobService {
         deletedAt: null,
       }),
     );
-    this.logger.log(`Job revision draft created revisionId=${revision.id} jobId=${job.id} userId=${user.id}`);
+    this.logger.log(
+      `Job revision draft created revisionId=${revision.id} jobId=${job.id} userId=${user.id}`,
+    );
     return this.mapRevision(revision);
   }
 
@@ -465,13 +469,23 @@ export class JobService {
     const saved = await this.jobRepo.save(job);
     await this.markLatestReview(saved.id, saved.id, admin, dto);
     if (saved.status === JobStatus.PUBLISHED) {
-      await this.publishEvent(EVENTS.JOB_PUBLISHED, {
+      await this.jobEventPublisher.publishJobPublished({
         jobId: saved.id,
         companyId: saved.companyId,
         version: saved.version,
         publishedAt: saved.publishedAt?.toISOString(),
       });
     }
+    await this.jobEventPublisher.publishReviewTrustSignal({
+      companyId: saved.companyId,
+      jobId: saved.id,
+      targetType: JobModerationTargetType.JOB,
+      targetId: saved.id,
+      decision: dto.decision,
+      riskLevel: saved.riskLevel,
+      riskScore: saved.riskScore,
+      reviewedAt: saved.reviewedAt?.toISOString(),
+    });
     this.logger.log(
       `Job reviewed jobId=${saved.id} decision=${dto.decision} finalStatus=${saved.status} adminId=${admin.id}`,
     );
@@ -559,13 +573,23 @@ export class JobService {
     });
 
     if (saved.status === JobRevisionStatus.APPROVED) {
-      await this.publishEvent(EVENTS.JOB_REVISION_APPROVED, {
+      await this.jobEventPublisher.publishRevisionApproved({
         jobId: saved.jobId,
         companyId: saved.companyId,
         revisionId: saved.id,
         approvedAt: saved.reviewedAt?.toISOString(),
       });
     }
+    await this.jobEventPublisher.publishReviewTrustSignal({
+      companyId: saved.companyId,
+      jobId: saved.jobId,
+      targetType: JobModerationTargetType.REVISION,
+      targetId: saved.id,
+      decision: dto.decision,
+      riskLevel: saved.riskLevel,
+      riskScore: saved.riskScore,
+      reviewedAt: saved.reviewedAt?.toISOString(),
+    });
     this.logger.log(
       `Job revision reviewed revisionId=${saved.id} jobId=${saved.jobId} decision=${dto.decision} finalStatus=${saved.status} adminId=${admin.id}`,
     );
@@ -680,7 +704,9 @@ export class JobService {
     }
     job.deletedAt = new Date();
     await this.jobRepo.save(job);
-    this.logger.log(`Job soft deleted jobId=${job.id} companyId=${job.companyId} userId=${user.id}`);
+    this.logger.log(
+      `Job soft deleted jobId=${job.id} companyId=${job.companyId} userId=${user.id}`,
+    );
     return { deleted: true };
   }
 
@@ -851,7 +877,7 @@ export class JobService {
     job.unpublishedAt = new Date();
     job.unpublishReason = reason?.trim() || null;
     const saved = await this.jobRepo.save(job);
-    await this.publishEvent(EVENTS.JOB_UNPUBLISHED, {
+    await this.jobEventPublisher.publishJobUnpublished({
       jobId: saved.id,
       companyId: saved.companyId,
       unpublishedAt: saved.unpublishedAt?.toISOString(),
@@ -902,7 +928,7 @@ export class JobService {
       job.unpublishReason = reason?.trim() || 'Job closed';
     }
     const saved = await this.jobRepo.save(job);
-    await this.publishEvent(EVENTS.JOB_CLOSED, {
+    await this.jobEventPublisher.publishJobClosed({
       jobId: saved.id,
       companyId: saved.companyId,
       closedAt: saved.closedAt?.toISOString(),
@@ -983,12 +1009,6 @@ export class JobService {
     review.adminDecision = dto.decision;
     review.adminReason = dto.reason?.trim() || null;
     await repo.save(review);
-  }
-
-  private async publishEvent(routingKey: string, payload: unknown): Promise<void> {
-    await this.eventPublisher.publish(routingKey, payload).catch((error) => {
-      this.logger.error(`Failed to publish event routingKey=${routingKey}: ${(error as Error).message}`);
-    });
   }
 
   private paginate<T>(data: T[], page: number, limit: number, total: number): Paginated<T> {

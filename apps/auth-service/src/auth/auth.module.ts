@@ -6,11 +6,14 @@ import { AuthController, AuthInternalController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { EmailVerification } from './entities/email-verification.entity';
 import { PasswordResetToken } from './entities/password-reset-token.entity';
+import { RecruiterCompanyLink } from './entities/recruiter-company-link.entity';
 import { Role } from './entities/role.entity';
 import { UserCredential } from './entities/user-credential.entity';
 import { UserRoleEntity } from './entities/user-role.entity';
 import { User } from './entities/user.entity';
 import { TokenModule } from '../token/token.module';
+import { CompanyLinkEventsConsumer } from './events/consumers/company-link-events.consumer';
+import { AuthEventPublisher } from './events/auth-event.publisher';
 
 @Module({
   imports: [
@@ -27,10 +30,11 @@ import { TokenModule } from '../token/token.module';
       UserRoleEntity,
       EmailVerification,
       PasswordResetToken,
+      RecruiterCompanyLink,
     ]),
   ],
   controllers: [AuthController, AuthInternalController],
-  providers: [AuthService],
+  providers: [AuthService, AuthEventPublisher, CompanyLinkEventsConsumer],
   exports: [AuthService],
 })
 export class AuthModule {}

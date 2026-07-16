@@ -2,7 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { buildTypeOrmOptions, databaseConfigFor, redisConfig } from '@nexhire/infra';
+import {
+  buildTypeOrmOptions,
+  databaseConfigFor,
+  EventBusModule,
+  rabbitmqConfig,
+  redisConfig,
+} from '@nexhire/infra';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { CompanyModule } from './company/company.module';
 import { HrAccountModule } from './hr-account/hr-account.module';
@@ -14,10 +20,16 @@ import { HealthModule } from './health/health.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfigFor('COMPANY_SERVICE'), redisConfig, companyServiceConfig],
+      load: [
+        databaseConfigFor('COMPANY_SERVICE'),
+        redisConfig,
+        rabbitmqConfig,
+        companyServiceConfig,
+      ],
       validationSchema,
     }),
     TypeOrmModule.forRootAsync({ inject: [ConfigService], useFactory: buildTypeOrmOptions() }),
+    EventBusModule,
     HealthModule,
     CompanyModule,
     HrAccountModule,
