@@ -21,6 +21,7 @@ export interface CompanyPermissionSnapshot {
   companyId: string;
   companyName: string | null;
   companyLogoUrl: string | null;
+  companyLogoDocumentId: string | null;
   companyStatus: CompanyStatusSnapshot;
   companyTrustLevel: CompanyTrustLevel;
   snapshotAt: Date;
@@ -35,6 +36,7 @@ interface CompanyPostingSnapshotResponse {
   companyId: string;
   companyName: string;
   companyLogoUrl: string | null;
+  companyLogoDocumentId?: string | null;
   companyStatus: CompanyStatus;
   companyTrustLevel: SharedCompanyTrustLevel;
   changedAt: string;
@@ -100,6 +102,7 @@ export class CompanySnapshotService {
         companyId: snapshot.companyId,
         companyName: snapshot.companyName,
         companyLogoUrl: snapshot.companyLogoUrl,
+        companyLogoDocumentId: snapshot.companyLogoDocumentId ?? null,
         companyStatus: snapshot.companyStatus as unknown as CompanyStatusSnapshot,
         companyTrustLevel: snapshot.companyTrustLevel as unknown as CompanyTrustLevel,
         snapshotAt: new Date(snapshot.changedAt),

@@ -54,6 +54,9 @@ export class SavedJob {
   @Column({ name: 'company_logo_url', type: 'text', nullable: true })
   companyLogoUrl: string | null;
 
+  @Column({ name: 'company_logo_document_id', type: 'uuid', nullable: true })
+  companyLogoDocumentId: string | null;
+
   @Column({
     name: 'job_status',
     type: 'enum',

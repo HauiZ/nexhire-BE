@@ -14,6 +14,9 @@ export class CompanyPostingSnapshotDto {
   @ApiPropertyOptional({ nullable: true })
   companyLogoUrl: string | null;
 
+  @ApiPropertyOptional({ format: 'uuid', nullable: true })
+  companyLogoDocumentId: string | null;
+
   @ApiProperty({ enum: CompanyStatus })
   companyStatus: CompanyStatus;
 

@@ -20,6 +20,9 @@ export class SavedJobResponseDto {
   @ApiPropertyOptional()
   companyLogoUrl: string | null;
 
+  @ApiPropertyOptional()
+  companyLogoDocumentId: string | null;
+
   @ApiProperty({ enum: JobStatus })
   status: JobStatus;
 

@@ -8,9 +8,12 @@ import {
   Patch,
   Post,
   Put,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
   ApiSuccessResponse,
@@ -31,6 +34,8 @@ import { CreateCompanyDto } from './dto/create-company.dto';
 import { PublicCompanyProfileDto } from './dto/public-company-profile.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { VerifyCompanyDto } from './dto/verify-company.dto';
+import { COMPANY_LOGO_MAX_UPLOAD_SIZE_BYTES } from '../document-client/document-upload.constants';
+import { CompanyUploadedFile } from '../document-client/interfaces/company-uploaded-file.interface';
 
 @ApiTags('companies')
 @Controller('companies')
@@ -73,6 +78,39 @@ export class CompanyController {
     @Body() dto: UpdateCompanyDto,
   ): Promise<CompanyResponseDto> {
     return this.companyService.update(id, user.id, dto);
+  }
+
+  @Patch(':id/logo')
+  @HttpCode(200)
+  @Roles(UserRole.RECRUITER)
+  @ApiBearerAuth()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: COMPANY_LOGO_MAX_UPLOAD_SIZE_BYTES },
+    }),
+  )
+  @ApiOperation({ summary: 'Upload and set company logo' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiSuccessResponse(CompanyResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 422, 500, 503] })
+  uploadLogo(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFile() file?: CompanyUploadedFile,
+  ): Promise<CompanyResponseDto> {
+    return this.companyService.uploadLogo(id, user, file);
   }
 
   @Get('admin/pending')

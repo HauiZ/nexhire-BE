@@ -44,6 +44,7 @@ Application response data:
   "companyId": "6d4b04bd-e031-4e32-b556-4e46dbf32f53",
   "companyName": "NexHire",
   "companyLogoUrl": "https://cdn.nexhire.vn/company/logo.png",
+  "companyLogoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
   "candidateId": "d6dd534c-fd20-4cec-87c9-a6178e78f933",
   "candidateUserId": "f9ae2e14-f689-4a3e-8c2f-249776d0b650",
   "candidateFullName": "Nguyen Minh Khoa",

@@ -414,6 +414,7 @@ Success response:
       "companyId": "390fe4c7-b65b-4780-ae87-79818cef8b6c",
       "companyName": "NexHire",
       "companyLogoUrl": "https://cdn.nexhire.vn/company/nexhire.png",
+      "companyLogoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
       "status": "PUBLISHED",
       "experienceLevel": "JUNIOR",
       "location": "Ha Noi",
@@ -437,7 +438,7 @@ Success response:
 
 Notes:
 
-- Saved jobs store a candidate-service snapshot for fast card rendering.
+- Saved jobs store a candidate-service snapshot for fast card rendering. FE should prefer `companyLogoDocumentId` for logo rendering and use `companyLogoUrl` as fallback.
 - The current implementation saves only jobs that are public at save time.
 - If the job later changes status, the saved record remains so the candidate does not lose history.
 - On save, candidate-service calls job-service internal endpoint `GET /api/v1/internal/jobs/:id/saved-snapshot` using `x-internal-service-token`.

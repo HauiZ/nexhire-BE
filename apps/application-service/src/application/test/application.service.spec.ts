@@ -28,6 +28,7 @@ const application: Application = {
   companyId: recruiterUser.companyId,
   companyName: 'Nexhire',
   companyLogoUrl: null,
+  companyLogoDocumentId: null,
   candidateId: '66666666-6666-6666-6666-666666666666',
   candidateUserId: candidateUser.id,
   candidateFullName: 'Candidate One',

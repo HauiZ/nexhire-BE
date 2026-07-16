@@ -44,6 +44,9 @@ export class JobResponseDto {
   @ApiPropertyOptional()
   companyLogoUrl: string | null;
 
+  @ApiPropertyOptional()
+  companyLogoDocumentId: string | null;
+
   @ApiProperty()
   title: string;
 
@@ -145,6 +148,9 @@ export class PublicJobListItemDto {
   @ApiPropertyOptional()
   companyLogoUrl: string | null;
 
+  @ApiPropertyOptional()
+  companyLogoDocumentId: string | null;
+
   @ApiProperty({ enum: JobExperienceLevel })
   experienceLevel: JobExperienceLevel;
 
@@ -179,6 +185,9 @@ export class PublicJobDetailDto {
 
   @ApiPropertyOptional()
   companyLogoUrl: string | null;
+
+  @ApiPropertyOptional()
+  companyLogoDocumentId: string | null;
 
   @ApiProperty()
   title: string;
@@ -251,6 +260,9 @@ export class JobApplicationSnapshotDto {
   @ApiPropertyOptional()
   companyLogoUrl: string | null;
 
+  @ApiPropertyOptional()
+  companyLogoDocumentId: string | null;
+
   @ApiProperty()
   title: string;
 
@@ -276,6 +288,9 @@ export class JobSavedSnapshotDto {
 
   @ApiPropertyOptional()
   companyLogoUrl: string | null;
+
+  @ApiPropertyOptional()
+  companyLogoDocumentId: string | null;
 
   @ApiProperty()
   title: string;

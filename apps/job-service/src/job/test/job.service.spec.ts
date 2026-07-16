@@ -96,6 +96,7 @@ describe('JobService', () => {
     companyId: user.companyId,
     companyName: 'NexHire',
     companyLogoUrl: 'https://cdn.nexhire.vn/company/nexhire.png',
+    companyLogoDocumentId: null,
     companyStatus: CompanyStatusSnapshot.APPROVED,
     companyTrustLevel: CompanyTrustLevel.MEDIUM,
     companySnapshotAt: new Date(),

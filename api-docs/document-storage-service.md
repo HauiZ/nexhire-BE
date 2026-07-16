@@ -23,7 +23,7 @@ Request body:
 | Field | Type | Required | Note |
 | ----- | ---- | -------- | ---- |
 | `file` | file | Yes | Uploaded file |
-| `documentType` | string | Yes | `CV`, `CERTIFICATE`, `PORTFOLIO`, `AVATAR`, `OTHER` |
+| `documentType` | string | Yes | `CV`, `CERTIFICATE`, `PORTFOLIO`, `AVATAR`, `LOGO`, `OTHER` |
 | `ownerType` | string | Yes | `candidate`, `company`, `application` |
 | `ownerId` | uuid | Yes | Owner id in the owning business service |
 
@@ -31,7 +31,7 @@ Allowed file types:
 
 | Document type | MIME types |
 | ------------- | ---------- |
-| `AVATAR` | `image/jpeg`, `image/png`, `image/webp` |
+| `AVATAR` / `LOGO` | `image/jpeg`, `image/png`, `image/webp` |
 | `CV` | `application/pdf`, `application/msword`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document`, `image/jpeg`, `image/png`, `image/webp` |
 | `CERTIFICATE` | `application/pdf`, `application/msword`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document`, `image/jpeg`, `image/png`, `image/webp` |
 | `PORTFOLIO` / `OTHER` | Same as document/image types above |

@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
+  AuthUser,
   CompanyStatus,
   CompanyTrustLevel,
   ERROR_CODES,
@@ -33,6 +34,12 @@ import {
 } from './entities/company-trust-history.entity';
 import { Company } from './entities/company.entity';
 import { CompanyEventPublisher } from './events/company-event.publisher';
+import { DocumentClientService } from '../document-client/document-client.service';
+import {
+  COMPANY_LOGO_MAX_UPLOAD_SIZE_BYTES,
+  COMPANY_LOGO_MIME_TYPES,
+} from '../document-client/document-upload.constants';
+import { CompanyUploadedFile } from '../document-client/interfaces/company-uploaded-file.interface';
 
 const POSITIVE_TRUST_SIGNAL_THRESHOLD = 5;
 const NEGATIVE_TRUST_SIGNAL_THRESHOLD = 3;
@@ -60,6 +67,7 @@ export class CompanyService {
     @InjectRepository(CompanyProcessedTrustSignal)
     private readonly processedTrustSignalRepo: Repository<CompanyProcessedTrustSignal>,
     private readonly companyEventPublisher: CompanyEventPublisher,
+    private readonly documentClientService: DocumentClientService,
   ) {}
 
   async create(userId: string, dto: CreateCompanyDto): Promise<CompanyResponseDto> {
@@ -90,6 +98,43 @@ export class CompanyService {
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved);
     this.logger.log(`Company created companyId=${saved.id} ownerId=${userId}`);
+    return CompanyMapper.toResponse(saved);
+  }
+
+  async uploadLogo(
+    companyId: string,
+    user: AuthUser,
+    file?: CompanyUploadedFile,
+  ): Promise<CompanyResponseDto> {
+    const company = await this.companyRepo.findOne({ where: { id: companyId } });
+    if (!company) {
+      throw new NotFoundException({
+        code: ERROR_CODES.COMPANY.NOT_FOUND,
+        message: `Company ${companyId} not found`,
+      });
+    }
+
+    if (company.ownerId !== user.id) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.COMMON.FORBIDDEN,
+        message: 'You can only update your own company',
+      });
+    }
+
+    if (!file) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.FILE_REQUIRED,
+        message: 'Logo file is required',
+      });
+    }
+    this.assertUploadedFile(file, COMPANY_LOGO_MIME_TYPES, COMPANY_LOGO_MAX_UPLOAD_SIZE_BYTES);
+
+    const document = await this.documentClientService.uploadCompanyLogo(user, company.id, file);
+    company.logoDocumentId = document.id;
+    company.logo = null;
+    const saved = await this.companyRepo.save(company);
+    await this.publishPostingSnapshot(saved, company.status);
+    this.logger.log(`Company logo uploaded companyId=${companyId} documentId=${document.id}`);
     return CompanyMapper.toResponse(saved);
   }
 
@@ -343,6 +388,7 @@ export class CompanyService {
       ownerUserId: company.ownerId,
       companyName: company.name,
       companyLogoUrl: company.logo,
+      companyLogoDocumentId: company.logoDocumentId,
       companyStatus: company.status,
       previousCompanyStatus: previousStatus,
       companyTrustLevel: company.trustLevel,
@@ -454,5 +500,24 @@ export class CompanyService {
       return 2;
     }
     return 3;
+  }
+
+  private assertUploadedFile(
+    file: CompanyUploadedFile,
+    allowedMimeTypes: Set<string>,
+    maxSizeBytes: number,
+  ): void {
+    if (!allowedMimeTypes.has(file.mimetype)) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.UNSUPPORTED_FILE_TYPE,
+        message: 'Unsupported file type',
+      });
+    }
+    if (file.size > maxSizeBytes) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.FILE_TOO_LARGE,
+        message: 'File is too large',
+      });
+    }
   }
 }

@@ -160,7 +160,8 @@ Used by `GET /api/v1/jobs` and `GET /api/v1/jobs/companies/:companyId`.
 | `title` | string | No | Job title. |
 | `companyId` | uuid | No | Company id. |
 | `companyName` | string | Yes | Snapshot from company-service. |
-| `companyLogoUrl` | string | Yes | Snapshot from company-service. |
+| `companyLogoUrl` | string | Yes | Legacy/manual logo URL snapshot from company-service. |
+| `companyLogoDocumentId` | uuid | Yes | Company logo document id snapshot from company-service. FE should prefer this for rendering. |
 | `experienceLevel` | `JobExperienceLevel` | No | For card display/filter. |
 | `location` | string | No | Job location. |
 | `salaryMin` | number | Yes | `null` when salary hidden. |
@@ -196,7 +197,8 @@ Used by recruiter/admin endpoints.
 | `id` | uuid | No | Job id. |
 | `companyId` | uuid | No | Owner company id. |
 | `companyName` | string | Yes | Company snapshot. |
-| `companyLogoUrl` | string | Yes | Company snapshot. |
+| `companyLogoUrl` | string | Yes | Legacy/manual company logo URL snapshot. |
+| `companyLogoDocumentId` | uuid | Yes | Company logo document id snapshot. |
 | `title` | string | No | Full job field. |
 | `description` | string | No | Full job field. |
 | `requirements` | string | No | Full job field. |

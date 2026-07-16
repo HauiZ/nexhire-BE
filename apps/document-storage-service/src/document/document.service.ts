@@ -167,7 +167,7 @@ export class DocumentService {
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     ];
 
-    if (documentType === DocumentType.AVATAR) {
+    if (documentType === DocumentType.AVATAR || documentType === DocumentType.LOGO) {
       return imageMimeTypes;
     }
 

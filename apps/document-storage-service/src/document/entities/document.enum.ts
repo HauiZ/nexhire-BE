@@ -3,6 +3,7 @@ export enum DocumentType {
   CERTIFICATE = 'CERTIFICATE',
   PORTFOLIO = 'PORTFOLIO',
   AVATAR = 'AVATAR',
+  LOGO = 'LOGO',
   OTHER = 'OTHER',
 }
 

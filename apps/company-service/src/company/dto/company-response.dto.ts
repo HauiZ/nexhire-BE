@@ -11,6 +11,12 @@ export class CompanyResponseDto {
   @ApiPropertyOptional({ example: 'https://example.com/logo.png' })
   logo?: string;
 
+  @ApiPropertyOptional({
+    format: 'uuid',
+    description: 'Document id for the company logo uploaded through document-storage',
+  })
+  logoDocumentId?: string;
+
   @ApiPropertyOptional({ example: 'Tech company focusing on AI...' })
   description?: string;
 

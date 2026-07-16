@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CompanyStatus, CompanyTrustLevel } from '@nexhire/shared';
+import { CompanyStatus, CompanyTrustLevel, UserRole } from '@nexhire/shared';
 import { CompanyService } from '../company.service';
 import { CreateCompanyDto } from '../dto/create-company.dto';
 import { CompanyProcessedTrustSignal } from '../entities/company-processed-trust-signal.entity';
@@ -14,6 +14,7 @@ import { CompanyTrustHistory } from '../entities/company-trust-history.entity';
 import { VerifyAction } from '../dto/verify-company.dto';
 import { Company } from '../entities/company.entity';
 import { CompanyEventPublisher } from '../events/company-event.publisher';
+import { DocumentClientService } from '../../document-client/document-client.service';
 
 const mockUserId = '00000000-0000-4000-8000-000000000001';
 const mockCompanyId = '00000000-0000-4000-8000-000000000002';
@@ -23,6 +24,7 @@ function createCompany(overrides: Partial<Company> = {}): Company {
     id: mockCompanyId,
     name: 'NexHire Tech',
     logo: null,
+    logoDocumentId: null,
     description: null,
     website: null,
     address: null,
@@ -58,6 +60,9 @@ describe('CompanyService', () => {
   const companyEventPublisher = {
     publishPostingSnapshotChanged: jest.fn(),
   };
+  const documentClientService = {
+    uploadCompanyLogo: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -79,6 +84,10 @@ describe('CompanyService', () => {
           provide: CompanyEventPublisher,
           useValue: companyEventPublisher,
         },
+        {
+          provide: DocumentClientService,
+          useValue: documentClientService,
+        },
       ],
     }).compile();
 
@@ -87,6 +96,10 @@ describe('CompanyService', () => {
     companyEventPublisher.publishPostingSnapshotChanged.mockResolvedValue(undefined);
     trustHistoryRepo.save.mockResolvedValue(undefined);
     processedTrustSignalRepo.insert.mockResolvedValue(undefined);
+    documentClientService.uploadCompanyLogo.mockResolvedValue({
+      id: '00000000-0000-4000-8000-000000000099',
+      url: 'https://cdn.nexhire.vn/company/logo.png',
+    });
   });
 
   it('creates a pending company for a recruiter owner', async () => {
@@ -143,7 +156,10 @@ describe('CompanyService', () => {
   });
 
   it('resets status to pending when major fields change', async () => {
-    const company = createCompany({ status: CompanyStatus.APPROVED });
+    const company = createCompany({
+      status: CompanyStatus.APPROVED,
+      logo: 'https://cdn.nexhire.vn/company/old-logo.png',
+    });
     companyRepo.findOne.mockResolvedValueOnce(company).mockResolvedValueOnce(null);
     companyRepo.save.mockImplementation((entity: Company) => Promise.resolve(entity));
 
@@ -151,6 +167,41 @@ describe('CompanyService', () => {
 
     expect(company.status).toBe(CompanyStatus.PENDING);
     expect(result.status).toBe(CompanyStatus.PENDING);
+  });
+
+  it('uploads company logo through document-storage and stores logo document id', async () => {
+    const company = createCompany({ status: CompanyStatus.APPROVED });
+    companyRepo.findOne.mockResolvedValueOnce(company);
+    companyRepo.save.mockImplementation((entity: Company) => Promise.resolve(entity));
+
+    const result = await service.uploadLogo(
+      mockCompanyId,
+      { id: mockUserId, role: UserRole.RECRUITER },
+      {
+        buffer: Buffer.from('logo'),
+        originalname: 'logo.png',
+        mimetype: 'image/png',
+        size: 4,
+      },
+    );
+
+    expect(documentClientService.uploadCompanyLogo).toHaveBeenCalledWith(
+      { id: mockUserId, role: UserRole.RECRUITER },
+      mockCompanyId,
+      expect.objectContaining({ originalname: 'logo.png' }),
+    );
+    expect(company.logoDocumentId).toBe('00000000-0000-4000-8000-000000000099');
+    expect(company.logo).toBeNull();
+    expect(company.status).toBe(CompanyStatus.APPROVED);
+    expect(result.logo).toBeUndefined();
+    expect(result.logoDocumentId).toBe('00000000-0000-4000-8000-000000000099');
+    expect(companyEventPublisher.publishPostingSnapshotChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        companyId: mockCompanyId,
+        companyLogoDocumentId: '00000000-0000-4000-8000-000000000099',
+        companyStatus: CompanyStatus.APPROVED,
+      }),
+    );
   });
 
   it('approves a company', async () => {

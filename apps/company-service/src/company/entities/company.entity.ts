@@ -10,6 +10,9 @@ export class Company extends BaseEntity {
   @Column({ type: 'varchar', nullable: true })
   logo: string | null;
 
+  @Column({ name: 'logo_document_id', type: 'uuid', nullable: true })
+  logoDocumentId: string | null;
+
   @Column({ type: 'text', nullable: true })
   description: string | null;
 

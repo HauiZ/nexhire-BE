@@ -59,6 +59,7 @@ function createSnapshot(overrides: Partial<SavedJobSnapshot> = {}): SavedJobSnap
     companyId: '22222222-2222-2222-2222-222222222222',
     companyName: 'NexHire',
     companyLogoUrl: 'https://cdn.nexhire.vn/company/nexhire.png',
+    companyLogoDocumentId: null,
     title: 'Backend Developer',
     status: JobStatus.PUBLISHED,
     experienceLevel: JobExperienceLevel.JUNIOR,

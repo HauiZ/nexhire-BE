@@ -7,9 +7,13 @@ import { CompanyTrustHistory } from './entities/company-trust-history.entity';
 import { Company } from './entities/company.entity';
 import { JobReviewTrustSignalConsumer } from './events/consumers/job-review-trust-signal.consumer';
 import { CompanyEventPublisher } from './events/company-event.publisher';
+import { DocumentClientModule } from '../document-client/document-client.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Company, CompanyTrustHistory, CompanyProcessedTrustSignal])],
+  imports: [
+    TypeOrmModule.forFeature([Company, CompanyTrustHistory, CompanyProcessedTrustSignal]),
+    DocumentClientModule,
+  ],
   controllers: [CompanyController, CompanyInternalController],
   providers: [CompanyService, CompanyEventPublisher, JobReviewTrustSignalConsumer],
   exports: [CompanyService],

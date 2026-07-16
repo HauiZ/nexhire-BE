@@ -213,7 +213,8 @@ Success response:
     "email": "khoa@nexhire.vn",
     "fullName": "Nguyen Minh Khoa",
     "role": "CANDIDATE",
-    "logoUrl": null
+    "logoUrl": null,
+    "logoDocumentId": null
   }
 }
 ```
@@ -227,10 +228,12 @@ Field notes:
 | `fullName` | string            | Yes      | User display name                         |
 | `role`     | `UserRole`        | No       | Current role context from access token    |
 | `logoUrl`  | string            | Yes      | Header image URL: recruiter company logo, otherwise user avatar |
+| `logoDocumentId` | uuid       | Yes      | Recruiter company logo document id when available |
 
 Role-specific `logoUrl` behavior:
 
 - `RECRUITER`: uses synced company logo from `recruiter_company_links.company_logo_url`.
+- `RECRUITER`: also returns synced `recruiter_company_links.company_logo_document_id`; FE should prefer this for company logo rendering.
 - `CANDIDATE` / `ADMIN`: uses `users.avatar_url`.
 - If recruiter company logo has not synced yet, auth-service falls back to `users.avatar_url`.
 

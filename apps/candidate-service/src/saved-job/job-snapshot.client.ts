@@ -21,6 +21,7 @@ export interface SavedJobSnapshot {
   companyId: string;
   companyName: string | null;
   companyLogoUrl: string | null;
+  companyLogoDocumentId: string | null;
   title: string;
   status: JobStatus;
   experienceLevel: JobExperienceLevel;

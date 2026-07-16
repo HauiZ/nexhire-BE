@@ -1090,6 +1090,7 @@ describe('AuthService', () => {
       fullName: 'Nguyen Minh Khoa',
       role: UserRole.CANDIDATE,
       logoUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
+      logoDocumentId: null,
     });
   });
 
@@ -1105,6 +1106,7 @@ describe('AuthService', () => {
     } as UserRoleEntity);
     recruiterCompanyLinkRepo.findOne.mockResolvedValue({
       companyLogoUrl: 'https://cdn.nexhire.vn/company/logo.png',
+      companyLogoDocumentId: '00000000-0000-4000-8000-000000000099',
     } as RecruiterCompanyLink);
 
     const result = await service.getMe({
@@ -1121,6 +1123,7 @@ describe('AuthService', () => {
       fullName: 'Recruiter One',
       role: UserRole.RECRUITER,
       logoUrl: 'https://cdn.nexhire.vn/company/logo.png',
+      logoDocumentId: '00000000-0000-4000-8000-000000000099',
     });
   });
 

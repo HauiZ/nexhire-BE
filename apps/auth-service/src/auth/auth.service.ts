@@ -205,6 +205,7 @@ export class AuthService {
       fullName: user.fullName,
       role: currentUser.role,
       logoUrl: companyLink?.companyLogoUrl ?? user.avatarUrl,
+      logoDocumentId: companyLink?.companyLogoDocumentId ?? null,
     };
   }
 

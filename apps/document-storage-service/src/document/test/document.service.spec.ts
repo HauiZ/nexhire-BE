@@ -137,6 +137,39 @@ describe('DocumentService', () => {
     expect(documentRepo.save).not.toHaveBeenCalled();
   });
 
+  it('stores company logo uploads as image-only logo documents', async () => {
+    await service.upload(
+      {
+        documentType: DocumentType.LOGO,
+        ownerType: DocumentOwnerType.COMPANY,
+        ownerId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+      },
+      createFile({ originalname: 'logo.png', mimetype: 'image/png' }),
+    );
+
+    expect(storageService.put).toHaveBeenCalledWith(
+      expect.stringMatching(/^company\/b8b33c46-4bb0-4a33-8b0d-927e081a38a5\/logo\/.+\.png$/),
+      expect.any(Buffer),
+      expect.any(Number),
+      'image/png',
+    );
+  });
+
+  it('rejects logo upload when file type is not an image', async () => {
+    await expect(
+      service.upload(
+        {
+          documentType: DocumentType.LOGO,
+          ownerType: DocumentOwnerType.COMPANY,
+          ownerId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+        },
+        createFile({ mimetype: 'application/pdf' }),
+      ),
+    ).rejects.toBeInstanceOf(BadRequestException);
+    expect(storageService.put).not.toHaveBeenCalled();
+    expect(documentRepo.save).not.toHaveBeenCalled();
+  });
+
   it('removes uploaded object when metadata persistence fails', async () => {
     const error = new Error('db write failed');
     documentRepo.save.mockRejectedValue(error);

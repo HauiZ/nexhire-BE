@@ -17,6 +17,8 @@ export const validationSchema = Joi.object({
   }),
   RABBITMQ_URL: Joi.string().uri().default('amqp://nexhire:nexhire@localhost:5672'),
   RABBITMQ_EXCHANGE: Joi.string().default('nexhire.events'),
+  DOCUMENT_STORAGE_SERVICE_URL: Joi.string().uri().default('http://localhost:3009'),
+  COMPANY_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(30000),
   COMPANY_SERVICE_JOB_REVIEW_TRUST_SIGNAL_QUEUE: Joi.string().default(
     'company.job-review-trust-signal',
   ),

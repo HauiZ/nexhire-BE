@@ -20,6 +20,9 @@ export class ApplicationResponseDto {
   @ApiPropertyOptional({ nullable: true })
   companyLogoUrl: string | null;
 
+  @ApiPropertyOptional({ nullable: true })
+  companyLogoDocumentId: string | null;
+
   @ApiProperty()
   candidateId: string;
 

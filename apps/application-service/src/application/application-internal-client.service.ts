@@ -15,6 +15,7 @@ export interface JobApplicationSnapshot {
   companyId: string;
   companyName: string | null;
   companyLogoUrl: string | null;
+  companyLogoDocumentId: string | null;
   title: string;
   status: JobStatus;
   deadline: string | null;

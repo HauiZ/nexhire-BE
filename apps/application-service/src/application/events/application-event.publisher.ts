@@ -19,6 +19,7 @@ export class ApplicationEventPublisher {
     companyId: string;
     companyName: string | null;
     companyLogoUrl: string | null;
+    companyLogoDocumentId: string | null;
     submittedAt: string;
   }): Promise<void> {
     await this.publish(EVENTS.APPLICATION_SUBMITTED, payload);
@@ -31,6 +32,7 @@ export class ApplicationEventPublisher {
     companyId: string;
     companyName: string | null;
     companyLogoUrl: string | null;
+    companyLogoDocumentId: string | null;
     candidateId: string;
     candidateUserId: string;
     candidateFullName: string | null;

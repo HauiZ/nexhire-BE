@@ -36,7 +36,8 @@ Used by recruiter self-service endpoints. Does not expose trust level.
 | --- | --- | --- | --- |
 | `id` | uuid | No | Company id. |
 | `name` | string | No | Company display name. |
-| `logo` | string | Yes | Logo URL. |
+| `logo` | string | Yes | Legacy/manual logo URL fallback. |
+| `logoDocumentId` | uuid | Yes | Logo document id uploaded through document-storage. FE should prefer this when rendering the logo. |
 | `description` | string | Yes | Company description. |
 | `website` | string | Yes | Website URL. |
 | `address` | string | Yes | Company address. |
@@ -53,6 +54,7 @@ Example:
   "id": "22222222-2222-2222-2222-222222222222",
   "name": "NexHire Tech",
   "logo": "https://cdn.nexhire.vn/company/logo.png",
+  "logoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
   "description": "Tech company focusing on recruitment products.",
   "website": "https://nexhire.vn",
   "address": "Ha Noi, Viet Nam",
@@ -82,7 +84,8 @@ Used by public company profile endpoint.
 | --- | --- | --- | --- |
 | `id` | uuid | No | Company id. |
 | `name` | string | No | Company display name. |
-| `logo` | string | Yes | Logo URL. |
+| `logo` | string | Yes | Legacy/manual logo URL fallback. |
+| `logoDocumentId` | uuid | Yes | Logo document id uploaded through document-storage. |
 | `description` | string | Yes | Public company description. |
 | `website` | string | Yes | Website URL. |
 | `address` | string | Yes | Public address. |
@@ -207,7 +210,7 @@ Success response:
   "data": {
     "id": "22222222-2222-2222-2222-222222222222",
     "name": "NexHire Tech",
-    "logo": "https://cdn.nexhire.vn/company/logo.png",
+    "logoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
     "description": "Tech company focusing on recruitment products.",
     "website": "https://nexhire.vn",
     "address": "Ha Noi, Viet Nam",
@@ -308,6 +311,67 @@ Errors:
 
 FE notes:
 - Warn recruiter that changing legal identity fields may require re-approval.
+
+## `PATCH /api/v1/companies/:id/logo`
+
+Summary: Upload and set company logo through document-storage.
+
+Auth:
+- Required
+- Roles: `RECRUITER`
+
+Request params:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | Yes | Company id owned by current recruiter. |
+
+Request body: `multipart/form-data`
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `file` | binary | Yes | `image/jpeg`, `image/png`, or `image/webp`, max 5MB. |
+
+Success response: `CompanyResponse`.
+
+Example response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "NexHire Tech",
+    "logo": "https://cdn.nexhire.vn/company/logo.png",
+    "logoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
+    "description": "Tech company focusing on recruitment products.",
+    "website": "https://nexhire.vn",
+    "address": "Ha Noi, Viet Nam",
+    "taxCode": "0101234567",
+    "ownerId": "11111111-1111-1111-1111-111111111111",
+    "status": "APPROVED",
+    "createdAt": "2026-07-16T09:00:00.000Z",
+    "updatedAt": "2026-07-16T09:10:00.000Z"
+  }
+}
+```
+
+Rules:
+- Company-service stores `logoDocumentId` as source of truth.
+- Uploading a document logo clears `logo` so legacy/manual URL fallback cannot point at an old image.
+- Company-service publishes `company.posting-snapshot-changed` so job/auth snapshots can sync `companyLogoDocumentId`.
+- Uploading logo does not reset company verification status.
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 400 | `DOCUMENT.FILE_REQUIRED` | Missing file. |
+| 400 | `DOCUMENT.UNSUPPORTED_FILE_TYPE` | File is not jpeg/png/webp. |
+| 400 | `DOCUMENT.FILE_TOO_LARGE` | File exceeds max size. |
+| 403 | `COMMON.FORBIDDEN` | User is not the company owner. |
+| 404 | `COMPANY.NOT_FOUND` | Company not found. |
+| 503 | `AI.SERVICE_UNAVAILABLE` | document-storage upload failed. |
 
 ## Admin Endpoints
 
@@ -638,6 +702,7 @@ Success response:
     "ownerUserId": "11111111-1111-1111-1111-111111111111",
     "companyName": "NexHire Tech",
     "companyLogoUrl": "https://cdn.nexhire.vn/company/logo.png",
+    "companyLogoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
     "companyStatus": "APPROVED",
     "companyTrustLevel": "MEDIUM",
     "changedAt": "2026-07-16T10:00:00.000Z"
@@ -686,6 +751,7 @@ Payload:
   "ownerUserId": "11111111-1111-1111-1111-111111111111",
   "companyName": "NexHire Tech",
   "companyLogoUrl": "https://cdn.nexhire.vn/company/logo.png",
+  "companyLogoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
   "companyStatus": "APPROVED",
   "previousCompanyStatus": "PENDING",
   "companyTrustLevel": "MEDIUM",
@@ -698,6 +764,8 @@ Consumers:
 - auth-service: syncs recruiter owner -> company id link for JWT `companyId`.
 - job-service: syncs job company snapshots and hides/blocks jobs if company is non-approved.
 - notification-service: sends in-app notification to company owner when status changes.
+
+`companyLogoDocumentId` is the preferred logo source for new UI. `companyLogoUrl` remains a legacy/manual URL fallback.
 
 `previousCompanyStatus` is optional and only included when company-service knows the previous status. Notification-service uses it to avoid duplicate status notifications for snapshot-only updates such as rename, logo, or trust changes.
 

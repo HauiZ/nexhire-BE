@@ -77,6 +77,7 @@ export class ApplicationService {
         companyId: job.companyId,
         companyName: job.companyName,
         companyLogoUrl: job.companyLogoUrl,
+        companyLogoDocumentId: job.companyLogoDocumentId,
         candidateId: candidate.candidateId,
         candidateUserId: candidate.candidateUserId,
         candidateFullName: candidate.fullName,
@@ -111,6 +112,7 @@ export class ApplicationService {
       companyId: application.companyId,
       companyName: application.companyName,
       companyLogoUrl: application.companyLogoUrl,
+      companyLogoDocumentId: application.companyLogoDocumentId,
       submittedAt: application.submittedAt.toISOString(),
     });
     this.logger.log(
@@ -343,6 +345,7 @@ export class ApplicationService {
       companyId: application.companyId,
       companyName: application.companyName,
       companyLogoUrl: application.companyLogoUrl,
+      companyLogoDocumentId: application.companyLogoDocumentId,
       candidateId: application.candidateId,
       candidateUserId: application.candidateUserId,
       candidateFullName: application.candidateFullName,
@@ -406,6 +409,7 @@ export class ApplicationService {
       companyId: application.companyId,
       companyName: application.companyName,
       companyLogoUrl: application.companyLogoUrl,
+      companyLogoDocumentId: application.companyLogoDocumentId,
       candidateId: application.candidateId,
       candidateUserId: application.candidateUserId,
       candidateFullName: application.candidateFullName,

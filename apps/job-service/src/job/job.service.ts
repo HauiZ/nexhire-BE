@@ -74,6 +74,7 @@ export interface CompanyPostingSnapshotChangedPayload {
   companyId: string;
   companyName?: string | null;
   companyLogoUrl?: string | null;
+  companyLogoDocumentId?: string | null;
   companyStatus: CompanyStatusSnapshot;
   companyTrustLevel?: CompanyTrustLevel;
   changedAt?: string;
@@ -155,6 +156,7 @@ export class JobService {
       companyId: job.companyId,
       companyName: job.companyName,
       companyLogoUrl: job.companyLogoUrl,
+      companyLogoDocumentId: job.companyLogoDocumentId,
       title: job.title,
       status: job.status,
       deadline: job.deadline,
@@ -202,6 +204,7 @@ export class JobService {
         companyId: company.companyId,
         companyName: company.companyName,
         companyLogoUrl: company.companyLogoUrl,
+        companyLogoDocumentId: company.companyLogoDocumentId,
         companyStatus: company.companyStatus,
         companyTrustLevel: company.companyTrustLevel,
         companySnapshotAt: company.snapshotAt,
@@ -284,6 +287,7 @@ export class JobService {
       Object.assign(job, {
         companyName: company.companyName,
         companyLogoUrl: company.companyLogoUrl,
+        companyLogoDocumentId: company.companyLogoDocumentId,
         companyStatus: company.companyStatus,
         companyTrustLevel: company.companyTrustLevel,
         companySnapshotAt: company.snapshotAt,
@@ -651,6 +655,9 @@ export class JobService {
     }
     if (payload.companyLogoUrl !== undefined) {
       snapshotPatch.companyLogoUrl = payload.companyLogoUrl;
+    }
+    if (payload.companyLogoDocumentId !== undefined) {
+      snapshotPatch.companyLogoDocumentId = payload.companyLogoDocumentId;
     }
     if (payload.companyTrustLevel !== undefined) {
       snapshotPatch.companyTrustLevel = payload.companyTrustLevel;
@@ -1072,6 +1079,7 @@ export class JobService {
       companyId: job.companyId,
       companyName: job.companyName,
       companyLogoUrl: job.companyLogoUrl,
+      companyLogoDocumentId: job.companyLogoDocumentId,
       title: job.title,
       description: job.description,
       requirements: job.requirements,
@@ -1115,6 +1123,7 @@ export class JobService {
       companyId: job.companyId,
       companyName: job.companyName,
       companyLogoUrl: job.companyLogoUrl,
+      companyLogoDocumentId: job.companyLogoDocumentId,
       title: job.title,
       description: job.description,
       requirements: job.requirements,
@@ -1143,6 +1152,7 @@ export class JobService {
       companyId: job.companyId,
       companyName: job.companyName,
       companyLogoUrl: job.companyLogoUrl,
+      companyLogoDocumentId: job.companyLogoDocumentId,
       title: job.title,
       status: job.status,
       experienceLevel: job.experienceLevel,

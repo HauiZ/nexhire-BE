@@ -16,4 +16,11 @@ export class AuthMeResponseDto {
 
   @ApiPropertyOptional({ nullable: true })
   logoUrl: string | null;
+
+  @ApiPropertyOptional({
+    format: 'uuid',
+    nullable: true,
+    description: 'Document id for recruiter company logo when available',
+  })
+  logoDocumentId: string | null;
 }
