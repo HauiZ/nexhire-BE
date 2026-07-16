@@ -35,6 +35,29 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
     );
   }
 
+  async searchPublicCompanyJobs(
+    companyId: string,
+    query: PublicJobQueryDto,
+  ): Promise<Paginated<PublicJobListItemDto>> {
+    const qb = this.jobRepo
+      .createQueryBuilder('job')
+      .where('job.status = :status', { status: JobStatus.PUBLISHED })
+      .andWhere('job.companyId = :companyId', { companyId })
+      .skip(query.skip)
+      .take(query.limit);
+
+    this.applyPublicFilters(qb, query);
+    this.applyJobSort(qb, query);
+
+    const [jobs, total] = await qb.getManyAndCount();
+    return this.paginate(
+      jobs.map((job) => this.mapPublicJob(job)),
+      query.page,
+      query.limit,
+      total,
+    );
+  }
+
   async searchCompanyJobs(
     companyId: string,
     query: RecruiterJobQueryDto,

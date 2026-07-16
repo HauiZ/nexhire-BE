@@ -29,6 +29,18 @@ export class JobController {
     return this.jobService.listPublic(query);
   }
 
+  @Get('companies/:companyId')
+  @Public()
+  @ApiOperation({ summary: 'List published jobs for a public company profile' })
+  @ApiSuccessResponse(PublicJobListItemDto, { isArray: true, paginated: true })
+  @ApiErrorResponses({ statuses: [400, 500] })
+  listPublicByCompany(
+    @Param('companyId', ParseUUIDPipe) companyId: string,
+    @Query() query: PublicJobQueryDto,
+  ) {
+    return this.jobService.listPublicByCompany(companyId, query);
+  }
+
   @Get(':id')
   @Public()
   @ApiOperation({ summary: 'Get a published job detail' })

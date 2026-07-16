@@ -29,6 +29,7 @@ import {
 import {
   AdminJobReviewQueueQueryDto,
   PublicJobQueryDto,
+  RecruiterJobRevisionQueryDto,
   RecruiterJobQueryDto,
 } from './dto/job-query.dto';
 import { JobReasonDto, ReviewJobDto } from './dto/job-review.dto';
@@ -123,6 +124,13 @@ export class JobService {
 
   async listPublic(query: PublicJobQueryDto): Promise<Paginated<PublicJobListItemDto>> {
     return this.jobSearchProvider.searchPublicJobs(query);
+  }
+
+  async listPublicByCompany(
+    companyId: string,
+    query: PublicJobQueryDto,
+  ): Promise<Paginated<PublicJobListItemDto>> {
+    return this.jobSearchProvider.searchPublicCompanyJobs(companyId, query);
   }
 
   async getPublic(id: string): Promise<PublicJobDetailDto> {
@@ -337,6 +345,40 @@ export class JobService {
       `Job revision draft created revisionId=${revision.id} jobId=${job.id} userId=${user.id}`,
     );
     return this.mapRevision(revision);
+  }
+
+  async listRevisions(
+    user: AuthUser,
+    jobId: string,
+    query: RecruiterJobRevisionQueryDto,
+  ): Promise<Paginated<JobRevisionResponseDto>> {
+    await this.findCompanyJob(user, jobId);
+    const where = {
+      jobId,
+      companyId: user.companyId!,
+      ...(query.status ? { status: query.status } : {}),
+    };
+    const [revisions, total] = await this.revisionRepo.findAndCount({
+      where,
+      order: { createdAt: 'DESC' },
+      skip: query.skip,
+      take: query.limit,
+    });
+    return this.paginate(
+      revisions.map((revision) => this.mapRevision(revision)),
+      query.page,
+      query.limit,
+      total,
+    );
+  }
+
+  async getRevision(
+    user: AuthUser,
+    jobId: string,
+    revisionId: string,
+  ): Promise<JobRevisionResponseDto> {
+    await this.findCompanyJob(user, jobId);
+    return this.mapRevision(await this.findCompanyRevision(user, jobId, revisionId));
   }
 
   async updateRevision(

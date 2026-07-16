@@ -152,7 +152,7 @@ Used by create/update job and create/update revision.
 
 ### PublicJobListItem
 
-Used by `GET /api/v1/jobs`.
+Used by `GET /api/v1/jobs` and `GET /api/v1/jobs/companies/:companyId`.
 
 | Field | Type | Nullable | Note |
 | --- | --- | --- | --- |
@@ -311,6 +311,34 @@ Errors:
 FE notes:
 - Use this endpoint for job cards, not detail cards.
 - Do not expect `description`, `requirements`, `moderation`, or `applicationCount` here.
+
+## `GET /api/v1/jobs/companies/:companyId`
+
+Summary: List published jobs for a public company profile.
+
+Auth:
+- Public
+
+Request params:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `companyId` | uuid | Yes | Approved company id from company profile. |
+
+Request query: same filters/sort/pagination as `GET /api/v1/jobs`.
+
+Success response: paginated array of `PublicJobListItem`.
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 400 | `COMMON.VALIDATION_ERROR` | Invalid company id or query. |
+| 500 | `COMMON.INTERNAL_ERROR` | Server error. |
+
+FE notes:
+- Use this on the public company profile page instead of filtering client-side.
+- Only `PUBLISHED` jobs are returned; draft, reviewing, unpublished, closed, expired, and rejected jobs stay hidden.
 
 ## `GET /api/v1/jobs/:id`
 
@@ -769,6 +797,59 @@ Errors:
 | 409 | `JOB.JOB_NOT_EDITABLE` | Revisions are only required for published jobs with applications. |
 | 409 | `JOB.ACTIVE_REVISION_EXISTS` | Another active revision exists. |
 | 422 | `COMMON.VALIDATION_ERROR` | Invalid body. |
+
+## `GET /api/v1/recruiter/jobs/:jobId/revisions`
+
+Summary: List major revision drafts/review records for a company-owned job.
+
+Auth:
+- Required
+- Roles: `RECRUITER`
+
+Request params:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `jobId` | uuid | Yes | Company-owned job id. |
+
+Request query:
+
+| Field | Type | Required | Default | Note |
+| --- | --- | --- | --- | --- |
+| `page` | number | No | `1` | Pagination page. |
+| `limit` | number | No | `20` | Pagination size. |
+| `status` | `JobRevisionStatus` | No | all | Filter by revision lifecycle status. |
+
+Success response: paginated array of `JobRevisionResponse`.
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
+| 404 | `JOB.JOB_NOT_FOUND` | Job not found in recruiter's company. |
+
+FE notes:
+- Use this to show draft/pending/rejected major revisions under a job detail screen.
+- Active revision statuses are `DRAFT`, `PENDING_REVIEW`, `NEEDS_REVIEW`, and `SHOULD_REJECT`.
+
+## `GET /api/v1/recruiter/jobs/:jobId/revisions/:revisionId`
+
+Summary: Get one major revision for a company-owned job.
+
+Auth:
+- Required
+- Roles: `RECRUITER`
+
+Success response: `JobRevisionResponse`.
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
+| 404 | `JOB.JOB_NOT_FOUND` | Parent job not found in recruiter's company. |
+| 404 | `JOB.REVISION_NOT_FOUND` | Revision not found in recruiter's company. |
 
 ## `PATCH /api/v1/recruiter/jobs/:jobId/revisions/:revisionId`
 

@@ -8,6 +8,10 @@ export interface Paginated<T> {
 
 export interface JobSearchProvider {
   searchPublicJobs(query: PublicJobQueryDto): Promise<Paginated<PublicJobListItemDto>>;
+  searchPublicCompanyJobs(
+    companyId: string,
+    query: PublicJobQueryDto,
+  ): Promise<Paginated<PublicJobListItemDto>>;
   searchCompanyJobs(
     companyId: string,
     query: RecruiterJobQueryDto,

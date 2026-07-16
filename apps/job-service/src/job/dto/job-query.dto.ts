@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
 import {
   JobExperienceLevel,
+  JobRevisionStatus,
   JobStatus,
   JobType,
   JobWorkingType,
@@ -87,6 +88,13 @@ export class RecruiterJobQueryDto extends PublicJobQueryDto {
   @IsOptional()
   @IsEnum(JobStatus)
   status?: JobStatus;
+}
+
+export class RecruiterJobRevisionQueryDto extends PaginationQueryDto {
+  @ApiPropertyOptional({ enum: JobRevisionStatus })
+  @IsOptional()
+  @IsEnum(JobRevisionStatus)
+  status?: JobRevisionStatus;
 }
 
 export class AdminJobReviewQueueQueryDto extends PaginationQueryDto {

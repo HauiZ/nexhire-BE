@@ -41,6 +41,7 @@ describe('JobService', () => {
     save: jest.Mock;
     create: jest.Mock;
     find: jest.Mock;
+    findAndCount: jest.Mock;
   };
   let moderationReviewRepo: {
     findOne: jest.Mock;
@@ -55,6 +56,7 @@ describe('JobService', () => {
   };
   let jobSearchProvider: {
     searchPublicJobs: jest.Mock;
+    searchPublicCompanyJobs: jest.Mock;
     searchCompanyJobs: jest.Mock;
   };
   let jobEventPublisher: {
@@ -165,6 +167,44 @@ describe('JobService', () => {
     numberOfOpenings: overrides.numberOfOpenings ?? publishedJob.numberOfOpenings ?? undefined,
   });
 
+  const majorRevision = (overrides: Partial<JobRevision> = {}): JobRevision => ({
+    id: '66666666-6666-6666-6666-666666666666',
+    jobId: publishedJob.id,
+    job: publishedJob,
+    companyId: publishedJob.companyId,
+    createdByUserId: user.id,
+    status: JobRevisionStatus.DRAFT,
+    title: 'Principal Backend Developer',
+    description: publishedJob.description,
+    requirements: publishedJob.requirements,
+    skills: ['NestJS', 'PostgreSQL', 'Kafka'],
+    benefits: publishedJob.benefits,
+    categoryId: publishedJob.categoryId,
+    employmentType: publishedJob.employmentType,
+    workingType: publishedJob.workingType,
+    experienceLevel: JobExperienceLevel.LEAD,
+    location: publishedJob.location,
+    salaryMin: 50_000_000,
+    salaryMax: 80_000_000,
+    salaryCurrency: 'VND',
+    isSalaryVisible: true,
+    deadline: null,
+    numberOfOpenings: 1,
+    changeSummary: 'Upgrade role scope',
+    riskScore: null,
+    riskLevel: null,
+    moderationDecision: null,
+    moderationReasons: [],
+    moderationMatchedRules: [],
+    reviewedByUserId: null,
+    reviewedAt: null,
+    reviewReason: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deletedAt: null,
+    ...overrides,
+  });
+
   beforeEach(async () => {
     jobRepo = {
       findOne: jest.fn(),
@@ -176,6 +216,7 @@ describe('JobService', () => {
       save: jest.fn((revision: JobRevision) => Promise.resolve(revision)),
       create: jest.fn((value) => value),
       find: jest.fn(),
+      findAndCount: jest.fn(),
     };
     moderationReviewRepo = {
       findOne: jest.fn(),
@@ -190,6 +231,7 @@ describe('JobService', () => {
     };
     jobSearchProvider = {
       searchPublicJobs: jest.fn(),
+      searchPublicCompanyJobs: jest.fn(),
       searchCompanyJobs: jest.fn(),
     };
     jobEventPublisher = {
@@ -593,43 +635,96 @@ describe('JobService', () => {
     expect(result).not.toHaveProperty('applicationCount');
   });
 
+  it('lists published jobs for a public company profile through the search provider', async () => {
+    const expected = {
+      data: [
+        {
+          id: publishedJob.id,
+          title: publishedJob.title,
+          companyId: publishedJob.companyId,
+          companyName: publishedJob.companyName,
+          companyLogoUrl: publishedJob.companyLogoUrl,
+          experienceLevel: publishedJob.experienceLevel,
+          location: publishedJob.location,
+          salaryMin: publishedJob.salaryMin,
+          salaryMax: publishedJob.salaryMax,
+          salaryCurrency: publishedJob.salaryCurrency,
+          isSalaryVisible: publishedJob.isSalaryVisible,
+          publishedAt: publishedJob.publishedAt,
+        },
+      ],
+      meta: { page: 1, limit: 10, total: 1, totalPages: 1 },
+    };
+    const query = { page: 1, limit: 10, skip: 0 };
+    jobSearchProvider.searchPublicCompanyJobs.mockResolvedValue(expected);
+
+    await expect(service.listPublicByCompany(publishedJob.companyId, query as any)).resolves.toBe(
+      expected,
+    );
+    expect(jobSearchProvider.searchPublicCompanyJobs).toHaveBeenCalledWith(
+      publishedJob.companyId,
+      query,
+    );
+  });
+
+  it('lists major revisions for a company-owned job', async () => {
+    const revision = majorRevision({ status: JobRevisionStatus.PENDING_REVIEW });
+    jobRepo.findOne.mockResolvedValue(publishedJob);
+    revisionRepo.findAndCount.mockResolvedValue([[revision], 1]);
+    const query = { page: 1, limit: 10, skip: 0, status: JobRevisionStatus.PENDING_REVIEW };
+
+    const result = await service.listRevisions(user, publishedJob.id, query as any);
+
+    expect(jobRepo.findOne).toHaveBeenCalledWith({
+      where: { id: publishedJob.id, companyId: user.companyId },
+    });
+    expect(revisionRepo.findAndCount).toHaveBeenCalledWith({
+      where: {
+        jobId: publishedJob.id,
+        companyId: user.companyId,
+        status: JobRevisionStatus.PENDING_REVIEW,
+      },
+      order: { createdAt: 'DESC' },
+      skip: 0,
+      take: 10,
+    });
+    expect(result.data).toEqual([
+      expect.objectContaining({
+        id: revision.id,
+        jobId: publishedJob.id,
+        status: JobRevisionStatus.PENDING_REVIEW,
+      }),
+    ]);
+    expect(result.meta.total).toBe(1);
+  });
+
+  it('gets one major revision for a company-owned job', async () => {
+    const revision = majorRevision();
+    jobRepo.findOne.mockResolvedValue(publishedJob);
+    revisionRepo.findOne.mockResolvedValue(revision);
+
+    const result = await service.getRevision(user, publishedJob.id, revision.id);
+
+    expect(revisionRepo.findOne).toHaveBeenCalledWith({
+      where: { id: revision.id, jobId: publishedJob.id, companyId: user.companyId },
+    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        id: revision.id,
+        jobId: publishedJob.id,
+        title: revision.title,
+      }),
+    );
+  });
+
   it('approves a major revision, applies it to the job, and emits revision events', async () => {
-    const revision: JobRevision = {
-      id: '66666666-6666-6666-6666-666666666666',
-      jobId: publishedJob.id,
-      job: publishedJob,
-      companyId: publishedJob.companyId,
-      createdByUserId: user.id,
+    const revision = majorRevision({
       status: JobRevisionStatus.NEEDS_REVIEW,
-      title: 'Principal Backend Developer',
-      description: publishedJob.description,
-      requirements: publishedJob.requirements,
-      skills: ['NestJS', 'PostgreSQL', 'Kafka'],
-      benefits: publishedJob.benefits,
-      categoryId: publishedJob.categoryId,
-      employmentType: publishedJob.employmentType,
-      workingType: publishedJob.workingType,
-      experienceLevel: JobExperienceLevel.LEAD,
-      location: publishedJob.location,
-      salaryMin: 50_000_000,
-      salaryMax: 80_000_000,
-      salaryCurrency: 'VND',
-      isSalaryVisible: true,
-      deadline: null,
-      numberOfOpenings: 1,
-      changeSummary: 'Upgrade role scope',
       riskScore: 10,
       riskLevel: JobModerationRiskLevel.LOW,
       moderationDecision: JobModerationDecision.PENDING_REVIEW,
       moderationReasons: ['No risky content detected'],
-      moderationMatchedRules: [],
-      reviewedByUserId: null,
-      reviewedAt: null,
-      reviewReason: null,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      deletedAt: null,
-    };
+    });
     const jobToUpdate = { ...publishedJob, version: 1 };
     const moderationReview = {
       jobId: publishedJob.id,

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
@@ -29,6 +29,7 @@ export class AdminJobController {
   }
 
   @Post(':id/review')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Approve or reject a job waiting for manual review' })
   @ApiSuccessResponse(JobResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
@@ -41,6 +42,7 @@ export class AdminJobController {
   }
 
   @Post(':id/unpublish')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Admin takedown: hide a published job from public pages' })
   @ApiSuccessResponse(JobResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
@@ -53,6 +55,7 @@ export class AdminJobController {
   }
 
   @Post(':id/republish')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Admin restore: show an unpublished job publicly again' })
   @ApiSuccessResponse(JobResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
@@ -64,6 +67,7 @@ export class AdminJobController {
   }
 
   @Post(':id/close')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Admin close: permanently stop recruitment for a job' })
   @ApiSuccessResponse(JobResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
@@ -84,6 +88,7 @@ export class AdminJobController {
   }
 
   @Post('revisions/:revisionId/review')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Approve or reject a major job revision' })
   @ApiSuccessResponse(JobRevisionResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
