@@ -1,4 +1,4 @@
-import { Body, Controller, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { ApiErrorResponses, ApiSuccessResponse, InternalServiceTokenGuard } from '@nexhire/shared';
@@ -24,8 +24,9 @@ export class CvParsingController {
   }
 
   @Post('requests/:id/complete')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Persist a parsed CV result and apply it to candidate profile' })
-  @ApiSuccessResponse(CvParseResultResponseDto, { status: 201 })
+  @ApiSuccessResponse(CvParseResultResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 422, 500] })
   complete(
     @Param('id', ParseUUIDPipe) id: string,

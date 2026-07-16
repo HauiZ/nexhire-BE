@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -60,6 +61,7 @@ export class CompanyController {
   }
 
   @Put(':id')
+  @HttpCode(200)
   @Roles(UserRole.RECRUITER)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update company profile' })
@@ -84,6 +86,7 @@ export class CompanyController {
   }
 
   @Patch(':id/verify')
+  @HttpCode(200)
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Approve or reject a company' })
@@ -97,6 +100,7 @@ export class CompanyController {
   }
 
   @Patch('admin/:id/suspend')
+  @HttpCode(200)
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Suspend a company and disable posting eligibility' })
@@ -110,6 +114,7 @@ export class CompanyController {
   }
 
   @Patch('admin/:id/restore')
+  @HttpCode(200)
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Restore a suspended/rejected company to pending review' })
@@ -123,6 +128,7 @@ export class CompanyController {
   }
 
   @Patch('admin/:id/trust-level')
+  @HttpCode(200)
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update company trust level for job moderation' })

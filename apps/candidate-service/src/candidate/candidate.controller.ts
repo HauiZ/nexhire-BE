@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Patch, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
@@ -31,6 +31,7 @@ export class CandidateController {
   }
 
   @Patch('me')
+  @HttpCode(200)
   @Roles(UserRole.CANDIDATE)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update the current candidate profile page aggregate' })
@@ -44,6 +45,7 @@ export class CandidateController {
   }
 
   @Patch('me/avatar')
+  @HttpCode(200)
   @Roles(UserRole.CANDIDATE)
   @ApiBearerAuth()
   @UseInterceptors(

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
@@ -51,6 +51,7 @@ export class RecruiterApplicationController {
   }
 
   @Patch(':id/status')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Mark an application as offered or rejected' })
   @ApiSuccessResponse(ApplicationResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409] })

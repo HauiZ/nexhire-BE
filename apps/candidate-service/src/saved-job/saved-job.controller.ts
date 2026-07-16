@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import { Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
@@ -56,6 +56,7 @@ export class SavedJobController {
   }
 
   @Delete(':jobId')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Remove a saved job for the current candidate' })
   @ApiSuccessResponse(DeleteSavedJobResponseDto)
   @ApiErrorResponses({ statuses: [401, 403, 500] })

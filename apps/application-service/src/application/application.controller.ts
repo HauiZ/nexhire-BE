@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
@@ -68,6 +68,7 @@ export class ApplicationController {
   }
 
   @Post('me/:id/withdraw')
+  @HttpCode(200)
   @Roles(UserRole.CANDIDATE)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Withdraw an active application' })

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { ApiErrorResponses, ApiSuccessResponse, InternalServiceTokenGuard } from '@nexhire/shared';
@@ -17,6 +17,7 @@ export class CandidateInternalController {
   constructor(private readonly candidateService: CandidateService) {}
 
   @Post(':candidateId/apply-parsed-resume')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Apply a normalized parsed resume to a candidate profile' })
   @ApiSuccessResponse(CandidateProfileResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 422, 500] })
@@ -32,6 +33,7 @@ export class CandidateInternalController {
   }
 
   @Post(':candidateId/cvs/:candidateCvId/parse-failed')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Mark a candidate CV parse attempt as failed' })
   @ApiSuccessResponse(CandidateCvResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 422, 500] })

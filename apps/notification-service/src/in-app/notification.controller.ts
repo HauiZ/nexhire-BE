@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
+import { Controller, Get, HttpCode, Param, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
@@ -39,6 +39,7 @@ export class NotificationController {
   }
 
   @Patch('read-all')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Mark all scoped notifications as read' })
   @ApiSuccessResponse(UnreadNotificationCountDto)
   @ApiErrorResponses({ statuses: [401, 403, 500] })
@@ -47,6 +48,7 @@ export class NotificationController {
   }
 
   @Patch(':id/read')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Mark one notification as read' })
   @ApiSuccessResponse(NotificationResponseDto)
   @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
