@@ -1,4 +1,14 @@
-import { Body, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
@@ -11,6 +21,7 @@ import {
 } from '@nexhire/shared';
 import { CvService } from './cv.service';
 import { CandidateCvResponseDto } from './dto/cv-response.dto';
+import { DeleteCvResponseDto } from './dto/delete-cv-response.dto';
 import { UploadCvDto } from './dto/upload-cv.dto';
 import { CandidateUploadedFile } from '../document-client/interfaces/candidate-uploaded-file.interface';
 import { CANDIDATE_CV_MAX_UPLOAD_SIZE_BYTES } from '../document-client/document-upload.constants';
@@ -58,5 +69,19 @@ export class CvController {
     @UploadedFile() file?: CandidateUploadedFile,
   ): Promise<CandidateCvResponseDto> {
     return this.cvService.uploadCv(user, dto, file);
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @Roles(UserRole.CANDIDATE)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Delete a saved CV from candidate library' })
+  @ApiSuccessResponse(DeleteCvResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  deleteMine(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<DeleteCvResponseDto> {
+    return this.cvService.deleteMine(user, id);
   }
 }

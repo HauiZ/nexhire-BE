@@ -17,6 +17,7 @@ type MockRepo = {
   create: jest.Mock;
   findOne: jest.Mock;
   save: jest.Mock;
+  softDelete: jest.Mock;
 };
 
 function createStorageMock(): MockStorageService {
@@ -32,6 +33,7 @@ function createRepoMock(): MockRepo {
     create: jest.fn((entity: unknown) => entity),
     findOne: jest.fn(),
     save: jest.fn((entity: unknown) => entity),
+    softDelete: jest.fn().mockResolvedValue(undefined),
   };
 }
 
@@ -243,6 +245,20 @@ describe('DocumentService', () => {
         expiresInSeconds: 3600,
       }),
     );
+  });
+
+  it('physically removes a document object and soft deletes metadata', async () => {
+    documentRepo.findOne.mockResolvedValue({
+      id: 'document-1',
+      key: 'candidate/candidate-1/cv/document-1.pdf',
+      deletedAt: null,
+    } as Document);
+
+    const result = await service.deleteDocument('document-1');
+
+    expect(storageService.remove).toHaveBeenCalledWith('candidate/candidate-1/cv/document-1.pdf');
+    expect(documentRepo.softDelete).toHaveBeenCalledWith('document-1');
+    expect(result).toEqual({ deleted: true });
   });
 
   it('returns not found when creating a download URL for a missing document', async () => {

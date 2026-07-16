@@ -1,21 +1,15 @@
-import { HttpService } from '@nestjs/axios';
-import {
-  BadRequestException,
-  Injectable,
-  Logger,
-  ServiceUnavailableException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AxiosError } from 'axios';
-import { firstValueFrom } from 'rxjs';
-import { Repository } from 'typeorm';
+import { DataSource, IsNull, LessThanOrEqual, Repository } from 'typeorm';
 
-import { AuthUser, ERROR_CODES, HEADERS, UserRole } from '@nexhire/shared';
+import { AuthUser, ERROR_CODES } from '@nexhire/shared';
 
+import { ApplicationClientService } from '../application-client/application-client.service';
 import { CandidateService } from '../candidate/candidate.service';
 import { CandidateCv } from '../candidate/entities/candidate-cv.entity';
 import { CandidateCvParseStatus } from '../candidate/entities/candidate.enum';
+import { CvParsingClientService } from '../cv-parsing-client/cv-parsing-client.service';
 import { DocumentClientService } from '../document-client/document-client.service';
 import {
   CANDIDATE_CV_MAX_UPLOAD_SIZE_BYTES,
@@ -23,20 +17,8 @@ import {
 } from '../document-client/document-upload.constants';
 import { CandidateUploadedFile } from '../document-client/interfaces/candidate-uploaded-file.interface';
 import { CandidateCvResponseDto } from './dto/cv-response.dto';
+import { DeleteCvResponseDto } from './dto/delete-cv-response.dto';
 import { UploadCvDto } from './dto/upload-cv.dto';
-
-interface ApiEnvelope<T> {
-  success: boolean;
-  data: T;
-}
-
-interface ParseRequestResponse {
-  id: string;
-  candidateId: string;
-  candidateCvId: string;
-  documentId: string;
-  status: string;
-}
 
 const FAILED_PARSE_STATUS = 'FAILED';
 
@@ -45,9 +27,11 @@ export class CvService {
   private readonly logger = new Logger(CvService.name);
 
   constructor(
-    private readonly httpService: HttpService,
+    private readonly dataSource: DataSource,
     private readonly configService: ConfigService,
     private readonly candidateService: CandidateService,
+    private readonly applicationClientService: ApplicationClientService,
+    private readonly cvParsingClientService: CvParsingClientService,
     private readonly documentClientService: DocumentClientService,
     @InjectRepository(CandidateCv)
     private readonly cvRepo: Repository<CandidateCv>,
@@ -74,10 +58,16 @@ export class CvService {
       file,
     );
     const shouldSetDefault =
-      dto.isDefault ?? (await this.cvRepo.count({ where: { candidateId: profile.id } })) === 0;
+      dto.isDefault ??
+      (await this.cvRepo.count({
+        where: { candidateId: profile.id, deletedAt: IsNull() },
+      })) === 0;
 
     if (shouldSetDefault) {
-      await this.cvRepo.update({ candidateId: profile.id, isDefault: true }, { isDefault: false });
+      await this.cvRepo.update(
+        { candidateId: profile.id, isDefault: true, deletedAt: IsNull() },
+        { isDefault: false },
+      );
     }
 
     const cv = await this.cvRepo.save(
@@ -88,17 +78,20 @@ export class CvService {
         isDefault: shouldSetDefault,
         parseStatus: CandidateCvParseStatus.PARSING,
         parsedAt: null,
+        deletedAt: null,
+        documentDeletedAt: null,
+        documentDeleteError: null,
       }),
     );
 
     try {
-      const parseRequest = await this.triggerCvParsing(
+      const parseRequest = await this.cvParsingClientService.createParseRequest({
         user,
-        profile.id,
-        cv.id,
-        document.id,
-        document.url,
-      );
+        candidateId: profile.id,
+        candidateCvId: cv.id,
+        documentId: document.id,
+        documentUrl: document.url,
+      });
 
       if (parseRequest.status === FAILED_PARSE_STATUS) {
         await this.cvRepo.update(cv.id, { parseStatus: CandidateCvParseStatus.FAILED });
@@ -116,61 +109,99 @@ export class CvService {
     return this.mapCv(latestCv ?? cv);
   }
 
-  private async triggerCvParsing(
-    user: AuthUser,
-    candidateId: string,
-    candidateCvId: string,
-    documentId: string,
-    documentUrl: string,
-  ): Promise<ParseRequestResponse> {
-    const baseUrl = this.configService.get<string>('candidateService.services.cvParsingService');
-    const timeout = this.configService.get<number>('candidateService.http.timeoutMs', 30000);
-    const internalServiceToken = this.configService.get<string>(
-      'candidateService.internalServiceToken',
+  async deleteMine(user: AuthUser, id: string): Promise<DeleteCvResponseDto> {
+    const profile = await this.candidateService.ensureProfileForUser(user.id);
+    const cv = await this.cvRepo.findOne({
+      where: { id, candidateId: profile.id, deletedAt: IsNull() },
+    });
+    if (!cv) {
+      throw new NotFoundException({
+        code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
+        message: 'Candidate CV not found',
+      });
+    }
+
+    await this.dataSource.transaction(async (manager) => {
+      const cvRepo = manager.getRepository(CandidateCv);
+      await cvRepo.update(cv.id, {
+        deletedAt: new Date(),
+        isDefault: false,
+      });
+
+      if (cv.isDefault) {
+        const nextDefault = await cvRepo.findOne({
+          where: { candidateId: profile.id, deletedAt: IsNull() },
+          order: { createdAt: 'DESC' },
+        });
+        if (nextDefault) {
+          await cvRepo.update(nextDefault.id, { isDefault: true });
+        }
+      }
+    });
+
+    this.logger.log(`Candidate deleted CV candidateId=${profile.id} candidateCvId=${cv.id}`);
+    return { deleted: true };
+  }
+
+  async purgeDeletedCvDocuments(): Promise<number> {
+    const deletedGraceDays = this.configService.get<number>(
+      'candidateService.cvCleanup.deletedGraceDays',
+      30,
+    );
+    const terminalApplicationRetentionDays = this.configService.get<number>(
+      'candidateService.cvCleanup.terminalApplicationRetentionDays',
+      180,
+    );
+    const batchSize = this.configService.get<number>('candidateService.cvCleanup.batchSize', 50);
+    const deletedBefore = new Date(Date.now() - deletedGraceDays * 24 * 60 * 60 * 1000);
+    const terminalBefore = new Date(
+      Date.now() - terminalApplicationRetentionDays * 24 * 60 * 60 * 1000,
     );
 
-    try {
-      const response = await firstValueFrom(
-        this.httpService.post<ApiEnvelope<ParseRequestResponse>>(
-          `${baseUrl}/api/v1/cv-parsing/parse`,
-          {
-            candidateId,
-            requestedByUserId: user.id,
-            candidateCvId,
-            documentId,
-            documentUrl,
-            context: 'PROFILE_UPDATE',
-          },
-          {
-            timeout,
-            headers: {
-              ...this.buildIdentityHeaders(user),
-              [HEADERS.INTERNAL_SERVICE_TOKEN]: internalServiceToken,
-            },
-          },
-        ),
-      );
-      return response.data.data;
-    } catch (error) {
-      throw this.externalServiceUnavailable('CV parsing trigger failed', error);
-    }
-  }
-
-  private buildIdentityHeaders(user: AuthUser): Record<string, string> {
-    return {
-      [HEADERS.USER_ID]: user.id,
-      [HEADERS.USER_ROLE]: user.role ?? UserRole.CANDIDATE,
-      ...(user.companyId ? { [HEADERS.COMPANY_ID]: user.companyId } : {}),
-    };
-  }
-
-  private externalServiceUnavailable(message: string, error: unknown): ServiceUnavailableException {
-    const detail = error instanceof AxiosError ? error.message : String(error);
-    this.logger.error(`${message}: ${detail}`);
-    return new ServiceUnavailableException({
-      code: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
-      message,
+    const cvs = await this.cvRepo.find({
+      where: {
+        deletedAt: LessThanOrEqual(deletedBefore),
+        documentDeletedAt: IsNull(),
+      },
+      order: { deletedAt: 'ASC' },
+      take: batchSize,
     });
+
+    let purged = 0;
+    for (const cv of cvs) {
+      try {
+        const retention = await this.applicationClientService.getCvDocumentRetention(
+          cv.documentId,
+          terminalBefore,
+        );
+        if (!retention.canDelete) {
+          this.logger.log(
+            `CV document retained candidateCvId=${cv.id} documentId=${cv.documentId} activeApplications=${retention.activeApplicationCount} recentTerminalApplications=${retention.recentTerminalApplicationCount}`,
+          );
+          continue;
+        }
+
+        await this.documentClientService.deleteDocument(cv.documentId);
+        await this.cvRepo.update(cv.id, {
+          documentDeletedAt: new Date(),
+          documentDeleteError: null,
+        });
+        purged += 1;
+      } catch (error) {
+        const message = (error as Error).message;
+        await this.cvRepo.update(cv.id, {
+          documentDeleteError: message.slice(0, 1000),
+        });
+        this.logger.warn(
+          `CV document purge failed candidateCvId=${cv.id} documentId=${cv.documentId}: ${message}`,
+        );
+      }
+    }
+
+    if (purged > 0) {
+      this.logger.log(`CV document cleanup purged=${purged}`);
+    }
+    return purged;
   }
 
   private resolveCvTitle(title: string | undefined, fileName: string): string | null {

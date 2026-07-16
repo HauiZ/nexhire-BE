@@ -13,10 +13,13 @@ import { CandidateCvParseStatus } from './candidate.enum';
 import { CandidateProfile } from './candidate-profile.entity';
 
 @Entity('candidate_cvs')
-@Index('uq_candidate_cvs_candidate_document', ['candidateId', 'documentId'], { unique: true })
+@Index('uq_candidate_cvs_candidate_document', ['candidateId', 'documentId'], {
+  unique: true,
+  where: '"deleted_at" IS NULL',
+})
 @Index('uq_candidate_cvs_candidate_default', ['candidateId'], {
   unique: true,
-  where: '"is_default" = true',
+  where: '"is_default" = true AND "deleted_at" IS NULL',
 })
 export class CandidateCv {
   @PrimaryColumn({
@@ -60,6 +63,15 @@ export class CandidateCv {
 
   @Column({ name: 'parsed_at', type: 'timestamptz', nullable: true })
   parsedAt: Date | null;
+
+  @Column({ name: 'deleted_at', type: 'timestamptz', nullable: true })
+  deletedAt: Date | null;
+
+  @Column({ name: 'document_deleted_at', type: 'timestamptz', nullable: true })
+  documentDeletedAt: Date | null;
+
+  @Column({ name: 'document_delete_error', type: 'text', nullable: true })
+  documentDeleteError: string | null;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;

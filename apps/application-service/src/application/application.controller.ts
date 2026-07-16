@@ -1,10 +1,12 @@
 import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
   ApiSuccessResponse,
   AuthUser,
   CurrentUser,
+  InternalServiceTokenGuard,
   Roles,
   UserRole,
 } from '@nexhire/shared';
@@ -12,6 +14,7 @@ import { ApplicationService } from './application.service';
 import { CreateApplicationDto, WithdrawApplicationDto } from './dto/application-input.dto';
 import { CandidateApplicationQueryDto } from './dto/application-query.dto';
 import { ApplicationCvDownloadDto, ApplicationResponseDto } from './dto/application-response.dto';
+import { CvDocumentRetentionResponseDto } from './dto/cv-document-retention.dto';
 
 @ApiTags('applications')
 @Controller('applications')
@@ -80,5 +83,23 @@ export class ApplicationController {
     @Body() dto: WithdrawApplicationDto,
   ): Promise<ApplicationResponseDto> {
     return this.applicationService.withdrawMine(user, id, dto);
+  }
+}
+
+@ApiTags('internal-applications')
+@Controller('internal/applications')
+@UseGuards(InternalServiceTokenGuard)
+export class ApplicationInternalController {
+  constructor(private readonly applicationService: ApplicationService) {}
+
+  @Get('cv-documents/:documentId/retention')
+  @ApiOperation({ summary: 'Check whether a CV document can be physically deleted' })
+  @ApiSuccessResponse(CvDocumentRetentionResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 500] })
+  getCvDocumentRetention(
+    @Param('documentId', ParseUUIDPipe) documentId: string,
+    @Query('terminalBefore') terminalBefore?: string,
+  ): Promise<CvDocumentRetentionResponseDto> {
+    return this.applicationService.getCvDocumentRetention(documentId, terminalBefore);
   }
 }

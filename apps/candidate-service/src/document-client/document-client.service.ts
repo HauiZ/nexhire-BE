@@ -65,6 +65,36 @@ export class DocumentClientService {
     }
   }
 
+  async deleteDocument(documentId: string): Promise<void> {
+    const baseUrl = this.configService.get<string>(
+      'candidateService.services.documentStorageService',
+    );
+    const timeout = this.configService.get<number>('candidateService.http.timeoutMs', 30000);
+    const internalServiceToken = this.configService.get<string>(
+      'candidateService.internalServiceToken',
+    );
+
+    try {
+      await firstValueFrom(
+        this.httpService.delete(`${baseUrl}/api/v1/internal/documents/${documentId}`, {
+          timeout,
+          headers: {
+            [HEADERS.INTERNAL_SERVICE_TOKEN]: internalServiceToken,
+            [HEADERS.USER_ID]: 'candidate-service',
+            [HEADERS.USER_ROLE]: UserRole.ADMIN,
+          },
+        }),
+      );
+    } catch (error) {
+      const detail = error instanceof AxiosError ? error.message : String(error);
+      this.logger.error(`Document storage delete failed documentId=${documentId}: ${detail}`);
+      throw new ServiceUnavailableException({
+        code: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
+        message: 'Document storage delete failed',
+      });
+    }
+  }
+
   private buildIdentityHeaders(user: AuthUser): Record<string, string> {
     return {
       [HEADERS.USER_ID]: user.id,

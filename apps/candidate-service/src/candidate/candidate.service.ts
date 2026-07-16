@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthUser, ERROR_CODES, ParsedResume } from '@nexhire/shared';
-import { DataSource, EntityManager, Repository } from 'typeorm';
+import { DataSource, EntityManager, IsNull, Repository } from 'typeorm';
 import {
   CandidateCertificationInputDto,
   CandidateEducationInputDto,
@@ -247,7 +247,9 @@ export class CandidateService {
     candidateCvId: string,
     _errorMessage?: string,
   ): Promise<CandidateCvResponseDto> {
-    const cv = await this.cvRepo.findOne({ where: { id: candidateCvId, candidateId } });
+    const cv = await this.cvRepo.findOne({
+      where: { id: candidateCvId, candidateId, deletedAt: IsNull() },
+    });
     if (!cv) {
       throw new BadRequestException({
         code: ERROR_CODES.COMMON.NOT_FOUND,
@@ -271,7 +273,9 @@ export class CandidateService {
     candidateCvId: string,
   ): Promise<CandidateApplicationSnapshotDto> {
     const profile = await this.ensureProfile(userId);
-    const cv = await this.cvRepo.findOne({ where: { id: candidateCvId, candidateId: profile.id } });
+    const cv = await this.cvRepo.findOne({
+      where: { id: candidateCvId, candidateId: profile.id, deletedAt: IsNull() },
+    });
     if (!cv) {
       throw new BadRequestException({
         code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
@@ -343,7 +347,7 @@ export class CandidateService {
         order: { createdAt: 'ASC' },
       }),
       this.cvRepo.find({
-        where: { candidateId: profile.id },
+        where: { candidateId: profile.id, deletedAt: IsNull() },
         order: { isDefault: 'DESC', createdAt: 'DESC' },
       }),
     ]);

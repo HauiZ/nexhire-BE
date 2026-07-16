@@ -379,6 +379,7 @@ Notes:
 - Parsing runs in the cv-parsing service background flow after the request is queued.
 - If the parse trigger fails, the CV record is still created with `parseStatus = FAILED`.
 - Profile update from parsed data is applied by the parsing flow once normalized `ParsedResume` is available.
+- Deleted CV records are excluded when deciding the first/default CV.
 
 Errors:
 
@@ -389,6 +390,56 @@ Errors:
 | 403    | forbidden        | User role is not allowed       |
 | 409    | conflict         | Duplicate CV document conflict |
 | 503    | AI/service error | Downstream service unavailable |
+
+### `DELETE /api/v1/cvs/:id`
+
+Summary: Remove a saved CV from the candidate CV Library.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "deleted": true
+  }
+}
+```
+
+Notes:
+
+- This is a soft delete on `candidate_cvs.deleted_at`.
+- The document-storage file is not physically deleted by this API.
+- Deleted CVs are hidden from `GET /api/v1/candidates/me` aggregate response.
+- Deleted CVs cannot be used for a new application snapshot.
+- Existing applications keep their CV snapshot/history unchanged.
+- If the deleted CV was default, candidate-service promotes the newest remaining active CV to default.
+- Physical document cleanup is asynchronous and only starts from soft-deleted CVs.
+- Default cleanup waits `CV_DOCUMENT_CLEANUP_DELETED_GRACE_DAYS=30` after candidate deletion.
+- Candidate-service then asks application-service whether the CV document is still referenced by active or recently terminal applications.
+- If there are no active applications and all `WITHDRAWN`/`REJECTED`/`CANCELLED` applications are older than `CV_DOCUMENT_CLEANUP_TERMINAL_APPLICATION_RETENTION_DAYS=180`, candidate-service calls document-storage-service to remove the MinIO object and soft-delete document metadata.
+
+CV cleanup env:
+
+| Env                                                       | Default   | Note                                                                      |
+| --------------------------------------------------------- | --------- | ------------------------------------------------------------------------- |
+| `CV_DOCUMENT_CLEANUP_SWEEP_INTERVAL_MS`                   | `3600000` | Scheduler interval; minimum 60s                                           |
+| `CV_DOCUMENT_CLEANUP_DELETED_GRACE_DAYS`                  | `30`      | Minimum age of `candidate_cvs.deleted_at` before physical cleanup can run |
+| `CV_DOCUMENT_CLEANUP_TERMINAL_APPLICATION_RETENTION_DAYS` | `180`     | Retention window for `WITHDRAWN`/`REJECTED`/`CANCELLED` applications      |
+| `CV_DOCUMENT_CLEANUP_BATCH_SIZE`                          | `50`      | Max soft-deleted CV documents checked per sweep                           |
+
+Errors:
+
+| Status | Code                       | Meaning                                      |
+| ------ | -------------------------- | -------------------------------------------- |
+| 401    | unauthorized               | Missing/invalid access token                 |
+| 403    | forbidden                  | User role is not allowed                     |
+| 404    | `APPLICATION.CV_NOT_FOUND` | CV does not exist, was deleted, or not owned |
 
 ### `GET /api/v1/saved-jobs`
 
@@ -494,9 +545,9 @@ Auth:
 
 Query:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `jobIds` | string | Yes | Comma-separated UUIDs, max 100 ids |
+| Field    | Type   | Required | Note                               |
+| -------- | ------ | -------- | ---------------------------------- |
+| `jobIds` | string | Yes      | Comma-separated UUIDs, max 100 ids |
 
 Example:
 
@@ -545,12 +596,14 @@ Success response:
 
 Candidate-service depends on these internal contracts:
 
-| Caller flow | Target service | Endpoint | Purpose |
-| ----------- | -------------- | -------- | ------- |
-| Profile email fallback | auth-service | `GET /api/v1/internal/auth/users/:id/contact-snapshot` | Use login email when `profile.contactEmail` is empty |
-| Avatar/CV upload | document-storage-service | `POST /api/v1/documents/upload` | Store candidate avatar/CV documents |
-| Application creation | candidate-service internal | `GET /api/v1/internal/candidates/users/:userId/cvs/:candidateCvId/application-snapshot` | Provide candidate/contact/CV snapshot to application-service |
-| Saved job creation | job-service | `GET /api/v1/internal/jobs/:id/saved-snapshot` | Validate job is public and store job card snapshot |
+| Caller flow            | Target service             | Endpoint                                                                                | Purpose                                                               |
+| ---------------------- | -------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Profile email fallback | auth-service               | `GET /api/v1/internal/auth/users/:id/contact-snapshot`                                  | Use login email when `profile.contactEmail` is empty                  |
+| Avatar/CV upload       | document-storage-service   | `POST /api/v1/documents/upload`                                                         | Store candidate avatar/CV documents                                   |
+| Deleted CV cleanup     | application-service        | `GET /api/v1/internal/applications/cv-documents/:documentId/retention`                  | Check whether application retention allows physical document deletion |
+| Deleted CV cleanup     | document-storage-service   | `DELETE /api/v1/internal/documents/:id`                                                 | Remove MinIO object and soft-delete document metadata                 |
+| Application creation   | candidate-service internal | `GET /api/v1/internal/candidates/users/:userId/cvs/:candidateCvId/application-snapshot` | Provide candidate/contact/CV snapshot to application-service          |
+| Saved job creation     | job-service                | `GET /api/v1/internal/jobs/:id/saved-snapshot`                                          | Validate job is public and store job card snapshot                    |
 
 Internal caller requirements:
 
@@ -600,11 +653,11 @@ Notes:
 
 Errors:
 
-| Status | Meaning |
-| ------ | ------- |
-| 401 | Missing/invalid internal service token |
-| 403 | Internal caller is not allowed |
-| 404 | Candidate profile or CV not found |
+| Status | Meaning                                |
+| ------ | -------------------------------------- |
+| 401    | Missing/invalid internal service token |
+| 403    | Internal caller is not allowed         |
+| 404    | Candidate profile or CV not found      |
 
 ### `POST /api/v1/internal/candidates/:candidateId/apply-parsed-resume`
 

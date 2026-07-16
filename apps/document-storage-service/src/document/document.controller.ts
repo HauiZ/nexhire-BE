@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   Param,
   ParseUUIDPipe,
   Post,
@@ -14,6 +16,7 @@ import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiErrorResponses, ApiSuccessResponse, InternalServiceTokenGuard } from '@nexhire/shared';
 import { DocumentService } from './document.service';
 import { DocumentDownloadResponseDto } from './dto/document-download-response.dto';
+import { DeleteDocumentResponseDto } from './dto/delete-document-response.dto';
 import { UploadDocumentDto } from './dto/upload-document.dto';
 import { UploadDocumentResponseDto } from './dto/upload-document-response.dto';
 import { DocumentOwnerType, DocumentType } from './entities/document.enum';
@@ -86,5 +89,16 @@ export class DocumentInternalController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<DocumentDownloadResponseDto> {
     return this.documentService.createDownloadUrl(id);
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Physically remove a document object and soft-delete metadata' })
+  @ApiSuccessResponse(DeleteDocumentResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  deleteInternalDocument(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<DeleteDocumentResponseDto> {
+    return this.documentService.deleteDocument(id);
   }
 }

@@ -6,6 +6,7 @@ import { Application } from '../entities/application.entity';
 import { ApplicationEventPublisher } from '../events/application-event.publisher';
 
 type MockRepo = {
+  count: jest.Mock;
   find: jest.Mock;
   findOne: jest.Mock;
   save: jest.Mock;
@@ -69,6 +70,7 @@ describe('ApplicationService', () => {
 
   beforeEach(() => {
     repo = {
+      count: jest.fn(),
       find: jest.fn(),
       findOne: jest.fn(),
       save: jest.fn((payload: Application) => Promise.resolve({ ...payload, id: application.id })),
@@ -149,6 +151,53 @@ describe('ApplicationService', () => {
       }),
     );
     expect(result.status).toBe(ApplicationStage.SUBMITTED);
+  });
+
+  it('allows CV document purge when there are no active or recent terminal applications', async () => {
+    repo.count.mockResolvedValueOnce(0);
+    const qb = {
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      getCount: jest.fn().mockResolvedValue(0),
+    };
+    repo.createQueryBuilder.mockReturnValue(qb);
+    repo.findOne.mockResolvedValue({
+      ...application,
+      status: ApplicationStage.REJECTED,
+    } as Application);
+
+    const result = await service.getCvDocumentRetention(
+      application.cvDocumentId,
+      '2026-01-01T00:00:00.000Z',
+    );
+
+    expect(result).toEqual({
+      documentId: application.cvDocumentId,
+      canDelete: true,
+      activeApplicationCount: 0,
+      recentTerminalApplicationCount: 0,
+      blockingStatus: null,
+    });
+  });
+
+  it('blocks CV document purge when active applications still use the document', async () => {
+    repo.count.mockResolvedValueOnce(1);
+    const qb = {
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      getCount: jest.fn().mockResolvedValue(0),
+    };
+    repo.createQueryBuilder.mockReturnValue(qb);
+    repo.findOne.mockResolvedValue(application);
+
+    const result = await service.getCvDocumentRetention(
+      application.cvDocumentId,
+      '2026-01-01T00:00:00.000Z',
+    );
+
+    expect(result.canDelete).toBe(false);
+    expect(result.activeApplicationCount).toBe(1);
+    expect(result.blockingStatus).toBe(ApplicationStage.SUBMITTED);
   });
 
   it('blocks duplicate active applications', async () => {

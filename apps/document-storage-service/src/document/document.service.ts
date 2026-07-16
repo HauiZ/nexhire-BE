@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UploadDocumentDto } from './dto/upload-document.dto';
 import { DocumentDownloadResponseDto } from './dto/document-download-response.dto';
+import { DeleteDocumentResponseDto } from './dto/delete-document-response.dto';
 import { UploadDocumentResponseDto } from './dto/upload-document-response.dto';
 import { DocumentType } from './entities/document.enum';
 import { Document } from './entities/document.entity';
@@ -92,6 +93,26 @@ export class DocumentService {
     };
   }
 
+  async deleteDocument(id: string): Promise<DeleteDocumentResponseDto> {
+    const document = await this.documentRepo.findOne({ where: { id }, withDeleted: true });
+    if (!document) {
+      this.logger.warn(`Delete rejected: document not found id=${id}`);
+      throw new NotFoundException({
+        code: ERROR_CODES.COMMON.NOT_FOUND,
+        message: 'Document not found',
+      });
+    }
+
+    if (document.deletedAt) {
+      return { deleted: true };
+    }
+
+    await this.storageService.remove(document.key);
+    await this.documentRepo.softDelete(id);
+    this.logger.log(`Document physically removed id=${id} key=${document.key}`);
+    return { deleted: true };
+  }
+
   private async saveMetadataOrRemoveObject(
     dto: UploadDocumentDto,
     file: UploadedDocumentFile,
@@ -126,7 +147,9 @@ export class DocumentService {
     try {
       return await this.storageService.presignedGetUrl(key, this.downloadUrlTtlSeconds);
     } catch (error) {
-      this.logger.error(`Failed to create upload response URL key=${key}: ${(error as Error).message}`);
+      this.logger.error(
+        `Failed to create upload response URL key=${key}: ${(error as Error).message}`,
+      );
       await this.storageService.remove(key).catch((removeError) => {
         this.logger.error(
           `Failed to cleanup object after URL creation failure key=${key}: ${(removeError as Error).message}`,

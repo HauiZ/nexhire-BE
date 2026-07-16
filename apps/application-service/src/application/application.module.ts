@@ -2,7 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApplicationInternalClientService } from './application-internal-client.service';
-import { ApplicationController } from './application.controller';
+import { ApplicationController, ApplicationInternalController } from './application.controller';
 import { ApplicationService } from './application.service';
 import { Application } from './entities/application.entity';
 import { JobLifecycleEventsConsumer } from './events/consumers/job-lifecycle-events.consumer';
@@ -11,7 +11,11 @@ import { RecruiterApplicationController } from './recruiter-application.controll
 
 @Module({
   imports: [HttpModule, TypeOrmModule.forFeature([Application])],
-  controllers: [ApplicationController, RecruiterApplicationController],
+  controllers: [
+    ApplicationController,
+    ApplicationInternalController,
+    RecruiterApplicationController,
+  ],
   providers: [
     ApplicationService,
     ApplicationInternalClientService,

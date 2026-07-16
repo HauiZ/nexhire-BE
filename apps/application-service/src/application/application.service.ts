@@ -20,6 +20,7 @@ import {
   RecruiterApplicationQueryDto,
 } from './dto/application-query.dto';
 import { ApplicationCvDownloadDto, ApplicationResponseDto } from './dto/application-response.dto';
+import { CvDocumentRetentionResponseDto } from './dto/cv-document-retention.dto';
 import { Application } from './entities/application.entity';
 import { ApplicationEventPublisher } from './events/application-event.publisher';
 
@@ -264,7 +265,9 @@ export class ApplicationService {
 
   async handleJobUnpublished(payload: JobLifecyclePayload): Promise<void> {
     // Existing applications remain actionable for recruiters.
-    this.logger.log(`Job unpublished event received jobId=${payload.jobId}; applications unchanged`);
+    this.logger.log(
+      `Job unpublished event received jobId=${payload.jobId}; applications unchanged`,
+    );
   }
 
   async handleJobClosed(payload: JobLifecyclePayload): Promise<void> {
@@ -299,6 +302,55 @@ export class ApplicationService {
     this.logger.log(
       `Candidate application snapshot synced candidateUserId=${payload.candidateUserId} affected=${result?.affected ?? 0}`,
     );
+  }
+
+  async getCvDocumentRetention(
+    documentId: string,
+    terminalBefore?: string,
+  ): Promise<CvDocumentRetentionResponseDto> {
+    const terminalCutoff = terminalBefore ? new Date(terminalBefore) : new Date();
+    const terminalStatuses = [
+      ApplicationStage.REJECTED,
+      ApplicationStage.WITHDRAWN,
+      ApplicationStage.CANCELLED,
+    ];
+
+    const [activeApplicationCount, recentTerminalApplicationCount, blockingApplication] =
+      await Promise.all([
+        this.applicationRepo.count({
+          where: {
+            cvDocumentId: documentId,
+            status: In(this.activeStatuses),
+          },
+        }),
+        this.applicationRepo
+          .createQueryBuilder('application')
+          .where('application.cvDocumentId = :documentId', { documentId })
+          .andWhere('application.status IN (:...terminalStatuses)', { terminalStatuses })
+          .andWhere(
+            'COALESCE(application.decidedAt, application.withdrawnAt, application.cancelledAt, application.updatedAt) >= :terminalCutoff',
+            { terminalCutoff },
+          )
+          .getCount(),
+        this.applicationRepo.findOne({
+          where: [
+            { cvDocumentId: documentId, status: In(this.activeStatuses) },
+            { cvDocumentId: documentId, status: In(terminalStatuses) },
+          ],
+          order: { updatedAt: 'DESC' },
+        }),
+      ]);
+
+    return {
+      documentId,
+      canDelete: activeApplicationCount === 0 && recentTerminalApplicationCount === 0,
+      activeApplicationCount,
+      recentTerminalApplicationCount,
+      blockingStatus:
+        activeApplicationCount > 0 || recentTerminalApplicationCount > 0
+          ? (blockingApplication?.status ?? null)
+          : null,
+    };
   }
 
   private async getCvDownload(application: Application): Promise<ApplicationCvDownloadDto> {

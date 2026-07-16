@@ -24,12 +24,12 @@ Responsibility: job application submission, candidate application history, recru
 
 ## Statuses
 
-| Status | Meaning |
-| ------ | ------- |
-| `SUBMITTED` | Candidate submitted the application and recruiter has not decided yet |
-| `OFFERED` | Recruiter accepted the application for the next step/interview |
-| `REJECTED` | Recruiter rejected the application |
-| `WITHDRAWN` | Candidate withdrew the application |
+| Status      | Meaning                                                                  |
+| ----------- | ------------------------------------------------------------------------ |
+| `SUBMITTED` | Candidate submitted the application and recruiter has not decided yet    |
+| `OFFERED`   | Recruiter accepted the application for the next step/interview           |
+| `REJECTED`  | Recruiter rejected the application                                       |
+| `WITHDRAWN` | Candidate withdrew the application                                       |
 | `CANCELLED` | Backend cancelled the active application, for example when job is closed |
 
 ## Response object
@@ -84,11 +84,11 @@ Auth:
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `jobId` | uuid | Yes | Published and applyable job id |
-| `candidateCvId` | uuid | Yes | CV id from candidate-service `candidate_cvs` |
-| `coverLetter` | string | No | Max 5000 chars |
+| Field           | Type   | Required | Note                                         |
+| --------------- | ------ | -------- | -------------------------------------------- |
+| `jobId`         | uuid   | Yes      | Published and applyable job id               |
+| `candidateCvId` | uuid   | Yes      | CV id from candidate-service `candidate_cvs` |
+| `coverLetter`   | string | No       | Max 5000 chars                               |
 
 ```json
 {
@@ -102,14 +102,14 @@ Success response: application response object, status `201`.
 
 Errors:
 
-| Status | Meaning |
-| ------ | ------- |
-| 400 | Job is not applyable or request is invalid |
-| 401 | Missing/invalid access token |
-| 403 | User role is not allowed |
-| 404 | Job or candidate CV not found |
-| 409 | Candidate already has an active application for this job |
-| 503 | Upstream job/candidate/document service unavailable |
+| Status | Meaning                                                  |
+| ------ | -------------------------------------------------------- |
+| 400    | Job is not applyable or request is invalid               |
+| 401    | Missing/invalid access token                             |
+| 403    | User role is not allowed                                 |
+| 404    | Job or candidate CV not found                            |
+| 409    | Candidate already has an active application for this job |
+| 503    | Upstream job/candidate/document service unavailable      |
 
 ### `GET /api/v1/applications/me`
 
@@ -122,11 +122,11 @@ Auth:
 
 Query:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `page` | number | No | Default pagination behavior |
-| `limit` | number | No | Default pagination behavior |
-| `status` | enum | No | `SUBMITTED`, `OFFERED`, `REJECTED`, `WITHDRAWN`, `CANCELLED` |
+| Field    | Type   | Required | Note                                                         |
+| -------- | ------ | -------- | ------------------------------------------------------------ |
+| `page`   | number | No       | Default pagination behavior                                  |
+| `limit`  | number | No       | Default pagination behavior                                  |
+| `status` | enum   | No       | `SUBMITTED`, `OFFERED`, `REJECTED`, `WITHDRAWN`, `CANCELLED` |
 
 Success response: paginated array of application response objects.
 
@@ -181,9 +181,9 @@ Auth:
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `note` | string | No | Max 2000 chars |
+| Field  | Type   | Required | Note           |
+| ------ | ------ | -------- | -------------- |
+| `note` | string | No       | Max 2000 chars |
 
 ```json
 {
@@ -195,13 +195,13 @@ Success response: application response object with `status = WITHDRAWN`.
 
 Errors:
 
-| Status | Meaning |
-| ------ | ------- |
-| 400 | Request body invalid |
-| 401 | Missing/invalid access token |
-| 403 | User role is not allowed |
-| 404 | Application not found |
-| 409 | Application cannot be withdrawn from its current status |
+| Status | Meaning                                                 |
+| ------ | ------------------------------------------------------- |
+| 400    | Request body invalid                                    |
+| 401    | Missing/invalid access token                            |
+| 403    | User role is not allowed                                |
+| 404    | Application not found                                   |
+| 409    | Application cannot be withdrawn from its current status |
 
 ## Recruiter endpoints
 
@@ -217,13 +217,13 @@ Auth:
 
 Query:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `page` | number | No | Default pagination behavior |
-| `limit` | number | No | Default pagination behavior |
-| `jobId` | uuid | No | Filter by one job |
-| `status` | enum | No | Application status |
-| `search` | string | No | Searches candidate name/email/job title snapshot |
+| Field    | Type   | Required | Note                                             |
+| -------- | ------ | -------- | ------------------------------------------------ |
+| `page`   | number | No       | Default pagination behavior                      |
+| `limit`  | number | No       | Default pagination behavior                      |
+| `jobId`  | uuid   | No       | Filter by one job                                |
+| `status` | enum   | No       | Application status                               |
+| `search` | string | No       | Searches candidate name/email/job title snapshot |
 
 Success response: paginated array of application response objects.
 
@@ -253,6 +253,47 @@ Success response: same shape as candidate CV download response.
 
 Errors: `401`, `403`, `404`, `503`.
 
+## Internal endpoints
+
+### `GET /api/v1/internal/applications/cv-documents/:documentId/retention`
+
+Internal only.
+
+Summary: Tell candidate-service whether a CV document can be physically deleted from document-storage/MinIO.
+
+Auth:
+
+- Required
+- Internal service token header: `x-internal-service-token`
+
+Query params:
+
+| Field            | Type          | Required | Note                                                          |
+| ---------------- | ------------- | -------- | ------------------------------------------------------------- |
+| `terminalBefore` | ISO date-time | No       | Terminal applications older than this are no longer blockers. |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "documentId": "7bb46232-eb8d-40c8-ae0f-249776d0b650",
+    "canDelete": true,
+    "activeApplicationCount": 0,
+    "recentTerminalApplicationCount": 0,
+    "blockingStatus": null
+  }
+}
+```
+
+Retention rules:
+
+- `SUBMITTED` and `OFFERED` are active blockers.
+- `WITHDRAWN`, `REJECTED`, and `CANCELLED` block cleanup until their terminal timestamp is older than `terminalBefore`.
+- Candidate-service only calls this after the candidate has already soft-deleted the CV.
+- Existing application snapshots remain queryable until document-storage physically removes the CV document after retention.
+
 ### `PATCH /api/v1/recruiter/applications/:id/status`
 
 Summary: Mark an application as offered or rejected.
@@ -264,10 +305,10 @@ Auth:
 
 Request body:
 
-| Field | Type | Required | Note |
-| ----- | ---- | -------- | ---- |
-| `status` | enum | Yes | `OFFERED` or `REJECTED` |
-| `note` | string | No | Max 2000 chars |
+| Field    | Type   | Required | Note                    |
+| -------- | ------ | -------- | ----------------------- |
+| `status` | enum   | Yes      | `OFFERED` or `REJECTED` |
+| `note`   | string | No       | Max 2000 chars          |
 
 ```json
 {
@@ -280,27 +321,27 @@ Success response: application response object with updated status.
 
 Errors:
 
-| Status | Meaning |
-| ------ | ------- |
-| 400 | Request body invalid |
-| 401 | Missing/invalid access token |
-| 403 | User role is not allowed |
-| 404 | Application not found |
-| 409 | Application cannot move to requested status |
+| Status | Meaning                                     |
+| ------ | ------------------------------------------- |
+| 400    | Request body invalid                        |
+| 401    | Missing/invalid access token                |
+| 403    | User role is not allowed                    |
+| 404    | Application not found                       |
+| 409    | Application cannot move to requested status |
 
 ## Events
 
 Application-service publishes:
 
-| Routing key | When |
-| ----------- | ---- |
-| `application.submitted` | After a successful application submit |
+| Routing key                 | When                                           |
+| --------------------------- | ---------------------------------------------- |
+| `application.submitted`     | After a successful application submit          |
 | `application.stage-changed` | After withdraw, offer, reject, or cancellation |
 
 Application-service consumes:
 
-| Routing key | Behavior |
-| ----------- | -------- |
-| `job.unpublished` | No-op for existing applications; recruiters may still process them |
-| `job.closed` | Active `SUBMITTED`/`OFFERED` applications are moved to `CANCELLED` |
+| Routing key                          | Behavior                                                                    |
+| ------------------------------------ | --------------------------------------------------------------------------- |
+| `job.unpublished`                    | No-op for existing applications; recruiters may still process them          |
+| `job.closed`                         | Active `SUBMITTED`/`OFFERED` applications are moved to `CANCELLED`          |
 | `candidate.profile-snapshot-changed` | Updates candidate name/email/phone/avatar snapshot on existing applications |

@@ -518,7 +518,7 @@ describe('CandidateService', () => {
     const result = await service.getApplicationSnapshot('user-1', 'cv-1');
 
     expect(cvRepo.findOne).toHaveBeenCalledWith({
-      where: { id: 'cv-1', candidateId: 'candidate-1' },
+      where: { id: 'cv-1', candidateId: 'candidate-1', deletedAt: expect.any(Object) },
     });
     expect(result).toEqual(
       expect.objectContaining({

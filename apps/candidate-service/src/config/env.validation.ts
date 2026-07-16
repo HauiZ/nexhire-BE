@@ -22,6 +22,11 @@ export const validationSchema = Joi.object({
   AUTH_SERVICE_URL: Joi.string().uri().default('http://localhost:3001'),
   DOCUMENT_STORAGE_SERVICE_URL: Joi.string().uri().default('http://localhost:3009'),
   CV_PARSING_SERVICE_URL: Joi.string().uri().default('http://localhost:3006'),
+  APPLICATION_SERVICE_URL: Joi.string().uri().default('http://localhost:3005'),
   JOB_SERVICE_URL: Joi.string().uri().default('http://localhost:3004'),
   CANDIDATE_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(30000),
+  CV_DOCUMENT_CLEANUP_SWEEP_INTERVAL_MS: Joi.number().min(60000).default(3600000),
+  CV_DOCUMENT_CLEANUP_DELETED_GRACE_DAYS: Joi.number().min(1).default(30),
+  CV_DOCUMENT_CLEANUP_TERMINAL_APPLICATION_RETENTION_DAYS: Joi.number().min(1).default(180),
+  CV_DOCUMENT_CLEANUP_BATCH_SIZE: Joi.number().min(1).max(500).default(50),
 });
