@@ -29,6 +29,8 @@ if (!existsSync(absoluteScriptPath)) {
 }
 
 const extension = path.extname(absoluteScriptPath).toLowerCase();
+const scriptFileName = path.basename(absoluteScriptPath);
+const runId = process.env.TEST_FLOW_RUN_ID ?? String(Date.now());
 let command;
 let args;
 
@@ -50,5 +52,74 @@ switch (extension) {
     process.exit(1);
 }
 
-const result = spawnSync(command, args, { stdio: 'inherit' });
-process.exit(result.status ?? 1);
+const childEnv = {
+  ...process.env,
+  TEST_FLOW_RUN_ID: runId,
+};
+
+const result = spawnSync(command, args, { stdio: 'inherit', env: childEnv });
+
+function cleanupDisabledByEnv() {
+  if (process.env.TEST_FLOW_CLEANUP_AFTER_RUN === 'false') {
+    return true;
+  }
+
+  if (process.env.TEST_FLOW_KEEP_DATA === 'true') {
+    return true;
+  }
+
+  const keepDataEnvByScript = new Map([
+    ['test-application-api.ts', 'APPLICATION_TEST_KEEP_DATA'],
+    ['test-auth-api.ts', 'AUTH_TEST_KEEP_DATA'],
+    ['test-candidate-api.ts', 'CANDIDATE_TEST_KEEP_DATA'],
+    ['test-company-job-moderation-api.ts', 'COMPANY_JOB_FLOW_KEEP_DATA'],
+    ['test-document-storage-api.ts', 'DOCUMENT_STORAGE_TEST_KEEP_DATA'],
+  ]);
+  const keepDataEnv = keepDataEnvByScript.get(scriptFileName);
+
+  return keepDataEnv ? process.env[keepDataEnv] === 'true' : false;
+}
+
+function shouldRunCleanupAfterFlow() {
+  if (cleanupDisabledByEnv()) {
+    return false;
+  }
+
+  if (!scriptFileName.startsWith('test-')) {
+    return false;
+  }
+
+  return !new Set(['test-cleanup-data.ts', 'test-project-preflight.ts']).has(scriptFileName);
+}
+
+let exitCode = result.status ?? 1;
+
+if (shouldRunCleanupAfterFlow()) {
+  const cleanupScript = path.join(testFlowsRoot, 'test-cleanup-data.ts');
+  if (existsSync(cleanupScript)) {
+    console.log('');
+    console.log('Running post-flow DB cleanup for generated test data...');
+    const cleanupResult = spawnSync(
+      process.execPath,
+      ['-r', 'ts-node/register', cleanupScript],
+      {
+        stdio: 'inherit',
+        env: {
+          ...childEnv,
+          TEST_FLOW_CLEANUP_APPLY: 'true',
+          TEST_FLOW_CLEANUP_RUN_ID: runId,
+        },
+      },
+    );
+
+    const cleanupExitCode = cleanupResult.status ?? 1;
+    if (cleanupExitCode !== 0) {
+      console.error(`Post-flow cleanup failed with exit code ${cleanupExitCode}.`);
+      if (exitCode === 0) {
+        exitCode = cleanupExitCode;
+      }
+    }
+  }
+}
+
+process.exit(exitCode);

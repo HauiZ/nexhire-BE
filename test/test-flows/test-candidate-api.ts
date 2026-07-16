@@ -6,10 +6,12 @@ const INTERNAL_BASE_URL =
   process.env.CANDIDATE_INTERNAL_TEST_BASE_URL ?? 'http://localhost:3002/api/v1';
 const INTERNAL_SERVICE_TOKEN =
   process.env.CANDIDATE_INTERNAL_TEST_TOKEN ?? process.env.INTERNAL_SERVICE_TOKEN;
-const TEST_EMAIL = `candidate-test-${Date.now()}@nexhire.local`;
+const FLOW_RUN_ID = process.env.TEST_FLOW_RUN_ID ?? String(Date.now());
+const TEST_EMAIL = `candidate-test-${FLOW_RUN_ID}@nexhire.local`;
 const TEST_PASSWORD = 'StrongPassword123!';
 const USER_ROLE = 'CANDIDATE';
 const TEST_JOB_ID = process.env.CANDIDATE_TEST_JOB_ID;
+const KEEP_DATA = process.env.CANDIDATE_TEST_KEEP_DATA === 'true';
 let userId = process.env.CANDIDATE_TEST_USER_ID ?? randomUUID();
 let accessToken = process.env.CANDIDATE_TEST_TOKEN;
 
@@ -35,6 +37,7 @@ interface CandidateProfileResponse {
     location: string | null;
     portfolioUrl: string | null;
     linkedinUrl: string | null;
+    avatarDocumentId: string | null;
   };
   skills: { name: string }[];
   experiences: { companyName: string; isCurrent: boolean }[];
@@ -97,6 +100,8 @@ interface AuthResponse {
 
 let passed = 0;
 let failed = 0;
+let savedJobCreated = false;
+const uploadedDocumentIds: string[] = [];
 
 function log(message: string, color: keyof typeof colors = 'reset'): void {
   console.log(`${colors[color]}${message}${colors.reset}`);
@@ -292,7 +297,7 @@ async function updateProfile(): Promise<CandidateProfileResponse | null> {
     profile: {
       fullName: 'Nguyen Minh Khoa',
       phone: '0912345678',
-      contactEmail: 'khoa.nguyen@example.com',
+      contactEmail: `candidate-flow-${FLOW_RUN_ID}@nexhire.local`,
       headline: 'Senior Frontend Engineer',
       summary: 'Builds performant web products.',
       location: 'Ha Noi, Viet Nam',
@@ -385,7 +390,7 @@ async function uploadAvatar(): Promise<void> {
   logSection('5. Upload avatar');
 
   const form = new FormData();
-  form.append('file', createPngBlob(), 'candidate-avatar.png');
+  form.append('file', createPngBlob(), `candidate-avatar-${FLOW_RUN_ID}.png`);
 
   const response = await patchUpload<CandidateProfileResponse>('/candidates/me/avatar', form);
   if (!expectStatus(response.status, 200, 'upload avatar', response.raw)) {
@@ -393,6 +398,10 @@ async function uploadAvatar(): Promise<void> {
   }
 
   if (response.data.profile?.userId === userId) {
+    const avatarDocumentId = response.data.profile.avatarDocumentId;
+    if (avatarDocumentId) {
+      uploadedDocumentIds.push(avatarDocumentId);
+    }
     pass('avatar upload returns profile aggregate');
     return;
   }
@@ -404,8 +413,8 @@ async function uploadCv(): Promise<CandidateCvResponse | null> {
   logSection('6. Upload CV');
 
   const form = new FormData();
-  form.append('file', createPdfBlob(), 'candidate-flow-cv.pdf');
-  form.append('title', 'Candidate Flow CV');
+  form.append('file', createPdfBlob(), `candidate-flow-cv-${FLOW_RUN_ID}.pdf`);
+  form.append('title', `Candidate Flow CV ${FLOW_RUN_ID}`);
   form.append('isDefault', 'true');
 
   const response = await upload<CandidateCvResponse>('/cvs/upload', form);
@@ -414,6 +423,7 @@ async function uploadCv(): Promise<CandidateCvResponse | null> {
   }
 
   if (response.data.id && response.data.documentId && response.data.isDefault) {
+    uploadedDocumentIds.push(response.data.documentId);
     pass('CV upload returns candidate CV metadata');
     log(`Candidate CV ID: ${response.data.id}`, 'dim');
     return response.data;
@@ -492,6 +502,7 @@ async function verifySavedJobFlow(): Promise<void> {
     return;
   }
   if (saveResponse.data.jobId === TEST_JOB_ID && saveResponse.data.id) {
+    savedJobCreated = true;
     pass('saved job response shape is valid');
   } else {
     fail('saved job response shape is invalid', saveResponse.raw);
@@ -521,6 +532,7 @@ async function verifySavedJobFlow(): Promise<void> {
     expectStatus(deleteResponse.status, 200, 'unsave job', deleteResponse.raw) &&
     deleteResponse.data.deleted
   ) {
+    savedJobCreated = false;
     pass('unsave returns deleted true');
   }
 
@@ -536,23 +548,55 @@ async function verifySavedJobFlow(): Promise<void> {
   }
 }
 
+async function cleanup(): Promise<void> {
+  if (KEEP_DATA) {
+    log('Cleanup skipped because CANDIDATE_TEST_KEEP_DATA=true', 'yellow');
+    return;
+  }
+  logSection('Cleanup');
+  if (TEST_JOB_ID && savedJobCreated) {
+    try {
+      const response = await request<{ deleted: true }>('DELETE', `/saved-jobs/${TEST_JOB_ID}`);
+      if (response.status === 200) {
+        pass('cleanup unsaved job');
+      } else {
+        log('cleanup could not unsave job', 'yellow');
+      }
+    } catch (error) {
+      log(`cleanup saved job failed: ${(error as Error).message}`, 'yellow');
+    }
+  }
+  if (uploadedDocumentIds.length > 0) {
+    log(
+      `Uploaded document cleanup skipped: no public document delete API yet (${uploadedDocumentIds.length} documents).`,
+      'yellow',
+    );
+  }
+  log('Candidate profile cleanup skipped: no candidate test delete/reset API yet.', 'yellow');
+}
+
 async function main(): Promise<void> {
   log('CANDIDATE PROFILE API LIVE TEST', 'cyan');
   log(`Base URL: ${BASE_URL}`, 'yellow');
   log(`User ID: ${userId}`, 'yellow');
+  log(`Cleanup: ${KEEP_DATA ? 'disabled' : 'enabled'}`, 'yellow');
 
-  await ensureGatewayIdentity();
-  await getProfile('1. Get or lazy-create profile');
-  await updateProfile();
-  await clearSkills();
-  await rejectDuplicateSkill();
-  await uploadAvatar();
-  const candidateCv = await uploadCv();
-  if (candidateCv) {
-    await verifyCvInProfile(candidateCv.id);
-    await verifyApplicationSnapshot(candidateCv);
+  try {
+    await ensureGatewayIdentity();
+    await getProfile('1. Get or lazy-create profile');
+    await updateProfile();
+    await clearSkills();
+    await rejectDuplicateSkill();
+    await uploadAvatar();
+    const candidateCv = await uploadCv();
+    if (candidateCv) {
+      await verifyCvInProfile(candidateCv.id);
+      await verifyApplicationSnapshot(candidateCv);
+    }
+    await verifySavedJobFlow();
+  } finally {
+    await cleanup();
   }
-  await verifySavedJobFlow();
 
   logSection('Result');
   log(`Passed: ${passed}`, 'green');

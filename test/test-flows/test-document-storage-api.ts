@@ -3,10 +3,13 @@ import { randomUUID } from 'crypto';
 
 const BASE_URL = process.env.DOCUMENT_STORAGE_TEST_BASE_URL ?? 'http://localhost:3000/api/v1';
 const OWNER_ID = process.env.DOCUMENT_STORAGE_TEST_OWNER_ID ?? randomUUID();
-const TEST_EMAIL = `document-test-${Date.now()}@nexhire.local`;
+const FLOW_RUN_ID = process.env.TEST_FLOW_RUN_ID ?? String(Date.now());
+const TEST_EMAIL = `document-test-${FLOW_RUN_ID}@nexhire.local`;
 const TEST_PASSWORD = 'StrongPassword123!';
+const DOCUMENT_FLOW_FILE_NAME = `document-flow-cv-${FLOW_RUN_ID}.pdf`;
 const USER_ID = process.env.DOCUMENT_STORAGE_TEST_USER_ID ?? randomUUID();
 const USER_ROLE = process.env.DOCUMENT_STORAGE_TEST_USER_ROLE ?? 'CANDIDATE';
+const KEEP_DATA = process.env.DOCUMENT_STORAGE_TEST_KEEP_DATA === 'true';
 let accessToken = process.env.DOCUMENT_STORAGE_TEST_TOKEN;
 
 const colors = {
@@ -48,6 +51,7 @@ interface AuthResponse {
 
 let passed = 0;
 let failed = 0;
+const uploadedDocumentIds: string[] = [];
 
 function log(message: string, color: keyof typeof colors = 'reset'): void {
   console.log(`${colors[color]}${message}${colors.reset}`);
@@ -210,7 +214,7 @@ async function testUploadCvPdf(): Promise<UploadDocumentResponse | null> {
   logSection('1. Upload CV PDF');
 
   const form = new FormData();
-  form.append('file', createPdfBlob(), 'candidate-cv.pdf');
+  form.append('file', createPdfBlob(), DOCUMENT_FLOW_FILE_NAME);
   form.append('documentType', 'CV');
   form.append('ownerType', 'candidate');
   form.append('ownerId', OWNER_ID);
@@ -228,6 +232,7 @@ async function testUploadCvPdf(): Promise<UploadDocumentResponse | null> {
     document.ownerId === OWNER_ID &&
     document.url
   ) {
+    uploadedDocumentIds.push(document.id);
     pass('upload response contains metadata, object key, and presigned URL');
     log(`Document ID: ${document.id}`, 'dim');
     log(`Object key: ${document.key}`, 'dim');
@@ -263,15 +268,36 @@ async function testAvatarRejectsPdf(): Promise<void> {
   expectStatus(response.status, 400, 'avatar PDF rejected', response.raw);
 }
 
+async function cleanup(): Promise<void> {
+  if (KEEP_DATA) {
+    log('Cleanup skipped because DOCUMENT_STORAGE_TEST_KEEP_DATA=true', 'yellow');
+    return;
+  }
+  if (uploadedDocumentIds.length === 0) {
+    return;
+  }
+
+  logSection('Cleanup');
+  log(
+    `Uploaded document cleanup skipped: no public/internal document delete API yet (${uploadedDocumentIds.length} documents).`,
+    'yellow',
+  );
+}
+
 async function main(): Promise<void> {
   log('DOCUMENT STORAGE API LIVE TEST', 'cyan');
   log(`Base URL: ${BASE_URL}`, 'yellow');
   log(`Owner ID: ${OWNER_ID}`, 'yellow');
+  log(`Cleanup: ${KEEP_DATA ? 'disabled' : 'enabled'}`, 'yellow');
 
-  await ensureGatewayIdentity();
-  await testUploadCvPdf();
-  await testMissingFileRejected();
-  await testAvatarRejectsPdf();
+  try {
+    await ensureGatewayIdentity();
+    await testUploadCvPdf();
+    await testMissingFileRejected();
+    await testAvatarRejectsPdf();
+  } finally {
+    await cleanup();
+  }
 
   logSection('Result');
   log(`Passed: ${passed}`, 'green');

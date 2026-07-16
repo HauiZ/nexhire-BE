@@ -2,9 +2,11 @@ import 'dotenv/config';
 
 const BASE_URL = process.env.AUTH_TEST_BASE_URL ?? 'http://localhost:3000/api/v1';
 const RATE_LIMIT_RETRY_MS = Number(process.env.AUTH_TEST_RATE_LIMIT_RETRY_MS ?? 61_000);
-const TEST_EMAIL = `auth-test-${Date.now()}@nexhire.local`;
+const FLOW_RUN_ID = process.env.TEST_FLOW_RUN_ID ?? String(Date.now());
+const TEST_EMAIL = `auth-test-${FLOW_RUN_ID}@nexhire.local`;
 const TEST_PASSWORD = 'StrongPassword123!';
 const NEW_PASSWORD = 'NewStrongPassword123!';
+const KEEP_DATA = process.env.AUTH_TEST_KEEP_DATA === 'true';
 
 const colors = {
   reset: '\x1b[0m',
@@ -41,6 +43,7 @@ interface ApiEnvelope<T> {
 
 let passed = 0;
 let failed = 0;
+const refreshTokensToRevoke = new Set<string>();
 
 function log(message: string, color: keyof typeof colors = 'reset'): void {
   console.log(`${colors[color]}${message}${colors.reset}`);
@@ -182,6 +185,7 @@ async function register(): Promise<AuthResponse | null> {
   }
 
   if (response.data.user?.id && response.data.tokens?.accessToken) {
+    refreshTokensToRevoke.add(response.data.tokens.refreshToken);
     pass('register returns user and token pair');
     return response.data;
   }
@@ -224,6 +228,7 @@ async function login(password = TEST_PASSWORD, expectedStatus = 200): Promise<Au
   }
 
   if (response.data.user?.id && response.data.tokens?.refreshToken) {
+    refreshTokensToRevoke.add(response.data.tokens.refreshToken);
     pass('login returns user and token pair');
     return response.data;
   }
@@ -242,7 +247,13 @@ async function refresh(refreshToken: string, expectedStatus = 200): Promise<Auth
     return null;
   }
 
-  return expectedStatus === 200 ? response.data : null;
+  if (expectedStatus === 200) {
+    refreshTokensToRevoke.add(response.data.tokens.refreshToken);
+    refreshTokensToRevoke.delete(refreshToken);
+    return response.data;
+  }
+
+  return null;
 }
 
 async function logout(refreshToken: string): Promise<void> {
@@ -252,6 +263,9 @@ async function logout(refreshToken: string): Promise<void> {
   });
 
   expectStatus(response.status, 200, 'logout', response.raw);
+  if (response.status === 200) {
+    refreshTokensToRevoke.delete(refreshToken);
+  }
 }
 
 async function changePassword(accessToken: string): Promise<void> {
@@ -281,46 +295,51 @@ async function forgotPassword(): Promise<void> {
 async function main(): Promise<void> {
   log('AUTH API LIVE TEST', 'cyan');
   log(`Base URL: ${BASE_URL}`, 'yellow');
+  log(`Cleanup: ${KEEP_DATA ? 'disabled' : 'enabled'}`, 'yellow');
 
-  const registered = await register();
-  if (!registered) {
-    process.exit(1);
-  }
-
-  await registerDuplicate();
-  await login('WrongPassword123!', 401);
-
-  const loginResponse = await login();
-  if (!loginResponse) {
-    process.exit(1);
-  }
-
-  const refreshed = await refresh(loginResponse.tokens.refreshToken);
-  if (refreshed) {
-    if (refreshed.tokens.accessToken !== loginResponse.tokens.accessToken) {
-      pass('access token rotates on refresh');
-    } else {
-      fail('access token did not rotate on refresh');
+  try {
+    const registered = await register();
+    if (!registered) {
+      throw new Error('Register failed');
     }
 
-    if (refreshed.tokens.refreshToken !== loginResponse.tokens.refreshToken) {
-      pass('refresh token rotates on refresh');
-    } else {
-      fail('refresh token did not rotate on refresh');
+    await registerDuplicate();
+    await login('WrongPassword123!', 401);
+
+    const loginResponse = await login();
+    if (!loginResponse) {
+      throw new Error('Login failed');
     }
 
-    await logout(refreshed.tokens.refreshToken);
-    await refresh(refreshed.tokens.refreshToken, 401);
-  }
+    const refreshed = await refresh(loginResponse.tokens.refreshToken);
+    if (refreshed) {
+      if (refreshed.tokens.accessToken !== loginResponse.tokens.accessToken) {
+        pass('access token rotates on refresh');
+      } else {
+        fail('access token did not rotate on refresh');
+      }
 
-  const changePasswordLogin = await login();
-  if (changePasswordLogin) {
-    await changePassword(changePasswordLogin.tokens.accessToken);
-    await login(TEST_PASSWORD, 401);
-    await login(NEW_PASSWORD, 200);
-  }
+      if (refreshed.tokens.refreshToken !== loginResponse.tokens.refreshToken) {
+        pass('refresh token rotates on refresh');
+      } else {
+        fail('refresh token did not rotate on refresh');
+      }
 
-  await forgotPassword();
+      await logout(refreshed.tokens.refreshToken);
+      await refresh(refreshed.tokens.refreshToken, 401);
+    }
+
+    const changePasswordLogin = await login();
+    if (changePasswordLogin) {
+      await changePassword(changePasswordLogin.tokens.accessToken);
+      await login(TEST_PASSWORD, 401);
+      await login(NEW_PASSWORD, 200);
+    }
+
+    await forgotPassword();
+  } finally {
+    await cleanup();
+  }
 
   logSection('Result');
   log(`Passed: ${passed}`, 'green');
@@ -329,6 +348,26 @@ async function main(): Promise<void> {
   if (failed > 0) {
     process.exit(1);
   }
+}
+
+async function cleanup(): Promise<void> {
+  if (KEEP_DATA) {
+    log('Cleanup skipped because AUTH_TEST_KEEP_DATA=true', 'yellow');
+    return;
+  }
+  if (refreshTokensToRevoke.size === 0) {
+    return;
+  }
+
+  logSection('Cleanup');
+  for (const refreshToken of Array.from(refreshTokensToRevoke)) {
+    try {
+      await logout(refreshToken);
+    } catch (error) {
+      log(`cleanup logout failed: ${(error as Error).message}`, 'yellow');
+    }
+  }
+  log('Auth user cleanup skipped: no auth delete/test cleanup API yet.', 'yellow');
 }
 
 main().catch((error) => {

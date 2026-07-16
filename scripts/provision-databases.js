@@ -12,6 +12,7 @@ const SERVICES = [
   ['application-service', 'APPLICATION_SERVICE', 'application_service'],
   ['cv-parsing-service', 'CV_PARSING_SERVICE', 'cv_parsing_service'],
   ['matching-service', 'MATCHING_SERVICE', 'matching_service'],
+  ['notification-service', 'NOTIFICATION_SERVICE', 'notification_service'],
   ['document-storage-service', 'DOCUMENT_STORAGE_SERVICE', 'document_storage_service'],
 ];
 

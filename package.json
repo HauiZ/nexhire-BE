@@ -59,6 +59,11 @@
     "db:matching:revert": "node scripts/migration.js revert matching-service",
     "db:matching:create": "node scripts/migration.js create matching-service",
     "db:matching:generate": "node scripts/migration.js generate matching-service",
+    "db:notification:run": "node scripts/migration.js run notification-service",
+    "db:notification:show": "node scripts/migration.js show notification-service",
+    "db:notification:revert": "node scripts/migration.js revert notification-service",
+    "db:notification:create": "node scripts/migration.js create notification-service",
+    "db:notification:generate": "node scripts/migration.js generate notification-service",
     "db:document-storage:run": "node scripts/migration.js run document-storage-service",
     "db:document-storage:show": "node scripts/migration.js show document-storage-service",
     "db:document-storage:revert": "node scripts/migration.js revert document-storage-service",
@@ -69,7 +74,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "test:script": "node scripts/test-script.js"
+    "test:script": "node scripts/test-script.js",
+    "test:flows:preflight": "node scripts/test-script.js test/test-flows/test-project-preflight.ts",
+    "test:flows:cleanup": "node scripts/test-script.js test/test-flows/test-cleanup-data.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",

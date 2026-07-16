@@ -1,10 +1,14 @@
 import 'dotenv/config';
+import { randomUUID } from 'crypto';
+import { JwtService } from '@nestjs/jwt';
 
 const BASE_URL = process.env.NOTIFICATION_TEST_BASE_URL ?? 'http://localhost:3000/api/v1';
-const TOKEN = process.env.NOTIFICATION_TEST_TOKEN;
-const USER_ID = process.env.NOTIFICATION_TEST_USER_ID;
+let token = process.env.NOTIFICATION_TEST_TOKEN;
+const USER_ID = process.env.NOTIFICATION_TEST_USER_ID ?? randomUUID();
 const USER_ROLE = process.env.NOTIFICATION_TEST_USER_ROLE ?? 'CANDIDATE';
 const COMPANY_ID = process.env.NOTIFICATION_TEST_COMPANY_ID;
+const MUTATE_READS = process.env.NOTIFICATION_TEST_MUTATE_READS === 'true';
+const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
 
 const colors = {
   reset: '\x1b[0m',
@@ -73,8 +77,8 @@ function unwrap<T>(payload: ApiEnvelope<T> | T): T {
 
 function headers(): Record<string, string> {
   const requestHeaders: Record<string, string> = { 'Content-Type': 'application/json' };
-  if (TOKEN) {
-    requestHeaders.Authorization = `Bearer ${TOKEN}`;
+  if (token) {
+    requestHeaders.Authorization = `Bearer ${token}`;
     return requestHeaders;
   }
 
@@ -118,16 +122,38 @@ function expectStatus(actual: number, expected: number, label: string, data?: un
   }
 
   fail(`${label}: expected ${expected}, got ${actual}`, data);
+  if (actual === 503) {
+    log(
+      'Hint: notification-service is unavailable through gateway. Start notification-service or check gateway service URL config.',
+      'yellow',
+    );
+  }
   return false;
 }
 
 function requireEnv(): void {
-  if (TOKEN || USER_ID) {
+  if (token || USER_ID) {
     return;
   }
 
   log('Missing required env: NOTIFICATION_TEST_TOKEN or NOTIFICATION_TEST_USER_ID', 'red');
   process.exit(1);
+}
+
+function ensureToken(): void {
+  if (token || !JWT_ACCESS_SECRET) {
+    return;
+  }
+  token = new JwtService().sign(
+    {
+      sub: USER_ID,
+      role: USER_ROLE,
+      ...(COMPANY_ID ? { companyId: COMPANY_ID } : {}),
+      jti: randomUUID(),
+    },
+    { secret: JWT_ACCESS_SECRET, expiresIn: 900 },
+  );
+  pass('minted local notification JWT');
 }
 
 async function getUnreadCount(label: string): Promise<number | null> {
@@ -199,16 +225,26 @@ async function markAllRead(): Promise<void> {
 
 async function main(): Promise<void> {
   requireEnv();
+  ensureToken();
 
   log('NOTIFICATION API LIVE TEST', 'cyan');
   log(`Base URL: ${BASE_URL}`, 'yellow');
   log(`Role: ${USER_ROLE}`, 'yellow');
+  log(`Mutate reads: ${MUTATE_READS ? 'enabled' : 'disabled'}`, 'yellow');
 
   await getUnreadCount('1. Get unread count');
   const notifications = await listNotifications();
-  await markOneRead(notifications);
-  await markAllRead();
-  await getUnreadCount('5. Verify unread count after mark-all');
+  if (MUTATE_READS) {
+    await markOneRead(notifications);
+    await markAllRead();
+    await getUnreadCount('5. Verify unread count after mark-all');
+  } else {
+    logSection('3. Mark read skipped');
+    log(
+      'Skipped: set NOTIFICATION_TEST_MUTATE_READS=true to test read mutations. There is no unread cleanup API.',
+      'yellow',
+    );
+  }
 
   logSection('Result');
   log(`Passed: ${passed}`, 'green');

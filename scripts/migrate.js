@@ -9,6 +9,7 @@ const services = [
   'application-service',
   'cv-parsing-service',
   'matching-service',
+  'notification-service',
   'document-storage-service',
 ];
 

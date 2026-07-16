@@ -10,6 +10,7 @@ const VALID_SERVICES = new Set([
   'application-service',
   'cv-parsing-service',
   'matching-service',
+  'notification-service',
   'document-storage-service',
 ]);
 
@@ -20,7 +21,7 @@ function usage() {
     'usage: node scripts/migration.js <generate|create|run|revert|show> <service> [Name]',
   );
   console.error(
-    '       service: auth-service | candidate-service | company-service | job-service | application-service | cv-parsing-service | matching-service | document-storage-service',
+    '       service: auth-service | candidate-service | company-service | job-service | application-service | cv-parsing-service | matching-service | notification-service | document-storage-service',
   );
   process.exit(1);
 }

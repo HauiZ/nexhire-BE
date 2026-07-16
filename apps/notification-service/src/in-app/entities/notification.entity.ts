@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Check,
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import {
   NotificationRecipientType,
   NotificationSenderType,
@@ -10,6 +18,21 @@ import {
 @Index('idx_notifications_recipient_company_created_at', ['recipientCompanyId', 'createdAt'])
 @Index('idx_notifications_read_at', ['readAt'])
 @Index('idx_notifications_dedupe_key', ['dedupeKey'], { unique: true })
+@Check(
+  'chk_notifications_recipient_scope',
+  `
+  (
+    "recipient_type" = 'USER'
+    AND "recipient_user_id" IS NOT NULL
+    AND "recipient_company_id" IS NULL
+  )
+  OR (
+    "recipient_type" = 'COMPANY'
+    AND "recipient_company_id" IS NOT NULL
+    AND "recipient_user_id" IS NULL
+  )
+`,
+)
 export class Notification {
   @PrimaryColumn({
     name: 'id',
