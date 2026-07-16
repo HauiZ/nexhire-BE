@@ -153,27 +153,23 @@ describe('CompanyService', () => {
     });
   });
 
-  describe('getPublicProfileWithJobs', () => {
-    it('should return public profile with active jobs', async () => {
+  describe('getPublicProfile', () => {
+    it('should return public profile', async () => {
       const approvedCompany = { ...mockCompany, status: CompanyStatus.APPROVED };
       mockCompanyRepo.findOne.mockResolvedValueOnce(approvedCompany);
 
-      const mockJobs = [{ id: 'job-1', title: 'Developer' }];
-      mockJobClient.getActiveJobsByCompany.mockResolvedValueOnce(mockJobs);
-
-      const result = await service.getPublicProfileWithJobs(mockCompanyId);
+      const result = await service.getPublicProfile(mockCompanyId);
 
       expect(result.name).toEqual('NexHire Tech');
       // Kiểm tra xem các field nhạy cảm đã bị ẩn chưa
       expect(result).not.toHaveProperty('taxCode');
-      expect(result.activeJobs).toEqual(mockJobs);
     });
 
     it('should throw NotFoundException if company is not APPROVED', async () => {
       // Giả sử findOne trả về null vì query kèm điều kiện status = APPROVED
       mockCompanyRepo.findOne.mockResolvedValueOnce(null);
 
-      await expect(service.getPublicProfileWithJobs(mockCompanyId)).rejects.toThrow(
+      await expect(service.getPublicProfile(mockCompanyId)).rejects.toThrow(
         NotFoundException,
       );
     });

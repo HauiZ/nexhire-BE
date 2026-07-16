@@ -61,6 +61,6 @@ export class CompanyController {
   @Public() // Cho phép ai cũng xem được
   @ApiOperation({ summary: 'Public view of company + jobs' })
   getPublicProfile(@Param('id', ParseUUIDPipe) id: string) {
-    return this.companyService.getPublicProfileWithJobs(id);
+    return this.companyService.getPublicProfile(id);
   }
 }
