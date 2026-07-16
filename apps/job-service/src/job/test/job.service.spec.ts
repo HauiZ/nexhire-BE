@@ -3,6 +3,10 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import {
   ERROR_CODES,
   JobExperienceLevel,
+  JobModerationDecision,
+  JobModerationRiskLevel,
+  JobRevisionStatus,
+  JobReviewDecision,
   JobStatus,
   JobType,
   JobWorkingType,
@@ -10,7 +14,11 @@ import {
 } from '@nexhire/shared';
 import { DataSource, Repository } from 'typeorm';
 import { CompanySnapshotService } from '../company/company-snapshot.service';
-import { CompanyStatusSnapshot, CompanyTrustLevel } from '../entities/job.enum';
+import {
+  CompanyStatusSnapshot,
+  CompanyTrustLevel,
+  JobModerationTargetType,
+} from '../entities/job.enum';
 import { JobModerationReview } from '../entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from '../entities/job-processed-application-event.entity';
 import { JobRevision } from '../entities/job-revision.entity';
@@ -28,6 +36,27 @@ describe('JobService', () => {
     save: jest.Mock;
     createQueryBuilder: jest.Mock;
   };
+  let revisionRepo: {
+    findOne: jest.Mock;
+    save: jest.Mock;
+    create: jest.Mock;
+    find: jest.Mock;
+  };
+  let moderationReviewRepo: {
+    findOne: jest.Mock;
+    create: jest.Mock;
+    save: jest.Mock;
+  };
+  let companySnapshotService: {
+    getPostingSnapshot: jest.Mock;
+  };
+  let moderationService: {
+    moderate: jest.Mock;
+  };
+  let jobSearchProvider: {
+    searchPublicJobs: jest.Mock;
+    searchCompanyJobs: jest.Mock;
+  };
   let jobEventPublisher: {
     publishJobPublished: jest.Mock;
     publishRevisionApproved: jest.Mock;
@@ -43,12 +72,21 @@ describe('JobService', () => {
   let manager: {
     getRepository: jest.Mock;
     increment: jest.Mock;
+    save: jest.Mock;
+    update: jest.Mock;
+    find: jest.Mock;
+    findOneByOrFail: jest.Mock;
+    createQueryBuilder: jest.Mock;
   };
 
   const user = {
     id: '11111111-1111-1111-1111-111111111111',
     role: UserRole.RECRUITER,
     companyId: '22222222-2222-2222-2222-222222222222',
+  };
+  const admin = {
+    id: '99999999-9999-9999-9999-999999999999',
+    role: UserRole.ADMIN,
   };
 
   const publishedJob: Job = {
@@ -108,11 +146,51 @@ describe('JobService', () => {
     deletedAt: null,
   };
 
+  const jobInput = (overrides: Partial<Job> = {}) => ({
+    title: overrides.title ?? publishedJob.title,
+    description: overrides.description ?? publishedJob.description,
+    requirements: overrides.requirements ?? publishedJob.requirements,
+    skills: overrides.skills ?? publishedJob.skills,
+    benefits: overrides.benefits ?? publishedJob.benefits ?? undefined,
+    categoryId: overrides.categoryId ?? publishedJob.categoryId ?? undefined,
+    employmentType: overrides.employmentType ?? publishedJob.employmentType,
+    workingType: overrides.workingType ?? publishedJob.workingType,
+    experienceLevel: overrides.experienceLevel ?? publishedJob.experienceLevel,
+    location: overrides.location ?? publishedJob.location,
+    salaryMin: overrides.salaryMin ?? publishedJob.salaryMin ?? undefined,
+    salaryMax: overrides.salaryMax ?? publishedJob.salaryMax ?? undefined,
+    salaryCurrency: overrides.salaryCurrency ?? publishedJob.salaryCurrency,
+    isSalaryVisible: overrides.isSalaryVisible ?? publishedJob.isSalaryVisible,
+    deadline: overrides.deadline ?? undefined,
+    numberOfOpenings: overrides.numberOfOpenings ?? publishedJob.numberOfOpenings ?? undefined,
+  });
+
   beforeEach(async () => {
     jobRepo = {
       findOne: jest.fn(),
       save: jest.fn((job: Job) => Promise.resolve(job)),
       createQueryBuilder: jest.fn(),
+    };
+    revisionRepo = {
+      findOne: jest.fn(),
+      save: jest.fn((revision: JobRevision) => Promise.resolve(revision)),
+      create: jest.fn((value) => value),
+      find: jest.fn(),
+    };
+    moderationReviewRepo = {
+      findOne: jest.fn(),
+      create: jest.fn((value) => value),
+      save: jest.fn((value) => Promise.resolve(value)),
+    };
+    companySnapshotService = {
+      getPostingSnapshot: jest.fn(),
+    };
+    moderationService = {
+      moderate: jest.fn(),
+    };
+    jobSearchProvider = {
+      searchPublicJobs: jest.fn(),
+      searchCompanyJobs: jest.fn(),
     };
     jobEventPublisher = {
       publishJobPublished: jest.fn().mockResolvedValue(undefined),
@@ -127,8 +205,17 @@ describe('JobService', () => {
       save: jest.fn(),
     };
     manager = {
-      getRepository: jest.fn().mockReturnValue(processedEventRepo),
+      getRepository: jest.fn((entity) =>
+        entity === JobModerationReview ? moderationReviewRepo : processedEventRepo,
+      ),
       increment: jest.fn(),
+      save: jest.fn((entityOrTarget, maybeEntity) =>
+        Promise.resolve(maybeEntity ?? entityOrTarget),
+      ),
+      update: jest.fn(),
+      find: jest.fn(),
+      findOneByOrFail: jest.fn(),
+      createQueryBuilder: jest.fn(),
     };
 
     const moduleRef = await Test.createTestingModule({
@@ -138,17 +225,17 @@ describe('JobService', () => {
           provide: DataSource,
           useValue: { transaction: jest.fn((callback) => callback(manager)) },
         },
-        { provide: CompanySnapshotService, useValue: {} },
-        { provide: JobModerationService, useValue: {} },
+        { provide: CompanySnapshotService, useValue: companySnapshotService },
+        { provide: JobModerationService, useValue: moderationService },
         {
           provide: JOB_SEARCH_PROVIDER,
-          useValue: { searchPublicJobs: jest.fn(), searchCompanyJobs: jest.fn() },
+          useValue: jobSearchProvider,
         },
         JobSearchTextService,
         { provide: JobEventPublisher, useValue: jobEventPublisher },
         { provide: getRepositoryToken(Job), useValue: jobRepo },
-        { provide: getRepositoryToken(JobRevision), useValue: {} },
-        { provide: getRepositoryToken(JobModerationReview), useValue: {} },
+        { provide: getRepositoryToken(JobRevision), useValue: revisionRepo },
+        { provide: getRepositoryToken(JobModerationReview), useValue: moderationReviewRepo },
         { provide: getRepositoryToken(JobProcessedApplicationEvent), useValue: processedEventRepo },
       ],
     }).compile();
@@ -160,27 +247,148 @@ describe('JobService', () => {
     jobRepo.findOne.mockResolvedValue({ ...publishedJob, applicationCount: 0 });
 
     await expect(
-      service.updateMine(user, publishedJob.id, {
-        title: 'Senior Backend Developer',
-        description: publishedJob.description,
-        requirements: publishedJob.requirements,
-        skills: publishedJob.skills,
-        benefits: publishedJob.benefits ?? undefined,
-        categoryId: publishedJob.categoryId ?? undefined,
-        employmentType: publishedJob.employmentType,
-        workingType: publishedJob.workingType,
-        experienceLevel: publishedJob.experienceLevel,
-        location: publishedJob.location,
-        salaryMin: publishedJob.salaryMin ?? undefined,
-        salaryMax: publishedJob.salaryMax ?? undefined,
-        salaryCurrency: publishedJob.salaryCurrency,
-        isSalaryVisible: publishedJob.isSalaryVisible,
-        deadline: undefined,
-        numberOfOpenings: publishedJob.numberOfOpenings ?? undefined,
-      }),
+      service.updateMine(user, publishedJob.id, jobInput({ title: 'Senior Backend Developer' })),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
         code: ERROR_CODES.JOB.MAJOR_UPDATE_REQUIRES_REVIEW,
+      }),
+    });
+  });
+
+  it('treats skills changes as major direct updates on published jobs', async () => {
+    jobRepo.findOne.mockResolvedValue({ ...publishedJob, applicationCount: 0 });
+
+    await expect(
+      service.updateMine(user, publishedJob.id, jobInput({ skills: ['NestJS', 'PostgreSQL', 'AWS'] })),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.JOB.MAJOR_UPDATE_REQUIRES_REVIEW,
+      }),
+    });
+  });
+
+  it('submits a draft through moderation and records the review recommendation', async () => {
+    const draft = { ...publishedJob, status: JobStatus.DRAFT, publishedAt: null };
+    const snapshotDate = new Date('2026-07-16T00:00:00.000Z');
+    jobRepo.findOne.mockResolvedValue(draft);
+    companySnapshotService.getPostingSnapshot.mockResolvedValue({
+      companyId: publishedJob.companyId,
+      companyName: 'NexHire Updated',
+      companyLogoUrl: 'https://cdn.nexhire.vn/company/new-logo.png',
+      companyStatus: CompanyStatusSnapshot.APPROVED,
+      companyTrustLevel: CompanyTrustLevel.LOW,
+      snapshotAt: snapshotDate,
+    });
+    moderationService.moderate.mockReturnValue({
+      decision: JobModerationDecision.NEEDS_REVIEW,
+      riskScore: 45,
+      riskLevel: JobModerationRiskLevel.MEDIUM,
+      reasons: ['External form requires admin review'],
+      matchedRules: ['RISK_EXTERNAL_FORM'],
+    });
+
+    const result = await service.submitMine(user, publishedJob.id);
+
+    expect(companySnapshotService.getPostingSnapshot).toHaveBeenCalledWith(user);
+    expect(moderationService.moderate).toHaveBeenCalledWith(
+      expect.objectContaining({ id: publishedJob.id }),
+      expect.objectContaining({ companyTrustLevel: CompanyTrustLevel.LOW }),
+    );
+    expect(manager.save).toHaveBeenCalledWith(
+      Job,
+      expect.objectContaining({
+        status: JobStatus.NEEDS_REVIEW,
+        companyName: 'NexHire Updated',
+        companyLogoUrl: 'https://cdn.nexhire.vn/company/new-logo.png',
+        companyTrustLevel: CompanyTrustLevel.LOW,
+        riskScore: 45,
+        riskLevel: JobModerationRiskLevel.MEDIUM,
+        moderationDecision: JobModerationDecision.NEEDS_REVIEW,
+      }),
+    );
+    expect(moderationReviewRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        jobId: publishedJob.id,
+        targetType: JobModerationTargetType.JOB,
+        targetId: publishedJob.id,
+        riskScore: 45,
+        riskLevel: JobModerationRiskLevel.MEDIUM,
+        decision: JobModerationDecision.NEEDS_REVIEW,
+      }),
+    );
+    expect(result.status).toBe(JobStatus.NEEDS_REVIEW);
+  });
+
+  it('approves a reviewed job, publishes public event, and emits trust signal', async () => {
+    const reviewable = {
+      ...publishedJob,
+      status: JobStatus.PENDING_REVIEW,
+      publishedAt: null,
+      riskScore: 5,
+      riskLevel: JobModerationRiskLevel.LOW,
+    };
+    const moderationReview = {
+      jobId: publishedJob.id,
+      targetId: publishedJob.id,
+      reviewedByUserId: null,
+      reviewedAt: null,
+      adminDecision: null,
+      adminReason: null,
+    };
+    jobRepo.findOne.mockResolvedValue(reviewable);
+    moderationReviewRepo.findOne.mockResolvedValue(moderationReview);
+
+    const result = await service.reviewJob(admin, publishedJob.id, {
+      decision: JobReviewDecision.APPROVE,
+      reason: 'Looks legitimate',
+    });
+
+    expect(result.status).toBe(JobStatus.PUBLISHED);
+    expect(jobRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: JobStatus.PUBLISHED,
+        reviewedByUserId: admin.id,
+        reviewReason: 'Looks legitimate',
+        publishedAt: expect.any(Date),
+      }),
+    );
+    expect(moderationReviewRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        reviewedByUserId: admin.id,
+        adminDecision: JobReviewDecision.APPROVE,
+        adminReason: 'Looks legitimate',
+      }),
+    );
+    expect(jobEventPublisher.publishJobPublished).toHaveBeenCalledWith(
+      expect.objectContaining({
+        jobId: publishedJob.id,
+        companyId: publishedJob.companyId,
+      }),
+    );
+    expect(jobEventPublisher.publishReviewTrustSignal).toHaveBeenCalledWith(
+      expect.objectContaining({
+        companyId: publishedJob.companyId,
+        jobId: publishedJob.id,
+        targetType: JobModerationTargetType.JOB,
+        targetId: publishedJob.id,
+        decision: JobReviewDecision.APPROVE,
+        riskLevel: JobModerationRiskLevel.LOW,
+      }),
+    );
+  });
+
+  it('rejects a reviewed job only when admin provides a reason', async () => {
+    jobRepo.findOne.mockResolvedValue({
+      ...publishedJob,
+      status: JobStatus.SHOULD_REJECT,
+      riskLevel: JobModerationRiskLevel.CRITICAL,
+    });
+
+    await expect(
+      service.reviewJob(admin, publishedJob.id, { decision: JobReviewDecision.REJECT }),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.JOB.REVIEW_DECISION_REASON_REQUIRED,
       }),
     });
   });
@@ -298,5 +506,181 @@ describe('JobService', () => {
     expect(qb.where).toHaveBeenCalledWith('status = :status', { status: JobStatus.PUBLISHED });
     expect(qb.andWhere).toHaveBeenCalledWith('deadline <= :referenceDate', { referenceDate });
     expect(result).toBe(2);
+  });
+
+  it('syncs non-approved company snapshots and moves public/reviewing jobs out of public flow', async () => {
+    const execute = jest.fn().mockResolvedValue({ affected: 1 });
+    const qb = {
+      update: jest.fn().mockReturnThis(),
+      set: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      execute,
+    };
+    manager.createQueryBuilder.mockReturnValue(qb);
+    manager.find.mockResolvedValue([{ ...publishedJob }]);
+
+    await service.syncCompanyPostingSnapshot({
+      companyId: publishedJob.companyId,
+      companyName: 'Renamed Company',
+      companyLogoUrl: null,
+      companyStatus: CompanyStatusSnapshot.SUSPENDED,
+      companyTrustLevel: CompanyTrustLevel.LOW,
+      changedAt: '2026-07-16T00:00:00.000Z',
+    });
+
+    expect(manager.update).toHaveBeenCalledWith(
+      Job,
+      { companyId: publishedJob.companyId },
+      expect.objectContaining({
+        companyName: 'Renamed Company',
+        companyLogoUrl: null,
+        companyStatus: CompanyStatusSnapshot.SUSPENDED,
+        companyTrustLevel: CompanyTrustLevel.LOW,
+      }),
+    );
+    expect(manager.find).toHaveBeenCalledWith(Job, {
+      where: { companyId: publishedJob.companyId },
+    });
+    expect(manager.save).toHaveBeenCalledWith(
+      Job,
+      expect.arrayContaining([
+        expect.objectContaining({
+          searchCompanyName: 'renamed company',
+        }),
+      ]),
+    );
+    expect(qb.update).toHaveBeenCalledWith(Job);
+    expect(qb.update).toHaveBeenCalledWith(JobRevision);
+    expect(qb.set).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: JobStatus.SHOULD_REJECT,
+      }),
+    );
+    expect(qb.set).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: JobRevisionStatus.SHOULD_REJECT,
+      }),
+    );
+  });
+
+  it('keeps public detail lightweight and hides moderation/internal fields', async () => {
+    jobRepo.findOne.mockResolvedValue({
+      ...publishedJob,
+      riskScore: 80,
+      riskLevel: JobModerationRiskLevel.CRITICAL,
+      moderationDecision: JobModerationDecision.SHOULD_REJECT,
+      moderationReasons: ['Hidden reason'],
+      reviewReason: 'Hidden admin reason',
+      applicationCount: 12,
+    });
+
+    const result = await service.getPublic(publishedJob.id);
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        id: publishedJob.id,
+        title: publishedJob.title,
+        companyName: publishedJob.companyName,
+        description: publishedJob.description,
+        requirements: publishedJob.requirements,
+        skills: publishedJob.skills,
+      }),
+    );
+    expect(result).not.toHaveProperty('moderation');
+    expect(result).not.toHaveProperty('riskScore');
+    expect(result).not.toHaveProperty('reviewReason');
+    expect(result).not.toHaveProperty('applicationCount');
+  });
+
+  it('approves a major revision, applies it to the job, and emits revision events', async () => {
+    const revision: JobRevision = {
+      id: '66666666-6666-6666-6666-666666666666',
+      jobId: publishedJob.id,
+      job: publishedJob,
+      companyId: publishedJob.companyId,
+      createdByUserId: user.id,
+      status: JobRevisionStatus.NEEDS_REVIEW,
+      title: 'Principal Backend Developer',
+      description: publishedJob.description,
+      requirements: publishedJob.requirements,
+      skills: ['NestJS', 'PostgreSQL', 'Kafka'],
+      benefits: publishedJob.benefits,
+      categoryId: publishedJob.categoryId,
+      employmentType: publishedJob.employmentType,
+      workingType: publishedJob.workingType,
+      experienceLevel: JobExperienceLevel.LEAD,
+      location: publishedJob.location,
+      salaryMin: 50_000_000,
+      salaryMax: 80_000_000,
+      salaryCurrency: 'VND',
+      isSalaryVisible: true,
+      deadline: null,
+      numberOfOpenings: 1,
+      changeSummary: 'Upgrade role scope',
+      riskScore: 10,
+      riskLevel: JobModerationRiskLevel.LOW,
+      moderationDecision: JobModerationDecision.PENDING_REVIEW,
+      moderationReasons: ['No risky content detected'],
+      moderationMatchedRules: [],
+      reviewedByUserId: null,
+      reviewedAt: null,
+      reviewReason: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    };
+    const jobToUpdate = { ...publishedJob, version: 1 };
+    const moderationReview = {
+      jobId: publishedJob.id,
+      targetId: revision.id,
+      reviewedByUserId: null,
+      reviewedAt: null,
+      adminDecision: null,
+      adminReason: null,
+    };
+    revisionRepo.findOne.mockResolvedValue(revision);
+    manager.findOneByOrFail.mockResolvedValue(jobToUpdate);
+    moderationReviewRepo.findOne.mockResolvedValue(moderationReview);
+
+    const result = await service.reviewRevision(admin, revision.id, {
+      decision: JobReviewDecision.APPROVE,
+      reason: 'Revision is valid',
+    });
+
+    expect(result.status).toBe(JobRevisionStatus.APPROVED);
+    expect(manager.save).toHaveBeenCalledWith(
+      JobRevision,
+      expect.objectContaining({
+        id: revision.id,
+        status: JobRevisionStatus.APPROVED,
+        reviewedByUserId: admin.id,
+        reviewReason: 'Revision is valid',
+      }),
+    );
+    expect(manager.save).toHaveBeenCalledWith(
+      Job,
+      expect.objectContaining({
+        id: publishedJob.id,
+        title: 'Principal Backend Developer',
+        skills: ['NestJS', 'PostgreSQL', 'Kafka'],
+        version: 2,
+      }),
+    );
+    expect(jobEventPublisher.publishRevisionApproved).toHaveBeenCalledWith(
+      expect.objectContaining({
+        jobId: publishedJob.id,
+        companyId: publishedJob.companyId,
+        revisionId: revision.id,
+      }),
+    );
+    expect(jobEventPublisher.publishReviewTrustSignal).toHaveBeenCalledWith(
+      expect.objectContaining({
+        targetType: JobModerationTargetType.REVISION,
+        targetId: revision.id,
+        decision: JobReviewDecision.APPROVE,
+        riskLevel: JobModerationRiskLevel.LOW,
+      }),
+    );
   });
 });

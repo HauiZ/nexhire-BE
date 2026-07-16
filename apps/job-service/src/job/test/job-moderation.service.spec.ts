@@ -86,4 +86,29 @@ describe('JobModerationService', () => {
     expect(result.matchedRules).toContain('RISK_KEYWORD_APPLICATION_FEE');
     expect(result.matchedRules).toContain('REMOTE_JOB_WITH_UPFRONT_PAYMENT');
   });
+
+  it('adds risk for low-trust companies without auto-rejecting safe content', () => {
+    const result = service.moderate(
+      {
+        title: 'Backend Developer',
+        description:
+          'Develop and maintain REST APIs for a recruitment platform using NestJS, PostgreSQL, and RabbitMQ with a collaborative engineering team.',
+        requirements:
+          'At least one year of experience with Node.js, TypeScript, PostgreSQL, Git, and REST API development.',
+        skills: ['NestJS', 'PostgreSQL', 'RabbitMQ'],
+        benefits: 'Hybrid work, insurance, learning budget, and annual performance review.',
+        salaryMin: 15_000_000,
+        salaryMax: 25_000_000,
+        experienceLevel: JobExperienceLevel.JUNIOR,
+        workingType: JobWorkingType.HYBRID,
+        employmentType: JobType.FULL_TIME,
+        location: 'Ha Noi, Viet Nam',
+      },
+      { companyTrustLevel: CompanyTrustLevel.LOW },
+    );
+
+    expect(result.decision).toBe(JobModerationDecision.PENDING_REVIEW);
+    expect(result.riskScore).toBe(20);
+    expect(result.matchedRules).toContain('LOW_COMPANY_TRUST_LEVEL');
+  });
 });

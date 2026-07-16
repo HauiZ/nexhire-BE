@@ -33,8 +33,18 @@ export class ProxyController {
     return this.proxy.forward('companyService', req, res);
   }
 
+  @All('companies')
+  companiesRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('companyService', req, res);
+  }
+
   @All('hr-accounts/*')
   hrAccounts(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('companyService', req, res);
+  }
+
+  @All('hr-accounts')
+  hrAccountsRoot(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('companyService', req, res);
   }
 
@@ -98,6 +108,11 @@ export class ProxyController {
     return this.proxy.forward('candidateService', req, res);
   }
 
+  @All('saved-jobs')
+  savedJobsRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('candidateService', req, res);
+  }
+
   @All('cv-parsing/*')
   cvParsing(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('cvParsingService', req, res);
@@ -120,6 +135,11 @@ export class ProxyController {
 
   @All('documents/*')
   documents(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('documentStorageService', req, res);
+  }
+
+  @All('documents')
+  documentsRoot(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('documentStorageService', req, res);
   }
 }

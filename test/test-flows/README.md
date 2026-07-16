@@ -118,6 +118,41 @@ $env:APPLICATION_TEST_RECRUITER_USER_ID="recruiter-user-id"
 $env:APPLICATION_TEST_RECRUITER_COMPANY_ID="company-id"
 ```
 
+## Company -> job moderation -> admin review
+
+```powershell
+npm run test:script test\test-flows\test-company-job-moderation-api.ts
+```
+
+It covers:
+
+- recruiter creates a company
+- admin approves the company
+- recruiter creates a complete draft job
+- recruiter submits the job and moderation maps it to review status
+- admin review queue contains the submitted job
+- public readers cannot see the job before approval
+- admin approves the job
+- public list/detail can read the published job
+- admin unpublish/republish hides and restores public visibility
+- risky job content is classified as `SHOULD_REJECT`
+- admin rejects the risky job with a reason
+
+Optional env:
+
+```powershell
+$env:COMPANY_JOB_FLOW_BASE_URL="http://localhost:3000/api/v1"
+$env:COMPANY_JOB_FLOW_RECRUITER_TOKEN="recruiter-access-token"
+$env:COMPANY_JOB_FLOW_ADMIN_TOKEN="admin-access-token"
+$env:COMPANY_JOB_FLOW_RECRUITER_USER_ID="recruiter-user-id"
+$env:COMPANY_JOB_FLOW_ADMIN_USER_ID="admin-user-id"
+$env:COMPANY_JOB_FLOW_COMPANY_ID="already-approved-company-id"
+```
+
+When running through the gateway (`localhost:3000`), provide real recruiter/admin JWT tokens.
+The `*_USER_ID` fallback headers are only useful for direct/trusted local service calls because
+the gateway forwards identity from JWT, not from client-supplied identity headers.
+
 ## Notification service
 
 ```powershell

@@ -275,6 +275,7 @@ export class JobService {
     const updated = await this.dataSource.transaction(async (manager) => {
       Object.assign(job, {
         companyName: company.companyName,
+        companyLogoUrl: company.companyLogoUrl,
         companyStatus: company.companyStatus,
         companyTrustLevel: company.companyTrustLevel,
         companySnapshotAt: company.snapshotAt,

@@ -5,140 +5,149 @@ Base path through gateway:
 - `/api/v1/companies`
 - `/api/v1/hr-accounts`
 
-Responsibility: company profile and HR accounts.
+Responsibility: company profile, company verification, posting eligibility snapshot, and company trust level for job moderation.
 
-Company-service is the source of truth for recruiter company ownership and posting eligibility. It publishes `company.posting-snapshot-changed` whenever a company is created, approved, rejected, suspended, restored to pending, renamed, changes logo, or changes trust level.
+Company-service is the source of truth for:
+
+- recruiter company ownership
+- company verification status
+- whether a company can post jobs
+- internal trust level used by job moderation
 
 `trustLevel` is internal/admin-only. Candidate/public and recruiter self-service responses must not expose it. Admin responses and internal posting snapshots can include it.
 
-Auto trust adjustment:
+## Enums
 
-- Job-service publishes `job.review-trust-signal` after admin reviews a job or major revision.
-- Approved jobs/revisions with `LOW` moderation risk count as positive signals.
-- Rejected jobs/revisions count as negative signals.
-- Approved jobs/revisions with `MEDIUM`, `HIGH`, or `CRITICAL` moderation risk are neutral because the admin decision is the final review outcome.
-- 5 positive signals increase trust by one level: `LOW -> MEDIUM -> HIGH`.
-- 3 negative signals decrease trust by one level: `HIGH -> MEDIUM -> LOW`.
-- Manual admin trust updates reset the counters.
-- Every trust level change is stored in trust history with previous level, new level, direction, source, reason, metadata, and timestamp.
+```ts
+type CompanyStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'SUSPENDED';
+type CompanyTrustLevel = 'LOW' | 'MEDIUM' | 'HIGH';
+type VerifyAction = 'APPROVE' | 'REJECT';
+type CompanyTrustChangeDirection = 'INCREASE' | 'DECREASE';
+type CompanyTrustChangeSource = 'MANUAL' | 'AUTO';
+```
 
-## Endpoints
+## Response Objects
 
-### `POST /companies`
+### CompanyResponse
 
-**Auth**: Recruiter
+Used by recruiter self-service endpoints. Does not expose trust level.
 
-**Purpose**: Create a new company profile. A recruiter can only own one company.
+| Field | Type | Nullable | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | No | Company id. |
+| `name` | string | No | Company display name. |
+| `logo` | string | Yes | Logo URL. |
+| `description` | string | Yes | Company description. |
+| `website` | string | Yes | Website URL. |
+| `address` | string | Yes | Company address. |
+| `taxCode` | string | No | Company tax code. |
+| `ownerId` | uuid | No | Recruiter user id that owns company. |
+| `status` | `CompanyStatus` | No | Verification/posting status. |
+| `createdAt` | ISO date-time | No | Created timestamp. |
+| `updatedAt` | ISO date-time | No | Updated timestamp. |
 
-**Body**: `CreateCompanyDto`
+Example:
+
+```json
+{
+  "id": "22222222-2222-2222-2222-222222222222",
+  "name": "NexHire Tech",
+  "logo": "https://cdn.nexhire.vn/company/logo.png",
+  "description": "Tech company focusing on recruitment products.",
+  "website": "https://nexhire.vn",
+  "address": "Ha Noi, Viet Nam",
+  "taxCode": "0101234567",
+  "ownerId": "11111111-1111-1111-1111-111111111111",
+  "status": "PENDING",
+  "createdAt": "2026-07-16T09:00:00.000Z",
+  "updatedAt": "2026-07-16T09:00:00.000Z"
+}
+```
+
+### AdminCompanyResponse
+
+Used by admin endpoints. Extends `CompanyResponse`.
+
+| Field | Type | Nullable | Note |
+| --- | --- | --- | --- |
+| `trustLevel` | `CompanyTrustLevel` | No | Internal only. |
+| `approvedLowRiskCount` | number | No | Auto trust positive counter. |
+| `negativeTrustSignalCount` | number | No | Auto trust negative counter. |
+
+### PublicCompanyProfile
+
+Used by public company profile endpoint.
+
+| Field | Type | Nullable | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | No | Company id. |
+| `name` | string | No | Company display name. |
+| `logo` | string | Yes | Logo URL. |
+| `description` | string | Yes | Public company description. |
+| `website` | string | Yes | Website URL. |
+| `address` | string | Yes | Public address. |
+
+Does not include: `taxCode`, `ownerId`, `status`, `trustLevel`, counters.
+
+### TrustHistoryResponse
+
+| Field | Type | Nullable | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | No | History row id. |
+| `companyId` | uuid | No | Company id. |
+| `previousTrustLevel` | `CompanyTrustLevel` | No | Old level. |
+| `newTrustLevel` | `CompanyTrustLevel` | No | New level. |
+| `direction` | `INCREASE` \| `DECREASE` | No | Change direction. |
+| `source` | `MANUAL` \| `AUTO` | No | Manual admin or auto trust signal. |
+| `changedByUserId` | uuid | Yes | Admin id for manual change, null for auto. |
+| `reason` | string | No | Reason shown to admin. |
+| `metadata` | object | No | Auto signal metadata if any. |
+| `createdAt` | ISO date-time | No | Change timestamp. |
+
+## Request Objects
+
+### CreateCompany body
+
+| Field | Type | Required | Nullable | Note |
+| --- | --- | --- | --- | --- |
+| `name` | string | Yes | No | 2..255 chars. |
+| `logo` | URL string | No | Yes | Company logo URL. |
+| `description` | string | No | Yes | Company description. |
+| `website` | URL string | No | Yes | Company website. |
+| `address` | string | No | Yes | Company address. |
+| `taxCode` | string | Yes | No | 10..50 chars, trimmed. Must be unique. |
 
 ```json
 {
   "name": "NexHire Tech",
-  "logo": "https://example.com/logo.png",
-  "description": "Tech company focusing on AI...",
-  "website": "https://nexhire.com",
-  "address": "123 Tech Street, HCMC",
+  "logo": "https://cdn.nexhire.vn/company/logo.png",
+  "description": "Tech company focusing on recruitment products.",
+  "website": "https://nexhire.vn",
+  "address": "Ha Noi, Viet Nam",
   "taxCode": "0101234567"
 }
 ```
 
-**Success response**:
+### UpdateCompany body
+
+All fields are optional, same validation as create body.
 
 ```json
 {
-  "success": true,
-  "data": {
-    "id": "uuid",
-    "name": "NexHire Tech",
-    "logo": "https://example.com/logo.png",
-    "description": "Tech company focusing on AI...",
-    "website": "https://nexhire.com",
-    "address": "123 Tech Street, HCMC",
-    "taxCode": "0101234567",
-    "ownerId": "uuid",
-    "status": "PENDING",
-    "createdAt": "2026-01-01T00:00:00.000Z",
-    "updatedAt": "2026-01-01T00:00:00.000Z"
-  }
+  "name": "NexHire Technology",
+  "logo": "https://cdn.nexhire.vn/company/new-logo.png",
+  "description": "Updated company profile.",
+  "website": "https://nexhire.vn",
+  "address": "Ho Chi Minh City, Viet Nam",
+  "taxCode": "0107654321"
 }
 ```
 
-**Error codes**:
+### VerifyCompany body
 
-- `401 Unauthorized`
-- `403 Forbidden`
-- `409 Conflict`: `COMPANY.ALREADY_EXISTS`, `COMPANY.TAX_CODE_IN_USE`
-- `422 Unprocessable Entity`
-
----
-
-### `GET /companies/me`
-
-**Auth**: Recruiter
-
-**Purpose**: Get the current recruiter's company profile.
-
-**Success response**: `CompanyResponseDto` inside the standard success envelope.
-
-**Error codes**:
-
-- `401 Unauthorized`
-- `403 Forbidden`
-- `404 Not Found`: `COMPANY.NOT_FOUND`
-
----
-
-### `PUT /companies/:id`
-
-**Auth**: Recruiter
-
-**Purpose**: Update the company profile. The requester must own the company. Updating `taxCode` or `name` resets status to `PENDING`.
-
-**Params**:
-
-- `id` (UUID, required)
-
-**Body**: `UpdateCompanyDto`
-
-**Success response**: `CompanyResponseDto` inside the standard success envelope.
-
-**Error codes**:
-
-- `401 Unauthorized`
-- `403 Forbidden`
-- `404 Not Found`: `COMPANY.NOT_FOUND`
-- `409 Conflict`: `COMPANY.TAX_CODE_IN_USE`
-- `422 Unprocessable Entity`
-
----
-
-### `GET /companies/admin/pending`
-
-**Auth**: Admin
-
-**Purpose**: List pending companies for verification.
-
-**Success response**: Array of `CompanyResponseDto` inside the standard success envelope.
-
-**Error codes**:
-
-- `401 Unauthorized`
-- `403 Forbidden`
-
----
-
-### `PATCH /companies/:id/verify`
-
-**Auth**: Admin
-
-**Purpose**: Approve or reject a company.
-
-**Params**:
-
-- `id` (UUID, required)
-
-**Body**: `VerifyCompanyDto`
+| Field | Type | Required | Nullable | Note |
+| --- | --- | --- | --- | --- |
+| `action` | `APPROVE` \| `REJECT` | Yes | No | Admin verification decision. |
 
 ```json
 {
@@ -146,27 +155,11 @@ Auto trust adjustment:
 }
 ```
 
-`action` must be one of `APPROVE` or `REJECT`.
+### Admin reason body
 
-**Success response**: `CompanyResponseDto` inside the standard success envelope.
-
-**Error codes**:
-
-- `400 Bad Request`: `COMPANY.INVALID_VERIFY_ACTION`
-- `401 Unauthorized`
-- `403 Forbidden`
-- `404 Not Found`: `COMPANY.NOT_FOUND`
-- `422 Unprocessable Entity`
-
----
-
-### `PATCH /companies/admin/:id/suspend`
-
-**Auth**: Admin
-
-**Purpose**: Suspend a company. Job-service consumes the snapshot event and removes affected jobs from public posting/review eligibility.
-
-**Body**:
+| Field | Type | Required | Nullable | Note |
+| --- | --- | --- | --- | --- |
+| `reason` | string | No | Yes | Max 500 chars. |
 
 ```json
 {
@@ -174,25 +167,12 @@ Auto trust adjustment:
 }
 ```
 
-**Success response**: admin company response, including `trustLevel`, `approvedLowRiskCount`, and `negativeTrustSignalCount`.
+### Update trust level body
 
----
-
-### `PATCH /companies/admin/:id/restore`
-
-**Auth**: Admin
-
-**Purpose**: Restore a rejected/suspended company to `PENDING` for another manual review.
-
-**Success response**: admin company response, including trust counters.
-
----
-
-### `PATCH /companies/admin/:id/trust-level`
-
-**Auth**: Admin
-
-**Purpose**: Update company trust level used by job moderation.
+| Field | Type | Required | Nullable | Note |
+| --- | --- | --- | --- | --- |
+| `trustLevel` | `LOW` \| `MEDIUM` \| `HIGH` | Yes | No | New internal trust level. |
+| `reason` | string | Yes | No | Required admin reason, max 500 chars. |
 
 ```json
 {
@@ -201,85 +181,23 @@ Auto trust adjustment:
 }
 ```
 
-Allowed values: `LOW`, `MEDIUM`, `HIGH`.
+## Recruiter Endpoints
 
-**Success response**: admin company response, including trust counters.
+## `POST /api/v1/companies`
 
----
-
-### `GET /companies/admin/:id/trust-history`
-
-**Auth**: Admin
-
-**Purpose**: View trust level change history. This is admin-only and must not be shown to candidates.
-
-**Success response**:
-
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "id": "uuid",
-      "companyId": "uuid",
-      "previousTrustLevel": "MEDIUM",
-      "newTrustLevel": "HIGH",
-      "direction": "INCREASE",
-      "source": "MANUAL",
-      "changedByUserId": "admin-user-id",
-      "reason": "Company has consistently submitted verified low-risk jobs",
-      "metadata": {},
-      "createdAt": "2026-01-01T00:00:00.000Z"
-    }
-  ]
-}
-```
-
-`source = AUTO` entries include metadata from the job review signal, such as `jobId`, `targetId`, `decision`, `riskLevel`, `riskScore`, and threshold values.
-
----
-
-### `GET /companies/public/:id`
-
-**Auth**: Public
-
-**Purpose**: Get an approved company's public profile.
-
-**Params**:
-
-- `id` (UUID, required)
-
-**Success response**:
-
-```json
-{
-  "success": true,
-  "data": {
-    "id": "uuid",
-    "name": "NexHire Tech",
-    "logo": "https://example.com/logo.png",
-    "description": "Tech company focusing on AI...",
-    "website": "https://nexhire.com",
-    "address": "123 Tech Street, HCMC"
-  }
-}
-```
-
-**Error codes**:
-
-- `404 Not Found`: `COMPANY.NOT_FOUND`
-
-## Internal endpoints
-
-### `GET /api/v1/internal/companies/:id/posting-snapshot`
-
-Internal only.
-
-Summary: Return company ownership and posting snapshot for job-service/auth-service repair flows.
+Summary: Create a new company profile for current recruiter.
 
 Auth:
+- Required
+- Roles: `RECRUITER`
 
-- Internal service token header: `x-internal-service-token`
+Headers:
+
+| Header | Required | Note |
+| --- | --- | --- |
+| `Authorization: Bearer <accessToken>` | Yes | Recruiter access token. |
+
+Request body: `CreateCompany body`.
 
 Success response:
 
@@ -287,61 +205,519 @@ Success response:
 {
   "success": true,
   "data": {
-    "companyId": "uuid",
-    "ownerUserId": "uuid",
-    "companyName": "NexHire Tech",
-    "companyLogoUrl": "https://example.com/logo.png",
-    "companyStatus": "APPROVED",
-    "companyTrustLevel": "MEDIUM",
-    "changedAt": "2026-01-01T00:00:00.000Z"
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "NexHire Tech",
+    "logo": "https://cdn.nexhire.vn/company/logo.png",
+    "description": "Tech company focusing on recruitment products.",
+    "website": "https://nexhire.vn",
+    "address": "Ha Noi, Viet Nam",
+    "taxCode": "0101234567",
+    "ownerId": "11111111-1111-1111-1111-111111111111",
+    "status": "PENDING",
+    "createdAt": "2026-07-16T09:00:00.000Z",
+    "updatedAt": "2026-07-16T09:00:00.000Z"
   }
 }
 ```
 
-## Published events
+Errors:
 
-### `company.posting-snapshot-changed`
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `COMMON.FORBIDDEN` | User is not recruiter. |
+| 409 | `COMPANY.ALREADY_EXISTS` | Recruiter already owns a company. |
+| 409 | `COMPANY.TAX_CODE_IN_USE` | Tax code is already used. |
+| 422 | `COMMON.VALIDATION_ERROR` | Invalid body. |
+
+FE notes:
+- After create, company is `PENDING`. Recruiter cannot post jobs until admin approves.
+- Do not show trust level in recruiter UI.
+
+## `GET /api/v1/companies/me`
+
+Summary: Get current recruiter's company profile.
+
+Auth:
+- Required
+- Roles: `RECRUITER`
+
+Success response:
 
 ```json
 {
-  "companyId": "uuid",
-  "ownerUserId": "uuid",
+  "success": true,
+  "data": {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "NexHire Tech",
+    "logo": "https://cdn.nexhire.vn/company/logo.png",
+    "description": "Tech company focusing on recruitment products.",
+    "website": "https://nexhire.vn",
+    "address": "Ha Noi, Viet Nam",
+    "taxCode": "0101234567",
+    "ownerId": "11111111-1111-1111-1111-111111111111",
+    "status": "APPROVED",
+    "createdAt": "2026-07-16T09:00:00.000Z",
+    "updatedAt": "2026-07-16T10:00:00.000Z"
+  }
+}
+```
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `COMMON.FORBIDDEN` | User is not recruiter. |
+| 404 | `COMPANY.NOT_FOUND` | Recruiter has no company profile. |
+
+FE notes:
+- Use `status` to show `Pending approval`, `Approved`, `Rejected`, or `Suspended` company state.
+
+## `PUT /api/v1/companies/:id`
+
+Summary: Update company profile owned by current recruiter.
+
+Auth:
+- Required
+- Roles: `RECRUITER`
+
+Request params:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | Yes | Company id. |
+
+Request body: `UpdateCompany body`.
+
+Success response: `CompanyResponse`.
+
+Rules:
+- Updating `name` or `taxCode` resets company status to `PENDING`.
+- Company-service publishes `company.posting-snapshot-changed` after profile/status changes.
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `COMMON.FORBIDDEN` | User is not the company owner. |
+| 404 | `COMPANY.NOT_FOUND` | Company not found. |
+| 409 | `COMPANY.TAX_CODE_IN_USE` | Tax code is already used. |
+| 422 | `COMMON.VALIDATION_ERROR` | Invalid body. |
+
+FE notes:
+- Warn recruiter that changing legal identity fields may require re-approval.
+
+## Admin Endpoints
+
+## `GET /api/v1/companies/admin/pending`
+
+Summary: List pending companies for verification.
+
+Auth:
+- Required
+- Roles: `ADMIN`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "22222222-2222-2222-2222-222222222222",
+      "name": "NexHire Tech",
+      "logo": "https://cdn.nexhire.vn/company/logo.png",
+      "description": "Tech company focusing on recruitment products.",
+      "website": "https://nexhire.vn",
+      "address": "Ha Noi, Viet Nam",
+      "taxCode": "0101234567",
+      "ownerId": "11111111-1111-1111-1111-111111111111",
+      "status": "PENDING",
+      "trustLevel": "MEDIUM",
+      "approvedLowRiskCount": 0,
+      "negativeTrustSignalCount": 0,
+      "createdAt": "2026-07-16T09:00:00.000Z",
+      "updatedAt": "2026-07-16T09:00:00.000Z"
+    }
+  ]
+}
+```
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `COMMON.FORBIDDEN` | User is not admin. |
+
+FE notes:
+- This is currently pending-only, not a full admin company search endpoint.
+
+## `PATCH /api/v1/companies/:id/verify`
+
+Summary: Approve or reject a company.
+
+Auth:
+- Required
+- Roles: `ADMIN`
+
+Request params:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | Yes | Company id. |
+
+Request body: `VerifyCompany body`.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "NexHire Tech",
+    "logo": "https://cdn.nexhire.vn/company/logo.png",
+    "description": "Tech company focusing on recruitment products.",
+    "website": "https://nexhire.vn",
+    "address": "Ha Noi, Viet Nam",
+    "taxCode": "0101234567",
+    "ownerId": "11111111-1111-1111-1111-111111111111",
+    "status": "APPROVED",
+    "trustLevel": "MEDIUM",
+    "approvedLowRiskCount": 0,
+    "negativeTrustSignalCount": 0,
+    "createdAt": "2026-07-16T09:00:00.000Z",
+    "updatedAt": "2026-07-16T10:00:00.000Z"
+  }
+}
+```
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 400 | `COMPANY.INVALID_VERIFY_ACTION` | Action is not `APPROVE` or `REJECT`. |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `COMMON.FORBIDDEN` | User is not admin. |
+| 404 | `COMPANY.NOT_FOUND` | Company not found. |
+| 422 | `COMMON.VALIDATION_ERROR` | Invalid body. |
+
+FE notes:
+- `APPROVED` companies can post jobs.
+- `REJECTED` companies cannot post jobs.
+
+## `PATCH /api/v1/companies/admin/:id/suspend`
+
+Summary: Suspend a company and disable posting eligibility.
+
+Auth:
+- Required
+- Roles: `ADMIN`
+
+Request body: `Admin reason body`.
+
+Success response: `AdminCompanyResponse` with `status = SUSPENDED`.
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "NexHire Tech",
+    "logo": "https://cdn.nexhire.vn/company/logo.png",
+    "description": "Tech company focusing on recruitment products.",
+    "website": "https://nexhire.vn",
+    "address": "Ha Noi, Viet Nam",
+    "taxCode": "0101234567",
+    "ownerId": "11111111-1111-1111-1111-111111111111",
+    "status": "SUSPENDED",
+    "trustLevel": "MEDIUM",
+    "approvedLowRiskCount": 0,
+    "negativeTrustSignalCount": 0,
+    "createdAt": "2026-07-16T09:00:00.000Z",
+    "updatedAt": "2026-07-16T10:00:00.000Z"
+  }
+}
+```
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `COMMON.FORBIDDEN` | User is not admin. |
+| 404 | `COMPANY.NOT_FOUND` | Company not found. |
+| 422 | `COMMON.VALIDATION_ERROR` | Invalid body. |
+
+FE notes:
+- Job-service consumes the snapshot event and hides/marks affected jobs as not reviewable/public.
+
+## `PATCH /api/v1/companies/admin/:id/restore`
+
+Summary: Restore a rejected/suspended company to `PENDING` for another manual review.
+
+Auth:
+- Required
+- Roles: `ADMIN`
+
+Request body: `Admin reason body`.
+
+Success response: `AdminCompanyResponse` with `status = PENDING`.
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `COMMON.FORBIDDEN` | User is not admin. |
+| 404 | `COMPANY.NOT_FOUND` | Company not found. |
+
+FE notes:
+- Restored company still cannot post jobs until admin verifies it as `APPROVED`.
+
+## `PATCH /api/v1/companies/admin/:id/trust-level`
+
+Summary: Manually update internal company trust level used by job moderation.
+
+Auth:
+- Required
+- Roles: `ADMIN`
+
+Request body: `Update trust level body`.
+
+Success response: `AdminCompanyResponse`.
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "NexHire Tech",
+    "logo": "https://cdn.nexhire.vn/company/logo.png",
+    "description": "Tech company focusing on recruitment products.",
+    "website": "https://nexhire.vn",
+    "address": "Ha Noi, Viet Nam",
+    "taxCode": "0101234567",
+    "ownerId": "11111111-1111-1111-1111-111111111111",
+    "status": "APPROVED",
+    "trustLevel": "HIGH",
+    "approvedLowRiskCount": 0,
+    "negativeTrustSignalCount": 0,
+    "createdAt": "2026-07-16T09:00:00.000Z",
+    "updatedAt": "2026-07-16T10:00:00.000Z"
+  }
+}
+```
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `COMMON.FORBIDDEN` | User is not admin. |
+| 404 | `COMPANY.NOT_FOUND` | Company not found. |
+| 422 | `COMMON.VALIDATION_ERROR` | Invalid/missing `trustLevel` or `reason`. |
+
+FE notes:
+- Reason is required and should be shown in trust history.
+- Manual trust update resets trust counters.
+- Do not show trust level to candidate/public UI.
+
+## `GET /api/v1/companies/admin/:id/trust-history`
+
+Summary: View trust level change history.
+
+Auth:
+- Required
+- Roles: `ADMIN`
+
+Request params:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | Yes | Company id. |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "77777777-7777-7777-7777-777777777777",
+      "companyId": "22222222-2222-2222-2222-222222222222",
+      "previousTrustLevel": "MEDIUM",
+      "newTrustLevel": "HIGH",
+      "direction": "INCREASE",
+      "source": "MANUAL",
+      "changedByUserId": "99999999-9999-9999-9999-999999999999",
+      "reason": "Company has consistently submitted verified low-risk jobs",
+      "metadata": {},
+      "createdAt": "2026-07-16T10:00:00.000Z"
+    }
+  ]
+}
+```
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `COMMON.FORBIDDEN` | User is not admin. |
+| 404 | `COMPANY.NOT_FOUND` | Company not found. |
+
+## Public Endpoints
+
+## `GET /api/v1/companies/public/:id`
+
+Summary: Get public profile for an approved company.
+
+Auth:
+- Public
+
+Request params:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | Yes | Company id. |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "NexHire Tech",
+    "logo": "https://cdn.nexhire.vn/company/logo.png",
+    "description": "Tech company focusing on recruitment products.",
+    "website": "https://nexhire.vn",
+    "address": "Ha Noi, Viet Nam"
+  }
+}
+```
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 400 | `COMMON.VALIDATION_ERROR` | Invalid UUID. |
+| 404 | `COMPANY.NOT_FOUND` | Company not found or not approved. |
+
+FE notes:
+- Only approved companies are public.
+- Do not expect `status`, `taxCode`, `ownerId`, or `trustLevel`.
+
+## Internal Endpoints
+
+## `GET /api/v1/internal/companies/:id/posting-snapshot`
+
+Summary: Return company ownership and posting eligibility snapshot for job-service/auth-service repair flows.
+
+Auth:
+- Required
+- Internal service token: `x-internal-service-token`
+
+Request params:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | Yes | Company id. |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "companyId": "22222222-2222-2222-2222-222222222222",
+    "ownerUserId": "11111111-1111-1111-1111-111111111111",
+    "companyName": "NexHire Tech",
+    "companyLogoUrl": "https://cdn.nexhire.vn/company/logo.png",
+    "companyStatus": "APPROVED",
+    "companyTrustLevel": "MEDIUM",
+    "changedAt": "2026-07-16T10:00:00.000Z"
+  }
+}
+```
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid internal token. |
+| 403 | `COMMON.FORBIDDEN` | Caller is not internal. |
+| 404 | `COMPANY.NOT_FOUND` | Company not found. |
+
+## Auto Trust Adjustment
+
+Job-service publishes `job.review-trust-signal` after admin reviews a job or major revision.
+
+Rules:
+
+- Positive signal: `decision = APPROVE` and `riskLevel = LOW`.
+- Negative signal: `decision = REJECT`.
+- Approved `MEDIUM`, `HIGH`, or `CRITICAL` risk jobs are neutral because admin manually accepted them.
+- 5 positive signals increase trust by one level: `LOW -> MEDIUM -> HIGH`.
+- 3 negative signals decrease trust by one level: `HIGH -> MEDIUM -> LOW`.
+- Manual admin trust updates reset counters.
+- Duplicate event delivery is deduplicated by `targetType + targetId`.
+
+## Published Events
+
+### `company.posting-snapshot-changed`
+
+Published whenever posting eligibility or visible company snapshot changes:
+
+- company created
+- company approved/rejected/suspended/restored
+- company name/logo changed
+- company trust level changed
+
+Payload:
+
+```json
+{
+  "companyId": "22222222-2222-2222-2222-222222222222",
+  "ownerUserId": "11111111-1111-1111-1111-111111111111",
   "companyName": "NexHire Tech",
-  "companyLogoUrl": "https://example.com/logo.png",
+  "companyLogoUrl": "https://cdn.nexhire.vn/company/logo.png",
   "companyStatus": "APPROVED",
   "previousCompanyStatus": "PENDING",
   "companyTrustLevel": "MEDIUM",
-  "changedAt": "2026-01-01T00:00:00.000Z"
+  "changedAt": "2026-07-16T10:00:00.000Z"
 }
 ```
 
 Consumers:
 
-- auth-service: syncs recruiter owner -> companyId link for JWT `companyId`.
-- job-service: syncs job company snapshots; non-approved/suspended companies make affected jobs non-public/review blocked.
-- notification-service: sends in-app notification to the company owner.
+- auth-service: syncs recruiter owner -> company id link for JWT `companyId`.
+- job-service: syncs job company snapshots and hides/blocks jobs if company is non-approved.
+- notification-service: sends in-app notification to company owner when status changes.
 
-`previousCompanyStatus` is optional and only included when company-service knows the previous
-status. Notification-service uses it to avoid duplicate status notifications for snapshot-only
-updates such as rename, logo, or trust changes.
+`previousCompanyStatus` is optional and only included when company-service knows the previous status. Notification-service uses it to avoid duplicate status notifications for snapshot-only updates such as rename, logo, or trust changes.
 
-## Consumed events
+## Consumed Events
 
 ### `job.review-trust-signal`
 
+Payload:
+
 ```json
 {
-  "companyId": "uuid",
-  "jobId": "uuid",
+  "companyId": "22222222-2222-2222-2222-222222222222",
+  "jobId": "33333333-3333-3333-3333-333333333333",
   "targetType": "JOB",
-  "targetId": "uuid",
+  "targetId": "33333333-3333-3333-3333-333333333333",
   "decision": "APPROVE",
   "riskLevel": "LOW",
   "riskScore": 10,
-  "reviewedAt": "2026-01-01T00:00:00.000Z"
+  "reviewedAt": "2026-07-16T10:00:00.000Z"
 }
 ```
 
-Used only for internal trust automation. Company-service deduplicates this event by
-`targetType + targetId`, so RabbitMQ redelivery does not increase/decrease trust counters twice
-for the same reviewed job or revision.
+Used only for internal trust automation.

@@ -12,11 +12,17 @@ Responsibility: public HTTP entrypoint, JWT decoding, identity header forwarding
 | `/api/v1/users/*` | `auth-service` |
 | `/api/v1/candidates/*` | `candidate-service` |
 | `/api/v1/cvs/*` | `candidate-service` |
+| `/api/v1/saved-jobs` | `candidate-service` |
 | `/api/v1/saved-jobs/*` | `candidate-service` |
+| `/api/v1/companies` | `company-service` |
 | `/api/v1/companies/*` | `company-service` |
+| `/api/v1/hr-accounts` | `company-service` |
 | `/api/v1/hr-accounts/*` | `company-service` |
 | `/api/v1/jobs` | `job-service` |
 | `/api/v1/jobs/*` | `job-service` |
+| `/api/v1/recruiter/jobs` | `job-service` |
+| `/api/v1/recruiter/jobs/*` | `job-service` |
+| `/api/v1/admin/jobs/*` | `job-service` |
 | `/api/v1/categories/*` | `job-service` |
 | `/api/v1/applications` | `application-service` |
 | `/api/v1/applications/*` | `application-service` |
@@ -26,6 +32,7 @@ Responsibility: public HTTP entrypoint, JWT decoding, identity header forwarding
 | `/api/v1/matching/*` | `matching-service` |
 | `/api/v1/notifications` | `notification-service` |
 | `/api/v1/notifications/*` | `notification-service` |
+| `/api/v1/documents` | `document-storage-service` |
 | `/api/v1/documents/*` | `document-storage-service` |
 
 ## Identity forwarding
