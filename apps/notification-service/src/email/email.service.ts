@@ -18,10 +18,7 @@ export class EmailService {
     expiresAt: string;
   }): Promise<void> {
     const verificationLink = this.buildFrontendUrl(
-      this.configService.get<string>(
-        'notificationService.frontend.verifyEmailPath',
-        '/verify-email',
-      ),
+      this.configService.get<string>('notificationService.frontend.verifyEmailPath', '/verify-email'),
       {
         email: payload.email,
         token: payload.token,
@@ -50,10 +47,7 @@ export class EmailService {
     expiresAt: string;
   }): Promise<void> {
     const resetLink = this.buildFrontendUrl(
-      this.configService.get<string>(
-        'notificationService.frontend.resetPasswordPath',
-        '/reset-password',
-      ),
+      this.configService.get<string>('notificationService.frontend.resetPasswordPath', '/reset-password'),
       {
         email: payload.email,
         token: payload.token,

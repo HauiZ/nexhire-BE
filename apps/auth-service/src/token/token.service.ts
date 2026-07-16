@@ -47,7 +47,11 @@ export class TokenService {
       return false;
     }
 
-    return this.isStoredRefreshTokenValid(storedValue, params.refreshToken, params.tokenVersion);
+    return this.isStoredRefreshTokenValid(
+      storedValue,
+      params.refreshToken,
+      params.tokenVersion,
+    );
   }
 
   async consumeRefreshToken(params: {
@@ -101,7 +105,8 @@ export class TokenService {
       };
 
       return (
-        stored.tokenHash === this.hashToken(refreshToken) && stored.tokenVersion === tokenVersion
+        stored.tokenHash === this.hashToken(refreshToken) &&
+        stored.tokenVersion === tokenVersion
       );
     } catch {
       return false;

@@ -1,16 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { HttpModule } from '@nestjs/axios';
-
-import { Company } from './entities/company.entity';
 import { CompanyController } from './company.controller';
 import { CompanyService } from './company.service';
-import { JobClient } from './job.client';
+import { Company } from './entities/company.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Company]), HttpModule],
+  imports: [TypeOrmModule.forFeature([Company])],
   controllers: [CompanyController],
-  providers: [CompanyService, JobClient],
+  providers: [CompanyService],
   exports: [CompanyService],
 })
 export class CompanyModule {}

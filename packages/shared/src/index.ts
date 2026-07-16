@@ -4,6 +4,7 @@ export * from './enums/application-stage.enum';
 export * from './enums/job-status.enum';
 export * from './enums/job-type.enum';
 export * from './enums/company-status.enum';
+
 // ── constants ──
 export * from './constants/events';
 export * from './constants/headers';

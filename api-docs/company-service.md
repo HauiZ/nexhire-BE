@@ -11,7 +11,8 @@ Responsibility: company profile and HR accounts.
 ### `POST /companies`
 
 **Auth**: Recruiter
-**Purpose**: Create a new company profile. A recruiter can only have one company.
+
+**Purpose**: Create a new company profile. A recruiter can only own one company.
 
 **Body**: `CreateCompanyDto`
 ```json
@@ -25,11 +26,10 @@ Responsibility: company profile and HR accounts.
 }
 ```
 
-**Response**: `CompanyResponseDto`
+**Success response**:
 ```json
 {
-  "code": "SUCCESS",
-  "message": "Success",
+  "success": true,
   "data": {
     "id": "uuid",
     "name": "NexHire Tech",
@@ -40,61 +40,66 @@ Responsibility: company profile and HR accounts.
     "taxCode": "0101234567",
     "ownerId": "uuid",
     "status": "PENDING",
-    "createdAt": "2023-10-01T00:00:00Z",
-    "updatedAt": "2023-10-01T00:00:00Z"
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
   }
 }
 ```
 
-**Error Codes**:
+**Error codes**:
 - `401 Unauthorized`
 - `403 Forbidden`
-- `409 Conflict`: `COMPANY_ALREADY_EXISTS` or `COMPANY_TAX_CODE_IN_USE`
+- `409 Conflict`: `COMPANY.ALREADY_EXISTS`, `COMPANY.TAX_CODE_IN_USE`
+- `422 Unprocessable Entity`
 
 ---
 
 ### `GET /companies/me`
 
 **Auth**: Recruiter
-**Purpose**: Get the currently logged-in recruiter's company profile.
 
-**Response**: `CompanyResponseDto`
+**Purpose**: Get the current recruiter's company profile.
 
-**Error Codes**:
+**Success response**: `CompanyResponseDto` inside the standard success envelope.
+
+**Error codes**:
 - `401 Unauthorized`
 - `403 Forbidden`
-- `404 Not Found`: `COMPANY_NOT_FOUND`
+- `404 Not Found`: `COMPANY.NOT_FOUND`
 
 ---
 
 ### `PUT /companies/:id`
 
 **Auth**: Recruiter
-**Purpose**: Update the company profile. Requires the recruiter to be the owner. Updating `taxCode` or `name` will revert the company status to `PENDING`.
+
+**Purpose**: Update the company profile. The requester must own the company. Updating `taxCode` or `name` resets status to `PENDING`.
 
 **Params**:
-- `id` (UUID)
+- `id` (UUID, required)
 
-**Body**: `UpdateCompanyDto` (Partial of `CreateCompanyDto`)
+**Body**: `UpdateCompanyDto`
 
-**Response**: `CompanyResponseDto`
+**Success response**: `CompanyResponseDto` inside the standard success envelope.
 
-**Error Codes**:
+**Error codes**:
 - `401 Unauthorized`
 - `403 Forbidden`
-- `404 Not Found`: `COMPANY_NOT_FOUND`
-- `409 Conflict`: `COMPANY_TAX_CODE_IN_USE`
+- `404 Not Found`: `COMPANY.NOT_FOUND`
+- `409 Conflict`: `COMPANY.TAX_CODE_IN_USE`
+- `422 Unprocessable Entity`
 
 ---
 
 ### `GET /companies/admin/pending`
 
 **Auth**: Admin
-**Purpose**: Get a list of pending companies for verification.
 
-**Response**: Array of `CompanyResponseDto`
+**Purpose**: List pending companies for verification.
 
-**Error Codes**:
+**Success response**: Array of `CompanyResponseDto` inside the standard success envelope.
+
+**Error codes**:
 - `401 Unauthorized`
 - `403 Forbidden`
 
@@ -103,41 +108,45 @@ Responsibility: company profile and HR accounts.
 ### `PATCH /companies/:id/verify`
 
 **Auth**: Admin
+
 **Purpose**: Approve or reject a company.
 
 **Params**:
-- `id` (UUID)
+- `id` (UUID, required)
 
 **Body**: `VerifyCompanyDto`
 ```json
 {
-  "action": "APPROVE" // or "REJECT"
+  "action": "APPROVE"
 }
 ```
 
-**Response**: `CompanyResponseDto`
+`action` must be one of `APPROVE` or `REJECT`.
 
-**Error Codes**:
-- `400 Bad Request`: `INVALID_VERIFY_ACTION`
+**Success response**: `CompanyResponseDto` inside the standard success envelope.
+
+**Error codes**:
+- `400 Bad Request`: `COMPANY.INVALID_VERIFY_ACTION`
 - `401 Unauthorized`
 - `403 Forbidden`
-- `404 Not Found`: `COMPANY_NOT_FOUND`
+- `404 Not Found`: `COMPANY.NOT_FOUND`
+- `422 Unprocessable Entity`
 
 ---
 
 ### `GET /companies/public/:id`
 
 **Auth**: Public
-**Purpose**: Get public company profile. The company must be `APPROVED`.
+
+**Purpose**: Get an approved company's public profile.
 
 **Params**:
-- `id` (UUID)
+- `id` (UUID, required)
 
-**Response**:
+**Success response**:
 ```json
 {
-  "code": "SUCCESS",
-  "message": "Success",
+  "success": true,
   "data": {
     "id": "uuid",
     "name": "NexHire Tech",
@@ -149,5 +158,5 @@ Responsibility: company profile and HR accounts.
 }
 ```
 
-**Error Codes**:
-- `404 Not Found`: `COMPANY_NOT_FOUND`
+**Error codes**:
+- `404 Not Found`: `COMPANY.NOT_FOUND`

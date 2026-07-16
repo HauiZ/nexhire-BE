@@ -1,66 +1,92 @@
-import { Controller, Post, Body, Get, Put, Param, ParseUUIDPipe, Patch } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CurrentUser, AuthUser, Roles, UserRole, Public } from '@nexhire/shared';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Put } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiErrorResponses,
+  ApiSuccessResponse,
+  AuthUser,
+  CurrentUser,
+  Public,
+  Roles,
+  UserRole,
+} from '@nexhire/shared';
 import { CompanyService } from './company.service';
+import { CompanyResponseDto } from './dto/company-response.dto';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { PublicCompanyProfileDto } from './dto/public-company-profile.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
-// Thêm import CompanyResponseDto (bạn cần định nghĩa DTO này)
+import { VerifyCompanyDto } from './dto/verify-company.dto';
 
 @ApiTags('companies')
-@ApiBearerAuth()
 @Controller('companies')
 export class CompanyController {
   constructor(private readonly companyService: CompanyService) {}
 
-  // --- Dành cho EMPLOYER (Recruiter) ---
-
   @Post()
   @Roles(UserRole.RECRUITER)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new company profile' })
-  create(@CurrentUser() user: AuthUser, @Body() dto: CreateCompanyDto) {
+  @ApiSuccessResponse(CompanyResponseDto, { status: 201 })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 409, 422, 500] })
+  create(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: CreateCompanyDto,
+  ): Promise<CompanyResponseDto> {
     return this.companyService.create(user.id, dto);
   }
 
   @Get('me')
   @Roles(UserRole.RECRUITER)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get my company profile' })
-  findMine(@CurrentUser() user: AuthUser) {
+  @ApiSuccessResponse(CompanyResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  findMine(@CurrentUser() user: AuthUser): Promise<CompanyResponseDto> {
     return this.companyService.findByOwner(user.id);
   }
 
   @Put(':id')
   @Roles(UserRole.RECRUITER)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Update company profile' })
+  @ApiSuccessResponse(CompanyResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 422, 500] })
   update(
-    @CurrentUser() user: AuthUser, 
-    @Param('id', ParseUUIDPipe) id: string, 
-    @Body() dto: UpdateCompanyDto
-  ) {
-    return this.companyService.update(id, user.id, dto); // Truyền user.id để check ownership
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: UpdateCompanyDto,
+  ): Promise<CompanyResponseDto> {
+    return this.companyService.update(id, user.id, dto);
   }
-
-  // --- Dành cho ADMIN (Verification) ---
 
   @Get('admin/pending')
   @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get pending companies for verification' })
-  getPending() {
+  @ApiSuccessResponse(CompanyResponseDto, { isArray: true })
+  @ApiErrorResponses({ statuses: [401, 403, 500] })
+  getPending(): Promise<CompanyResponseDto[]> {
     return this.companyService.getPending();
   }
 
   @Patch(':id/verify')
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Approve or Reject a company' })
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Approve or reject a company' })
+  @ApiSuccessResponse(CompanyResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 422, 500] })
   verify(
-    @Param('id', ParseUUIDPipe) id: string, 
-    @Body('action') action: 'APPROVE' | 'REJECT' // Nên làm 1 DTO VerifyCompanyDto cho phần này
-  ) {
-    return this.companyService.verify(id, action);
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: VerifyCompanyDto,
+  ): Promise<CompanyResponseDto> {
+    return this.companyService.verify(id, dto.action);
   }
+
   @Get('public/:id')
-  @Public() // Cho phép ai cũng xem được
-  @ApiOperation({ summary: 'Public view of company + jobs' })
-  getPublicProfile(@Param('id', ParseUUIDPipe) id: string) {
+  @Public()
+  @ApiOperation({ summary: 'Get public company profile' })
+  @ApiSuccessResponse(PublicCompanyProfileDto)
+  @ApiErrorResponses({ statuses: [404, 500] })
+  getPublicProfile(@Param('id', ParseUUIDPipe) id: string): Promise<PublicCompanyProfileDto> {
     return this.companyService.getPublicProfile(id);
   }
 }
