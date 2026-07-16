@@ -9,6 +9,7 @@ const INTERNAL_SERVICE_TOKEN =
 const TEST_EMAIL = `candidate-test-${Date.now()}@nexhire.local`;
 const TEST_PASSWORD = 'StrongPassword123!';
 const USER_ROLE = 'CANDIDATE';
+const TEST_JOB_ID = process.env.CANDIDATE_TEST_JOB_ID;
 let userId = process.env.CANDIDATE_TEST_USER_ID ?? randomUUID();
 let accessToken = process.env.CANDIDATE_TEST_TOKEN;
 
@@ -62,6 +63,21 @@ interface CandidateApplicationSnapshotResponse {
   cvDocumentId: string;
   cvTitle: string | null;
   cvParseStatus: string;
+}
+
+interface SavedJobResponse {
+  id: string;
+  jobId: string;
+  title: string;
+  status: string;
+}
+
+interface SavedJobStatusResponse {
+  saved: boolean;
+}
+
+interface SavedJobBatchStatusResponse {
+  savedJobIds: string[];
 }
 
 interface ApiEnvelope<T> {
@@ -463,6 +479,63 @@ async function verifyApplicationSnapshot(candidateCv: CandidateCvResponse): Prom
   fail('application snapshot response shape is invalid', raw);
 }
 
+async function verifySavedJobFlow(): Promise<void> {
+  logSection('9. Saved job toggle');
+
+  if (!TEST_JOB_ID) {
+    log('Skipped: set CANDIDATE_TEST_JOB_ID to a published job id.', 'yellow');
+    return;
+  }
+
+  const saveResponse = await request<SavedJobResponse>('POST', `/saved-jobs/${TEST_JOB_ID}`);
+  if (!expectStatus(saveResponse.status, 201, 'save published job', saveResponse.raw)) {
+    return;
+  }
+  if (saveResponse.data.jobId === TEST_JOB_ID && saveResponse.data.id) {
+    pass('saved job response shape is valid');
+  } else {
+    fail('saved job response shape is invalid', saveResponse.raw);
+  }
+
+  const batchStatusResponse = await request<SavedJobBatchStatusResponse>(
+    'GET',
+    `/saved-jobs/status?jobIds=${TEST_JOB_ID}`,
+  );
+  if (
+    expectStatus(batchStatusResponse.status, 200, 'batch-check saved status', batchStatusResponse.raw) &&
+    batchStatusResponse.data.savedJobIds.includes(TEST_JOB_ID)
+  ) {
+    pass('batch saved status includes saved job id');
+  }
+
+  const listResponse = await request<SavedJobResponse[]>('GET', '/saved-jobs');
+  if (
+    expectStatus(listResponse.status, 200, 'list saved jobs', listResponse.raw) &&
+    listResponse.data.some((job) => job.jobId === TEST_JOB_ID)
+  ) {
+    pass('saved job appears in list');
+  }
+
+  const deleteResponse = await request<{ deleted: true }>('DELETE', `/saved-jobs/${TEST_JOB_ID}`);
+  if (
+    expectStatus(deleteResponse.status, 200, 'unsave job', deleteResponse.raw) &&
+    deleteResponse.data.deleted
+  ) {
+    pass('unsave returns deleted true');
+  }
+
+  const statusResponse = await request<SavedJobStatusResponse>(
+    'GET',
+    `/saved-jobs/${TEST_JOB_ID}/status`,
+  );
+  if (
+    expectStatus(statusResponse.status, 200, 'check single saved status after unsave', statusResponse.raw) &&
+    !statusResponse.data.saved
+  ) {
+    pass('single saved status is false after unsave');
+  }
+}
+
 async function main(): Promise<void> {
   log('CANDIDATE PROFILE API LIVE TEST', 'cyan');
   log(`Base URL: ${BASE_URL}`, 'yellow');
@@ -479,6 +552,7 @@ async function main(): Promise<void> {
     await verifyCvInProfile(candidateCv.id);
     await verifyApplicationSnapshot(candidateCv);
   }
+  await verifySavedJobFlow();
 
   logSection('Result');
   log(`Passed: ${passed}`, 'green');

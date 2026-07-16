@@ -94,6 +94,7 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/recruiter/jobs/:id/submit`
 - `POST /api/v1/recruiter/jobs/:id/unpublish`
 - `POST /api/v1/recruiter/jobs/:id/republish`
+- `POST /api/v1/recruiter/jobs/:id/close`
 - `POST /api/v1/recruiter/jobs/:jobId/revisions`
 - `PATCH /api/v1/recruiter/jobs/:jobId/revisions/:revisionId`
 - `POST /api/v1/recruiter/jobs/:jobId/revisions/:revisionId/submit`
@@ -101,6 +102,7 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/admin/jobs/:id/review`
 - `POST /api/v1/admin/jobs/:id/unpublish`
 - `POST /api/v1/admin/jobs/:id/republish`
+- `POST /api/v1/admin/jobs/:id/close`
 - `GET /api/v1/admin/jobs/revision-review-queue`
 - `POST /api/v1/admin/jobs/revisions/:revisionId/review`
 - `POST /api/v1/applications`
@@ -112,6 +114,11 @@ FE-facing business endpoints currently documented:
 - `GET /api/v1/recruiter/applications/:id`
 - `GET /api/v1/recruiter/applications/:id/cv`
 - `PATCH /api/v1/recruiter/applications/:id/status`
+- `GET /api/v1/saved-jobs`
+- `POST /api/v1/saved-jobs/:jobId`
+- `DELETE /api/v1/saved-jobs/:jobId`
+- `GET /api/v1/saved-jobs/status`
+- `GET /api/v1/saved-jobs/:jobId/status`
 - `GET /api/v1/notifications`
 - `GET /api/v1/notifications/unread-count`
 - `PATCH /api/v1/notifications/read-all`

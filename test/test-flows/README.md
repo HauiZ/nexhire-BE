@@ -71,6 +71,7 @@ It covers:
 - CV upload
 - CV appears in profile aggregate
 - optional internal application snapshot used by application-service
+- optional saved job toggle flow
 
 Optional env:
 
@@ -80,6 +81,7 @@ $env:CANDIDATE_TEST_USER_ID="b8b33c46-4bb0-4a33-8b0d-927e081a38a5"
 $env:CANDIDATE_TEST_TOKEN="candidate-access-token"
 $env:CANDIDATE_INTERNAL_TEST_BASE_URL="http://localhost:3002/api/v1"
 $env:CANDIDATE_INTERNAL_TEST_TOKEN="dev-internal-service-token"
+$env:CANDIDATE_TEST_JOB_ID="published-job-id"
 ```
 
 ## Application service

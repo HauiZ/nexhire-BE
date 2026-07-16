@@ -22,5 +22,6 @@ export const validationSchema = Joi.object({
   AUTH_SERVICE_URL: Joi.string().uri().default('http://localhost:3001'),
   DOCUMENT_STORAGE_SERVICE_URL: Joi.string().uri().default('http://localhost:3009'),
   CV_PARSING_SERVICE_URL: Joi.string().uri().default('http://localhost:3006'),
+  JOB_SERVICE_URL: Joi.string().uri().default('http://localhost:3004'),
   CANDIDATE_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(30000),
 });

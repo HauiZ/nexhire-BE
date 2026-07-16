@@ -390,6 +390,175 @@ Errors:
 | 409    | conflict         | Duplicate CV document conflict |
 | 503    | AI/service error | Downstream service unavailable |
 
+### `GET /api/v1/saved-jobs`
+
+Summary: List jobs saved by the current candidate.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Query: `page`, `limit`.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "9d56926e-9583-47ec-8098-c21c85a7bbcc",
+      "jobId": "d132e6a5-78a2-42e3-90e3-41199c920150",
+      "title": "Backend Developer",
+      "companyId": "390fe4c7-b65b-4780-ae87-79818cef8b6c",
+      "companyName": "NexHire",
+      "companyLogoUrl": "https://cdn.nexhire.vn/company/nexhire.png",
+      "status": "PUBLISHED",
+      "experienceLevel": "JUNIOR",
+      "location": "Ha Noi",
+      "salaryMin": 15000000,
+      "salaryMax": 25000000,
+      "salaryCurrency": "VND",
+      "isSalaryVisible": true,
+      "deadline": "2026-09-30T17:00:00.000Z",
+      "publishedAt": "2026-07-15T10:00:00.000Z",
+      "savedAt": "2026-07-16T10:00:00.000Z"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 1,
+    "totalPages": 1
+  }
+}
+```
+
+Notes:
+
+- Saved jobs store a candidate-service snapshot for fast card rendering.
+- The current implementation saves only jobs that are public at save time.
+- If the job later changes status, the saved record remains so the candidate does not lose history.
+- On save, candidate-service calls job-service internal endpoint `GET /api/v1/internal/jobs/:id/saved-snapshot` using `x-internal-service-token`.
+
+### `POST /api/v1/saved-jobs/:jobId`
+
+Summary: Save a published job for the current candidate.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Rules:
+
+- Idempotent: saving the same job again returns the existing saved job.
+- Returns `409 JOB.JOB_NOT_PUBLIC` when the job is not currently public.
+
+Success response: one saved-job object, same item shape as `GET /api/v1/saved-jobs`.
+
+### `DELETE /api/v1/saved-jobs/:jobId`
+
+Summary: Remove a saved job for the current candidate.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Rules:
+
+- Idempotent: removing a job that is not saved still returns success.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "deleted": true
+  }
+}
+```
+
+### `GET /api/v1/saved-jobs/status`
+
+Summary: Batch-check which jobs are saved by the current candidate. Use this after loading a public job list to avoid one request per card.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Query:
+
+| Field | Type | Required | Note |
+| ----- | ---- | -------- | ---- |
+| `jobIds` | string | Yes | Comma-separated UUIDs, max 100 ids |
+
+Example:
+
+```http
+GET /api/v1/saved-jobs/status?jobIds=d132e6a5-78a2-42e3-90e3-41199c920150,0f78261e-775b-49ef-8990-8a27c2ff851f
+```
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "savedJobIds": ["d132e6a5-78a2-42e3-90e3-41199c920150"]
+  }
+}
+```
+
+FE card flow:
+
+1. Load public jobs with `GET /api/v1/jobs`.
+2. Send the returned job ids once to `GET /api/v1/saved-jobs/status?jobIds=...`.
+3. Mark cards whose id appears in `savedJobIds`.
+
+### `GET /api/v1/saved-jobs/:jobId/status`
+
+Summary: Check whether the current candidate has saved a job.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "saved": true
+  }
+}
+```
+
+## Service-to-service contracts used by candidate-service
+
+Candidate-service depends on these internal contracts:
+
+| Caller flow | Target service | Endpoint | Purpose |
+| ----------- | -------------- | -------- | ------- |
+| Profile email fallback | auth-service | `GET /api/v1/internal/auth/users/:id/contact-snapshot` | Use login email when `profile.contactEmail` is empty |
+| Avatar/CV upload | document-storage-service | `POST /api/v1/documents/upload` | Store candidate avatar/CV documents |
+| Application creation | candidate-service internal | `GET /api/v1/internal/candidates/users/:userId/cvs/:candidateCvId/application-snapshot` | Provide candidate/contact/CV snapshot to application-service |
+| Saved job creation | job-service | `GET /api/v1/internal/jobs/:id/saved-snapshot` | Validate job is public and store job card snapshot |
+
+Internal caller requirements:
+
+- Must send `x-internal-service-token`.
+- Must send identity headers used by internal guards: `x-user-id`, `x-user-role`.
+- Internal responses still use the standard response envelope.
+- Candidate-service should map downstream 404 from job-service to `JOB.JOB_NOT_FOUND`.
+- Candidate-service should reject saving when job-service returns `isPublic = false` or `status != PUBLISHED`.
+
 ## Internal endpoints
 
 ### `GET /api/v1/internal/candidates/users/:userId/cvs/:candidateCvId/application-snapshot`
