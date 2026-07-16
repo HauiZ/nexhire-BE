@@ -19,4 +19,5 @@ export const validationSchema = Joi.object({
   RABBITMQ_EXCHANGE: Joi.string().default('nexhire.events'),
   JOB_SERVICE_COMPANY_SNAPSHOT_QUEUE: Joi.string().default('job.company-snapshot'),
   JOB_SERVICE_APPLICATION_SUBMITTED_QUEUE: Joi.string().default('job.application-submitted'),
+  JOB_EXPIRATION_SWEEP_INTERVAL_MS: Joi.number().min(10000).default(300000),
 });

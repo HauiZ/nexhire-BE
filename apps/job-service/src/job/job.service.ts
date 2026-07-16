@@ -4,6 +4,7 @@ import {
   ForbiddenException,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -35,6 +36,7 @@ import { JobReasonDto, ReviewJobDto } from './dto/job-review.dto';
 import {
   JobResponseDto,
   JobApplicationSnapshotDto,
+  JobSavedSnapshotDto,
   JobRevisionResponseDto,
   PublicJobDetailDto,
   PublicJobListItemDto,
@@ -101,6 +103,8 @@ const MAJOR_FIELDS: Array<keyof UpdateJobDto> = [
 
 @Injectable()
 export class JobService {
+  private readonly logger = new Logger(JobService.name);
+
   constructor(
     private readonly dataSource: DataSource,
     private readonly companySnapshotService: CompanySnapshotService,
@@ -150,6 +154,35 @@ export class JobService {
     };
   }
 
+  async getSavedSnapshot(id: string): Promise<JobSavedSnapshotDto> {
+    const job = await this.jobRepo.findOne({ where: { id } });
+    if (!job) {
+      throw this.jobNotFound();
+    }
+    return this.mapSavedSnapshot(job);
+  }
+
+  async expirePublishedJobs(referenceDate = new Date()): Promise<number> {
+    const result = await this.jobRepo
+      .createQueryBuilder()
+      .update(Job)
+      .set({
+        status: JobStatus.EXPIRED,
+        unpublishedAt: referenceDate,
+        unpublishReason: 'Job deadline expired',
+      })
+      .where('status = :status', { status: JobStatus.PUBLISHED })
+      .andWhere('deadline IS NOT NULL')
+      .andWhere('deadline <= :referenceDate', { referenceDate })
+      .andWhere('deleted_at IS NULL')
+      .execute();
+    const affected = result.affected ?? 0;
+    if (affected > 0) {
+      this.logger.log(`Expired published jobs count=${affected}`);
+    }
+    return affected;
+  }
+
   async createDraft(user: AuthUser, dto: CreateJobDto): Promise<JobResponseDto> {
     this.assertRecruiter(user);
     this.assertJobInput(dto);
@@ -173,6 +206,7 @@ export class JobService {
         ...this.searchTextService.buildSearchFields(dto, company.companyName),
       }),
     );
+    this.logger.log(`Job draft created jobId=${job.id} companyId=${job.companyId} userId=${user.id}`);
 
     return this.mapJob(job);
   }
@@ -193,11 +227,15 @@ export class JobService {
 
     if (job.status === JobStatus.PUBLISHED && this.hasMajorChange(job, dto)) {
       if (job.applicationCount > 0) {
+        this.logger.warn(
+          `Major update blocked: published job has applications jobId=${job.id} applicationCount=${job.applicationCount}`,
+        );
         throw new ConflictException({
           code: ERROR_CODES.JOB.MAJOR_UPDATE_REQUIRES_REVISION,
           message: 'Major updates to a published job with applications must use a revision',
         });
       }
+      this.logger.warn(`Major update blocked: published job requires review jobId=${job.id}`);
       throw new ConflictException({
         code: ERROR_CODES.JOB.MAJOR_UPDATE_REQUIRES_REVIEW,
         message: 'Major updates to a published job must be reviewed before going public',
@@ -217,6 +255,7 @@ export class JobService {
       this.searchTextService.buildSearchFields(dto, job.companyName),
     );
     const updated = await this.jobRepo.save(job);
+    this.logger.log(`Job updated jobId=${updated.id} status=${updated.status} userId=${user.id}`);
     return this.mapJob(updated);
   }
 
@@ -257,6 +296,9 @@ export class JobService {
       });
       return saved;
     });
+    this.logger.log(
+      `Job submitted for review jobId=${updated.id} status=${updated.status} riskLevel=${updated.riskLevel} riskScore=${updated.riskScore}`,
+    );
 
     return this.mapJob(updated);
   }
@@ -288,6 +330,7 @@ export class JobService {
         deletedAt: null,
       }),
     );
+    this.logger.log(`Job revision draft created revisionId=${revision.id} jobId=${job.id} userId=${user.id}`);
     return this.mapRevision(revision);
   }
 
@@ -307,7 +350,9 @@ export class JobService {
       });
     }
     Object.assign(revision, this.revisionInput(dto));
-    return this.mapRevision(await this.revisionRepo.save(revision));
+    const saved = await this.revisionRepo.save(revision);
+    this.logger.log(`Job revision updated revisionId=${saved.id} jobId=${jobId} userId=${user.id}`);
+    return this.mapRevision(saved);
   }
 
   async submitRevision(
@@ -344,6 +389,9 @@ export class JobService {
       });
       return saved;
     });
+    this.logger.log(
+      `Job revision submitted revisionId=${updated.id} jobId=${job.id} status=${updated.status} riskLevel=${updated.riskLevel} riskScore=${updated.riskScore}`,
+    );
 
     return this.mapRevision(updated);
   }
@@ -424,6 +472,9 @@ export class JobService {
         publishedAt: saved.publishedAt?.toISOString(),
       });
     }
+    this.logger.log(
+      `Job reviewed jobId=${saved.id} decision=${dto.decision} finalStatus=${saved.status} adminId=${admin.id}`,
+    );
     return this.mapJob(saved);
   }
 
@@ -515,6 +566,9 @@ export class JobService {
         approvedAt: saved.reviewedAt?.toISOString(),
       });
     }
+    this.logger.log(
+      `Job revision reviewed revisionId=${saved.id} jobId=${saved.jobId} decision=${dto.decision} finalStatus=${saved.status} adminId=${admin.id}`,
+    );
 
     return this.mapRevision(saved);
   }
@@ -582,6 +636,9 @@ export class JobService {
           .execute();
       }
     });
+    this.logger.log(
+      `Company posting snapshot synced companyId=${payload.companyId} status=${payload.companyStatus}`,
+    );
   }
 
   async recordApplicationSubmitted(payload: ApplicationSubmittedPayload): Promise<void> {
@@ -591,6 +648,9 @@ export class JobService {
         where: { applicationId: payload.applicationId },
       });
       if (existing) {
+        this.logger.log(
+          `Application submitted event ignored applicationId=${payload.applicationId} reason=alreadyProcessed`,
+        );
         return;
       }
       await processedRepo.save(
@@ -602,6 +662,9 @@ export class JobService {
       );
       await manager.increment(Job, { id: payload.jobId }, 'applicationCount', 1);
     });
+    this.logger.log(
+      `Application submitted event processed applicationId=${payload.applicationId} jobId=${payload.jobId}`,
+    );
   }
 
   async deleteMine(user: AuthUser, id: string): Promise<{ deleted: true }> {
@@ -617,6 +680,7 @@ export class JobService {
     }
     job.deletedAt = new Date();
     await this.jobRepo.save(job);
+    this.logger.log(`Job soft deleted jobId=${job.id} companyId=${job.companyId} userId=${user.id}`);
     return { deleted: true };
   }
 
@@ -793,6 +857,7 @@ export class JobService {
       unpublishedAt: saved.unpublishedAt?.toISOString(),
       reason: saved.unpublishReason,
     });
+    this.logger.log(`Job unpublished jobId=${saved.id} byUserId=${user.id} status=${saved.status}`);
     return this.mapJob(saved);
   }
 
@@ -814,7 +879,9 @@ export class JobService {
     job.unpublishedAt = null;
     job.unpublishReason = null;
     job.publishedAt = job.publishedAt ?? new Date();
-    return this.mapJob(await this.jobRepo.save(job));
+    const saved = await this.jobRepo.save(job);
+    this.logger.log(`Job republished jobId=${saved.id} companyId=${saved.companyId}`);
+    return this.mapJob(saved);
   }
 
   private async closeJob(job: Job, user: AuthUser, reason?: string): Promise<JobResponseDto> {
@@ -841,6 +908,7 @@ export class JobService {
       closedAt: saved.closedAt?.toISOString(),
       reason: saved.reviewReason,
     });
+    this.logger.log(`Job closed jobId=${saved.id} byUserId=${user.id}`);
     return this.mapJob(saved);
   }
 
@@ -918,7 +986,9 @@ export class JobService {
   }
 
   private async publishEvent(routingKey: string, payload: unknown): Promise<void> {
-    await this.eventPublisher.publish(routingKey, payload).catch(() => undefined);
+    await this.eventPublisher.publish(routingKey, payload).catch((error) => {
+      this.logger.error(`Failed to publish event routingKey=${routingKey}: ${(error as Error).message}`);
+    });
   }
 
   private paginate<T>(data: T[], page: number, limit: number, total: number): Paginated<T> {
@@ -1001,6 +1071,26 @@ export class JobService {
       publishedAt: job.publishedAt,
       createdAt: job.createdAt,
       updatedAt: job.updatedAt,
+    };
+  }
+
+  private mapSavedSnapshot(job: Job): JobSavedSnapshotDto {
+    return {
+      id: job.id,
+      companyId: job.companyId,
+      companyName: job.companyName,
+      companyLogoUrl: job.companyLogoUrl,
+      title: job.title,
+      status: job.status,
+      experienceLevel: job.experienceLevel,
+      location: job.location,
+      salaryMin: job.isSalaryVisible ? job.salaryMin : null,
+      salaryMax: job.isSalaryVisible ? job.salaryMax : null,
+      salaryCurrency: job.salaryCurrency,
+      isSalaryVisible: job.isSalaryVisible,
+      deadline: job.deadline,
+      publishedAt: job.publishedAt,
+      isPublic: job.status === JobStatus.PUBLISHED,
     };
   }
 

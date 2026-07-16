@@ -7,6 +7,12 @@ Base path through gateway:
 
 Responsibility: job posting lifecycle, manual moderation review, public job read.
 
+## Runtime config
+
+| Env | Default | Purpose |
+| --- | ------- | ------- |
+| `JOB_EXPIRATION_SWEEP_INTERVAL_MS` | `300000` | How often job-service sweeps expired published jobs. Minimum accepted value is `10000`. |
+
 ## Rules
 
 - Recruiters create complete `DRAFT` jobs. Drafts still require all submit-ready fields.
@@ -25,6 +31,7 @@ Responsibility: job posting lifecycle, manual moderation review, public job read
 - Company snapshot is synced by event `company.posting-snapshot-changed`. If a company becomes non-approved, published/reviewing jobs move to `SHOULD_REJECT` and are no longer public.
 - Public search uses PostgreSQL full-text search over normalized `title`, `description`, `requirements`, `skills`, company snapshot name, and location.
 - Delete is soft delete. Published jobs should be hidden with `UNPUBLISHED`, not deleted.
+- A background scheduler marks published jobs whose `deadline` has passed as `EXPIRED`. The default sweep interval is 5 minutes and can be configured with `JOB_EXPIRATION_SWEEP_INTERVAL_MS`. Expired jobs are hidden from public pages; existing applications remain available for recruiters to process.
 
 ## Shared Payload Fields
 
@@ -319,6 +326,49 @@ Errors:
 | 401 | Missing/invalid internal service token |
 | 403 | Internal caller is not allowed |
 | 404 | Job not found |
+
+## Internal Saved Job Snapshot Endpoint
+
+### `GET /api/v1/internal/jobs/:id/saved-snapshot`
+
+Internal only.
+
+Summary: Get a lightweight job card snapshot for candidate-service saved jobs.
+
+Auth:
+
+- Required
+- Internal service token header: `x-internal-service-token`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "companyId": "uuid",
+    "companyName": "NexHire",
+    "companyLogoUrl": "https://cdn.nexhire.vn/company/nexhire.png",
+    "title": "Backend Developer",
+    "status": "PUBLISHED",
+    "experienceLevel": "JUNIOR",
+    "location": "Ha Noi",
+    "salaryMin": 15000000,
+    "salaryMax": 25000000,
+    "salaryCurrency": "VND",
+    "isSalaryVisible": true,
+    "deadline": "2026-09-30T17:00:00.000Z",
+    "publishedAt": "2026-07-15T10:00:00.000Z",
+    "isPublic": true
+  }
+}
+```
+
+Rules:
+
+- Candidate-service allows saving only when `isPublic = true` and `status = PUBLISHED`.
+- Salary fields are already hidden when `isSalaryVisible = false`.
 
 ## Application Snapshot Stored By Application-Service
 

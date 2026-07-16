@@ -7,4 +7,7 @@ export const jobServiceConfig = registerAs('jobService', () => ({
     applicationSubmitted:
       process.env.JOB_SERVICE_APPLICATION_SUBMITTED_QUEUE ?? 'job.application-submitted',
   },
+  expiration: {
+    sweepIntervalMs: parseInt(process.env.JOB_EXPIRATION_SWEEP_INTERVAL_MS ?? '300000', 10),
+  },
 }));

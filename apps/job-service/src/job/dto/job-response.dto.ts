@@ -264,6 +264,53 @@ export class JobApplicationSnapshotDto {
   isApplyable: boolean;
 }
 
+export class JobSavedSnapshotDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  companyId: string;
+
+  @ApiPropertyOptional()
+  companyName: string | null;
+
+  @ApiPropertyOptional()
+  companyLogoUrl: string | null;
+
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty({ enum: JobStatus })
+  status: JobStatus;
+
+  @ApiProperty({ enum: JobExperienceLevel })
+  experienceLevel: JobExperienceLevel;
+
+  @ApiProperty()
+  location: string;
+
+  @ApiPropertyOptional()
+  salaryMin: number | null;
+
+  @ApiPropertyOptional()
+  salaryMax: number | null;
+
+  @ApiProperty()
+  salaryCurrency: string;
+
+  @ApiProperty()
+  isSalaryVisible: boolean;
+
+  @ApiPropertyOptional()
+  deadline: Date | null;
+
+  @ApiPropertyOptional()
+  publishedAt: Date | null;
+
+  @ApiProperty()
+  isPublic: boolean;
+}
+
 export class JobRevisionResponseDto {
   @ApiProperty()
   id: string;

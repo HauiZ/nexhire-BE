@@ -26,6 +26,7 @@ describe('JobService', () => {
   let jobRepo: {
     findOne: jest.Mock;
     save: jest.Mock;
+    createQueryBuilder: jest.Mock;
   };
   let eventPublisher: { publish: jest.Mock };
   let processedEventRepo: {
@@ -105,6 +106,7 @@ describe('JobService', () => {
     jobRepo = {
       findOne: jest.fn(),
       save: jest.fn((job: Job) => Promise.resolve(job)),
+      createQueryBuilder: jest.fn(),
     };
     eventPublisher = { publish: jest.fn().mockResolvedValue(undefined) };
     processedEventRepo = {
@@ -258,5 +260,32 @@ describe('JobService', () => {
       }),
     );
     expect(result.status).toBe(JobStatus.CLOSED);
+  });
+
+  it('expires published jobs whose deadline has passed', async () => {
+    const execute = jest.fn().mockResolvedValue({ affected: 2 });
+    const qb = {
+      update: jest.fn().mockReturnThis(),
+      set: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      execute,
+    };
+    jobRepo.createQueryBuilder.mockReturnValue(qb);
+    const referenceDate = new Date('2026-07-16T00:00:00.000Z');
+
+    const result = await service.expirePublishedJobs(referenceDate);
+
+    expect(qb.update).toHaveBeenCalledWith(Job);
+    expect(qb.set).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: JobStatus.EXPIRED,
+        unpublishedAt: referenceDate,
+        unpublishReason: 'Job deadline expired',
+      }),
+    );
+    expect(qb.where).toHaveBeenCalledWith('status = :status', { status: JobStatus.PUBLISHED });
+    expect(qb.andWhere).toHaveBeenCalledWith('deadline <= :referenceDate', { referenceDate });
+    expect(result).toBe(2);
   });
 });

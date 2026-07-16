@@ -9,6 +9,7 @@ import {
 import { PublicJobQueryDto } from '../dto/job-query.dto';
 import {
   JobApplicationSnapshotDto,
+  JobSavedSnapshotDto,
   PublicJobDetailDto,
   PublicJobListItemDto,
 } from '../dto/job-response.dto';
@@ -52,5 +53,13 @@ export class JobInternalController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<JobApplicationSnapshotDto> {
     return this.jobService.getApplicationSnapshot(id);
+  }
+
+  @Get(':id/saved-snapshot')
+  @ApiOperation({ summary: 'Get job snapshot for candidate saved jobs' })
+  @ApiSuccessResponse(JobSavedSnapshotDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  getSavedSnapshot(@Param('id', ParseUUIDPipe) id: string): Promise<JobSavedSnapshotDto> {
+    return this.jobService.getSavedSnapshot(id);
   }
 }

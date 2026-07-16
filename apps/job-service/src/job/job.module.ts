@@ -10,6 +10,7 @@ import { JobModerationReview } from './entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from './entities/job-processed-application-event.entity';
 import { JobRevision } from './entities/job-revision.entity';
 import { Job } from './entities/job.entity';
+import { JobExpirationScheduler } from './job-expiration.scheduler';
 import { JobService } from './job.service';
 import { JobModerationService } from './moderation/job-moderation.service';
 import { JobSearchTextService } from './search/job-search-text.service';
@@ -27,6 +28,7 @@ import { PostgresJobSearchProvider } from './search/postgres-job-search.provider
     JobSearchTextService,
     PostgresJobSearchProvider,
     { provide: JOB_SEARCH_PROVIDER, useExisting: PostgresJobSearchProvider },
+    JobExpirationScheduler,
     CompanySnapshotService,
     ApplicationEventsConsumer,
     CompanySnapshotEventsConsumer,
