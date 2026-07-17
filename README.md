@@ -67,7 +67,10 @@ Then open:
 - Create empty migration: `npm run db:auth:create` or `npm run db:auth:create -- CreateAuthAuditLog`
 - Generate migration from entity diff: `npm run db:auth:generate` or `npm run db:auth:generate -- AddPhoneToUsers`
 - Seed auth roles: `npm run db:auth:seed`
+- Run a seed file by path: `npm run seed -- scripts/seeds/demo-company-job.seed.ts`
 - Available service scopes: `auth`, `candidate`, `company`, `job`, `application`, `cv-parsing`, `matching`, `document-storage`
+
+The demo company/job seed creates approved demo companies, linked recruiter users, and published jobs for public home/search pages. Demo recruiter emails use the `@nexhire.demo` domain and share the password `Password@123`.
 
 Run pending migrations for a service before generating a new one, then review the generated file for unrelated drops, FK churn, enum churn, or recreated existing tables.
 

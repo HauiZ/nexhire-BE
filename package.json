@@ -23,6 +23,7 @@
     "db:all:generate": "node scripts/generate.js",
     "db:migration:lint": "node scripts/migration-lint.js",
     "db:provision": "node scripts/provision-databases.js",
+    "seed": "node scripts/seed.js",
     "db:auth:run": "node scripts/migration.js run auth-service",
     "db:auth:show": "node scripts/migration.js show auth-service",
     "db:auth:revert": "node scripts/migration.js revert auth-service",
