@@ -14,6 +14,8 @@ import { User } from './entities/user.entity';
 import { TokenModule } from '../token/token.module';
 import { CompanyLinkEventsConsumer } from './events/consumers/company-link-events.consumer';
 import { AuthEventPublisher } from './events/auth-event.publisher';
+import { ManualAuthController } from './manual/manual-auth.controller';
+import { ManualAuthService } from './manual/manual-auth.service';
 
 @Module({
   imports: [
@@ -33,8 +35,8 @@ import { AuthEventPublisher } from './events/auth-event.publisher';
       RecruiterCompanyLink,
     ]),
   ],
-  controllers: [AuthController, AuthInternalController],
-  providers: [AuthService, AuthEventPublisher, CompanyLinkEventsConsumer],
+  controllers: [AuthController, AuthInternalController, ManualAuthController],
+  providers: [AuthService, ManualAuthService, AuthEventPublisher, CompanyLinkEventsConsumer],
   exports: [AuthService],
 })
 export class AuthModule {}

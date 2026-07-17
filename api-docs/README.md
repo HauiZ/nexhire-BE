@@ -65,6 +65,7 @@ Error:
 | Matching Service         | [matching-service.md](matching-service.md)                 |
 | Notification Service     | [notification-service.md](notification-service.md)         |
 | Document Storage Service | [document-storage-service.md](document-storage-service.md) |
+| Manual Auth APIs         | [manual/auth-service.md](manual/auth-service.md)           |
 
 ## Current endpoint inventory
 
