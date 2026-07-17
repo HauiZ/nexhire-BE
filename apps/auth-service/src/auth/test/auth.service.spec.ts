@@ -168,7 +168,7 @@ describe('AuthService', () => {
     const result = await service.register({
       fullName: 'Nguyen Van A',
       phone: '0987654321',
-      email: 'candidate@nexhire.vn',
+      email: 'Candidate@NexHire.vn',
       password: 'StrongPassword123!',
       role: UserRole.CANDIDATE,
     });
@@ -178,7 +178,7 @@ describe('AuthService', () => {
       1,
       User,
       expect.objectContaining({
-        email: 'candidate@nexhire.vn',
+        email: 'Candidate@NexHire.vn',
         fullName: 'Nguyen Van A',
         phone: '0987654321',
       }),
@@ -204,14 +204,14 @@ describe('AuthService', () => {
       EmailVerification,
       expect.objectContaining({
         userId: 'user-1',
-        email: 'candidate@nexhire.vn',
+        email: 'Candidate@NexHire.vn',
         verifiedAt: null,
         resendCount: 0,
       }),
     );
     expect(authEventPublisher.publishVerificationEmailRequested).toHaveBeenCalledWith(
       expect.objectContaining({
-        email: 'candidate@nexhire.vn',
+        email: 'Candidate@NexHire.vn',
         fullName: 'Nguyen Van A',
         token: '123456',
       }),
@@ -221,7 +221,7 @@ describe('AuthService', () => {
         user: expect.objectContaining({
           id: 'user-1',
           role: UserRole.CANDIDATE,
-          email: 'candidate@nexhire.vn',
+          email: 'Candidate@NexHire.vn',
         }),
         tokens: expect.objectContaining({
           accessToken: 'access-token',
@@ -424,11 +424,14 @@ describe('AuthService', () => {
     );
 
     const result = await service.login({
-      email: 'candidate@nexhire.vn',
+      email: 'Candidate@NexHire.vn',
       password: 'StrongPassword123!',
       role: UserRole.CANDIDATE,
     });
 
+    expect(userRepo.findOne).toHaveBeenCalledWith({
+      where: { email: 'Candidate@NexHire.vn' },
+    });
     expect(bcrypt.compare).toHaveBeenCalledWith('StrongPassword123!', 'hashed-password');
     expect(userRoleRepo.findOne).toHaveBeenCalledWith({
       where: {

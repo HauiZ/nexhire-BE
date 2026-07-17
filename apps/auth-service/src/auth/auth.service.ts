@@ -76,7 +76,7 @@ export class AuthService {
   async register(dto: RegisterDto): Promise<AuthResponseDto> {
     const fullName = dto.fullName.trim();
     const phone = dto.phone.trim();
-    const email = dto.email.trim().toLowerCase();
+    const email = this.normalizeEmailInput(dto.email);
     const registrationRole = dto.role;
     if (registrationRole === UserRole.ADMIN) {
       this.logger.warn(`Rejected public admin self-registration attempt email=${email}`);
@@ -212,7 +212,7 @@ export class AuthService {
   }
 
   async login(dto: LoginDto): Promise<AuthResponseDto> {
-    const email = dto.email.trim().toLowerCase();
+    const email = this.normalizeEmailInput(dto.email);
     const user = await this.userRepo.findOne({ where: { email } });
     if (!user) {
       this.logger.warn(`Login failed: user not found email=${email}`);
@@ -250,7 +250,7 @@ export class AuthService {
   }
 
   async verifyEmail(dto: VerifyEmailDto): Promise<VerifyEmailResponseDto> {
-    const email = dto.email.trim().toLowerCase();
+    const email = this.normalizeEmailInput(dto.email);
     const verification = await this.emailVerificationRepo.findOne({
       where: { email },
       relations: { user: true },
@@ -307,7 +307,7 @@ export class AuthService {
   }
 
   async resendVerification(dto: ResendVerificationDto): Promise<ResendVerificationResponseDto> {
-    const email = dto.email.trim().toLowerCase();
+    const email = this.normalizeEmailInput(dto.email);
     const user = await this.userRepo.findOne({ where: { email } });
     if (!user) {
       throw new NotFoundException({
@@ -361,7 +361,7 @@ export class AuthService {
   }
 
   async forgotPassword(dto: ForgotPasswordDto): Promise<ForgotPasswordResponseDto> {
-    const email = dto.email.trim().toLowerCase();
+    const email = this.normalizeEmailInput(dto.email);
     const { resendCooldownSeconds } = this.getPasswordResetConfig();
     const response = {
       message: 'Password reset code queued if the email exists',
@@ -390,7 +390,7 @@ export class AuthService {
   }
 
   async resetPassword(dto: ResetPasswordDto): Promise<ResetPasswordResponseDto> {
-    const email = dto.email.trim().toLowerCase();
+    const email = this.normalizeEmailInput(dto.email);
     const resetToken = await this.passwordResetTokenRepo.findOne({
       where: { email, usedAt: IsNull() },
       order: { createdAt: 'DESC' },
@@ -643,6 +643,10 @@ export class AuthService {
     }
     const link = await this.recruiterCompanyLinkRepo.findOne({ where: { userId } });
     return link?.companyId ?? null;
+  }
+
+  private normalizeEmailInput(email: string): string {
+    return email.trim();
   }
 
   private async verifyRefreshToken(refreshToken: string): Promise<JwtPayload> {
