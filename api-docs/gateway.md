@@ -24,6 +24,7 @@ Responsibility: public HTTP entrypoint, JWT decoding, identity header forwarding
 | `/api/v1/recruiter/jobs`           | `job-service`              |
 | `/api/v1/recruiter/jobs/*`         | `job-service`              |
 | `/api/v1/admin/jobs/*`             | `job-service`              |
+| `/api/v1/categories`               | `job-service`              |
 | `/api/v1/categories/*`             | `job-service`              |
 | `/api/v1/applications`             | `application-service`      |
 | `/api/v1/applications/*`           | `application-service`      |

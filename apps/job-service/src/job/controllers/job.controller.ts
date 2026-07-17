@@ -9,6 +9,8 @@ import {
 import { PublicJobQueryDto } from '../dto/job-query.dto';
 import {
   JobApplicationSnapshotDto,
+  PublicFeaturedCompanyDto,
+  PublicHomeStatsDto,
   JobSavedSnapshotDto,
   PublicJobDetailDto,
   PublicJobListItemDto,
@@ -39,6 +41,24 @@ export class JobController {
     @Query() query: PublicJobQueryDto,
   ) {
     return this.jobService.listPublicByCompany(companyId, query);
+  }
+
+  @Get('featured-companies')
+  @Public()
+  @ApiOperation({ summary: 'List active hiring companies for the home page' })
+  @ApiSuccessResponse(PublicFeaturedCompanyDto, { isArray: true })
+  @ApiErrorResponses({ statuses: [400, 500] })
+  listFeaturedCompanies(@Query('limit') limit?: string): Promise<PublicFeaturedCompanyDto[]> {
+    return this.jobService.listFeaturedCompanies(limit);
+  }
+
+  @Get('home/stats')
+  @Public()
+  @ApiOperation({ summary: 'Get public home page job stats' })
+  @ApiSuccessResponse(PublicHomeStatsDto)
+  @ApiErrorResponses({ statuses: [500] })
+  getHomeStats(): Promise<PublicHomeStatsDto> {
+    return this.jobService.getHomeStats();
   }
 
   @Get(':id')

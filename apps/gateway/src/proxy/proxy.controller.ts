@@ -88,6 +88,11 @@ export class ProxyController {
     return this.proxy.forward('jobService', req, res);
   }
 
+  @All('categories')
+  categoriesRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
+  }
+
   @All('cvs/*')
   cvs(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('candidateService', req, res);

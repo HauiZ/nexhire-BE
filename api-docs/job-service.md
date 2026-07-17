@@ -162,12 +162,17 @@ Used by `GET /api/v1/jobs` and `GET /api/v1/jobs/companies/:companyId`.
 | `companyName` | string | Yes | Snapshot from company-service. |
 | `companyLogoUrl` | string | Yes | Legacy/manual logo URL snapshot from company-service. |
 | `companyLogoDocumentId` | uuid | Yes | Company logo document id snapshot from company-service. FE should prefer this for rendering. |
+| `skills` | string[] | No | Skill tags for card chips. |
+| `categoryId` | uuid | Yes | Category id for grouping/filtering. |
+| `employmentType` | `JobType` | No | Employment type. |
+| `workingType` | `JobWorkingType` | No | Working mode. |
 | `experienceLevel` | `JobExperienceLevel` | No | For card display/filter. |
 | `location` | string | No | Job location. |
 | `salaryMin` | number | Yes | `null` when salary hidden. |
 | `salaryMax` | number | Yes | `null` when salary hidden. |
 | `salaryCurrency` | string | No | Example `VND`. |
 | `isSalaryVisible` | boolean | No | FE can show hidden salary label when false. |
+| `deadline` | ISO date-time | Yes | Application deadline. |
 | `publishedAt` | ISO date-time | Yes | Publish timestamp. |
 
 ### PublicJobDetail
@@ -178,15 +183,45 @@ Used by `GET /api/v1/jobs/:id`. Same as list item plus:
 | --- | --- | --- | --- |
 | `description` | string | No | Full job description. |
 | `requirements` | string | No | Job requirements. |
-| `skills` | string[] | No | Skill tags. |
 | `benefits` | string | Yes | Optional benefits. |
-| `categoryId` | uuid | Yes | Optional category. |
-| `employmentType` | `JobType` | No | Employment type. |
-| `workingType` | `JobWorkingType` | No | Working mode. |
-| `deadline` | ISO date-time | Yes | Application deadline. |
 | `numberOfOpenings` | number | Yes | Optional opening count. |
 | `createdAt` | ISO date-time | No | Created timestamp. |
 | `updatedAt` | ISO date-time | No | Updated timestamp. |
+
+### PublicFeaturedCompany
+
+Used by `GET /api/v1/jobs/featured-companies`.
+
+| Field | Type | Nullable | Note |
+| --- | --- | --- | --- |
+| `companyId` | uuid | No | Company id. |
+| `companyName` | string | Yes | Company name snapshot from published jobs. |
+| `companyLogoUrl` | string | Yes | Legacy/manual logo URL snapshot. |
+| `companyLogoDocumentId` | uuid | Yes | Company logo document id snapshot. |
+| `activeJobCount` | number | No | Number of published jobs for the company. |
+| `latestPublishedAt` | ISO date-time | Yes | Latest job publish time. |
+
+### PublicHomeStats
+
+Used by `GET /api/v1/jobs/home/stats`.
+
+| Field | Type | Nullable | Note |
+| --- | --- | --- | --- |
+| `publishedJobCount` | number | No | Count of public jobs visible on home/search. |
+| `activeCompanyCount` | number | No | Count of companies that currently have at least one public job. |
+| `categoryCount` | number | No | Count of categories currently represented by public jobs. |
+
+### PublicCategory
+
+Used by `GET /api/v1/categories`.
+
+| Field | Type | Nullable | Note |
+| --- | --- | --- | --- |
+| `id` | uuid | No | Category id to send as `categoryId` job filter. |
+| `name` | string | No | Display name. |
+| `slug` | string | No | Stable URL/display key. |
+| `description` | string | Yes | Optional category description. |
+| `activeJobCount` | number | No | Number of published jobs in this category. |
 
 ### JobResponse
 
@@ -285,12 +320,18 @@ Success response:
       "companyId": "22222222-2222-2222-2222-222222222222",
       "companyName": "NexHire Tech",
       "companyLogoUrl": "https://cdn.nexhire.vn/company/logo.png",
+      "companyLogoDocumentId": "77777777-7777-4777-8777-777777777777",
+      "skills": ["NestJS", "PostgreSQL"],
+      "categoryId": "11111111-1111-4111-8111-111111111111",
+      "employmentType": "FULL_TIME",
+      "workingType": "HYBRID",
       "experienceLevel": "JUNIOR",
       "location": "Ha Noi, Viet Nam",
       "salaryMin": 15000000,
       "salaryMax": 25000000,
       "salaryCurrency": "VND",
       "isSalaryVisible": true,
+      "deadline": "2026-12-31T17:00:00.000Z",
       "publishedAt": "2026-07-16T10:00:00.000Z"
     }
   ],
@@ -313,6 +354,7 @@ Errors:
 FE notes:
 - Use this endpoint for job cards, not detail cards.
 - Do not expect `description`, `requirements`, `moderation`, or `applicationCount` here.
+- FE should prefer `companyLogoDocumentId` for image rendering and use `companyLogoUrl` as fallback.
 
 ## `GET /api/v1/jobs/companies/:companyId`
 
@@ -341,6 +383,93 @@ Errors:
 FE notes:
 - Use this on the public company profile page instead of filtering client-side.
 - Only `PUBLISHED` jobs are returned; draft, reviewing, unpublished, closed, expired, and rejected jobs stay hidden.
+
+## `GET /api/v1/jobs/featured-companies`
+
+Summary: List active hiring companies for the home page.
+
+Auth:
+- Public
+
+Request query:
+
+| Field | Type | Required | Default | Note |
+| --- | --- | --- | --- | --- |
+| `limit` | number | No | `6` | Max `20`; invalid values fall back to default. |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "companyId": "22222222-2222-2222-2222-222222222222",
+      "companyName": "NexHire Tech",
+      "companyLogoUrl": "https://cdn.nexhire.vn/company/logo.png",
+      "companyLogoDocumentId": "77777777-7777-4777-8777-777777777777",
+      "activeJobCount": 12,
+      "latestPublishedAt": "2026-07-16T10:00:00.000Z"
+    }
+  ]
+}
+```
+
+FE notes:
+- Use this for the home section "Nha tuyen dung dang tang toc".
+- Data is derived from currently `PUBLISHED` jobs, so companies without public jobs are not returned.
+
+## `GET /api/v1/jobs/home/stats`
+
+Summary: Return public counters for the home hero.
+
+Auth:
+- Public
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "publishedJobCount": 12400,
+    "activeCompanyCount": 680,
+    "categoryCount": 48
+  }
+}
+```
+
+FE notes:
+- These numbers reflect public job data, not admin-only company totals.
+- `activeCompanyCount` means companies with at least one `PUBLISHED` job.
+
+## `GET /api/v1/categories`
+
+Summary: List active job categories with active public job counts.
+
+Auth:
+- Public
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "11111111-1111-4111-8111-111111111111",
+      "name": "Engineering",
+      "slug": "engineering",
+      "description": "Software engineering, infrastructure, QA, and technical roles",
+      "activeJobCount": 320
+    }
+  ]
+}
+```
+
+FE notes:
+- Send `id` as `categoryId` to `GET /api/v1/jobs`.
+- Categories with zero jobs are still returned when active, so the UI can keep stable filters.
 
 ## `GET /api/v1/jobs/:id`
 

@@ -151,6 +151,18 @@ export class PublicJobListItemDto {
   @ApiPropertyOptional()
   companyLogoDocumentId: string | null;
 
+  @ApiProperty({ type: [String] })
+  skills: string[];
+
+  @ApiPropertyOptional()
+  categoryId: string | null;
+
+  @ApiProperty({ enum: JobType })
+  employmentType: JobType;
+
+  @ApiProperty({ enum: JobWorkingType })
+  workingType: JobWorkingType;
+
   @ApiProperty({ enum: JobExperienceLevel })
   experienceLevel: JobExperienceLevel;
 
@@ -170,7 +182,41 @@ export class PublicJobListItemDto {
   isSalaryVisible: boolean;
 
   @ApiPropertyOptional()
+  deadline: Date | null;
+
+  @ApiPropertyOptional()
   publishedAt: Date | null;
+}
+
+export class PublicFeaturedCompanyDto {
+  @ApiProperty()
+  companyId: string;
+
+  @ApiPropertyOptional()
+  companyName: string | null;
+
+  @ApiPropertyOptional()
+  companyLogoUrl: string | null;
+
+  @ApiPropertyOptional()
+  companyLogoDocumentId: string | null;
+
+  @ApiProperty()
+  activeJobCount: number;
+
+  @ApiPropertyOptional()
+  latestPublishedAt: Date | null;
+}
+
+export class PublicHomeStatsDto {
+  @ApiProperty()
+  publishedJobCount: number;
+
+  @ApiProperty()
+  activeCompanyCount: number;
+
+  @ApiProperty()
+  categoryCount: number;
 }
 
 export class PublicJobDetailDto {

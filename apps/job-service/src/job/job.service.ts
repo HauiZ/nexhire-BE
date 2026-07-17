@@ -18,7 +18,7 @@ import {
   JobStatus,
   UserRole,
 } from '@nexhire/shared';
-import { Brackets, DataSource, In, Repository } from 'typeorm';
+import { Brackets, DataSource, In, IsNull, Repository } from 'typeorm';
 import { CompanySnapshotService } from './company/company-snapshot.service';
 import {
   CreateJobDto,
@@ -38,6 +38,8 @@ import {
   JobApplicationSnapshotDto,
   JobSavedSnapshotDto,
   JobRevisionResponseDto,
+  PublicFeaturedCompanyDto,
+  PublicHomeStatsDto,
   PublicJobDetailDto,
   PublicJobListItemDto,
 } from './dto/job-response.dto';
@@ -143,6 +145,66 @@ export class JobService {
       });
     }
     return this.mapPublicJobDetail(job);
+  }
+
+  async listFeaturedCompanies(limitValue?: string): Promise<PublicFeaturedCompanyDto[]> {
+    const limit = this.parsePublicLimit(limitValue, 6, 20);
+    const rows = await this.jobRepo
+      .createQueryBuilder('job')
+      .select('job.companyId', 'companyId')
+      .addSelect('MAX(job.companyName)', 'companyName')
+      .addSelect('MAX(job.companyLogoUrl)', 'companyLogoUrl')
+      .addSelect('MAX(job.companyLogoDocumentId)', 'companyLogoDocumentId')
+      .addSelect('COUNT(job.id)', 'activeJobCount')
+      .addSelect('MAX(job.publishedAt)', 'latestPublishedAt')
+      .where('job.status = :status', { status: JobStatus.PUBLISHED })
+      .andWhere('job.deletedAt IS NULL')
+      .groupBy('job.companyId')
+      .orderBy('COUNT(job.id)', 'DESC')
+      .addOrderBy('MAX(job.publishedAt)', 'DESC')
+      .limit(limit)
+      .getRawMany<{
+        companyId: string;
+        companyName: string | null;
+        companyLogoUrl: string | null;
+        companyLogoDocumentId: string | null;
+        activeJobCount: string;
+        latestPublishedAt: Date | null;
+      }>();
+
+    return rows.map((row) => ({
+      companyId: row.companyId,
+      companyName: row.companyName,
+      companyLogoUrl: row.companyLogoUrl,
+      companyLogoDocumentId: row.companyLogoDocumentId,
+      activeJobCount: Number(row.activeJobCount),
+      latestPublishedAt: row.latestPublishedAt,
+    }));
+  }
+
+  async getHomeStats(): Promise<PublicHomeStatsDto> {
+    const [publishedJobCount, activeCompanyCount, categoryCount] = await Promise.all([
+      this.jobRepo.count({ where: { status: JobStatus.PUBLISHED, deletedAt: IsNull() } }),
+      this.jobRepo
+        .createQueryBuilder('job')
+        .select('COUNT(DISTINCT job.companyId)', 'count')
+        .where('job.status = :status', { status: JobStatus.PUBLISHED })
+        .andWhere('job.deletedAt IS NULL')
+        .getRawOne<{ count: string }>(),
+      this.jobRepo
+        .createQueryBuilder('job')
+        .select('COUNT(DISTINCT job.categoryId)', 'count')
+        .where('job.status = :status', { status: JobStatus.PUBLISHED })
+        .andWhere('job.deletedAt IS NULL')
+        .andWhere('job.categoryId IS NOT NULL')
+        .getRawOne<{ count: string }>(),
+    ]);
+
+    return {
+      publishedJobCount,
+      activeCompanyCount: Number(activeCompanyCount?.count ?? 0),
+      categoryCount: Number(categoryCount?.count ?? 0),
+    };
   }
 
   async getApplicationSnapshot(id: string): Promise<JobApplicationSnapshotDto> {
@@ -815,6 +877,17 @@ export class JobService {
       throw this.jobNotFound();
     }
     return job;
+  }
+
+  private parsePublicLimit(value: string | undefined, defaultLimit: number, maxLimit: number): number {
+    if (!value) {
+      return defaultLimit;
+    }
+    const parsed = Number(value);
+    if (!Number.isInteger(parsed) || parsed < 1) {
+      return defaultLimit;
+    }
+    return Math.min(parsed, maxLimit);
   }
 
   private async findCompanyRevision(

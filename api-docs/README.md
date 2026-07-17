@@ -126,6 +126,9 @@ FE-facing business endpoints currently documented:
 - `DELETE /api/v1/saved-jobs/:jobId`
 - `GET /api/v1/saved-jobs/status`
 - `GET /api/v1/saved-jobs/:jobId/status`
+- `GET /api/v1/jobs/featured-companies`
+- `GET /api/v1/jobs/home/stats`
+- `GET /api/v1/categories`
 - `GET /api/v1/notifications`
 - `GET /api/v1/notifications/unread-count`
 - `PATCH /api/v1/notifications/read-all`
@@ -137,7 +140,6 @@ Scaffold controllers without business endpoints yet:
 - `candidate-service`: `saved-jobs`
 - `company-service`: `companies`, `hr-accounts`
 - `cv-parsing-service`: `cv-parsing`
-- `job-service`: `categories`
 - `matching-service`: `matching`
 - `notification-service`: `notifications/email`, `notifications/web-push`
 - `auth-service`: `tokens`, `permissions`

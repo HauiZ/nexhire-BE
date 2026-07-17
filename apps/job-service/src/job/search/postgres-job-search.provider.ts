@@ -240,12 +240,17 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
       companyName: job.companyName,
       companyLogoUrl: job.companyLogoUrl,
       companyLogoDocumentId: job.companyLogoDocumentId,
+      skills: job.skills,
+      categoryId: job.categoryId,
+      employmentType: job.employmentType,
+      workingType: job.workingType,
       experienceLevel: job.experienceLevel,
       location: job.location,
       salaryMin: job.isSalaryVisible ? job.salaryMin : null,
       salaryMax: job.isSalaryVisible ? job.salaryMax : null,
       salaryCurrency: job.salaryCurrency,
       isSalaryVisible: job.isSalaryVisible,
+      deadline: job.deadline,
       publishedAt: job.publishedAt,
     };
   }

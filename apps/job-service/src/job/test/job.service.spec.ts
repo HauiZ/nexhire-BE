@@ -34,6 +34,7 @@ describe('JobService', () => {
   let jobRepo: {
     findOne: jest.Mock;
     save: jest.Mock;
+    count: jest.Mock;
     createQueryBuilder: jest.Mock;
   };
   let revisionRepo: {
@@ -210,6 +211,7 @@ describe('JobService', () => {
     jobRepo = {
       findOne: jest.fn(),
       save: jest.fn((job: Job) => Promise.resolve(job)),
+      count: jest.fn(),
       createQueryBuilder: jest.fn(),
     };
     revisionRepo = {
@@ -666,6 +668,79 @@ describe('JobService', () => {
       publishedJob.companyId,
       query,
     );
+  });
+
+  it('lists featured companies from published jobs', async () => {
+    const qb = {
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      addOrderBy: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue([
+        {
+          companyId: publishedJob.companyId,
+          companyName: publishedJob.companyName,
+          companyLogoUrl: publishedJob.companyLogoUrl,
+          companyLogoDocumentId: publishedJob.companyLogoDocumentId,
+          activeJobCount: '4',
+          latestPublishedAt: publishedJob.publishedAt,
+        },
+      ]),
+    };
+    jobRepo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.listFeaturedCompanies('8');
+
+    expect(qb.where).toHaveBeenCalledWith('job.status = :status', {
+      status: JobStatus.PUBLISHED,
+    });
+    expect(qb.andWhere).toHaveBeenCalledWith('job.deletedAt IS NULL');
+    expect(qb.limit).toHaveBeenCalledWith(8);
+    expect(result).toEqual([
+      {
+        companyId: publishedJob.companyId,
+        companyName: publishedJob.companyName,
+        companyLogoUrl: publishedJob.companyLogoUrl,
+        companyLogoDocumentId: publishedJob.companyLogoDocumentId,
+        activeJobCount: 4,
+        latestPublishedAt: publishedJob.publishedAt,
+      },
+    ]);
+  });
+
+  it('returns public home stats from published jobs', async () => {
+    const companyCountQb = {
+      select: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      getRawOne: jest.fn().mockResolvedValue({ count: '6' }),
+    };
+    const categoryCountQb = {
+      select: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      getRawOne: jest.fn().mockResolvedValue({ count: '4' }),
+    };
+    jobRepo.count.mockResolvedValue(42);
+    jobRepo.createQueryBuilder
+      .mockReturnValueOnce(companyCountQb)
+      .mockReturnValueOnce(categoryCountQb);
+
+    await expect(service.getHomeStats()).resolves.toEqual({
+      publishedJobCount: 42,
+      activeCompanyCount: 6,
+      categoryCount: 4,
+    });
+    expect(jobRepo.count).toHaveBeenCalledWith({
+      where: { status: JobStatus.PUBLISHED, deletedAt: expect.any(Object) },
+    });
+    expect(companyCountQb.andWhere).toHaveBeenCalledWith('job.deletedAt IS NULL');
+    expect(categoryCountQb.andWhere).toHaveBeenCalledWith('job.deletedAt IS NULL');
+    expect(categoryCountQb.andWhere).toHaveBeenCalledWith('job.categoryId IS NOT NULL');
   });
 
   it('lists major revisions for a company-owned job', async () => {
