@@ -695,6 +695,10 @@ describe('JobService', () => {
 
     const result = await service.listFeaturedCompanies('8');
 
+    expect(qb.addSelect).toHaveBeenCalledWith(
+      'MAX(CAST(job.companyLogoDocumentId AS text))',
+      'companyLogoDocumentId',
+    );
     expect(qb.where).toHaveBeenCalledWith('job.status = :status', {
       status: JobStatus.PUBLISHED,
     });

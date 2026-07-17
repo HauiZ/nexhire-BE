@@ -154,7 +154,7 @@ export class JobService {
       .select('job.companyId', 'companyId')
       .addSelect('MAX(job.companyName)', 'companyName')
       .addSelect('MAX(job.companyLogoUrl)', 'companyLogoUrl')
-      .addSelect('MAX(job.companyLogoDocumentId)', 'companyLogoDocumentId')
+      .addSelect('MAX(CAST(job.companyLogoDocumentId AS text))', 'companyLogoDocumentId')
       .addSelect('COUNT(job.id)', 'activeJobCount')
       .addSelect('MAX(job.publishedAt)', 'latestPublishedAt')
       .where('job.status = :status', { status: JobStatus.PUBLISHED })
