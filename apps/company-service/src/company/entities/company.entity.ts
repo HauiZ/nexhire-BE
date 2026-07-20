@@ -60,6 +60,15 @@ export class Company extends BaseEntity {
   @Column({ type: 'enum', enum: CompanyStatus, default: CompanyStatus.PENDING })
   status: CompanyStatus;
 
+  @Column({ name: 'status_reason', type: 'text', nullable: true })
+  statusReason: string | null;
+
+  @Column({ name: 'status_changed_at', type: 'timestamptz', nullable: true })
+  statusChangedAt: Date | null;
+
+  @Column({ name: 'status_changed_by_user_id', type: 'uuid', nullable: true })
+  statusChangedByUserId: string | null;
+
   @Column({
     name: 'trust_level',
     type: 'enum',

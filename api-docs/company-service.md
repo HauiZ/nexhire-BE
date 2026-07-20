@@ -32,29 +32,37 @@ type CompanyTrustChangeSource = 'MANUAL' | 'AUTO';
 
 Used by recruiter self-service endpoints. Does not expose trust level.
 
-| Field                 | Type            | Nullable | Note                                                                                                            |
-| --------------------- | --------------- | -------- | --------------------------------------------------------------------------------------------------------------- |
-| `id`                  | uuid            | No       | Company id.                                                                                                     |
-| `name`                | string          | No       | Company display name.                                                                                           |
-| `logo`                | string          | Yes      | Legacy/manual logo URL fallback.                                                                                |
-| `logoDocumentId`      | uuid            | Yes      | Logo document id uploaded through document-storage. FE should prefer this when rendering the logo.              |
-| `description`         | string          | Yes      | Company description.                                                                                            |
-| `industry`            | string          | Yes      | Public industry/field label.                                                                                    |
-| `size`                | string          | Yes      | Public employee range label, for example `100-500`.                                                             |
-| `foundedYear`         | number          | Yes      | Public founded year.                                                                                            |
-| `mission`             | string          | Yes      | Public mission/building statement.                                                                              |
-| `culture`             | string          | Yes      | Public work culture description.                                                                                |
-| `values`              | string[]        | No       | Public company/team values. Empty array when unset.                                                             |
-| `perks`               | string[]        | No       | Public benefits/perks. Empty array when unset.                                                                  |
-| `heroImageUrl`        | string          | Yes      | Legacy/manual hero image URL fallback.                                                                          |
-| `heroImageDocumentId` | uuid            | Yes      | Hero image document id uploaded through document-storage. FE should prefer this when rendering the cover image. |
-| `website`             | string          | Yes      | Website URL.                                                                                                    |
-| `address`             | string          | Yes      | Company address.                                                                                                |
-| `taxCode`             | string          | No       | Company tax code.                                                                                               |
-| `ownerId`             | uuid            | No       | Recruiter user id that owns company.                                                                            |
-| `status`              | `CompanyStatus` | No       | Verification/posting status.                                                                                    |
-| `createdAt`           | ISO date-time   | No       | Created timestamp.                                                                                              |
-| `updatedAt`           | ISO date-time   | No       | Updated timestamp.                                                                                              |
+| Field                   | Type            | Nullable | Note                                                                                                            |
+| ----------------------- | --------------- | -------- | --------------------------------------------------------------------------------------------------------------- |
+| `id`                    | uuid            | No       | Company id.                                                                                                     |
+| `name`                  | string          | No       | Company display name.                                                                                           |
+| `logo`                  | string          | Yes      | Legacy/manual logo URL fallback.                                                                                |
+| `logoDocumentId`        | uuid            | Yes      | Logo document id uploaded through document-storage. FE should prefer this when rendering the logo.              |
+| `description`           | string          | Yes      | Company description.                                                                                            |
+| `industry`              | string          | Yes      | Public industry/field label.                                                                                    |
+| `size`                  | string          | Yes      | Public employee range label, for example `100-500`.                                                             |
+| `foundedYear`           | number          | Yes      | Public founded year.                                                                                            |
+| `mission`               | string          | Yes      | Public mission/building statement.                                                                              |
+| `culture`               | string          | Yes      | Public work culture description.                                                                                |
+| `values`                | string[]        | No       | Public company/team values. Empty array when unset.                                                             |
+| `perks`                 | string[]        | No       | Public benefits/perks. Empty array when unset.                                                                  |
+| `heroImageUrl`          | string          | Yes      | Legacy/manual hero image URL fallback.                                                                          |
+| `heroImageDocumentId`   | uuid            | Yes      | Hero image document id uploaded through document-storage. FE should prefer this when rendering the cover image. |
+| `website`               | string          | Yes      | Website URL.                                                                                                    |
+| `address`               | string          | Yes      | Company address.                                                                                                |
+| `taxCode`               | string          | No       | Company tax code.                                                                                               |
+| `ownerId`               | uuid            | No       | Recruiter user id that owns company.                                                                            |
+| `status`                | `CompanyStatus` | No       | Verification/posting status.                                                                                    |
+| `canPostJobs`           | boolean         | No       | True only when company is approved.                                                                             |
+| `completionPercent`     | number          | No       | Completion percent for recruiter verification UI.                                                               |
+| `missingRequiredFields` | string[]        | No       | Required profile fields still missing.                                                                          |
+| `submittedAt`           | ISO date-time   | Yes      | Initial submission timestamp for recruiter dashboard.                                                           |
+| `rejectionReason`       | string          | Yes      | Present when `status = REJECTED`.                                                                               |
+| `statusReason`          | string          | Yes      | Latest admin status-change reason.                                                                              |
+| `statusChangedAt`       | ISO date-time   | Yes      | Latest status-change timestamp.                                                                                 |
+| `statusChangedByUserId` | uuid            | Yes      | Admin/user id that changed status, when available.                                                              |
+| `createdAt`             | ISO date-time   | No       | Created timestamp.                                                                                              |
+| `updatedAt`             | ISO date-time   | No       | Updated timestamp.                                                                                              |
 
 Example:
 
@@ -78,6 +86,14 @@ Example:
   "taxCode": "0101234567",
   "ownerId": "11111111-1111-1111-1111-111111111111",
   "status": "PENDING",
+  "canPostJobs": false,
+  "completionPercent": 100,
+  "missingRequiredFields": [],
+  "submittedAt": "2026-07-16T09:00:00.000Z",
+  "rejectionReason": null,
+  "statusReason": null,
+  "statusChangedAt": null,
+  "statusChangedByUserId": null,
   "createdAt": "2026-07-16T09:00:00.000Z",
   "updatedAt": "2026-07-16T09:00:00.000Z"
 }
@@ -117,6 +133,40 @@ Used by public company profile endpoint.
 | `address`             | string   | Yes      | Public address.                                           |
 
 Does not include: `taxCode`, `ownerId`, `status`, `trustLevel`, counters.
+
+### CompanyVerificationDocumentResponse
+
+Used by recruiter company verification document endpoints.
+
+| Field              | Type                                                                 | Nullable | Note                          |
+| ------------------ | -------------------------------------------------------------------- | -------- | ----------------------------- |
+| `id`               | uuid                                                                 | No       | Attachment row id.            |
+| `companyId`        | uuid                                                                 | No       | Company id.                   |
+| `documentId`       | uuid                                                                 | No       | Uploaded document-storage id. |
+| `type`             | `BUSINESS_LICENSE` \| `TAX_CERTIFICATE` \| `DOMAIN_PROOF` \| `OTHER` | No       | Proof category.               |
+| `uploadedByUserId` | uuid                                                                 | No       | Recruiter user id.            |
+| `createdAt`        | ISO date-time                                                        | No       | Created timestamp.            |
+| `updatedAt`        | ISO date-time                                                        | No       | Updated timestamp.            |
+
+### CompanyVerificationDocumentWithMetadataResponse
+
+Used by admin review endpoints. Extends `CompanyVerificationDocumentResponse`.
+
+| Field          | Type   | Nullable | Note                                                                                    |
+| -------------- | ------ | -------- | --------------------------------------------------------------------------------------- |
+| `documentType` | string | No       | Source document-storage type, expected `CERTIFICATE` or `OTHER` for verification proof. |
+| `fileName`     | string | No       | Original uploaded file name.                                                            |
+| `mimeType`     | string | No       | File MIME type.                                                                         |
+| `size`         | number | No       | File size in bytes.                                                                     |
+
+### CompanyVerificationDocumentDownloadResponse
+
+Used by admin download endpoint. Extends `CompanyVerificationDocumentWithMetadataResponse`.
+
+| Field              | Type   | Nullable | Note                               |
+| ------------------ | ------ | -------- | ---------------------------------- |
+| `url`              | string | No       | Short-lived document download URL. |
+| `expiresInSeconds` | number | No       | Download URL TTL.                  |
 
 ### TrustHistoryResponse
 
@@ -198,13 +248,15 @@ All fields are optional, same validation as create body.
 
 ### VerifyCompany body
 
-| Field    | Type                  | Required | Nullable | Note                         |
-| -------- | --------------------- | -------- | -------- | ---------------------------- |
-| `action` | `APPROVE` \| `REJECT` | Yes      | No       | Admin verification decision. |
+| Field    | Type                  | Required               | Nullable | Note                                |
+| -------- | --------------------- | ---------------------- | -------- | ----------------------------------- |
+| `action` | `APPROVE` \| `REJECT` | Yes                    | No       | Admin verification decision.        |
+| `reason` | string                | Required when `REJECT` | Yes      | Admin review reason, max 500 chars. |
 
 ```json
 {
-  "action": "APPROVE"
+  "action": "REJECT",
+  "reason": "Business license document is missing or unreadable"
 }
 ```
 
@@ -313,6 +365,14 @@ Success response:
     "taxCode": "0101234567",
     "ownerId": "11111111-1111-1111-1111-111111111111",
     "status": "APPROVED",
+    "canPostJobs": true,
+    "completionPercent": 100,
+    "missingRequiredFields": [],
+    "submittedAt": "2026-07-16T09:00:00.000Z",
+    "rejectionReason": null,
+    "statusReason": null,
+    "statusChangedAt": "2026-07-16T10:00:00.000Z",
+    "statusChangedByUserId": "99999999-9999-9999-9999-999999999999",
     "createdAt": "2026-07-16T09:00:00.000Z",
     "updatedAt": "2026-07-16T10:00:00.000Z"
   }
@@ -330,6 +390,7 @@ Errors:
 FE notes:
 
 - Use `status` to show `Pending approval`, `Approved`, `Rejected`, or `Suspended` company state.
+- Use `canPostJobs`, `completionPercent`, `missingRequiredFields`, `submittedAt`, and `rejectionReason` directly on recruiter dashboard instead of recalculating in FE.
 
 ## `PUT /api/v1/companies/:id`
 
@@ -504,6 +565,106 @@ Errors:
 | 404    | `COMPANY.NOT_FOUND`              | Company not found.              |
 | 503    | `AI.SERVICE_UNAVAILABLE`         | document-storage upload failed. |
 
+## `GET /api/v1/companies/:id/verification-documents`
+
+Summary: List verification proof documents attached to the recruiter's company.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`
+
+Request params:
+
+| Field | Type | Required | Note                                   |
+| ----- | ---- | -------- | -------------------------------------- |
+| `id`  | uuid | Yes      | Company id owned by current recruiter. |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "33333333-3333-3333-3333-333333333333",
+      "companyId": "22222222-2222-2222-2222-222222222222",
+      "documentId": "44444444-4444-4444-4444-444444444444",
+      "type": "BUSINESS_LICENSE",
+      "uploadedByUserId": "11111111-1111-1111-1111-111111111111",
+      "createdAt": "2026-07-16T09:00:00.000Z",
+      "updatedAt": "2026-07-16T09:00:00.000Z"
+    }
+  ]
+}
+```
+
+Errors: `401`, `403`, `404`.
+
+## `POST /api/v1/companies/:id/verification-documents`
+
+Summary: Attach an uploaded document-storage document as company verification proof.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`
+
+Request body:
+
+| Field        | Type | Required | Note                                                               |
+| ------------ | ---- | -------- | ------------------------------------------------------------------ |
+| `documentId` | uuid | Yes      | Existing document-storage document id.                             |
+| `type`       | enum | Yes      | `BUSINESS_LICENSE`, `TAX_CERTIFICATE`, `DOMAIN_PROOF`, or `OTHER`. |
+
+```json
+{
+  "documentId": "44444444-4444-4444-4444-444444444444",
+  "type": "BUSINESS_LICENSE"
+}
+```
+
+Success response: `CompanyVerificationDocumentResponse`.
+
+Errors:
+
+| Status | Code                      | Meaning                                       |
+| ------ | ------------------------- | --------------------------------------------- |
+| 401    | `COMMON.UNAUTHORIZED`     | Missing/invalid token.                        |
+| 403    | `COMMON.FORBIDDEN`        | User is not the company owner.                |
+| 404    | `COMPANY.NOT_FOUND`       | Company not found.                            |
+| 409    | `COMMON.CONFLICT`         | Document is already attached to this company. |
+| 422    | `COMMON.VALIDATION_ERROR` | Invalid body.                                 |
+
+FE notes:
+
+- Upload the file through document-storage first, then attach the returned `documentId` here.
+- The uploaded document must have `ownerType = company`, `ownerId = companyId`, and `documentType = CERTIFICATE` or `OTHER`.
+- Company-service validates document-storage metadata before saving the attachment. Wrong owner/type is rejected with `400 COMMON.VALIDATION_FAILED`; missing document is rejected with `404 COMMON.NOT_FOUND`.
+- This endpoint only creates/removes the relation to company verification; it does not physically delete documents.
+
+## `DELETE /api/v1/companies/:id/verification-documents/:documentId`
+
+Summary: Soft-delete a company verification document attachment.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "deleted": true
+  }
+}
+```
+
+Errors: `401`, `403`, `404`.
+
 ## Admin Endpoints
 
 ## `GET /api/v1/companies/admin/pending`
@@ -551,6 +712,92 @@ Errors:
 FE notes:
 
 - This is currently pending-only, not a full admin company search endpoint.
+
+## `GET /api/v1/companies/admin/:id/verification-documents`
+
+Summary: List attached company verification documents for admin review.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Request params:
+
+| Field | Type | Required | Note        |
+| ----- | ---- | -------- | ----------- |
+| `id`  | uuid | Yes      | Company id. |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "33333333-3333-3333-3333-333333333333",
+      "companyId": "22222222-2222-2222-2222-222222222222",
+      "documentId": "44444444-4444-4444-4444-444444444444",
+      "type": "BUSINESS_LICENSE",
+      "uploadedByUserId": "11111111-1111-1111-1111-111111111111",
+      "documentType": "CERTIFICATE",
+      "fileName": "business-license.pdf",
+      "mimeType": "application/pdf",
+      "size": 234567,
+      "createdAt": "2026-07-16T09:00:00.000Z",
+      "updatedAt": "2026-07-16T09:00:00.000Z"
+    }
+  ]
+}
+```
+
+Errors: `401`, `403`, `404`, `503`.
+
+FE notes:
+
+- Use this on the admin company verification detail before approving/rejecting.
+- This endpoint returns metadata only, not a file URL.
+
+## `GET /api/v1/companies/admin/:id/verification-documents/:documentId/download-url`
+
+Summary: Get a short-lived download URL for one verification document.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "33333333-3333-3333-3333-333333333333",
+    "companyId": "22222222-2222-2222-2222-222222222222",
+    "documentId": "44444444-4444-4444-4444-444444444444",
+    "type": "BUSINESS_LICENSE",
+    "uploadedByUserId": "11111111-1111-1111-1111-111111111111",
+    "documentType": "CERTIFICATE",
+    "fileName": "business-license.pdf",
+    "mimeType": "application/pdf",
+    "size": 234567,
+    "url": "https://minio.local/nexhire/company-proof-url",
+    "expiresInSeconds": 3600,
+    "createdAt": "2026-07-16T09:00:00.000Z",
+    "updatedAt": "2026-07-16T09:00:00.000Z"
+  }
+}
+```
+
+Errors:
+
+| Status | Code                         | Meaning                                |
+| ------ | ---------------------------- | -------------------------------------- |
+| 401    | `COMMON.UNAUTHORIZED`        | Missing/invalid token.                 |
+| 403    | `COMMON.FORBIDDEN`           | User is not admin.                     |
+| 404    | `COMMON.NOT_FOUND`           | Company/document/attachment not found. |
+| 503    | `COMMON.SERVICE_UNAVAILABLE` | document-storage unavailable.          |
 
 ## `PATCH /api/v1/companies/:id/verify`
 

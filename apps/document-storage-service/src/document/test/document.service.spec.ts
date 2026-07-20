@@ -282,6 +282,37 @@ describe('DocumentService', () => {
     );
   });
 
+  it('returns metadata for an existing document without creating a download URL', async () => {
+    documentRepo.findOne.mockResolvedValue({
+      id: 'document-1',
+      documentType: DocumentType.CERTIFICATE,
+      ownerType: DocumentOwnerType.COMPANY,
+      ownerId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+      fileName: 'business-license.pdf',
+      mimeType: 'application/pdf',
+      size: 1024,
+      key: 'company/b8b33c46-4bb0-4a33-8b0d-927e081a38a5/certificate/document-1.pdf',
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      updatedAt: new Date('2026-01-02T00:00:00.000Z'),
+    });
+
+    const result = await service.getMetadata('document-1');
+
+    expect(documentRepo.findOne).toHaveBeenCalledWith({ where: { id: 'document-1' } });
+    expect(storageService.presignedGetUrl).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      id: 'document-1',
+      documentType: DocumentType.CERTIFICATE,
+      ownerType: DocumentOwnerType.COMPANY,
+      ownerId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+      fileName: 'business-license.pdf',
+      mimeType: 'application/pdf',
+      size: 1024,
+      createdAt: '2026-01-01T00:00:00.000Z',
+      updatedAt: '2026-01-02T00:00:00.000Z',
+    });
+  });
+
   it('physically removes a document object and soft deletes metadata', async () => {
     documentRepo.findOne.mockResolvedValue({
       id: 'document-1',
@@ -300,6 +331,15 @@ describe('DocumentService', () => {
     documentRepo.findOne.mockResolvedValue(null);
 
     await expect(service.createDownloadUrl('missing-document')).rejects.toMatchObject({
+      status: 404,
+    });
+    expect(storageService.presignedGetUrl).not.toHaveBeenCalled();
+  });
+
+  it('returns not found when reading metadata for a missing document', async () => {
+    documentRepo.findOne.mockResolvedValue(null);
+
+    await expect(service.getMetadata('missing-document')).rejects.toMatchObject({
       status: 404,
     });
     expect(storageService.presignedGetUrl).not.toHaveBeenCalled();

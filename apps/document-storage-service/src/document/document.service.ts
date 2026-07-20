@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UploadDocumentDto } from './dto/upload-document.dto';
 import { DocumentDownloadResponseDto } from './dto/document-download-response.dto';
+import { DocumentMetadataResponseDto } from './dto/document-metadata-response.dto';
 import { DeleteDocumentResponseDto } from './dto/delete-document-response.dto';
 import { UploadDocumentResponseDto } from './dto/upload-document-response.dto';
 import { DocumentType } from './entities/document.enum';
@@ -71,14 +72,7 @@ export class DocumentService {
   }
 
   async createDownloadUrl(id: string): Promise<DocumentDownloadResponseDto> {
-    const document = await this.documentRepo.findOne({ where: { id } });
-    if (!document) {
-      this.logger.warn(`Download URL rejected: document not found id=${id}`);
-      throw new NotFoundException({
-        code: ERROR_CODES.COMMON.NOT_FOUND,
-        message: 'Document not found',
-      });
-    }
+    const document = await this.findActiveDocumentOrThrow(id, 'Download URL');
 
     return {
       id: document.id,
@@ -90,6 +84,21 @@ export class DocumentService {
       size: document.size,
       url: await this.storageService.presignedGetUrl(document.key, this.downloadUrlTtlSeconds),
       expiresInSeconds: this.downloadUrlTtlSeconds,
+    };
+  }
+
+  async getMetadata(id: string): Promise<DocumentMetadataResponseDto> {
+    const document = await this.findActiveDocumentOrThrow(id, 'Metadata');
+    return {
+      id: document.id,
+      documentType: document.documentType,
+      ownerType: document.ownerType,
+      ownerId: document.ownerId,
+      fileName: document.fileName,
+      mimeType: document.mimeType,
+      size: document.size,
+      createdAt: document.createdAt.toISOString(),
+      updatedAt: document.updatedAt.toISOString(),
     };
   }
 
@@ -141,6 +150,18 @@ export class DocumentService {
       });
       throw error;
     }
+  }
+
+  private async findActiveDocumentOrThrow(id: string, action: string): Promise<Document> {
+    const document = await this.documentRepo.findOne({ where: { id } });
+    if (!document) {
+      this.logger.warn(`${action} rejected: document not found id=${id}`);
+      throw new NotFoundException({
+        code: ERROR_CODES.COMMON.NOT_FOUND,
+        message: 'Document not found',
+      });
+    }
+    return document;
   }
 
   private async getDownloadUrlOrRemoveObject(key: string): Promise<string> {

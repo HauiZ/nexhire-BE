@@ -126,6 +126,46 @@ Errors:
 | 403    | Internal caller is not allowed         |
 | 404    | Document not found                     |
 
+### `GET /api/v1/internal/documents/:id/metadata`
+
+Internal only.
+
+Summary: Return document metadata without creating a presigned download URL.
+
+Auth:
+
+- Required
+- Internal service token header: `x-internal-service-token`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "7bb46232-eb8d-40c8-ae0f-249776d0b650",
+    "documentType": "CERTIFICATE",
+    "ownerType": "company",
+    "ownerId": "6d4b04bd-e031-4e32-b556-4e46dbf32f53",
+    "fileName": "business-license.pdf",
+    "mimeType": "application/pdf",
+    "size": 234567,
+    "createdAt": "2026-07-15T10:00:00.000Z",
+    "updatedAt": "2026-07-15T10:00:00.000Z"
+  }
+}
+```
+
+Used by company-service to verify that company verification documents exist and belong to the target company before attaching them.
+
+Errors:
+
+| Status | Meaning                                |
+| ------ | -------------------------------------- |
+| 401    | Missing/invalid internal service token |
+| 403    | Internal caller is not allowed         |
+| 404    | Document not found                     |
+
 ### `DELETE /api/v1/internal/documents/:id`
 
 Internal only.

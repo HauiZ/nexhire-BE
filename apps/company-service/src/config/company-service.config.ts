@@ -2,6 +2,7 @@ import { registerAs } from '@nestjs/config';
 
 export const companyServiceConfig = registerAs('companyService', () => ({
   port: parseInt(process.env.COMPANY_SERVICE_PORT ?? '3003', 10),
+  internalServiceToken: process.env.INTERNAL_SERVICE_TOKEN ?? 'dev-internal-service-token',
   services: {
     documentStorageService: process.env.DOCUMENT_STORAGE_SERVICE_URL ?? 'http://localhost:3009',
   },

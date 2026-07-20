@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -30,6 +31,13 @@ import { CompanyAdminReasonDto, UpdateCompanyTrustLevelDto } from './dto/company
 import { CompanyPostingSnapshotDto } from './dto/company-posting-snapshot.dto';
 import { CompanyResponseDto } from './dto/company-response.dto';
 import { CompanyTrustHistoryResponseDto } from './dto/company-trust-history-response.dto';
+import {
+  AttachCompanyVerificationDocumentDto,
+  CompanyVerificationDocumentDownloadResponseDto,
+  CompanyVerificationDocumentResponseDto,
+  CompanyVerificationDocumentWithMetadataResponseDto,
+  DeleteCompanyVerificationDocumentResponseDto,
+} from './dto/company-verification-document.dto';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { PublicCompanyProfileDto } from './dto/public-company-profile.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
@@ -149,6 +157,73 @@ export class CompanyController {
     return this.companyService.uploadHeroImage(id, user, file);
   }
 
+  @Get(':id/verification-documents')
+  @Roles(UserRole.RECRUITER)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'List company verification documents' })
+  @ApiSuccessResponse(CompanyVerificationDocumentResponseDto, { isArray: true })
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  listVerificationDocuments(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<CompanyVerificationDocumentResponseDto[]> {
+    return this.companyService.listVerificationDocuments(id, user);
+  }
+
+  @Post(':id/verification-documents')
+  @Roles(UserRole.RECRUITER)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Attach an uploaded document as company verification proof' })
+  @ApiSuccessResponse(CompanyVerificationDocumentResponseDto, { status: 201 })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 422, 500] })
+  attachVerificationDocument(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: AttachCompanyVerificationDocumentDto,
+  ): Promise<CompanyVerificationDocumentResponseDto> {
+    return this.companyService.attachVerificationDocument(id, user, dto);
+  }
+
+  @Delete(':id/verification-documents/:documentId')
+  @HttpCode(200)
+  @Roles(UserRole.RECRUITER)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Remove a company verification document attachment' })
+  @ApiSuccessResponse(DeleteCompanyVerificationDocumentResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  deleteVerificationDocument(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('documentId', ParseUUIDPipe) documentId: string,
+  ): Promise<{ deleted: true }> {
+    return this.companyService.deleteVerificationDocument(id, documentId, user);
+  }
+
+  @Get('admin/:id/verification-documents')
+  @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'List company verification documents for admin review' })
+  @ApiSuccessResponse(CompanyVerificationDocumentWithMetadataResponseDto, { isArray: true })
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500, 503] })
+  listAdminVerificationDocuments(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<CompanyVerificationDocumentWithMetadataResponseDto[]> {
+    return this.companyService.listAdminVerificationDocuments(id);
+  }
+
+  @Get('admin/:id/verification-documents/:documentId/download-url')
+  @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get company verification document download URL for admin review' })
+  @ApiSuccessResponse(CompanyVerificationDocumentDownloadResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500, 503] })
+  getAdminVerificationDocumentDownload(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('documentId', ParseUUIDPipe) documentId: string,
+  ): Promise<CompanyVerificationDocumentDownloadResponseDto> {
+    return this.companyService.getAdminVerificationDocumentDownload(id, documentId);
+  }
+
   @Get('admin/pending')
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()
@@ -167,10 +242,11 @@ export class CompanyController {
   @ApiSuccessResponse(AdminCompanyResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 422, 500] })
   verify(
+    @CurrentUser() user: AuthUser,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: VerifyCompanyDto,
   ): Promise<AdminCompanyResponseDto> {
-    return this.companyService.verify(id, dto.action);
+    return this.companyService.verify(id, dto.action, user.id, dto.reason);
   }
 
   @Patch('admin/:id/suspend')
@@ -181,10 +257,11 @@ export class CompanyController {
   @ApiSuccessResponse(AdminCompanyResponseDto)
   @ApiErrorResponses({ statuses: [401, 403, 404, 422, 500] })
   suspend(
+    @CurrentUser() user: AuthUser,
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() _dto: CompanyAdminReasonDto,
+    @Body() dto: CompanyAdminReasonDto,
   ): Promise<AdminCompanyResponseDto> {
-    return this.companyService.suspend(id);
+    return this.companyService.suspend(id, user.id, dto.reason);
   }
 
   @Patch('admin/:id/restore')
@@ -195,10 +272,11 @@ export class CompanyController {
   @ApiSuccessResponse(AdminCompanyResponseDto)
   @ApiErrorResponses({ statuses: [401, 403, 404, 422, 500] })
   restore(
+    @CurrentUser() user: AuthUser,
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() _dto: CompanyAdminReasonDto,
+    @Body() dto: CompanyAdminReasonDto,
   ): Promise<AdminCompanyResponseDto> {
-    return this.companyService.restore(id);
+    return this.companyService.restore(id, user.id, dto.reason);
   }
 
   @Patch('admin/:id/trust-level')

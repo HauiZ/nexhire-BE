@@ -1,12 +1,16 @@
+import { CompanyStatus } from '@nexhire/shared';
 import { AdminCompanyResponseDto } from './dto/admin-company-response.dto';
 import { CompanyResponseDto } from './dto/company-response.dto';
 import { CompanyTrustHistoryResponseDto } from './dto/company-trust-history-response.dto';
+import { CompanyVerificationDocumentResponseDto } from './dto/company-verification-document.dto';
 import { PublicCompanyProfileDto } from './dto/public-company-profile.dto';
 import { CompanyTrustHistory } from './entities/company-trust-history.entity';
+import { CompanyVerificationDocument } from './entities/company-verification-document.entity';
 import { Company } from './entities/company.entity';
 
 export class CompanyMapper {
   static toResponse(company: Company): CompanyResponseDto {
+    const missingRequiredFields = this.missingRequiredFields(company);
     return {
       id: company.id,
       name: company.name,
@@ -27,6 +31,15 @@ export class CompanyMapper {
       taxCode: company.taxCode,
       ownerId: company.ownerId,
       status: company.status,
+      canPostJobs: company.status === CompanyStatus.APPROVED,
+      completionPercent: this.completionPercent(missingRequiredFields),
+      missingRequiredFields,
+      submittedAt: company.createdAt.toISOString(),
+      rejectionReason:
+        company.status === CompanyStatus.REJECTED ? (company.statusReason ?? null) : null,
+      statusReason: company.statusReason,
+      statusChangedAt: company.statusChangedAt?.toISOString() ?? null,
+      statusChangedByUserId: company.statusChangedByUserId,
       createdAt: company.createdAt.toISOString(),
       updatedAt: company.updatedAt.toISOString(),
     };
@@ -75,5 +88,39 @@ export class CompanyMapper {
       metadata: history.metadata,
       createdAt: history.createdAt.toISOString(),
     };
+  }
+
+  static toVerificationDocumentResponse(
+    document: CompanyVerificationDocument,
+  ): CompanyVerificationDocumentResponseDto {
+    return {
+      id: document.id,
+      companyId: document.companyId,
+      documentId: document.documentId,
+      type: document.type,
+      uploadedByUserId: document.uploadedByUserId,
+      createdAt: document.createdAt.toISOString(),
+      updatedAt: document.updatedAt.toISOString(),
+    };
+  }
+
+  private static missingRequiredFields(company: Company): string[] {
+    const fields: Array<[string, unknown]> = [
+      ['name', company.name],
+      ['taxCode', company.taxCode],
+      ['website', company.website],
+      ['address', company.address],
+      ['description', company.description],
+    ];
+    return fields
+      .filter(([, value]) => (typeof value === 'string' ? value.trim().length === 0 : !value))
+      .map(([field]) => field);
+  }
+
+  private static completionPercent(missingRequiredFields: string[]): number {
+    const totalRequiredFields = 5;
+    return Math.round(
+      ((totalRequiredFields - missingRequiredFields.length) / totalRequiredFields) * 100,
+    );
   }
 }

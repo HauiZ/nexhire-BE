@@ -65,6 +65,30 @@ export class CompanyResponseDto {
   @ApiProperty({ enum: CompanyStatus, example: CompanyStatus.PENDING })
   status: CompanyStatus;
 
+  @ApiProperty({ example: false })
+  canPostJobs: boolean;
+
+  @ApiProperty({ example: 80 })
+  completionPercent: number;
+
+  @ApiProperty({ type: [String], example: ['website', 'address'] })
+  missingRequiredFields: string[];
+
+  @ApiPropertyOptional({ format: 'date-time', nullable: true })
+  submittedAt: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  rejectionReason: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  statusReason: string | null;
+
+  @ApiPropertyOptional({ format: 'date-time', nullable: true })
+  statusChangedAt: string | null;
+
+  @ApiPropertyOptional({ format: 'uuid', nullable: true })
+  statusChangedByUserId: string | null;
+
   @ApiProperty({ format: 'date-time' })
   createdAt: string;
 

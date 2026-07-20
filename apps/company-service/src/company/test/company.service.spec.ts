@@ -11,6 +11,10 @@ import { CompanyService } from '../company.service';
 import { CreateCompanyDto } from '../dto/create-company.dto';
 import { CompanyProcessedTrustSignal } from '../entities/company-processed-trust-signal.entity';
 import { CompanyTrustHistory } from '../entities/company-trust-history.entity';
+import {
+  CompanyVerificationDocument,
+  CompanyVerificationDocumentType,
+} from '../entities/company-verification-document.entity';
 import { VerifyAction } from '../dto/verify-company.dto';
 import { Company } from '../entities/company.entity';
 import { CompanyEventPublisher } from '../events/company-event.publisher';
@@ -40,6 +44,9 @@ function createCompany(overrides: Partial<Company> = {}): Company {
     taxCode: '0101234567',
     ownerId: mockUserId,
     status: CompanyStatus.PENDING,
+    statusReason: null,
+    statusChangedAt: null,
+    statusChangedByUserId: null,
     trustLevel: CompanyTrustLevel.MEDIUM,
     approvedLowRiskCount: 0,
     negativeTrustSignalCount: 0,
@@ -66,12 +73,21 @@ describe('CompanyService', () => {
   const processedTrustSignalRepo = {
     insert: jest.fn(),
   };
+  const verificationDocumentRepo = {
+    create: jest.fn((entity: Partial<CompanyVerificationDocument>) => entity),
+    find: jest.fn(),
+    findOne: jest.fn(),
+    save: jest.fn(),
+    softDelete: jest.fn(),
+  };
   const companyEventPublisher = {
     publishPostingSnapshotChanged: jest.fn(),
   };
   const documentClientService = {
     uploadCompanyLogo: jest.fn(),
     uploadCompanyHeroImage: jest.fn(),
+    getDocumentMetadata: jest.fn(),
+    getDocumentDownload: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -91,6 +107,10 @@ describe('CompanyService', () => {
           useValue: processedTrustSignalRepo,
         },
         {
+          provide: getRepositoryToken(CompanyVerificationDocument),
+          useValue: verificationDocumentRepo,
+        },
+        {
           provide: CompanyEventPublisher,
           useValue: companyEventPublisher,
         },
@@ -106,6 +126,17 @@ describe('CompanyService', () => {
     companyEventPublisher.publishPostingSnapshotChanged.mockResolvedValue(undefined);
     trustHistoryRepo.save.mockResolvedValue(undefined);
     processedTrustSignalRepo.insert.mockResolvedValue(undefined);
+    verificationDocumentRepo.save.mockImplementation((entity) =>
+      Promise.resolve({
+        id: '00000000-0000-4000-8000-000000000077',
+        createdAt: new Date('2026-01-01T00:00:00.000Z'),
+        updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+        ...entity,
+      }),
+    );
+    verificationDocumentRepo.find.mockResolvedValue([]);
+    verificationDocumentRepo.findOne.mockResolvedValue(null);
+    verificationDocumentRepo.softDelete.mockResolvedValue({ affected: 1 });
     documentClientService.uploadCompanyLogo.mockResolvedValue({
       id: '00000000-0000-4000-8000-000000000099',
       url: 'https://cdn.nexhire.vn/company/logo.png',
@@ -113,6 +144,30 @@ describe('CompanyService', () => {
     documentClientService.uploadCompanyHeroImage.mockResolvedValue({
       id: '00000000-0000-4000-8000-000000000088',
       url: 'https://cdn.nexhire.vn/company/hero.png',
+    });
+    documentClientService.getDocumentMetadata.mockResolvedValue({
+      id: '00000000-0000-4000-8000-000000000066',
+      documentType: 'CERTIFICATE',
+      ownerType: 'company',
+      ownerId: mockCompanyId,
+      fileName: 'business-license.pdf',
+      mimeType: 'application/pdf',
+      size: 1024,
+      createdAt: '2026-01-01T00:00:00.000Z',
+      updatedAt: '2026-01-01T00:00:00.000Z',
+    });
+    documentClientService.getDocumentDownload.mockResolvedValue({
+      id: '00000000-0000-4000-8000-000000000066',
+      documentType: 'CERTIFICATE',
+      ownerType: 'company',
+      ownerId: mockCompanyId,
+      fileName: 'business-license.pdf',
+      mimeType: 'application/pdf',
+      size: 1024,
+      createdAt: '2026-01-01T00:00:00.000Z',
+      updatedAt: '2026-01-01T00:00:00.000Z',
+      url: 'https://storage.local/business-license.pdf',
+      expiresInSeconds: 3600,
     });
   });
 
@@ -299,21 +354,38 @@ describe('CompanyService', () => {
     companyRepo.findOne.mockResolvedValueOnce(company);
     companyRepo.save.mockImplementation((entity: Company) => Promise.resolve(entity));
 
-    const result = await service.verify(mockCompanyId, VerifyAction.APPROVE);
+    const result = await service.verify(mockCompanyId, VerifyAction.APPROVE, 'admin-1');
 
     expect(company.status).toBe(CompanyStatus.APPROVED);
+    expect(company.statusReason).toBeNull();
+    expect(company.statusChangedByUserId).toBe('admin-1');
     expect(result.status).toBe(CompanyStatus.APPROVED);
   });
 
-  it('rejects a company', async () => {
+  it('rejects a company with reason', async () => {
     const company = createCompany();
     companyRepo.findOne.mockResolvedValueOnce(company);
     companyRepo.save.mockImplementation((entity: Company) => Promise.resolve(entity));
 
-    const result = await service.verify(mockCompanyId, VerifyAction.REJECT);
+    const result = await service.verify(
+      mockCompanyId,
+      VerifyAction.REJECT,
+      'admin-1',
+      'Invalid business license',
+    );
 
     expect(company.status).toBe(CompanyStatus.REJECTED);
+    expect(company.statusReason).toBe('Invalid business license');
+    expect(result.rejectionReason).toBe('Invalid business license');
     expect(result.status).toBe(CompanyStatus.REJECTED);
+  });
+
+  it('requires a reason when rejecting a company', async () => {
+    companyRepo.findOne.mockResolvedValueOnce(createCompany());
+
+    await expect(service.verify(mockCompanyId, VerifyAction.REJECT, 'admin-1')).rejects.toThrow(
+      BadRequestException,
+    );
   });
 
   it('rejects invalid verify actions explicitly', async () => {
@@ -364,7 +436,177 @@ describe('CompanyService', () => {
     expect(result).not.toHaveProperty('taxCode');
     expect(result).not.toHaveProperty('ownerId');
     expect(result).not.toHaveProperty('status');
+    expect(result).not.toHaveProperty('canPostJobs');
+    expect(result).not.toHaveProperty('statusReason');
     expect(result).not.toHaveProperty('trustLevel');
+  });
+
+  it('attaches and lists company verification documents', async () => {
+    const company = createCompany({ status: CompanyStatus.PENDING });
+    companyRepo.findOne.mockResolvedValue(company);
+
+    const attached = await service.attachVerificationDocument(
+      mockCompanyId,
+      { id: mockUserId, role: UserRole.RECRUITER },
+      {
+        documentId: '00000000-0000-4000-8000-000000000066',
+        type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+      },
+    );
+
+    expect(attached).toEqual(
+      expect.objectContaining({
+        companyId: mockCompanyId,
+        documentId: '00000000-0000-4000-8000-000000000066',
+        type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+      }),
+    );
+    expect(verificationDocumentRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        companyId: mockCompanyId,
+        uploadedByUserId: mockUserId,
+      }),
+    );
+    expect(documentClientService.getDocumentMetadata).toHaveBeenCalledWith(
+      '00000000-0000-4000-8000-000000000066',
+    );
+  });
+
+  it('rejects verification documents that belong to another owner', async () => {
+    const company = createCompany({ status: CompanyStatus.PENDING });
+    companyRepo.findOne.mockResolvedValue(company);
+    documentClientService.getDocumentMetadata.mockResolvedValueOnce({
+      id: '00000000-0000-4000-8000-000000000066',
+      documentType: 'CERTIFICATE',
+      ownerType: 'company',
+      ownerId: '00000000-0000-4000-8000-000000000099',
+    });
+
+    await expect(
+      service.attachVerificationDocument(
+        mockCompanyId,
+        { id: mockUserId, role: UserRole.RECRUITER },
+        {
+          documentId: '00000000-0000-4000-8000-000000000066',
+          type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+        },
+      ),
+    ).rejects.toThrow('Verification document must belong to this company');
+    expect(verificationDocumentRepo.save).not.toHaveBeenCalled();
+  });
+
+  it('rejects verification documents uploaded as non-proof document types', async () => {
+    const company = createCompany({ status: CompanyStatus.PENDING });
+    companyRepo.findOne.mockResolvedValue(company);
+    documentClientService.getDocumentMetadata.mockResolvedValueOnce({
+      id: '00000000-0000-4000-8000-000000000066',
+      documentType: 'LOGO',
+      ownerType: 'company',
+      ownerId: mockCompanyId,
+    });
+
+    await expect(
+      service.attachVerificationDocument(
+        mockCompanyId,
+        { id: mockUserId, role: UserRole.RECRUITER },
+        {
+          documentId: '00000000-0000-4000-8000-000000000066',
+          type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+        },
+      ),
+    ).rejects.toThrow('Verification proof must be uploaded as CERTIFICATE or OTHER document type');
+    expect(verificationDocumentRepo.save).not.toHaveBeenCalled();
+  });
+
+  it('returns a conflict when the verification document is already attached', async () => {
+    const company = createCompany({ status: CompanyStatus.PENDING });
+    companyRepo.findOne.mockResolvedValue(company);
+    verificationDocumentRepo.save.mockRejectedValueOnce({ code: '23505' });
+
+    await expect(
+      service.attachVerificationDocument(
+        mockCompanyId,
+        { id: mockUserId, role: UserRole.RECRUITER },
+        {
+          documentId: '00000000-0000-4000-8000-000000000066',
+          type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+        },
+      ),
+    ).rejects.toThrow('Verification document already attached to this company');
+  });
+
+  it('returns verification document metadata for admin review', async () => {
+    const company = createCompany({ status: CompanyStatus.PENDING });
+    companyRepo.findOne.mockResolvedValue(company);
+    verificationDocumentRepo.find.mockResolvedValueOnce([
+      {
+        id: '00000000-0000-4000-8000-000000000077',
+        companyId: mockCompanyId,
+        documentId: '00000000-0000-4000-8000-000000000066',
+        type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+        uploadedByUserId: mockUserId,
+        createdAt: new Date('2026-01-01T00:00:00.000Z'),
+        updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+      },
+    ]);
+
+    const result = await service.listAdminVerificationDocuments(mockCompanyId);
+
+    expect(result).toEqual([
+      expect.objectContaining({
+        documentId: '00000000-0000-4000-8000-000000000066',
+        fileName: 'business-license.pdf',
+        mimeType: 'application/pdf',
+        size: 1024,
+      }),
+    ]);
+    expect(documentClientService.getDocumentMetadata).toHaveBeenCalledWith(
+      '00000000-0000-4000-8000-000000000066',
+    );
+  });
+
+  it('returns a verification document download URL for admin review', async () => {
+    const company = createCompany({ status: CompanyStatus.PENDING });
+    companyRepo.findOne.mockResolvedValue(company);
+    verificationDocumentRepo.findOne.mockResolvedValueOnce({
+      id: '00000000-0000-4000-8000-000000000077',
+      companyId: mockCompanyId,
+      documentId: '00000000-0000-4000-8000-000000000066',
+      type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+      uploadedByUserId: mockUserId,
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+    });
+
+    const result = await service.getAdminVerificationDocumentDownload(
+      mockCompanyId,
+      '00000000-0000-4000-8000-000000000066',
+    );
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        documentId: '00000000-0000-4000-8000-000000000066',
+        url: 'https://storage.local/business-license.pdf',
+        expiresInSeconds: 3600,
+      }),
+    );
+    expect(documentClientService.getDocumentDownload).toHaveBeenCalledWith(
+      '00000000-0000-4000-8000-000000000066',
+    );
+  });
+
+  it('returns not found when admin downloads a document that is not attached', async () => {
+    const company = createCompany({ status: CompanyStatus.PENDING });
+    companyRepo.findOne.mockResolvedValue(company);
+    verificationDocumentRepo.findOne.mockResolvedValueOnce(null);
+
+    await expect(
+      service.getAdminVerificationDocumentDownload(
+        mockCompanyId,
+        '00000000-0000-4000-8000-000000000066',
+      ),
+    ).rejects.toThrow('Verification document not found');
+    expect(documentClientService.getDocumentDownload).not.toHaveBeenCalled();
   });
 
   it('auto increases trust after repeated approved low-risk jobs', async () => {

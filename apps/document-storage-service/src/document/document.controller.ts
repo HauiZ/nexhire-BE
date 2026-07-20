@@ -16,6 +16,7 @@ import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiErrorResponses, ApiSuccessResponse, InternalServiceTokenGuard } from '@nexhire/shared';
 import { DocumentService } from './document.service';
 import { DocumentDownloadResponseDto } from './dto/document-download-response.dto';
+import { DocumentMetadataResponseDto } from './dto/document-metadata-response.dto';
 import { DeleteDocumentResponseDto } from './dto/delete-document-response.dto';
 import { UploadDocumentDto } from './dto/upload-document.dto';
 import { UploadDocumentResponseDto } from './dto/upload-document-response.dto';
@@ -89,6 +90,16 @@ export class DocumentInternalController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<DocumentDownloadResponseDto> {
     return this.documentService.createDownloadUrl(id);
+  }
+
+  @Get(':id/metadata')
+  @ApiOperation({ summary: 'Get document metadata for an internal caller' })
+  @ApiSuccessResponse(DocumentMetadataResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  getInternalMetadata(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<DocumentMetadataResponseDto> {
+    return this.documentService.getMetadata(id);
   }
 
   @Delete(':id')

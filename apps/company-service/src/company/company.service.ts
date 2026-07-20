@@ -22,6 +22,12 @@ import { UpdateCompanyTrustLevelDto } from './dto/company-admin-action.dto';
 import { CompanyPostingSnapshotDto } from './dto/company-posting-snapshot.dto';
 import { CompanyResponseDto } from './dto/company-response.dto';
 import { CompanyTrustHistoryResponseDto } from './dto/company-trust-history-response.dto';
+import {
+  AttachCompanyVerificationDocumentDto,
+  CompanyVerificationDocumentDownloadResponseDto,
+  CompanyVerificationDocumentResponseDto,
+  CompanyVerificationDocumentWithMetadataResponseDto,
+} from './dto/company-verification-document.dto';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { PublicCompanyProfileDto } from './dto/public-company-profile.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
@@ -32,6 +38,7 @@ import {
   CompanyTrustChangeSource,
   CompanyTrustHistory,
 } from './entities/company-trust-history.entity';
+import { CompanyVerificationDocument } from './entities/company-verification-document.entity';
 import { Company } from './entities/company.entity';
 import { CompanyEventPublisher } from './events/company-event.publisher';
 import { DocumentClientService } from '../document-client/document-client.service';
@@ -68,6 +75,8 @@ export class CompanyService {
     private readonly trustHistoryRepo: Repository<CompanyTrustHistory>,
     @InjectRepository(CompanyProcessedTrustSignal)
     private readonly processedTrustSignalRepo: Repository<CompanyProcessedTrustSignal>,
+    @InjectRepository(CompanyVerificationDocument)
+    private readonly verificationDocumentRepo: Repository<CompanyVerificationDocument>,
     private readonly companyEventPublisher: CompanyEventPublisher,
     private readonly documentClientService: DocumentClientService,
   ) {}
@@ -95,6 +104,9 @@ export class CompanyService {
       taxCode,
       ownerId: userId,
       status: CompanyStatus.PENDING,
+      statusReason: null,
+      statusChangedAt: null,
+      statusChangedByUserId: null,
     });
 
     const saved = await this.companyRepo.save(company);
@@ -232,6 +244,9 @@ export class CompanyService {
     const previousStatus = company.status;
     if (patch.taxCode !== undefined || patch.name !== undefined) {
       company.status = CompanyStatus.PENDING;
+      company.statusReason = null;
+      company.statusChangedAt = new Date();
+      company.statusChangedByUserId = userId;
       this.logger.log(`Company status reset to PENDING companyId=${companyId}`);
     }
 
@@ -256,7 +271,12 @@ export class CompanyService {
     return companies.map(CompanyMapper.toAdminResponse);
   }
 
-  async verify(companyId: string, action: VerifyAction): Promise<AdminCompanyResponseDto> {
+  async verify(
+    companyId: string,
+    action: VerifyAction,
+    adminUserId?: string,
+    reason?: string,
+  ): Promise<AdminCompanyResponseDto> {
     const company = await this.companyRepo.findOne({ where: { id: companyId } });
     if (!company) {
       throw new NotFoundException({
@@ -266,16 +286,27 @@ export class CompanyService {
     }
 
     const previousStatus = company.status;
+    const statusReason = reason?.trim() || null;
     if (action === VerifyAction.APPROVE) {
       company.status = CompanyStatus.APPROVED;
+      company.statusReason = null;
     } else if (action === VerifyAction.REJECT) {
+      if (!statusReason) {
+        throw new BadRequestException({
+          code: ERROR_CODES.COMPANY.INVALID_VERIFY_ACTION,
+          message: 'Rejecting a company requires a reason',
+        });
+      }
       company.status = CompanyStatus.REJECTED;
+      company.statusReason = statusReason;
     } else {
       throw new BadRequestException({
         code: ERROR_CODES.COMPANY.INVALID_VERIFY_ACTION,
         message: 'Invalid verify action',
       });
     }
+    company.statusChangedAt = new Date();
+    company.statusChangedByUserId = adminUserId ?? null;
 
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved, previousStatus);
@@ -283,20 +314,34 @@ export class CompanyService {
     return CompanyMapper.toAdminResponse(saved);
   }
 
-  async suspend(companyId: string): Promise<AdminCompanyResponseDto> {
+  async suspend(
+    companyId: string,
+    adminUserId?: string,
+    reason?: string,
+  ): Promise<AdminCompanyResponseDto> {
     const company = await this.findCompanyOrThrow(companyId);
     const previousStatus = company.status;
     company.status = CompanyStatus.SUSPENDED;
+    company.statusReason = reason?.trim() || null;
+    company.statusChangedAt = new Date();
+    company.statusChangedByUserId = adminUserId ?? null;
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved, previousStatus);
     this.logger.log(`Company suspended companyId=${companyId}`);
     return CompanyMapper.toAdminResponse(saved);
   }
 
-  async restore(companyId: string): Promise<AdminCompanyResponseDto> {
+  async restore(
+    companyId: string,
+    adminUserId?: string,
+    reason?: string,
+  ): Promise<AdminCompanyResponseDto> {
     const company = await this.findCompanyOrThrow(companyId);
     const previousStatus = company.status;
     company.status = CompanyStatus.PENDING;
+    company.statusReason = reason?.trim() || null;
+    company.statusChangedAt = new Date();
+    company.statusChangedByUserId = adminUserId ?? null;
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved, previousStatus);
     this.logger.log(`Company restored to pending companyId=${companyId}`);
@@ -399,6 +444,119 @@ export class CompanyService {
     return histories.map(CompanyMapper.toTrustHistoryResponse);
   }
 
+  async attachVerificationDocument(
+    companyId: string,
+    user: AuthUser,
+    dto: AttachCompanyVerificationDocumentDto,
+  ): Promise<CompanyVerificationDocumentResponseDto> {
+    const company = await this.findCompanyOrThrow(companyId);
+    this.assertCompanyOwner(company, user.id);
+    await this.assertVerificationDocumentBelongsToCompany(company.id, dto.documentId);
+    let document: CompanyVerificationDocument;
+    try {
+      document = await this.verificationDocumentRepo.save(
+        this.verificationDocumentRepo.create({
+          companyId: company.id,
+          documentId: dto.documentId,
+          type: dto.type,
+          uploadedByUserId: user.id,
+        }),
+      );
+    } catch (error) {
+      if (this.isUniqueConstraintViolation(error)) {
+        throw new ConflictException({
+          code: ERROR_CODES.COMMON.CONFLICT,
+          message: 'Verification document already attached to this company',
+        });
+      }
+      throw error;
+    }
+    this.logger.log(
+      `Company verification document attached companyId=${companyId} documentId=${dto.documentId}`,
+    );
+    return CompanyMapper.toVerificationDocumentResponse(document);
+  }
+
+  async listVerificationDocuments(
+    companyId: string,
+    user: AuthUser,
+  ): Promise<CompanyVerificationDocumentResponseDto[]> {
+    const company = await this.findCompanyOrThrow(companyId);
+    this.assertCompanyOwner(company, user.id);
+    const documents = await this.verificationDocumentRepo.find({
+      where: { companyId: company.id },
+      order: { createdAt: 'DESC' },
+    });
+    return documents.map(CompanyMapper.toVerificationDocumentResponse);
+  }
+
+  async listAdminVerificationDocuments(
+    companyId: string,
+  ): Promise<CompanyVerificationDocumentWithMetadataResponseDto[]> {
+    await this.findCompanyOrThrow(companyId);
+    const documents = await this.verificationDocumentRepo.find({
+      where: { companyId },
+      order: { createdAt: 'DESC' },
+    });
+    return Promise.all(
+      documents.map(async (document) => {
+        const metadata = await this.documentClientService.getDocumentMetadata(document.documentId);
+        return {
+          ...CompanyMapper.toVerificationDocumentResponse(document),
+          documentType: metadata.documentType,
+          fileName: metadata.fileName,
+          mimeType: metadata.mimeType,
+          size: metadata.size,
+        };
+      }),
+    );
+  }
+
+  async getAdminVerificationDocumentDownload(
+    companyId: string,
+    documentId: string,
+  ): Promise<CompanyVerificationDocumentDownloadResponseDto> {
+    await this.findCompanyOrThrow(companyId);
+    const document = await this.verificationDocumentRepo.findOne({
+      where: { companyId, documentId },
+    });
+    if (!document) {
+      throw new NotFoundException({
+        code: ERROR_CODES.COMMON.NOT_FOUND,
+        message: 'Verification document not found',
+      });
+    }
+    const download = await this.documentClientService.getDocumentDownload(documentId);
+    return {
+      ...CompanyMapper.toVerificationDocumentResponse(document),
+      documentType: download.documentType,
+      fileName: download.fileName,
+      mimeType: download.mimeType,
+      size: download.size,
+      url: download.url,
+      expiresInSeconds: download.expiresInSeconds,
+    };
+  }
+
+  async deleteVerificationDocument(
+    companyId: string,
+    documentId: string,
+    user: AuthUser,
+  ): Promise<{ deleted: true }> {
+    const company = await this.findCompanyOrThrow(companyId);
+    this.assertCompanyOwner(company, user.id);
+    const document = await this.verificationDocumentRepo.findOne({
+      where: { companyId: company.id, documentId },
+    });
+    if (document) {
+      await this.verificationDocumentRepo.softDelete(document.id);
+      this.logger.log(
+        `Company verification document removed companyId=${companyId} documentId=${documentId}`,
+      );
+    }
+    return { deleted: true };
+  }
+
   async getPostingSnapshot(companyId: string): Promise<CompanyPostingSnapshotDto> {
     return this.toPostingSnapshot(await this.findCompanyOrThrow(companyId));
   }
@@ -430,6 +588,34 @@ export class CompanyService {
       });
     }
     return company;
+  }
+
+  private assertCompanyOwner(company: Company, userId: string): void {
+    if (company.ownerId !== userId) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.COMMON.FORBIDDEN,
+        message: 'You can only update your own company',
+      });
+    }
+  }
+
+  private async assertVerificationDocumentBelongsToCompany(
+    companyId: string,
+    documentId: string,
+  ): Promise<void> {
+    const document = await this.documentClientService.getDocumentMetadata(documentId);
+    if (document.ownerType !== 'company' || document.ownerId !== companyId) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'Verification document must belong to this company',
+      });
+    }
+    if (!['CERTIFICATE', 'OTHER'].includes(document.documentType)) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'Verification proof must be uploaded as CERTIFICATE or OTHER document type',
+      });
+    }
   }
 
   private toPostingSnapshot(
