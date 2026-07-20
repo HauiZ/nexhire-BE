@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { DataSource } from 'typeorm';
 import {
+  ApplicationStage,
   CompanyStatus,
   CompanyTrustLevel as SharedCompanyTrustLevel,
   JobExperienceLevel,
@@ -22,6 +23,28 @@ import { UserRoleEntity } from '../../apps/auth-service/src/auth/entities/user-r
 import { seedAuthRoles } from '../../apps/auth-service/src/seeds/auth-role.seed';
 import companyDataSource from '../../apps/company-service/data-source';
 import { Company } from '../../apps/company-service/src/company/entities/company.entity';
+import {
+  CompanyVerificationDocument,
+  CompanyVerificationDocumentType,
+} from '../../apps/company-service/src/company/entities/company-verification-document.entity';
+import candidateDataSource from '../../apps/candidate-service/data-source';
+import { CandidateCv } from '../../apps/candidate-service/src/candidate/entities/candidate-cv.entity';
+import { CandidateProfile } from '../../apps/candidate-service/src/candidate/entities/candidate-profile.entity';
+import {
+  CandidateCvParseStatus,
+  CandidateProfileVisibility,
+} from '../../apps/candidate-service/src/candidate/entities/candidate.enum';
+import applicationDataSource from '../../apps/application-service/data-source';
+import {
+  Application,
+  ApplicationMatchLevel,
+} from '../../apps/application-service/src/application/entities/application.entity';
+import documentStorageDataSource from '../../apps/document-storage-service/data-source';
+import { Document } from '../../apps/document-storage-service/src/document/entities/document.entity';
+import {
+  DocumentOwnerType,
+  DocumentType,
+} from '../../apps/document-storage-service/src/document/entities/document.enum';
 import jobDataSource from '../../apps/job-service/data-source';
 import { JobModerationReview } from '../../apps/job-service/src/job/entities/job-moderation-review.entity';
 import {
@@ -66,6 +89,9 @@ type DemoCompany = {
   heroImageUrl: string;
   trustLevel: SharedCompanyTrustLevel;
   approvedLowRiskCount: number;
+  negativeTrustSignalCount?: number;
+  status?: CompanyStatus;
+  statusReason?: string | null;
 };
 
 type DemoJob = {
@@ -85,6 +111,47 @@ type DemoJob = {
   salaryMax: number;
   numberOfOpenings: number;
   publishedDaysAgo: number;
+};
+
+type DemoDocument = {
+  id: string;
+  documentType: DocumentType;
+  ownerType: DocumentOwnerType;
+  ownerId: string;
+  fileName: string;
+  mimeType: string;
+  size: number;
+  key: string;
+};
+
+type DemoCandidate = {
+  id: string;
+  userId: string;
+  email: string;
+  fullName: string;
+  phone: string;
+  headline: string;
+  summary: string;
+  location: string;
+  avatarDocumentId: string;
+  cvId: string;
+  cvDocumentId: string;
+  cvTitle: string;
+  cvFileName: string;
+  cvMimeType: string;
+  cvSize: number;
+};
+
+type DemoApplication = {
+  id: string;
+  candidateId: string;
+  jobId: string;
+  status: ApplicationStage;
+  coverLetter: string;
+  matchScore: number;
+  matchLevel: ApplicationMatchLevel;
+  submittedDaysAgo: number;
+  statusNote?: string | null;
 };
 
 const demoCompanies: DemoCompany[] = [
@@ -227,6 +294,86 @@ const demoCompanies: DemoCompany[] = [
     approvedLowRiskCount: 3,
   },
 ];
+
+const demoReviewCompanies: DemoCompany[] = [
+  {
+    id: '10000000-0000-4000-8000-000000000101',
+    ownerId: '20000000-0000-4000-8000-000000000101',
+    recruiterEmail: 'recruiter.pending@nexhire.demo',
+    recruiterName: 'Pending Company Recruiter',
+    name: 'GreenField AI',
+    logo: 'https://cdn.nexhire.vn/demo/companies/greenfield-ai.png',
+    taxCode: 'DEMO-GREENFIELD-101',
+    website: 'https://greenfield.example',
+    address: 'Nam Tu Liem, Ha Noi',
+    description: 'AI workflow startup submitting company verification documents for review.',
+    industry: 'AI Productivity',
+    size: '11-50',
+    foundedYear: 2024,
+    mission: 'Automate repetitive office work while keeping teams in control.',
+    culture: 'Small product team, fast validation cycles, and careful customer onboarding.',
+    values: ['Responsible AI', 'Customer clarity', 'Fast learning'],
+    perks: ['Flexible hours', 'Founder office hours', 'AI tooling budget'],
+    heroImageUrl: 'https://cdn.nexhire.vn/demo/companies/greenfield-ai-hero.png',
+    trustLevel: SharedCompanyTrustLevel.LOW,
+    approvedLowRiskCount: 0,
+    negativeTrustSignalCount: 0,
+    status: CompanyStatus.PENDING,
+    statusReason: 'Demo seed: waiting for admin verification',
+  },
+  {
+    id: '10000000-0000-4000-8000-000000000102',
+    ownerId: '20000000-0000-4000-8000-000000000102',
+    recruiterEmail: 'recruiter.rejected@nexhire.demo',
+    recruiterName: 'Rejected Company Recruiter',
+    name: 'Unverified Labs',
+    logo: 'https://cdn.nexhire.vn/demo/companies/unverified-labs.png',
+    taxCode: 'DEMO-UNVERIFIED-102',
+    website: 'https://unverified.example',
+    address: 'Unknown District, Ho Chi Minh City',
+    description: 'Company profile rejected in demo data because verification proof was incomplete.',
+    industry: 'Software Services',
+    size: '1-10',
+    foundedYear: 2025,
+    mission: 'Demo company for rejected verification state.',
+    culture: 'Incomplete verification profile.',
+    values: ['Needs review'],
+    perks: ['Not visible to candidates'],
+    heroImageUrl: 'https://cdn.nexhire.vn/demo/companies/unverified-labs-hero.png',
+    trustLevel: SharedCompanyTrustLevel.LOW,
+    approvedLowRiskCount: 0,
+    negativeTrustSignalCount: 1,
+    status: CompanyStatus.REJECTED,
+    statusReason: 'Demo seed: tax document does not match registered business name',
+  },
+  {
+    id: '10000000-0000-4000-8000-000000000103',
+    ownerId: '20000000-0000-4000-8000-000000000103',
+    recruiterEmail: 'recruiter.suspended@nexhire.demo',
+    recruiterName: 'Suspended Company Recruiter',
+    name: 'Paused Hiring Co',
+    logo: 'https://cdn.nexhire.vn/demo/companies/paused-hiring.png',
+    taxCode: 'DEMO-PAUSED-103',
+    website: 'https://paused.example',
+    address: 'Hai Ba Trung, Ha Noi',
+    description: 'Company profile suspended in demo data for admin lifecycle checks.',
+    industry: 'Operations Software',
+    size: '51-200',
+    foundedYear: 2022,
+    mission: 'Demo company for suspended lifecycle state.',
+    culture: 'Temporarily paused by admin.',
+    values: ['Operational discipline'],
+    perks: ['Not visible to candidates'],
+    heroImageUrl: 'https://cdn.nexhire.vn/demo/companies/paused-hiring-hero.png',
+    trustLevel: SharedCompanyTrustLevel.LOW,
+    approvedLowRiskCount: 1,
+    negativeTrustSignalCount: 2,
+    status: CompanyStatus.SUSPENDED,
+    statusReason: 'Demo seed: suspended for policy review',
+  },
+];
+
+const allDemoCompanies = [...demoCompanies, ...demoReviewCompanies];
 
 const demoJobs: DemoJob[] = [
   {
@@ -531,15 +678,267 @@ const demoJobs: DemoJob[] = [
   },
 ];
 
+const demoDocuments: DemoDocument[] = [
+  {
+    id: '70000000-0000-4000-8000-000000000101',
+    documentType: DocumentType.CERTIFICATE,
+    ownerType: DocumentOwnerType.COMPANY,
+    ownerId: demoReviewCompanies[0].id,
+    fileName: 'greenfield-ai-business-license.pdf',
+    mimeType: 'application/pdf',
+    size: 238_400,
+    key: 'demo/company-verification/greenfield-ai/business-license.pdf',
+  },
+  {
+    id: '70000000-0000-4000-8000-000000000102',
+    documentType: DocumentType.CERTIFICATE,
+    ownerType: DocumentOwnerType.COMPANY,
+    ownerId: demoReviewCompanies[0].id,
+    fileName: 'greenfield-ai-tax-certificate.pdf',
+    mimeType: 'application/pdf',
+    size: 186_240,
+    key: 'demo/company-verification/greenfield-ai/tax-certificate.pdf',
+  },
+  {
+    id: '70000000-0000-4000-8000-000000000103',
+    documentType: DocumentType.OTHER,
+    ownerType: DocumentOwnerType.COMPANY,
+    ownerId: demoReviewCompanies[0].id,
+    fileName: 'greenfield-ai-domain-proof.png',
+    mimeType: 'image/png',
+    size: 94_300,
+    key: 'demo/company-verification/greenfield-ai/domain-proof.png',
+  },
+  {
+    id: '70000000-0000-4000-8000-000000000201',
+    documentType: DocumentType.AVATAR,
+    ownerType: DocumentOwnerType.CANDIDATE,
+    ownerId: '50000000-0000-4000-8000-000000000001',
+    fileName: 'mai-anh-avatar.png',
+    mimeType: 'image/png',
+    size: 84_120,
+    key: 'demo/candidates/mai-anh/avatar.png',
+  },
+  {
+    id: '70000000-0000-4000-8000-000000000202',
+    documentType: DocumentType.AVATAR,
+    ownerType: DocumentOwnerType.CANDIDATE,
+    ownerId: '50000000-0000-4000-8000-000000000002',
+    fileName: 'minh-khoa-avatar.png',
+    mimeType: 'image/png',
+    size: 91_440,
+    key: 'demo/candidates/minh-khoa/avatar.png',
+  },
+  {
+    id: '70000000-0000-4000-8000-000000000203',
+    documentType: DocumentType.AVATAR,
+    ownerType: DocumentOwnerType.CANDIDATE,
+    ownerId: '50000000-0000-4000-8000-000000000003',
+    fileName: 'linh-chi-avatar.png',
+    mimeType: 'image/png',
+    size: 88_010,
+    key: 'demo/candidates/linh-chi/avatar.png',
+  },
+  {
+    id: '70000000-0000-4000-8000-000000000211',
+    documentType: DocumentType.CV,
+    ownerType: DocumentOwnerType.CANDIDATE,
+    ownerId: '50000000-0000-4000-8000-000000000001',
+    fileName: 'mai-anh-frontend-cv.pdf',
+    mimeType: 'application/pdf',
+    size: 312_720,
+    key: 'demo/candidates/mai-anh/frontend-cv.pdf',
+  },
+  {
+    id: '70000000-0000-4000-8000-000000000212',
+    documentType: DocumentType.CV,
+    ownerType: DocumentOwnerType.CANDIDATE,
+    ownerId: '50000000-0000-4000-8000-000000000002',
+    fileName: 'minh-khoa-backend-cv.pdf',
+    mimeType: 'application/pdf',
+    size: 356_140,
+    key: 'demo/candidates/minh-khoa/backend-cv.pdf',
+  },
+  {
+    id: '70000000-0000-4000-8000-000000000213',
+    documentType: DocumentType.CV,
+    ownerType: DocumentOwnerType.CANDIDATE,
+    ownerId: '50000000-0000-4000-8000-000000000003',
+    fileName: 'linh-chi-product-cv.pdf',
+    mimeType: 'application/pdf',
+    size: 284_920,
+    key: 'demo/candidates/linh-chi/product-cv.pdf',
+  },
+];
+
+const demoCompanyVerificationDocuments = [
+  {
+    id: '80000000-0000-4000-8000-000000000101',
+    companyId: demoReviewCompanies[0].id,
+    documentId: '70000000-0000-4000-8000-000000000101',
+    type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+    uploadedByUserId: demoReviewCompanies[0].ownerId,
+  },
+  {
+    id: '80000000-0000-4000-8000-000000000102',
+    companyId: demoReviewCompanies[0].id,
+    documentId: '70000000-0000-4000-8000-000000000102',
+    type: CompanyVerificationDocumentType.TAX_CERTIFICATE,
+    uploadedByUserId: demoReviewCompanies[0].ownerId,
+  },
+  {
+    id: '80000000-0000-4000-8000-000000000103',
+    companyId: demoReviewCompanies[0].id,
+    documentId: '70000000-0000-4000-8000-000000000103',
+    type: CompanyVerificationDocumentType.DOMAIN_PROOF,
+    uploadedByUserId: demoReviewCompanies[0].ownerId,
+  },
+];
+
+const demoCandidates: DemoCandidate[] = [
+  {
+    id: '50000000-0000-4000-8000-000000000001',
+    userId: '90000000-0000-4000-8000-000000000001',
+    email: 'candidate.mai.anh@nexhire.demo',
+    fullName: 'Nguyen Mai Anh',
+    phone: '0901000001',
+    headline: 'Frontend Engineer focused on React and design systems',
+    summary: 'Builds accessible, polished UI for recruitment and SaaS products.',
+    location: 'Ha Noi, Viet Nam',
+    avatarDocumentId: '70000000-0000-4000-8000-000000000201',
+    cvId: '51000000-0000-4000-8000-000000000001',
+    cvDocumentId: '70000000-0000-4000-8000-000000000211',
+    cvTitle: 'Frontend Engineer CV',
+    cvFileName: 'mai-anh-frontend-cv.pdf',
+    cvMimeType: 'application/pdf',
+    cvSize: 312_720,
+  },
+  {
+    id: '50000000-0000-4000-8000-000000000002',
+    userId: '90000000-0000-4000-8000-000000000002',
+    email: 'candidate.minh.khoa@nexhire.demo',
+    fullName: 'Tran Minh Khoa',
+    phone: '0901000002',
+    headline: 'Backend Engineer with NestJS and PostgreSQL experience',
+    summary: 'Works on service APIs, data models, async workflows, and observability.',
+    location: 'Ho Chi Minh City, Viet Nam',
+    avatarDocumentId: '70000000-0000-4000-8000-000000000202',
+    cvId: '51000000-0000-4000-8000-000000000002',
+    cvDocumentId: '70000000-0000-4000-8000-000000000212',
+    cvTitle: 'Backend Engineer CV',
+    cvFileName: 'minh-khoa-backend-cv.pdf',
+    cvMimeType: 'application/pdf',
+    cvSize: 356_140,
+  },
+  {
+    id: '50000000-0000-4000-8000-000000000003',
+    userId: '90000000-0000-4000-8000-000000000003',
+    email: 'candidate.linh.chi@nexhire.demo',
+    fullName: 'Pham Linh Chi',
+    phone: '0901000003',
+    headline: 'Product Designer and growth-minded UX researcher',
+    summary: 'Turns research insights into clear product flows and interface systems.',
+    location: 'Da Nang, Viet Nam',
+    avatarDocumentId: '70000000-0000-4000-8000-000000000203',
+    cvId: '51000000-0000-4000-8000-000000000003',
+    cvDocumentId: '70000000-0000-4000-8000-000000000213',
+    cvTitle: 'Product Designer CV',
+    cvFileName: 'linh-chi-product-cv.pdf',
+    cvMimeType: 'application/pdf',
+    cvSize: 284_920,
+  },
+];
+
+const demoApplications: DemoApplication[] = [
+  {
+    id: '60000000-0000-4000-8000-000000000001',
+    candidateId: demoCandidates[0].id,
+    jobId: demoJobs[0].id,
+    status: ApplicationStage.SUBMITTED,
+    coverLetter: 'I have built React UI for hiring workflows and would like to join the team.',
+    matchScore: 92,
+    matchLevel: ApplicationMatchLevel.EXCELLENT,
+    submittedDaysAgo: 1,
+  },
+  {
+    id: '60000000-0000-4000-8000-000000000002',
+    candidateId: demoCandidates[1].id,
+    jobId: demoJobs[1].id,
+    status: ApplicationStage.OFFERED,
+    coverLetter: 'My NestJS and PostgreSQL background is a strong fit for this backend role.',
+    matchScore: 86,
+    matchLevel: ApplicationMatchLevel.HIGH,
+    submittedDaysAgo: 3,
+    statusNote: 'Interview invitation sent by recruiter.',
+  },
+  {
+    id: '60000000-0000-4000-8000-000000000003',
+    candidateId: demoCandidates[2].id,
+    jobId: demoJobs[4].id,
+    status: ApplicationStage.SUBMITTED,
+    coverLetter: 'I can support product discovery, interaction design, and handoff quality.',
+    matchScore: 78,
+    matchLevel: ApplicationMatchLevel.HIGH,
+    submittedDaysAgo: 2,
+  },
+  {
+    id: '60000000-0000-4000-8000-000000000004',
+    candidateId: demoCandidates[1].id,
+    jobId: demoJobs[7].id,
+    status: ApplicationStage.REJECTED,
+    coverLetter: 'I am interested in platform reliability and data workflows.',
+    matchScore: 58,
+    matchLevel: ApplicationMatchLevel.MEDIUM,
+    submittedDaysAgo: 8,
+    statusNote: 'Role requires deeper data platform experience.',
+  },
+  {
+    id: '60000000-0000-4000-8000-000000000005',
+    candidateId: demoCandidates[0].id,
+    jobId: demoJobs[14].id,
+    status: ApplicationStage.WITHDRAWN,
+    coverLetter: 'I wanted to explore QA automation but later withdrew this application.',
+    matchScore: 49,
+    matchLevel: ApplicationMatchLevel.LOW,
+    submittedDaysAgo: 9,
+    statusNote: 'Candidate withdrew application.',
+  },
+  {
+    id: '60000000-0000-4000-8000-000000000006',
+    candidateId: demoCandidates[2].id,
+    jobId: demoJobs[2].id,
+    status: ApplicationStage.SUBMITTED,
+    coverLetter: 'I have managed customer onboarding and product feedback loops before.',
+    matchScore: 81,
+    matchLevel: ApplicationMatchLevel.HIGH,
+    submittedDaysAgo: 4,
+  },
+];
+
 export async function seedDemoCompanyJob(): Promise<void> {
-  await initializeAll([authDataSource, companyDataSource, jobDataSource]);
+  const dataSources = [
+    authDataSource,
+    companyDataSource,
+    jobDataSource,
+    documentStorageDataSource,
+    candidateDataSource,
+    applicationDataSource,
+  ];
+
+  await initializeAll(dataSources);
   try {
     await seedAuthRoles(authDataSource);
     await seedDemoCompanies(companyDataSource);
     await seedDemoRecruiters(authDataSource);
+    await seedDemoDocuments(documentStorageDataSource);
+    await seedCompanyVerificationDocuments(companyDataSource);
+    await seedDemoCandidateUsers(authDataSource);
+    await seedDemoCandidates(candidateDataSource);
     await seedDemoJobs(jobDataSource);
+    await seedDemoApplications(applicationDataSource);
+    await updateDemoJobApplicationCounts(jobDataSource, applicationDataSource);
   } finally {
-    await destroyAll([jobDataSource, companyDataSource, authDataSource]);
+    await destroyAll(dataSources.reverse());
   }
 }
 
@@ -576,7 +975,9 @@ async function seedDemoRecruiters(dataSource: DataSource): Promise<void> {
   const passwordHash = await bcrypt.hash(DEMO_PASSWORD, DEMO_BCRYPT_ROUNDS);
   const now = new Date();
 
-  for (const company of demoCompanies) {
+  for (const company of allDemoCompanies) {
+    const companyStatus = company.status ?? CompanyStatus.APPROVED;
+
     await userRepo.save(
       userRepo.create({
         id: company.ownerId,
@@ -625,17 +1026,78 @@ async function seedDemoRecruiters(dataSource: DataSource): Promise<void> {
         companyName: company.name,
         companyLogoUrl: company.logo,
         companyLogoDocumentId: null,
-        companyStatus: CompanyStatus.APPROVED,
+        companyStatus,
         lastSyncedAt: now,
       }),
     );
   }
 }
 
+async function seedDemoCandidateUsers(dataSource: DataSource): Promise<void> {
+  const role = await dataSource
+    .getRepository(Role)
+    .findOne({ where: { name: UserRole.CANDIDATE } });
+  if (!role) {
+    throw new Error('CANDIDATE role is missing. Run db:auth:seed before demo seed.');
+  }
+
+  const userRepo = dataSource.getRepository(User);
+  const credentialRepo = dataSource.getRepository(UserCredential);
+  const userRoleRepo = dataSource.getRepository(UserRoleEntity);
+  const passwordHash = await bcrypt.hash(DEMO_PASSWORD, DEMO_BCRYPT_ROUNDS);
+  const now = new Date();
+
+  for (const candidate of demoCandidates) {
+    await userRepo.save(
+      userRepo.create({
+        id: candidate.userId,
+        email: candidate.email,
+        fullName: candidate.fullName,
+        avatarUrl: null,
+        phone: candidate.phone,
+        status: UserStatus.ACTIVE,
+        emailVerified: true,
+        lastLoginAt: null,
+        statusReason: null,
+        statusChangedBy: null,
+        statusChangedAt: null,
+        suspendedAt: null,
+        bannedAt: null,
+        archivedAt: null,
+      }),
+    );
+
+    const existingCredential = await credentialRepo.findOne({
+      where: { userId: candidate.userId },
+    });
+    await credentialRepo.save(
+      credentialRepo.create({
+        id: existingCredential?.id,
+        userId: candidate.userId,
+        passwordHash,
+        passwordAlgorithm: PasswordAlgorithm.BCRYPT,
+        passwordUpdatedAt: now,
+        failedLoginAttempts: 0,
+        lockedUntil: null,
+      }),
+    );
+
+    const existingUserRole = await userRoleRepo.findOne({
+      where: { userId: candidate.userId, roleId: role.id },
+    });
+    if (!existingUserRole) {
+      await userRoleRepo.save(userRoleRepo.create({ userId: candidate.userId, roleId: role.id }));
+    }
+  }
+}
+
 async function seedDemoCompanies(dataSource: DataSource): Promise<void> {
   const companyRepo = dataSource.getRepository(Company);
+  const now = new Date();
 
-  for (const company of demoCompanies) {
+  for (const company of allDemoCompanies) {
+    const status = company.status ?? CompanyStatus.APPROVED;
+
     await companyRepo.save(
       companyRepo.create({
         id: company.id,
@@ -656,10 +1118,90 @@ async function seedDemoCompanies(dataSource: DataSource): Promise<void> {
         address: company.address,
         taxCode: company.taxCode,
         ownerId: company.ownerId,
-        status: CompanyStatus.APPROVED,
+        status,
+        statusReason: company.statusReason ?? null,
+        statusChangedAt: status === CompanyStatus.APPROVED ? null : now,
+        statusChangedByUserId: status === CompanyStatus.APPROVED ? null : ADMIN_REVIEWER_ID,
         trustLevel: company.trustLevel,
         approvedLowRiskCount: company.approvedLowRiskCount,
-        negativeTrustSignalCount: 0,
+        negativeTrustSignalCount: company.negativeTrustSignalCount ?? 0,
+      }),
+    );
+  }
+}
+
+async function seedDemoDocuments(dataSource: DataSource): Promise<void> {
+  const documentRepo = dataSource.getRepository(Document);
+
+  for (const document of demoDocuments) {
+    const existingDocument = await documentRepo.findOne({
+      where: { id: document.id },
+      withDeleted: true,
+    });
+    await documentRepo.save(
+      documentRepo.create({
+        ...document,
+        deletedAt: null,
+        createdAt: existingDocument?.createdAt,
+      }),
+    );
+  }
+}
+
+async function seedCompanyVerificationDocuments(dataSource: DataSource): Promise<void> {
+  const verificationDocumentRepo = dataSource.getRepository(CompanyVerificationDocument);
+
+  for (const document of demoCompanyVerificationDocuments) {
+    const existingDocument = await verificationDocumentRepo.findOne({
+      where: { id: document.id },
+      withDeleted: true,
+    });
+
+    await verificationDocumentRepo.save(
+      verificationDocumentRepo.create({
+        ...document,
+        deletedAt: null,
+        createdAt: existingDocument?.createdAt,
+      }),
+    );
+  }
+}
+
+async function seedDemoCandidates(dataSource: DataSource): Promise<void> {
+  const candidateRepo = dataSource.getRepository(CandidateProfile);
+  const cvRepo = dataSource.getRepository(CandidateCv);
+
+  for (const candidate of demoCandidates) {
+    await candidateRepo.save(
+      candidateRepo.create({
+        id: candidate.id,
+        userId: candidate.userId,
+        fullName: candidate.fullName,
+        phone: candidate.phone,
+        contactEmail: candidate.email,
+        avatarDocumentId: candidate.avatarDocumentId,
+        headline: candidate.headline,
+        summary: candidate.summary,
+        location: candidate.location,
+        portfolioUrl: null,
+        linkedinUrl: null,
+        openToWork: true,
+        visibility: CandidateProfileVisibility.PUBLIC,
+      }),
+    );
+
+    await cvRepo.save(
+      cvRepo.create({
+        id: candidate.cvId,
+        candidateId: candidate.id,
+        documentId: candidate.cvDocumentId,
+        title: candidate.cvTitle,
+        isDefault: true,
+        parseStatus: CandidateCvParseStatus.PARSED,
+        parsedAt: new Date(),
+        deletedAt: null,
+        documentDeletedAt: null,
+        documentDeleteError: null,
       }),
     );
   }
@@ -751,6 +1293,86 @@ async function seedDemoJobs(dataSource: DataSource): Promise<void> {
         deletedAt: null,
       }),
     );
+  }
+}
+
+async function seedDemoApplications(dataSource: DataSource): Promise<void> {
+  const applicationRepo = dataSource.getRepository(Application);
+  const now = new Date();
+
+  for (const item of demoApplications) {
+    const job = demoJobs.find((demoJob) => demoJob.id === item.jobId);
+    const candidate = demoCandidates.find((demoCandidate) => demoCandidate.id === item.candidateId);
+    if (!job || !candidate) {
+      throw new Error(`Missing demo application references for application ${item.id}`);
+    }
+
+    const company = demoCompanies.find((demoCompany) => demoCompany.id === job.companyId);
+    if (!company) {
+      throw new Error(`Missing demo company for application ${item.id}`);
+    }
+
+    const submittedAt = new Date(now.getTime() - item.submittedDaysAgo * 24 * 60 * 60 * 1000);
+    const decidedAt =
+      item.status === ApplicationStage.OFFERED || item.status === ApplicationStage.REJECTED
+        ? new Date(submittedAt.getTime() + 2 * 24 * 60 * 60 * 1000)
+        : null;
+    const withdrawnAt =
+      item.status === ApplicationStage.WITHDRAWN
+        ? new Date(submittedAt.getTime() + 24 * 60 * 60 * 1000)
+        : null;
+
+    await applicationRepo.save(
+      applicationRepo.create({
+        id: item.id,
+        jobId: job.id,
+        jobTitle: job.title,
+        companyId: company.id,
+        companyName: company.name,
+        companyLogoUrl: company.logo,
+        companyLogoDocumentId: null,
+        candidateId: candidate.id,
+        candidateUserId: candidate.userId,
+        candidateFullName: candidate.fullName,
+        candidateEmail: candidate.email,
+        candidatePhone: candidate.phone,
+        candidateAvatarDocumentId: candidate.avatarDocumentId,
+        candidateCvId: candidate.cvId,
+        cvDocumentId: candidate.cvDocumentId,
+        cvTitle: candidate.cvTitle,
+        cvFileName: candidate.cvFileName,
+        cvMimeType: candidate.cvMimeType,
+        cvSize: candidate.cvSize,
+        cvParseStatus: CandidateCvParseStatus.PARSED,
+        coverLetter: item.coverLetter,
+        status: item.status,
+        statusNote: item.statusNote ?? null,
+        matchScore: item.matchScore,
+        matchLevel: item.matchLevel,
+        submittedAt,
+        withdrawnAt,
+        decidedAt,
+        cancelledAt: null,
+        deletedAt: null,
+      }),
+    );
+  }
+}
+
+async function updateDemoJobApplicationCounts(
+  jobDataSource: DataSource,
+  applicationDataSource: DataSource,
+): Promise<void> {
+  const jobRepo = jobDataSource.getRepository(Job);
+  const applicationRepo = applicationDataSource.getRepository(Application);
+
+  for (const job of demoJobs) {
+    const applicationCount = await applicationRepo.count({
+      where: { jobId: job.id },
+      withDeleted: false,
+    });
+
+    await jobRepo.update(job.id, { applicationCount });
   }
 }
 
