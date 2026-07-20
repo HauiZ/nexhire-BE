@@ -85,6 +85,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
         return ERROR_CODES.COMMON.CONFLICT;
       case HttpStatus.TOO_MANY_REQUESTS:
         return ERROR_CODES.COMMON.RATE_LIMITED;
+      case HttpStatus.SERVICE_UNAVAILABLE:
+        return ERROR_CODES.COMMON.SERVICE_UNAVAILABLE;
       default:
         return ERROR_CODES.COMMON.INTERNAL_ERROR;
     }
