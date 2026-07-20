@@ -16,6 +16,33 @@ export class Company extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   description: string | null;
 
+  @Column({ type: 'varchar', length: 120, nullable: true })
+  industry: string | null;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  size: string | null;
+
+  @Column({ name: 'founded_year', type: 'integer', nullable: true })
+  foundedYear: number | null;
+
+  @Column({ type: 'text', nullable: true })
+  mission: string | null;
+
+  @Column({ type: 'text', nullable: true })
+  culture: string | null;
+
+  @Column({ type: 'text', array: true, default: () => "'{}'" })
+  values: string[];
+
+  @Column({ type: 'text', array: true, default: () => "'{}'" })
+  perks: string[];
+
+  @Column({ name: 'hero_image_url', type: 'text', nullable: true })
+  heroImageUrl: string | null;
+
+  @Column({ name: 'hero_image_document_id', type: 'uuid', nullable: true })
+  heroImageDocumentId: string | null;
+
   @Column({ type: 'varchar', nullable: true })
   website: string | null;
 

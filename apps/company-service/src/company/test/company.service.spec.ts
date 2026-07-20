@@ -26,6 +26,15 @@ function createCompany(overrides: Partial<Company> = {}): Company {
     logo: null,
     logoDocumentId: null,
     description: null,
+    industry: null,
+    size: null,
+    foundedYear: null,
+    mission: null,
+    culture: null,
+    values: [],
+    perks: [],
+    heroImageUrl: null,
+    heroImageDocumentId: null,
     website: null,
     address: null,
     taxCode: '0101234567',
@@ -62,6 +71,7 @@ describe('CompanyService', () => {
   };
   const documentClientService = {
     uploadCompanyLogo: jest.fn(),
+    uploadCompanyHeroImage: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -99,6 +109,10 @@ describe('CompanyService', () => {
     documentClientService.uploadCompanyLogo.mockResolvedValue({
       id: '00000000-0000-4000-8000-000000000099',
       url: 'https://cdn.nexhire.vn/company/logo.png',
+    });
+    documentClientService.uploadCompanyHeroImage.mockResolvedValue({
+      id: '00000000-0000-4000-8000-000000000088',
+      url: 'https://cdn.nexhire.vn/company/hero.png',
     });
   });
 
@@ -169,6 +183,51 @@ describe('CompanyService', () => {
     expect(result.status).toBe(CompanyStatus.PENDING);
   });
 
+  it('keeps approval when public profile enrichment fields change', async () => {
+    const company = createCompany({ status: CompanyStatus.APPROVED });
+    companyRepo.findOne.mockResolvedValueOnce(company);
+    companyRepo.save.mockImplementation((entity: Company) => Promise.resolve(entity));
+
+    const result = await service.update(mockCompanyId, mockUserId, {
+      industry: 'HR Tech',
+      mission: 'Build reliable recruitment automation.',
+      values: ['Ownership', 'Candidate empathy'],
+      perks: ['Flexible schedule'],
+    });
+
+    expect(company.status).toBe(CompanyStatus.APPROVED);
+    expect(result.status).toBe(CompanyStatus.APPROVED);
+    expect(result.values).toEqual(['Ownership', 'Candidate empathy']);
+    expect(companyEventPublisher.publishPostingSnapshotChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        companyId: mockCompanyId,
+        companyStatus: CompanyStatus.APPROVED,
+        previousCompanyStatus: CompanyStatus.APPROVED,
+      }),
+    );
+  });
+
+  it('clears document image ids when legacy image URLs are updated', async () => {
+    const company = createCompany({
+      status: CompanyStatus.APPROVED,
+      logoDocumentId: '00000000-0000-4000-8000-000000000099',
+      heroImageDocumentId: '00000000-0000-4000-8000-000000000088',
+    });
+    companyRepo.findOne.mockResolvedValueOnce(company);
+    companyRepo.save.mockImplementation((entity: Company) => Promise.resolve(entity));
+
+    const result = await service.update(mockCompanyId, mockUserId, {
+      logo: 'https://cdn.nexhire.vn/company/logo-fallback.png',
+      heroImageUrl: 'https://cdn.nexhire.vn/company/hero-fallback.png',
+    });
+
+    expect(result.logo).toBe('https://cdn.nexhire.vn/company/logo-fallback.png');
+    expect(result.logoDocumentId).toBeUndefined();
+    expect(result.heroImageUrl).toBe('https://cdn.nexhire.vn/company/hero-fallback.png');
+    expect(result.heroImageDocumentId).toBeUndefined();
+    expect(company.status).toBe(CompanyStatus.APPROVED);
+  });
+
   it('uploads company logo through document-storage and stores logo document id', async () => {
     const company = createCompany({ status: CompanyStatus.APPROVED });
     companyRepo.findOne.mockResolvedValueOnce(company);
@@ -202,6 +261,37 @@ describe('CompanyService', () => {
         companyStatus: CompanyStatus.APPROVED,
       }),
     );
+  });
+
+  it('uploads company hero image through document-storage without resetting approval', async () => {
+    const company = createCompany({
+      status: CompanyStatus.APPROVED,
+      heroImageUrl: 'https://cdn.nexhire.vn/company/old-hero.png',
+    });
+    companyRepo.findOne.mockResolvedValueOnce(company);
+    companyRepo.save.mockImplementation((entity: Company) => Promise.resolve(entity));
+
+    const result = await service.uploadHeroImage(
+      mockCompanyId,
+      { id: mockUserId, role: UserRole.RECRUITER },
+      {
+        buffer: Buffer.from('hero'),
+        originalname: 'hero.webp',
+        mimetype: 'image/webp',
+        size: 4,
+      },
+    );
+
+    expect(documentClientService.uploadCompanyHeroImage).toHaveBeenCalledWith(
+      { id: mockUserId, role: UserRole.RECRUITER },
+      mockCompanyId,
+      expect.objectContaining({ originalname: 'hero.webp' }),
+    );
+    expect(company.heroImageDocumentId).toBe('00000000-0000-4000-8000-000000000088');
+    expect(company.heroImageUrl).toBeNull();
+    expect(company.status).toBe(CompanyStatus.APPROVED);
+    expect(result.heroImageDocumentId).toBe('00000000-0000-4000-8000-000000000088');
+    expect(companyEventPublisher.publishPostingSnapshotChanged).not.toHaveBeenCalled();
   });
 
   it('approves a company', async () => {
@@ -267,6 +357,8 @@ describe('CompanyService', () => {
       expect.objectContaining({
         id: mockCompanyId,
         name: 'NexHire Tech',
+        values: [],
+        perks: [],
       }),
     );
     expect(result).not.toHaveProperty('taxCode');

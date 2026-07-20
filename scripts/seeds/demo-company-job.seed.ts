@@ -56,6 +56,14 @@ type DemoCompany = {
   website: string;
   address: string;
   description: string;
+  industry: string;
+  size: string;
+  foundedYear: number;
+  mission: string;
+  culture: string;
+  values: string[];
+  perks: string[];
+  heroImageUrl: string;
   trustLevel: SharedCompanyTrustLevel;
   approvedLowRiskCount: number;
 };
@@ -91,6 +99,15 @@ const demoCompanies: DemoCompany[] = [
     website: 'https://nexhire.vn',
     address: 'Cau Giay, Ha Noi',
     description: 'Product engineering company building recruitment and HR automation platforms.',
+    industry: 'HR Tech',
+    size: '100-500',
+    foundedYear: 2018,
+    mission: 'Build reliable recruitment automation for modern hiring teams.',
+    culture:
+      'Product squads work with clear goals, practical engineering standards, and direct customer feedback.',
+    values: ['Clear ownership', 'Candidate empathy', 'Continuous improvement'],
+    perks: ['Hybrid work', 'Learning budget', 'Transparent performance review'],
+    heroImageUrl: 'https://cdn.nexhire.vn/demo/companies/nexhire-tech-hero.png',
     trustLevel: SharedCompanyTrustLevel.HIGH,
     approvedLowRiskCount: 8,
   },
@@ -106,6 +123,14 @@ const demoCompanies: DemoCompany[] = [
     address: 'District 1, Ho Chi Minh City',
     description:
       'Cloud consulting and platform team delivering scalable systems for regional clients.',
+    industry: 'Cloud Infrastructure',
+    size: '51-200',
+    foundedYear: 2020,
+    mission: 'Help teams ship resilient cloud platforms without unnecessary operational drag.',
+    culture: 'Engineers pair on architecture decisions and keep delivery rituals lightweight.',
+    values: ['Reliability', 'Practical automation', 'Knowledge sharing'],
+    perks: ['Cloud certification budget', 'Remote-friendly work', 'Quarterly team retreats'],
+    heroImageUrl: 'https://cdn.nexhire.vn/demo/companies/cloudify-vn-hero.png',
     trustLevel: SharedCompanyTrustLevel.HIGH,
     approvedLowRiskCount: 6,
   },
@@ -121,6 +146,15 @@ const demoCompanies: DemoCompany[] = [
     address: 'Hai Chau, Da Nang',
     description:
       'Growth and marketing studio helping SaaS teams improve acquisition and retention.',
+    industry: 'Growth Marketing',
+    size: '11-50',
+    foundedYear: 2019,
+    mission: 'Turn product signals into sustainable growth experiments for SaaS teams.',
+    culture:
+      'Small client pods move quickly, share experiment learnings, and measure outcomes weekly.',
+    values: ['Experimentation', 'Ownership', 'Customer insight'],
+    perks: ['Flexible schedule', 'Campaign tooling budget', 'Monthly learning sessions'],
+    heroImageUrl: 'https://cdn.nexhire.vn/demo/companies/brightlabs-hero.png',
     trustLevel: SharedCompanyTrustLevel.MEDIUM,
     approvedLowRiskCount: 4,
   },
@@ -135,6 +169,14 @@ const demoCompanies: DemoCompany[] = [
     website: 'https://apexforge.example',
     address: 'Thanh Xuan, Ha Noi',
     description: 'Mobile-first product studio focused on fintech and marketplace applications.',
+    industry: 'Mobile Product',
+    size: '51-200',
+    foundedYear: 2021,
+    mission: 'Create mobile products that feel fast, secure, and easy to trust.',
+    culture: 'Cross-functional teams validate product decisions with real users before scaling.',
+    values: ['Craft', 'Security mindset', 'Fast feedback'],
+    perks: ['Device allowance', 'Product training', 'Hybrid work'],
+    heroImageUrl: 'https://cdn.nexhire.vn/demo/companies/apexforge-hero.png',
     trustLevel: SharedCompanyTrustLevel.MEDIUM,
     approvedLowRiskCount: 3,
   },
@@ -149,6 +191,15 @@ const demoCompanies: DemoCompany[] = [
     website: 'https://lumastudio.example',
     address: 'Thu Duc, Ho Chi Minh City',
     description: 'Design studio creating product experiences for consumer and business software.',
+    industry: 'Product Design',
+    size: '11-50',
+    foundedYear: 2017,
+    mission: 'Design useful digital products with research, clarity, and a strong visual system.',
+    culture:
+      'Designers and engineers critique work openly and keep product decisions evidence-led.',
+    values: ['User research', 'Visual clarity', 'Collaboration'],
+    perks: ['Design conference budget', 'Flexible hours', 'Studio equipment support'],
+    heroImageUrl: 'https://cdn.nexhire.vn/demo/companies/luma-studio-hero.png',
     trustLevel: SharedCompanyTrustLevel.MEDIUM,
     approvedLowRiskCount: 2,
   },
@@ -163,6 +214,15 @@ const demoCompanies: DemoCompany[] = [
     website: 'https://northstar.example',
     address: 'Ba Dinh, Ha Noi',
     description: 'Data and revenue operations team supporting B2B companies across APAC.',
+    industry: 'Revenue Operations',
+    size: '51-200',
+    foundedYear: 2016,
+    mission: 'Make B2B revenue teams more predictable with clean data and operating rhythm.',
+    culture:
+      'Analysts work close to sales and success teams, with calm planning and clear ownership.',
+    values: ['Data quality', 'Business clarity', 'Long-term partnership'],
+    perks: ['Analytics tooling budget', 'Mentorship program', 'Annual company trip'],
+    heroImageUrl: 'https://cdn.nexhire.vn/demo/companies/north-star-hero.png',
     trustLevel: SharedCompanyTrustLevel.MEDIUM,
     approvedLowRiskCount: 3,
   },
@@ -583,6 +643,15 @@ async function seedDemoCompanies(dataSource: DataSource): Promise<void> {
         logo: company.logo,
         logoDocumentId: null,
         description: company.description,
+        industry: company.industry,
+        size: company.size,
+        foundedYear: company.foundedYear,
+        mission: company.mission,
+        culture: company.culture,
+        values: company.values,
+        perks: company.perks,
+        heroImageUrl: company.heroImageUrl,
+        heroImageDocumentId: null,
         website: company.website,
         address: company.address,
         taxCode: company.taxCode,

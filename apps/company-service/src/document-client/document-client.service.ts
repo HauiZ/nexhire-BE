@@ -26,6 +26,23 @@ export class DocumentClientService {
     companyId: string,
     file: CompanyUploadedFile,
   ): Promise<UploadedDocumentResponse> {
+    return this.uploadCompanyImage(user, companyId, file, 'LOGO');
+  }
+
+  async uploadCompanyHeroImage(
+    user: AuthUser,
+    companyId: string,
+    file: CompanyUploadedFile,
+  ): Promise<UploadedDocumentResponse> {
+    return this.uploadCompanyImage(user, companyId, file, 'COMPANY_HERO');
+  }
+
+  private async uploadCompanyImage(
+    user: AuthUser,
+    companyId: string,
+    file: CompanyUploadedFile,
+    documentType: 'LOGO' | 'COMPANY_HERO',
+  ): Promise<UploadedDocumentResponse> {
     const baseUrl = this.configService.get<string>(
       'companyService.services.documentStorageService',
     );
@@ -36,7 +53,7 @@ export class DocumentClientService {
       new Blob([new Uint8Array(file.buffer)], { type: file.mimetype }),
       file.originalname,
     );
-    form.append('documentType', 'LOGO');
+    form.append('documentType', documentType);
     form.append('ownerType', 'company');
     form.append('ownerId', companyId);
 
@@ -54,7 +71,9 @@ export class DocumentClientService {
       return response.data.data;
     } catch (error) {
       const detail = error instanceof AxiosError ? error.message : String(error);
-      this.logger.error(`Document storage company logo upload failed: ${detail}`);
+      this.logger.error(
+        `Document storage company image upload failed type=${documentType}: ${detail}`,
+      );
       throw new ServiceUnavailableException({
         code: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
         message: 'Document storage upload failed',

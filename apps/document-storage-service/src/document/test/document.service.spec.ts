@@ -172,6 +172,41 @@ describe('DocumentService', () => {
     expect(documentRepo.save).not.toHaveBeenCalled();
   });
 
+  it('stores company hero uploads as image-only company hero documents', async () => {
+    await service.upload(
+      {
+        documentType: DocumentType.COMPANY_HERO,
+        ownerType: DocumentOwnerType.COMPANY,
+        ownerId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+      },
+      createFile({ originalname: 'hero.webp', mimetype: 'image/webp' }),
+    );
+
+    expect(storageService.put).toHaveBeenCalledWith(
+      expect.stringMatching(
+        /^company\/b8b33c46-4bb0-4a33-8b0d-927e081a38a5\/company_hero\/.+\.webp$/,
+      ),
+      expect.any(Buffer),
+      expect.any(Number),
+      'image/webp',
+    );
+  });
+
+  it('rejects company hero upload when file type is not an image', async () => {
+    await expect(
+      service.upload(
+        {
+          documentType: DocumentType.COMPANY_HERO,
+          ownerType: DocumentOwnerType.COMPANY,
+          ownerId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+        },
+        createFile({ mimetype: 'application/pdf' }),
+      ),
+    ).rejects.toBeInstanceOf(BadRequestException);
+    expect(storageService.put).not.toHaveBeenCalled();
+    expect(documentRepo.save).not.toHaveBeenCalled();
+  });
+
   it('removes uploaded object when metadata persistence fails', async () => {
     const error = new Error('db write failed');
     documentRepo.save.mockRejectedValue(error);

@@ -20,6 +20,36 @@ export class CompanyResponseDto {
   @ApiPropertyOptional({ example: 'Tech company focusing on AI...' })
   description?: string;
 
+  @ApiPropertyOptional({ example: 'HR Tech' })
+  industry?: string;
+
+  @ApiPropertyOptional({ example: '100-500' })
+  size?: string;
+
+  @ApiPropertyOptional({ example: 2018 })
+  foundedYear?: number;
+
+  @ApiPropertyOptional({ example: 'Build reliable recruitment automation for modern teams.' })
+  mission?: string;
+
+  @ApiPropertyOptional({ example: 'Small teams, clear goals, and product-minded engineering.' })
+  culture?: string;
+
+  @ApiPropertyOptional({ type: [String], example: ['Clear ownership', 'Candidate empathy'] })
+  values: string[];
+
+  @ApiPropertyOptional({ type: [String], example: ['Flexible schedule', 'Learning budget'] })
+  perks: string[];
+
+  @ApiPropertyOptional({ example: 'https://cdn.nexhire.vn/company/hero.png' })
+  heroImageUrl?: string;
+
+  @ApiPropertyOptional({
+    format: 'uuid',
+    description: 'Document id for the company hero image uploaded through document-storage',
+  })
+  heroImageDocumentId?: string;
+
   @ApiPropertyOptional({ example: 'https://nexhire.com' })
   website?: string;
 

@@ -4,6 +4,7 @@ export enum DocumentType {
   PORTFOLIO = 'PORTFOLIO',
   AVATAR = 'AVATAR',
   LOGO = 'LOGO',
+  COMPANY_HERO = 'COMPANY_HERO',
   OTHER = 'OTHER',
 }
 

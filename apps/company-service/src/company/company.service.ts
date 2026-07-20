@@ -36,6 +36,8 @@ import { Company } from './entities/company.entity';
 import { CompanyEventPublisher } from './events/company-event.publisher';
 import { DocumentClientService } from '../document-client/document-client.service';
 import {
+  COMPANY_HERO_IMAGE_MAX_UPLOAD_SIZE_BYTES,
+  COMPANY_HERO_IMAGE_MIME_TYPES,
   COMPANY_LOGO_MAX_UPLOAD_SIZE_BYTES,
   COMPANY_LOGO_MIME_TYPES,
 } from '../document-client/document-upload.constants';
@@ -138,6 +140,50 @@ export class CompanyService {
     return CompanyMapper.toResponse(saved);
   }
 
+  async uploadHeroImage(
+    companyId: string,
+    user: AuthUser,
+    file?: CompanyUploadedFile,
+  ): Promise<CompanyResponseDto> {
+    const company = await this.companyRepo.findOne({ where: { id: companyId } });
+    if (!company) {
+      throw new NotFoundException({
+        code: ERROR_CODES.COMPANY.NOT_FOUND,
+        message: `Company ${companyId} not found`,
+      });
+    }
+
+    if (company.ownerId !== user.id) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.COMMON.FORBIDDEN,
+        message: 'You can only update your own company',
+      });
+    }
+
+    if (!file) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.FILE_REQUIRED,
+        message: 'Hero image file is required',
+      });
+    }
+    this.assertUploadedFile(
+      file,
+      COMPANY_HERO_IMAGE_MIME_TYPES,
+      COMPANY_HERO_IMAGE_MAX_UPLOAD_SIZE_BYTES,
+    );
+
+    const document = await this.documentClientService.uploadCompanyHeroImage(
+      user,
+      company.id,
+      file,
+    );
+    company.heroImageDocumentId = document.id;
+    company.heroImageUrl = null;
+    const saved = await this.companyRepo.save(company);
+    this.logger.log(`Company hero image uploaded companyId=${companyId} documentId=${document.id}`);
+    return CompanyMapper.toResponse(saved);
+  }
+
   async findByOwner(userId: string): Promise<CompanyResponseDto> {
     const company = await this.companyRepo.findOne({ where: { ownerId: userId } });
     if (!company) {
@@ -187,6 +233,13 @@ export class CompanyService {
     if (patch.taxCode !== undefined || patch.name !== undefined) {
       company.status = CompanyStatus.PENDING;
       this.logger.log(`Company status reset to PENDING companyId=${companyId}`);
+    }
+
+    if (patch.logo !== undefined) {
+      company.logoDocumentId = null;
+    }
+    if (patch.heroImageUrl !== undefined) {
+      company.heroImageDocumentId = null;
     }
 
     Object.assign(company, patch);
