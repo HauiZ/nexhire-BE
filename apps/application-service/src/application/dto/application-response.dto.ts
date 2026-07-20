@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ApplicationStage } from '@nexhire/shared';
+import { ApplicationMatchLevel } from '../entities/application.entity';
 
 export class ApplicationResponseDto {
   @ApiProperty()
@@ -74,6 +75,12 @@ export class ApplicationResponseDto {
   @ApiPropertyOptional({ nullable: true })
   statusNote: string | null;
 
+  @ApiPropertyOptional({ nullable: true })
+  matchScore: number | null;
+
+  @ApiPropertyOptional({ enum: ApplicationMatchLevel, nullable: true })
+  matchLevel: ApplicationMatchLevel | null;
+
   @ApiProperty()
   submittedAt: Date;
 
@@ -111,4 +118,55 @@ export class ApplicationCvDownloadDto {
 
   @ApiProperty()
   expiresInSeconds: number;
+}
+
+export class RecruiterApplicationStatusCountsDto {
+  @ApiProperty()
+  SUBMITTED: number;
+
+  @ApiProperty()
+  OFFERED: number;
+
+  @ApiProperty()
+  REJECTED: number;
+
+  @ApiProperty()
+  WITHDRAWN: number;
+
+  @ApiProperty()
+  CANCELLED: number;
+}
+
+export class RecruiterApplicationDailyStatsDto {
+  @ApiProperty({ example: '2026-07-20' })
+  date: string;
+
+  @ApiProperty()
+  submitted: number;
+
+  @ApiProperty()
+  offered: number;
+
+  @ApiProperty()
+  rejected: number;
+
+  @ApiProperty()
+  withdrawn: number;
+
+  @ApiProperty()
+  cancelled: number;
+}
+
+export class RecruiterApplicationStatsDto {
+  @ApiProperty()
+  total: number;
+
+  @ApiProperty({ type: RecruiterApplicationStatusCountsDto })
+  byStatus: RecruiterApplicationStatusCountsDto;
+
+  @ApiProperty({ type: [RecruiterApplicationDailyStatsDto] })
+  byDay: RecruiterApplicationDailyStatsDto[];
+
+  @ApiProperty()
+  responseRate: number;
 }

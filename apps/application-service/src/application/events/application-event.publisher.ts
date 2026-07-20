@@ -48,9 +48,7 @@ export class ApplicationEventPublisher {
   private async publish(routingKey: string, payload: unknown): Promise<void> {
     await this.eventPublisher.publish(routingKey, payload).catch((error: unknown) => {
       this.logger.error(
-        `Failed to publish application event routingKey=${routingKey}: ${
-          (error as Error).message
-        }`,
+        `Failed to publish application event routingKey=${routingKey}: ${(error as Error).message}`,
       );
     });
   }

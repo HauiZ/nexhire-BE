@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
@@ -11,7 +21,11 @@ import {
   UserRole,
 } from '@nexhire/shared';
 import { ApplicationService } from './application.service';
-import { CreateApplicationDto, WithdrawApplicationDto } from './dto/application-input.dto';
+import {
+  CreateApplicationDto,
+  UpdateApplicationMatchSnapshotDto,
+  WithdrawApplicationDto,
+} from './dto/application-input.dto';
 import { CandidateApplicationQueryDto } from './dto/application-query.dto';
 import { ApplicationCvDownloadDto, ApplicationResponseDto } from './dto/application-response.dto';
 import { CvDocumentRetentionResponseDto } from './dto/cv-document-retention.dto';
@@ -101,5 +115,17 @@ export class ApplicationInternalController {
     @Query('terminalBefore') terminalBefore?: string,
   ): Promise<CvDocumentRetentionResponseDto> {
     return this.applicationService.getCvDocumentRetention(documentId, terminalBefore);
+  }
+
+  @Patch(':id/match-snapshot')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Update application match score snapshot' })
+  @ApiSuccessResponse(ApplicationResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 422, 500] })
+  updateMatchSnapshot(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: UpdateApplicationMatchSnapshotDto,
+  ): Promise<ApplicationResponseDto> {
+    return this.applicationService.updateMatchSnapshot(id, dto);
   }
 }

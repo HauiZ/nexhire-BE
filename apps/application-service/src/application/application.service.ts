@@ -12,16 +12,25 @@ import { Brackets, In, Repository } from 'typeorm';
 import { ApplicationInternalClientService } from './application-internal-client.service';
 import {
   CreateApplicationDto,
+  UpdateApplicationMatchSnapshotDto,
   UpdateApplicationStageDto,
   WithdrawApplicationDto,
 } from './dto/application-input.dto';
 import {
   CandidateApplicationQueryDto,
   RecruiterApplicationQueryDto,
+  RecruiterApplicationStatsQueryDto,
 } from './dto/application-query.dto';
-import { ApplicationCvDownloadDto, ApplicationResponseDto } from './dto/application-response.dto';
+import {
+  ApplicationCvDownloadDto,
+  ApplicationResponseDto,
+  RecruiterApplicationDailyStatsDto,
+  RecruiterApplicationStatsDto,
+  RecruiterApplicationStatusCountsDto,
+} from './dto/application-response.dto';
 import { CvDocumentRetentionResponseDto } from './dto/cv-document-retention.dto';
 import { Application } from './entities/application.entity';
+import { ApplicationMatchLevel } from './entities/application.entity';
 import { ApplicationEventPublisher } from './events/application-event.publisher';
 
 @Injectable()
@@ -95,6 +104,8 @@ export class ApplicationService {
         coverLetter: dto.coverLetter?.trim() || null,
         status: ApplicationStage.SUBMITTED,
         statusNote: null,
+        matchScore: null,
+        matchLevel: null,
         submittedAt: now,
         withdrawnAt: null,
         decidedAt: null,
@@ -216,6 +227,52 @@ export class ApplicationService {
 
   async getCompanyApplication(user: AuthUser, id: string): Promise<ApplicationResponseDto> {
     return this.mapApplication(await this.findCompanyApplication(user, id));
+  }
+
+  async getRecruiterStats(
+    user: AuthUser,
+    query: RecruiterApplicationStatsQueryDto,
+  ): Promise<RecruiterApplicationStatsDto> {
+    this.assertRecruiter(user);
+    const { from, to } = this.resolveStatsWindow(query);
+
+    const statusRows = await this.applicationRepo
+      .createQueryBuilder('application')
+      .select('application.status', 'status')
+      .addSelect('COUNT(application.id)', 'count')
+      .where('application.companyId = :companyId', { companyId: user.companyId })
+      .andWhere('application.submittedAt >= :from', { from })
+      .andWhere('application.submittedAt <= :to', { to })
+      .groupBy('application.status')
+      .getRawMany<{ status: ApplicationStage; count: string }>();
+
+    const byStatus = this.emptyApplicationStatusCounts();
+    for (const row of statusRows) {
+      byStatus[row.status] = Number(row.count);
+    }
+
+    const dayRows = await this.applicationRepo
+      .createQueryBuilder('application')
+      .select(`TO_CHAR(DATE("application"."submitted_at"), 'YYYY-MM-DD')`, 'date')
+      .addSelect('application.status', 'status')
+      .addSelect('COUNT(application.id)', 'count')
+      .where('application.companyId = :companyId', { companyId: user.companyId })
+      .andWhere('application.submittedAt >= :from', { from })
+      .andWhere('application.submittedAt <= :to', { to })
+      .groupBy('date')
+      .addGroupBy('application.status')
+      .orderBy('date', 'ASC')
+      .getRawMany<{ date: string; status: ApplicationStage; count: string }>();
+
+    const byDay = this.buildDailyStats(from, to, dayRows);
+    const total = Object.values(byStatus).reduce((sum, value) => sum + value, 0);
+    const responded = byStatus.OFFERED + byStatus.REJECTED;
+    return {
+      total,
+      byStatus,
+      byDay,
+      responseRate: total > 0 ? Math.round((responded / total) * 100) : 0,
+    };
   }
 
   async updateCompanyStage(
@@ -353,6 +410,23 @@ export class ApplicationService {
     };
   }
 
+  async updateMatchSnapshot(
+    id: string,
+    dto: UpdateApplicationMatchSnapshotDto,
+  ): Promise<ApplicationResponseDto> {
+    const application = await this.applicationRepo.findOne({ where: { id } });
+    if (!application) {
+      throw this.notFound();
+    }
+    application.matchScore = dto.matchScore;
+    application.matchLevel = dto.matchLevel ?? this.matchLevelForScore(dto.matchScore);
+    const saved = await this.applicationRepo.save(application);
+    this.logger.log(
+      `Application match snapshot updated applicationId=${id} score=${saved.matchScore} level=${saved.matchLevel}`,
+    );
+    return this.mapApplication(saved);
+  }
+
   private async getCvDownload(application: Application): Promise<ApplicationCvDownloadDto> {
     const document = await this.internalClient.getDocumentDownload(application.cvDocumentId);
     return {
@@ -479,6 +553,8 @@ export class ApplicationService {
       coverLetter: application.coverLetter,
       status: application.status,
       statusNote: application.statusNote,
+      matchScore: application.matchScore,
+      matchLevel: application.matchLevel,
       submittedAt: application.submittedAt,
       withdrawnAt: application.withdrawnAt,
       decidedAt: application.decidedAt,
@@ -501,6 +577,115 @@ export class ApplicationService {
       );
       return null;
     }
+  }
+
+  private resolveStatsWindow(query: RecruiterApplicationStatsQueryDto): {
+    from: Date;
+    to: Date;
+  } {
+    const now = new Date();
+    const to = query.to ? this.parseDateQuery(query.to) : now;
+    to.setHours(23, 59, 59, 999);
+    const from = query.from
+      ? this.parseDateQuery(query.from)
+      : new Date(to.getTime() - 5 * 24 * 60 * 60 * 1000);
+    from.setHours(0, 0, 0, 0);
+    if (from.getTime() > to.getTime()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'from must be before or equal to to',
+      });
+    }
+    return { from, to };
+  }
+
+  private parseDateQuery(value: string): Date {
+    const [year, month, day] = value.split('T')[0].split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  private emptyApplicationStatusCounts(): RecruiterApplicationStatusCountsDto {
+    return {
+      [ApplicationStage.SUBMITTED]: 0,
+      [ApplicationStage.OFFERED]: 0,
+      [ApplicationStage.REJECTED]: 0,
+      [ApplicationStage.WITHDRAWN]: 0,
+      [ApplicationStage.CANCELLED]: 0,
+    };
+  }
+
+  private buildDailyStats(
+    from: Date,
+    to: Date,
+    rows: Array<{ date: string; status: ApplicationStage; count: string }>,
+  ): RecruiterApplicationDailyStatsDto[] {
+    const byDate = new Map<string, RecruiterApplicationDailyStatsDto>();
+    for (const date of this.dateRange(from, to)) {
+      byDate.set(date, {
+        date,
+        submitted: 0,
+        offered: 0,
+        rejected: 0,
+        withdrawn: 0,
+        cancelled: 0,
+      });
+    }
+    for (const row of rows) {
+      const bucket = byDate.get(row.date);
+      if (!bucket) {
+        continue;
+      }
+      bucket[this.dailyStatusKey(row.status)] = Number(row.count);
+    }
+    return [...byDate.values()];
+  }
+
+  private dateRange(from: Date, to: Date): string[] {
+    const dates: string[] = [];
+    const cursor = new Date(from);
+    while (cursor.getTime() <= to.getTime()) {
+      dates.push(this.formatDateKey(cursor));
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return dates;
+  }
+
+  private formatDateKey(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  private dailyStatusKey(
+    status: ApplicationStage,
+  ): keyof Omit<RecruiterApplicationDailyStatsDto, 'date'> {
+    switch (status) {
+      case ApplicationStage.OFFERED:
+        return 'offered';
+      case ApplicationStage.REJECTED:
+        return 'rejected';
+      case ApplicationStage.WITHDRAWN:
+        return 'withdrawn';
+      case ApplicationStage.CANCELLED:
+        return 'cancelled';
+      case ApplicationStage.SUBMITTED:
+      default:
+        return 'submitted';
+    }
+  }
+
+  private matchLevelForScore(score: number): ApplicationMatchLevel {
+    if (score >= 90) {
+      return ApplicationMatchLevel.EXCELLENT;
+    }
+    if (score >= 75) {
+      return ApplicationMatchLevel.HIGH;
+    }
+    if (score >= 50) {
+      return ApplicationMatchLevel.MEDIUM;
+    }
+    return ApplicationMatchLevel.LOW;
   }
 }
 

@@ -2,7 +2,7 @@ import { ApplicationStage, UserRole } from '@nexhire/shared';
 import { Repository } from 'typeorm';
 import { ApplicationInternalClientService } from '../application-internal-client.service';
 import { ApplicationService } from '../application.service';
-import { Application } from '../entities/application.entity';
+import { Application, ApplicationMatchLevel } from '../entities/application.entity';
 import { ApplicationEventPublisher } from '../events/application-event.publisher';
 
 type MockRepo = {
@@ -46,6 +46,8 @@ const application: Application = {
   coverLetter: null,
   status: ApplicationStage.SUBMITTED,
   statusNote: null,
+  matchScore: null,
+  matchLevel: null,
   submittedAt: new Date('2026-07-15T00:00:00.000Z'),
   withdrawnAt: null,
   decidedAt: null,
@@ -151,6 +153,7 @@ describe('ApplicationService', () => {
       }),
     );
     expect(result.status).toBe(ApplicationStage.SUBMITTED);
+    expect(result.matchScore).toBeNull();
   });
 
   it('allows CV document purge when there are no active or recent terminal applications', async () => {
@@ -256,6 +259,58 @@ describe('ApplicationService', () => {
         candidateAvatarDocumentId: application.candidateAvatarDocumentId,
       }),
     );
+  });
+
+  it('returns recruiter application stats for the requested date window', async () => {
+    const statusQb = {
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      addGroupBy: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      getRawMany: jest
+        .fn()
+        .mockResolvedValueOnce([
+          { status: ApplicationStage.SUBMITTED, count: '2' },
+          { status: ApplicationStage.OFFERED, count: '1' },
+        ])
+        .mockResolvedValueOnce([
+          { date: '2026-07-15', status: ApplicationStage.SUBMITTED, count: '2' },
+          { date: '2026-07-16', status: ApplicationStage.OFFERED, count: '1' },
+        ]),
+    };
+    repo.createQueryBuilder.mockReturnValue(statusQb);
+
+    const result = await service.getRecruiterStats(recruiterUser, {
+      from: '2026-07-15',
+      to: '2026-07-16',
+    });
+
+    expect(result.total).toBe(3);
+    expect(result.byStatus.SUBMITTED).toBe(2);
+    expect(result.byStatus.OFFERED).toBe(1);
+    expect(result.responseRate).toBe(33);
+    expect(result.byDay).toEqual([
+      expect.objectContaining({ date: '2026-07-15', submitted: 2 }),
+      expect.objectContaining({ date: '2026-07-16', offered: 1 }),
+    ]);
+  });
+
+  it('updates application match score snapshot for matching-service', async () => {
+    repo.findOne.mockResolvedValue({ ...application });
+
+    const result = await service.updateMatchSnapshot(application.id, { matchScore: 92 });
+
+    expect(repo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        matchScore: 92,
+        matchLevel: ApplicationMatchLevel.EXCELLENT,
+      }),
+    );
+    expect(result.matchScore).toBe(92);
+    expect(result.matchLevel).toBe(ApplicationMatchLevel.EXCELLENT);
   });
 
   it('cancels active applications when a job is closed', async () => {

@@ -9,6 +9,13 @@ import {
 } from 'typeorm';
 import { ApplicationStage } from '@nexhire/shared';
 
+export enum ApplicationMatchLevel {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  EXCELLENT = 'EXCELLENT',
+}
+
 @Entity('applications')
 @Index('idx_applications_candidate_user_created_at', ['candidateUserId', 'createdAt'])
 @Index('idx_applications_company_status_created_at', ['companyId', 'status', 'createdAt'])
@@ -93,6 +100,12 @@ export class Application {
 
   @Column({ name: 'status_note', type: 'text', nullable: true })
   statusNote: string | null;
+
+  @Column({ name: 'match_score', type: 'double precision', nullable: true })
+  matchScore: number | null;
+
+  @Column({ name: 'match_level', type: 'varchar', length: 20, nullable: true })
+  matchLevel: ApplicationMatchLevel | null;
 
   @Column({ name: 'submitted_at', type: 'timestamptz' })
   submittedAt: Date;

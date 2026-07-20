@@ -1,4 +1,13 @@
-import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
@@ -10,8 +19,15 @@ import {
 } from '@nexhire/shared';
 import { ApplicationService } from './application.service';
 import { UpdateApplicationStageDto } from './dto/application-input.dto';
-import { RecruiterApplicationQueryDto } from './dto/application-query.dto';
-import { ApplicationCvDownloadDto, ApplicationResponseDto } from './dto/application-response.dto';
+import {
+  RecruiterApplicationQueryDto,
+  RecruiterApplicationStatsQueryDto,
+} from './dto/application-query.dto';
+import {
+  ApplicationCvDownloadDto,
+  ApplicationResponseDto,
+  RecruiterApplicationStatsDto,
+} from './dto/application-response.dto';
 
 @ApiTags('recruiter-applications')
 @Controller('recruiter/applications')
@@ -26,6 +42,17 @@ export class RecruiterApplicationController {
   @ApiErrorResponses({ statuses: [401, 403, 500] })
   listCompany(@CurrentUser() user: AuthUser, @Query() query: RecruiterApplicationQueryDto) {
     return this.applicationService.listCompany(user, query);
+  }
+
+  @Get('stats')
+  @ApiOperation({ summary: 'Get recruiter application stats for dashboard charts' })
+  @ApiSuccessResponse(RecruiterApplicationStatsDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 500] })
+  getStats(
+    @CurrentUser() user: AuthUser,
+    @Query() query: RecruiterApplicationStatsQueryDto,
+  ): Promise<RecruiterApplicationStatsDto> {
+    return this.applicationService.getRecruiterStats(user, query);
   }
 
   @Get(':id')

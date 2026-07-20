@@ -59,6 +59,8 @@ Application response data:
   "cvMimeType": "application/pdf",
   "cvSize": 234567,
   "cvParseStatus": "PARSED",
+  "matchScore": 92,
+  "matchLevel": "EXCELLENT",
   "coverLetter": "I am interested in this role.",
   "status": "SUBMITTED",
   "statusNote": null,
@@ -227,6 +229,65 @@ Query:
 
 Success response: paginated array of application response objects.
 
+FE notes:
+
+- `matchScore` and `matchLevel` may be `null` when matching-service has not scored the application yet.
+- Recent candidate cards can use this endpoint with `limit=3`; no separate recent endpoint is required right now.
+
+### `GET /api/v1/recruiter/applications/stats`
+
+Summary: Return recruiter application counts and day buckets for dashboard charts.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`
+- User must have `companyId` in access token/gateway identity.
+
+Query:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `from` | ISO date `YYYY-MM-DD` | No | Start date. Defaults to 6 days before `to`. |
+| `to` | ISO date `YYYY-MM-DD` | No | End date. Defaults to today. |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "total": 10,
+    "byStatus": {
+      "SUBMITTED": 3,
+      "OFFERED": 2,
+      "REJECTED": 1,
+      "WITHDRAWN": 4,
+      "CANCELLED": 0
+    },
+    "byDay": [
+      {
+        "date": "2026-07-15",
+        "submitted": 2,
+        "offered": 1,
+        "rejected": 0,
+        "withdrawn": 0,
+        "cancelled": 0
+      }
+    ],
+    "responseRate": 30
+  }
+}
+```
+
+Rules:
+
+- `responseRate = round((OFFERED + REJECTED) / total * 100)`.
+- Missing statuses are returned as `0`.
+- Day buckets are inclusive from `from` to `to`.
+
+Errors: `401`, `403`, `422`.
+
 ### `GET /api/v1/recruiter/applications/:id`
 
 Summary: Get application detail for the recruiter company.
@@ -254,6 +315,39 @@ Success response: same shape as candidate CV download response.
 Errors: `401`, `403`, `404`, `503`.
 
 ## Internal endpoints
+
+### `PATCH /api/v1/internal/applications/:id/match-snapshot`
+
+Internal only.
+
+Summary: Update matching score snapshot for an application after matching-service scores it.
+
+Auth:
+
+- Required
+- Internal service token header: `x-internal-service-token`
+
+Request body:
+
+| Field | Type | Required | Note |
+| --- | --- | --- | --- |
+| `matchScore` | number | Yes | 0..100. |
+| `matchLevel` | `LOW` \| `MEDIUM` \| `HIGH` \| `EXCELLENT` | No | If omitted, application-service derives it from score. |
+
+```json
+{
+  "matchScore": 92
+}
+```
+
+Success response: application response object with updated `matchScore` and `matchLevel`.
+
+Derived level rules:
+
+- `90..100` -> `EXCELLENT`
+- `75..89` -> `HIGH`
+- `50..74` -> `MEDIUM`
+- `<50` -> `LOW`
 
 ### `GET /api/v1/internal/applications/cv-documents/:documentId/retention`
 
