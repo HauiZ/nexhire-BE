@@ -219,6 +219,35 @@ export class PublicHomeStatsDto {
   categoryCount: number;
 }
 
+export class RecruiterJobStatusCountsDto {
+  @ApiProperty()
+  DRAFT: number;
+
+  @ApiProperty()
+  PENDING_REVIEW: number;
+
+  @ApiProperty()
+  NEEDS_REVIEW: number;
+
+  @ApiProperty()
+  SHOULD_REJECT: number;
+
+  @ApiProperty()
+  PUBLISHED: number;
+
+  @ApiProperty()
+  UNPUBLISHED: number;
+
+  @ApiProperty()
+  REJECTED: number;
+
+  @ApiProperty()
+  CLOSED: number;
+
+  @ApiProperty()
+  EXPIRED: number;
+}
+
 export class PublicJobDetailDto {
   @ApiProperty()
   id: string;

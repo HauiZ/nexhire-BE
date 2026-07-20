@@ -211,6 +211,22 @@ Used by `GET /api/v1/jobs/home/stats`.
 | `activeCompanyCount` | number | No | Count of companies that currently have at least one public job. |
 | `categoryCount` | number | No | Count of categories currently represented by public jobs. |
 
+### RecruiterJobStatusCounts
+
+Used by `GET /api/v1/recruiter/jobs/status-counts`.
+
+| Field | Type | Nullable | Note |
+| --- | --- | --- | --- |
+| `DRAFT` | number | No | Draft jobs. |
+| `PENDING_REVIEW` | number | No | Submitted and waiting for admin review. |
+| `NEEDS_REVIEW` | number | No | Moderate-risk jobs admin should inspect carefully. |
+| `SHOULD_REJECT` | number | No | High-risk jobs likely to be rejected. |
+| `PUBLISHED` | number | No | Public active jobs. |
+| `UNPUBLISHED` | number | No | Hidden but not closed jobs. |
+| `REJECTED` | number | No | Jobs rejected by admin. |
+| `CLOSED` | number | No | Closed jobs. |
+| `EXPIRED` | number | No | Expired jobs. |
+
 ### PublicCategory
 
 Used by `GET /api/v1/categories`.
@@ -689,6 +705,51 @@ Errors:
 | 400 | `COMMON.VALIDATION_ERROR` | Invalid query. |
 | 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
 | 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
+
+FE notes:
+
+- Use this endpoint for management lists. For dashboard counters, prefer `GET /api/v1/recruiter/jobs/status-counts`.
+
+## `GET /api/v1/recruiter/jobs/status-counts`
+
+Summary: Return job lifecycle counts for the recruiter's company.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`
+- User must have `companyId` in access token/gateway identity.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "DRAFT": 1,
+    "PENDING_REVIEW": 2,
+    "NEEDS_REVIEW": 1,
+    "SHOULD_REJECT": 0,
+    "PUBLISHED": 4,
+    "UNPUBLISHED": 1,
+    "REJECTED": 0,
+    "CLOSED": 0,
+    "EXPIRED": 0
+  }
+}
+```
+
+Errors:
+
+| Status | Code | Meaning |
+| --- | --- | --- |
+| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
+| 403 | `JOB.COMPANY_REQUIRED` | Recruiter has no company id. |
+
+FE notes:
+
+- This replaces multiple `GET /api/v1/recruiter/jobs?status=...&limit=1` calls.
+- Dashboard pending count should be `PENDING_REVIEW + NEEDS_REVIEW + SHOULD_REJECT`.
 
 ## `GET /api/v1/recruiter/jobs/:id`
 

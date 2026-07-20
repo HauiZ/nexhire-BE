@@ -10,6 +10,7 @@ import { OptionalJwtAuthGuard } from './guards/optional-jwt.guard';
 import { ProxyModule } from './proxy/proxy.module';
 import { HealthModule } from './health/health.module';
 import { buildGatewayThrottlers } from './rate-limit/auth-rate-limit';
+import { RecruiterDashboardModule } from './recruiter-dashboard/recruiter-dashboard.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { buildGatewayThrottlers } from './rate-limit/auth-rate-limit';
     }),
     ThrottlerModule.forRoot(buildGatewayThrottlers()),
     PassportModule,
+    RecruiterDashboardModule,
     ProxyModule,
     HealthModule,
   ],

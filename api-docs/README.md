@@ -92,6 +92,17 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/cvs/upload`
 - `DELETE /api/v1/cvs/:id`
 - `POST /api/v1/documents/upload`
+- `POST /api/v1/companies`
+- `GET /api/v1/companies/me`
+- `PUT /api/v1/companies/:id`
+- `PATCH /api/v1/companies/:id/logo`
+- `PATCH /api/v1/companies/:id/hero-image`
+- `GET /api/v1/companies/:id/verification-documents`
+- `POST /api/v1/companies/:id/verification-documents`
+- `DELETE /api/v1/companies/:id/verification-documents/:documentId`
+- `GET /api/v1/companies/admin/:id/verification-documents`
+- `GET /api/v1/companies/admin/:id/verification-documents/:documentId/download-url`
+- `GET /api/v1/companies/public/:id`
 - `GET /api/v1/jobs`
 - `GET /api/v1/jobs/:id`
 - `POST /api/v1/recruiter/jobs`
@@ -118,7 +129,9 @@ FE-facing business endpoints currently documented:
 - `GET /api/v1/applications/me/:id`
 - `GET /api/v1/applications/me/:id/cv`
 - `POST /api/v1/applications/me/:id/withdraw`
+- `GET /api/v1/recruiter/dashboard/summary`
 - `GET /api/v1/recruiter/applications`
+- `GET /api/v1/recruiter/applications/stats`
 - `GET /api/v1/recruiter/applications/:id`
 - `GET /api/v1/recruiter/applications/:id/cv`
 - `PATCH /api/v1/recruiter/applications/:id/status`
@@ -129,6 +142,7 @@ FE-facing business endpoints currently documented:
 - `GET /api/v1/saved-jobs/:jobId/status`
 - `GET /api/v1/jobs/featured-companies`
 - `GET /api/v1/jobs/home/stats`
+- `GET /api/v1/recruiter/jobs/status-counts`
 - `GET /api/v1/categories`
 - `GET /api/v1/notifications`
 - `GET /api/v1/notifications/unread-count`

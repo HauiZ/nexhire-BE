@@ -42,6 +42,7 @@ import {
   PublicHomeStatsDto,
   PublicJobDetailDto,
   PublicJobListItemDto,
+  RecruiterJobStatusCountsDto,
 } from './dto/job-response.dto';
 import { JobModerationReview } from './entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from './entities/job-processed-application-event.entity';
@@ -289,6 +290,24 @@ export class JobService {
   async listMine(user: AuthUser, query: RecruiterJobQueryDto): Promise<Paginated<JobResponseDto>> {
     this.assertRecruiter(user);
     return this.jobSearchProvider.searchCompanyJobs(user.companyId!, query);
+  }
+
+  async getCompanyStatusCounts(user: AuthUser): Promise<RecruiterJobStatusCountsDto> {
+    this.assertRecruiter(user);
+    const rows = await this.jobRepo
+      .createQueryBuilder('job')
+      .select('job.status', 'status')
+      .addSelect('COUNT(job.id)', 'count')
+      .where('job.companyId = :companyId', { companyId: user.companyId })
+      .andWhere('job.deletedAt IS NULL')
+      .groupBy('job.status')
+      .getRawMany<{ status: JobStatus; count: string }>();
+
+    const counts = this.emptyJobStatusCounts();
+    for (const row of rows) {
+      counts[row.status] = Number(row.count);
+    }
+    return counts;
   }
 
   async getMine(user: AuthUser, id: string): Promise<JobResponseDto> {
@@ -879,7 +898,11 @@ export class JobService {
     return job;
   }
 
-  private parsePublicLimit(value: string | undefined, defaultLimit: number, maxLimit: number): number {
+  private parsePublicLimit(
+    value: string | undefined,
+    defaultLimit: number,
+    maxLimit: number,
+  ): number {
     if (!value) {
       return defaultLimit;
     }
@@ -1143,6 +1166,20 @@ export class JobService {
         total,
         totalPages: Math.ceil(total / limit),
       },
+    };
+  }
+
+  private emptyJobStatusCounts(): RecruiterJobStatusCountsDto {
+    return {
+      [JobStatus.DRAFT]: 0,
+      [JobStatus.PENDING_REVIEW]: 0,
+      [JobStatus.NEEDS_REVIEW]: 0,
+      [JobStatus.SHOULD_REJECT]: 0,
+      [JobStatus.PUBLISHED]: 0,
+      [JobStatus.UNPUBLISHED]: 0,
+      [JobStatus.REJECTED]: 0,
+      [JobStatus.CLOSED]: 0,
+      [JobStatus.EXPIRED]: 0,
     };
   }
 

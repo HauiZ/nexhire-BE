@@ -304,7 +304,11 @@ describe('JobService', () => {
     jobRepo.findOne.mockResolvedValue({ ...publishedJob, applicationCount: 0 });
 
     await expect(
-      service.updateMine(user, publishedJob.id, jobInput({ skills: ['NestJS', 'PostgreSQL', 'AWS'] })),
+      service.updateMine(
+        user,
+        publishedJob.id,
+        jobInput({ skills: ['NestJS', 'PostgreSQL', 'AWS'] }),
+      ),
     ).rejects.toMatchObject({
       response: expect.objectContaining({
         code: ERROR_CODES.JOB.MAJOR_UPDATE_REQUIRES_REVIEW,
@@ -362,6 +366,35 @@ describe('JobService', () => {
       }),
     );
     expect(result.status).toBe(JobStatus.NEEDS_REVIEW);
+  });
+
+  it('returns company job counts for every status', async () => {
+    const qb = {
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue([
+        { status: JobStatus.PUBLISHED, count: '4' },
+        { status: JobStatus.DRAFT, count: '2' },
+      ]),
+    };
+    jobRepo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.getCompanyStatusCounts(user);
+
+    expect(qb.where).toHaveBeenCalledWith('job.companyId = :companyId', {
+      companyId: user.companyId,
+    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        DRAFT: 2,
+        PUBLISHED: 4,
+        PENDING_REVIEW: 0,
+        EXPIRED: 0,
+      }),
+    );
   });
 
   it('approves a reviewed job, publishes public event, and emits trust signal', async () => {

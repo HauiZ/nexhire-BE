@@ -30,6 +30,7 @@ import {
   DeleteJobResponseDto,
   JobResponseDto,
   JobRevisionResponseDto,
+  RecruiterJobStatusCountsDto,
 } from '../dto/job-response.dto';
 import { JobReasonDto } from '../dto/job-review.dto';
 import { JobService } from '../job.service';
@@ -55,6 +56,14 @@ export class RecruiterJobController {
   @ApiErrorResponses({ statuses: [400, 401, 403, 500] })
   listMine(@CurrentUser() user: AuthUser, @Query() query: RecruiterJobQueryDto) {
     return this.jobService.listMine(user, query);
+  }
+
+  @Get('status-counts')
+  @ApiOperation({ summary: 'Count company-owned jobs by status' })
+  @ApiSuccessResponse(RecruiterJobStatusCountsDto)
+  @ApiErrorResponses({ statuses: [401, 403, 500] })
+  getStatusCounts(@CurrentUser() user: AuthUser): Promise<RecruiterJobStatusCountsDto> {
+    return this.jobService.getCompanyStatusCounts(user);
   }
 
   @Get(':id')
