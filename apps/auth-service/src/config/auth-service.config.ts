@@ -25,7 +25,9 @@ export const authServiceConfig = registerAs('authService', () => ({
     maxResends: parseInt(process.env.PASSWORD_RESET_MAX_RESENDS ?? '5', 10),
   },
   google: {
-    clientIds: (process.env.GOOGLE_CLIENT_IDS ?? process.env.GOOGLE_CLIENT_ID ?? '')
+    clientIds: [process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_IDS]
+      .filter(Boolean)
+      .join(',')
       .split(',')
       .map((clientId) => clientId.trim())
       .filter(Boolean),

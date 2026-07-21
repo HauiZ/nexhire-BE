@@ -29,49 +29,49 @@ export class UpdateCandidateProfileFieldsDto {
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  fullName?: string;
+  fullName?: string | null;
 
   @ApiPropertyOptional({ example: '0912345678' })
   @IsOptional()
   @IsString()
   @MaxLength(30)
-  phone?: string;
+  phone?: string | null;
 
   @ApiPropertyOptional({ example: 'khoa.nguyen@example.com' })
   @IsOptional()
   @IsEmail()
   @MaxLength(255)
-  contactEmail?: string;
+  contactEmail?: string | null;
 
   @ApiPropertyOptional({ example: 'Senior Frontend Engineer' })
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  headline?: string;
+  headline?: string | null;
 
   @ApiPropertyOptional({ example: 'I build performant web products.' })
   @IsOptional()
   @IsString()
   @MaxLength(2000)
-  summary?: string;
+  summary?: string | null;
 
   @ApiPropertyOptional({ example: 'Ha Noi, Viet Nam' })
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  location?: string;
+  location?: string | null;
 
   @ApiPropertyOptional({ example: 'https://minhkhoa.dev' })
   @IsOptional()
   @IsUrl({ require_protocol: true })
   @MaxLength(500)
-  portfolioUrl?: string;
+  portfolioUrl?: string | null;
 
   @ApiPropertyOptional({ example: 'https://linkedin.com/in/minhkhoa' })
   @IsOptional()
   @IsUrl({ require_protocol: true })
   @MaxLength(500)
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
 
   @ApiPropertyOptional({ example: true })
   @IsOptional()
@@ -86,7 +86,7 @@ export class UpdateCandidateProfileFieldsDto {
   @ApiPropertyOptional({ example: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5' })
   @IsOptional()
   @IsUUID()
-  avatarDocumentId?: string;
+  avatarDocumentId?: string | null;
 }
 
 export class CandidateSkillInputDto {

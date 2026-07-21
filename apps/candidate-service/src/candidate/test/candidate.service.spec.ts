@@ -379,6 +379,65 @@ describe('CandidateService', () => {
     expect(result.completionPercent).toBe(100);
   });
 
+  it('clears nullable profile fields when update payload sends null', async () => {
+    const existingProfile = createProfile({
+      fullName: 'Nguyen Minh Khoa',
+      phone: '0912345678',
+      contactEmail: 'khoa@example.com',
+      headline: 'Senior Frontend Engineer',
+      summary: 'Builds performant web products',
+      location: 'Ha Noi',
+      portfolioUrl: 'https://minhkhoa.dev',
+      linkedinUrl: 'https://linkedin.com/in/minhkhoa',
+      avatarDocumentId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+    });
+    const manager = createManager(profileRepo);
+    profileRepo.findOne.mockResolvedValue(existingProfile);
+    manager.findOneOrFail.mockResolvedValue(
+      createProfile({
+        ...existingProfile,
+        fullName: null,
+        phone: null,
+        contactEmail: null,
+        headline: null,
+        summary: null,
+        location: null,
+        portfolioUrl: null,
+        linkedinUrl: null,
+        avatarDocumentId: null,
+      }),
+    );
+    dataSource.transaction.mockImplementation((callback: (manager: EntityManager) => unknown) =>
+      callback(manager as unknown as EntityManager),
+    );
+
+    await service.updateMe('user-1', {
+      profile: {
+        fullName: null,
+        phone: null,
+        contactEmail: null,
+        headline: null,
+        summary: null,
+        location: null,
+        portfolioUrl: null,
+        linkedinUrl: null,
+        avatarDocumentId: null,
+      },
+    });
+
+    expect(manager.update).toHaveBeenCalledWith(CandidateProfile, 'candidate-1', {
+      fullName: null,
+      phone: null,
+      contactEmail: null,
+      headline: null,
+      summary: null,
+      location: null,
+      portfolioUrl: null,
+      linkedinUrl: null,
+      avatarDocumentId: null,
+    });
+  });
+
   it('keeps omitted collections unchanged and deletes an explicitly empty section', async () => {
     const existingProfile = createProfile();
     const manager = createManager(profileRepo);

@@ -733,8 +733,8 @@ export class CandidateService {
     };
   }
 
-  private nullableString(value: string | undefined): string | null {
-    if (value === undefined) {
+  private nullableString(value: string | null | undefined): string | null {
+    if (value === undefined || value === null) {
       return null;
     }
     const trimmed = value.trim();
