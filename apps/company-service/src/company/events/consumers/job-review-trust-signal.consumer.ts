@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EVENTS, JobModerationRiskLevel, JobReviewDecision } from '@nexhire/shared';
+import { EVENTS, JobModerationRiskLevel, JobReviewDecision, QUEUES } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { CompanyService, JobReviewTrustSignalPayload } from '../../company.service';
@@ -21,7 +21,7 @@ export class JobReviewTrustSignalConsumer implements OnModuleInit, OnModuleDestr
     const exchange = this.configService.get<string>('rabbitmq.exchange');
     const queueName = this.configService.get<string>(
       'companyService.queues.jobReviewTrustSignal',
-      'company.job-review-trust-signal',
+      QUEUES.COMPANY_JOB_REVIEW_TRUST_SIGNAL,
     );
 
     if (!url || !exchange) {

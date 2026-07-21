@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config';
+import { QUEUES } from '@nexhire/shared';
 
 export const authServiceConfig = registerAs('authService', () => ({
   port: parseInt(process.env.AUTH_SERVICE_PORT ?? '3001', 10),
@@ -34,6 +35,8 @@ export const authServiceConfig = registerAs('authService', () => ({
     tokenInfoUrl: process.env.GOOGLE_TOKEN_INFO_URL ?? 'https://oauth2.googleapis.com/tokeninfo',
   },
   queues: {
-    companyLink: process.env.AUTH_SERVICE_COMPANY_LINK_QUEUE ?? 'auth.company-link',
+    companyLink: process.env.AUTH_SERVICE_COMPANY_LINK_QUEUE ?? QUEUES.AUTH_COMPANY_LINK,
+    candidateProfile:
+      process.env.AUTH_SERVICE_CANDIDATE_PROFILE_QUEUE ?? QUEUES.AUTH_CANDIDATE_PROFILE,
   },
 }));

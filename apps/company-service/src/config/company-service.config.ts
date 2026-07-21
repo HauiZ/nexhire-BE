@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config';
+import { QUEUES } from '@nexhire/shared';
 
 export const companyServiceConfig = registerAs('companyService', () => ({
   port: parseInt(process.env.COMPANY_SERVICE_PORT ?? '3003', 10),
@@ -12,6 +13,6 @@ export const companyServiceConfig = registerAs('companyService', () => ({
   queues: {
     jobReviewTrustSignal:
       process.env.COMPANY_SERVICE_JOB_REVIEW_TRUST_SIGNAL_QUEUE ??
-      'company.job-review-trust-signal',
+      QUEUES.COMPANY_JOB_REVIEW_TRUST_SIGNAL,
   },
 }));

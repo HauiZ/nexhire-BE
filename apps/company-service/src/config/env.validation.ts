@@ -1,4 +1,5 @@
 import * as Joi from 'joi';
+import { QUEUES } from '@nexhire/shared';
 
 export const validationSchema = Joi.object({
   NODE_ENV: Joi.string().valid('development', 'test', 'production').default('development'),
@@ -20,6 +21,6 @@ export const validationSchema = Joi.object({
   DOCUMENT_STORAGE_SERVICE_URL: Joi.string().uri().default('http://localhost:3009'),
   COMPANY_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(30000),
   COMPANY_SERVICE_JOB_REVIEW_TRUST_SIGNAL_QUEUE: Joi.string().default(
-    'company.job-review-trust-signal',
+    QUEUES.COMPANY_JOB_REVIEW_TRUST_SIGNAL,
   ),
 });

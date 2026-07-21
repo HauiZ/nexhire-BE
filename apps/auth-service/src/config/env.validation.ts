@@ -1,4 +1,5 @@
 import * as Joi from 'joi';
+import { QUEUES } from '@nexhire/shared';
 
 export const validationSchema = Joi.object({
   NODE_ENV: Joi.string().valid('development', 'test', 'production').default('development'),
@@ -23,7 +24,8 @@ export const validationSchema = Joi.object({
     .uri({ scheme: ['amqp', 'amqps'] })
     .optional(),
   RABBITMQ_EXCHANGE: Joi.string().default('nexhire.events'),
-  AUTH_SERVICE_COMPANY_LINK_QUEUE: Joi.string().default('auth.company-link'),
+  AUTH_SERVICE_COMPANY_LINK_QUEUE: Joi.string().default(QUEUES.AUTH_COMPANY_LINK),
+  AUTH_SERVICE_CANDIDATE_PROFILE_QUEUE: Joi.string().default(QUEUES.AUTH_CANDIDATE_PROFILE),
   EMAIL_VERIFICATION_TOKEN_LENGTH: Joi.number().integer().min(4).max(10).default(6),
   EMAIL_VERIFICATION_TOKEN_TTL_MINUTES: Joi.number().integer().min(1).max(1440).default(15),
   EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS: Joi.number().integer().min(10).max(3600).default(60),

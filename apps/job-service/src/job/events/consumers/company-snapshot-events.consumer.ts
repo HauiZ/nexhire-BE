@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EVENTS } from '@nexhire/shared';
+import { EVENTS, QUEUES } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { CompanyStatusSnapshot, CompanyTrustLevel } from '../../entities/job.enum';
@@ -22,7 +22,7 @@ export class CompanySnapshotEventsConsumer implements OnModuleInit, OnModuleDest
     const exchange = this.configService.get<string>('rabbitmq.exchange');
     const queueName = this.configService.get<string>(
       'jobService.queues.companySnapshot',
-      'job.company-snapshot',
+      QUEUES.JOB_COMPANY_SNAPSHOT,
     );
 
     if (!url || !exchange) {

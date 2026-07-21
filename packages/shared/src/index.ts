@@ -7,6 +7,7 @@ export * from './enums/company-status.enum';
 
 // ── constants ──
 export * from './constants/events';
+export * from './constants/queues';
 export * from './constants/headers';
 export * from './constants/error-codes';
 

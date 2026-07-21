@@ -1,4 +1,5 @@
 import * as Joi from 'joi';
+import { QUEUES } from '@nexhire/shared';
 
 export const validationSchema = Joi.object({
   NODE_ENV: Joi.string().valid('development', 'test', 'production').default('development'),
@@ -17,9 +18,10 @@ export const validationSchema = Joi.object({
   }),
   RABBITMQ_URL: Joi.string().uri().default('amqp://nexhire:nexhire@localhost:5672'),
   RABBITMQ_EXCHANGE: Joi.string().default('nexhire.events'),
-  JOB_SERVICE_COMPANY_SNAPSHOT_QUEUE: Joi.string().default('job.company-snapshot'),
-  JOB_SERVICE_APPLICATION_SUBMITTED_QUEUE: Joi.string().default('job.application-submitted'),
+  JOB_SERVICE_COMPANY_SNAPSHOT_QUEUE: Joi.string().default(QUEUES.JOB_COMPANY_SNAPSHOT),
+  JOB_SERVICE_APPLICATION_SUBMITTED_QUEUE: Joi.string().default(QUEUES.JOB_APPLICATION_SUBMITTED),
   JOB_EXPIRATION_SWEEP_INTERVAL_MS: Joi.number().min(10000).default(300000),
   COMPANY_SERVICE_URL: Joi.string().uri().default('http://localhost:3003'),
+  DOCUMENT_STORAGE_SERVICE_URL: Joi.string().uri().default('http://localhost:3009'),
   JOB_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(5000),
 });

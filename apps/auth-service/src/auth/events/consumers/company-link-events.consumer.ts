@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CompanyStatus, EVENTS } from '@nexhire/shared';
+import { CompanyStatus, EVENTS, QUEUES } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { Repository } from 'typeorm';
@@ -34,7 +34,7 @@ export class CompanyLinkEventsConsumer implements OnModuleInit, OnModuleDestroy 
     const exchange = this.configService.get<string>('rabbitmq.exchange');
     const queueName = this.configService.get<string>(
       'authService.queues.companyLink',
-      'auth.company-link',
+      QUEUES.AUTH_COMPANY_LINK,
     );
 
     if (!url || !exchange) {

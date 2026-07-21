@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EVENTS } from '@nexhire/shared';
+import { EVENTS, QUEUES } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { ApplicationSubmittedPayload, JobService } from '../../job.service';
@@ -21,7 +21,7 @@ export class ApplicationEventsConsumer implements OnModuleInit, OnModuleDestroy 
     const exchange = this.configService.get<string>('rabbitmq.exchange');
     const queueName = this.configService.get<string>(
       'jobService.queues.applicationSubmitted',
-      'job.application-submitted',
+      QUEUES.JOB_APPLICATION_SUBMITTED,
     );
 
     if (!url || !exchange) {
