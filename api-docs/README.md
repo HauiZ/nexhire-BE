@@ -73,6 +73,7 @@ FE-facing business endpoints currently documented:
 
 - `POST /api/v1/auth/register`
 - `POST /api/v1/auth/login`
+- `POST /api/v1/auth/google/login`
 - `POST /api/v1/auth/refresh`
 - `POST /api/v1/auth/logout`
 - `POST /api/v1/auth/verify-email`

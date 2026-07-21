@@ -11,7 +11,8 @@ import { ERROR_CODES, UserRole } from '@nexhire/shared';
 import * as bcrypt from 'bcrypt';
 import { DataSource, Repository } from 'typeorm';
 import { AuthService } from '../auth.service';
-import { UserStatus } from '../entities/auth.enum';
+import { AuthIdentity } from '../entities/auth-identity.entity';
+import { AuthIdentityProvider, UserStatus } from '../entities/auth.enum';
 import { EmailVerification } from '../entities/email-verification.entity';
 import { PasswordResetToken } from '../entities/password-reset-token.entity';
 import { RecruiterCompanyLink } from '../entities/recruiter-company-link.entity';
@@ -67,6 +68,7 @@ describe('AuthService', () => {
   let emailVerificationRepo: MockRepo;
   let passwordResetTokenRepo: MockRepo;
   let recruiterCompanyLinkRepo: MockRepo;
+  let authIdentityRepo: MockRepo;
 
   beforeEach(() => {
     dataSource = {
@@ -92,6 +94,8 @@ describe('AuthService', () => {
           'authService.passwordReset.tokenTtlMinutes': 15,
           'authService.passwordReset.resendCooldownSeconds': 60,
           'authService.passwordReset.maxResends': 5,
+          'authService.google.clientIds': ['google-client-id'],
+          'authService.google.tokenInfoUrl': 'https://oauth2.googleapis.com/tokeninfo',
         };
         return values[key] ?? fallback;
       }),
@@ -116,6 +120,7 @@ describe('AuthService', () => {
     emailVerificationRepo = createRepoMock();
     passwordResetTokenRepo = createRepoMock();
     recruiterCompanyLinkRepo = createRepoMock();
+    authIdentityRepo = createRepoMock();
 
     service = new AuthService(
       dataSource as unknown as DataSource,
@@ -130,6 +135,7 @@ describe('AuthService', () => {
       emailVerificationRepo as unknown as Repository<EmailVerification>,
       passwordResetTokenRepo as unknown as Repository<PasswordResetToken>,
       recruiterCompanyLinkRepo as unknown as Repository<RecruiterCompanyLink>,
+      authIdentityRepo as unknown as Repository<AuthIdentity>,
     );
   });
 
@@ -507,6 +513,227 @@ describe('AuthService', () => {
       }),
       expect.any(Object),
     );
+  });
+
+  it('creates a candidate account from a valid Google token', async () => {
+    (global as unknown as { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({
+        sub: 'google-sub-1',
+        aud: 'google-client-id',
+        email: 'google.candidate@nexhire.vn',
+        email_verified: 'true',
+        name: 'Google Candidate',
+        picture: 'https://lh3.googleusercontent.com/avatar.png',
+      }),
+    });
+    authIdentityRepo.findOne.mockResolvedValue(null);
+    userRepo.findOne.mockResolvedValue(null);
+    roleRepo.findOne.mockResolvedValue({ id: 'role-candidate', name: UserRole.CANDIDATE });
+    jwtService.signAsync
+      .mockResolvedValueOnce('access-token')
+      .mockResolvedValueOnce('refresh-token');
+
+    const manager = {
+      create: jest.fn((_: unknown, entity: unknown) => entity),
+      save: jest.fn((entity: unknown, value: unknown) => {
+        if (entity === User) {
+          return Promise.resolve({ id: 'user-google-1', ...(value as object) });
+        }
+        return Promise.resolve(value);
+      }),
+    };
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<unknown>) => callback(manager),
+    );
+
+    const result = await service.googleLogin({
+      idToken: 'valid-google-id-token',
+      role: UserRole.CANDIDATE,
+    });
+
+    expect(manager.save).toHaveBeenCalledWith(
+      User,
+      expect.objectContaining({
+        email: 'google.candidate@nexhire.vn',
+        fullName: 'Google Candidate',
+        avatarUrl: 'https://lh3.googleusercontent.com/avatar.png',
+        emailVerified: true,
+      }),
+    );
+    expect(manager.save).toHaveBeenCalledWith(
+      AuthIdentity,
+      expect.objectContaining({
+        userId: 'user-google-1',
+        provider: AuthIdentityProvider.GOOGLE,
+        providerUserId: 'google-sub-1',
+      }),
+    );
+    expect(result.user).toMatchObject({
+      id: 'user-google-1',
+      email: 'google.candidate@nexhire.vn',
+      role: UserRole.CANDIDATE,
+      emailVerified: true,
+    });
+  });
+
+  it('links Google identity to an existing user with the requested role', async () => {
+    (global as unknown as { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({
+        sub: 'google-sub-2',
+        aud: 'google-client-id',
+        email: 'candidate@nexhire.vn',
+        email_verified: true,
+        name: 'Candidate Updated',
+        picture: 'https://lh3.googleusercontent.com/avatar-2.png',
+      }),
+    });
+    authIdentityRepo.findOne.mockResolvedValue(null);
+    userRepo.findOne.mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: null,
+      phone: null,
+      avatarUrl: null,
+      emailVerified: false,
+      status: UserStatus.ACTIVE,
+    } as User);
+    userRoleRepo.findOne.mockResolvedValue({
+      userId: 'user-1',
+      role: { name: UserRole.CANDIDATE },
+    } as UserRoleEntity);
+    jwtService.signAsync
+      .mockResolvedValueOnce('access-token')
+      .mockResolvedValueOnce('refresh-token');
+
+    const result = await service.googleLogin({
+      idToken: 'valid-google-id-token',
+      role: UserRole.CANDIDATE,
+    });
+
+    expect(authIdentityRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        provider: AuthIdentityProvider.GOOGLE,
+        providerUserId: 'google-sub-2',
+      }),
+    );
+    expect(userRepo.update).toHaveBeenCalledWith(
+      'user-1',
+      expect.objectContaining({
+        emailVerified: true,
+        fullName: 'Candidate Updated',
+        avatarUrl: 'https://lh3.googleusercontent.com/avatar-2.png',
+      }),
+    );
+    expect(result.user).toMatchObject({
+      id: 'user-1',
+      fullName: 'Candidate Updated',
+      emailVerified: true,
+    });
+  });
+
+  it('logs in with an already linked Google identity', async () => {
+    (global as unknown as { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({
+        sub: 'google-sub-3',
+        aud: 'google-client-id',
+        email: 'candidate@nexhire.vn',
+        email_verified: true,
+        name: 'Candidate Linked',
+        picture: 'https://lh3.googleusercontent.com/avatar-3.png',
+      }),
+    });
+    authIdentityRepo.findOne.mockResolvedValue({
+      id: 'identity-1',
+      provider: AuthIdentityProvider.GOOGLE,
+      providerUserId: 'google-sub-3',
+      user: {
+        id: 'user-1',
+        email: 'candidate@nexhire.vn',
+        fullName: 'Candidate Existing',
+        phone: null,
+        avatarUrl: null,
+        emailVerified: true,
+        status: UserStatus.ACTIVE,
+      },
+    } as AuthIdentity);
+    userRoleRepo.findOne.mockResolvedValue({
+      userId: 'user-1',
+      role: { name: UserRole.CANDIDATE },
+    } as UserRoleEntity);
+    jwtService.signAsync
+      .mockResolvedValueOnce('access-token')
+      .mockResolvedValueOnce('refresh-token');
+
+    const result = await service.googleLogin({
+      idToken: 'valid-google-id-token',
+      role: UserRole.CANDIDATE,
+    });
+
+    expect(userRepo.findOne).not.toHaveBeenCalledWith({
+      where: { email: 'candidate@nexhire.vn' },
+    });
+    expect(authIdentityRepo.update).toHaveBeenCalledWith(
+      {
+        provider: AuthIdentityProvider.GOOGLE,
+        providerUserId: 'google-sub-3',
+      },
+      expect.objectContaining({
+        lastLoginAt: expect.any(Date),
+        fullName: 'Candidate Linked',
+      }),
+    );
+    expect(result.user).toMatchObject({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      role: UserRole.CANDIDATE,
+    });
+  });
+
+  it('rejects Google login when token audience is not allowed', async () => {
+    (global as unknown as { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({
+        sub: 'google-sub-1',
+        aud: 'other-client-id',
+        email: 'candidate@nexhire.vn',
+        email_verified: true,
+      }),
+    });
+
+    await expect(
+      service.googleLogin({
+        idToken: 'invalid-audience-token',
+        role: UserRole.CANDIDATE,
+      }),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.AUTH.GOOGLE_TOKEN_INVALID,
+      }),
+    });
+  });
+
+  it('rejects Google login when Google client id is not configured', async () => {
+    configService.get.mockImplementation((key: string, fallback?: unknown) => {
+      if (key === 'authService.google.clientIds') {
+        return [];
+      }
+      return fallback;
+    });
+
+    await expect(
+      service.googleLogin({
+        idToken: 'valid-google-id-token',
+        role: UserRole.CANDIDATE,
+      }),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.AUTH.GOOGLE_LOGIN_NOT_CONFIGURED,
+      }),
+    });
   });
 
   it('rejects login when requested role is not assigned to user', async () => {

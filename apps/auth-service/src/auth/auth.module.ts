@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController, AuthInternalController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { AuthIdentity } from './entities/auth-identity.entity';
 import { EmailVerification } from './entities/email-verification.entity';
 import { PasswordResetToken } from './entities/password-reset-token.entity';
 import { RecruiterCompanyLink } from './entities/recruiter-company-link.entity';
@@ -33,6 +34,7 @@ import { ManualAuthService } from './manual/manual-auth.service';
       EmailVerification,
       PasswordResetToken,
       RecruiterCompanyLink,
+      AuthIdentity,
     ]),
   ],
   controllers: [AuthController, AuthInternalController, ManualAuthController],

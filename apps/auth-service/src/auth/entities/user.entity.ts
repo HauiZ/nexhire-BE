@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserStatus } from './auth.enum';
+import { AuthIdentity } from './auth-identity.entity';
 import { EmailVerification } from './email-verification.entity';
 import { PasswordResetToken } from './password-reset-token.entity';
 import { UserCredential } from './user-credential.entity';
@@ -81,4 +82,7 @@ export class User {
 
   @OneToMany(() => PasswordResetToken, (token) => token.user)
   passwordResetTokens: PasswordResetToken[];
+
+  @OneToMany(() => AuthIdentity, (identity) => identity.user)
+  authIdentities: AuthIdentity[];
 }

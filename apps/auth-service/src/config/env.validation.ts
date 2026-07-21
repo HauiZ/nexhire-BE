@@ -32,4 +32,7 @@ export const validationSchema = Joi.object({
   PASSWORD_RESET_TOKEN_TTL_MINUTES: Joi.number().integer().min(1).max(1440).default(15),
   PASSWORD_RESET_RESEND_COOLDOWN_SECONDS: Joi.number().integer().min(10).max(3600).default(60),
   PASSWORD_RESET_MAX_RESENDS: Joi.number().integer().min(1).max(20).default(5),
+  GOOGLE_CLIENT_ID: Joi.string().optional().allow(''),
+  GOOGLE_CLIENT_IDS: Joi.string().optional().allow(''),
+  GOOGLE_TOKEN_INFO_URL: Joi.string().uri().default('https://oauth2.googleapis.com/tokeninfo'),
 });

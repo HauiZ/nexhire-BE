@@ -23,6 +23,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordResponseDto } from './dto/change-password-response.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ForgotPasswordResponseDto } from './dto/forgot-password-response.dto';
+import { GoogleLoginDto } from './dto/google-login.dto';
 import { LoginDto } from './dto/login.dto';
 import { LogoutResponseDto } from './dto/logout-response.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
@@ -58,6 +59,16 @@ export class AuthController {
   @ApiErrorResponses({ statuses: [400, 401, 422, 500] })
   login(@Body() dto: LoginDto): Promise<AuthResponseDto> {
     return this.authService.login(dto);
+  }
+
+  @Post('google/login')
+  @Public()
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Login or signup with a Google ID token' })
+  @ApiSuccessResponse(AuthResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 409, 422, 503, 500] })
+  googleLogin(@Body() dto: GoogleLoginDto): Promise<AuthResponseDto> {
+    return this.authService.googleLogin(dto);
   }
 
   @Post('refresh')

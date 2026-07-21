@@ -24,6 +24,13 @@ export const authServiceConfig = registerAs('authService', () => ({
     resendCooldownSeconds: parseInt(process.env.PASSWORD_RESET_RESEND_COOLDOWN_SECONDS ?? '60', 10),
     maxResends: parseInt(process.env.PASSWORD_RESET_MAX_RESENDS ?? '5', 10),
   },
+  google: {
+    clientIds: (process.env.GOOGLE_CLIENT_IDS ?? process.env.GOOGLE_CLIENT_ID ?? '')
+      .split(',')
+      .map((clientId) => clientId.trim())
+      .filter(Boolean),
+    tokenInfoUrl: process.env.GOOGLE_TOKEN_INFO_URL ?? 'https://oauth2.googleapis.com/tokeninfo',
+  },
   queues: {
     companyLink: process.env.AUTH_SERVICE_COMPANY_LINK_QUEUE ?? 'auth.company-link',
   },

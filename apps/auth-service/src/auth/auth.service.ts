@@ -8,6 +8,7 @@ import {
   Injectable,
   Logger,
   NotFoundException,
+  ServiceUnavailableException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -22,6 +23,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordResponseDto } from './dto/change-password-response.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ForgotPasswordResponseDto } from './dto/forgot-password-response.dto';
+import { GoogleLoginDto } from './dto/google-login.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { ResendVerificationDto } from './dto/resend-verification.dto';
@@ -30,7 +32,8 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ResetPasswordResponseDto } from './dto/reset-password-response.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyEmailResponseDto } from './dto/verify-email-response.dto';
-import { PasswordAlgorithm, UserStatus } from './entities/auth.enum';
+import { AuthIdentityProvider, PasswordAlgorithm, UserStatus } from './entities/auth.enum';
+import { AuthIdentity } from './entities/auth-identity.entity';
 import { EmailVerification } from './entities/email-verification.entity';
 import { PasswordResetToken } from './entities/password-reset-token.entity';
 import { RecruiterCompanyLink } from './entities/recruiter-company-link.entity';
@@ -43,6 +46,26 @@ import { LogoutResponseDto } from './dto/logout-response.dto';
 import { UserContactSnapshotDto } from './dto/user-contact-snapshot.dto';
 import { AuthEventPublisher } from './events/auth-event.publisher';
 import { TokenService } from '../token/token.service';
+
+type GoogleTokenInfoResponse = {
+  sub?: string;
+  aud?: string;
+  email?: string;
+  email_verified?: boolean | string;
+  name?: string;
+  picture?: string;
+  nonce?: string;
+  error?: string;
+  error_description?: string;
+};
+
+type VerifiedGoogleProfile = {
+  sub: string;
+  email: string;
+  emailVerified: boolean;
+  name: string | null;
+  picture: string | null;
+};
 
 @Injectable()
 export class AuthService {
@@ -71,6 +94,8 @@ export class AuthService {
     private readonly passwordResetTokenRepo: Repository<PasswordResetToken>,
     @InjectRepository(RecruiterCompanyLink)
     private readonly recruiterCompanyLinkRepo: Repository<RecruiterCompanyLink>,
+    @InjectRepository(AuthIdentity)
+    private readonly authIdentityRepo: Repository<AuthIdentity>,
   ) {}
 
   async register(dto: RegisterDto): Promise<AuthResponseDto> {
@@ -247,6 +272,139 @@ export class AuthService {
     await this.assertUserCanLoginAs(user.id, dto.role);
     await this.resetLoginState(user.id, credential.id);
     return this.buildAuthResponse(user, dto.role);
+  }
+
+  async googleLogin(dto: GoogleLoginDto): Promise<AuthResponseDto> {
+    const profile = await this.verifyGoogleIdToken(dto.idToken, dto.nonce);
+    const role = dto.role;
+    const now = new Date();
+
+    const linkedIdentity = await this.authIdentityRepo.findOne({
+      where: {
+        provider: AuthIdentityProvider.GOOGLE,
+        providerUserId: profile.sub,
+      },
+      relations: { user: true },
+    });
+    let user = linkedIdentity?.user ?? null;
+
+    if (user) {
+      this.assertUserActiveForAuth(user);
+      await this.assertUserCanLoginAs(user.id, role);
+      await this.authIdentityRepo.update(
+        { provider: AuthIdentityProvider.GOOGLE, providerUserId: profile.sub },
+        {
+          email: profile.email,
+          emailVerified: profile.emailVerified,
+          fullName: profile.name,
+          avatarUrl: profile.picture,
+          lastLoginAt: now,
+        },
+      );
+      await this.userRepo.update(user.id, {
+        lastLoginAt: now,
+        emailVerified: user.emailVerified || profile.emailVerified,
+        avatarUrl: user.avatarUrl ?? profile.picture,
+        fullName: user.fullName ?? profile.name,
+      });
+      user = {
+        ...user,
+        emailVerified: user.emailVerified || profile.emailVerified,
+        avatarUrl: user.avatarUrl ?? profile.picture,
+        fullName: user.fullName ?? profile.name,
+        lastLoginAt: now,
+      };
+      this.logger.log(`Google login linked userId=${user.id} role=${role}`);
+      return this.buildAuthResponse(user, role);
+    }
+
+    const existingUser = await this.userRepo.findOne({ where: { email: profile.email } });
+    if (existingUser) {
+      this.assertUserActiveForAuth(existingUser);
+      await this.assertUserCanLoginAs(existingUser.id, role);
+      await this.authIdentityRepo.save(
+        this.authIdentityRepo.create({
+          userId: existingUser.id,
+          provider: AuthIdentityProvider.GOOGLE,
+          providerUserId: profile.sub,
+          email: profile.email,
+          emailVerified: profile.emailVerified,
+          fullName: profile.name,
+          avatarUrl: profile.picture,
+          linkedAt: now,
+          lastLoginAt: now,
+        }),
+      );
+      await this.userRepo.update(existingUser.id, {
+        lastLoginAt: now,
+        emailVerified: existingUser.emailVerified || profile.emailVerified,
+        avatarUrl: existingUser.avatarUrl ?? profile.picture,
+        fullName: existingUser.fullName ?? profile.name,
+      });
+      this.logger.log(`Linked Google identity to existing userId=${existingUser.id}`);
+      return this.buildAuthResponse(
+        {
+          ...existingUser,
+          emailVerified: existingUser.emailVerified || profile.emailVerified,
+          avatarUrl: existingUser.avatarUrl ?? profile.picture,
+          fullName: existingUser.fullName ?? profile.name,
+          lastLoginAt: now,
+        },
+        role,
+      );
+    }
+
+    const provisionedRole = await this.roleRepo.findOne({ where: { name: role } });
+    if (!provisionedRole) {
+      this.logger.error(`Google login role is not provisioned role=${role}`);
+      throw new ConflictException({
+        code: ERROR_CODES.AUTH.ROLE_NOT_PROVISIONED,
+        message: `${role} role is not provisioned`,
+      });
+    }
+
+    const createdUser = await this.dataSource.transaction(async (manager) => {
+      const newUser = await manager.save(
+        User,
+        manager.create(User, {
+          email: profile.email,
+          phone: null,
+          fullName: profile.name,
+          avatarUrl: profile.picture,
+          status: UserStatus.ACTIVE,
+          emailVerified: true,
+          lastLoginAt: now,
+        }),
+      );
+
+      await manager.save(
+        UserRoleEntity,
+        manager.create(UserRoleEntity, {
+          userId: newUser.id,
+          roleId: provisionedRole.id,
+        }),
+      );
+
+      await manager.save(
+        AuthIdentity,
+        manager.create(AuthIdentity, {
+          userId: newUser.id,
+          provider: AuthIdentityProvider.GOOGLE,
+          providerUserId: profile.sub,
+          email: profile.email,
+          emailVerified: profile.emailVerified,
+          fullName: profile.name,
+          avatarUrl: profile.picture,
+          linkedAt: now,
+          lastLoginAt: now,
+        }),
+      );
+
+      return newUser;
+    });
+
+    this.logger.log(`Created Google user id=${createdUser.id} role=${role}`);
+    return this.buildAuthResponse(createdUser, role);
   }
 
   async verifyEmail(dto: VerifyEmailDto): Promise<VerifyEmailResponseDto> {
@@ -645,6 +803,73 @@ export class AuthService {
     return link?.companyId ?? null;
   }
 
+  private async verifyGoogleIdToken(
+    idToken: string,
+    expectedNonce?: string,
+  ): Promise<VerifiedGoogleProfile> {
+    const clientIds = this.configService.get<string[]>('authService.google.clientIds', []);
+    if (!clientIds.length) {
+      throw new ServiceUnavailableException({
+        code: ERROR_CODES.AUTH.GOOGLE_LOGIN_NOT_CONFIGURED,
+        message: 'Google login is not configured',
+      });
+    }
+
+    const tokenInfoUrl = this.configService.get<string>(
+      'authService.google.tokenInfoUrl',
+      'https://oauth2.googleapis.com/tokeninfo',
+    );
+
+    let tokenInfo: GoogleTokenInfoResponse;
+    try {
+      const response = await fetch(`${tokenInfoUrl}?id_token=${encodeURIComponent(idToken)}`);
+      tokenInfo = (await response.json()) as GoogleTokenInfoResponse;
+      if (!response.ok) {
+        this.logger.warn(
+          `Google token verification failed status=${response.status} error=${tokenInfo.error ?? 'unknown'}`,
+        );
+        throw this.invalidGoogleToken();
+      }
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      this.logger.warn(`Google token verification request failed: ${(error as Error).message}`);
+      throw this.invalidGoogleToken();
+    }
+
+    const emailVerified = tokenInfo.email_verified === true || tokenInfo.email_verified === 'true';
+
+    if (!tokenInfo.sub || !tokenInfo.aud || !tokenInfo.email) {
+      throw this.invalidGoogleToken();
+    }
+
+    if (!clientIds.includes(tokenInfo.aud)) {
+      this.logger.warn(`Google token audience rejected aud=${tokenInfo.aud}`);
+      throw this.invalidGoogleToken();
+    }
+
+    if (expectedNonce && tokenInfo.nonce !== expectedNonce) {
+      this.logger.warn('Google token nonce rejected');
+      throw this.invalidGoogleToken();
+    }
+
+    if (!emailVerified) {
+      throw new UnauthorizedException({
+        code: ERROR_CODES.AUTH.GOOGLE_EMAIL_NOT_VERIFIED,
+        message: 'Google email is not verified',
+      });
+    }
+
+    return {
+      sub: tokenInfo.sub,
+      email: tokenInfo.email.trim(),
+      emailVerified,
+      name: tokenInfo.name?.trim() || null,
+      picture: tokenInfo.picture?.trim() || null,
+    };
+  }
+
   private normalizeEmailInput(email: string): string {
     return email.trim();
   }
@@ -670,6 +895,13 @@ export class AuthService {
     return new UnauthorizedException({
       code: ERROR_CODES.AUTH.INVALID_REFRESH_TOKEN,
       message: 'Invalid refresh token',
+    });
+  }
+
+  private invalidGoogleToken(): UnauthorizedException {
+    return new UnauthorizedException({
+      code: ERROR_CODES.AUTH.GOOGLE_TOKEN_INVALID,
+      message: 'Google token is invalid',
     });
   }
 

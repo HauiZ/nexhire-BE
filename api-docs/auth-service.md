@@ -161,6 +161,106 @@ Errors:
 | 423    | `AUTH.ACCOUNT_TEMPORARILY_LOCKED` | Account is temporarily locked                  |
 | 422    | validation error                  | Invalid request body                           |
 
+### `POST /api/v1/auth/google/login`
+
+Summary: Login or signup with Google. FE uses Google Identity Services to get a Google ID token, then sends that token to BE. BE verifies the token with Google, checks `aud` against the configured Google client id(s), links the Google identity, and returns the same auth response shape as password login.
+
+Auth:
+
+- Public
+
+Recommended setup:
+
+- Current web app only needs `GOOGLE_CLIENT_ID`.
+- `GOOGLE_CLIENT_IDS` is only for future multi-client setup, such as web + mobile + staging.
+- `GOOGLE_TOKEN_INFO_URL` is optional and normally should be left as the default Google endpoint.
+
+Backend config:
+
+| Env                     | Required | Note                                                    |
+| ----------------------- | -------- | ------------------------------------------------------- |
+| `GOOGLE_CLIENT_ID`      | Yes      | Single Google OAuth web client id used by FE            |
+| `GOOGLE_CLIENT_IDS`     | No       | Comma-separated ids when FE has multiple Google clients |
+| `GOOGLE_TOKEN_INFO_URL` | No       | Defaults to `https://oauth2.googleapis.com/tokeninfo`   |
+
+FE flow:
+
+1. Load Google Identity Services with the same client id as `GOOGLE_CLIENT_ID`.
+2. User selects a Google account.
+3. FE receives `credential` from Google. Treat this as `idToken`.
+4. FE calls `POST /api/v1/auth/google/login` with `{ idToken, role }`.
+5. Store `accessToken` and `refreshToken` exactly like password login.
+
+Request body:
+
+| Field     | Type   | Required | Note                                                                  |
+| --------- | ------ | -------- | --------------------------------------------------------------------- |
+| `idToken` | string | Yes      | Google ID token from Google Identity Services `credential` response   |
+| `role`    | enum   | Yes      | Login/signup context: `CANDIDATE` or `RECRUITER`; `ADMIN` is rejected |
+| `nonce`   | string | No       | Send only if FE generated nonce for the Google sign-in request        |
+
+```json
+{
+  "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...",
+  "role": "CANDIDATE"
+}
+```
+
+Success behavior:
+
+- If `auth_identities(provider=GOOGLE, providerUserId=google.sub)` exists: login the linked user.
+- Else if a user with the same email exists: link Google identity to that user, then login.
+- Else create a new active user with requested role, `emailVerified=true`, no password credential, then login.
+- Existing users must already have the requested role. Google login does not auto-upgrade a `CANDIDATE` account into `RECRUITER`.
+- Recruiter response includes `companyId` after company-service has emitted recruiter-company link events, same as password login.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "b7f07d2a-59d1-4f3e-91ec-f3ad07a01c4a",
+      "email": "candidate@gmail.com",
+      "fullName": "Nguyen Van A",
+      "phone": null,
+      "role": "CANDIDATE",
+      "companyId": null,
+      "emailVerified": true
+    },
+    "tokens": {
+      "accessToken": "jwt-access-token",
+      "refreshToken": "jwt-refresh-token",
+      "accessTokenExpiresIn": 900,
+      "refreshTokenExpiresIn": 604800
+    }
+  }
+}
+```
+
+Curl:
+
+```bash
+curl -X POST "http://localhost:3000/api/v1/auth/google/login" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "idToken": "<google-id-token-from-fe>",
+    "role": "CANDIDATE"
+  }'
+```
+
+Errors:
+
+| Status | Code                               | Meaning                                                            |
+| ------ | ---------------------------------- | ------------------------------------------------------------------ |
+| 401    | `AUTH.GOOGLE_TOKEN_INVALID`        | Token cannot be verified, audience mismatched, or nonce mismatched |
+| 401    | `AUTH.GOOGLE_EMAIL_NOT_VERIFIED`   | Google account email is not verified                               |
+| 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED`      | Existing account does not have requested role                      |
+| 409    | `AUTH.ROLE_NOT_PROVISIONED`        | Requested role is missing in seed/provisioning                     |
+| 503    | `AUTH.GOOGLE_LOGIN_NOT_CONFIGURED` | `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_IDS` is missing                  |
+| 422    | validation error                   | Invalid request body                                               |
+
 ### `POST /api/v1/auth/refresh`
 
 Summary: Rotate refresh token and issue a new token pair.

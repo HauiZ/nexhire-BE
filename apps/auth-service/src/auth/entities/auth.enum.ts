@@ -10,3 +10,7 @@ export enum UserStatus {
 export enum PasswordAlgorithm {
   BCRYPT = 'bcrypt',
 }
+
+export enum AuthIdentityProvider {
+  GOOGLE = 'GOOGLE',
+}
