@@ -2,6 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   ArrayMaxSize,
   IsArray,
+  IsEmail,
   IsInt,
   IsOptional,
   IsString,
@@ -113,6 +114,20 @@ export class CreateCompanyDto {
   @IsOptional()
   @IsUrl()
   website?: string;
+
+  @ApiPropertyOptional({ example: 'hr@nexhire.vn' })
+  @IsOptional()
+  @IsEmail()
+  @MaxLength(255)
+  @Transform(trimOptionalString)
+  contactEmail?: string;
+
+  @ApiPropertyOptional({ example: '02473001234' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(30)
+  @Transform(trimOptionalString)
+  contactPhone?: string;
 
   @ApiPropertyOptional({ example: '123 Tech Street, HCMC' })
   @IsOptional()

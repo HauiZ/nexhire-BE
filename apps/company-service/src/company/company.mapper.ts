@@ -9,12 +9,16 @@ import { CompanyVerificationDocument } from './entities/company-verification-doc
 import { Company } from './entities/company.entity';
 
 export class CompanyMapper {
-  static toResponse(company: Company): CompanyResponseDto {
+  static toResponse(
+    company: Company,
+    resolvedUrls: { logoUrl?: string | null; heroImageUrl?: string | null } = {},
+  ): CompanyResponseDto {
     const missingRequiredFields = this.missingRequiredFields(company);
     return {
       id: company.id,
       name: company.name,
       logo: company.logo ?? undefined,
+      logoUrl: resolvedUrls.logoUrl ?? company.logo ?? undefined,
       logoDocumentId: company.logoDocumentId ?? undefined,
       description: company.description ?? undefined,
       industry: company.industry ?? undefined,
@@ -24,9 +28,11 @@ export class CompanyMapper {
       culture: company.culture ?? undefined,
       values: company.values ?? [],
       perks: company.perks ?? [],
-      heroImageUrl: company.heroImageUrl ?? undefined,
+      heroImageUrl: resolvedUrls.heroImageUrl ?? company.heroImageUrl ?? undefined,
       heroImageDocumentId: company.heroImageDocumentId ?? undefined,
       website: company.website ?? undefined,
+      contactEmail: company.contactEmail ?? undefined,
+      contactPhone: company.contactPhone ?? undefined,
       address: company.address ?? undefined,
       taxCode: company.taxCode,
       ownerId: company.ownerId,
@@ -45,20 +51,27 @@ export class CompanyMapper {
     };
   }
 
-  static toAdminResponse(company: Company): AdminCompanyResponseDto {
+  static toAdminResponse(
+    company: Company,
+    resolvedUrls: { logoUrl?: string | null; heroImageUrl?: string | null } = {},
+  ): AdminCompanyResponseDto {
     return {
-      ...this.toResponse(company),
+      ...this.toResponse(company, resolvedUrls),
       trustLevel: company.trustLevel,
       approvedLowRiskCount: company.approvedLowRiskCount,
       negativeTrustSignalCount: company.negativeTrustSignalCount,
     };
   }
 
-  static toPublicResponse(company: Company): PublicCompanyProfileDto {
+  static toPublicResponse(
+    company: Company,
+    resolvedUrls: { logoUrl?: string | null; heroImageUrl?: string | null } = {},
+  ): PublicCompanyProfileDto {
     return {
       id: company.id,
       name: company.name,
       logo: company.logo ?? undefined,
+      logoUrl: resolvedUrls.logoUrl ?? company.logo ?? undefined,
       logoDocumentId: company.logoDocumentId ?? undefined,
       description: company.description ?? undefined,
       industry: company.industry ?? undefined,
@@ -68,9 +81,11 @@ export class CompanyMapper {
       culture: company.culture ?? undefined,
       values: company.values ?? [],
       perks: company.perks ?? [],
-      heroImageUrl: company.heroImageUrl ?? undefined,
+      heroImageUrl: resolvedUrls.heroImageUrl ?? company.heroImageUrl ?? undefined,
       heroImageDocumentId: company.heroImageDocumentId ?? undefined,
       website: company.website ?? undefined,
+      contactEmail: company.contactEmail ?? undefined,
+      contactPhone: company.contactPhone ?? undefined,
       address: company.address ?? undefined,
     };
   }

@@ -12,6 +12,13 @@ export class CompanyResponseDto {
   logo?: string;
 
   @ApiPropertyOptional({
+    example: 'https://storage.local/presigned-company-logo-url',
+    description:
+      'Resolved render URL for the company logo. Prefer this in FE when present; falls back to legacy logo URL.',
+  })
+  logoUrl?: string;
+
+  @ApiPropertyOptional({
     format: 'uuid',
     description: 'Document id for the company logo uploaded through document-storage',
   })
@@ -52,6 +59,18 @@ export class CompanyResponseDto {
 
   @ApiPropertyOptional({ example: 'https://nexhire.com' })
   website?: string;
+
+  @ApiPropertyOptional({
+    example: 'hr@nexhire.vn',
+    description: 'Public company contact email. This is not the recruiter login email.',
+  })
+  contactEmail?: string;
+
+  @ApiPropertyOptional({
+    example: '02473001234',
+    description: 'Public company contact phone. This is not necessarily the recruiter phone.',
+  })
+  contactPhone?: string;
 
   @ApiPropertyOptional({ example: '123 Tech Street, HCMC' })
   address?: string;

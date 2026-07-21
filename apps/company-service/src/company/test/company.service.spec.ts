@@ -40,6 +40,8 @@ function createCompany(overrides: Partial<Company> = {}): Company {
     heroImageUrl: null,
     heroImageDocumentId: null,
     website: null,
+    contactEmail: null,
+    contactPhone: null,
     address: null,
     taxCode: '0101234567',
     ownerId: mockUserId,
@@ -260,6 +262,21 @@ describe('CompanyService', () => {
         previousCompanyStatus: CompanyStatus.APPROVED,
       }),
     );
+  });
+
+  it('keeps approval when company contact fields change', async () => {
+    const company = createCompany({ status: CompanyStatus.APPROVED });
+    companyRepo.findOne.mockResolvedValueOnce(company);
+    companyRepo.save.mockImplementation((entity: Company) => Promise.resolve(entity));
+
+    const result = await service.update(mockCompanyId, mockUserId, {
+      contactEmail: 'hr@nexhire.vn',
+      contactPhone: '02473001234',
+    });
+
+    expect(company.status).toBe(CompanyStatus.APPROVED);
+    expect(result.contactEmail).toBe('hr@nexhire.vn');
+    expect(result.contactPhone).toBe('02473001234');
   });
 
   it('clears document image ids when legacy image URLs are updated', async () => {

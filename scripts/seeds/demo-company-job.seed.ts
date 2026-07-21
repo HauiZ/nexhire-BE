@@ -77,6 +77,8 @@ type DemoCompany = {
   logo: string;
   taxCode: string;
   website: string;
+  contactEmail: string;
+  contactPhone: string;
   address: string;
   description: string;
   industry: string;
@@ -164,6 +166,8 @@ const demoCompanies: DemoCompany[] = [
     logo: 'https://cdn.nexhire.vn/demo/companies/nexhire-tech.png',
     taxCode: 'DEMO-NEXHIRE-001',
     website: 'https://nexhire.vn',
+    contactEmail: 'hr@nexhire.vn',
+    contactPhone: '02473001001',
     address: 'Cau Giay, Ha Noi',
     description: 'Product engineering company building recruitment and HR automation platforms.',
     industry: 'HR Tech',
@@ -187,6 +191,8 @@ const demoCompanies: DemoCompany[] = [
     logo: 'https://cdn.nexhire.vn/demo/companies/cloudify-vn.png',
     taxCode: 'DEMO-CLOUDIFY-002',
     website: 'https://cloudify.example',
+    contactEmail: 'talent@cloudify.example',
+    contactPhone: '02873001002',
     address: 'District 1, Ho Chi Minh City',
     description:
       'Cloud consulting and platform team delivering scalable systems for regional clients.',
@@ -210,6 +216,8 @@ const demoCompanies: DemoCompany[] = [
     logo: 'https://cdn.nexhire.vn/demo/companies/brightlabs.png',
     taxCode: 'DEMO-BRIGHTLABS-003',
     website: 'https://brightlabs.example',
+    contactEmail: 'careers@brightlabs.example',
+    contactPhone: '023673001003',
     address: 'Hai Chau, Da Nang',
     description:
       'Growth and marketing studio helping SaaS teams improve acquisition and retention.',
@@ -234,6 +242,8 @@ const demoCompanies: DemoCompany[] = [
     logo: 'https://cdn.nexhire.vn/demo/companies/apexforge.png',
     taxCode: 'DEMO-APEXFORGE-004',
     website: 'https://apexforge.example',
+    contactEmail: 'jobs@apexforge.example',
+    contactPhone: '02473001004',
     address: 'Thanh Xuan, Ha Noi',
     description: 'Mobile-first product studio focused on fintech and marketplace applications.',
     industry: 'Mobile Product',
@@ -256,6 +266,8 @@ const demoCompanies: DemoCompany[] = [
     logo: 'https://cdn.nexhire.vn/demo/companies/luma-studio.png',
     taxCode: 'DEMO-LUMA-005',
     website: 'https://lumastudio.example',
+    contactEmail: 'hello@lumastudio.example',
+    contactPhone: '02873001005',
     address: 'Thu Duc, Ho Chi Minh City',
     description: 'Design studio creating product experiences for consumer and business software.',
     industry: 'Product Design',
@@ -279,6 +291,8 @@ const demoCompanies: DemoCompany[] = [
     logo: 'https://cdn.nexhire.vn/demo/companies/north-star.png',
     taxCode: 'DEMO-NORTHSTAR-006',
     website: 'https://northstar.example',
+    contactEmail: 'people@northstar.example',
+    contactPhone: '02473001006',
     address: 'Ba Dinh, Ha Noi',
     description: 'Data and revenue operations team supporting B2B companies across APAC.',
     industry: 'Revenue Operations',
@@ -305,6 +319,8 @@ const demoReviewCompanies: DemoCompany[] = [
     logo: 'https://cdn.nexhire.vn/demo/companies/greenfield-ai.png',
     taxCode: 'DEMO-GREENFIELD-101',
     website: 'https://greenfield.example',
+    contactEmail: 'verify@greenfield.example',
+    contactPhone: '02473001101',
     address: 'Nam Tu Liem, Ha Noi',
     description: 'AI workflow startup submitting company verification documents for review.',
     industry: 'AI Productivity',
@@ -330,6 +346,8 @@ const demoReviewCompanies: DemoCompany[] = [
     logo: 'https://cdn.nexhire.vn/demo/companies/unverified-labs.png',
     taxCode: 'DEMO-UNVERIFIED-102',
     website: 'https://unverified.example',
+    contactEmail: 'contact@unverified.example',
+    contactPhone: '02873001102',
     address: 'Unknown District, Ho Chi Minh City',
     description: 'Company profile rejected in demo data because verification proof was incomplete.',
     industry: 'Software Services',
@@ -355,6 +373,8 @@ const demoReviewCompanies: DemoCompany[] = [
     logo: 'https://cdn.nexhire.vn/demo/companies/paused-hiring.png',
     taxCode: 'DEMO-PAUSED-103',
     website: 'https://paused.example',
+    contactEmail: 'hr@paused.example',
+    contactPhone: '02473001103',
     address: 'Hai Ba Trung, Ha Noi',
     description: 'Company profile suspended in demo data for admin lifecycle checks.',
     industry: 'Operations Software',
@@ -1115,6 +1135,8 @@ async function seedDemoCompanies(dataSource: DataSource): Promise<void> {
         heroImageUrl: company.heroImageUrl,
         heroImageDocumentId: null,
         website: company.website,
+        contactEmail: company.contactEmail,
+        contactPhone: company.contactPhone,
         address: company.address,
         taxCode: company.taxCode,
         ownerId: company.ownerId,

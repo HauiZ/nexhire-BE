@@ -37,6 +37,7 @@ Used by recruiter self-service endpoints. Does not expose trust level.
 | `id`                    | uuid            | No       | Company id.                                                                                                     |
 | `name`                  | string          | No       | Company display name.                                                                                           |
 | `logo`                  | string          | Yes      | Legacy/manual logo URL fallback.                                                                                |
+| `logoUrl`               | string          | Yes      | Resolved render URL for company logo. FE should prefer this when present.                                       |
 | `logoDocumentId`        | uuid            | Yes      | Logo document id uploaded through document-storage. FE should prefer this when rendering the logo.              |
 | `description`           | string          | Yes      | Company description.                                                                                            |
 | `industry`              | string          | Yes      | Public industry/field label.                                                                                    |
@@ -49,6 +50,8 @@ Used by recruiter self-service endpoints. Does not expose trust level.
 | `heroImageUrl`          | string          | Yes      | Legacy/manual hero image URL fallback.                                                                          |
 | `heroImageDocumentId`   | uuid            | Yes      | Hero image document id uploaded through document-storage. FE should prefer this when rendering the cover image. |
 | `website`               | string          | Yes      | Website URL.                                                                                                    |
+| `contactEmail`          | string          | Yes      | Public company contact email. This is separate from recruiter login email.                                      |
+| `contactPhone`          | string          | Yes      | Public company contact phone. This is separate from recruiter account phone.                                    |
 | `address`               | string          | Yes      | Company address.                                                                                                |
 | `taxCode`               | string          | No       | Company tax code.                                                                                               |
 | `ownerId`               | uuid            | No       | Recruiter user id that owns company.                                                                            |
@@ -71,6 +74,7 @@ Example:
   "id": "22222222-2222-2222-2222-222222222222",
   "name": "NexHire Tech",
   "logo": "https://cdn.nexhire.vn/company/logo.png",
+  "logoUrl": "https://storage.local/presigned-company-logo-url",
   "logoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
   "description": "Tech company focusing on recruitment products.",
   "industry": "HR Tech",
@@ -82,6 +86,8 @@ Example:
   "perks": ["Flexible schedule", "Learning budget"],
   "heroImageDocumentId": "2b1d8260-58f9-4a5f-95e3-c2e7efae5c6a",
   "website": "https://nexhire.vn",
+  "contactEmail": "hr@nexhire.vn",
+  "contactPhone": "02473001234",
   "address": "Ha Noi, Viet Nam",
   "taxCode": "0101234567",
   "ownerId": "11111111-1111-1111-1111-111111111111",
@@ -113,24 +119,27 @@ Used by admin endpoints. Extends `CompanyResponse`.
 
 Used by public company profile endpoint.
 
-| Field                 | Type     | Nullable | Note                                                      |
-| --------------------- | -------- | -------- | --------------------------------------------------------- |
-| `id`                  | uuid     | No       | Company id.                                               |
-| `name`                | string   | No       | Company display name.                                     |
-| `logo`                | string   | Yes      | Legacy/manual logo URL fallback.                          |
-| `logoDocumentId`      | uuid     | Yes      | Logo document id uploaded through document-storage.       |
-| `description`         | string   | Yes      | Public company description.                               |
-| `industry`            | string   | Yes      | Public industry/field label.                              |
-| `size`                | string   | Yes      | Public employee range label.                              |
-| `foundedYear`         | number   | Yes      | Public founded year.                                      |
-| `mission`             | string   | Yes      | Public mission/building statement.                        |
-| `culture`             | string   | Yes      | Public work culture description.                          |
-| `values`              | string[] | No       | Public company/team values. Empty array when unset.       |
-| `perks`               | string[] | No       | Public benefits/perks. Empty array when unset.            |
-| `heroImageUrl`        | string   | Yes      | Legacy/manual hero image URL fallback.                    |
-| `heroImageDocumentId` | uuid     | Yes      | Hero image document id uploaded through document-storage. |
-| `website`             | string   | Yes      | Website URL.                                              |
-| `address`             | string   | Yes      | Public address.                                           |
+| Field                 | Type     | Nullable | Note                                                        |
+| --------------------- | -------- | -------- | ----------------------------------------------------------- |
+| `id`                  | uuid     | No       | Company id.                                                 |
+| `name`                | string   | No       | Company display name.                                       |
+| `logo`                | string   | Yes      | Legacy/manual logo URL fallback.                            |
+| `logoUrl`             | string   | Yes      | Resolved render URL for company logo.                       |
+| `logoDocumentId`      | uuid     | Yes      | Logo document id uploaded through document-storage.         |
+| `description`         | string   | Yes      | Public company description.                                 |
+| `industry`            | string   | Yes      | Public industry/field label.                                |
+| `size`                | string   | Yes      | Public employee range label.                                |
+| `foundedYear`         | number   | Yes      | Public founded year.                                        |
+| `mission`             | string   | Yes      | Public mission/building statement.                          |
+| `culture`             | string   | Yes      | Public work culture description.                            |
+| `values`              | string[] | No       | Public company/team values. Empty array when unset.         |
+| `perks`               | string[] | No       | Public benefits/perks. Empty array when unset.              |
+| `heroImageUrl`        | string   | Yes      | Legacy/manual hero image URL fallback.                      |
+| `heroImageDocumentId` | uuid     | Yes      | Hero image document id uploaded through document-storage.   |
+| `website`             | string   | Yes      | Website URL.                                                |
+| `contactEmail`        | string   | Yes      | Public company contact email, if company has configured it. |
+| `contactPhone`        | string   | Yes      | Public company contact phone, if company has configured it. |
+| `address`             | string   | Yes      | Public address.                                             |
 
 Does not include: `taxCode`, `ownerId`, `status`, `trustLevel`, counters.
 
@@ -201,6 +210,8 @@ Used by admin download endpoint. Extends `CompanyVerificationDocumentWithMetadat
 | `perks`        | string[]   | No       | No       | Max 20 items, each max 120 chars. Empty array when unset. |
 | `heroImageUrl` | URL string | No       | Yes      | Legacy/manual hero image URL fallback.                    |
 | `website`      | URL string | No       | Yes      | Company website.                                          |
+| `contactEmail` | email      | No       | Yes      | Public company contact email, separate from login email.  |
+| `contactPhone` | string     | No       | Yes      | Public company contact phone, max 30 chars.               |
 | `address`      | string     | No       | Yes      | Company address.                                          |
 | `taxCode`      | string     | Yes      | No       | 10..50 chars, trimmed. Must be unique.                    |
 
@@ -218,6 +229,8 @@ Used by admin download endpoint. Extends `CompanyVerificationDocumentWithMetadat
   "perks": ["Flexible schedule", "Learning budget"],
   "heroImageUrl": "https://cdn.nexhire.vn/company/hero.png",
   "website": "https://nexhire.vn",
+  "contactEmail": "hr@nexhire.vn",
+  "contactPhone": "02473001234",
   "address": "Ha Noi, Viet Nam",
   "taxCode": "0101234567"
 }
@@ -241,6 +254,8 @@ All fields are optional, same validation as create body.
   "perks": ["Hybrid work", "Learning budget"],
   "heroImageUrl": "https://cdn.nexhire.vn/company/new-hero.png",
   "website": "https://nexhire.vn",
+  "contactEmail": "jobs@nexhire.vn",
+  "contactPhone": "02473009999",
   "address": "Ho Chi Minh City, Viet Nam",
   "taxCode": "0107654321"
 }
@@ -316,6 +331,8 @@ Success response:
     "logoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86",
     "description": "Tech company focusing on recruitment products.",
     "website": "https://nexhire.vn",
+    "contactEmail": "hr@nexhire.vn",
+    "contactPhone": "02473001234",
     "address": "Ha Noi, Viet Nam",
     "taxCode": "0101234567",
     "ownerId": "11111111-1111-1111-1111-111111111111",
@@ -361,6 +378,8 @@ Success response:
     "logo": "https://cdn.nexhire.vn/company/logo.png",
     "description": "Tech company focusing on recruitment products.",
     "website": "https://nexhire.vn",
+    "contactEmail": "hr@nexhire.vn",
+    "contactPhone": "02473001234",
     "address": "Ha Noi, Viet Nam",
     "taxCode": "0101234567",
     "ownerId": "11111111-1111-1111-1111-111111111111",
@@ -414,7 +433,7 @@ Success response: `CompanyResponse`.
 Rules:
 
 - Updating `name` or `taxCode` resets company status to `PENDING`.
-- Updating public enrichment fields (`industry`, `size`, `foundedYear`, `mission`, `culture`, `values`, `perks`, `heroImageUrl`) does not reset company status.
+- Updating public enrichment/contact fields (`industry`, `size`, `foundedYear`, `mission`, `culture`, `values`, `perks`, `heroImageUrl`, `contactEmail`, `contactPhone`, `website`, `address`) does not reset company status.
 - Updating `logo` clears `logoDocumentId`; updating `heroImageUrl` clears `heroImageDocumentId`. FE should still prefer document ids when present.
 - Company-service publishes `company.posting-snapshot-changed` after profile/status changes.
 
@@ -431,6 +450,11 @@ Errors:
 FE notes:
 
 - Warn recruiter that changing legal identity fields may require re-approval.
+- Company contact fields are for public/company profile display. They do not change recruiter login email/phone.
+- Recruiter account name/phone is updated through `PATCH /api/v1/auth/me`.
+- FE should render company logo from `logoUrl` when present. `logoDocumentId` remains the stable source of truth.
+- FE should render company cover from `heroImageUrl`. When `heroImageDocumentId` exists, company-service resolves `heroImageUrl` through document-storage internal API.
+- Company-service caches resolved document URLs until shortly before their expiry, so repeated reads do not hit document-storage every time.
 
 ## `PATCH /api/v1/companies/:id/logo`
 

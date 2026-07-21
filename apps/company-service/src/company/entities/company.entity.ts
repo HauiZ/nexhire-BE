@@ -46,6 +46,12 @@ export class Company extends BaseEntity {
   @Column({ type: 'varchar', nullable: true })
   website: string | null;
 
+  @Column({ name: 'contact_email', type: 'varchar', length: 255, nullable: true })
+  contactEmail: string | null;
+
+  @Column({ name: 'contact_phone', type: 'varchar', length: 30, nullable: true })
+  contactPhone: string | null;
+
   @Column({ type: 'varchar', nullable: true })
   address: string | null;
 

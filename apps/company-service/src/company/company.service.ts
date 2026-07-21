@@ -112,7 +112,7 @@ export class CompanyService {
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved);
     this.logger.log(`Company created companyId=${saved.id} ownerId=${userId}`);
-    return CompanyMapper.toResponse(saved);
+    return this.toCompanyResponse(saved);
   }
 
   async uploadLogo(
@@ -149,7 +149,7 @@ export class CompanyService {
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved, company.status);
     this.logger.log(`Company logo uploaded companyId=${companyId} documentId=${document.id}`);
-    return CompanyMapper.toResponse(saved);
+    return this.toCompanyResponse(saved);
   }
 
   async uploadHeroImage(
@@ -193,7 +193,7 @@ export class CompanyService {
     company.heroImageUrl = null;
     const saved = await this.companyRepo.save(company);
     this.logger.log(`Company hero image uploaded companyId=${companyId} documentId=${document.id}`);
-    return CompanyMapper.toResponse(saved);
+    return this.toCompanyResponse(saved);
   }
 
   async findByOwner(userId: string): Promise<CompanyResponseDto> {
@@ -204,7 +204,7 @@ export class CompanyService {
         message: 'Company profile not found',
       });
     }
-    return CompanyMapper.toResponse(company);
+    return this.toCompanyResponse(company);
   }
 
   async update(
@@ -260,7 +260,7 @@ export class CompanyService {
     Object.assign(company, patch);
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved, previousStatus);
-    return CompanyMapper.toResponse(saved);
+    return this.toCompanyResponse(saved);
   }
 
   async getPending(): Promise<AdminCompanyResponseDto[]> {
@@ -268,7 +268,7 @@ export class CompanyService {
       where: { status: CompanyStatus.PENDING },
       order: { createdAt: 'DESC' },
     });
-    return companies.map(CompanyMapper.toAdminResponse);
+    return Promise.all(companies.map((company) => this.toAdminCompanyResponse(company)));
   }
 
   async verify(
@@ -311,7 +311,7 @@ export class CompanyService {
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved, previousStatus);
     this.logger.log(`Company verified companyId=${companyId} action=${action}`);
-    return CompanyMapper.toAdminResponse(saved);
+    return this.toAdminCompanyResponse(saved);
   }
 
   async suspend(
@@ -328,7 +328,7 @@ export class CompanyService {
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved, previousStatus);
     this.logger.log(`Company suspended companyId=${companyId}`);
-    return CompanyMapper.toAdminResponse(saved);
+    return this.toAdminCompanyResponse(saved);
   }
 
   async restore(
@@ -345,7 +345,7 @@ export class CompanyService {
     const saved = await this.companyRepo.save(company);
     await this.publishPostingSnapshot(saved, previousStatus);
     this.logger.log(`Company restored to pending companyId=${companyId}`);
-    return CompanyMapper.toAdminResponse(saved);
+    return this.toAdminCompanyResponse(saved);
   }
 
   async updateTrustLevel(
@@ -373,7 +373,7 @@ export class CompanyService {
     this.logger.log(
       `Company trust level updated companyId=${companyId} trustLevel=${dto.trustLevel} adminUserId=${adminUserId}`,
     );
-    return CompanyMapper.toAdminResponse(saved);
+    return this.toAdminCompanyResponse(saved);
   }
 
   async recordTrustSignal(payload: JobReviewTrustSignalPayload): Promise<void> {
@@ -572,7 +572,7 @@ export class CompanyService {
       });
     }
 
-    return CompanyMapper.toPublicResponse(company);
+    return this.toPublicCompanyResponse(company);
   }
 
   private normalizeTaxCode(value: string): string {
@@ -641,6 +641,45 @@ export class CompanyService {
   ): Promise<void> {
     const payload = this.toPostingSnapshot(company, previousStatus);
     await this.companyEventPublisher.publishPostingSnapshotChanged(payload);
+  }
+
+  private async toCompanyResponse(company: Company): Promise<CompanyResponseDto> {
+    return CompanyMapper.toResponse(company, await this.resolveCompanyImageUrls(company));
+  }
+
+  private async toAdminCompanyResponse(company: Company): Promise<AdminCompanyResponseDto> {
+    return CompanyMapper.toAdminResponse(company, await this.resolveCompanyImageUrls(company));
+  }
+
+  private async toPublicCompanyResponse(company: Company): Promise<PublicCompanyProfileDto> {
+    return CompanyMapper.toPublicResponse(company, await this.resolveCompanyImageUrls(company));
+  }
+
+  private async resolveCompanyImageUrls(
+    company: Company,
+  ): Promise<{ logoUrl: string | null; heroImageUrl: string | null }> {
+    const [logoUrl, heroImageUrl] = await Promise.all([
+      this.resolveDocumentUrl(company.logoDocumentId),
+      this.resolveDocumentUrl(company.heroImageDocumentId),
+    ]);
+
+    return { logoUrl, heroImageUrl };
+  }
+
+  private async resolveDocumentUrl(documentId: string | null): Promise<string | null> {
+    if (!documentId) {
+      return null;
+    }
+
+    try {
+      const download = await this.documentClientService.getDocumentDownload(documentId);
+      return download.url;
+    } catch (error) {
+      this.logger.warn(
+        `Company image URL resolve failed documentId=${documentId}: ${(error as Error).message}`,
+      );
+      return null;
+    }
   }
 
   private isPositiveTrustSignal(payload: JobReviewTrustSignalPayload): boolean {

@@ -19,6 +19,10 @@ interface ApiEnvelope<T> {
 @Injectable()
 export class DocumentClientService {
   private readonly logger = new Logger(DocumentClientService.name);
+  private readonly downloadUrlCache = new Map<
+    string,
+    { value: DocumentDownloadResponse; expiresAt: number }
+  >();
 
   constructor(
     private readonly httpService: HttpService,
@@ -46,7 +50,28 @@ export class DocumentClientService {
   }
 
   async getDocumentDownload(documentId: string): Promise<DocumentDownloadResponse> {
-    return this.getInternalDocument<DocumentDownloadResponse>(documentId, 'download-url');
+    const cached = this.downloadUrlCache.get(documentId);
+    if (cached && cached.expiresAt > Date.now()) {
+      return cached.value;
+    }
+
+    const download = await this.getInternalDocument<DocumentDownloadResponse>(
+      documentId,
+      'download-url',
+    );
+    this.cacheDownloadUrl(documentId, download);
+    return download;
+  }
+
+  private cacheDownloadUrl(documentId: string, download: DocumentDownloadResponse): void {
+    const ttlMs = Math.max(0, (download.expiresInSeconds - 60) * 1000);
+    if (ttlMs <= 0) {
+      return;
+    }
+    this.downloadUrlCache.set(documentId, {
+      value: download,
+      expiresAt: Date.now() + ttlMs,
+    });
   }
 
   private async getInternalDocument<T>(
