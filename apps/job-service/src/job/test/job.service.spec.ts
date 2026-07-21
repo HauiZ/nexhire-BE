@@ -28,6 +28,7 @@ import { JobService } from '../job.service';
 import { JobModerationService } from '../moderation/job-moderation.service';
 import { JobSearchTextService } from '../search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER } from '../search/job-search.types';
+import { DocumentClientService } from '../../document-client/document-client.service';
 
 describe('JobService', () => {
   let service: JobService;
@@ -66,6 +67,9 @@ describe('JobService', () => {
     publishJobUnpublished: jest.Mock;
     publishJobClosed: jest.Mock;
     publishReviewTrustSignal: jest.Mock;
+  };
+  let documentClientService: {
+    createDownloadUrl: jest.Mock;
   };
   let processedEventRepo: {
     findOne: jest.Mock;
@@ -244,6 +248,9 @@ describe('JobService', () => {
       publishJobClosed: jest.fn().mockResolvedValue(undefined),
       publishReviewTrustSignal: jest.fn().mockResolvedValue(undefined),
     };
+    documentClientService = {
+      createDownloadUrl: jest.fn(),
+    };
     processedEventRepo = {
       findOne: jest.fn(),
       create: jest.fn((value) => value),
@@ -278,6 +285,7 @@ describe('JobService', () => {
         },
         JobSearchTextService,
         { provide: JobEventPublisher, useValue: jobEventPublisher },
+        { provide: DocumentClientService, useValue: documentClientService },
         { provide: getRepositoryToken(Job), useValue: jobRepo },
         { provide: getRepositoryToken(JobRevision), useValue: revisionRepo },
         { provide: getRepositoryToken(JobModerationReview), useValue: moderationReviewRepo },
@@ -671,6 +679,26 @@ describe('JobService', () => {
     expect(result).not.toHaveProperty('applicationCount');
   });
 
+  it('resolves company logo document for public job detail', async () => {
+    jobRepo.findOne.mockResolvedValue({
+      ...publishedJob,
+      companyLogoUrl: null,
+      companyLogoDocumentId: '00000000-0000-4000-8000-000000000099',
+    });
+    documentClientService.createDownloadUrl.mockResolvedValue({
+      url: 'https://storage.local/company-logo.png',
+      expiresInSeconds: 3600,
+    });
+
+    const result = await service.getPublic(publishedJob.id);
+
+    expect(documentClientService.createDownloadUrl).toHaveBeenCalledWith(
+      '00000000-0000-4000-8000-000000000099',
+    );
+    expect(result.companyLogoUrl).toBe('https://storage.local/company-logo.png');
+    expect(result.companyLogoDocumentId).toBe('00000000-0000-4000-8000-000000000099');
+  });
+
   it('lists published jobs for a public company profile through the search provider', async () => {
     const expected = {
       data: [
@@ -717,14 +745,18 @@ describe('JobService', () => {
         {
           companyId: publishedJob.companyId,
           companyName: publishedJob.companyName,
-          companyLogoUrl: publishedJob.companyLogoUrl,
-          companyLogoDocumentId: publishedJob.companyLogoDocumentId,
+          companyLogoUrl: null,
+          companyLogoDocumentId: '00000000-0000-4000-8000-000000000099',
           activeJobCount: '4',
           latestPublishedAt: publishedJob.publishedAt,
         },
       ]),
     };
     jobRepo.createQueryBuilder.mockReturnValue(qb);
+    documentClientService.createDownloadUrl.mockResolvedValue({
+      url: 'https://storage.local/company-logo.png',
+      expiresInSeconds: 3600,
+    });
 
     const result = await service.listFeaturedCompanies('8');
 
@@ -741,8 +773,8 @@ describe('JobService', () => {
       {
         companyId: publishedJob.companyId,
         companyName: publishedJob.companyName,
-        companyLogoUrl: publishedJob.companyLogoUrl,
-        companyLogoDocumentId: publishedJob.companyLogoDocumentId,
+        companyLogoUrl: 'https://storage.local/company-logo.png',
+        companyLogoDocumentId: '00000000-0000-4000-8000-000000000099',
         activeJobCount: 4,
         latestPublishedAt: publishedJob.publishedAt,
       },

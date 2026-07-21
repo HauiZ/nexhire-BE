@@ -10,11 +10,11 @@ Responsibility: job posting lifecycle, manual moderation review, public job read
 
 ## Runtime config
 
-| Env | Default | Purpose |
-| --- | --- | --- |
-| `JOB_EXPIRATION_SWEEP_INTERVAL_MS` | `300000` | How often job-service sweeps expired published jobs. Minimum accepted value is `10000`. |
-| `COMPANY_SERVICE_URL` | required | Used by job-service to verify company posting snapshot before create/submit/republish flows. |
-| `INTERNAL_SERVICE_TOKEN` | required | Service-to-service token used for internal snapshot calls. |
+| Env                                | Default  | Purpose                                                                                      |
+| ---------------------------------- | -------- | -------------------------------------------------------------------------------------------- |
+| `JOB_EXPIRATION_SWEEP_INTERVAL_MS` | `300000` | How often job-service sweeps expired published jobs. Minimum accepted value is `10000`.      |
+| `COMPANY_SERVICE_URL`              | required | Used by job-service to verify company posting snapshot before create/submit/republish flows. |
+| `INTERNAL_SERVICE_TOKEN`           | required | Service-to-service token used for internal snapshot calls.                                   |
 
 ## Rules For FE
 
@@ -64,25 +64,25 @@ type JobExperienceLevel = 'INTERN' | 'FRESHER' | 'JUNIOR' | 'MIDDLE' | 'SENIOR' 
 
 Used by create/update job and create/update revision.
 
-| Field | Type | Required | Nullable | Note |
-| --- | --- | --- | --- | --- |
-| `title` | string | Yes | No | Max 255 chars. |
-| `description` | string | Yes | No | Max 12000 chars. |
-| `requirements` | string | Yes | No | Max 8000 chars. |
-| `skills` | string[] | Yes | No | Max 50 items, each max 80 chars. |
-| `benefits` | string | No | Yes | Max 8000 chars. |
-| `categoryId` | uuid | No | Yes | Existing category id when category flow is used. |
-| `employmentType` | `JobType` | Yes | No | See enum above. |
-| `workingType` | `JobWorkingType` | Yes | No | See enum above. |
-| `experienceLevel` | `JobExperienceLevel` | Yes | No | See enum above. |
-| `location` | string | Yes | No | Max 255 chars. |
-| `salaryMin` | number | No | Yes | Integer, min 0. |
-| `salaryMax` | number | No | Yes | Integer, min 0. Must be >= `salaryMin`. |
-| `salaryCurrency` | string | No | No | Defaults to `VND`, max 3 chars. |
-| `isSalaryVisible` | boolean | No | No | Defaults to `true`. |
-| `deadline` | ISO date-time | No | Yes | Must be in the future. |
-| `numberOfOpenings` | number | No | Yes | Integer 1..1000. |
-| `changeSummary` | string | Revision only | Yes | Max 1000 chars. |
+| Field              | Type                 | Required      | Nullable | Note                                             |
+| ------------------ | -------------------- | ------------- | -------- | ------------------------------------------------ |
+| `title`            | string               | Yes           | No       | Max 255 chars.                                   |
+| `description`      | string               | Yes           | No       | Max 12000 chars.                                 |
+| `requirements`     | string               | Yes           | No       | Max 8000 chars.                                  |
+| `skills`           | string[]             | Yes           | No       | Max 50 items, each max 80 chars.                 |
+| `benefits`         | string               | No            | Yes      | Max 8000 chars.                                  |
+| `categoryId`       | uuid                 | No            | Yes      | Existing category id when category flow is used. |
+| `employmentType`   | `JobType`            | Yes           | No       | See enum above.                                  |
+| `workingType`      | `JobWorkingType`     | Yes           | No       | See enum above.                                  |
+| `experienceLevel`  | `JobExperienceLevel` | Yes           | No       | See enum above.                                  |
+| `location`         | string               | Yes           | No       | Max 255 chars.                                   |
+| `salaryMin`        | number               | No            | Yes      | Integer, min 0.                                  |
+| `salaryMax`        | number               | No            | Yes      | Integer, min 0. Must be >= `salaryMin`.          |
+| `salaryCurrency`   | string               | No            | No       | Defaults to `VND`, max 3 chars.                  |
+| `isSalaryVisible`  | boolean              | No            | No       | Defaults to `true`.                              |
+| `deadline`         | ISO date-time        | No            | Yes      | Must be in the future.                           |
+| `numberOfOpenings` | number               | No            | Yes      | Integer 1..1000.                                 |
+| `changeSummary`    | string               | Revision only | Yes      | Max 1000 chars.                                  |
 
 ```json
 {
@@ -107,10 +107,10 @@ Used by create/update job and create/update revision.
 
 ### Review body
 
-| Field | Type | Required | Nullable | Note |
-| --- | --- | --- | --- | --- |
-| `decision` | `APPROVE` \| `REJECT` | Yes | No | Admin final decision. |
-| `reason` | string | Required when reject | Yes | Max 2000 chars. |
+| Field      | Type                  | Required             | Nullable | Note                  |
+| ---------- | --------------------- | -------------------- | -------- | --------------------- |
+| `decision` | `APPROVE` \| `REJECT` | Yes                  | No       | Admin final decision. |
+| `reason`   | string                | Required when reject | Yes      | Max 2000 chars.       |
 
 ```json
 {
@@ -121,9 +121,9 @@ Used by create/update job and create/update revision.
 
 ### Reason body
 
-| Field | Type | Required | Nullable | Note |
-| --- | --- | --- | --- | --- |
-| `reason` | string | No | Yes | Admin unpublish requires a reason. |
+| Field    | Type   | Required | Nullable | Note                               |
+| -------- | ------ | -------- | -------- | ---------------------------------- |
+| `reason` | string | No       | Yes      | Admin unpublish requires a reason. |
 
 ```json
 {
@@ -138,9 +138,7 @@ Used by create/update job and create/update revision.
 ```json
 {
   "success": true,
-  "data": [
-    {}
-  ],
+  "data": [{}],
   "meta": {
     "page": 1,
     "limit": 20,
@@ -154,148 +152,148 @@ Used by create/update job and create/update revision.
 
 Used by `GET /api/v1/jobs` and `GET /api/v1/jobs/companies/:companyId`.
 
-| Field | Type | Nullable | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | No | Job id. |
-| `title` | string | No | Job title. |
-| `companyId` | uuid | No | Company id. |
-| `companyName` | string | Yes | Snapshot from company-service. |
-| `companyLogoUrl` | string | Yes | Legacy/manual logo URL snapshot from company-service. |
-| `companyLogoDocumentId` | uuid | Yes | Company logo document id snapshot from company-service. FE should prefer this for rendering. |
-| `skills` | string[] | No | Skill tags for card chips. |
-| `categoryId` | uuid | Yes | Category id for grouping/filtering. |
-| `employmentType` | `JobType` | No | Employment type. |
-| `workingType` | `JobWorkingType` | No | Working mode. |
-| `experienceLevel` | `JobExperienceLevel` | No | For card display/filter. |
-| `location` | string | No | Job location. |
-| `salaryMin` | number | Yes | `null` when salary hidden. |
-| `salaryMax` | number | Yes | `null` when salary hidden. |
-| `salaryCurrency` | string | No | Example `VND`. |
-| `isSalaryVisible` | boolean | No | FE can show hidden salary label when false. |
-| `deadline` | ISO date-time | Yes | Application deadline. |
-| `publishedAt` | ISO date-time | Yes | Publish timestamp. |
+| Field                   | Type                 | Nullable | Note                                                                                           |
+| ----------------------- | -------------------- | -------- | ---------------------------------------------------------------------------------------------- |
+| `id`                    | uuid                 | No       | Job id.                                                                                        |
+| `title`                 | string               | No       | Job title.                                                                                     |
+| `companyId`             | uuid                 | No       | Company id.                                                                                    |
+| `companyName`           | string               | Yes      | Snapshot from company-service.                                                                 |
+| `companyLogoUrl`        | string               | Yes      | Resolved render URL for company logo when possible, otherwise legacy/manual logo URL snapshot. |
+| `companyLogoDocumentId` | uuid                 | Yes      | Company logo document id snapshot from company-service. FE should prefer this for rendering.   |
+| `skills`                | string[]             | No       | Skill tags for card chips.                                                                     |
+| `categoryId`            | uuid                 | Yes      | Category id for grouping/filtering.                                                            |
+| `employmentType`        | `JobType`            | No       | Employment type.                                                                               |
+| `workingType`           | `JobWorkingType`     | No       | Working mode.                                                                                  |
+| `experienceLevel`       | `JobExperienceLevel` | No       | For card display/filter.                                                                       |
+| `location`              | string               | No       | Job location.                                                                                  |
+| `salaryMin`             | number               | Yes      | `null` when salary hidden.                                                                     |
+| `salaryMax`             | number               | Yes      | `null` when salary hidden.                                                                     |
+| `salaryCurrency`        | string               | No       | Example `VND`.                                                                                 |
+| `isSalaryVisible`       | boolean              | No       | FE can show hidden salary label when false.                                                    |
+| `deadline`              | ISO date-time        | Yes      | Application deadline.                                                                          |
+| `publishedAt`           | ISO date-time        | Yes      | Publish timestamp.                                                                             |
 
 ### PublicJobDetail
 
 Used by `GET /api/v1/jobs/:id`. Same as list item plus:
 
-| Field | Type | Nullable | Note |
-| --- | --- | --- | --- |
-| `description` | string | No | Full job description. |
-| `requirements` | string | No | Job requirements. |
-| `benefits` | string | Yes | Optional benefits. |
-| `numberOfOpenings` | number | Yes | Optional opening count. |
-| `createdAt` | ISO date-time | No | Created timestamp. |
-| `updatedAt` | ISO date-time | No | Updated timestamp. |
+| Field              | Type          | Nullable | Note                    |
+| ------------------ | ------------- | -------- | ----------------------- |
+| `description`      | string        | No       | Full job description.   |
+| `requirements`     | string        | No       | Job requirements.       |
+| `benefits`         | string        | Yes      | Optional benefits.      |
+| `numberOfOpenings` | number        | Yes      | Optional opening count. |
+| `createdAt`        | ISO date-time | No       | Created timestamp.      |
+| `updatedAt`        | ISO date-time | No       | Updated timestamp.      |
 
 ### PublicFeaturedCompany
 
 Used by `GET /api/v1/jobs/featured-companies`.
 
-| Field | Type | Nullable | Note |
-| --- | --- | --- | --- |
-| `companyId` | uuid | No | Company id. |
-| `companyName` | string | Yes | Company name snapshot from published jobs. |
-| `companyLogoUrl` | string | Yes | Legacy/manual logo URL snapshot. |
-| `companyLogoDocumentId` | uuid | Yes | Company logo document id snapshot. |
-| `activeJobCount` | number | No | Number of published jobs for the company. |
-| `latestPublishedAt` | ISO date-time | Yes | Latest job publish time. |
+| Field                   | Type          | Nullable | Note                                                                                           |
+| ----------------------- | ------------- | -------- | ---------------------------------------------------------------------------------------------- |
+| `companyId`             | uuid          | No       | Company id.                                                                                    |
+| `companyName`           | string        | Yes      | Company name snapshot from published jobs.                                                     |
+| `companyLogoUrl`        | string        | Yes      | Resolved render URL for company logo when possible, otherwise legacy/manual logo URL snapshot. |
+| `companyLogoDocumentId` | uuid          | Yes      | Company logo document id snapshot.                                                             |
+| `activeJobCount`        | number        | No       | Number of published jobs for the company.                                                      |
+| `latestPublishedAt`     | ISO date-time | Yes      | Latest job publish time.                                                                       |
 
 ### PublicHomeStats
 
 Used by `GET /api/v1/jobs/home/stats`.
 
-| Field | Type | Nullable | Note |
-| --- | --- | --- | --- |
-| `publishedJobCount` | number | No | Count of public jobs visible on home/search. |
-| `activeCompanyCount` | number | No | Count of companies that currently have at least one public job. |
-| `categoryCount` | number | No | Count of categories currently represented by public jobs. |
+| Field                | Type   | Nullable | Note                                                            |
+| -------------------- | ------ | -------- | --------------------------------------------------------------- |
+| `publishedJobCount`  | number | No       | Count of public jobs visible on home/search.                    |
+| `activeCompanyCount` | number | No       | Count of companies that currently have at least one public job. |
+| `categoryCount`      | number | No       | Count of categories currently represented by public jobs.       |
 
 ### RecruiterJobStatusCounts
 
 Used by `GET /api/v1/recruiter/jobs/status-counts`.
 
-| Field | Type | Nullable | Note |
-| --- | --- | --- | --- |
-| `DRAFT` | number | No | Draft jobs. |
-| `PENDING_REVIEW` | number | No | Submitted and waiting for admin review. |
-| `NEEDS_REVIEW` | number | No | Moderate-risk jobs admin should inspect carefully. |
-| `SHOULD_REJECT` | number | No | High-risk jobs likely to be rejected. |
-| `PUBLISHED` | number | No | Public active jobs. |
-| `UNPUBLISHED` | number | No | Hidden but not closed jobs. |
-| `REJECTED` | number | No | Jobs rejected by admin. |
-| `CLOSED` | number | No | Closed jobs. |
-| `EXPIRED` | number | No | Expired jobs. |
+| Field            | Type   | Nullable | Note                                               |
+| ---------------- | ------ | -------- | -------------------------------------------------- |
+| `DRAFT`          | number | No       | Draft jobs.                                        |
+| `PENDING_REVIEW` | number | No       | Submitted and waiting for admin review.            |
+| `NEEDS_REVIEW`   | number | No       | Moderate-risk jobs admin should inspect carefully. |
+| `SHOULD_REJECT`  | number | No       | High-risk jobs likely to be rejected.              |
+| `PUBLISHED`      | number | No       | Public active jobs.                                |
+| `UNPUBLISHED`    | number | No       | Hidden but not closed jobs.                        |
+| `REJECTED`       | number | No       | Jobs rejected by admin.                            |
+| `CLOSED`         | number | No       | Closed jobs.                                       |
+| `EXPIRED`        | number | No       | Expired jobs.                                      |
 
 ### PublicCategory
 
 Used by `GET /api/v1/categories`.
 
-| Field | Type | Nullable | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | No | Category id to send as `categoryId` job filter. |
-| `name` | string | No | Display name. |
-| `slug` | string | No | Stable URL/display key. |
-| `description` | string | Yes | Optional category description. |
-| `activeJobCount` | number | No | Number of published jobs in this category. |
+| Field            | Type   | Nullable | Note                                            |
+| ---------------- | ------ | -------- | ----------------------------------------------- |
+| `id`             | uuid   | No       | Category id to send as `categoryId` job filter. |
+| `name`           | string | No       | Display name.                                   |
+| `slug`           | string | No       | Stable URL/display key.                         |
+| `description`    | string | Yes      | Optional category description.                  |
+| `activeJobCount` | number | No       | Number of published jobs in this category.      |
 
 ### JobResponse
 
 Used by recruiter/admin endpoints.
 
-| Field | Type | Nullable | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | No | Job id. |
-| `companyId` | uuid | No | Owner company id. |
-| `companyName` | string | Yes | Company snapshot. |
-| `companyLogoUrl` | string | Yes | Legacy/manual company logo URL snapshot. |
-| `companyLogoDocumentId` | uuid | Yes | Company logo document id snapshot. |
-| `title` | string | No | Full job field. |
-| `description` | string | No | Full job field. |
-| `requirements` | string | No | Full job field. |
-| `skills` | string[] | No | Full job field. |
-| `benefits` | string | Yes | Full job field. |
-| `categoryId` | uuid | Yes | Full job field. |
-| `employmentType` | `JobType` | No | Full job field. |
-| `workingType` | `JobWorkingType` | No | Full job field. |
-| `experienceLevel` | `JobExperienceLevel` | No | Full job field. |
-| `location` | string | No | Full job field. |
-| `salaryMin` | number | Yes | Already hidden when `isSalaryVisible = false`. |
-| `salaryMax` | number | Yes | Already hidden when `isSalaryVisible = false`. |
-| `salaryCurrency` | string | No | Example `VND`. |
-| `isSalaryVisible` | boolean | No | Salary visibility flag. |
-| `deadline` | ISO date-time | Yes | Deadline. |
-| `numberOfOpenings` | number | Yes | Opening count. |
-| `status` | `JobStatus` | No | Current lifecycle status. |
-| `version` | number | No | Incremented when major revision is approved. |
-| `applicationCount` | number | No | Used to decide revision flow. |
-| `publishedAt` | ISO date-time | Yes | Set after approve. |
-| `closedAt` | ISO date-time | Yes | Set after close. |
-| `reviewedAt` | ISO date-time | Yes | Last admin review timestamp. |
-| `reviewReason` | string | Yes | Admin reject/close reason. |
-| `unpublishedAt` | ISO date-time | Yes | Set after unpublish/expire. |
-| `unpublishReason` | string | Yes | Hide reason. |
-| `moderation.riskScore` | number | Yes | 0..100 after submit. |
-| `moderation.riskLevel` | `LOW` \| `MEDIUM` \| `HIGH` \| `CRITICAL` | Yes | Null before submit. |
-| `moderation.decision` | `JobModerationDecision` | Yes | Null before submit. |
-| `moderation.reasons` | string[] | No | Human-readable moderation reasons. |
-| `moderation.matchedRules` | string[] | No | Rule ids for admin UI. |
-| `createdAt` | ISO date-time | No | Created timestamp. |
-| `updatedAt` | ISO date-time | No | Updated timestamp. |
+| Field                     | Type                                      | Nullable | Note                                                                                           |
+| ------------------------- | ----------------------------------------- | -------- | ---------------------------------------------------------------------------------------------- |
+| `id`                      | uuid                                      | No       | Job id.                                                                                        |
+| `companyId`               | uuid                                      | No       | Owner company id.                                                                              |
+| `companyName`             | string                                    | Yes      | Company snapshot.                                                                              |
+| `companyLogoUrl`          | string                                    | Yes      | Resolved render URL for company logo when possible, otherwise legacy/manual logo URL snapshot. |
+| `companyLogoDocumentId`   | uuid                                      | Yes      | Company logo document id snapshot.                                                             |
+| `title`                   | string                                    | No       | Full job field.                                                                                |
+| `description`             | string                                    | No       | Full job field.                                                                                |
+| `requirements`            | string                                    | No       | Full job field.                                                                                |
+| `skills`                  | string[]                                  | No       | Full job field.                                                                                |
+| `benefits`                | string                                    | Yes      | Full job field.                                                                                |
+| `categoryId`              | uuid                                      | Yes      | Full job field.                                                                                |
+| `employmentType`          | `JobType`                                 | No       | Full job field.                                                                                |
+| `workingType`             | `JobWorkingType`                          | No       | Full job field.                                                                                |
+| `experienceLevel`         | `JobExperienceLevel`                      | No       | Full job field.                                                                                |
+| `location`                | string                                    | No       | Full job field.                                                                                |
+| `salaryMin`               | number                                    | Yes      | Already hidden when `isSalaryVisible = false`.                                                 |
+| `salaryMax`               | number                                    | Yes      | Already hidden when `isSalaryVisible = false`.                                                 |
+| `salaryCurrency`          | string                                    | No       | Example `VND`.                                                                                 |
+| `isSalaryVisible`         | boolean                                   | No       | Salary visibility flag.                                                                        |
+| `deadline`                | ISO date-time                             | Yes      | Deadline.                                                                                      |
+| `numberOfOpenings`        | number                                    | Yes      | Opening count.                                                                                 |
+| `status`                  | `JobStatus`                               | No       | Current lifecycle status.                                                                      |
+| `version`                 | number                                    | No       | Incremented when major revision is approved.                                                   |
+| `applicationCount`        | number                                    | No       | Used to decide revision flow.                                                                  |
+| `publishedAt`             | ISO date-time                             | Yes      | Set after approve.                                                                             |
+| `closedAt`                | ISO date-time                             | Yes      | Set after close.                                                                               |
+| `reviewedAt`              | ISO date-time                             | Yes      | Last admin review timestamp.                                                                   |
+| `reviewReason`            | string                                    | Yes      | Admin reject/close reason.                                                                     |
+| `unpublishedAt`           | ISO date-time                             | Yes      | Set after unpublish/expire.                                                                    |
+| `unpublishReason`         | string                                    | Yes      | Hide reason.                                                                                   |
+| `moderation.riskScore`    | number                                    | Yes      | 0..100 after submit.                                                                           |
+| `moderation.riskLevel`    | `LOW` \| `MEDIUM` \| `HIGH` \| `CRITICAL` | Yes      | Null before submit.                                                                            |
+| `moderation.decision`     | `JobModerationDecision`                   | Yes      | Null before submit.                                                                            |
+| `moderation.reasons`      | string[]                                  | No       | Human-readable moderation reasons.                                                             |
+| `moderation.matchedRules` | string[]                                  | No       | Rule ids for admin UI.                                                                         |
+| `createdAt`               | ISO date-time                             | No       | Created timestamp.                                                                             |
+| `updatedAt`               | ISO date-time                             | No       | Updated timestamp.                                                                             |
 
 ### JobRevisionResponse
 
 Used by revision endpoints. Same job fields as `JobResponse`, but:
 
-| Field | Type | Nullable | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | No | Revision id. |
-| `jobId` | uuid | No | Target job id. |
-| `status` | `JobRevisionStatus` | No | Revision status. |
-| `changeSummary` | string | Yes | Recruiter note. |
-| `moderation` | object | No | Same shape as `JobResponse.moderation`. |
-| `reviewedAt` | ISO date-time | Yes | Admin review timestamp. |
-| `reviewReason` | string | Yes | Admin reason. |
+| Field           | Type                | Nullable | Note                                    |
+| --------------- | ------------------- | -------- | --------------------------------------- |
+| `id`            | uuid                | No       | Revision id.                            |
+| `jobId`         | uuid                | No       | Target job id.                          |
+| `status`        | `JobRevisionStatus` | No       | Revision status.                        |
+| `changeSummary` | string              | Yes      | Recruiter note.                         |
+| `moderation`    | object              | No       | Same shape as `JobResponse.moderation`. |
+| `reviewedAt`    | ISO date-time       | Yes      | Admin review timestamp.                 |
+| `reviewReason`  | string              | Yes      | Admin reason.                           |
 
 ## Public Endpoints
 
@@ -304,25 +302,26 @@ Used by revision endpoints. Same job fields as `JobResponse`, but:
 Summary: List published jobs for guest/candidate job cards.
 
 Auth:
+
 - Public
 
 Request query:
 
-| Field | Type | Required | Default | Note |
-| --- | --- | --- | --- | --- |
-| `page` | number | No | `1` | Pagination page. |
-| `limit` | number | No | `20` | Pagination size. |
-| `q` | string | No | - | Full-text search over title, description, requirements, skills, company name, location. |
-| `search` | string | No | - | Backward-compatible alias for `q`. |
-| `skills` | string | No | - | Comma-separated OR search, for example `NestJS,PostgreSQL`. |
-| `location` | string | No | - | Location filter. |
-| `employmentType` | `JobType` | No | - | Exact filter. |
-| `workingType` | `JobWorkingType` | No | - | Exact filter. |
-| `experienceLevel` | `JobExperienceLevel` | No | - | Exact filter. |
-| `categoryId` | uuid | No | - | Exact filter. |
-| `salaryMin` | number | No | - | Applies only when salary visible. |
-| `salaryMax` | number | No | - | Applies only when salary visible. |
-| `sort` | `relevance` \| `latest` \| `deadline_asc` \| `salary_desc` \| `salary_asc` | No | `relevance` | Sort mode. |
+| Field             | Type                                                                       | Required | Default     | Note                                                                                                                                                                                                                                  |
+| ----------------- | -------------------------------------------------------------------------- | -------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `page`            | number                                                                     | No       | `1`         | Pagination page.                                                                                                                                                                                                                      |
+| `limit`           | number                                                                     | No       | `20`        | Pagination size.                                                                                                                                                                                                                      |
+| `q`               | string                                                                     | No       | -           | Relaxed full-text search over title, description, requirements, skills, company name, location. Natural phrases like `kỹ năng Nestjs` are normalized, generic words are ignored, and meaningful terms are matched as OR prefix terms. |
+| `search`          | string                                                                     | No       | -           | Backward-compatible alias for `q`.                                                                                                                                                                                                    |
+| `skills`          | string                                                                     | No       | -           | Comma-separated OR search, for example `NestJS,PostgreSQL`.                                                                                                                                                                           |
+| `location`        | string                                                                     | No       | -           | Location filter.                                                                                                                                                                                                                      |
+| `employmentType`  | `JobType`                                                                  | No       | -           | Exact filter.                                                                                                                                                                                                                         |
+| `workingType`     | `JobWorkingType`                                                           | No       | -           | Exact filter.                                                                                                                                                                                                                         |
+| `experienceLevel` | `JobExperienceLevel`                                                       | No       | -           | Exact filter.                                                                                                                                                                                                                         |
+| `categoryId`      | uuid                                                                       | No       | -           | Exact filter.                                                                                                                                                                                                                         |
+| `salaryMin`       | number                                                                     | No       | -           | Applies only when salary visible.                                                                                                                                                                                                     |
+| `salaryMax`       | number                                                                     | No       | -           | Applies only when salary visible.                                                                                                                                                                                                     |
+| `sort`            | `relevance` \| `latest` \| `deadline_asc` \| `salary_desc` \| `salary_asc` | No       | `relevance` | Sort mode.                                                                                                                                                                                                                            |
 
 Success response:
 
@@ -362,28 +361,33 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `COMMON.VALIDATION_ERROR` | Invalid query enum/number. |
-| 500 | `COMMON.INTERNAL_ERROR` | Server error. |
+| Status | Code                      | Meaning                    |
+| ------ | ------------------------- | -------------------------- |
+| 400    | `COMMON.VALIDATION_ERROR` | Invalid query enum/number. |
+| 500    | `COMMON.INTERNAL_ERROR`   | Server error.              |
 
 FE notes:
+
 - Use this endpoint for job cards, not detail cards.
 - Do not expect `description`, `requirements`, `moderation`, or `applicationCount` here.
-- FE should prefer `companyLogoDocumentId` for image rendering and use `companyLogoUrl` as fallback.
+- FE should render `companyLogoUrl` directly when present.
+- `companyLogoUrl` is resolved by job-service through document-storage internal API when `companyLogoDocumentId` exists; FE must not call internal document endpoints.
+- `companyLogoDocumentId` remains the stable source of truth for synchronization/audit.
+- Job-service caches resolved document URLs until shortly before their expiry, so repeated job card reads do not hit document-storage every time.
 
 ## `GET /api/v1/jobs/companies/:companyId`
 
 Summary: List published jobs for a public company profile.
 
 Auth:
+
 - Public
 
 Request params:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `companyId` | uuid | Yes | Approved company id from company profile. |
+| Field       | Type | Required | Note                                      |
+| ----------- | ---- | -------- | ----------------------------------------- |
+| `companyId` | uuid | Yes      | Approved company id from company profile. |
 
 Request query: same filters/sort/pagination as `GET /api/v1/jobs`.
 
@@ -391,12 +395,13 @@ Success response: paginated array of `PublicJobListItem`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `COMMON.VALIDATION_ERROR` | Invalid company id or query. |
-| 500 | `COMMON.INTERNAL_ERROR` | Server error. |
+| Status | Code                      | Meaning                      |
+| ------ | ------------------------- | ---------------------------- |
+| 400    | `COMMON.VALIDATION_ERROR` | Invalid company id or query. |
+| 500    | `COMMON.INTERNAL_ERROR`   | Server error.                |
 
 FE notes:
+
 - Use this on the public company profile page instead of filtering client-side.
 - Only `PUBLISHED` jobs are returned; draft, reviewing, unpublished, closed, expired, and rejected jobs stay hidden.
 
@@ -405,13 +410,14 @@ FE notes:
 Summary: List active hiring companies for the home page.
 
 Auth:
+
 - Public
 
 Request query:
 
-| Field | Type | Required | Default | Note |
-| --- | --- | --- | --- | --- |
-| `limit` | number | No | `6` | Max `20`; invalid values fall back to default. |
+| Field   | Type   | Required | Default | Note                                           |
+| ------- | ------ | -------- | ------- | ---------------------------------------------- |
+| `limit` | number | No       | `6`     | Max `20`; invalid values fall back to default. |
 
 Success response:
 
@@ -432,6 +438,7 @@ Success response:
 ```
 
 FE notes:
+
 - Use this for the home section "Nha tuyen dung dang tang toc".
 - Data is derived from currently `PUBLISHED` jobs, so companies without public jobs are not returned.
 
@@ -440,6 +447,7 @@ FE notes:
 Summary: Return public counters for the home hero.
 
 Auth:
+
 - Public
 
 Success response:
@@ -456,6 +464,7 @@ Success response:
 ```
 
 FE notes:
+
 - These numbers reflect public job data, not admin-only company totals.
 - `activeCompanyCount` means companies with at least one `PUBLISHED` job.
 
@@ -464,6 +473,7 @@ FE notes:
 Summary: List active job categories with active public job counts.
 
 Auth:
+
 - Public
 
 Success response:
@@ -484,6 +494,7 @@ Success response:
 ```
 
 FE notes:
+
 - Send `id` as `categoryId` to `GET /api/v1/jobs`.
 - Categories with zero jobs are still returned when active, so the UI can keep stable filters.
 
@@ -492,13 +503,14 @@ FE notes:
 Summary: Get public detail of one published job.
 
 Auth:
+
 - Public
 
 Request params:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | Yes | Published job id. |
+| Field | Type | Required | Note              |
+| ----- | ---- | -------- | ----------------- |
+| `id`  | uuid | Yes      | Published job id. |
 
 Success response:
 
@@ -535,12 +547,13 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `COMMON.VALIDATION_ERROR` | Invalid UUID. |
-| 404 | `JOB.JOB_NOT_PUBLIC` | Job does not exist or is not published. |
+| Status | Code                      | Meaning                                 |
+| ------ | ------------------------- | --------------------------------------- |
+| 400    | `COMMON.VALIDATION_ERROR` | Invalid UUID.                           |
+| 404    | `JOB.JOB_NOT_PUBLIC`      | Job does not exist or is not published. |
 
 FE notes:
+
 - Show 404/empty state when job is `DRAFT`, `PENDING_REVIEW`, `UNPUBLISHED`, `CLOSED`, `EXPIRED`, or `REJECTED`.
 
 ## Recruiter Endpoints
@@ -550,14 +563,15 @@ FE notes:
 Summary: Create a complete draft job.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
 Headers:
 
-| Header | Required | Note |
-| --- | --- | --- |
-| `Authorization: Bearer <accessToken>` | Yes | Token must include recruiter identity and company ownership. |
+| Header                                | Required | Note                                                         |
+| ------------------------------------- | -------- | ------------------------------------------------------------ |
+| `Authorization: Bearer <accessToken>` | Yes      | Token must include recruiter identity and company ownership. |
 
 Request body: `Job input body`.
 
@@ -611,18 +625,19 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `JOB.INVALID_SALARY_RANGE` | `salaryMin > salaryMax`. |
-| 400 | `JOB.INVALID_DEADLINE` | Deadline is not in the future. |
-| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
-| 403 | `JOB.COMPANY_REQUIRED` | Recruiter has no company id. |
-| 403 | `JOB.COMPANY_NOT_APPROVED` | Company is not approved. |
-| 403 | `JOB.COMPANY_SUSPENDED` | Company is suspended. |
-| 422 | `COMMON.VALIDATION_ERROR` | Invalid body shape. |
-| 503 | `AI.SERVICE_UNAVAILABLE` | Company-service snapshot is unavailable. |
+| Status | Code                       | Meaning                                  |
+| ------ | -------------------------- | ---------------------------------------- |
+| 400    | `JOB.INVALID_SALARY_RANGE` | `salaryMin > salaryMax`.                 |
+| 400    | `JOB.INVALID_DEADLINE`     | Deadline is not in the future.           |
+| 401    | `COMMON.UNAUTHORIZED`      | Missing/invalid token.                   |
+| 403    | `JOB.COMPANY_REQUIRED`     | Recruiter has no company id.             |
+| 403    | `JOB.COMPANY_NOT_APPROVED` | Company is not approved.                 |
+| 403    | `JOB.COMPANY_SUSPENDED`    | Company is suspended.                    |
+| 422    | `COMMON.VALIDATION_ERROR`  | Invalid body shape.                      |
+| 503    | `AI.SERVICE_UNAVAILABLE`   | Company-service snapshot is unavailable. |
 
 FE notes:
+
 - Create button should be disabled/blocked until required fields are present.
 - If company is not approved/suspended, show company verification status CTA.
 
@@ -631,6 +646,7 @@ FE notes:
 Summary: List jobs owned by the recruiter's company.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
@@ -638,9 +654,9 @@ Request query:
 
 Same as public list plus:
 
-| Field | Type | Required | Default | Note |
-| --- | --- | --- | --- | --- |
-| `status` | `JobStatus` | No | - | Filter by lifecycle status. |
+| Field    | Type        | Required | Default | Note                        |
+| -------- | ----------- | -------- | ------- | --------------------------- |
+| `status` | `JobStatus` | No       | -       | Filter by lifecycle status. |
 
 Success response: paginated array of `JobResponse`.
 
@@ -700,11 +716,11 @@ Success response: paginated array of `JobResponse`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `COMMON.VALIDATION_ERROR` | Invalid query. |
-| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
-| 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
+| Status | Code                      | Meaning                             |
+| ------ | ------------------------- | ----------------------------------- |
+| 400    | `COMMON.VALIDATION_ERROR` | Invalid query.                      |
+| 401    | `COMMON.UNAUTHORIZED`     | Missing/invalid token.              |
+| 403    | `COMMON.FORBIDDEN`        | User is not recruiter with company. |
 
 FE notes:
 
@@ -741,10 +757,10 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
-| 403 | `JOB.COMPANY_REQUIRED` | Recruiter has no company id. |
+| Status | Code                   | Meaning                      |
+| ------ | ---------------------- | ---------------------------- |
+| 401    | `COMMON.UNAUTHORIZED`  | Missing/invalid token.       |
+| 403    | `JOB.COMPANY_REQUIRED` | Recruiter has no company id. |
 
 FE notes:
 
@@ -756,39 +772,41 @@ FE notes:
 Summary: Get one company-owned job.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
 Request params:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | Yes | Job id. |
+| Field | Type | Required | Note    |
+| ----- | ---- | -------- | ------- |
+| `id`  | uuid | Yes      | Job id. |
 
 Success response: `JobResponse`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `COMMON.VALIDATION_ERROR` | Invalid UUID. |
-| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
-| 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found in recruiter's company. |
+| Status | Code                      | Meaning                               |
+| ------ | ------------------------- | ------------------------------------- |
+| 400    | `COMMON.VALIDATION_ERROR` | Invalid UUID.                         |
+| 401    | `COMMON.UNAUTHORIZED`     | Missing/invalid token.                |
+| 403    | `COMMON.FORBIDDEN`        | User is not recruiter with company.   |
+| 404    | `JOB.JOB_NOT_FOUND`       | Job not found in recruiter's company. |
 
 ## `PATCH /api/v1/recruiter/jobs/:id`
 
 Summary: Update draft job or allowed minor fields on a published job.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
 Request params:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | Yes | Job id. |
+| Field | Type | Required | Note    |
+| ----- | ---- | -------- | ------- |
+| `id`  | uuid | Yes      | Job id. |
 
 Request body: full `Job input body`.
 
@@ -796,19 +814,20 @@ Success response: `JobResponse`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `JOB.INVALID_SALARY_RANGE` | `salaryMin > salaryMax`. |
-| 400 | `JOB.INVALID_DEADLINE` | Deadline is not in the future. |
-| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
-| 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.MAJOR_UPDATE_REQUIRES_REVIEW` | Published job has no application but major update is blocked. |
-| 409 | `JOB.MAJOR_UPDATE_REQUIRES_REVISION` | Published job has applications; create revision instead. |
-| 409 | `JOB.JOB_NOT_EDITABLE` | Status is not editable. |
-| 422 | `COMMON.VALIDATION_ERROR` | Invalid body. |
+| Status | Code                                 | Meaning                                                       |
+| ------ | ------------------------------------ | ------------------------------------------------------------- |
+| 400    | `JOB.INVALID_SALARY_RANGE`           | `salaryMin > salaryMax`.                                      |
+| 400    | `JOB.INVALID_DEADLINE`               | Deadline is not in the future.                                |
+| 401    | `COMMON.UNAUTHORIZED`                | Missing/invalid token.                                        |
+| 403    | `COMMON.FORBIDDEN`                   | User is not recruiter with company.                           |
+| 404    | `JOB.JOB_NOT_FOUND`                  | Job not found.                                                |
+| 409    | `JOB.MAJOR_UPDATE_REQUIRES_REVIEW`   | Published job has no application but major update is blocked. |
+| 409    | `JOB.MAJOR_UPDATE_REQUIRES_REVISION` | Published job has applications; create revision instead.      |
+| 409    | `JOB.JOB_NOT_EDITABLE`               | Status is not editable.                                       |
+| 422    | `COMMON.VALIDATION_ERROR`            | Invalid body.                                                 |
 
 FE notes:
+
 - Minor direct-update fields for `PUBLISHED`: `deadline`, `numberOfOpenings`, `isSalaryVisible`.
 - Major fields: `title`, `description`, `requirements`, `skills`, `benefits`, `categoryId`, `employmentType`, `workingType`, `experienceLevel`, `location`, `salaryMin`, `salaryMax`, `salaryCurrency`.
 
@@ -817,14 +836,15 @@ FE notes:
 Summary: Submit a draft job for moderation and manual admin review.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
 Request params:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | Yes | Draft job id. |
+| Field | Type | Required | Note          |
+| ----- | ---- | -------- | ------------- |
+| `id`  | uuid | Yes      | Draft job id. |
 
 Success response: `JobResponse`.
 
@@ -847,25 +867,26 @@ Success response: `JobResponse`.
 
 Status mapping:
 
-| Risk level | Job status | FE meaning |
-| --- | --- | --- |
-| `LOW` | `PENDING_REVIEW` | Normal queue, waiting for admin. |
-| `MEDIUM` | `NEEDS_REVIEW` | Admin should inspect carefully. |
-| `HIGH` | `NEEDS_REVIEW` | High-risk review queue. |
-| `CRITICAL` | `SHOULD_REJECT` | System recommends rejection, admin still decides. |
+| Risk level | Job status       | FE meaning                                        |
+| ---------- | ---------------- | ------------------------------------------------- |
+| `LOW`      | `PENDING_REVIEW` | Normal queue, waiting for admin.                  |
+| `MEDIUM`   | `NEEDS_REVIEW`   | Admin should inspect carefully.                   |
+| `HIGH`     | `NEEDS_REVIEW`   | High-risk review queue.                           |
+| `CRITICAL` | `SHOULD_REJECT`  | System recommends rejection, admin still decides. |
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
-| 403 | `JOB.COMPANY_NOT_APPROVED` | Company is not approved anymore. |
-| 403 | `JOB.COMPANY_SUSPENDED` | Company is suspended. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.JOB_NOT_EDITABLE` | Only `DRAFT` jobs can be submitted. |
-| 503 | `AI.SERVICE_UNAVAILABLE` | Company-service snapshot is unavailable. |
+| Status | Code                       | Meaning                                  |
+| ------ | -------------------------- | ---------------------------------------- |
+| 401    | `COMMON.UNAUTHORIZED`      | Missing/invalid token.                   |
+| 403    | `JOB.COMPANY_NOT_APPROVED` | Company is not approved anymore.         |
+| 403    | `JOB.COMPANY_SUSPENDED`    | Company is suspended.                    |
+| 404    | `JOB.JOB_NOT_FOUND`        | Job not found.                           |
+| 409    | `JOB.JOB_NOT_EDITABLE`     | Only `DRAFT` jobs can be submitted.      |
+| 503    | `AI.SERVICE_UNAVAILABLE`   | Company-service snapshot is unavailable. |
 
 FE notes:
+
 - After submit, switch recruiter UI from editor to review-status view.
 - Do not show public link until status becomes `PUBLISHED`.
 
@@ -874,14 +895,15 @@ FE notes:
 Summary: Soft delete an eligible company-owned job.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
 Request params:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | Yes | Job id. |
+| Field | Type | Required | Note    |
+| ----- | ---- | -------- | ------- |
+| `id`  | uuid | Yes      | Job id. |
 
 Success response:
 
@@ -896,18 +918,19 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
-| 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.DELETE_NOT_ALLOWED` | Only `DRAFT`, `REJECTED`, or `UNPUBLISHED` jobs without applications can be deleted. |
+| Status | Code                     | Meaning                                                                              |
+| ------ | ------------------------ | ------------------------------------------------------------------------------------ |
+| 401    | `COMMON.UNAUTHORIZED`    | Missing/invalid token.                                                               |
+| 403    | `COMMON.FORBIDDEN`       | User is not recruiter with company.                                                  |
+| 404    | `JOB.JOB_NOT_FOUND`      | Job not found.                                                                       |
+| 409    | `JOB.DELETE_NOT_ALLOWED` | Only `DRAFT`, `REJECTED`, or `UNPUBLISHED` jobs without applications can be deleted. |
 
 ## `POST /api/v1/recruiter/jobs/:id/unpublish`
 
 Summary: Hide a published job from public pages.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
@@ -917,18 +940,19 @@ Success response: `JobResponse` with `status = UNPUBLISHED`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 401 | `COMMON.UNAUTHORIZED` | Missing/invalid token. |
-| 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.UNPUBLISH_NOT_ALLOWED` | Only `PUBLISHED` jobs can be unpublished. |
+| Status | Code                        | Meaning                                   |
+| ------ | --------------------------- | ----------------------------------------- |
+| 401    | `COMMON.UNAUTHORIZED`       | Missing/invalid token.                    |
+| 403    | `COMMON.FORBIDDEN`          | User is not recruiter with company.       |
+| 404    | `JOB.JOB_NOT_FOUND`         | Job not found.                            |
+| 409    | `JOB.UNPUBLISH_NOT_ALLOWED` | Only `PUBLISHED` jobs can be unpublished. |
 
 ## `POST /api/v1/recruiter/jobs/:id/republish`
 
 Summary: Restore an unpublished job to public pages.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
@@ -936,17 +960,18 @@ Success response: `JobResponse` with `status = PUBLISHED`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 403 | `JOB.COMPANY_NOT_APPROVED` | Company snapshot is not approved. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.REPUBLISH_NOT_ALLOWED` | Only `UNPUBLISHED` jobs can be republished. |
+| Status | Code                        | Meaning                                     |
+| ------ | --------------------------- | ------------------------------------------- |
+| 403    | `JOB.COMPANY_NOT_APPROVED`  | Company snapshot is not approved.           |
+| 404    | `JOB.JOB_NOT_FOUND`         | Job not found.                              |
+| 409    | `JOB.REPUBLISH_NOT_ALLOWED` | Only `UNPUBLISHED` jobs can be republished. |
 
 ## `POST /api/v1/recruiter/jobs/:id/close`
 
 Summary: Permanently close a published/unpublished job.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
@@ -956,10 +981,10 @@ Success response: `JobResponse` with `status = CLOSED`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.CLOSE_NOT_ALLOWED` | Only `PUBLISHED` or `UNPUBLISHED` jobs can be closed. |
+| Status | Code                    | Meaning                                               |
+| ------ | ----------------------- | ----------------------------------------------------- |
+| 404    | `JOB.JOB_NOT_FOUND`     | Job not found.                                        |
+| 409    | `JOB.CLOSE_NOT_ALLOWED` | Only `PUBLISHED` or `UNPUBLISHED` jobs can be closed. |
 
 ## Revision Endpoints
 
@@ -968,14 +993,15 @@ Errors:
 Summary: Create a full-snapshot major revision draft for a published job with applications.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
 Request params:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `jobId` | uuid | Yes | Published job id. |
+| Field   | Type | Required | Note              |
+| ------- | ---- | -------- | ----------------- |
+| `jobId` | uuid | Yes      | Published job id. |
 
 Request body: `Job input body` plus optional `changeSummary`.
 
@@ -983,45 +1009,47 @@ Success response: `JobRevisionResponse` with `status = DRAFT`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.JOB_NOT_EDITABLE` | Revisions are only required for published jobs with applications. |
-| 409 | `JOB.ACTIVE_REVISION_EXISTS` | Another active revision exists. |
-| 422 | `COMMON.VALIDATION_ERROR` | Invalid body. |
+| Status | Code                         | Meaning                                                           |
+| ------ | ---------------------------- | ----------------------------------------------------------------- |
+| 404    | `JOB.JOB_NOT_FOUND`          | Job not found.                                                    |
+| 409    | `JOB.JOB_NOT_EDITABLE`       | Revisions are only required for published jobs with applications. |
+| 409    | `JOB.ACTIVE_REVISION_EXISTS` | Another active revision exists.                                   |
+| 422    | `COMMON.VALIDATION_ERROR`    | Invalid body.                                                     |
 
 ## `GET /api/v1/recruiter/jobs/:jobId/revisions`
 
 Summary: List major revision drafts/review records for a company-owned job.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
 Request params:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `jobId` | uuid | Yes | Company-owned job id. |
+| Field   | Type | Required | Note                  |
+| ------- | ---- | -------- | --------------------- |
+| `jobId` | uuid | Yes      | Company-owned job id. |
 
 Request query:
 
-| Field | Type | Required | Default | Note |
-| --- | --- | --- | --- | --- |
-| `page` | number | No | `1` | Pagination page. |
-| `limit` | number | No | `20` | Pagination size. |
-| `status` | `JobRevisionStatus` | No | all | Filter by revision lifecycle status. |
+| Field    | Type                | Required | Default | Note                                 |
+| -------- | ------------------- | -------- | ------- | ------------------------------------ |
+| `page`   | number              | No       | `1`     | Pagination page.                     |
+| `limit`  | number              | No       | `20`    | Pagination size.                     |
+| `status` | `JobRevisionStatus` | No       | all     | Filter by revision lifecycle status. |
 
 Success response: paginated array of `JobRevisionResponse`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found in recruiter's company. |
+| Status | Code                | Meaning                               |
+| ------ | ------------------- | ------------------------------------- |
+| 403    | `COMMON.FORBIDDEN`  | User is not recruiter with company.   |
+| 404    | `JOB.JOB_NOT_FOUND` | Job not found in recruiter's company. |
 
 FE notes:
+
 - Use this to show draft/pending/rejected major revisions under a job detail screen.
 - Active revision statuses are `DRAFT`, `PENDING_REVIEW`, `NEEDS_REVIEW`, and `SHOULD_REJECT`.
 
@@ -1030,6 +1058,7 @@ FE notes:
 Summary: Get one major revision for a company-owned job.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
@@ -1037,17 +1066,18 @@ Success response: `JobRevisionResponse`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 403 | `COMMON.FORBIDDEN` | User is not recruiter with company. |
-| 404 | `JOB.JOB_NOT_FOUND` | Parent job not found in recruiter's company. |
-| 404 | `JOB.REVISION_NOT_FOUND` | Revision not found in recruiter's company. |
+| Status | Code                     | Meaning                                      |
+| ------ | ------------------------ | -------------------------------------------- |
+| 403    | `COMMON.FORBIDDEN`       | User is not recruiter with company.          |
+| 404    | `JOB.JOB_NOT_FOUND`      | Parent job not found in recruiter's company. |
+| 404    | `JOB.REVISION_NOT_FOUND` | Revision not found in recruiter's company.   |
 
 ## `PATCH /api/v1/recruiter/jobs/:jobId/revisions/:revisionId`
 
 Summary: Update a draft major revision.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
@@ -1057,16 +1087,17 @@ Success response: `JobRevisionResponse`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 404 | `JOB.REVISION_NOT_FOUND` | Revision not found. |
-| 409 | `JOB.REVISION_NOT_EDITABLE` | Only `DRAFT` revisions can be edited. |
+| Status | Code                        | Meaning                               |
+| ------ | --------------------------- | ------------------------------------- |
+| 404    | `JOB.REVISION_NOT_FOUND`    | Revision not found.                   |
+| 409    | `JOB.REVISION_NOT_EDITABLE` | Only `DRAFT` revisions can be edited. |
 
 ## `POST /api/v1/recruiter/jobs/:jobId/revisions/:revisionId/submit`
 
 Summary: Submit a major revision for moderation and admin review.
 
 Auth:
+
 - Required
 - Roles: `RECRUITER`
 
@@ -1074,11 +1105,11 @@ Success response: `JobRevisionResponse` with `status = PENDING_REVIEW`, `NEEDS_R
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 403 | `JOB.COMPANY_NOT_APPROVED` | Company is not approved anymore. |
-| 404 | `JOB.REVISION_NOT_FOUND` | Revision not found. |
-| 409 | `JOB.REVISION_NOT_EDITABLE` | Only `DRAFT` revisions can be submitted. |
+| Status | Code                        | Meaning                                  |
+| ------ | --------------------------- | ---------------------------------------- |
+| 403    | `JOB.COMPANY_NOT_APPROVED`  | Company is not approved anymore.         |
+| 404    | `JOB.REVISION_NOT_FOUND`    | Revision not found.                      |
+| 409    | `JOB.REVISION_NOT_EDITABLE` | Only `DRAFT` revisions can be submitted. |
 
 ## Admin Endpoints
 
@@ -1087,21 +1118,23 @@ Errors:
 Summary: List jobs waiting for manual admin review.
 
 Auth:
+
 - Required
 - Roles: `ADMIN`
 
 Request query:
 
-| Field | Type | Required | Default | Note |
-| --- | --- | --- | --- | --- |
-| `page` | number | No | `1` | Pagination page. |
-| `limit` | number | No | `20` | Pagination size. |
-| `status` | `PENDING_REVIEW` \| `NEEDS_REVIEW` \| `SHOULD_REJECT` | No | all review statuses | Filter queue. |
-| `search` | string | No | - | Searches title/company name. |
+| Field    | Type                                                  | Required | Default             | Note                         |
+| -------- | ----------------------------------------------------- | -------- | ------------------- | ---------------------------- |
+| `page`   | number                                                | No       | `1`                 | Pagination page.             |
+| `limit`  | number                                                | No       | `20`                | Pagination size.             |
+| `status` | `PENDING_REVIEW` \| `NEEDS_REVIEW` \| `SHOULD_REJECT` | No       | all review statuses | Filter queue.                |
+| `search` | string                                                | No       | -                   | Searches title/company name. |
 
 Success response: paginated array of `JobResponse`.
 
 FE notes:
+
 - Use `moderation.riskScore`, `riskLevel`, `reasons`, and `matchedRules` for admin decision UI.
 
 ## `POST /api/v1/admin/jobs/:id/review`
@@ -1109,14 +1142,15 @@ FE notes:
 Summary: Approve or reject a job waiting for manual review.
 
 Auth:
+
 - Required
 - Roles: `ADMIN`
 
 Request params:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `id` | uuid | Yes | Reviewable job id. |
+| Field | Type | Required | Note               |
+| ----- | ---- | -------- | ------------------ |
+| `id`  | uuid | Yes      | Reviewable job id. |
 
 Request body: `Review body`.
 
@@ -1137,14 +1171,15 @@ Success response:
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `JOB.REVIEW_DECISION_REASON_REQUIRED` | Reject requires reason. |
-| 403 | `JOB.COMPANY_NOT_APPROVED` | Company snapshot is not approved, cannot publish. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.JOB_NOT_EDITABLE` | Job is not in review queue. |
+| Status | Code                                  | Meaning                                           |
+| ------ | ------------------------------------- | ------------------------------------------------- |
+| 400    | `JOB.REVIEW_DECISION_REASON_REQUIRED` | Reject requires reason.                           |
+| 403    | `JOB.COMPANY_NOT_APPROVED`            | Company snapshot is not approved, cannot publish. |
+| 404    | `JOB.JOB_NOT_FOUND`                   | Job not found.                                    |
+| 409    | `JOB.JOB_NOT_EDITABLE`                | Job is not in review queue.                       |
 
 FE notes:
+
 - Approval moves job to public immediately.
 - Rejection keeps it out of public pages and should show `reviewReason` to recruiter/admin.
 
@@ -1153,6 +1188,7 @@ FE notes:
 Summary: Admin takedown for published jobs.
 
 Auth:
+
 - Required
 - Roles: `ADMIN`
 
@@ -1168,17 +1204,18 @@ Success response: `JobResponse` with `status = UNPUBLISHED`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `JOB.REVIEW_DECISION_REASON_REQUIRED` | Admin unpublish requires reason. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.UNPUBLISH_NOT_ALLOWED` | Only `PUBLISHED` jobs can be unpublished. |
+| Status | Code                                  | Meaning                                   |
+| ------ | ------------------------------------- | ----------------------------------------- |
+| 400    | `JOB.REVIEW_DECISION_REASON_REQUIRED` | Admin unpublish requires reason.          |
+| 404    | `JOB.JOB_NOT_FOUND`                   | Job not found.                            |
+| 409    | `JOB.UNPUBLISH_NOT_ALLOWED`           | Only `PUBLISHED` jobs can be unpublished. |
 
 ## `POST /api/v1/admin/jobs/:id/republish`
 
 Summary: Admin restores an unpublished job to public pages.
 
 Auth:
+
 - Required
 - Roles: `ADMIN`
 
@@ -1186,17 +1223,18 @@ Success response: `JobResponse` with `status = PUBLISHED`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 403 | `JOB.COMPANY_NOT_APPROVED` | Company snapshot is not approved. |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.REPUBLISH_NOT_ALLOWED` | Only `UNPUBLISHED` jobs can be republished. |
+| Status | Code                        | Meaning                                     |
+| ------ | --------------------------- | ------------------------------------------- |
+| 403    | `JOB.COMPANY_NOT_APPROVED`  | Company snapshot is not approved.           |
+| 404    | `JOB.JOB_NOT_FOUND`         | Job not found.                              |
+| 409    | `JOB.REPUBLISH_NOT_ALLOWED` | Only `UNPUBLISHED` jobs can be republished. |
 
 ## `POST /api/v1/admin/jobs/:id/close`
 
 Summary: Admin permanently closes a job.
 
 Auth:
+
 - Required
 - Roles: `ADMIN`
 
@@ -1206,16 +1244,17 @@ Success response: `JobResponse` with `status = CLOSED`.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 404 | `JOB.JOB_NOT_FOUND` | Job not found. |
-| 409 | `JOB.CLOSE_NOT_ALLOWED` | Only `PUBLISHED` or `UNPUBLISHED` jobs can be closed. |
+| Status | Code                    | Meaning                                               |
+| ------ | ----------------------- | ----------------------------------------------------- |
+| 404    | `JOB.JOB_NOT_FOUND`     | Job not found.                                        |
+| 409    | `JOB.CLOSE_NOT_ALLOWED` | Only `PUBLISHED` or `UNPUBLISHED` jobs can be closed. |
 
 ## `GET /api/v1/admin/jobs/revision-review-queue`
 
 Summary: List major revisions waiting for manual review.
 
 Auth:
+
 - Required
 - Roles: `ADMIN`
 
@@ -1253,6 +1292,7 @@ Success response:
 Summary: Approve or reject a major job revision.
 
 Auth:
+
 - Required
 - Roles: `ADMIN`
 
@@ -1261,17 +1301,18 @@ Request body: `Review body`.
 Success response: `JobRevisionResponse`.
 
 Rules:
+
 - Approve applies revision snapshot to the job and increments `job.version`.
 - Reject leaves the current public job unchanged.
 
 Errors:
 
-| Status | Code | Meaning |
-| --- | --- | --- |
-| 400 | `JOB.REVIEW_DECISION_REASON_REQUIRED` | Reject requires reason. |
-| 403 | `JOB.COMPANY_NOT_APPROVED` | Company snapshot is not approved, cannot apply revision. |
-| 404 | `JOB.REVISION_NOT_FOUND` | Revision not found. |
-| 409 | `JOB.REVISION_NOT_EDITABLE` | Revision is not waiting for review. |
+| Status | Code                                  | Meaning                                                  |
+| ------ | ------------------------------------- | -------------------------------------------------------- |
+| 400    | `JOB.REVIEW_DECISION_REASON_REQUIRED` | Reject requires reason.                                  |
+| 403    | `JOB.COMPANY_NOT_APPROVED`            | Company snapshot is not approved, cannot apply revision. |
+| 404    | `JOB.REVISION_NOT_FOUND`              | Revision not found.                                      |
+| 409    | `JOB.REVISION_NOT_EDITABLE`           | Revision is not waiting for review.                      |
 
 ## Internal Endpoints
 
@@ -1280,6 +1321,7 @@ Errors:
 Summary: Get job/company snapshot and applyability for application-service before creating an application.
 
 Auth:
+
 - Required
 - Internal service token: `x-internal-service-token`
 
@@ -1306,6 +1348,7 @@ Success response:
 Summary: Get a lightweight job card snapshot for candidate-service saved jobs.
 
 Auth:
+
 - Required
 - Internal service token: `x-internal-service-token`
 

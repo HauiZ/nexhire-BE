@@ -57,6 +57,7 @@ import { JobEventPublisher } from './events/job-event.publisher';
 import { JobModerationResult, JobModerationService } from './moderation/job-moderation.service';
 import { JobSearchTextService } from './search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER, JobSearchProvider, Paginated } from './search/job-search.types';
+import { DocumentClientService } from '../document-client/document-client.service';
 
 const ACTIVE_REVIEW_STATUSES = [
   JobStatus.PENDING_REVIEW,
@@ -118,6 +119,7 @@ export class JobService {
     private readonly jobSearchProvider: JobSearchProvider,
     private readonly searchTextService: JobSearchTextService,
     private readonly jobEventPublisher: JobEventPublisher,
+    private readonly documentClientService: DocumentClientService,
     @InjectRepository(Job)
     private readonly jobRepo: Repository<Job>,
     @InjectRepository(JobRevision)
@@ -173,14 +175,19 @@ export class JobService {
         latestPublishedAt: Date | null;
       }>();
 
-    return rows.map((row) => ({
-      companyId: row.companyId,
-      companyName: row.companyName,
-      companyLogoUrl: row.companyLogoUrl,
-      companyLogoDocumentId: row.companyLogoDocumentId,
-      activeJobCount: Number(row.activeJobCount),
-      latestPublishedAt: row.latestPublishedAt,
-    }));
+    return Promise.all(
+      rows.map(async (row) => ({
+        companyId: row.companyId,
+        companyName: row.companyName,
+        companyLogoUrl: await this.resolveDocumentUrl(
+          row.companyLogoDocumentId,
+          row.companyLogoUrl,
+        ),
+        companyLogoDocumentId: row.companyLogoDocumentId,
+        activeJobCount: Number(row.activeJobCount),
+        latestPublishedAt: row.latestPublishedAt,
+      })),
+    );
   }
 
   async getHomeStats(): Promise<PublicHomeStatsDto> {
@@ -1227,12 +1234,12 @@ export class JobService {
     };
   }
 
-  private mapPublicJobDetail(job: Job): PublicJobDetailDto {
+  private async mapPublicJobDetail(job: Job): Promise<PublicJobDetailDto> {
     return {
       id: job.id,
       companyId: job.companyId,
       companyName: job.companyName,
-      companyLogoUrl: job.companyLogoUrl,
+      companyLogoUrl: await this.resolveCompanyLogoUrl(job),
       companyLogoDocumentId: job.companyLogoDocumentId,
       title: job.title,
       description: job.description,
@@ -1254,6 +1261,29 @@ export class JobService {
       createdAt: job.createdAt,
       updatedAt: job.updatedAt,
     };
+  }
+
+  private async resolveCompanyLogoUrl(job: Job): Promise<string | null> {
+    return this.resolveDocumentUrl(job.companyLogoDocumentId, job.companyLogoUrl);
+  }
+
+  private async resolveDocumentUrl(
+    documentId: string | null,
+    fallbackUrl: string | null,
+  ): Promise<string | null> {
+    if (!documentId) {
+      return fallbackUrl;
+    }
+
+    try {
+      const download = await this.documentClientService.createDownloadUrl(documentId);
+      return download.url;
+    } catch (error) {
+      this.logger.warn(
+        `Job company logo URL resolve failed documentId=${documentId}: ${(error as Error).message}`,
+      );
+      return fallbackUrl;
+    }
   }
 
   private mapSavedSnapshot(job: Job): JobSavedSnapshotDto {

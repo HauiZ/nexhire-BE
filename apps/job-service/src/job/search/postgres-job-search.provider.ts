@@ -5,6 +5,7 @@ import { Brackets, Repository } from 'typeorm';
 import { JobSearchSort, PublicJobQueryDto, RecruiterJobQueryDto } from '../dto/job-query.dto';
 import { JobResponseDto, PublicJobListItemDto } from '../dto/job-response.dto';
 import { Job } from '../entities/job.entity';
+import { DocumentClientService } from '../../document-client/document-client.service';
 import { JobSearchProvider, Paginated } from './job-search.types';
 import { JobSearchTextService } from './job-search-text.service';
 
@@ -12,6 +13,7 @@ import { JobSearchTextService } from './job-search-text.service';
 export class PostgresJobSearchProvider implements JobSearchProvider {
   constructor(
     private readonly searchTextService: JobSearchTextService,
+    private readonly documentClientService: DocumentClientService,
     @InjectRepository(Job)
     private readonly jobRepo: Repository<Job>,
   ) {}
@@ -28,7 +30,7 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
 
     const [jobs, total] = await qb.getManyAndCount();
     return this.paginate(
-      jobs.map((job) => this.mapPublicJob(job)),
+      await Promise.all(jobs.map((job) => this.mapPublicJob(job))),
       query.page,
       query.limit,
       total,
@@ -51,7 +53,7 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
 
     const [jobs, total] = await qb.getManyAndCount();
     return this.paginate(
-      jobs.map((job) => this.mapPublicJob(job)),
+      await Promise.all(jobs.map((job) => this.mapPublicJob(job))),
       query.page,
       query.limit,
       total,
@@ -76,7 +78,7 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
 
     const [jobs, total] = await qb.getManyAndCount();
     return this.paginate(
-      jobs.map((job) => this.mapCompanyJob(job)),
+      await Promise.all(jobs.map((job) => this.mapCompanyJob(job))),
       query.page,
       query.limit,
       total,
@@ -88,12 +90,13 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
     query: PublicJobQueryDto | RecruiterJobQueryDto,
   ): void {
     const normalizedQuery = this.searchTextService.normalize(query.q ?? query.search ?? '');
-    if (normalizedQuery) {
-      qb.andWhere('job.search_vector @@ plainto_tsquery(:searchConfig, :searchQuery)', {
+    const tsQuery = this.searchTextService.buildTsQuery(query.q ?? query.search ?? '');
+    if (tsQuery) {
+      qb.andWhere('job.search_vector @@ to_tsquery(:searchConfig, :searchQuery)', {
         searchConfig: 'simple',
-        searchQuery: normalizedQuery,
+        searchQuery: tsQuery,
       }).addSelect(
-        'ts_rank_cd(job.search_vector, plainto_tsquery(:searchConfig, :searchQuery))',
+        'ts_rank_cd(job.search_vector, to_tsquery(:searchConfig, :searchQuery))',
         'search_rank',
       );
     }
@@ -158,7 +161,8 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
     query: PublicJobQueryDto | RecruiterJobQueryDto,
   ): void {
     const normalizedQuery = this.searchTextService.normalize(query.q ?? query.search ?? '');
-    const sort = query.sort ?? (normalizedQuery ? JobSearchSort.RELEVANCE : JobSearchSort.LATEST);
+    const tsQuery = this.searchTextService.buildTsQuery(query.q ?? query.search ?? '');
+    const sort = query.sort ?? (tsQuery ? JobSearchSort.RELEVANCE : JobSearchSort.LATEST);
     const hasSkillFilter = this.parseSkillQuery(query.skills).length > 0;
     const orderBySkillMatch = (): boolean => {
       if (!hasSkillFilter) {
@@ -179,7 +183,7 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
       }
     };
 
-    if (sort === JobSearchSort.RELEVANCE && normalizedQuery) {
+    if (sort === JobSearchSort.RELEVANCE && tsQuery) {
       orderBySkillMatch();
       addOrSetOrder('search_rank', 'DESC');
       qb.addOrderBy('job.publishedAt', 'DESC');
@@ -232,13 +236,13 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
     };
   }
 
-  private mapPublicJob(job: Job): PublicJobListItemDto {
+  private async mapPublicJob(job: Job): Promise<PublicJobListItemDto> {
     return {
       id: job.id,
       title: job.title,
       companyId: job.companyId,
       companyName: job.companyName,
-      companyLogoUrl: job.companyLogoUrl,
+      companyLogoUrl: await this.resolveCompanyLogoUrl(job),
       companyLogoDocumentId: job.companyLogoDocumentId,
       skills: job.skills,
       categoryId: job.categoryId,
@@ -255,12 +259,12 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
     };
   }
 
-  private mapCompanyJob(job: Job): JobResponseDto {
+  private async mapCompanyJob(job: Job): Promise<JobResponseDto> {
     return {
       id: job.id,
       companyId: job.companyId,
       companyName: job.companyName,
-      companyLogoUrl: job.companyLogoUrl,
+      companyLogoUrl: await this.resolveCompanyLogoUrl(job),
       companyLogoDocumentId: job.companyLogoDocumentId,
       title: job.title,
       description: job.description,
@@ -297,5 +301,20 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
       createdAt: job.createdAt,
       updatedAt: job.updatedAt,
     };
+  }
+
+  private async resolveCompanyLogoUrl(job: Job): Promise<string | null> {
+    if (!job.companyLogoDocumentId) {
+      return job.companyLogoUrl;
+    }
+
+    try {
+      const download = await this.documentClientService.createDownloadUrl(
+        job.companyLogoDocumentId,
+      );
+      return download.url;
+    } catch {
+      return job.companyLogoUrl;
+    }
   }
 }

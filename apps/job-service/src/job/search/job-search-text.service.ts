@@ -4,6 +4,18 @@ import { JobRevision } from '../entities/job-revision.entity';
 
 @Injectable()
 export class JobSearchTextService {
+  private readonly genericQueryTerms = new Set([
+    'cong',
+    'job',
+    'ky',
+    'lam',
+    'nang',
+    'nghe',
+    'tim',
+    'tuyen',
+    'viec',
+  ]);
+
   buildSearchFields(
     job: Pick<
       UpdateJobDto | JobRevision,
@@ -51,6 +63,24 @@ export class JobSearchTextService {
       .split(',')
       .map((skill) => this.normalize(skill))
       .filter(Boolean);
+  }
+
+  buildTsQuery(value: string): string {
+    return this.extractSearchTerms(value)
+      .map((term) => `${term.replace(/'/g, "''")}:*`)
+      .join(' | ');
+  }
+
+  extractSearchTerms(value: string): string[] {
+    return Array.from(
+      new Set(
+        this.normalize(value)
+          .split(' ')
+          .map((term) => term.trim())
+          .map((term) => term.replace(/[^a-z0-9]/g, ''))
+          .filter((term) => term.length >= 2 && !this.genericQueryTerms.has(term)),
+      ),
+    );
   }
 
   normalize(value: string): string {

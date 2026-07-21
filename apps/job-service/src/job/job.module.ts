@@ -18,6 +18,7 @@ import { JobModerationService } from './moderation/job-moderation.service';
 import { JobSearchTextService } from './search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER } from './search/job-search.types';
 import { PostgresJobSearchProvider } from './search/postgres-job-search.provider';
+import { DocumentClientService } from '../document-client/document-client.service';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { PostgresJobSearchProvider } from './search/postgres-job-search.provider
     JobService,
     JobModerationService,
     JobSearchTextService,
+    DocumentClientService,
     JobEventPublisher,
     PostgresJobSearchProvider,
     { provide: JOB_SEARCH_PROVIDER, useExisting: PostgresJobSearchProvider },
