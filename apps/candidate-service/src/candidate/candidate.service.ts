@@ -352,10 +352,13 @@ export class CandidateService {
       }),
     ]);
     const cvResponses = cvs.map((cv) => this.mapCv(cv));
-    const contactEmail = await this.resolveContactEmail(profile);
+    const [contactEmail, avatarUrl] = await Promise.all([
+      this.resolveContactEmail(profile),
+      this.resolveAvatarUrl(profile.avatarDocumentId),
+    ]);
 
     return {
-      profile: this.mapProfile(profile, contactEmail),
+      profile: this.mapProfile(profile, contactEmail, avatarUrl),
       skills: skills.map((skill) => this.mapSkill(skill)),
       experiences: experiences.map((experience) => this.mapExperience(experience)),
       educations: educations.map((education) => this.mapEducation(education)),
@@ -635,6 +638,7 @@ export class CandidateService {
   private mapProfile(
     profile: CandidateProfile,
     contactEmail: string | null,
+    avatarUrl: string | null,
   ): CandidateProfileFieldsResponseDto {
     return {
       id: profile.id,
@@ -643,6 +647,7 @@ export class CandidateService {
       phone: profile.phone,
       contactEmail,
       avatarDocumentId: profile.avatarDocumentId,
+      avatarUrl,
       headline: profile.headline,
       summary: profile.summary,
       location: profile.location,
@@ -746,6 +751,19 @@ export class CandidateService {
       return profile.contactEmail;
     }
     return this.authClientService.getUserEmail(profile.userId);
+  }
+
+  private async resolveAvatarUrl(avatarDocumentId: string | null): Promise<string | null> {
+    if (!avatarDocumentId) {
+      return null;
+    }
+
+    try {
+      const download = await this.documentClientService.createDownloadUrl(avatarDocumentId);
+      return download.url;
+    } catch {
+      return null;
+    }
   }
 
   private async publishProfileSnapshotChanged(profile: CandidateProfile): Promise<void> {

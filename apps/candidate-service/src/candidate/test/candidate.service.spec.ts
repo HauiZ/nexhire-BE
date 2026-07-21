@@ -95,7 +95,7 @@ describe('CandidateService', () => {
   let certificationRepo: MockRepo<CandidateCertification>;
   let projectRepo: MockRepo<CandidateProject>;
   let cvRepo: MockRepo<CandidateCv>;
-  let documentClientService: { uploadCandidateDocument: jest.Mock };
+  let documentClientService: { createDownloadUrl: jest.Mock; uploadCandidateDocument: jest.Mock };
   let authClientService: { getUserEmail: jest.Mock };
   let candidateEventPublisher: { publishProfileSnapshotChanged: jest.Mock };
 
@@ -111,6 +111,7 @@ describe('CandidateService', () => {
     projectRepo = createRepoMock<CandidateProject>();
     cvRepo = createRepoMock<CandidateCv>();
     documentClientService = {
+      createDownloadUrl: jest.fn(),
       uploadCandidateDocument: jest.fn(),
     };
     authClientService = {
@@ -179,6 +180,40 @@ describe('CandidateService', () => {
     expect(result.profile.contactEmail).toBe('candidate@nexhire.vn');
     expect(result.completionPercent).toBe(8);
     expect(candidateEventPublisher.publishProfileSnapshotChanged).not.toHaveBeenCalled();
+  });
+
+  it('returns avatarUrl when avatar document can be resolved', async () => {
+    profileRepo.findOne.mockResolvedValue(
+      createProfile({
+        avatarDocumentId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+      }),
+    );
+    documentClientService.createDownloadUrl.mockResolvedValue({
+      url: 'https://storage.local/avatar.png',
+      expiresInSeconds: 3600,
+    });
+
+    const result = await service.getMe('user-1');
+
+    expect(documentClientService.createDownloadUrl).toHaveBeenCalledWith(
+      'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+    );
+    expect(result.profile.avatarDocumentId).toBe('b8b33c46-4bb0-4a33-8b0d-927e081a38a5');
+    expect(result.profile.avatarUrl).toBe('https://storage.local/avatar.png');
+  });
+
+  it('keeps profile response available when avatar URL cannot be resolved', async () => {
+    profileRepo.findOne.mockResolvedValue(
+      createProfile({
+        avatarDocumentId: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5',
+      }),
+    );
+    documentClientService.createDownloadUrl.mockRejectedValue(new Error('document unavailable'));
+
+    const result = await service.getMe('user-1');
+
+    expect(result.profile.avatarDocumentId).toBe('b8b33c46-4bb0-4a33-8b0d-927e081a38a5');
+    expect(result.profile.avatarUrl).toBeNull();
   });
 
   it('updates profile fields and replaces provided collections', async () => {

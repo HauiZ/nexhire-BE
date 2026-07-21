@@ -27,6 +27,12 @@ export class CandidateProfileFieldsResponseDto {
   @ApiPropertyOptional()
   avatarDocumentId: string | null;
 
+  @ApiPropertyOptional({
+    nullable: true,
+    description: 'Short-lived URL resolved by candidate-service for rendering the avatar.',
+  })
+  avatarUrl: string | null;
+
   @ApiPropertyOptional()
   headline: string | null;
 

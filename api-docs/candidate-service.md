@@ -49,6 +49,7 @@ Success response:
       "phone": "0912345678",
       "contactEmail": "khoa.nguyen@example.com",
       "avatarDocumentId": "b8b33c46-4bb0-4a33-8b0d-927e081a38a5",
+      "avatarUrl": "https://storage.local/presigned-avatar-url",
       "headline": "Senior Frontend Engineer",
       "summary": "I build performant web products.",
       "location": "Ha Noi, Viet Nam",
@@ -326,6 +327,14 @@ Request body: `multipart/form-data`
 | `file` | file | Yes      | `image/jpeg`, `image/png`, or `image/webp`; max 5 MB |
 
 Success response: same shape as `GET /api/v1/candidates/me`, with `profile.avatarDocumentId` set to the uploaded document id.
+
+Avatar rendering:
+
+- FE should render `profile.avatarUrl` directly when it is present.
+- `profile.avatarUrl` is resolved by candidate-service through document-storage internal API; FE must not call `/internal/documents/:id/download-url`.
+- `profile.avatarDocumentId` remains the stable document reference for update/delete/audit.
+- Candidate-service caches resolved avatar URLs until shortly before their expiry, so repeated `/candidates/me` reads do not hit document-storage every time.
+- If the signed URL expires or is missing, refetch `/api/v1/candidates/me`.
 
 Errors:
 
