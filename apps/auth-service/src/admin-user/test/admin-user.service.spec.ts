@@ -3,6 +3,7 @@ import { ERROR_CODES, UserRole } from '@nexhire/shared';
 import { Repository } from 'typeorm';
 import { TokenService } from '../../token/token.service';
 import { UserStatus } from '../../auth/entities/auth.enum';
+import { RecruiterCompanyLink } from '../../auth/entities/recruiter-company-link.entity';
 import { Role } from '../../auth/entities/role.entity';
 import { UserRoleEntity } from '../../auth/entities/user-role.entity';
 import { User } from '../../auth/entities/user.entity';
@@ -44,6 +45,7 @@ function makeUser(overrides: Partial<User> = {}): User {
 describe('AdminUserService', () => {
   let service: AdminUserService;
   let userRepo: MockRepo;
+  let recruiterCompanyLinkRepo: { find: jest.Mock; findOne: jest.Mock };
   let tokenService: { revokeAllUserRefreshTokens: jest.Mock };
 
   beforeEach(() => {
@@ -52,12 +54,17 @@ describe('AdminUserService', () => {
       findOne: jest.fn(),
       save: jest.fn((user: User) => Promise.resolve(user)),
     };
+    recruiterCompanyLinkRepo = {
+      find: jest.fn().mockResolvedValue([]),
+      findOne: jest.fn().mockResolvedValue(null),
+    };
     tokenService = {
       revokeAllUserRefreshTokens: jest.fn(),
     };
 
     service = new AdminUserService(
       userRepo as unknown as Repository<User>,
+      recruiterCompanyLinkRepo as unknown as Repository<RecruiterCompanyLink>,
       tokenService as unknown as TokenService,
     );
   });
@@ -94,6 +101,54 @@ describe('AdminUserService', () => {
     expect(result.data[0]).toMatchObject({
       id: 'user-1',
       roles: [UserRole.CANDIDATE],
+      company: null,
+    });
+  });
+
+  it('returns company snapshot for recruiter users', async () => {
+    const qb = {
+      leftJoinAndSelect: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      getManyAndCount: jest.fn().mockResolvedValue([
+        [
+          makeUser({
+            id: 'recruiter-1',
+            email: 'recruiter@nexhire.vn',
+            userRoles: [{ role: { name: UserRole.RECRUITER } as Role } as UserRoleEntity],
+          }),
+        ],
+        1,
+      ]),
+    };
+    userRepo.createQueryBuilder.mockReturnValue(qb);
+    recruiterCompanyLinkRepo.find.mockResolvedValue([
+      {
+        userId: 'recruiter-1',
+        companyId: 'company-1',
+        companyName: 'NexHire Tech',
+        companyStatus: 'APPROVED',
+      } as RecruiterCompanyLink,
+    ]);
+
+    const result = await service.list({
+      page: 1,
+      limit: 10,
+      skip: 0,
+    });
+
+    expect(recruiterCompanyLinkRepo.find).toHaveBeenCalledWith({
+      where: { userId: expect.any(Object) },
+    });
+    expect(result.data[0]).toMatchObject({
+      id: 'recruiter-1',
+      company: {
+        companyId: 'company-1',
+        companyName: 'NexHire Tech',
+        companyStatus: 'APPROVED',
+      },
     });
   });
 

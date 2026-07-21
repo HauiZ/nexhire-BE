@@ -1,9 +1,10 @@
 import { ForbiddenException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthUser, ERROR_CODES, paginated, UserRole } from '@nexhire/shared';
-import { Brackets, Repository } from 'typeorm';
+import { Brackets, In, Repository } from 'typeorm';
 import { TokenService } from '../token/token.service';
 import { UserStatus } from '../auth/entities/auth.enum';
+import { RecruiterCompanyLink } from '../auth/entities/recruiter-company-link.entity';
 import { User } from '../auth/entities/user.entity';
 import { AdminUserActionDto, AdminUserRestoreDto } from './dto/admin-user-action.dto';
 import { AdminUserQueryDto } from './dto/admin-user-query.dto';
@@ -16,6 +17,8 @@ export class AdminUserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
+    @InjectRepository(RecruiterCompanyLink)
+    private readonly recruiterCompanyLinkRepo: Repository<RecruiterCompanyLink>,
     private readonly tokenService: TokenService,
   ) {}
 
@@ -35,7 +38,15 @@ export class AdminUserService {
           builder
             .where('LOWER(user.email) LIKE :search', { search: `%${search}%` })
             .orWhere('LOWER(user.fullName) LIKE :search', { search: `%${search}%` })
-            .orWhere('LOWER(user.phone) LIKE :search', { search: `%${search}%` });
+            .orWhere('LOWER(user.phone) LIKE :search', { search: `%${search}%` })
+            .orWhere(
+              `EXISTS (
+                SELECT 1 FROM recruiter_company_links link
+                WHERE link.user_id = user.id
+                AND LOWER(link.company_name) LIKE :search
+              )`,
+              { search: `%${search}%` },
+            );
         }),
       );
     }
@@ -49,8 +60,9 @@ export class AdminUserService {
     }
 
     const [users, total] = await qb.getManyAndCount();
+    const companyLinks = await this.getCompanyLinksForUsers(users);
     return paginated(
-      users.map((user) => this.toResponse(user)),
+      users.map((user) => this.toResponse(user, companyLinks.get(user.id) ?? null)),
       total,
       query.page,
       query.limit,
@@ -58,7 +70,9 @@ export class AdminUserService {
   }
 
   async get(id: string): Promise<AdminUserResponseDto> {
-    return this.toResponse(await this.findUser(id));
+    const user = await this.findUser(id);
+    const companyLink = await this.recruiterCompanyLinkRepo.findOne({ where: { userId: user.id } });
+    return this.toResponse(user, companyLink);
   }
 
   async suspend(
@@ -124,7 +138,20 @@ export class AdminUserService {
     const saved = await this.userRepo.save(user);
     await this.tokenService.revokeAllUserRefreshTokens(user.id);
     this.logger.log(`Admin changed user status userId=${id} status=${status} adminId=${admin.id}`);
-    return this.toResponse(saved);
+    const companyLink = await this.recruiterCompanyLinkRepo.findOne({
+      where: { userId: saved.id },
+    });
+    return this.toResponse(saved, companyLink);
+  }
+
+  private async getCompanyLinksForUsers(users: User[]): Promise<Map<string, RecruiterCompanyLink>> {
+    if (users.length === 0) {
+      return new Map();
+    }
+    const links = await this.recruiterCompanyLinkRepo.find({
+      where: { userId: In(users.map((user) => user.id)) },
+    });
+    return new Map(links.map((link) => [link.userId, link]));
   }
 
   private async findUser(id: string): Promise<User> {
@@ -141,7 +168,10 @@ export class AdminUserService {
     return user;
   }
 
-  private toResponse(user: User): AdminUserResponseDto {
+  private toResponse(
+    user: User,
+    companyLink: RecruiterCompanyLink | null = null,
+  ): AdminUserResponseDto {
     return {
       id: user.id,
       email: user.email,
@@ -154,6 +184,13 @@ export class AdminUserService {
           ?.map((userRole) => userRole.role?.name)
           .filter((role): role is UserRole => Boolean(role)) ?? [],
       emailVerified: user.emailVerified,
+      company: companyLink
+        ? {
+            companyId: companyLink.companyId,
+            companyName: companyLink.companyName,
+            companyStatus: companyLink.companyStatus,
+          }
+        : null,
       lastLoginAt: user.lastLoginAt,
       statusReason: user.statusReason,
       statusChangedBy: user.statusChangedBy,

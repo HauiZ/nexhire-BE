@@ -2,6 +2,17 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { UserRole } from '@nexhire/shared';
 import { UserStatus } from '../../auth/entities/auth.enum';
 
+export class AdminUserCompanySnapshotDto {
+  @ApiProperty({ format: 'uuid' })
+  companyId: string;
+
+  @ApiPropertyOptional({ nullable: true })
+  companyName: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  companyStatus: string | null;
+}
+
 export class AdminUserResponseDto {
   @ApiProperty({ format: 'uuid' })
   id: string;
@@ -26,6 +37,9 @@ export class AdminUserResponseDto {
 
   @ApiProperty()
   emailVerified: boolean;
+
+  @ApiPropertyOptional({ type: AdminUserCompanySnapshotDto, nullable: true })
+  company: AdminUserCompanySnapshotDto | null;
 
   @ApiPropertyOptional({ nullable: true })
   lastLoginAt: Date | null;

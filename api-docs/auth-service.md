@@ -4,6 +4,13 @@ Base path through gateway: `/api/v1/auth`
 
 Responsibility: authentication, JWT issuing, refresh-token rotation/revocation, email verification, password flows.
 
+Account identity rules:
+
+- `users.email` is unique, so the same email cannot create two separate accounts.
+- `user_roles.user_id` is unique, so one account has exactly one role assignment in this system.
+- If a user registered as `CANDIDATE`, logging in or Google-linking as `RECRUITER` is rejected with `AUTH.LOGIN_ROLE_NOT_ALLOWED`.
+- Login email is account identity. Company public email belongs in company-service `contactEmail`.
+
 ## Common response objects
 
 ### Auth response data
@@ -312,6 +319,7 @@ Success response:
     "id": "b7f07d2a-59d1-4f3e-91ec-f3ad07a01c4a",
     "email": "khoa@nexhire.vn",
     "fullName": "Nguyen Minh Khoa",
+    "phone": "0901234567",
     "role": "CANDIDATE",
     "logoUrl": null,
     "logoDocumentId": null
@@ -321,21 +329,25 @@ Success response:
 
 Field notes:
 
-| Field            | Type       | Nullable | Note                                                            |
-| ---------------- | ---------- | -------- | --------------------------------------------------------------- |
-| `id`             | uuid       | No       | Auth user id                                                    |
-| `email`          | string     | No       | Login email                                                     |
-| `fullName`       | string     | Yes      | User display name                                               |
-| `role`           | `UserRole` | No       | Current role context from access token                          |
-| `logoUrl`        | string     | Yes      | Header image URL: recruiter company logo, otherwise user avatar |
-| `logoDocumentId` | uuid       | Yes      | Recruiter company logo document id when available               |
+| Field            | Type       | Nullable | Note                                                                              |
+| ---------------- | ---------- | -------- | --------------------------------------------------------------------------------- |
+| `id`             | uuid       | No       | Auth user id                                                                      |
+| `email`          | string     | No       | Login email                                                                       |
+| `fullName`       | string     | Yes      | User display name                                                                 |
+| `phone`          | string     | Yes      | Auth account phone. Company contact phone is stored on company-service.           |
+| `role`           | `UserRole` | No       | Current role context from access token                                            |
+| `logoUrl`        | string     | Yes      | Header image URL: recruiter company logo, otherwise auth external avatar fallback |
+| `logoDocumentId` | uuid       | Yes      | Recruiter company logo document id when available                                 |
 
 Role-specific `logoUrl` behavior:
 
 - `RECRUITER`: uses synced company logo from `recruiter_company_links.company_logo_url`.
 - `RECRUITER`: also returns synced `recruiter_company_links.company_logo_document_id`; FE should prefer this for company logo rendering.
-- `CANDIDATE` / `ADMIN`: uses `users.avatar_url`.
+- `CANDIDATE`: candidate profile/avatar is owned by candidate-service. FE should read candidate avatar/name/phone from `/api/v1/candidates/me` or candidate profile APIs.
+- `CANDIDATE`: `logoUrl` can still be an auth external avatar fallback, such as Google picture saved on login, but it is not the candidate profile avatar source of truth.
+- `ADMIN`: no avatar upload flow exists yet; `logoUrl` is normally `null` unless `users.avatar_url` is set by seed/manual/future admin profile flow.
 - If recruiter company logo has not synced yet, auth-service falls back to `users.avatar_url`.
+- Candidate avatar uploads are owned by candidate-service at `candidate_profiles.avatar_document_id`; FE should read candidate avatar from `/api/v1/candidates/me` or candidate profile APIs instead of `/auth/me`.
 
 Errors:
 
@@ -344,6 +356,64 @@ Errors:
 | 401    | `COMMON.UNAUTHENTICATED`      | Missing/invalid access token or identity    |
 | 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Token role is no longer assigned to account |
 | 404    | `AUTH.USER_NOT_FOUND`         | User in token no longer exists              |
+
+### `PATCH /api/v1/auth/me`
+
+Summary: Update the current recruiter/admin account profile.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`, `ADMIN`
+- Sent through gateway with `Authorization: Bearer <accessToken>`
+
+Intent:
+
+- Use this for recruiter/admin account identity, for example account display name and personal/account phone.
+- Do not use this for company contact information. Company contact is updated through company-service fields `contactEmail` and `contactPhone`.
+- Do not use this for candidate profile. Candidate name/phone/avatar are owned by candidate-service through `/api/v1/candidates/me`.
+- Login email is intentionally not editable here. A future `change-email` flow should verify the new email first.
+
+Request body:
+
+| Field      | Type   | Required | Nullable | Note                                       |
+| ---------- | ------ | -------- | -------- | ------------------------------------------ |
+| `fullName` | string | No       | Yes      | Set or clear account display name          |
+| `phone`    | string | No       | Yes      | Set or clear recruiter/admin account phone |
+
+```json
+{
+  "fullName": "Nguyen Van A",
+  "phone": "0901234567"
+}
+```
+
+Success response: same shape as `GET /api/v1/auth/me`.
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "b7f07d2a-59d1-4f3e-91ec-f3ad07a01c4a",
+    "email": "recruiter@nexhire.vn",
+    "fullName": "Nguyen Van A",
+    "phone": "0901234567",
+    "role": "RECRUITER",
+    "logoUrl": "https://cdn.nexhire.vn/company/logo.png",
+    "logoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86"
+  }
+}
+```
+
+Errors:
+
+| Status | Code                          | Meaning                                     |
+| ------ | ----------------------------- | ------------------------------------------- |
+| 401    | `COMMON.UNAUTHENTICATED`      | Missing/invalid access token or identity    |
+| 403    | `COMMON.FORBIDDEN`            | Candidate cannot update auth profile here   |
+| 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED` | Token role is no longer assigned to account |
+| 404    | `AUTH.USER_NOT_FOUND`         | User in token no longer exists              |
+| 422    | validation error              | Invalid request body                        |
 
 ### `POST /api/v1/auth/logout`
 
@@ -623,13 +693,13 @@ Summary: List users for admin management.
 
 Query params:
 
-| Field    | Type   | Required | Note                              |
-| -------- | ------ | -------- | --------------------------------- |
-| `page`   | number | No       | Default `1`                       |
-| `limit`  | number | No       | Default `20`, max `100`           |
-| `search` | string | No       | Search email, full name, phone    |
-| `role`   | enum   | No       | `CANDIDATE`, `RECRUITER`, `ADMIN` |
-| `status` | enum   | No       | User status                       |
+| Field    | Type   | Required | Note                                                   |
+| -------- | ------ | -------- | ------------------------------------------------------ |
+| `page`   | number | No       | Default `1`                                            |
+| `limit`  | number | No       | Default `20`, max `100`                                |
+| `search` | string | No       | Search email, full name, phone, recruiter company name |
+| `role`   | enum   | No       | `CANDIDATE`, `RECRUITER`, `ADMIN`                      |
+| `status` | enum   | No       | User status                                            |
 
 Success response:
 
@@ -646,6 +716,7 @@ Success response:
       "status": "ACTIVE",
       "roles": ["CANDIDATE"],
       "emailVerified": true,
+      "company": null,
       "lastLoginAt": "2026-07-16T08:00:00.000Z",
       "statusReason": null,
       "statusChangedBy": null,
@@ -664,6 +735,30 @@ Success response:
   }
 }
 ```
+
+Recruiter item includes synced company snapshot:
+
+```json
+{
+  "id": "b7f07d2a-59d1-4f3e-91ec-f3ad07a01c4a",
+  "email": "recruiter@nexhire.vn",
+  "phone": "0901234567",
+  "fullName": "Recruiter One",
+  "roles": ["RECRUITER"],
+  "company": {
+    "companyId": "42c7f10f-2b9c-4d3a-9d98-4d4c84dd9a77",
+    "companyName": "NexHire Tech",
+    "companyStatus": "APPROVED"
+  }
+}
+```
+
+Admin tracking notes:
+
+- Candidate name/phone updates are mirrored into `users.full_name` and `users.phone` from `candidate.profile-snapshot-changed` for admin user tracking only.
+- Company name/status/logo updates are mirrored into `recruiter_company_links` from `company.posting-snapshot-changed`; auth-service does not overwrite recruiter `users.full_name` with company name.
+- Company-service currently has no company phone/contact phone field, so there is no company phone to mirror into auth-service.
+- Avatar/logo source of truth stays in candidate-service/company-service; auth admin users should use `avatarUrl` only as auth external fallback.
 
 ### `GET /api/v1/admin/users/:id`
 

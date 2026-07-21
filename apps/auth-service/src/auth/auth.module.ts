@@ -13,6 +13,7 @@ import { UserCredential } from './entities/user-credential.entity';
 import { UserRoleEntity } from './entities/user-role.entity';
 import { User } from './entities/user.entity';
 import { TokenModule } from '../token/token.module';
+import { CandidateProfileEventsConsumer } from './events/consumers/candidate-profile-events.consumer';
 import { CompanyLinkEventsConsumer } from './events/consumers/company-link-events.consumer';
 import { AuthEventPublisher } from './events/auth-event.publisher';
 import { ManualAuthController } from './manual/manual-auth.controller';
@@ -38,7 +39,13 @@ import { ManualAuthService } from './manual/manual-auth.service';
     ]),
   ],
   controllers: [AuthController, AuthInternalController, ManualAuthController],
-  providers: [AuthService, ManualAuthService, AuthEventPublisher, CompanyLinkEventsConsumer],
+  providers: [
+    AuthService,
+    ManualAuthService,
+    AuthEventPublisher,
+    CompanyLinkEventsConsumer,
+    CandidateProfileEventsConsumer,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

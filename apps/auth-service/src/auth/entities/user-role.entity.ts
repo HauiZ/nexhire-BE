@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -11,6 +12,7 @@ import { Role } from './role.entity';
 import { User } from './user.entity';
 
 @Entity('user_roles')
+@Index('uq_user_roles_user_id', ['userId'], { unique: true })
 @Unique('uq_user_roles_user_role', ['userId', 'roleId'])
 export class UserRoleEntity {
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'pk_user_roles_id' })

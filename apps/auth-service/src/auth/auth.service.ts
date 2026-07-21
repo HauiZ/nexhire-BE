@@ -30,6 +30,7 @@ import { ResendVerificationDto } from './dto/resend-verification.dto';
 import { ResendVerificationResponseDto } from './dto/resend-verification-response.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ResetPasswordResponseDto } from './dto/reset-password-response.dto';
+import { UpdateAuthProfileDto } from './dto/update-auth-profile.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyEmailResponseDto } from './dto/verify-email-response.dto';
 import { AuthIdentityProvider, PasswordAlgorithm, UserStatus } from './entities/auth.enum';
@@ -230,10 +231,40 @@ export class AuthService {
       id: user.id,
       email: user.email,
       fullName: user.fullName,
+      phone: user.phone,
       role: currentUser.role,
       logoUrl: companyLink?.companyLogoUrl ?? user.avatarUrl,
       logoDocumentId: companyLink?.companyLogoDocumentId ?? null,
     };
+  }
+
+  async updateMe(currentUser: AuthUser, dto: UpdateAuthProfileDto): Promise<AuthMeResponseDto> {
+    const user = await this.userRepo.findOne({ where: { id: currentUser.id } });
+    if (!user) {
+      throw new NotFoundException({
+        code: ERROR_CODES.AUTH.USER_NOT_FOUND,
+        message: 'User not found',
+      });
+    }
+
+    this.assertUserActiveForAuth(user);
+    await this.assertUserCanLoginAs(user.id, currentUser.role);
+
+    const patch: Partial<User> = {};
+    if (dto.fullName !== undefined) {
+      patch.fullName = this.nullableTrim(dto.fullName);
+    }
+    if (dto.phone !== undefined) {
+      patch.phone = this.nullableTrim(dto.phone);
+    }
+
+    if (Object.keys(patch).length > 0) {
+      await this.userRepo.update(user.id, patch);
+      Object.assign(user, patch);
+      this.logger.log(`Updated auth profile userId=${user.id}`);
+    }
+
+    return this.getMe(currentUser);
   }
 
   async login(dto: LoginDto): Promise<AuthResponseDto> {
@@ -872,6 +903,14 @@ export class AuthService {
 
   private normalizeEmailInput(email: string): string {
     return email.trim();
+  }
+
+  private nullableTrim(value: string | null | undefined): string | null {
+    if (typeof value !== 'string') {
+      return null;
+    }
+    const trimmed = value.trim();
+    return trimmed.length ? trimmed : null;
   }
 
   private async verifyRefreshToken(refreshToken: string): Promise<JwtPayload> {

@@ -5,6 +5,7 @@ import {
   HttpCode,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -16,6 +17,8 @@ import {
   Public,
   AuthUser,
   InternalServiceTokenGuard,
+  Roles,
+  UserRole,
 } from '@nexhire/shared';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { AuthMeResponseDto } from './dto/auth-me-response.dto';
@@ -35,6 +38,7 @@ import { ResetPasswordResponseDto } from './dto/reset-password-response.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyEmailResponseDto } from './dto/verify-email-response.dto';
 import { AuthService } from './auth.service';
+import { UpdateAuthProfileDto } from './dto/update-auth-profile.dto';
 import { UserContactSnapshotDto } from './dto/user-contact-snapshot.dto';
 
 @ApiTags('auth')
@@ -88,6 +92,24 @@ export class AuthController {
   @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
   me(@CurrentUser() user: AuthUser): Promise<AuthMeResponseDto> {
     return this.authService.getMe(user);
+  }
+
+  @Patch('me')
+  @HttpCode(200)
+  @Roles(UserRole.RECRUITER, UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Update current recruiter/admin account profile',
+    description:
+      'Updates auth account fields only. It does not update company contact fields or candidate profile fields.',
+  })
+  @ApiSuccessResponse(AuthMeResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 422, 500] })
+  updateMe(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: UpdateAuthProfileDto,
+  ): Promise<AuthMeResponseDto> {
+    return this.authService.updateMe(user, dto);
   }
 
   @Post('logout')

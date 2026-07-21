@@ -11,6 +11,9 @@ export class AuthMeResponseDto {
   @ApiPropertyOptional({ nullable: true })
   fullName: string | null;
 
+  @ApiPropertyOptional({ nullable: true })
+  phone: string | null;
+
   @ApiProperty({ enum: UserRole })
   role: UserRole;
 

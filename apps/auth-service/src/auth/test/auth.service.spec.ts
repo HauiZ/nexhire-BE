@@ -1325,6 +1325,7 @@ describe('AuthService', () => {
       id: 'user-1',
       email: 'candidate@nexhire.vn',
       fullName: 'Nguyen Minh Khoa',
+      phone: '0987654321',
       avatarUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
     } as User);
     userRoleRepo.findOne.mockResolvedValue({
@@ -1348,6 +1349,7 @@ describe('AuthService', () => {
       id: 'user-1',
       email: 'candidate@nexhire.vn',
       fullName: 'Nguyen Minh Khoa',
+      phone: '0987654321',
       role: UserRole.CANDIDATE,
       logoUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
       logoDocumentId: null,
@@ -1359,6 +1361,7 @@ describe('AuthService', () => {
       id: 'user-1',
       email: 'recruiter@nexhire.vn',
       fullName: 'Recruiter One',
+      phone: '0901234567',
       avatarUrl: 'https://cdn.nexhire.vn/avatar/recruiter.png',
     } as User);
     userRoleRepo.findOne.mockResolvedValue({
@@ -1381,10 +1384,58 @@ describe('AuthService', () => {
       id: 'user-1',
       email: 'recruiter@nexhire.vn',
       fullName: 'Recruiter One',
+      phone: '0901234567',
       role: UserRole.RECRUITER,
       logoUrl: 'https://cdn.nexhire.vn/company/logo.png',
       logoDocumentId: '00000000-0000-4000-8000-000000000099',
     });
+  });
+
+  it('updates recruiter account profile without touching email or company fields', async () => {
+    userRepo.findOne
+      .mockResolvedValueOnce({
+        id: 'user-1',
+        email: 'recruiter@nexhire.vn',
+        fullName: 'Recruiter One',
+        phone: '0901234567',
+        avatarUrl: null,
+        status: UserStatus.ACTIVE,
+      } as User)
+      .mockResolvedValueOnce({
+        id: 'user-1',
+        email: 'recruiter@nexhire.vn',
+        fullName: 'Recruiter Updated',
+        phone: '0909999999',
+        avatarUrl: null,
+        status: UserStatus.ACTIVE,
+      } as User);
+    userRoleRepo.findOne.mockResolvedValue({
+      role: { name: UserRole.RECRUITER },
+    } as UserRoleEntity);
+    recruiterCompanyLinkRepo.findOne.mockResolvedValue({
+      companyLogoUrl: null,
+      companyLogoDocumentId: null,
+    } as RecruiterCompanyLink);
+
+    const result = await service.updateMe(
+      { id: 'user-1', role: UserRole.RECRUITER },
+      {
+        fullName: ' Recruiter Updated ',
+        phone: ' 0909999999 ',
+      },
+    );
+
+    expect(userRepo.update).toHaveBeenCalledWith('user-1', {
+      fullName: 'Recruiter Updated',
+      phone: '0909999999',
+    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        email: 'recruiter@nexhire.vn',
+        fullName: 'Recruiter Updated',
+        phone: '0909999999',
+      }),
+    );
   });
 
   it('rejects current user header profile when token role is no longer assigned', async () => {
