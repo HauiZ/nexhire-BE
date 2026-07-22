@@ -97,7 +97,7 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/documents/upload`
 - `POST /api/v1/companies`
 - `GET /api/v1/companies/me`
-- `PUT /api/v1/companies/:id`
+- `PATCH /api/v1/companies/:id`
 - `PATCH /api/v1/companies/:id/logo`
 - `PATCH /api/v1/companies/:id/hero-image`
 - `GET /api/v1/companies/:id/verification-documents`

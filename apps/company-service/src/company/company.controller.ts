@@ -8,7 +8,6 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
-  Put,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -76,7 +75,7 @@ export class CompanyController {
     return this.companyService.findByOwner(user.id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @HttpCode(200)
   @Roles(UserRole.RECRUITER)
   @ApiBearerAuth()

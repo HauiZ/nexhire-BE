@@ -411,7 +411,7 @@ FE notes:
 - Use `status` to show `Pending approval`, `Approved`, `Rejected`, or `Suspended` company state.
 - Use `canPostJobs`, `completionPercent`, `missingRequiredFields`, `submittedAt`, and `rejectionReason` directly on recruiter dashboard instead of recalculating in FE.
 
-## `PUT /api/v1/companies/:id`
+## `PATCH /api/v1/companies/:id`
 
 Summary: Update company profile owned by current recruiter.
 
