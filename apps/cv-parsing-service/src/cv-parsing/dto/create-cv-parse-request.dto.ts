@@ -12,9 +12,10 @@ export class CreateCvParseRequestDto {
   @IsUUID()
   requestedByUserId: string;
 
-  @ApiProperty({ example: 'bb4f26c9-2bb3-4177-8483-ff057db9f675' })
+  @ApiPropertyOptional({ example: 'bb4f26c9-2bb3-4177-8483-ff057db9f675' })
+  @IsOptional()
   @IsUUID()
-  candidateCvId: string;
+  candidateCvId?: string;
 
   @ApiProperty({ example: '2f67a247-7ff0-4e50-bff7-a2dcfbf6de2e' })
   @IsUUID()

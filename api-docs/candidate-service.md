@@ -4,6 +4,7 @@ Base path through gateway:
 
 - `/api/v1/candidates`
 - `/api/v1/cvs`
+- `/api/v1/cv-templates`
 - `/api/v1/saved-jobs`
 
 Responsibility: candidate profile, skills, education, experience, CV Library, saved jobs.
@@ -374,6 +375,9 @@ Success response:
     "title": "Backend Engineer CV",
     "isDefault": true,
     "parseStatus": "NOT_PARSED",
+    "source": "UPLOADED",
+    "sourceTemplateId": null,
+    "sourceCvId": null,
     "parsedAt": null,
     "createdAt": "2026-07-15T10:00:00.000Z",
     "updatedAt": "2026-07-15T10:00:00.000Z"
@@ -429,6 +433,9 @@ Success response:
     "title": "Backend Engineer CV",
     "isDefault": true,
     "parseStatus": "PARSING",
+    "source": "UPLOADED",
+    "sourceTemplateId": null,
+    "sourceCvId": null,
     "parsedAt": null,
     "createdAt": "2026-07-15T10:00:00.000Z",
     "updatedAt": "2026-07-15T10:00:00.000Z"
@@ -495,6 +502,276 @@ Errors:
 | 401    | unauthorized               | Missing/invalid access token                 |
 | 403    | forbidden                  | User role is not allowed                     |
 | 404    | `APPLICATION.CV_NOT_FOUND` | CV does not exist, was deleted, or not owned |
+
+## CV Template Editor
+
+### `GET /api/v1/cv-templates/options`
+
+Summary: Get supported template keys and fixed CV section keys.
+
+Auth: required, role `CANDIDATE`.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "templates": [
+      {
+        "key": "modern",
+        "label": "Modern",
+        "description": "Clean modern CV layout for product and engineering roles."
+      },
+      {
+        "key": "classic",
+        "label": "Classic",
+        "description": "Traditional professional CV layout."
+      },
+      {
+        "key": "minimal",
+        "label": "Minimal",
+        "description": "Simple ATS-friendly CV layout."
+      }
+    ],
+    "sections": [
+      "profile",
+      "summary",
+      "skills",
+      "experiences",
+      "educations",
+      "projects",
+      "certifications",
+      "languages",
+      "awards",
+      "references"
+    ],
+    "sortableItemSections": [
+      "skills",
+      "experiences",
+      "educations",
+      "projects",
+      "certifications",
+      "languages",
+      "awards",
+      "references"
+    ]
+  }
+}
+```
+
+### `POST /api/v1/cv-templates/from-cv`
+
+Summary: Upload a CV, parse it, and create a saved template snapshot for the editor.
+
+Auth: required, role `CANDIDATE`.
+
+Request body: `multipart/form-data`
+
+| Field         | Type   | Required | Note                           |
+| ------------- | ------ | -------- | ------------------------------ |
+| `file`        | file   | Yes      | PDF/DOC/DOCX; max 10 MB        |
+| `templateKey` | enum   | Yes      | `modern`, `classic`, `minimal` |
+| `name`        | string | No       | Max 255                        |
+
+Important behavior:
+
+- Does not create a `candidate_cvs` library row for the uploaded source file.
+- Does not apply parsed data into candidate profile.
+- Stores the uploaded source as `sourceDocumentId`.
+- Stores parsed data into `contentSnapshot` so FE can render/edit without another Gemini call.
+- After parse succeeds, candidate-service tries to delete the uploaded source document immediately.
+- If source cleanup succeeds, `sourceDocumentId` is returned as `null` and `sourceDocumentDeletedAt` is set.
+- If source cleanup fails, `sourceDocumentId` remains and `sourceDocumentDeleteError` is set for retry/audit.
+- Supports template-only sections `languages`, `awards`, and `references`.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "8b7c3b48-2f85-4d24-ae76-94ad31200ff5",
+    "candidateId": "7e0e0bd7-ff3d-490b-9bbd-dfa697cbd8ef",
+    "name": "Backend Engineer CV",
+    "templateKey": "modern",
+    "sourceDocumentId": null,
+    "sourceDocumentDeletedAt": "2026-07-22T10:00:05.000Z",
+    "sourceDocumentDeleteError": null,
+    "sourceCvId": null,
+    "sourceParseRequestId": "e12f44a5-5b0e-4fcf-88bb-d8f7168b54ed",
+    "theme": {},
+    "layout": {
+      "sections": [
+        { "key": "profile", "visible": true, "sortOrder": 1 },
+        { "key": "summary", "visible": true, "sortOrder": 2 },
+        { "key": "skills", "visible": true, "sortOrder": 3 }
+      ]
+    },
+    "contentSnapshot": {
+      "profile": {
+        "id": "profile",
+        "fullName": "Nguyen Minh Khoa",
+        "headline": "Backend Developer",
+        "visible": true
+      },
+      "skills": [
+        {
+          "id": "13ecb4bc-0cd1-4e37-bce4-58ca852799b3",
+          "name": "NestJS",
+          "visible": true,
+          "sortOrder": 1
+        }
+      ],
+      "languages": [],
+      "awards": [],
+      "references": []
+    },
+    "isDefault": false,
+    "lastExportedCvId": null,
+    "lastExportedAt": null,
+    "createdAt": "2026-07-22T10:00:00.000Z",
+    "updatedAt": "2026-07-22T10:00:00.000Z"
+  }
+}
+```
+
+### `GET /api/v1/cv-templates`
+
+Summary: List current candidate's saved CV templates.
+
+Auth: required, role `CANDIDATE`.
+
+### `GET /api/v1/cv-templates/:id`
+
+Summary: Get template detail for editor rendering.
+
+Auth: required, role `CANDIDATE`.
+
+### `PATCH /api/v1/cv-templates/:id`
+
+Summary: Save template metadata, theme, layout, or content snapshot.
+
+Request body:
+
+```json
+{
+  "name": "Backend CV July",
+  "templateKey": "modern",
+  "theme": {
+    "font": "Inter",
+    "accentColor": "#ef4444"
+  },
+  "layout": {
+    "sections": [
+      { "key": "profile", "visible": true, "sortOrder": 1 },
+      { "key": "skills", "visible": true, "sortOrder": 2 }
+    ]
+  },
+  "contentSnapshot": {},
+  "isDefault": false
+}
+```
+
+Validation:
+
+- Section keys are fixed enum values.
+- Missing sections are allowed.
+- Unknown section keys are rejected.
+- Duplicate section keys are rejected.
+
+### `PATCH /api/v1/cv-templates/:id/sections/sort-order`
+
+Summary: Bulk update top-level section order after drag/drop.
+
+Request body:
+
+```json
+{
+  "sectionKeys": ["profile", "skills", "projects", "experiences"]
+}
+```
+
+Rules:
+
+- FE may send only dragged/currently visible section keys.
+- BE moves those sections first by request order.
+- Existing sections not included are kept after the provided keys.
+- Unknown or duplicate section keys are rejected.
+
+### `PATCH /api/v1/cv-templates/:id/sections/:sectionKey/items/sort-order`
+
+Summary: Bulk update item order inside a list section.
+
+Allowed `sectionKey`: `skills`, `experiences`, `educations`, `projects`, `certifications`, `languages`, `awards`, `references`.
+
+Request body:
+
+```json
+{
+  "itemIds": ["project-3", "project-1", "project-2"]
+}
+```
+
+Rules:
+
+- `itemIds` must include every item currently in that section exactly once.
+- Unknown, missing, or duplicate ids are rejected.
+- `profile` and `summary` do not support item sort.
+
+### `POST /api/v1/cv-templates/:id/export`
+
+Summary: Save an exported template file into the candidate CV library.
+
+Request body: `multipart/form-data`
+
+| Field       | Type    | Required | Note                                                     |
+| ----------- | ------- | -------- | -------------------------------------------------------- |
+| `file`      | file    | Yes      | PDF/DOC/DOCX exported by FE/template renderer; max 10 MB |
+| `title`     | string  | No       | Defaults to template name or uploaded file name          |
+| `isDefault` | boolean | No       | Defaults to `false`; when true, clears previous default  |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "bb4f26c9-2bb3-4177-8483-ff057db9f675",
+    "documentId": "2f67a247-7ff0-4e50-bff7-a2dcfbf6de2e",
+    "title": "Backend Engineer CV - Modern",
+    "isDefault": false,
+    "parseStatus": "NOT_PARSED",
+    "source": "TEMPLATE_EXPORT",
+    "sourceTemplateId": "8b7c3b48-2f85-4d24-ae76-94ad31200ff5",
+    "sourceCvId": null,
+    "parsedAt": null,
+    "createdAt": "2026-07-22T10:00:00.000Z",
+    "updatedAt": "2026-07-22T10:00:00.000Z"
+  }
+}
+```
+
+Notes:
+
+- Export currently expects FE/template renderer to send the generated file.
+- The saved export appears in candidate CV library and can be selected for job application.
+- Candidate-service updates `candidate_cv_templates.lastExportedCvId` and `lastExportedAt`.
+
+### `DELETE /api/v1/cv-templates/:id`
+
+Summary: Soft-delete a saved CV template.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "deleted": true
+  }
+}
+```
 
 ### `GET /api/v1/saved-jobs`
 
@@ -655,6 +932,7 @@ Candidate-service depends on these internal contracts:
 | ---------------------- | -------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | Profile email fallback | auth-service               | `GET /api/v1/internal/auth/users/:id/contact-snapshot`                                  | Use login email when `profile.contactEmail` is empty                  |
 | Avatar/CV upload       | document-storage-service   | `POST /api/v1/documents/upload`                                                         | Store candidate avatar/CV documents                                   |
+| Template CV parsing    | cv-parsing-service         | `POST /api/v1/internal/cv-parsing/template-fill`                                        | Parse uploaded CV into template snapshot without applying profile     |
 | Deleted CV cleanup     | application-service        | `GET /api/v1/internal/applications/cv-documents/:documentId/retention`                  | Check whether application retention allows physical document deletion |
 | Deleted CV cleanup     | document-storage-service   | `DELETE /api/v1/internal/documents/:id`                                                 | Remove MinIO object and soft-delete document metadata                 |
 | Application creation   | candidate-service internal | `GET /api/v1/internal/candidates/users/:userId/cvs/:candidateCvId/application-snapshot` | Provide candidate/contact/CV snapshot to application-service          |

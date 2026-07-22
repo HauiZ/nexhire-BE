@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { CandidateCvParseStatus } from './candidate.enum';
+import { CandidateCvParseStatus, CandidateCvSource } from './candidate.enum';
 import { CandidateProfile } from './candidate-profile.entity';
 
 @Entity('candidate_cvs')
@@ -60,6 +60,21 @@ export class CandidateCv {
     default: CandidateCvParseStatus.NOT_PARSED,
   })
   parseStatus: CandidateCvParseStatus;
+
+  @Column({
+    name: 'source',
+    type: 'enum',
+    enum: CandidateCvSource,
+    enumName: 'candidate_cv_source_enum',
+    default: CandidateCvSource.UPLOADED,
+  })
+  source: CandidateCvSource;
+
+  @Column({ name: 'source_template_id', type: 'uuid', nullable: true })
+  sourceTemplateId: string | null;
+
+  @Column({ name: 'source_cv_id', type: 'uuid', nullable: true })
+  sourceCvId: string | null;
 
   @Column({ name: 'parsed_at', type: 'timestamptz', nullable: true })
   parsedAt: Date | null;

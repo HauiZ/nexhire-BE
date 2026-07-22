@@ -41,8 +41,8 @@ export class CvParseResult {
   @Column({ name: 'candidate_id', type: 'uuid' })
   candidateId: string;
 
-  @Column({ name: 'candidate_cv_id', type: 'uuid' })
-  candidateCvId: string;
+  @Column({ name: 'candidate_cv_id', type: 'uuid', nullable: true })
+  candidateCvId: string | null;
 
   @Column({ name: 'document_id', type: 'uuid' })
   documentId: string;

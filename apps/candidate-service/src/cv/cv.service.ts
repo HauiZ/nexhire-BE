@@ -14,7 +14,7 @@ import { AuthUser, ERROR_CODES } from '@nexhire/shared';
 import { ApplicationClientService } from '../application-client/application-client.service';
 import { CandidateService } from '../candidate/candidate.service';
 import { CandidateCv } from '../candidate/entities/candidate-cv.entity';
-import { CandidateCvParseStatus } from '../candidate/entities/candidate.enum';
+import { CandidateCvParseStatus, CandidateCvSource } from '../candidate/entities/candidate.enum';
 import { CvParsingClientService } from '../cv-parsing-client/cv-parsing-client.service';
 import { DocumentClientService } from '../document-client/document-client.service';
 import {
@@ -83,6 +83,9 @@ export class CvService {
         title: this.resolveCvTitle(dto.title, file.originalname),
         isDefault: shouldSetDefault,
         parseStatus: dto.parse ? CandidateCvParseStatus.PARSING : CandidateCvParseStatus.NOT_PARSED,
+        source: CandidateCvSource.UPLOADED,
+        sourceTemplateId: null,
+        sourceCvId: null,
         parsedAt: null,
         deletedAt: null,
         documentDeletedAt: null,
@@ -300,6 +303,9 @@ export class CvService {
       title: cv.title,
       isDefault: cv.isDefault,
       parseStatus: cv.parseStatus,
+      source: cv.source,
+      sourceTemplateId: cv.sourceTemplateId,
+      sourceCvId: cv.sourceCvId,
       parsedAt: cv.parsedAt,
       createdAt: cv.createdAt,
       updatedAt: cv.updatedAt,

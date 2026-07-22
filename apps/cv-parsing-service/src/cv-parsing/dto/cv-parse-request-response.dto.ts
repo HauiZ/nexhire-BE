@@ -12,8 +12,8 @@ export class CvParseRequestResponseDto {
   @ApiProperty()
   requestedByUserId: string;
 
-  @ApiProperty()
-  candidateCvId: string;
+  @ApiPropertyOptional({ nullable: true })
+  candidateCvId: string | null;
 
   @ApiProperty()
   documentId: string;

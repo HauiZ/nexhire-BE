@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
@@ -11,7 +11,7 @@ import { CvParseRequestResponseDto } from './dto/cv-parse-request-response.dto';
 import { CvParseResultResponseDto } from './dto/cv-parse-result-response.dto';
 import { CvParseRequest } from './entities/cv-parse-request.entity';
 import { CvParseResult } from './entities/cv-parse-result.entity';
-import { CvParseProvider, CvParseRequestStatus } from './entities/cv-parsing.enum';
+import { CvParseContext, CvParseProvider, CvParseRequestStatus } from './entities/cv-parsing.enum';
 import { CandidateClientService } from '../candidate-client/candidate-client.service';
 import { GeminiResumeParserClient } from '../gemini/gemini-resume-parser.client';
 import { ResumeNormalizerService } from '../skima/resume-normalizer.service';
@@ -33,25 +33,8 @@ export class CvParsingService {
   ) {}
 
   async createParseRequest(dto: CreateCvParseRequestDto): Promise<CvParseRequestResponseDto> {
-    const provider = this.resolveProvider();
-    const providerVersion = this.resolveProviderVersion(provider);
-
-    const request = await this.parseRequestRepo.save(
-      this.parseRequestRepo.create({
-        candidateId: dto.candidateId,
-        requestedByUserId: dto.requestedByUserId,
-        candidateCvId: dto.candidateCvId,
-        documentId: dto.documentId,
-        documentUrl: dto.documentUrl ?? null,
-        context: dto.context,
-        status: CvParseRequestStatus.QUEUED,
-        provider,
-        providerVersion,
-        contentHash: null,
-        errorCode: null,
-        errorMessage: null,
-      }),
-    );
+    this.assertCreateParseRequest(dto, false);
+    const request = await this.createQueuedRequest(dto);
 
     if (dto.documentUrl) {
       void this.processWithProvider(request.id, dto.documentUrl).catch((error: unknown) => {
@@ -65,6 +48,45 @@ export class CvParsingService {
       where: { id: request.id },
     });
     return this.mapParseRequest(updatedRequest);
+  }
+
+  async parseTemplateFill(dto: CreateCvParseRequestDto): Promise<CvParseResultResponseDto> {
+    this.assertCreateParseRequest(dto, true);
+    if (!dto.documentUrl) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'documentUrl is required for template CV parsing',
+      });
+    }
+
+    const request = await this.createQueuedRequest({
+      ...dto,
+      context: CvParseContext.TEMPLATE_FILL,
+      candidateCvId: dto.candidateCvId ?? undefined,
+    });
+    return this.processWithProvider(request.id, dto.documentUrl);
+  }
+
+  private async createQueuedRequest(dto: CreateCvParseRequestDto): Promise<CvParseRequest> {
+    const provider = this.resolveProvider();
+    const providerVersion = this.resolveProviderVersion(provider);
+
+    return this.parseRequestRepo.save(
+      this.parseRequestRepo.create({
+        candidateId: dto.candidateId,
+        requestedByUserId: dto.requestedByUserId,
+        candidateCvId: dto.candidateCvId ?? null,
+        documentId: dto.documentId,
+        documentUrl: dto.documentUrl ?? null,
+        context: dto.context,
+        status: CvParseRequestStatus.QUEUED,
+        provider,
+        providerVersion,
+        contentHash: null,
+        errorCode: null,
+        errorMessage: null,
+      }),
+    );
   }
 
   async completeParseRequest(
@@ -101,17 +123,20 @@ export class CvParsingService {
       return { request, parseResult };
     });
 
-    await this.applyParsedResumeToCandidate(result.request, dto.normalizedPayload).catch(
-      async (error: unknown) => {
-        await this.markParseRequestFailed(
-          result.request.id,
-          'CANDIDATE.PROFILE_APPLY_FAILED',
-          (error as Error).message,
-        );
-        await this.markCandidateCvParseFailed(result.request, (error as Error).message);
-        throw error;
-      },
-    );
+    const profileApplied = this.shouldApplyParsedResume(result.request);
+    if (profileApplied) {
+      await this.applyParsedResumeToCandidate(result.request, dto.normalizedPayload).catch(
+        async (error: unknown) => {
+          await this.markParseRequestFailed(
+            result.request.id,
+            'CANDIDATE.PROFILE_APPLY_FAILED',
+            (error as Error).message,
+          );
+          await this.markCandidateCvParseFailed(result.request, (error as Error).message);
+          throw error;
+        },
+      );
+    }
 
     await this.parseRequestRepo.update(result.request.id, {
       status: CvParseRequestStatus.SUCCEEDED,
@@ -119,7 +144,7 @@ export class CvParsingService {
       errorMessage: null,
     });
 
-    return this.mapParseResult(result.parseResult, true);
+    return this.mapParseResult(result.parseResult, profileApplied);
   }
 
   private async processWithProvider(
@@ -175,6 +200,9 @@ export class CvParsingService {
     request: CvParseRequest,
     normalizedPayload: CompleteCvParseRequestDto['normalizedPayload'],
   ): Promise<void> {
+    if (!request.candidateCvId) {
+      return;
+    }
     await this.candidateClientService.applyParsedResume({
       candidateId: request.candidateId,
       candidateCvId: request.candidateCvId,
@@ -187,12 +215,35 @@ export class CvParsingService {
     request: CvParseRequest,
     errorMessage: string,
   ): Promise<void> {
+    if (!request.candidateCvId) {
+      return;
+    }
     await this.candidateClientService.markCvParseFailed({
       candidateId: request.candidateId,
       candidateCvId: request.candidateCvId,
       requestedByUserId: request.requestedByUserId,
       errorMessage,
     });
+  }
+
+  private shouldApplyParsedResume(request: CvParseRequest): boolean {
+    return request.context === CvParseContext.PROFILE_UPDATE && Boolean(request.candidateCvId);
+  }
+
+  private assertCreateParseRequest(dto: CreateCvParseRequestDto, templateFillEndpoint: boolean): void {
+    if (dto.context === CvParseContext.PROFILE_UPDATE && !dto.candidateCvId) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'candidateCvId is required for PROFILE_UPDATE CV parsing',
+      });
+    }
+
+    if (!templateFillEndpoint && dto.context === CvParseContext.TEMPLATE_FILL) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'Use /internal/cv-parsing/template-fill for TEMPLATE_FILL parsing',
+      });
+    }
   }
 
   private async markParseRequestFailed(

@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-import { CandidateCvParseStatus } from '../../candidate/entities/candidate.enum';
+import { CandidateCvParseStatus, CandidateCvSource } from '../../candidate/entities/candidate.enum';
 
 export class CandidateCvResponseDto {
   @ApiProperty()
@@ -17,6 +17,15 @@ export class CandidateCvResponseDto {
 
   @ApiProperty({ enum: CandidateCvParseStatus })
   parseStatus: CandidateCvParseStatus;
+
+  @ApiProperty({ enum: CandidateCvSource })
+  source: CandidateCvSource;
+
+  @ApiPropertyOptional({ nullable: true })
+  sourceTemplateId: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  sourceCvId: string | null;
 
   @ApiPropertyOptional({ nullable: true })
   parsedAt: Date | null;

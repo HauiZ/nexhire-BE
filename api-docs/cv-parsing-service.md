@@ -33,10 +33,10 @@ Request body:
 | ------------------- | ---- | -------- | --------------------------------------------------------- |
 | `candidateId`       | uuid | Yes      | Candidate profile id                                      |
 | `requestedByUserId` | uuid | Yes      | User id used for applying parsed profile                  |
-| `candidateCvId`     | uuid | Yes      | CV library record id                                      |
+| `candidateCvId`     | uuid | No       | CV library record id; omitted for `TEMPLATE_FILL`         |
 | `documentId`        | uuid | Yes      | Uploaded document id                                      |
 | `documentUrl`       | url  | No       | Temporary signed file URL used by the parser provider     |
-| `context`           | enum | Yes      | `PROFILE_UPDATE`, `MATCHING_APPLICATION`, `MANUAL_REVIEW` |
+| `context`           | enum | Yes      | `PROFILE_UPDATE`, `TEMPLATE_FILL`, `MATCHING_APPLICATION`, `MANUAL_REVIEW` |
 
 Success response:
 
@@ -100,7 +100,49 @@ Notes:
 
 - This endpoint is not for FE.
 - It is intended for a parser worker/trusted service that already has a normalized `ParsedResume`.
-- Calling it persists the result and applies the parsed resume back into candidate-service.
+- Calling it persists the result.
+- It applies parsed resume back into candidate-service only when request context is `PROFILE_UPDATE` and `candidateCvId` is present.
+
+### `POST /api/v1/internal/cv-parsing/template-fill`
+
+Summary: Parse a CV synchronously for CV template filling without applying candidate profile.
+
+Auth:
+
+- Required
+- Internal call from candidate-service
+- Header: `x-internal-service-token`
+
+Request body:
+
+| Field               | Type | Required | Note                              |
+| ------------------- | ---- | -------- | --------------------------------- |
+| `candidateId`       | uuid | Yes      | Candidate profile id              |
+| `requestedByUserId` | uuid | Yes      | Current candidate user id         |
+| `candidateCvId`     | uuid | No       | Usually omitted for template fill |
+| `documentId`        | uuid | Yes      | Source document id                |
+| `documentUrl`       | url  | Yes      | Temporary signed file URL         |
+| `context`           | enum | Yes      | Sent as `TEMPLATE_FILL`           |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "7fe45c31-0c44-4f2d-b071-25f7f5adf7a0",
+    "parseRequestId": "e12f44a5-5b0e-4fcf-88bb-d8f7168b54ed",
+    "candidateId": "b8b33c46-4bb0-4a33-8b0d-927e081a38a5",
+    "candidateCvId": null,
+    "documentId": "2f67a247-7ff0-4e50-bff7-a2dcfbf6de2e",
+    "provider": "GEMINI",
+    "providerVersion": "gemini-3.5-flash",
+    "normalizedPayload": {},
+    "profileApplied": false,
+    "createdAt": "2026-07-22T10:01:00.000Z"
+  }
+}
+```
 
 ## Environment
 

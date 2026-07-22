@@ -23,6 +23,16 @@ export class CvParsingInternalController {
     return this.cvParsingService.createParseRequest(dto);
   }
 
+  @Post('template-fill')
+  @ApiOperation({
+    summary: 'Parse a CV synchronously for template filling without applying candidate profile',
+  })
+  @ApiSuccessResponse(CvParseResultResponseDto, { status: 201 })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500, 503] })
+  parseTemplateFill(@Body() dto: CreateCvParseRequestDto): Promise<CvParseResultResponseDto> {
+    return this.cvParsingService.parseTemplateFill(dto);
+  }
+
   @Post('requests/:id/complete')
   @HttpCode(200)
   @ApiOperation({ summary: 'Persist a parsed CV result and apply it to candidate profile' })

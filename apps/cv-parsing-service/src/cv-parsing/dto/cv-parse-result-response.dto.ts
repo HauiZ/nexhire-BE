@@ -14,8 +14,8 @@ export class CvParseResultResponseDto {
   @ApiProperty()
   candidateId: string;
 
-  @ApiProperty()
-  candidateCvId: string;
+  @ApiPropertyOptional({ nullable: true })
+  candidateCvId: string | null;
 
   @ApiProperty()
   documentId: string;

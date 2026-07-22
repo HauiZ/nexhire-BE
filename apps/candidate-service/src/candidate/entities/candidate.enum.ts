@@ -30,3 +30,27 @@ export enum CandidateCvParseStatus {
   PARSED = 'PARSED',
   FAILED = 'FAILED',
 }
+
+export enum CandidateCvSource {
+  UPLOADED = 'UPLOADED',
+  TEMPLATE_EXPORT = 'TEMPLATE_EXPORT',
+}
+
+export enum CvTemplateKey {
+  MODERN = 'modern',
+  CLASSIC = 'classic',
+  MINIMAL = 'minimal',
+}
+
+export enum CvTemplateSectionKey {
+  PROFILE = 'profile',
+  SUMMARY = 'summary',
+  SKILLS = 'skills',
+  EXPERIENCES = 'experiences',
+  EDUCATIONS = 'educations',
+  PROJECTS = 'projects',
+  CERTIFICATIONS = 'certifications',
+  LANGUAGES = 'languages',
+  AWARDS = 'awards',
+  REFERENCES = 'references',
+}

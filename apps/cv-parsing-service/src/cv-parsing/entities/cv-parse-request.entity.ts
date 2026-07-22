@@ -30,8 +30,8 @@ export class CvParseRequest {
   @Column({ name: 'requested_by_user_id', type: 'uuid' })
   requestedByUserId: string;
 
-  @Column({ name: 'candidate_cv_id', type: 'uuid' })
-  candidateCvId: string;
+  @Column({ name: 'candidate_cv_id', type: 'uuid', nullable: true })
+  candidateCvId: string | null;
 
   @Column({ name: 'document_id', type: 'uuid' })
   documentId: string;
