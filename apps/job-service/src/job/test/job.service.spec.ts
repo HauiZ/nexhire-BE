@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { REDIS_CLIENT } from '@nexhire/infra';
 import {
   ERROR_CODES,
   JobExperienceLevel,
@@ -70,6 +71,11 @@ describe('JobService', () => {
   };
   let documentClientService: {
     createDownloadUrl: jest.Mock;
+  };
+  let redis: {
+    get: jest.Mock;
+    set: jest.Mock;
+    incr: jest.Mock;
   };
   let processedEventRepo: {
     findOne: jest.Mock;
@@ -251,6 +257,11 @@ describe('JobService', () => {
     documentClientService = {
       createDownloadUrl: jest.fn(),
     };
+    redis = {
+      get: jest.fn().mockResolvedValue(null),
+      set: jest.fn().mockResolvedValue('OK'),
+      incr: jest.fn().mockResolvedValue(1),
+    };
     processedEventRepo = {
       findOne: jest.fn(),
       create: jest.fn((value) => value),
@@ -286,6 +297,7 @@ describe('JobService', () => {
         JobSearchTextService,
         { provide: JobEventPublisher, useValue: jobEventPublisher },
         { provide: DocumentClientService, useValue: documentClientService },
+        { provide: REDIS_CLIENT, useValue: redis },
         { provide: getRepositoryToken(Job), useValue: jobRepo },
         { provide: getRepositoryToken(JobRevision), useValue: revisionRepo },
         { provide: getRepositoryToken(JobModerationReview), useValue: moderationReviewRepo },
@@ -731,6 +743,73 @@ describe('JobService', () => {
     );
   });
 
+  it('caches public job list responses by normalized query', async () => {
+    const expected = {
+      data: [
+        {
+          id: publishedJob.id,
+          title: publishedJob.title,
+          companyId: publishedJob.companyId,
+          companyName: publishedJob.companyName,
+          companyLogoUrl: publishedJob.companyLogoUrl,
+          companyLogoDocumentId: publishedJob.companyLogoDocumentId,
+          skills: publishedJob.skills,
+          categoryId: publishedJob.categoryId,
+          employmentType: publishedJob.employmentType,
+          workingType: publishedJob.workingType,
+          experienceLevel: publishedJob.experienceLevel,
+          location: publishedJob.location,
+          salaryMin: publishedJob.salaryMin,
+          salaryMax: publishedJob.salaryMax,
+          salaryCurrency: publishedJob.salaryCurrency,
+          isSalaryVisible: publishedJob.isSalaryVisible,
+          deadline: publishedJob.deadline,
+          publishedAt: publishedJob.publishedAt,
+        },
+      ],
+      meta: { page: 1, limit: 10, total: 1, totalPages: 1 },
+    };
+    const query = { page: 1, limit: 10, skip: 0, q: 'nestjs' };
+    redis.get
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(JSON.stringify(expected));
+    jobSearchProvider.searchPublicJobs.mockResolvedValue(expected);
+
+    await expect(service.listPublic(query as any)).resolves.toBe(expected);
+    await expect(service.listPublic({ ...query } as any)).resolves.toEqual(
+      JSON.parse(JSON.stringify(expected)),
+    );
+
+    expect(jobSearchProvider.searchPublicJobs).toHaveBeenCalledTimes(1);
+    expect(redis.set).toHaveBeenCalledWith(
+      expect.stringContaining('job:public-cache:v0:'),
+      JSON.stringify(expected),
+      'EX',
+      30,
+    );
+  });
+
+  it('invalidates public job cache when a job is reviewed into public flow', async () => {
+    const expected = {
+      data: [],
+      meta: { page: 1, limit: 10, total: 0, totalPages: 0 },
+    };
+    const query = { page: 1, limit: 10, skip: 0 };
+    redis.get.mockResolvedValue(null);
+    jobSearchProvider.searchPublicJobs.mockResolvedValue(expected);
+
+    await service.listPublic(query as any);
+    jobRepo.findOne.mockResolvedValue({ ...publishedJob, status: JobStatus.PENDING_REVIEW });
+    jobRepo.save.mockResolvedValue({ ...publishedJob, status: JobStatus.PUBLISHED });
+    await service.reviewJob(admin, publishedJob.id, { decision: JobReviewDecision.APPROVE });
+    await service.listPublic(query as any);
+
+    expect(jobSearchProvider.searchPublicJobs).toHaveBeenCalledTimes(2);
+    expect(redis.incr).toHaveBeenCalledWith('job:public-cache:version');
+  });
+
   it('lists featured companies from published jobs', async () => {
     const qb = {
       select: jest.fn().mockReturnThis(),
@@ -794,16 +873,24 @@ describe('JobService', () => {
       andWhere: jest.fn().mockReturnThis(),
       getRawOne: jest.fn().mockResolvedValue({ count: '4' }),
     };
+    const expected = {
+      publishedJobCount: 42,
+      activeCompanyCount: 6,
+      categoryCount: 4,
+    };
+    redis.get
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(JSON.stringify(expected));
     jobRepo.count.mockResolvedValue(42);
     jobRepo.createQueryBuilder
       .mockReturnValueOnce(companyCountQb)
       .mockReturnValueOnce(categoryCountQb);
 
-    await expect(service.getHomeStats()).resolves.toEqual({
-      publishedJobCount: 42,
-      activeCompanyCount: 6,
-      categoryCount: 4,
-    });
+    await expect(service.getHomeStats()).resolves.toEqual(expected);
+    await expect(service.getHomeStats()).resolves.toEqual(expected);
+    expect(jobRepo.count).toHaveBeenCalledTimes(1);
     expect(jobRepo.count).toHaveBeenCalledWith({
       where: { status: JobStatus.PUBLISHED, deletedAt: expect.any(Object) },
     });

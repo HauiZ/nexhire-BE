@@ -8,6 +8,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { REDIS_CLIENT } from '@nexhire/infra';
 import {
   AuthUser,
   ERROR_CODES,
@@ -18,6 +19,7 @@ import {
   JobStatus,
   UserRole,
 } from '@nexhire/shared';
+import { Redis } from 'ioredis';
 import { Brackets, DataSource, In, IsNull, Repository } from 'typeorm';
 import { CompanySnapshotService } from './company/company-snapshot.service';
 import {
@@ -73,6 +75,8 @@ const ACTIVE_REVISION_STATUSES = [
 ];
 
 const COMPANY_STATUS_NOT_APPROVED_MESSAGE = 'Company is no longer approved for job posting';
+const PUBLIC_JOB_CACHE_TTL_SECONDS = 30;
+const PUBLIC_JOB_CACHE_VERSION_KEY = 'job:public-cache:version';
 
 export interface CompanyPostingSnapshotChangedPayload {
   companyId: string;
@@ -120,6 +124,8 @@ export class JobService {
     private readonly searchTextService: JobSearchTextService,
     private readonly jobEventPublisher: JobEventPublisher,
     private readonly documentClientService: DocumentClientService,
+    @Inject(REDIS_CLIENT)
+    private readonly redis: Redis,
     @InjectRepository(Job)
     private readonly jobRepo: Repository<Job>,
     @InjectRepository(JobRevision)
@@ -129,14 +135,19 @@ export class JobService {
   ) {}
 
   async listPublic(query: PublicJobQueryDto): Promise<Paginated<PublicJobListItemDto>> {
-    return this.jobSearchProvider.searchPublicJobs(query);
+    return this.getOrSetPublicCache(['public-jobs', this.cacheableQuery(query)], () =>
+      this.jobSearchProvider.searchPublicJobs(query),
+    );
   }
 
   async listPublicByCompany(
     companyId: string,
     query: PublicJobQueryDto,
   ): Promise<Paginated<PublicJobListItemDto>> {
-    return this.jobSearchProvider.searchPublicCompanyJobs(companyId, query);
+    return this.getOrSetPublicCache(
+      ['public-company-jobs', companyId, this.cacheableQuery(query)],
+      () => this.jobSearchProvider.searchPublicCompanyJobs(companyId, query),
+    );
   }
 
   async getPublic(id: string): Promise<PublicJobDetailDto> {
@@ -152,6 +163,12 @@ export class JobService {
 
   async listFeaturedCompanies(limitValue?: string): Promise<PublicFeaturedCompanyDto[]> {
     const limit = this.parsePublicLimit(limitValue, 6, 20);
+    return this.getOrSetPublicCache(['featured-companies', limit], () =>
+      this.listFeaturedCompaniesUncached(limit),
+    );
+  }
+
+  private async listFeaturedCompaniesUncached(limit: number): Promise<PublicFeaturedCompanyDto[]> {
     const rows = await this.jobRepo
       .createQueryBuilder('job')
       .select('job.companyId', 'companyId')
@@ -191,6 +208,10 @@ export class JobService {
   }
 
   async getHomeStats(): Promise<PublicHomeStatsDto> {
+    return this.getOrSetPublicCache(['home-stats'], () => this.getHomeStatsUncached());
+  }
+
+  private async getHomeStatsUncached(): Promise<PublicHomeStatsDto> {
     const [publishedJobCount, activeCompanyCount, categoryCount] = await Promise.all([
       this.jobRepo.count({ where: { status: JobStatus.PUBLISHED, deletedAt: IsNull() } }),
       this.jobRepo
@@ -258,6 +279,7 @@ export class JobService {
       .execute();
     const affected = result.affected ?? 0;
     if (affected > 0) {
+      await this.invalidatePublicCache();
       this.logger.log(`Expired published jobs count=${affected}`);
     }
     return affected;
@@ -356,6 +378,7 @@ export class JobService {
       this.searchTextService.buildSearchFields(dto, job.companyName),
     );
     const updated = await this.jobRepo.save(job);
+    await this.invalidatePublicCache();
     this.logger.log(`Job updated jobId=${updated.id} status=${updated.status} userId=${user.id}`);
     return this.mapJob(updated);
   }
@@ -602,6 +625,7 @@ export class JobService {
     }
 
     const saved = await this.jobRepo.save(job);
+    await this.invalidatePublicCache();
     await this.markLatestReview(saved.id, saved.id, admin, dto);
     if (saved.status === JobStatus.PUBLISHED) {
       await this.jobEventPublisher.publishJobPublished({
@@ -695,6 +719,7 @@ export class JobService {
         Object.assign(job, this.searchTextService.buildSearchFields(revision, job.companyName));
         job.version += 1;
         await manager.save(Job, job);
+        await this.invalidatePublicCache();
       }
 
       await this.markLatestReviewTx(
@@ -753,6 +778,7 @@ export class JobService {
 
     await this.dataSource.transaction(async (manager) => {
       await manager.update(Job, { companyId: payload.companyId }, snapshotPatch);
+      await this.invalidatePublicCache();
 
       if (payload.companyName !== undefined) {
         const jobs = await manager.find(Job, { where: { companyId: payload.companyId } });
@@ -823,6 +849,7 @@ export class JobService {
         }),
       );
       await manager.increment(Job, { id: payload.jobId }, 'applicationCount', 1);
+      await this.invalidatePublicCache();
     });
     this.logger.log(
       `Application submitted event processed applicationId=${payload.applicationId} jobId=${payload.jobId}`,
@@ -842,6 +869,7 @@ export class JobService {
     }
     job.deletedAt = new Date();
     await this.jobRepo.save(job);
+    await this.invalidatePublicCache();
     this.logger.log(
       `Job soft deleted jobId=${job.id} companyId=${job.companyId} userId=${user.id}`,
     );
@@ -1030,6 +1058,7 @@ export class JobService {
     job.unpublishedAt = new Date();
     job.unpublishReason = reason?.trim() || null;
     const saved = await this.jobRepo.save(job);
+    await this.invalidatePublicCache();
     await this.jobEventPublisher.publishJobUnpublished({
       jobId: saved.id,
       companyId: saved.companyId,
@@ -1059,6 +1088,7 @@ export class JobService {
     job.unpublishReason = null;
     job.publishedAt = job.publishedAt ?? new Date();
     const saved = await this.jobRepo.save(job);
+    await this.invalidatePublicCache();
     this.logger.log(`Job republished jobId=${saved.id} companyId=${saved.companyId}`);
     return this.mapJob(saved);
   }
@@ -1081,6 +1111,7 @@ export class JobService {
       job.unpublishReason = reason?.trim() || 'Job closed';
     }
     const saved = await this.jobRepo.save(job);
+    await this.invalidatePublicCache();
     await this.jobEventPublisher.publishJobClosed({
       jobId: saved.id,
       companyId: saved.companyId,
@@ -1348,5 +1379,65 @@ export class JobService {
       code: ERROR_CODES.JOB.JOB_NOT_FOUND,
       message: 'Job was not found',
     });
+  }
+
+  private async getOrSetPublicCache<T>(keyParts: unknown[], loader: () => Promise<T>): Promise<T> {
+    const cacheKey = await this.publicCacheKey(keyParts);
+    const cached = await this.getPublicCache<T>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const value = await loader();
+    await this.setPublicCache(cacheKey, value);
+    return value;
+  }
+
+  private async publicCacheKey(keyParts: unknown[]): Promise<string> {
+    const version = await this.publicCacheVersion();
+    return `job:public-cache:v${version}:${JSON.stringify(keyParts)}`;
+  }
+
+  private async publicCacheVersion(): Promise<string> {
+    try {
+      return (await this.redis.get(PUBLIC_JOB_CACHE_VERSION_KEY)) ?? '0';
+    } catch (error) {
+      this.logger.warn(`Redis public cache version read failed: ${(error as Error).message}`);
+      return '0';
+    }
+  }
+
+  private async getPublicCache<T>(cacheKey: string): Promise<T | null> {
+    try {
+      const cached = await this.redis.get(cacheKey);
+      return cached ? (JSON.parse(cached) as T) : null;
+    } catch (error) {
+      this.logger.warn(`Redis public cache read failed key=${cacheKey}: ${(error as Error).message}`);
+      return null;
+    }
+  }
+
+  private async setPublicCache<T>(cacheKey: string, value: T): Promise<void> {
+    try {
+      await this.redis.set(cacheKey, JSON.stringify(value), 'EX', PUBLIC_JOB_CACHE_TTL_SECONDS);
+    } catch (error) {
+      this.logger.warn(`Redis public cache write failed key=${cacheKey}: ${(error as Error).message}`);
+    }
+  }
+
+  private async invalidatePublicCache(): Promise<void> {
+    try {
+      await this.redis.incr(PUBLIC_JOB_CACHE_VERSION_KEY);
+    } catch (error) {
+      this.logger.warn(`Redis public cache invalidation failed: ${(error as Error).message}`);
+    }
+  }
+
+  private cacheableQuery(query: PublicJobQueryDto): Record<string, unknown> {
+    return Object.fromEntries(
+      Object.entries(query)
+        .filter(([, value]) => value !== undefined && value !== null && value !== '')
+        .sort(([left], [right]) => left.localeCompare(right)),
+    );
   }
 }

@@ -1,8 +1,10 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
+import { Inject, Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { REDIS_CLIENT } from '@nexhire/infra';
 import { ERROR_CODES, HEADERS, UserRole } from '@nexhire/shared';
 import { AxiosError } from 'axios';
+import { Redis } from 'ioredis';
 import { firstValueFrom } from 'rxjs';
 import { DocumentDownloadResponse } from './interfaces/document-download-response.interface';
 
@@ -14,20 +16,18 @@ interface ApiEnvelope<T> {
 @Injectable()
 export class DocumentClientService {
   private readonly logger = new Logger(DocumentClientService.name);
-  private readonly downloadUrlCache = new Map<
-    string,
-    { value: DocumentDownloadResponse; expiresAt: number }
-  >();
 
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
+    @Inject(REDIS_CLIENT) private readonly redis: Redis,
   ) {}
 
   async createDownloadUrl(documentId: string): Promise<DocumentDownloadResponse> {
-    const cached = this.downloadUrlCache.get(documentId);
-    if (cached && cached.expiresAt > Date.now()) {
-      return cached.value;
+    const cacheKey = `job:document-download:${documentId}`;
+    const cached = await this.getCachedDownloadUrl(cacheKey);
+    if (cached) {
+      return cached;
     }
 
     const baseUrl = this.configService.get<string>('jobService.services.documentStorageService');
@@ -49,7 +49,7 @@ export class DocumentClientService {
         ),
       );
       const download = response.data.data;
-      this.cacheDownloadUrl(documentId, download);
+      await this.cacheDownloadUrl(cacheKey, download);
       return download;
     } catch (error) {
       const detail = error instanceof AxiosError ? error.message : String(error);
@@ -61,14 +61,28 @@ export class DocumentClientService {
     }
   }
 
-  private cacheDownloadUrl(documentId: string, download: DocumentDownloadResponse): void {
-    const ttlMs = Math.max(0, (download.expiresInSeconds - 60) * 1000);
-    if (ttlMs <= 0) {
+  private async getCachedDownloadUrl(cacheKey: string): Promise<DocumentDownloadResponse | null> {
+    try {
+      const cached = await this.redis.get(cacheKey);
+      return cached ? (JSON.parse(cached) as DocumentDownloadResponse) : null;
+    } catch (error) {
+      this.logger.warn(`Redis document cache read failed key=${cacheKey}: ${(error as Error).message}`);
+      return null;
+    }
+  }
+
+  private async cacheDownloadUrl(
+    cacheKey: string,
+    download: DocumentDownloadResponse,
+  ): Promise<void> {
+    const ttlSeconds = Math.max(0, download.expiresInSeconds - 60);
+    if (ttlSeconds <= 0) {
       return;
     }
-    this.downloadUrlCache.set(documentId, {
-      value: download,
-      expiresAt: Date.now() + ttlMs,
-    });
+    try {
+      await this.redis.set(cacheKey, JSON.stringify(download), 'EX', ttlSeconds);
+    } catch (error) {
+      this.logger.warn(`Redis document cache write failed key=${cacheKey}: ${(error as Error).message}`);
+    }
   }
 }

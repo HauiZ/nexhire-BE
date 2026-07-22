@@ -8,21 +8,31 @@ describe('ApplicationInternalClientService', () => {
   let service: ApplicationInternalClientService;
   let httpService: { get: jest.Mock };
   let configService: { get: jest.Mock };
+  let redis: { get: jest.Mock; set: jest.Mock };
 
   beforeEach(() => {
     jest.spyOn(Logger.prototype, 'error').mockImplementation(() => undefined);
     httpService = { get: jest.fn() };
+    redis = {
+      get: jest.fn().mockResolvedValue(null),
+      set: jest.fn().mockResolvedValue('OK'),
+    };
     configService = {
       get: jest.fn((key: string, fallback?: unknown) => {
         const values: Record<string, unknown> = {
           'applicationService.services.jobService': 'http://job-service:3004',
+          'applicationService.services.documentStorageService': 'http://document-storage:3007',
           'applicationService.http.timeoutMs': 5000,
           'applicationService.internalServiceToken': 'internal-token',
         };
         return values[key] ?? fallback;
       }),
     };
-    service = new ApplicationInternalClientService(httpService as any, configService as any);
+    service = new ApplicationInternalClientService(
+      httpService as any,
+      configService as any,
+      redis as any,
+    );
   });
 
   afterEach(() => {
@@ -89,5 +99,65 @@ describe('ApplicationInternalClientService', () => {
     await expect(service.getJobApplicationSnapshot('job-1')).rejects.toBeInstanceOf(
       ServiceUnavailableException,
     );
+  });
+
+  it('caches document download URLs until shortly before expiry', async () => {
+    const cachedPayload = {
+      id: 'document-1',
+      fileName: 'cv.pdf',
+      mimeType: 'application/pdf',
+      size: 1024,
+      url: 'https://storage.local/cv.pdf',
+      expiresInSeconds: 3600,
+    };
+    redis.get
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(JSON.stringify(cachedPayload));
+    httpService.get.mockReturnValue(
+      of({
+        data: {
+          success: true,
+          data: cachedPayload,
+        },
+      }),
+    );
+
+    await expect(service.getDocumentDownload('document-1')).resolves.toEqual(
+      expect.objectContaining({ url: 'https://storage.local/cv.pdf' }),
+    );
+    await expect(service.getDocumentDownload('document-1')).resolves.toEqual(
+      expect.objectContaining({ url: 'https://storage.local/cv.pdf' }),
+    );
+
+    expect(httpService.get).toHaveBeenCalledTimes(1);
+    expect(httpService.get).toHaveBeenCalledWith(
+      'http://document-storage:3007/api/v1/internal/documents/document-1/download-url',
+      expect.any(Object),
+    );
+    expect(redis.set).toHaveBeenCalledWith(
+      'application:document-download:document-1',
+      expect.any(String),
+      'EX',
+      3540,
+    );
+  });
+
+  it('uses cached document download URLs from Redis', async () => {
+    redis.get.mockResolvedValue(
+      JSON.stringify({
+        id: 'document-1',
+        fileName: 'cv.pdf',
+        mimeType: 'application/pdf',
+        size: 1024,
+        url: 'https://storage.local/cached-cv.pdf',
+        expiresInSeconds: 3600,
+      }),
+    );
+
+    await expect(service.getDocumentDownload('document-1')).resolves.toEqual(
+      expect.objectContaining({ url: 'https://storage.local/cached-cv.pdf' }),
+    );
+
+    expect(httpService.get).not.toHaveBeenCalled();
   });
 });

@@ -1,7 +1,9 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
+import { HttpException, Inject, Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { REDIS_CLIENT } from '@nexhire/infra';
 import { AxiosError } from 'axios';
+import { Redis } from 'ioredis';
 import { firstValueFrom } from 'rxjs';
 import { ERROR_CODES, HEADERS, JobStatus, UserRole } from '@nexhire/shared';
 
@@ -51,6 +53,7 @@ export class ApplicationInternalClientService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
+    @Inject(REDIS_CLIENT) private readonly redis: Redis,
   ) {}
 
   async getJobApplicationSnapshot(jobId: string): Promise<JobApplicationSnapshot> {
@@ -71,10 +74,45 @@ export class ApplicationInternalClientService {
   }
 
   async getDocumentDownload(documentId: string): Promise<DocumentDownloadSnapshot> {
-    return this.getFromService<DocumentDownloadSnapshot>(
+    const cacheKey = `application:document-download:${documentId}`;
+    const cached = await this.getCachedDocumentDownload(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const download = await this.getFromService<DocumentDownloadSnapshot>(
       'documentStorageService',
       `/api/v1/internal/documents/${documentId}/download-url`,
     );
+    await this.cacheDocumentDownload(cacheKey, download);
+    return download;
+  }
+
+  private async getCachedDocumentDownload(
+    cacheKey: string,
+  ): Promise<DocumentDownloadSnapshot | null> {
+    try {
+      const cached = await this.redis.get(cacheKey);
+      return cached ? (JSON.parse(cached) as DocumentDownloadSnapshot) : null;
+    } catch (error) {
+      this.logger.warn(`Redis document cache read failed key=${cacheKey}: ${(error as Error).message}`);
+      return null;
+    }
+  }
+
+  private async cacheDocumentDownload(
+    cacheKey: string,
+    download: DocumentDownloadSnapshot,
+  ): Promise<void> {
+    const ttlSeconds = Math.max(0, download.expiresInSeconds - 60);
+    if (ttlSeconds <= 0) {
+      return;
+    }
+    try {
+      await this.redis.set(cacheKey, JSON.stringify(download), 'EX', ttlSeconds);
+    } catch (error) {
+      this.logger.warn(`Redis document cache write failed key=${cacheKey}: ${(error as Error).message}`);
+    }
   }
 
   private async getFromService<T>(serviceKey: string, path: string): Promise<T> {

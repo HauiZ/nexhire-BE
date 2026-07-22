@@ -8,6 +8,7 @@ import {
   EventBusModule,
   rabbitmqConfig,
   redisConfig,
+  RedisModule,
 } from '@nexhire/infra';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { CompanyModule } from './company/company.module';
@@ -29,6 +30,7 @@ import { HealthModule } from './health/health.module';
       validationSchema,
     }),
     TypeOrmModule.forRootAsync({ inject: [ConfigService], useFactory: buildTypeOrmOptions() }),
+    RedisModule.forRoot(),
     EventBusModule,
     HealthModule,
     CompanyModule,
