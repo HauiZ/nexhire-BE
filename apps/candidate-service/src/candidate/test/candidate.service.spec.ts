@@ -503,6 +503,113 @@ describe('CandidateService', () => {
     });
   });
 
+  it('applies parsed resume data to candidate profile sections', async () => {
+    const existingProfile = createProfile();
+    const updatedProfile = createProfile({
+      fullName: 'Nguyen Trung Hau',
+      phone: '0849710139',
+      contactEmail: 'ntrghau@gmail.com',
+      headline: 'Backend Developer',
+      summary: 'Aspiring backend engineer',
+      location: 'Ho Chi Minh, Viet Nam',
+      portfolioUrl: 'https://github.com/HauiZ',
+    });
+    const manager = createManager(profileRepo);
+    manager.findOneOrFail.mockResolvedValue(updatedProfile);
+    dataSource.transaction.mockImplementation((callback: (manager: EntityManager) => unknown) =>
+      callback(manager as unknown as EntityManager),
+    );
+    profileRepo.findOne.mockResolvedValue(updatedProfile);
+
+    await service.applyParsedResume(
+      existingProfile.id,
+      {
+        profile: {
+          fullName: 'Nguyen Trung Hau',
+          phone: '0849710139',
+          contactEmail: 'ntrghau@gmail.com',
+          headline: 'Backend Developer',
+          summary: 'Aspiring backend engineer',
+          location: 'Ho Chi Minh, Viet Nam',
+          portfolioUrl: 'https://github.com/HauiZ',
+        },
+        skills: [{ name: 'NestJS' }, { name: 'PostgreSQL' }],
+        experiences: [],
+        educations: [
+          {
+            schoolName: 'Posts and Telecommunications Institute of Technology (PTIT)',
+            degree: 'Bachelor of Information Technology',
+            fieldOfStudy: 'Software Engineering',
+            startYear: 2022,
+            endYear: 2027,
+            isCurrent: true,
+            description: 'GPA: 3.22/4.0',
+          },
+        ],
+        certifications: [
+          {
+            name: 'TOEIC (Listening & Reading)',
+            issuedYear: 2026,
+            description: 'Score: 745/990',
+          },
+        ],
+        projects: [
+          {
+            name: 'Recruitment Backend System',
+            description: 'Developed a recruitment backend system',
+            technologies: ['Node.js', 'Express', 'PostgreSQL'],
+            projectUrl: 'https://github.com/HauiZ/Backend_CVW.git',
+          },
+        ],
+      },
+      'cv-1',
+    );
+
+    expect(manager.update).toHaveBeenCalledWith(
+      CandidateProfile,
+      'candidate-1',
+      expect.objectContaining({
+        fullName: 'Nguyen Trung Hau',
+        contactEmail: 'ntrghau@gmail.com',
+      }),
+    );
+    expect(manager.delete).toHaveBeenCalledWith(CandidateSkill, {
+      candidateId: 'candidate-1',
+      source: CandidateDataSource.CV_PARSE,
+    });
+    expect(manager.save).toHaveBeenCalledWith(
+      CandidateEducation,
+      expect.arrayContaining([
+        expect.objectContaining({
+          schoolName: 'Posts and Telecommunications Institute of Technology (PTIT)',
+          startYear: 2022,
+          endYear: 2027,
+          isCurrent: true,
+          source: CandidateDataSource.CV_PARSE,
+        }),
+      ]),
+    );
+    expect(manager.save).toHaveBeenCalledWith(
+      CandidateProject,
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: 'Recruitment Backend System',
+          technologies: ['Node.js', 'Express', 'PostgreSQL'],
+          source: CandidateDataSource.CV_PARSE,
+        }),
+      ]),
+    );
+    expect(manager.update).toHaveBeenCalledWith(
+      CandidateCv,
+      { id: 'cv-1', candidateId: 'candidate-1' },
+      expect.objectContaining({
+        parseStatus: 'PARSED',
+        parsedAt: expect.any(Date),
+      }),
+    );
+    expect(candidateEventPublisher.publishProfileSnapshotChanged).not.toHaveBeenCalled();
+  });
+
   it('rejects duplicate skills after normalization', async () => {
     const existingProfile = createProfile();
     const manager = createManager(profileRepo);

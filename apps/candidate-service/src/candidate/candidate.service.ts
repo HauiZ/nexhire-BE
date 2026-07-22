@@ -466,7 +466,7 @@ export class CandidateService {
           degree: this.nullableString(education.degree),
           fieldOfStudy: this.nullableString(education.fieldOfStudy),
           startYear: education.startYear ?? null,
-          endYear: education.isCurrent ? null : (education.endYear ?? null),
+          endYear: education.endYear ?? null,
           isCurrent: education.isCurrent ?? false,
           description: this.nullableString(education.description),
           source,

@@ -3,8 +3,8 @@
 Base path:
 
 - Preferred internal service path: `/api/v1/internal/cv-parsing`
-- Legacy internal alias: `/api/v1/cv-parsing`
 - These endpoints require `x-internal-service-token` and are intended for service-to-service calls.
+- Manual/dev-only Gemini test endpoints live under `/api/v1/cv-parsing/manual`.
 
 Responsibility: AI/NLP CV parsing.
 
@@ -35,7 +35,7 @@ Request body:
 | `requestedByUserId` | uuid | Yes      | User id used for applying parsed profile                  |
 | `candidateCvId`     | uuid | Yes      | CV library record id                                      |
 | `documentId`        | uuid | Yes      | Uploaded document id                                      |
-| `documentUrl`       | url  | No       | File URL used by Skima parser                             |
+| `documentUrl`       | url  | No       | Temporary signed file URL used by the parser provider     |
 | `context`           | enum | Yes      | `PROFILE_UPDATE`, `MATCHING_APPLICATION`, `MANUAL_REVIEW` |
 
 Success response:
@@ -57,10 +57,6 @@ Success response:
   }
 }
 ```
-
-Legacy alias:
-
-- `POST /api/v1/cv-parsing/parse`
 
 ### `POST /api/v1/internal/cv-parsing/requests/:id/complete`
 
@@ -99,10 +95,6 @@ Success response:
   }
 }
 ```
-
-Legacy alias:
-
-- `POST /api/v1/cv-parsing/requests/:id/complete`
 
 Notes:
 
