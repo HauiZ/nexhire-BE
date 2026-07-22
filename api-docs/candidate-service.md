@@ -582,7 +582,7 @@ Important behavior:
 - Stores parsed data into `contentSnapshot` so FE can render/edit without another Gemini call.
 - After parse succeeds, candidate-service tries to delete the uploaded source document immediately.
 - If source cleanup succeeds, `sourceDocumentId` is returned as `null` and `sourceDocumentDeletedAt` is set.
-- If source cleanup fails, `sourceDocumentId` remains and `sourceDocumentDeleteError` is set for retry/audit.
+- If source cleanup fails, `sourceDocumentId` remains and candidate-service logs a warning for retry/audit.
 - Supports template-only sections `languages`, `awards`, and `references`.
 
 Success response:
@@ -597,7 +597,6 @@ Success response:
     "templateKey": "modern",
     "sourceDocumentId": null,
     "sourceDocumentDeletedAt": "2026-07-22T10:00:05.000Z",
-    "sourceDocumentDeleteError": null,
     "sourceCvId": null,
     "sourceParseRequestId": "e12f44a5-5b0e-4fcf-88bb-d8f7168b54ed",
     "theme": {},
@@ -635,6 +634,55 @@ Success response:
   }
 }
 ```
+
+### `POST /api/v1/cv-templates`
+
+Summary: Create a CV template manually from empty state or current default profile data.
+
+Auth: required, role `CANDIDATE`.
+
+Request body:
+
+```json
+{
+  "templateKey": "modern",
+  "name": "Backend CV",
+  "source": "DEFAULT",
+  "theme": {},
+  "layout": {
+    "sections": [
+      { "key": "profile", "visible": true, "sortOrder": 1 }
+    ]
+  },
+  "contentSnapshot": {
+    "profile": {
+      "id": "profile",
+      "fullName": "Nguyen Minh Khoa",
+      "avatarDocumentId": null,
+      "avatarUrl": null,
+      "visible": true
+    }
+  }
+}
+```
+
+Fields:
+
+| Field             | Type   | Required | Note                                      |
+| ----------------- | ------ | -------- | ----------------------------------------- |
+| `templateKey`     | enum   | Yes      | `modern`, `classic`, `minimal`            |
+| `name`            | string | No       | Max 255                                   |
+| `source`          | enum   | No       | `EMPTY` or `DEFAULT`; defaults to `EMPTY` |
+| `theme`           | object | No       | Optional initial theme                    |
+| `layout`          | object | No       | Optional initial layout                   |
+| `contentSnapshot` | object | No       | Optional initial content for autosave     |
+
+Notes:
+
+- `EMPTY` creates a blank template.
+- `DEFAULT` fills from current candidate profile data, including candidate profile avatar if present.
+- If `contentSnapshot` or `layout` is provided, it overrides the generated initial snapshot/layout. This supports autosave on the first user edit.
+- Avatar URL is not persisted; BE resolves `avatarUrl` at response time from `avatarDocumentId`.
 
 ### `GET /api/v1/cv-templates`
 
@@ -718,6 +766,26 @@ Rules:
 - `itemIds` must include every item currently in that section exactly once.
 - Unknown, missing, or duplicate ids are rejected.
 - `profile` and `summary` do not support item sort.
+
+### `PATCH /api/v1/cv-templates/:id/avatar`
+
+Summary: Upload or replace avatar for one CV template only.
+
+Request body: `multipart/form-data`
+
+| Field  | Type | Required | Note                                                 |
+| ------ | ---- | -------- | ---------------------------------------------------- |
+| `file` | file | Yes      | `image/jpeg`, `image/png`, or `image/webp`; max 5 MB |
+
+Success response: `CvTemplateResponseDto`.
+
+Behavior:
+
+- Updates `contentSnapshot.profile.avatarDocumentId`.
+- Returns runtime `contentSnapshot.profile.avatarUrl`.
+- Does not update candidate profile avatar.
+- Best-effort deletes the old template avatar document after the new avatar is saved.
+- If old avatar cleanup fails, candidate-service logs a warning and still returns success.
 
 ### `POST /api/v1/cv-templates/:id/export`
 

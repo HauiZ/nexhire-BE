@@ -11,6 +11,7 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 import {
+  CvTemplateCreateSource,
   CvTemplateKey,
   CvTemplateSectionKey,
 } from '../../candidate/entities/candidate.enum';
@@ -35,6 +36,38 @@ export class CreateCvTemplateFromCvDto {
   @IsString()
   @MaxLength(255)
   name?: string;
+}
+
+export class CreateCvTemplateDto {
+  @ApiProperty({ enum: CvTemplateKey, example: CvTemplateKey.MODERN })
+  @IsEnum(CvTemplateKey)
+  templateKey: CvTemplateKey;
+
+  @ApiPropertyOptional({ example: 'Backend CV' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  name?: string;
+
+  @ApiPropertyOptional({ enum: CvTemplateCreateSource, example: CvTemplateCreateSource.DEFAULT })
+  @IsOptional()
+  @IsEnum(CvTemplateCreateSource)
+  source?: CvTemplateCreateSource;
+
+  @ApiPropertyOptional({ type: 'object' })
+  @IsOptional()
+  @IsObject()
+  theme?: Record<string, unknown>;
+
+  @ApiPropertyOptional({ type: 'object' })
+  @IsOptional()
+  @IsObject()
+  layout?: Record<string, unknown>;
+
+  @ApiPropertyOptional({ type: 'object' })
+  @IsOptional()
+  @IsObject()
+  contentSnapshot?: Record<string, unknown>;
 }
 
 export class UpdateCvTemplateDto {

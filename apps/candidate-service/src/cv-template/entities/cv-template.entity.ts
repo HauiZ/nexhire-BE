@@ -57,9 +57,6 @@ export class CandidateCvTemplate {
   @Column({ name: 'source_document_deleted_at', type: 'timestamptz', nullable: true })
   sourceDocumentDeletedAt: Date | null;
 
-  @Column({ name: 'source_document_delete_error', type: 'text', nullable: true })
-  sourceDocumentDeleteError: string | null;
-
   @Column({ name: 'source_cv_id', type: 'uuid', nullable: true })
   sourceCvId: string | null;
 

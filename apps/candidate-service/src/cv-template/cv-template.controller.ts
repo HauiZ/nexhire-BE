@@ -25,10 +25,14 @@ import {
 } from '@nexhire/shared';
 
 import { CvTemplateSectionKey } from '../candidate/entities/candidate.enum';
-import { CANDIDATE_CV_MAX_UPLOAD_SIZE_BYTES } from '../document-client/document-upload.constants';
+import {
+  CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES,
+  CANDIDATE_CV_MAX_UPLOAD_SIZE_BYTES,
+} from '../document-client/document-upload.constants';
 import { CandidateUploadedFile } from '../document-client/interfaces/candidate-uploaded-file.interface';
 import { CandidateCvResponseDto } from '../cv/dto/cv-response.dto';
 import {
+  CreateCvTemplateDto,
   CreateCvTemplateFromCvDto,
   ExportCvTemplateDto,
   SortCvTemplateItemsDto,
@@ -78,6 +82,19 @@ export class CvTemplateController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<CvTemplateResponseDto> {
     return this.cvTemplateService.getMine(user, id);
+  }
+
+  @Post()
+  @Roles(UserRole.CANDIDATE)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Create a CV template manually from empty state or default profile' })
+  @ApiSuccessResponse(CvTemplateResponseDto, { status: 201 })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500] })
+  createMine(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: CreateCvTemplateDto,
+  ): Promise<CvTemplateResponseDto> {
+    return this.cvTemplateService.createMine(user, dto);
   }
 
   @Post('from-cv')
@@ -152,6 +169,35 @@ export class CvTemplateController {
     @Body() dto: SortCvTemplateItemsDto,
   ): Promise<CvTemplateResponseDto> {
     return this.cvTemplateService.sortItems(user, id, sectionKey, dto);
+  }
+
+  @Patch(':id/avatar')
+  @Roles(UserRole.CANDIDATE)
+  @ApiBearerAuth()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES },
+    }),
+  )
+  @ApiOperation({ summary: 'Upload or replace avatar for a CV template only' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: { type: 'string', format: 'binary' },
+      },
+    },
+  })
+  @ApiSuccessResponse(CvTemplateResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 422, 500, 503] })
+  uploadAvatar(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFile() file?: CandidateUploadedFile,
+  ): Promise<CvTemplateResponseDto> {
+    return this.cvTemplateService.uploadAvatar(user, id, file);
   }
 
   @Post(':id/export')

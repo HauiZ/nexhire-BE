@@ -15,11 +15,14 @@ import { CandidateCv } from '../candidate/entities/candidate-cv.entity';
 import {
   CandidateCvParseStatus,
   CandidateCvSource,
+  CvTemplateCreateSource,
   CvTemplateKey,
   CvTemplateSectionKey,
 } from '../candidate/entities/candidate.enum';
 import { CandidateUploadedFile } from '../document-client/interfaces/candidate-uploaded-file.interface';
 import {
+  CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES,
+  CANDIDATE_AVATAR_MIME_TYPES,
   CANDIDATE_CV_MAX_UPLOAD_SIZE_BYTES,
   CANDIDATE_CV_MIME_TYPES,
 } from '../document-client/document-upload.constants';
@@ -27,6 +30,7 @@ import { DocumentClientService } from '../document-client/document-client.servic
 import { CvParsingClientService } from '../cv-parsing-client/cv-parsing-client.service';
 import { CandidateCvResponseDto } from '../cv/dto/cv-response.dto';
 import {
+  CreateCvTemplateDto,
   CreateCvTemplateFromCvDto,
   ExportCvTemplateDto,
   SortCvTemplateItemsDto,
@@ -99,11 +103,46 @@ export class CvTemplateService {
       where: { candidateId: profile.id, deletedAt: IsNull() },
       order: { isDefault: 'DESC', updatedAt: 'DESC' },
     });
-    return templates.map((template) => this.mapTemplate(template));
+    const enrichedTemplates = await Promise.all(
+      templates.map((template) => this.enrichTemplateAssets(template)),
+    );
+    return enrichedTemplates.map((template) => this.mapTemplate(template));
   }
 
   async getMine(user: AuthUser, id: string): Promise<CvTemplateResponseDto> {
     const template = await this.findMine(user, id);
+    return this.mapTemplate(await this.enrichTemplateAssets(template));
+  }
+
+  async createMine(user: AuthUser, dto: CreateCvTemplateDto): Promise<CvTemplateResponseDto> {
+    const profile = await this.candidateService.ensureProfileForUser(user.id);
+    const source = dto.source ?? CvTemplateCreateSource.EMPTY;
+    const baseContentSnapshot =
+      source === CvTemplateCreateSource.DEFAULT
+        ? await this.buildContentSnapshotFromDefaultProfile(user.id)
+        : this.buildEmptyContentSnapshot();
+    const contentSnapshot = this.validateContentSnapshot(dto.contentSnapshot ?? baseContentSnapshot);
+    const layout = dto.layout ? this.validateLayout(dto.layout) : this.buildLayout(contentSnapshot);
+
+    const template = await this.templateRepo.save(
+      this.templateRepo.create({
+        candidateId: profile.id,
+        name: this.resolveTemplateName(dto.name, dto.templateKey),
+        templateKey: dto.templateKey,
+        sourceDocumentId: null,
+        sourceDocumentDeletedAt: null,
+        sourceCvId: null,
+        sourceParseRequestId: null,
+        theme: dto.theme ?? {},
+        layout,
+        contentSnapshot,
+        isDefault: false,
+        lastExportedCvId: null,
+        lastExportedAt: null,
+        deletedAt: null,
+      }),
+    );
+
     return this.mapTemplate(template);
   }
 
@@ -144,7 +183,6 @@ export class CvTemplateService {
         templateKey: dto.templateKey,
         sourceDocumentId: document.id,
         sourceDocumentDeletedAt: null,
-        sourceDocumentDeleteError: null,
         sourceCvId: null,
         sourceParseRequestId: parseResult.parseRequestId,
         theme: {},
@@ -292,6 +330,48 @@ export class CvTemplateService {
     return this.getMine(user, id);
   }
 
+  async uploadAvatar(
+    user: AuthUser,
+    id: string,
+    file?: CandidateUploadedFile,
+  ): Promise<CvTemplateResponseDto> {
+    if (!file) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.FILE_REQUIRED,
+        message: 'Avatar file is required',
+      });
+    }
+    this.assertAvatarFile(file);
+
+    const template = await this.findMine(user, id);
+    const contentSnapshot = this.validateContentSnapshot(template.contentSnapshot);
+    const profileSection = this.getProfileSection(contentSnapshot);
+    const oldAvatarDocumentId = this.readAvatarDocumentId(profileSection);
+    const document = await this.documentClientService.uploadCandidateDocument(
+      user,
+      template.candidateId,
+      'AVATAR',
+      file,
+    );
+
+    contentSnapshot[CvTemplateSectionKey.PROFILE] = {
+      ...profileSection,
+      id: 'profile',
+      avatarDocumentId: document.id,
+      visible: profileSection.visible ?? true,
+    };
+
+    await this.templateRepo.update(template.id, {
+      contentSnapshot,
+    } as QueryDeepPartialEntity<CandidateCvTemplate>);
+
+    if (oldAvatarDocumentId && oldAvatarDocumentId !== document.id) {
+      void this.deleteOldTemplateAvatar(template, oldAvatarDocumentId);
+    }
+
+    return this.getMine(user, id);
+  }
+
   async exportMine(
     user: AuthUser,
     id: string,
@@ -375,6 +455,35 @@ export class CvTemplateService {
     return template;
   }
 
+  private async enrichTemplateAssets(
+    template: CandidateCvTemplate,
+  ): Promise<CandidateCvTemplate> {
+    const contentSnapshot = this.validateContentSnapshot(template.contentSnapshot);
+    const profileSection = this.getProfileSection(contentSnapshot);
+    const avatarDocumentId = this.readAvatarDocumentId(profileSection);
+    if (!avatarDocumentId) {
+      contentSnapshot[CvTemplateSectionKey.PROFILE] = {
+        ...profileSection,
+        avatarUrl: null,
+      };
+      return { ...template, contentSnapshot };
+    }
+
+    try {
+      const download = await this.documentClientService.createDownloadUrl(avatarDocumentId);
+      contentSnapshot[CvTemplateSectionKey.PROFILE] = {
+        ...profileSection,
+        avatarUrl: download.url,
+      };
+    } catch {
+      contentSnapshot[CvTemplateSectionKey.PROFILE] = {
+        ...profileSection,
+        avatarUrl: null,
+      };
+    }
+    return { ...template, contentSnapshot };
+  }
+
   private async cleanupSourceDocumentAfterParse(
     template: CandidateCvTemplate,
     documentId: string,
@@ -385,20 +494,17 @@ export class CvTemplateService {
       await this.templateRepo.update(template.id, {
         sourceDocumentId: null,
         sourceDocumentDeletedAt: deletedAt,
-        sourceDocumentDeleteError: null,
       });
       return {
         ...template,
         sourceDocumentId: null,
         sourceDocumentDeletedAt: deletedAt,
-        sourceDocumentDeleteError: null,
       };
     } catch (error) {
       const message = (error as Error).message.slice(0, 1000);
       await this.templateRepo.update(template.id, {
         sourceDocumentId: documentId,
         sourceDocumentDeletedAt: null,
-        sourceDocumentDeleteError: message,
       });
       this.logger.warn(
         `CV template source document cleanup failed templateId=${template.id} documentId=${documentId}: ${message}`,
@@ -407,7 +513,6 @@ export class CvTemplateService {
         ...template,
         sourceDocumentId: documentId,
         sourceDocumentDeletedAt: null,
-        sourceDocumentDeleteError: message,
       };
     }
   }
@@ -417,6 +522,8 @@ export class CvTemplateService {
       [CvTemplateSectionKey.PROFILE]: {
         ...parsedResume.profile,
         id: 'profile',
+        avatarDocumentId: null,
+        avatarUrl: null,
         visible: true,
       },
       [CvTemplateSectionKey.SUMMARY]: {
@@ -429,6 +536,83 @@ export class CvTemplateService {
       [CvTemplateSectionKey.EDUCATIONS]: this.withListMetadata(parsedResume.educations),
       [CvTemplateSectionKey.PROJECTS]: this.withListMetadata(parsedResume.projects),
       [CvTemplateSectionKey.CERTIFICATIONS]: this.withListMetadata(parsedResume.certifications),
+      [CvTemplateSectionKey.LANGUAGES]: [],
+      [CvTemplateSectionKey.AWARDS]: [],
+      [CvTemplateSectionKey.REFERENCES]: [],
+    };
+  }
+
+  private buildEmptyContentSnapshot(): Record<string, unknown> {
+    return {
+      [CvTemplateSectionKey.PROFILE]: {
+        id: 'profile',
+        fullName: null,
+        phone: null,
+        contactEmail: null,
+        headline: null,
+        summary: null,
+        location: null,
+        portfolioUrl: null,
+        linkedinUrl: null,
+        avatarDocumentId: null,
+        avatarUrl: null,
+        visible: true,
+      },
+      [CvTemplateSectionKey.SUMMARY]: {
+        id: 'summary',
+        text: null,
+        visible: false,
+      },
+      [CvTemplateSectionKey.SKILLS]: [],
+      [CvTemplateSectionKey.EXPERIENCES]: [],
+      [CvTemplateSectionKey.EDUCATIONS]: [],
+      [CvTemplateSectionKey.PROJECTS]: [],
+      [CvTemplateSectionKey.CERTIFICATIONS]: [],
+      [CvTemplateSectionKey.LANGUAGES]: [],
+      [CvTemplateSectionKey.AWARDS]: [],
+      [CvTemplateSectionKey.REFERENCES]: [],
+    };
+  }
+
+  private async buildContentSnapshotFromDefaultProfile(
+    userId: string,
+  ): Promise<Record<string, unknown>> {
+    const aggregate = await this.candidateService.getMe(userId);
+    return {
+      [CvTemplateSectionKey.PROFILE]: {
+        id: 'profile',
+        fullName: aggregate.profile.fullName,
+        phone: aggregate.profile.phone,
+        contactEmail: aggregate.profile.contactEmail,
+        headline: aggregate.profile.headline,
+        summary: aggregate.profile.summary,
+        location: aggregate.profile.location,
+        portfolioUrl: aggregate.profile.portfolioUrl,
+        linkedinUrl: aggregate.profile.linkedinUrl,
+        avatarDocumentId: aggregate.profile.avatarDocumentId,
+        avatarUrl: aggregate.profile.avatarUrl,
+        visible: true,
+      },
+      [CvTemplateSectionKey.SUMMARY]: {
+        id: 'summary',
+        text: aggregate.profile.summary,
+        visible: Boolean(aggregate.profile.summary),
+      },
+      [CvTemplateSectionKey.SKILLS]: this.withListMetadata(
+        aggregate.skills.map(({ source: _source, ...skill }) => skill),
+      ),
+      [CvTemplateSectionKey.EXPERIENCES]: this.withListMetadata(
+        aggregate.experiences.map(({ source: _source, ...experience }) => experience),
+      ),
+      [CvTemplateSectionKey.EDUCATIONS]: this.withListMetadata(
+        aggregate.educations.map(({ source: _source, ...education }) => education),
+      ),
+      [CvTemplateSectionKey.PROJECTS]: this.withListMetadata(
+        aggregate.projects.map(({ source: _source, ...project }) => project),
+      ),
+      [CvTemplateSectionKey.CERTIFICATIONS]: this.withListMetadata(
+        aggregate.certifications.map(({ source: _source, ...certification }) => certification),
+      ),
       [CvTemplateSectionKey.LANGUAGES]: [],
       [CvTemplateSectionKey.AWARDS]: [],
       [CvTemplateSectionKey.REFERENCES]: [],
@@ -545,6 +729,21 @@ export class CvTemplateService {
     return items.map((item) => item as SnapshotItem);
   }
 
+  private getProfileSection(contentSnapshot: Record<string, unknown>): Record<string, unknown> {
+    const profileSection = contentSnapshot[CvTemplateSectionKey.PROFILE];
+    if (!profileSection || typeof profileSection !== 'object' || Array.isArray(profileSection)) {
+      return { id: 'profile', visible: true };
+    }
+    return profileSection as Record<string, unknown>;
+  }
+
+  private readAvatarDocumentId(profileSection: Record<string, unknown>): string | null {
+    return typeof profileSection.avatarDocumentId === 'string' &&
+      profileSection.avatarDocumentId.trim()
+      ? profileSection.avatarDocumentId
+      : null;
+  }
+
   private assertUniqueSectionKeys(sectionKeys: CvTemplateSectionKey[]): CvTemplateSectionKey[] {
     return this.assertUniqueStrings(sectionKeys, 'sectionKeys') as CvTemplateSectionKey[];
   }
@@ -578,6 +777,34 @@ export class CvTemplateService {
     }
   }
 
+  private assertAvatarFile(file: CandidateUploadedFile): void {
+    if (!CANDIDATE_AVATAR_MIME_TYPES.has(file.mimetype)) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.UNSUPPORTED_FILE_TYPE,
+        message: 'Unsupported avatar file type',
+      });
+    }
+    if (file.size > CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.FILE_TOO_LARGE,
+        message: 'Avatar file is too large',
+      });
+    }
+  }
+
+  private async deleteOldTemplateAvatar(
+    template: CandidateCvTemplate,
+    oldAvatarDocumentId: string,
+  ): Promise<void> {
+    try {
+      await this.documentClientService.deleteDocument(oldAvatarDocumentId);
+    } catch (error) {
+      this.logger.warn(
+        `Old CV template avatar cleanup failed candidateId=${template.candidateId} templateId=${template.id} oldAvatarDocumentId=${oldAvatarDocumentId}: ${(error as Error).message}`,
+      );
+    }
+  }
+
   private resolveTemplateName(name: string | undefined, templateKey: CvTemplateKey): string {
     const trimmed = name?.trim();
     if (trimmed) {
@@ -607,7 +834,6 @@ export class CvTemplateService {
       templateKey: template.templateKey,
       sourceDocumentId: template.sourceDocumentId,
       sourceDocumentDeletedAt: template.sourceDocumentDeletedAt,
-      sourceDocumentDeleteError: template.sourceDocumentDeleteError,
       sourceCvId: template.sourceCvId,
       sourceParseRequestId: template.sourceParseRequestId,
       theme: template.theme,

@@ -5,6 +5,7 @@ import { CandidateService } from '../../candidate/candidate.service';
 import {
   CandidateCvParseStatus,
   CandidateCvSource,
+  CvTemplateCreateSource,
   CvTemplateKey,
   CvTemplateSectionKey,
 } from '../../candidate/entities/candidate.enum';
@@ -16,7 +17,7 @@ import { CandidateCvTemplate } from '../entities/cv-template.entity';
 describe('CvTemplateService', () => {
   let service: CvTemplateService;
   let dataSource: { transaction: jest.Mock };
-  let candidateService: { ensureProfileForUser: jest.Mock };
+  let candidateService: { ensureProfileForUser: jest.Mock; getMe: jest.Mock };
   let documentClientService: {
     createDownloadUrl: jest.Mock;
     deleteDocument: jest.Mock;
@@ -85,6 +86,25 @@ describe('CvTemplateService', () => {
     };
     candidateService = {
       ensureProfileForUser: jest.fn().mockResolvedValue(profile),
+      getMe: jest.fn().mockResolvedValue({
+        profile: {
+          fullName: 'Nguyen Minh Khoa',
+          phone: '0900000000',
+          contactEmail: 'khoa@example.com',
+          headline: 'Backend Developer',
+          summary: 'Build APIs',
+          location: 'Ha Noi',
+          portfolioUrl: null,
+          linkedinUrl: null,
+          avatarDocumentId: 'avatar-default',
+          avatarUrl: 'https://storage.local/avatar-default',
+        },
+        skills: [{ id: 'skill-profile', name: 'TypeScript', source: 'MANUAL' }],
+        experiences: [],
+        educations: [],
+        projects: [],
+        certifications: [],
+      }),
     };
     documentClientService = {
       createDownloadUrl: jest.fn().mockResolvedValue({
@@ -191,13 +211,73 @@ describe('CvTemplateService', () => {
 
     expect(result.sourceDocumentId).toBe('document-1');
     expect(result.sourceDocumentDeletedAt).toBeNull();
-    expect(result.sourceDocumentDeleteError).toBe('delete failed');
     expect(templateRepo.update).toHaveBeenCalledWith(
       'template-1',
       expect.objectContaining({
         sourceDocumentId: 'document-1',
         sourceDocumentDeletedAt: null,
-        sourceDocumentDeleteError: 'delete failed',
+      }),
+    );
+  });
+
+  it('creates a manual template from default profile data', async () => {
+    const result = await service.createMine(user, {
+      templateKey: CvTemplateKey.MODERN,
+      source: CvTemplateCreateSource.DEFAULT,
+    });
+
+    expect(candidateService.getMe).toHaveBeenCalledWith('user-1');
+    expect(result.contentSnapshot.profile).toEqual(
+      expect.objectContaining({
+        fullName: 'Nguyen Minh Khoa',
+        avatarDocumentId: 'avatar-default',
+        avatarUrl: 'https://storage.local/avatar-default',
+      }),
+    );
+  });
+
+  it('uploads a template avatar and best-effort deletes the old avatar', async () => {
+    documentClientService.uploadCandidateDocument.mockResolvedValueOnce({ id: 'avatar-new' });
+    documentClientService.createDownloadUrl.mockResolvedValueOnce({
+      url: 'https://storage.local/avatar-new',
+      expiresInSeconds: 900,
+    });
+    templateRepo.findOne
+      .mockResolvedValueOnce({
+        ...template,
+        contentSnapshot: {
+          ...template.contentSnapshot,
+          profile: { id: 'profile', avatarDocumentId: 'avatar-old', visible: true },
+        },
+      })
+      .mockResolvedValueOnce({
+        ...template,
+        contentSnapshot: {
+          ...template.contentSnapshot,
+          profile: { id: 'profile', avatarDocumentId: 'avatar-new', visible: true },
+        },
+      });
+
+    const result = await service.uploadAvatar(user, 'template-1', {
+      originalname: 'avatar.png',
+      mimetype: 'image/png',
+      size: 1024,
+      buffer: Buffer.from('avatar'),
+    });
+
+    expect(templateRepo.update).toHaveBeenCalledWith(
+      'template-1',
+      expect.objectContaining({
+        contentSnapshot: expect.objectContaining({
+          profile: expect.objectContaining({ avatarDocumentId: 'avatar-new' }),
+        }),
+      }),
+    );
+    expect(documentClientService.deleteDocument).toHaveBeenCalledWith('avatar-old');
+    expect(result.contentSnapshot.profile).toEqual(
+      expect.objectContaining({
+        avatarDocumentId: 'avatar-new',
+        avatarUrl: 'https://storage.local/avatar-new',
       }),
     );
   });

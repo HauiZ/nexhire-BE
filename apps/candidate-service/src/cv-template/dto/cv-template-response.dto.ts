@@ -25,9 +25,6 @@ export class CvTemplateResponseDto {
   sourceDocumentDeletedAt: Date | null;
 
   @ApiPropertyOptional({ nullable: true })
-  sourceDocumentDeleteError: string | null;
-
-  @ApiPropertyOptional({ nullable: true })
   sourceCvId: string | null;
 
   @ApiPropertyOptional({ nullable: true })

@@ -54,3 +54,8 @@ export enum CvTemplateSectionKey {
   AWARDS = 'awards',
   REFERENCES = 'references',
 }
+
+export enum CvTemplateCreateSource {
+  EMPTY = 'EMPTY',
+  DEFAULT = 'DEFAULT',
+}
