@@ -53,19 +53,20 @@ Error:
 
 ## File index
 
-| Service                  | File                                                       |
-| ------------------------ | ---------------------------------------------------------- |
-| Gateway                  | [gateway.md](gateway.md)                                   |
-| Auth Service             | [auth-service.md](auth-service.md)                         |
-| Candidate Service        | [candidate-service.md](candidate-service.md)               |
-| Company Service          | [company-service.md](company-service.md)                   |
-| Job Service              | [job-service.md](job-service.md)                           |
-| Application Service      | [application-service.md](application-service.md)           |
-| CV Parsing Service       | [cv-parsing-service.md](cv-parsing-service.md)             |
-| Matching Service         | [matching-service.md](matching-service.md)                 |
-| Notification Service     | [notification-service.md](notification-service.md)         |
-| Document Storage Service | [document-storage-service.md](document-storage-service.md) |
-| Manual Auth APIs         | [manual/auth-service.md](manual/auth-service.md)           |
+| Service                  | File                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| Gateway                  | [gateway.md](gateway.md)                                     |
+| Auth Service             | [auth-service.md](auth-service.md)                           |
+| Candidate Service        | [candidate-service.md](candidate-service.md)                 |
+| Company Service          | [company-service.md](company-service.md)                     |
+| Job Service              | [job-service.md](job-service.md)                             |
+| Application Service      | [application-service.md](application-service.md)             |
+| CV Parsing Service       | [cv-parsing-service.md](cv-parsing-service.md)               |
+| Matching Service         | [matching-service.md](matching-service.md)                   |
+| Notification Service     | [notification-service.md](notification-service.md)           |
+| Document Storage Service | [document-storage-service.md](document-storage-service.md)   |
+| Manual Auth APIs         | [manual/auth-service.md](manual/auth-service.md)             |
+| Manual CV Parsing APIs   | [manual/cv-parsing-service.md](manual/cv-parsing-service.md) |
 
 ## Current endpoint inventory
 
@@ -91,6 +92,7 @@ FE-facing business endpoints currently documented:
 - `PATCH /api/v1/candidates/me`
 - `PATCH /api/v1/candidates/me/avatar`
 - `POST /api/v1/cvs/upload`
+- `POST /api/v1/cvs/:id/parse`
 - `DELETE /api/v1/cvs/:id`
 - `POST /api/v1/documents/upload`
 - `POST /api/v1/companies`

@@ -347,7 +347,7 @@ Errors:
 
 ### `POST /api/v1/cvs/upload`
 
-Summary: Upload a CV document, create a CV library record, and trigger automatic parsing for profile update.
+Summary: Upload a CV document and create a CV library record. Parsing is optional and must be explicitly requested.
 
 Auth:
 
@@ -356,11 +356,67 @@ Auth:
 
 Request body: `multipart/form-data`
 
-| Field       | Type    | Required | Note                                                   |
-| ----------- | ------- | -------- | ------------------------------------------------------ |
-| `file`      | file    | Yes      | PDF/DOC/DOCX; max 10 MB                                |
-| `title`     | string  | No       | Max 255; defaults to uploaded file name                |
-| `isDefault` | boolean | No       | If true, clears previous default CV for this candidate |
+| Field       | Type    | Required | Note                                                    |
+| ----------- | ------- | -------- | ------------------------------------------------------- |
+| `file`      | file    | Yes      | PDF/DOC/DOCX; max 10 MB                                 |
+| `title`     | string  | No       | Max 255; defaults to uploaded file name                 |
+| `isDefault` | boolean | No       | If true, clears previous default CV for this candidate  |
+| `parse`     | boolean | No       | Defaults to `false`; when true, trigger profile parsing |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "bb4f26c9-2bb3-4177-8483-ff057db9f675",
+    "documentId": "2f67a247-7ff0-4e50-bff7-a2dcfbf6de2e",
+    "title": "Backend Engineer CV",
+    "isDefault": true,
+    "parseStatus": "NOT_PARSED",
+    "parsedAt": null,
+    "createdAt": "2026-07-15T10:00:00.000Z",
+    "updatedAt": "2026-07-15T10:00:00.000Z"
+  }
+}
+```
+
+Notes:
+
+- The uploaded file is stored through `document-storage-service`.
+- The CV record is created in `candidate_cvs`.
+- Upload does not trigger parsing unless `parse=true` is sent.
+- If `parse=true`, candidate-service calls `cv-parsing-service` to create a parse request with context `PROFILE_UPDATE`.
+- If the parse trigger fails, the CV record is still created but its `parseStatus` becomes `FAILED`.
+- Profile update from parsed data is applied by the parsing flow once normalized `ParsedResume` is available.
+- Deleted CV records are excluded when deciding the first/default CV.
+
+Errors:
+
+| Status | Code             | Meaning                        |
+| ------ | ---------------- | ------------------------------ |
+| 400    | validation error | Missing file or invalid file   |
+| 401    | unauthorized     | Missing/invalid access token   |
+| 403    | forbidden        | User role is not allowed       |
+| 409    | conflict         | Duplicate CV document conflict |
+| 503    | AI/service error | Downstream service unavailable |
+
+### `POST /api/v1/cvs/:id/parse`
+
+Summary: Trigger parsing for a saved CV and apply parsed data to the candidate profile.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Rules:
+
+- The CV must belong to the current candidate and must not be soft-deleted.
+- `NOT_PARSED` and `FAILED` CVs can be parsed.
+- `PARSING` returns `409` because a parse request is already in progress.
+- `PARSED` returns `409` for now; future `reparse=true` can be added if needed.
+- Candidate-service resolves a temporary document download URL internally before calling cv-parsing-service. FE does not call document-storage internal download APIs.
 
 Success response:
 
@@ -380,25 +436,15 @@ Success response:
 }
 ```
 
-Notes:
-
-- The uploaded file is stored through `document-storage-service`.
-- The CV record is created in `candidate_cvs`.
-- Candidate-service calls `cv-parsing-service` to create a parse request with context `PROFILE_UPDATE`.
-- Parsing runs in the cv-parsing service background flow after the request is queued.
-- If the parse trigger fails, the CV record is still created with `parseStatus = FAILED`.
-- Profile update from parsed data is applied by the parsing flow once normalized `ParsedResume` is available.
-- Deleted CV records are excluded when deciding the first/default CV.
-
 Errors:
 
-| Status | Code             | Meaning                        |
-| ------ | ---------------- | ------------------------------ |
-| 400    | validation error | Missing file or invalid file   |
-| 401    | unauthorized     | Missing/invalid access token   |
-| 403    | forbidden        | User role is not allowed       |
-| 409    | conflict         | Duplicate CV document conflict |
-| 503    | AI/service error | Downstream service unavailable |
+| Status | Code                       | Meaning                                      |
+| ------ | -------------------------- | -------------------------------------------- |
+| 401    | unauthorized               | Missing/invalid access token                 |
+| 403    | forbidden                  | User role is not allowed                     |
+| 404    | `APPLICATION.CV_NOT_FOUND` | CV does not exist, was deleted, or not owned |
+| 409    | `COMMON.CONFLICT`          | CV is already parsing or already parsed      |
+| 503    | AI/service error           | Downstream service unavailable               |
 
 ### `DELETE /api/v1/cvs/:id`
 
@@ -612,6 +658,7 @@ Candidate-service depends on these internal contracts:
 | Deleted CV cleanup     | application-service        | `GET /api/v1/internal/applications/cv-documents/:documentId/retention`                  | Check whether application retention allows physical document deletion |
 | Deleted CV cleanup     | document-storage-service   | `DELETE /api/v1/internal/documents/:id`                                                 | Remove MinIO object and soft-delete document metadata                 |
 | Application creation   | candidate-service internal | `GET /api/v1/internal/candidates/users/:userId/cvs/:candidateCvId/application-snapshot` | Provide candidate/contact/CV snapshot to application-service          |
+| CV parse trigger       | cv-parsing-service         | `POST /api/v1/internal/cv-parsing/parse`                                                | Create a parse request only when candidate asks for parsing           |
 | Saved job creation     | job-service                | `GET /api/v1/internal/jobs/:id/saved-snapshot`                                          | Validate job is public and store job card snapshot                    |
 
 Internal caller requirements:

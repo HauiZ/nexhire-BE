@@ -24,4 +24,13 @@ export class UploadCvDto {
   @Transform(({ value }) => toOptionalBoolean(value))
   @IsBoolean()
   isDefault?: boolean;
+
+  @ApiPropertyOptional({
+    example: false,
+    description: 'When true, trigger profile parsing immediately after upload.',
+  })
+  @IsOptional()
+  @Transform(({ value }) => toOptionalBoolean(value))
+  @IsBoolean()
+  parse?: boolean;
 }

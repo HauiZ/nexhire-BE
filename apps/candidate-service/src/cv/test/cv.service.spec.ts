@@ -17,7 +17,11 @@ describe('CvService', () => {
   let candidateService: { ensureProfileForUser: jest.Mock };
   let applicationClientService: { getCvDocumentRetention: jest.Mock };
   let cvParsingClientService: { createParseRequest: jest.Mock };
-  let documentClientService: { deleteDocument: jest.Mock; uploadCandidateDocument: jest.Mock };
+  let documentClientService: {
+    createDownloadUrl: jest.Mock;
+    deleteDocument: jest.Mock;
+    uploadCandidateDocument: jest.Mock;
+  };
   let cvRepo: {
     count: jest.Mock;
     create: jest.Mock;
@@ -67,6 +71,10 @@ describe('CvService', () => {
       }),
     };
     documentClientService = {
+      createDownloadUrl: jest.fn().mockResolvedValue({
+        url: 'https://storage.local/download/cv.pdf',
+        expiresInSeconds: 900,
+      }),
       deleteDocument: jest.fn().mockResolvedValue(undefined),
       uploadCandidateDocument: jest.fn().mockResolvedValue({
         id: 'document-1',
@@ -100,7 +108,7 @@ describe('CvService', () => {
     );
   });
 
-  it('uploads a CV and triggers parsing with the internal service token', async () => {
+  it('uploads a CV without parsing by default', async () => {
     const result = await service.uploadCv(
       { id: 'user-1', role: UserRole.CANDIDATE },
       {},
@@ -112,16 +120,81 @@ describe('CvService', () => {
       },
     );
 
+    expect(result.parseStatus).toBe(CandidateCvParseStatus.NOT_PARSED);
+    expect(cvParsingClientService.createParseRequest).not.toHaveBeenCalled();
+  });
+
+  it('uploads and parses a CV when requested', async () => {
+    const result = await service.uploadCv(
+      { id: 'user-1', role: UserRole.CANDIDATE },
+      { parse: true },
+      {
+        originalname: 'cv.pdf',
+        mimetype: 'application/pdf',
+        size: 1024,
+        buffer: Buffer.from('cv'),
+      },
+    );
+
     expect(result.parseStatus).toBe(CandidateCvParseStatus.PARSING);
+    expect(documentClientService.createDownloadUrl).toHaveBeenCalledWith('document-1');
     expect(cvParsingClientService.createParseRequest).toHaveBeenCalledWith(
       expect.objectContaining({
         user: { id: 'user-1', role: UserRole.CANDIDATE },
         candidateId: 'candidate-1',
         candidateCvId: 'cv-1',
         documentId: 'document-1',
-        documentUrl: 'https://storage.local/cv.pdf',
+        documentUrl: 'https://storage.local/download/cv.pdf',
       }),
     );
+  });
+
+  it('triggers parsing for a saved CV', async () => {
+    cvRepo.findOne.mockResolvedValueOnce({
+      id: 'cv-1',
+      candidateId: 'candidate-1',
+      documentId: 'document-1',
+      title: 'Main CV',
+      isDefault: true,
+      parseStatus: CandidateCvParseStatus.NOT_PARSED,
+      parsedAt: null,
+      deletedAt: null,
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+    } as CandidateCv);
+
+    const result = await service.parseMine({ id: 'user-1', role: UserRole.CANDIDATE }, 'cv-1');
+
+    expect(cvRepo.update).toHaveBeenCalledWith('cv-1', {
+      parseStatus: CandidateCvParseStatus.PARSING,
+      parsedAt: null,
+    });
+    expect(cvParsingClientService.createParseRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        candidateCvId: 'cv-1',
+        documentUrl: 'https://storage.local/download/cv.pdf',
+      }),
+    );
+    expect(result.parseStatus).toBe(CandidateCvParseStatus.PARSING);
+  });
+
+  it('rejects parsing a CV that is already being parsed', async () => {
+    cvRepo.findOne.mockResolvedValueOnce({
+      id: 'cv-1',
+      candidateId: 'candidate-1',
+      documentId: 'document-1',
+      parseStatus: CandidateCvParseStatus.PARSING,
+      deletedAt: null,
+    } as CandidateCv);
+
+    await expect(
+      service.parseMine({ id: 'user-1', role: UserRole.CANDIDATE }, 'cv-1'),
+    ).rejects.toMatchObject({
+      status: 409,
+      response: expect.objectContaining({
+        code: ERROR_CODES.COMMON.CONFLICT,
+      }),
+    });
   });
 
   it('soft deletes a saved CV and promotes the next CV when default is deleted', async () => {

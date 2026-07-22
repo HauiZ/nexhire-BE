@@ -39,7 +39,7 @@ export class CvController {
       limits: { fileSize: CANDIDATE_CV_MAX_UPLOAD_SIZE_BYTES },
     }),
   )
-  @ApiOperation({ summary: 'Upload a CV and trigger automatic parsing' })
+  @ApiOperation({ summary: 'Upload a CV to the candidate CV library' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -58,6 +58,11 @@ export class CvController {
           type: 'boolean',
           example: true,
         },
+        parse: {
+          type: 'boolean',
+          example: false,
+          description: 'When true, trigger profile parsing immediately after upload.',
+        },
       },
     },
   })
@@ -69,6 +74,20 @@ export class CvController {
     @UploadedFile() file?: CandidateUploadedFile,
   ): Promise<CandidateCvResponseDto> {
     return this.cvService.uploadCv(user, dto, file);
+  }
+
+  @Post(':id/parse')
+  @HttpCode(200)
+  @Roles(UserRole.CANDIDATE)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Trigger parsing for a saved CV' })
+  @ApiSuccessResponse(CandidateCvResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 422, 500, 503] })
+  parseMine(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<CandidateCvResponseDto> {
+    return this.cvService.parseMine(user, id);
   }
 
   @Delete(':id')

@@ -53,7 +53,7 @@ describe('CvParsingClientService', () => {
     });
 
     expect(httpService.post).toHaveBeenCalledWith(
-      'http://cv-parsing/api/v1/cv-parsing/parse',
+      'http://cv-parsing/api/v1/internal/cv-parsing/parse',
       expect.objectContaining({
         candidateId: 'candidate-1',
         requestedByUserId: 'user-1',

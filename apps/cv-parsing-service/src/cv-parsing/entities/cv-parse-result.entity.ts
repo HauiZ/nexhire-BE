@@ -52,7 +52,7 @@ export class CvParseResult {
     type: 'enum',
     enum: CvParseProvider,
     enumName: 'cv_parse_provider_enum',
-    default: CvParseProvider.SKIMA,
+    default: CvParseProvider.GEMINI,
   })
   provider: CvParseProvider;
 

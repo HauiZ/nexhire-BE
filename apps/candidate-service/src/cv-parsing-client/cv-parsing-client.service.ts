@@ -43,7 +43,7 @@ export class CvParsingClientService {
     try {
       const response = await firstValueFrom(
         this.httpService.post<ApiEnvelope<ParseRequestResponse>>(
-          `${baseUrl}/api/v1/cv-parsing/parse`,
+          `${baseUrl}/api/v1/internal/cv-parsing/parse`,
           {
             candidateId: params.candidateId,
             requestedByUserId: params.user.id,

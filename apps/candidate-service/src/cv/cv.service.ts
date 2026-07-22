@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, IsNull, LessThanOrEqual, Repository } from 'typeorm';
@@ -76,7 +82,7 @@ export class CvService {
         documentId: document.id,
         title: this.resolveCvTitle(dto.title, file.originalname),
         isDefault: shouldSetDefault,
-        parseStatus: CandidateCvParseStatus.PARSING,
+        parseStatus: dto.parse ? CandidateCvParseStatus.PARSING : CandidateCvParseStatus.NOT_PARSED,
         parsedAt: null,
         deletedAt: null,
         documentDeletedAt: null,
@@ -84,29 +90,50 @@ export class CvService {
       }),
     );
 
-    try {
-      const parseRequest = await this.cvParsingClientService.createParseRequest({
-        user,
-        candidateId: profile.id,
-        candidateCvId: cv.id,
-        documentId: document.id,
-        documentUrl: document.url,
-      });
-
-      if (parseRequest.status === FAILED_PARSE_STATUS) {
-        await this.cvRepo.update(cv.id, { parseStatus: CandidateCvParseStatus.FAILED });
-        return this.mapCv({ ...cv, parseStatus: CandidateCvParseStatus.FAILED });
-      }
-    } catch (error) {
-      await this.cvRepo.update(cv.id, { parseStatus: CandidateCvParseStatus.FAILED });
-      this.logger.error(
-        `Failed to trigger CV parsing for candidateCvId=${cv.id}: ${(error as Error).message}`,
-      );
-      return this.mapCv({ ...cv, parseStatus: CandidateCvParseStatus.FAILED });
+    if (dto.parse) {
+      return this.triggerParse(user, profile.id, cv);
     }
 
     const latestCv = await this.cvRepo.findOne({ where: { id: cv.id } });
     return this.mapCv(latestCv ?? cv);
+  }
+
+  async parseMine(user: AuthUser, id: string): Promise<CandidateCvResponseDto> {
+    const profile = await this.candidateService.ensureProfileForUser(user.id);
+    const cv = await this.cvRepo.findOne({
+      where: { id, candidateId: profile.id, deletedAt: IsNull() },
+    });
+    if (!cv) {
+      throw new NotFoundException({
+        code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
+        message: 'Candidate CV not found',
+      });
+    }
+
+    if (cv.parseStatus === CandidateCvParseStatus.PARSING) {
+      throw new ConflictException({
+        code: ERROR_CODES.COMMON.CONFLICT,
+        message: 'CV parsing is already in progress',
+      });
+    }
+
+    if (cv.parseStatus === CandidateCvParseStatus.PARSED) {
+      throw new ConflictException({
+        code: ERROR_CODES.COMMON.CONFLICT,
+        message: 'CV has already been parsed',
+      });
+    }
+
+    await this.cvRepo.update(cv.id, {
+      parseStatus: CandidateCvParseStatus.PARSING,
+      parsedAt: null,
+    });
+
+    return this.triggerParse(user, profile.id, {
+      ...cv,
+      parseStatus: CandidateCvParseStatus.PARSING,
+      parsedAt: null,
+    });
   }
 
   async deleteMine(user: AuthUser, id: string): Promise<DeleteCvResponseDto> {
@@ -211,6 +238,44 @@ export class CvService {
     }
     const trimmedFileName = fileName.trim();
     return trimmedFileName || null;
+  }
+
+  private async triggerParse(
+    user: AuthUser,
+    candidateId: string,
+    cv: CandidateCv,
+  ): Promise<CandidateCvResponseDto> {
+    try {
+      const documentDownload = await this.documentClientService.createDownloadUrl(cv.documentId);
+      const parseRequest = await this.cvParsingClientService.createParseRequest({
+        user,
+        candidateId,
+        candidateCvId: cv.id,
+        documentId: cv.documentId,
+        documentUrl: documentDownload.url,
+      });
+
+      if (parseRequest.status === FAILED_PARSE_STATUS) {
+        await this.cvRepo.update(cv.id, { parseStatus: CandidateCvParseStatus.FAILED });
+        return this.mapCv({ ...cv, parseStatus: CandidateCvParseStatus.FAILED });
+      }
+    } catch (error) {
+      await this.cvRepo.update(cv.id, {
+        parseStatus: CandidateCvParseStatus.FAILED,
+        parsedAt: null,
+      });
+      this.logger.error(
+        `Failed to trigger CV parsing for candidateCvId=${cv.id}: ${(error as Error).message}`,
+      );
+      return this.mapCv({
+        ...cv,
+        parseStatus: CandidateCvParseStatus.FAILED,
+        parsedAt: null,
+      });
+    }
+
+    const latestCv = await this.cvRepo.findOne({ where: { id: cv.id } });
+    return this.mapCv(latestCv ?? cv);
   }
 
   private assertUploadedFile(file: CandidateUploadedFile): void {
