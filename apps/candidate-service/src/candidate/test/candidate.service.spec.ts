@@ -607,7 +607,15 @@ describe('CandidateService', () => {
         parsedAt: expect.any(Date),
       }),
     );
-    expect(candidateEventPublisher.publishProfileSnapshotChanged).not.toHaveBeenCalled();
+    expect(candidateEventPublisher.publishProfileSnapshotChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        candidateId: 'candidate-1',
+        candidateUserId: 'user-1',
+        fullName: 'Nguyen Trung Hau',
+        email: 'ntrghau@gmail.com',
+        phone: '0849710139',
+      }),
+    );
   });
 
   it('rejects duplicate skills after normalization', async () => {

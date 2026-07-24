@@ -239,7 +239,9 @@ export class CandidateService {
       });
     });
 
-    return this.buildAggregate(profile);
+    const aggregate = await this.buildAggregate(profile);
+    await this.publishProfileSnapshotChanged(profile);
+    return aggregate;
   }
 
   async markCvParseFailed(
