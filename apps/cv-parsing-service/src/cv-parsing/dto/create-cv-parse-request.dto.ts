@@ -23,7 +23,7 @@ export class CreateCvParseRequestDto {
 
   @ApiPropertyOptional({ example: 'https://minio.local/nexhire/...' })
   @IsOptional()
-  @IsUrl({ require_protocol: true })
+  @IsUrl({ require_protocol: true, require_tld: false })
   documentUrl?: string;
 
   @ApiProperty({ enum: CvParseContext, example: CvParseContext.PROFILE_UPDATE })
