@@ -94,6 +94,11 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/cvs/upload`
 - `POST /api/v1/cvs/:id/parse`
 - `DELETE /api/v1/cvs/:id`
+- `GET /api/v1/followed-companies`
+- `POST /api/v1/followed-companies/:companyId`
+- `DELETE /api/v1/followed-companies/:companyId`
+- `GET /api/v1/followed-companies/status`
+- `GET /api/v1/followed-companies/:companyId/status`
 - `POST /api/v1/documents/upload`
 - `POST /api/v1/companies`
 - `GET /api/v1/companies/me`

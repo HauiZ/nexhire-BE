@@ -5,9 +5,10 @@ Base path through gateway:
 - `/api/v1/candidates`
 - `/api/v1/cvs`
 - `/api/v1/cv-templates`
+- `/api/v1/followed-companies`
 - `/api/v1/saved-jobs`
 
-Responsibility: candidate profile, skills, education, experience, CV Library, saved jobs.
+Responsibility: candidate profile, skills, education, experience, CV Library, saved jobs, followed companies.
 
 ## Domain notes
 
@@ -992,6 +993,149 @@ Success response:
 }
 ```
 
+## Followed Companies
+
+### `GET /api/v1/followed-companies`
+
+Summary: List companies followed by the current candidate.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Query:
+
+| Field   | Type   | Required | Default | Note        |
+| ------- | ------ | -------- | ------- | ----------- |
+| `page`  | number | No       | `1`     | 1-based     |
+| `limit` | number | No       | `20`    | Max follows |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "55555555-5555-5555-5555-555555555555",
+      "companyId": "22222222-2222-2222-2222-222222222222",
+      "companyName": "NexHire",
+      "companyLogoUrl": "https://storage.local/presigned-logo-url",
+      "companyLogoDocumentId": "99999999-9999-9999-9999-999999999999",
+      "followedAt": "2026-07-27T10:00:00.000Z"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 1,
+    "totalPages": 1
+  }
+}
+```
+
+### `POST /api/v1/followed-companies/:companyId`
+
+Summary: Follow an approved company and receive in-app notifications when it publishes new jobs.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Rules:
+
+- Idempotent: following the same company again returns the existing follow record.
+- Candidate-service validates the company through company-service internal posting snapshot.
+- `companyLogoUrl` is resolved by candidate-service through document-storage when `companyLogoDocumentId` exists; FE must not call internal document endpoints.
+- Returns `409 JOB.COMPANY_NOT_APPROVED` when the company is not approved.
+
+Success response: one followed-company object, same item shape as `GET /api/v1/followed-companies`.
+
+### `DELETE /api/v1/followed-companies/:companyId`
+
+Summary: Unfollow a company for the current candidate.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Rules:
+
+- Idempotent: unfollowing a company that is not followed still returns success.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "deleted": true
+  }
+}
+```
+
+### `GET /api/v1/followed-companies/status`
+
+Summary: Batch-check which companies are followed by the current candidate. Use this after loading public company cards to avoid one request per card.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Query:
+
+| Field        | Type   | Required | Note                                   |
+| ------------ | ------ | -------- | -------------------------------------- |
+| `companyIds` | string | Yes      | Comma-separated company UUIDs, max 100 |
+
+Example:
+
+```http
+GET /api/v1/followed-companies/status?companyIds=22222222-2222-2222-2222-222222222222,33333333-3333-3333-3333-333333333333
+```
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "followedCompanyIds": ["22222222-2222-2222-2222-222222222222"]
+  }
+}
+```
+
+### `GET /api/v1/followed-companies/:companyId/status`
+
+Summary: Check whether the current candidate follows one company.
+
+Auth:
+
+- Required
+- Roles: `CANDIDATE`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "followed": true
+  }
+}
+```
+
+### New-job notification flow
+
+1. Candidate follows an approved company.
+2. Admin approves a job and job-service publishes `job.published`.
+3. Candidate-service consumes `job.published`, finds followers by `companyId`, fetches public job snapshot, and publishes `company-follow.job-published`.
+4. Notification-service consumes `company-follow.job-published` and creates one in-app notification per followed candidate.
+
 ## Service-to-service contracts used by candidate-service
 
 Candidate-service depends on these internal contracts:
@@ -1005,6 +1149,7 @@ Candidate-service depends on these internal contracts:
 | Deleted CV cleanup     | document-storage-service   | `DELETE /api/v1/internal/documents/:id`                                                 | Remove MinIO object and soft-delete document metadata                 |
 | Application creation   | candidate-service internal | `GET /api/v1/internal/candidates/users/:userId/cvs/:candidateCvId/application-snapshot` | Provide candidate/contact/CV snapshot to application-service          |
 | CV parse trigger       | cv-parsing-service         | `POST /api/v1/internal/cv-parsing/parse`                                                | Create a parse request only when candidate asks for parsing           |
+| Company follow         | company-service            | `GET /api/v1/internal/companies/:id/posting-snapshot`                                   | Validate company is approved and store follow snapshot                |
 | Saved job creation     | job-service                | `GET /api/v1/internal/jobs/:id/saved-snapshot`                                          | Validate job is public and store job card snapshot                    |
 
 Internal caller requirements:

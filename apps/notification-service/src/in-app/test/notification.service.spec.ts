@@ -148,6 +148,41 @@ describe('NotificationService', () => {
     expect(repo.createQueryBuilder).not.toHaveBeenCalled();
   });
 
+  it('creates candidate notifications for followed company published jobs', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createFollowedCompanyJobPublishedNotifications({
+      jobId: 'job-1',
+      jobTitle: 'Backend Engineer',
+      companyId: 'company-1',
+      companyName: 'NexHire',
+      companyLogoUrl: 'https://cdn.nexhire.vn/logo.png',
+      companyLogoDocumentId: 'logo-1',
+      location: 'Ha Noi',
+      candidateUserIds: ['user-1', 'user-2', 'user-1'],
+    });
+
+    expect(qb.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: 'user-1',
+        dedupeKey: 'company-follow-job:user:user-1:job-1',
+        senderType: NotificationSenderType.COMPANY,
+        senderEntityId: 'company-1',
+        senderName: 'NexHire',
+        senderLogoUrl: 'https://cdn.nexhire.vn/logo.png',
+        type: NotificationType.COMPANY_FOLLOWED_JOB_PUBLISHED,
+      }),
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: 'user-2',
+        dedupeKey: 'company-follow-job:user:user-2:job-1',
+        type: NotificationType.COMPANY_FOLLOWED_JOB_PUBLISHED,
+      }),
+    ]);
+  });
+
   it('scopes unread count to recruiter company', async () => {
     const qb = {
       where: jest.fn().mockReturnThis(),

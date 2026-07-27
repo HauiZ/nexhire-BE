@@ -8,6 +8,7 @@ export const candidateServiceConfig = registerAs('candidateService', () => ({
     documentStorageService: process.env.DOCUMENT_STORAGE_SERVICE_URL ?? 'http://localhost:3009',
     cvParsingService: process.env.CV_PARSING_SERVICE_URL ?? 'http://localhost:3006',
     applicationService: process.env.APPLICATION_SERVICE_URL ?? 'http://localhost:3005',
+    companyService: process.env.COMPANY_SERVICE_URL ?? 'http://localhost:3003',
     jobService: process.env.JOB_SERVICE_URL ?? 'http://localhost:3004',
   },
   http: {

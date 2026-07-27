@@ -15,6 +15,7 @@ import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { CandidateModule } from './candidate/candidate.module';
 import { CvModule } from './cv/cv.module';
 import { CvTemplateModule } from './cv-template/cv-template.module';
+import { FollowedCompanyModule } from './followed-company/followed-company.module';
 import { SavedJobModule } from './saved-job/saved-job.module';
 import { candidateServiceConfig } from './config/candidate-service.config';
 import { validationSchema } from './config/env.validation';
@@ -40,6 +41,7 @@ import { HealthModule } from './health/health.module';
     CandidateModule,
     CvModule,
     CvTemplateModule,
+    FollowedCompanyModule,
     SavedJobModule,
   ],
   providers: [

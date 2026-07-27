@@ -8,6 +8,7 @@ export const QUEUES = {
   COMPANY_JOB_REVIEW_TRUST_SIGNAL: 'company.job-review-trust-signal',
   JOB_COMPANY_SNAPSHOT: 'job.company-snapshot',
   JOB_APPLICATION_SUBMITTED: 'job.application-submitted',
+  CANDIDATE_JOB_PUBLISHED_FOLLOW: 'candidate.job-published-follow',
 } as const;
 
 export type QueueName = (typeof QUEUES)[keyof typeof QUEUES];

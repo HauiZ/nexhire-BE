@@ -148,6 +148,7 @@ Notification-service consumes application events:
 | `application.submitted`            | Candidate receives confirmation; recruiter company receives a new application notification |
 | `application.stage-changed`        | Candidate receives status update for `OFFERED`, `REJECTED`, or `CANCELLED`                 |
 | `company.posting-snapshot-changed` | Company owner receives status update for `APPROVED`, `REJECTED`, `SUSPENDED`, or `PENDING`; if `previousCompanyStatus` equals `companyStatus`, notification-service skips the duplicate status notification |
+| `company-follow.job-published`     | Candidate receives an in-app notification when a followed company publishes a new public job |
 
 Company trust changes are not shown to candidates/public users. If a trust change changes posting eligibility indirectly, users only see the resulting company/job status messaging.
 

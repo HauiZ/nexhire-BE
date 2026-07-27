@@ -56,6 +56,23 @@ export interface CompanyPostingSnapshotNotificationPayload {
   changedAt?: string;
 }
 
+export interface FollowedCompanyJobPublishedNotificationPayload {
+  jobId: string;
+  jobTitle: string;
+  companyId: string;
+  companyName?: string | null;
+  companyLogoUrl?: string | null;
+  companyLogoDocumentId?: string | null;
+  experienceLevel?: string;
+  location?: string;
+  salaryMin?: number | null;
+  salaryMax?: number | null;
+  salaryCurrency?: string;
+  isSalaryVisible?: boolean;
+  publishedAt?: string | null;
+  candidateUserIds: string[];
+}
+
 @Injectable()
 export class NotificationService {
   constructor(
@@ -201,10 +218,7 @@ export class NotificationService {
   async createCompanyVerificationChangedNotification(
     payload: CompanyPostingSnapshotNotificationPayload,
   ): Promise<void> {
-    if (
-      payload.previousCompanyStatus &&
-      payload.previousCompanyStatus === payload.companyStatus
-    ) {
+    if (payload.previousCompanyStatus && payload.previousCompanyStatus === payload.companyStatus) {
       return;
     }
     const message = this.companyStatusMessage(payload.companyStatus, payload.companyName);
@@ -235,6 +249,46 @@ export class NotificationService {
         readAt: null,
       }),
     ]);
+  }
+
+  async createFollowedCompanyJobPublishedNotifications(
+    payload: FollowedCompanyJobPublishedNotificationPayload,
+  ): Promise<void> {
+    const companyName = payload.companyName ?? 'A company you follow';
+    const notifications = [...new Set(payload.candidateUserIds)].map((candidateUserId) =>
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: candidateUserId,
+        recipientCompanyId: null,
+        dedupeKey: `company-follow-job:user:${candidateUserId}:${payload.jobId}`,
+        senderType: NotificationSenderType.COMPANY,
+        senderEntityId: payload.companyId,
+        senderName: payload.companyName ?? null,
+        senderAvatarDocumentId: null,
+        senderLogoUrl: payload.companyLogoUrl ?? null,
+        type: NotificationType.COMPANY_FOLLOWED_JOB_PUBLISHED,
+        title: 'New job from followed company',
+        body: `${companyName} just published ${payload.jobTitle}.`,
+        data: {
+          jobId: payload.jobId,
+          jobTitle: payload.jobTitle,
+          companyId: payload.companyId,
+          companyName: payload.companyName ?? null,
+          companyLogoUrl: payload.companyLogoUrl ?? null,
+          companyLogoDocumentId: payload.companyLogoDocumentId ?? null,
+          experienceLevel: payload.experienceLevel ?? null,
+          location: payload.location ?? null,
+          salaryMin: payload.salaryMin ?? null,
+          salaryMax: payload.salaryMax ?? null,
+          salaryCurrency: payload.salaryCurrency ?? null,
+          isSalaryVisible: payload.isSalaryVisible ?? null,
+          publishedAt: payload.publishedAt ?? null,
+        },
+        readAt: null,
+      }),
+    );
+
+    await this.insertNotifications(notifications);
   }
 
   private async findScopedNotification(user: AuthUser, id: string): Promise<Notification> {

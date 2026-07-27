@@ -15,6 +15,7 @@ export const EVENTS = {
   DOCUMENT_REMOVED: 'document.removed',
   CANDIDATE_PROFILE_SNAPSHOT_CHANGED: 'candidate.profile-snapshot-changed',
   COMPANY_POSTING_SNAPSHOT_CHANGED: 'company.posting-snapshot-changed',
+  COMPANY_FOLLOWED_JOB_PUBLISHED: 'company-follow.job-published',
   JOB_REVIEW_TRUST_SIGNAL: 'job.review-trust-signal',
   JOB_PUBLISHED: 'job.published',
   JOB_UNPUBLISHED: 'job.unpublished',
