@@ -760,6 +760,41 @@ Admin tracking notes:
 - Company-service currently has no company phone/contact phone field, so there is no company phone to mirror into auth-service.
 - Avatar/logo source of truth stays in candidate-service/company-service; auth admin users should use `avatarUrl` only as auth external fallback.
 
+### `GET /api/v1/admin/users/overview`
+
+Summary: Return user counts for admin dashboard overview.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "total": 120,
+    "byStatus": {
+      "ACTIVE": 96,
+      "INACTIVE": 0,
+      "SUSPENDED": 4,
+      "LOCKED": 0,
+      "BANNED": 1,
+      "ARCHIVED": 2
+    },
+    "byRole": {
+      "CANDIDATE": 90,
+      "RECRUITER": 25,
+      "ADMIN": 5
+    },
+    "emailVerified": 110,
+    "emailUnverified": 10
+  }
+}
+```
+
+FE notes:
+
+- FE normally uses `GET /api/v1/admin/dashboard/overview` through gateway for the overview page.
+- Use this direct service endpoint only when building/debugging auth admin screens.
+
 ### `GET /api/v1/admin/users/:id`
 
 Summary: Get one user detail for admin management.

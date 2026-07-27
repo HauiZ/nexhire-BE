@@ -14,9 +14,12 @@ import {
   ERROR_CODES,
   JobModerationRiskLevel,
   JobReviewDecision,
+  paginated,
 } from '@nexhire/shared';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { CompanyMapper } from './company.mapper';
+import { AdminCompanyOverviewDto } from './dto/admin-company-overview.dto';
+import { AdminCompanyQueryDto, AdminCompanySort } from './dto/admin-company-query.dto';
 import { AdminCompanyResponseDto } from './dto/admin-company-response.dto';
 import { UpdateCompanyTrustLevelDto } from './dto/company-admin-action.dto';
 import { CompanyPostingSnapshotDto } from './dto/company-posting-snapshot.dto';
@@ -271,6 +274,92 @@ export class CompanyService {
     return Promise.all(companies.map((company) => this.toAdminCompanyResponse(company)));
   }
 
+  async listAdmin(query: AdminCompanyQueryDto) {
+    const qb = this.companyRepo.createQueryBuilder('company').skip(query.skip).take(query.limit);
+
+    if (query.status) {
+      qb.andWhere('company.status = :status', { status: query.status });
+    }
+
+    if (query.trustLevel) {
+      qb.andWhere('company.trustLevel = :trustLevel', { trustLevel: query.trustLevel });
+    }
+
+    if (query.hasRejectedBefore === 'true') {
+      qb.andWhere('company.verificationRejectedCount > 0');
+    } else if (query.hasRejectedBefore === 'false') {
+      qb.andWhere('company.verificationRejectedCount = 0');
+    }
+
+    const search = query.search?.trim();
+    if (search) {
+      qb.andWhere(
+        new Brackets((where) => {
+          where
+            .where('company.name ILIKE :search', { search: `%${search}%` })
+            .orWhere('company.taxCode ILIKE :search', { search: `%${search}%` })
+            .orWhere('company.website ILIKE :search', { search: `%${search}%` })
+            .orWhere('company.contactEmail ILIKE :search', { search: `%${search}%` })
+            .orWhere('company.ownerId::text ILIKE :search', { search: `%${search}%` });
+        }),
+      );
+    }
+
+    if (query.sort === AdminCompanySort.OLDEST) {
+      qb.orderBy('company.createdAt', 'ASC');
+    } else if (query.sort === AdminCompanySort.REJECTED_COUNT_DESC) {
+      qb.orderBy('company.verificationRejectedCount', 'DESC').addOrderBy(
+        'company.updatedAt',
+        'DESC',
+      );
+    } else {
+      qb.orderBy('company.createdAt', 'DESC');
+    }
+
+    const [companies, total] = await qb.getManyAndCount();
+    return paginated(
+      await Promise.all(companies.map((company) => this.toAdminCompanyResponse(company))),
+      total,
+      query.page,
+      query.limit,
+    );
+  }
+
+  async getAdminOverview(): Promise<AdminCompanyOverviewDto> {
+    const [total, statusRows, trustRows, pendingReviewAgain, rejectedBefore] = await Promise.all([
+      this.companyRepo.count(),
+      this.companyRepo
+        .createQueryBuilder('company')
+        .select('company.status', 'status')
+        .addSelect('COUNT(company.id)', 'count')
+        .groupBy('company.status')
+        .getRawMany<{ status: CompanyStatus; count: string }>(),
+      this.companyRepo
+        .createQueryBuilder('company')
+        .select('company.trustLevel', 'trustLevel')
+        .addSelect('COUNT(company.id)', 'count')
+        .groupBy('company.trustLevel')
+        .getRawMany<{ trustLevel: CompanyTrustLevel; count: string }>(),
+      this.companyRepo
+        .createQueryBuilder('company')
+        .where('company.status = :status', { status: CompanyStatus.PENDING })
+        .andWhere('company.verificationRejectedCount > 0')
+        .getCount(),
+      this.companyRepo
+        .createQueryBuilder('company')
+        .where('company.verificationRejectedCount > 0')
+        .getCount(),
+    ]);
+
+    return {
+      total,
+      byStatus: this.companyStatusCounts(statusRows),
+      byTrustLevel: this.companyTrustCounts(trustRows),
+      pendingReviewAgain,
+      rejectedBefore,
+    };
+  }
+
   async verify(
     companyId: string,
     action: VerifyAction,
@@ -287,9 +376,12 @@ export class CompanyService {
 
     const previousStatus = company.status;
     const statusReason = reason?.trim() || null;
+    const now = new Date();
     if (action === VerifyAction.APPROVE) {
       company.status = CompanyStatus.APPROVED;
       company.statusReason = null;
+      company.verificationReviewRequestedAt = null;
+      company.verificationReviewRequestedByUserId = null;
     } else if (action === VerifyAction.REJECT) {
       if (!statusReason) {
         throw new BadRequestException({
@@ -299,13 +391,18 @@ export class CompanyService {
       }
       company.status = CompanyStatus.REJECTED;
       company.statusReason = statusReason;
+      company.verificationRejectedCount = (company.verificationRejectedCount ?? 0) + 1;
+      company.lastVerificationRejectedReason = statusReason;
+      company.lastVerificationRejectedAt = now;
+      company.verificationReviewRequestedAt = null;
+      company.verificationReviewRequestedByUserId = null;
     } else {
       throw new BadRequestException({
         code: ERROR_CODES.COMPANY.INVALID_VERIFY_ACTION,
         message: 'Invalid verify action',
       });
     }
-    company.statusChangedAt = new Date();
+    company.statusChangedAt = now;
     company.statusChangedByUserId = adminUserId ?? null;
 
     const saved = await this.companyRepo.save(company);
@@ -480,20 +577,76 @@ export class CompanyService {
   async listVerificationDocuments(
     companyId: string,
     user: AuthUser,
-  ): Promise<CompanyVerificationDocumentResponseDto[]> {
+  ): Promise<CompanyVerificationDocumentWithMetadataResponseDto[]> {
     const company = await this.findCompanyOrThrow(companyId);
     this.assertCompanyOwner(company, user.id);
-    const documents = await this.verificationDocumentRepo.find({
-      where: { companyId: company.id },
-      order: { createdAt: 'DESC' },
-    });
-    return documents.map(CompanyMapper.toVerificationDocumentResponse);
+    return this.listVerificationDocumentsWithMetadata(company.id);
   }
 
   async listAdminVerificationDocuments(
     companyId: string,
   ): Promise<CompanyVerificationDocumentWithMetadataResponseDto[]> {
     await this.findCompanyOrThrow(companyId);
+    return this.listVerificationDocumentsWithMetadata(companyId);
+  }
+
+  async getVerificationDocumentDownload(
+    companyId: string,
+    documentId: string,
+    user: AuthUser,
+  ): Promise<CompanyVerificationDocumentDownloadResponseDto> {
+    const company = await this.findCompanyOrThrow(companyId);
+    this.assertCompanyOwner(company, user.id);
+    return this.getVerificationDocumentDownloadForCompany(company.id, documentId);
+  }
+
+  async requestVerificationReview(companyId: string, user: AuthUser): Promise<CompanyResponseDto> {
+    const company = await this.findCompanyOrThrow(companyId);
+    this.assertCompanyOwner(company, user.id);
+
+    if (company.status === CompanyStatus.PENDING) {
+      return this.toCompanyResponse(company);
+    }
+    if (company.status === CompanyStatus.APPROVED) {
+      throw new ConflictException({
+        code: ERROR_CODES.COMMON.CONFLICT,
+        message: 'Approved companies do not need another verification review',
+      });
+    }
+    if (company.status === CompanyStatus.SUSPENDED) {
+      throw new ConflictException({
+        code: ERROR_CODES.COMMON.CONFLICT,
+        message: 'Suspended companies must be restored by an admin before review',
+      });
+    }
+
+    const hasVerificationDocument = await this.verificationDocumentRepo.findOne({
+      where: { companyId: company.id },
+    });
+    if (!hasVerificationDocument) {
+      throw new ConflictException({
+        code: ERROR_CODES.COMMON.CONFLICT,
+        message: 'At least one verification document is required before review',
+      });
+    }
+
+    const previousStatus = company.status;
+    const now = new Date();
+    company.status = CompanyStatus.PENDING;
+    company.statusReason = null;
+    company.statusChangedAt = now;
+    company.statusChangedByUserId = user.id;
+    company.verificationReviewRequestedAt = now;
+    company.verificationReviewRequestedByUserId = user.id;
+    const saved = await this.companyRepo.save(company);
+    await this.publishPostingSnapshot(saved, previousStatus);
+    this.logger.log(`Company verification review requested companyId=${companyId}`);
+    return this.toCompanyResponse(saved);
+  }
+
+  private async listVerificationDocumentsWithMetadata(
+    companyId: string,
+  ): Promise<CompanyVerificationDocumentWithMetadataResponseDto[]> {
     const documents = await this.verificationDocumentRepo.find({
       where: { companyId },
       order: { createdAt: 'DESC' },
@@ -517,6 +670,13 @@ export class CompanyService {
     documentId: string,
   ): Promise<CompanyVerificationDocumentDownloadResponseDto> {
     await this.findCompanyOrThrow(companyId);
+    return this.getVerificationDocumentDownloadForCompany(companyId, documentId);
+  }
+
+  private async getVerificationDocumentDownloadForCompany(
+    companyId: string,
+    documentId: string,
+  ): Promise<CompanyVerificationDocumentDownloadResponseDto> {
     const document = await this.verificationDocumentRepo.findOne({
       where: { companyId, documentId },
     });
@@ -653,6 +813,35 @@ export class CompanyService {
 
   private async toPublicCompanyResponse(company: Company): Promise<PublicCompanyProfileDto> {
     return CompanyMapper.toPublicResponse(company, await this.resolveCompanyImageUrls(company));
+  }
+
+  private companyStatusCounts(
+    rows: Array<{ status: CompanyStatus; count: string }>,
+  ): Record<CompanyStatus, number> {
+    const counts = {
+      [CompanyStatus.PENDING]: 0,
+      [CompanyStatus.APPROVED]: 0,
+      [CompanyStatus.REJECTED]: 0,
+      [CompanyStatus.SUSPENDED]: 0,
+    };
+    for (const row of rows) {
+      counts[row.status] = Number(row.count);
+    }
+    return counts;
+  }
+
+  private companyTrustCounts(
+    rows: Array<{ trustLevel: CompanyTrustLevel; count: string }>,
+  ): Record<CompanyTrustLevel, number> {
+    const counts = {
+      [CompanyTrustLevel.LOW]: 0,
+      [CompanyTrustLevel.MEDIUM]: 0,
+      [CompanyTrustLevel.HIGH]: 0,
+    };
+    for (const row of rows) {
+      counts[row.trustLevel] = Number(row.count);
+    }
+    return counts;
   }
 
   private async resolveCompanyImageUrls(

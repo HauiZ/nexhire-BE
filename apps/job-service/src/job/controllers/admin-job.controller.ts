@@ -8,7 +8,12 @@ import {
   Roles,
   UserRole,
 } from '@nexhire/shared';
-import { AdminJobReviewQueueQueryDto } from '../dto/job-query.dto';
+import { AdminJobOverviewDto } from '../dto/admin-job-overview.dto';
+import {
+  AdminJobQueryDto,
+  AdminJobRevisionReviewQueueQueryDto,
+  AdminJobReviewQueueQueryDto,
+} from '../dto/job-query.dto';
 import { JobResponseDto, JobRevisionResponseDto } from '../dto/job-response.dto';
 import { JobReasonDto, ReviewJobDto } from '../dto/job-review.dto';
 import { JobService } from '../job.service';
@@ -19,6 +24,22 @@ import { JobService } from '../job.service';
 @ApiBearerAuth()
 export class AdminJobController {
   constructor(private readonly jobService: JobService) {}
+
+  @Get()
+  @ApiOperation({ summary: 'List all jobs for admin management' })
+  @ApiSuccessResponse(JobResponseDto, { isArray: true, paginated: true })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500] })
+  listAdminJobs(@Query() query: AdminJobQueryDto) {
+    return this.jobService.listAdminJobs(query);
+  }
+
+  @Get('overview')
+  @ApiOperation({ summary: 'Get job counts for admin dashboard overview' })
+  @ApiSuccessResponse(AdminJobOverviewDto)
+  @ApiErrorResponses({ statuses: [401, 403, 500] })
+  getOverview(): Promise<AdminJobOverviewDto> {
+    return this.jobService.getAdminOverview();
+  }
 
   @Get('review-queue')
   @ApiOperation({ summary: 'List jobs waiting for manual review' })
@@ -81,10 +102,10 @@ export class AdminJobController {
 
   @Get('revision-review-queue')
   @ApiOperation({ summary: 'List major revisions waiting for manual review' })
-  @ApiSuccessResponse(JobRevisionResponseDto, { isArray: true })
-  @ApiErrorResponses({ statuses: [401, 403, 500] })
-  listRevisionReviewQueue(): Promise<JobRevisionResponseDto[]> {
-    return this.jobService.listRevisionReviewQueue();
+  @ApiSuccessResponse(JobRevisionResponseDto, { isArray: true, paginated: true })
+  @ApiErrorResponses({ statuses: [401, 403, 422, 500] })
+  listRevisionReviewQueue(@Query() query: AdminJobRevisionReviewQueueQueryDto) {
+    return this.jobService.listRevisionReviewQueue(query);
   }
 
   @Post('revisions/:revisionId/review')

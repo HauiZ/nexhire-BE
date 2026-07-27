@@ -12,8 +12,7 @@ let recruiterRefreshToken = process.env.COMPANY_JOB_FLOW_RECRUITER_REFRESH_TOKEN
 const recruiterEmail =
   process.env.COMPANY_JOB_FLOW_RECRUITER_EMAIL ?? `flow-recruiter-${flowId}@nexhire.local`;
 const recruiterPassword = process.env.COMPANY_JOB_FLOW_RECRUITER_PASSWORD ?? 'StrongPassword123!';
-let recruiterUserId =
-  process.env.COMPANY_JOB_FLOW_RECRUITER_USER_ID ?? randomUUID();
+let recruiterUserId = process.env.COMPANY_JOB_FLOW_RECRUITER_USER_ID ?? randomUUID();
 const ADMIN_USER_ID = process.env.COMPANY_JOB_FLOW_ADMIN_USER_ID ?? randomUUID();
 const PROVIDED_COMPANY_ID = process.env.COMPANY_JOB_FLOW_COMPANY_ID;
 const KEEP_DATA = process.env.COMPANY_JOB_FLOW_KEEP_DATA === 'true';
@@ -126,8 +125,14 @@ function isGatewayMode(): boolean {
 function printGatewayTokenHelp(): void {
   log('Gateway mode requires real JWT tokens because gateway injects identity headers.', 'yellow');
   log('Set these before running:', 'yellow');
-  log('$env:COMPANY_JOB_FLOW_ADMIN_TOKEN="admin-access-token" # optional when JWT_ACCESS_SECRET exists', 'dim');
-  log('$env:JWT_ACCESS_SECRET="local-gateway-access-secret" # optional admin token mint fallback', 'dim');
+  log(
+    '$env:COMPANY_JOB_FLOW_ADMIN_TOKEN="admin-access-token" # optional when JWT_ACCESS_SECRET exists',
+    'dim',
+  );
+  log(
+    '$env:JWT_ACCESS_SECRET="local-gateway-access-secret" # optional admin token mint fallback',
+    'dim',
+  );
   log(
     '$env:COMPANY_JOB_FLOW_RECRUITER_TOKEN="recruiter-access-token" # optional; script can register recruiter',
     'dim',
@@ -250,7 +255,10 @@ function expectStatusOneOf(
 }
 
 function printCompanyCreateFailureHint(): void {
-  log('Company create returned 500. Check company-service logs for the real DB/error message.', 'yellow');
+  log(
+    'Company create returned 500. Check company-service logs for the real DB/error message.',
+    'yellow',
+  );
   log('Common local fixes:', 'yellow');
   log('npm run db:company:run', 'dim');
   log('npm run db:auth:seed', 'dim');
@@ -295,11 +303,7 @@ function mintRecruiterToken(nextCompanyId?: string): boolean {
       expiresIn: 900,
     },
   );
-  pass(
-    nextCompanyId
-      ? 'minted local recruiter JWT with companyId'
-      : 'minted local recruiter JWT',
-  );
+  pass(nextCompanyId ? 'minted local recruiter JWT with companyId' : 'minted local recruiter JWT');
   return true;
 }
 
@@ -387,7 +391,14 @@ async function refreshRecruiterTokenAfterCompanyApproval(): Promise<boolean> {
       { 'Content-Type': 'application/json' },
       { refreshToken: recruiterRefreshToken },
     );
-    if (!expectStatus(response.status, 200, 'refresh recruiter token after company approval', response.raw)) {
+    if (
+      !expectStatus(
+        response.status,
+        200,
+        'refresh recruiter token after company approval',
+        response.raw,
+      )
+    ) {
       return false;
     }
     recruiterToken = response.data.tokens.accessToken;
@@ -496,7 +507,7 @@ async function ensureApprovedCompany(): Promise<string | null> {
 
   const approveResponse = await request<CompanyResponse>(
     'PATCH',
-    `/companies/${companyId}/verify`,
+    `/admin/companies/${companyId}/verify`,
     adminHeaders(),
     { action: 'APPROVE' },
   );
@@ -525,7 +536,9 @@ async function createDraft(title: string, risky = false): Promise<JobResponse | 
     jobPayload(title, risky),
   );
 
-  if (!expectStatus(response.status, 201, `create ${risky ? 'risky' : 'safe'} draft`, response.raw)) {
+  if (
+    !expectStatus(response.status, 201, `create ${risky ? 'risky' : 'safe'} draft`, response.raw)
+  ) {
     return null;
   }
 
@@ -579,7 +592,11 @@ async function verifyReviewQueue(jobId: string): Promise<void> {
   }
 }
 
-async function expectPublicDetail(jobId: string, expectedStatus: number, label: string): Promise<void> {
+async function expectPublicDetail(
+  jobId: string,
+  expectedStatus: number,
+  label: string,
+): Promise<void> {
   const response = await request<JobResponse>('GET', `/jobs/${jobId}`);
   expectStatus(response.status, expectedStatus, label, response.raw);
 }
@@ -634,7 +651,14 @@ async function verifyUnpublishRepublish(jobId: string): Promise<void> {
     adminHeaders(),
     { reason: 'Live flow test temporarily hides job.' },
   );
-  if (!expectStatusOneOf(unpublishResponse.status, [200, 201], 'admin unpublish job', unpublishResponse.raw)) {
+  if (
+    !expectStatusOneOf(
+      unpublishResponse.status,
+      [200, 201],
+      'admin unpublish job',
+      unpublishResponse.raw,
+    )
+  ) {
     return;
   }
   await expectPublicDetail(jobId, 404, 'public detail hidden after unpublish');
@@ -644,7 +668,14 @@ async function verifyUnpublishRepublish(jobId: string): Promise<void> {
     `/admin/jobs/${jobId}/republish`,
     adminHeaders(),
   );
-  if (!expectStatusOneOf(republishResponse.status, [200, 201], 'admin republish job', republishResponse.raw)) {
+  if (
+    !expectStatusOneOf(
+      republishResponse.status,
+      [200, 201],
+      'admin republish job',
+      republishResponse.raw,
+    )
+  ) {
     return;
   }
   await expectPublicDetail(jobId, 200, 'public detail visible after republish');
@@ -679,7 +710,12 @@ async function rejectRiskyJob(): Promise<void> {
   );
 
   if (
-    expectStatusOneOf(rejectResponse.status, [200, 201], 'admin reject risky job', rejectResponse.raw) &&
+    expectStatusOneOf(
+      rejectResponse.status,
+      [200, 201],
+      'admin reject risky job',
+      rejectResponse.raw,
+    ) &&
     rejectResponse.data.status === 'REJECTED'
   ) {
     pass('risky job is rejected by admin');
@@ -695,17 +731,26 @@ async function cleanupJob(jobId: string, title: string): Promise<void> {
 
   const status = detail.data.status;
   if (['PENDING_REVIEW', 'NEEDS_REVIEW', 'SHOULD_REJECT'].includes(status)) {
-    const rejectResponse = await request<JobResponse>('POST', `/admin/jobs/${jobId}/review`, adminHeaders(), {
-      decision: 'REJECT',
-      reason: 'Flow test cleanup rejects unfinished review job.',
-    });
+    const rejectResponse = await request<JobResponse>(
+      'POST',
+      `/admin/jobs/${jobId}/review`,
+      adminHeaders(),
+      {
+        decision: 'REJECT',
+        reason: 'Flow test cleanup rejects unfinished review job.',
+      },
+    );
     if (![200, 201].includes(rejectResponse.status)) {
       log(`cleanup could not reject pending job ${jobId}`, 'yellow');
       console.log(formatError(rejectResponse.raw));
     }
   }
 
-  const refreshed = await request<JobResponse>('GET', `/recruiter/jobs/${jobId}`, recruiterHeaders());
+  const refreshed = await request<JobResponse>(
+    'GET',
+    `/recruiter/jobs/${jobId}`,
+    recruiterHeaders(),
+  );
   const currentStatus = refreshed.status === 200 ? refreshed.data.status : status;
 
   if (['PUBLISHED', 'UNPUBLISHED'].includes(currentStatus)) {
@@ -715,12 +760,12 @@ async function cleanupJob(jobId: string, title: string): Promise<void> {
       adminHeaders(),
       { reason: 'Flow test cleanup closes job.' },
     );
-      if ([200, 201].includes(response.status)) {
-        pass(`cleanup closed job ${title}`);
-      } else {
-        log(`cleanup could not close job ${jobId}`, 'yellow');
-        console.log(formatError(response.raw));
-      }
+    if ([200, 201].includes(response.status)) {
+      pass(`cleanup closed job ${title}`);
+    } else {
+      log(`cleanup could not close job ${jobId}`, 'yellow');
+      console.log(formatError(response.raw));
+    }
     return;
   }
 
@@ -763,7 +808,7 @@ async function cleanup(): Promise<void> {
     try {
       const response = await request<CompanyResponse>(
         'PATCH',
-        `/companies/admin/${createdCompanyId}/suspend`,
+        `/admin/companies/${createdCompanyId}/suspend`,
         adminHeaders(),
         { reason: 'Flow test cleanup suspends generated company.' },
       );
@@ -773,7 +818,10 @@ async function cleanup(): Promise<void> {
         log(`cleanup could not suspend company ${createdCompanyId}`, 'yellow');
       }
     } catch (error) {
-      log(`cleanup company failed companyId=${createdCompanyId}: ${(error as Error).message}`, 'yellow');
+      log(
+        `cleanup company failed companyId=${createdCompanyId}: ${(error as Error).message}`,
+        'yellow',
+      );
     }
   }
 }

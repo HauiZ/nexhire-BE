@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, IsString, IsUUID, MaxLength, Min } from 'class-validator';
 import {
   JobExperienceLevel,
+  JobModerationRiskLevel,
   JobRevisionStatus,
   JobStatus,
   JobType,
@@ -108,6 +109,60 @@ export class AdminJobReviewQueueQueryDto extends PaginationQueryDto {
   @ApiPropertyOptional()
   @IsOptional()
   @Type(() => String)
+  @IsString()
+  @MaxLength(120)
+  search?: string;
+}
+
+export enum AdminJobSort {
+  LATEST = 'latest',
+  OLDEST = 'oldest',
+  RISK_DESC = 'risk_desc',
+  APPLICATIONS_DESC = 'applications_desc',
+}
+
+export class AdminJobQueryDto extends PaginationQueryDto {
+  @ApiPropertyOptional({ enum: JobStatus })
+  @IsOptional()
+  @IsEnum(JobStatus)
+  status?: JobStatus;
+
+  @ApiPropertyOptional({ enum: JobModerationRiskLevel })
+  @IsOptional()
+  @IsEnum(JobModerationRiskLevel)
+  riskLevel?: JobModerationRiskLevel;
+
+  @ApiPropertyOptional({ example: 'b8b33c46-4bb0-4a33-8b0d-927e081a38a5' })
+  @IsOptional()
+  @IsUUID()
+  companyId?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @MaxLength(120)
+  search?: string;
+
+  @ApiPropertyOptional({ enum: AdminJobSort, default: AdminJobSort.LATEST })
+  @IsOptional()
+  @IsEnum(AdminJobSort)
+  sort?: AdminJobSort;
+}
+
+export class AdminJobRevisionReviewQueueQueryDto extends PaginationQueryDto {
+  @ApiPropertyOptional({
+    enum: [
+      JobRevisionStatus.PENDING_REVIEW,
+      JobRevisionStatus.NEEDS_REVIEW,
+      JobRevisionStatus.SHOULD_REJECT,
+    ],
+  })
+  @IsOptional()
+  @IsEnum(JobRevisionStatus)
+  status?: JobRevisionStatus;
+
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   @MaxLength(120)
   search?: string;

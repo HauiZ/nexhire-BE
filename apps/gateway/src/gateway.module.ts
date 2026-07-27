@@ -11,6 +11,7 @@ import { ProxyModule } from './proxy/proxy.module';
 import { HealthModule } from './health/health.module';
 import { buildGatewayThrottlers } from './rate-limit/auth-rate-limit';
 import { RecruiterDashboardModule } from './recruiter-dashboard/recruiter-dashboard.module';
+import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { RecruiterDashboardModule } from './recruiter-dashboard/recruiter-dashbo
     }),
     ThrottlerModule.forRoot(buildGatewayThrottlers()),
     PassportModule,
+    AdminDashboardModule,
     RecruiterDashboardModule,
     ProxyModule,
     HealthModule,

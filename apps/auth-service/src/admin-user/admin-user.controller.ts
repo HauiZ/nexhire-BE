@@ -19,6 +19,7 @@ import {
 } from '@nexhire/shared';
 import { AdminUserService } from './admin-user.service';
 import { AdminUserActionDto, AdminUserRestoreDto } from './dto/admin-user-action.dto';
+import { AdminUserOverviewDto } from './dto/admin-user-overview.dto';
 import { AdminUserQueryDto } from './dto/admin-user-query.dto';
 import { AdminUserResponseDto } from './dto/admin-user-response.dto';
 
@@ -35,6 +36,14 @@ export class AdminUserController {
   @ApiErrorResponses({ statuses: [401, 403, 422, 500] })
   list(@Query() query: AdminUserQueryDto) {
     return this.adminUserService.list(query);
+  }
+
+  @Get('overview')
+  @ApiOperation({ summary: 'Get user counts for admin dashboard overview' })
+  @ApiSuccessResponse(AdminUserOverviewDto)
+  @ApiErrorResponses({ statuses: [401, 403, 500] })
+  getOverview(): Promise<AdminUserOverviewDto> {
+    return this.adminUserService.getOverview();
   }
 
   @Get(':id')

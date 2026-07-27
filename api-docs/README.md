@@ -83,6 +83,7 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/auth/reset-password`
 - `POST /api/v1/auth/change-password`
 - `GET /api/v1/admin/users`
+- `GET /api/v1/admin/users/overview`
 - `GET /api/v1/admin/users/:id`
 - `PATCH /api/v1/admin/users/:id/suspend`
 - `PATCH /api/v1/admin/users/:id/ban`
@@ -106,10 +107,20 @@ FE-facing business endpoints currently documented:
 - `PATCH /api/v1/companies/:id/logo`
 - `PATCH /api/v1/companies/:id/hero-image`
 - `GET /api/v1/companies/:id/verification-documents`
+- `GET /api/v1/companies/:id/verification-documents/:documentId/download-url`
 - `POST /api/v1/companies/:id/verification-documents`
 - `DELETE /api/v1/companies/:id/verification-documents/:documentId`
-- `GET /api/v1/companies/admin/:id/verification-documents`
-- `GET /api/v1/companies/admin/:id/verification-documents/:documentId/download-url`
+- `POST /api/v1/companies/:id/request-verification-review`
+- `GET /api/v1/admin/companies`
+- `GET /api/v1/admin/companies/overview`
+- `GET /api/v1/admin/companies/pending`
+- `GET /api/v1/admin/companies/:id/verification-documents`
+- `GET /api/v1/admin/companies/:id/verification-documents/:documentId/download-url`
+- `PATCH /api/v1/admin/companies/:id/verify`
+- `PATCH /api/v1/admin/companies/:id/suspend`
+- `PATCH /api/v1/admin/companies/:id/restore`
+- `PATCH /api/v1/admin/companies/:id/trust-level`
+- `GET /api/v1/admin/companies/:id/trust-history`
 - `GET /api/v1/companies/public/:id`
 - `GET /api/v1/jobs`
 - `GET /api/v1/jobs/:id`
@@ -125,6 +136,8 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/recruiter/jobs/:jobId/revisions`
 - `PATCH /api/v1/recruiter/jobs/:jobId/revisions/:revisionId`
 - `POST /api/v1/recruiter/jobs/:jobId/revisions/:revisionId/submit`
+- `GET /api/v1/admin/jobs`
+- `GET /api/v1/admin/jobs/overview`
 - `GET /api/v1/admin/jobs/review-queue`
 - `POST /api/v1/admin/jobs/:id/review`
 - `POST /api/v1/admin/jobs/:id/unpublish`
@@ -138,6 +151,7 @@ FE-facing business endpoints currently documented:
 - `GET /api/v1/applications/me/:id/cv`
 - `POST /api/v1/applications/me/:id/withdraw`
 - `GET /api/v1/recruiter/dashboard/summary`
+- `GET /api/v1/admin/dashboard/overview`
 - `GET /api/v1/recruiter/applications`
 - `GET /api/v1/recruiter/applications/stats`
 - `GET /api/v1/recruiter/applications/:id`

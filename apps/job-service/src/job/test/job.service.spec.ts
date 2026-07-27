@@ -40,6 +40,8 @@ describe('JobService', () => {
     createQueryBuilder: jest.Mock;
   };
   let revisionRepo: {
+    count: jest.Mock;
+    createQueryBuilder: jest.Mock;
     findOne: jest.Mock;
     save: jest.Mock;
     create: jest.Mock;
@@ -225,6 +227,8 @@ describe('JobService', () => {
       createQueryBuilder: jest.fn(),
     };
     revisionRepo = {
+      count: jest.fn(),
+      createQueryBuilder: jest.fn(),
       findOne: jest.fn(),
       save: jest.fn((revision: JobRevision) => Promise.resolve(revision)),
       create: jest.fn((value) => value),
@@ -808,6 +812,109 @@ describe('JobService', () => {
 
     expect(jobSearchProvider.searchPublicJobs).toHaveBeenCalledTimes(2);
     expect(redis.incr).toHaveBeenCalledWith('job:public-cache:version');
+  });
+
+  it('lists all jobs for admin with filters', async () => {
+    const qb = {
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      addOrderBy: jest.fn().mockReturnThis(),
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      getManyAndCount: jest.fn().mockResolvedValue([[publishedJob], 1]),
+    };
+    jobRepo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.listAdminJobs({
+      page: 1,
+      limit: 10,
+      skip: 0,
+      status: JobStatus.PUBLISHED,
+      riskLevel: JobModerationRiskLevel.LOW,
+      companyId: publishedJob.companyId,
+      search: 'backend',
+      sort: 'applications_desc' as never,
+    });
+
+    expect(qb.where).toHaveBeenCalledWith('job.deletedAt IS NULL');
+    expect(qb.andWhere).toHaveBeenCalledWith('job.status = :status', {
+      status: JobStatus.PUBLISHED,
+    });
+    expect(qb.andWhere).toHaveBeenCalledWith('job.riskLevel = :riskLevel', {
+      riskLevel: JobModerationRiskLevel.LOW,
+    });
+    expect(qb.andWhere).toHaveBeenCalledWith('job.companyId = :companyId', {
+      companyId: publishedJob.companyId,
+    });
+    expect(result.meta.total).toBe(1);
+    expect(result.data[0].id).toBe(publishedJob.id);
+  });
+
+  it('returns admin job overview counts', async () => {
+    jobRepo.count.mockResolvedValueOnce(5);
+    revisionRepo.count.mockResolvedValueOnce(2);
+    const jobStatusQb = {
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue([
+        { status: JobStatus.PUBLISHED, count: '3' },
+        { status: JobStatus.PENDING_REVIEW, count: '1' },
+        { status: JobStatus.CLOSED, count: '1' },
+      ]),
+    };
+    const revisionStatusQb = {
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue([
+        { status: JobRevisionStatus.NEEDS_REVIEW, count: '1' },
+        { status: JobRevisionStatus.APPROVED, count: '1' },
+      ]),
+    };
+    jobRepo.createQueryBuilder.mockReturnValueOnce(jobStatusQb);
+    revisionRepo.createQueryBuilder.mockReturnValueOnce(revisionStatusQb);
+
+    const result = await service.getAdminOverview();
+
+    expect(result.totalJobs).toBe(5);
+    expect(result.jobsByStatus.PUBLISHED).toBe(3);
+    expect(result.jobsWaitingReview).toBe(1);
+    expect(result.totalRevisions).toBe(2);
+    expect(result.revisionsWaitingReview).toBe(1);
+  });
+
+  it('lists revision review queue with pagination and search', async () => {
+    const revision = majorRevision({ status: JobRevisionStatus.NEEDS_REVIEW });
+    const qb = {
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      getManyAndCount: jest.fn().mockResolvedValue([[revision], 1]),
+    };
+    revisionRepo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.listRevisionReviewQueue({
+      page: 1,
+      limit: 10,
+      skip: 0,
+      status: JobRevisionStatus.NEEDS_REVIEW,
+      search: 'backend',
+    });
+
+    expect(qb.where).toHaveBeenCalledWith('revision.status IN (:...statuses)', {
+      statuses: [JobRevisionStatus.NEEDS_REVIEW],
+    });
+    expect(qb.andWhere).toHaveBeenCalledWith('revision.deletedAt IS NULL');
+    expect(qb.skip).toHaveBeenCalledWith(0);
+    expect(qb.take).toHaveBeenCalledWith(10);
+    expect(result.meta.total).toBe(1);
+    expect(result.data[0].id).toBe(revision.id);
   });
 
   it('lists featured companies from published jobs', async () => {

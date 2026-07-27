@@ -8,9 +8,9 @@ const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
 let jobId = process.env.APPLICATION_TEST_JOB_ID;
 let candidateCvId = process.env.APPLICATION_TEST_CANDIDATE_CV_ID;
 let candidateToken = process.env.APPLICATION_TEST_CANDIDATE_TOKEN;
-let candidateUserId = process.env.APPLICATION_TEST_CANDIDATE_USER_ID ?? randomUUID();
+const candidateUserId = process.env.APPLICATION_TEST_CANDIDATE_USER_ID ?? randomUUID();
 let recruiterToken = process.env.APPLICATION_TEST_RECRUITER_TOKEN;
-let recruiterUserId = process.env.APPLICATION_TEST_RECRUITER_USER_ID ?? randomUUID();
+const recruiterUserId = process.env.APPLICATION_TEST_RECRUITER_USER_ID ?? randomUUID();
 let recruiterCompanyId = process.env.APPLICATION_TEST_RECRUITER_COMPANY_ID;
 let adminToken = process.env.APPLICATION_TEST_ADMIN_TOKEN;
 const ADMIN_USER_ID = process.env.APPLICATION_TEST_ADMIN_USER_ID ?? randomUUID();
@@ -249,7 +249,7 @@ async function provisionCompanyAndJob(): Promise<void> {
 
   const approveCompany = await request<CompanyResponse>(
     'PATCH',
-    `/companies/${createdCompanyId}/verify`,
+    `/admin/companies/${createdCompanyId}/verify`,
     adminHeaders(),
     { action: 'APPROVE' },
   );
@@ -312,9 +312,13 @@ async function provisionCandidateCv(): Promise<void> {
   form.append('title', `Application Flow CV ${flowId}`);
   form.append('isDefault', 'true');
 
-  const response = await upload<CandidateCvResponse>('/cvs/upload', {
-    Authorization: `Bearer ${candidateToken}`,
-  }, form);
+  const response = await upload<CandidateCvResponse>(
+    '/cvs/upload',
+    {
+      Authorization: `Bearer ${candidateToken}`,
+    },
+    form,
+  );
   if (!expectStatus(response.status, 201, 'upload candidate CV', response.raw)) {
     throw new Error('Candidate CV upload failed');
   }
@@ -369,9 +373,11 @@ async function listAndDetail(applicationId: string): Promise<void> {
     candidateHeaders(),
   );
   if (expectStatus(detailResponse.status, 200, 'get my application detail', detailResponse.raw)) {
-    detailResponse.data.id === applicationId
-      ? pass('candidate can read own application detail')
-      : fail('candidate detail points to unexpected application', detailResponse.raw);
+    if (detailResponse.data.id === applicationId) {
+      pass('candidate can read own application detail');
+    } else {
+      fail('candidate detail points to unexpected application', detailResponse.raw);
+    }
   }
 }
 
@@ -385,9 +391,11 @@ async function getCandidateCv(application: ApplicationResponse): Promise<void> {
   if (!expectStatus(response.status, 200, 'get application CV URL', response.raw)) {
     return;
   }
-  response.data.documentId === application.cvDocumentId && response.data.url
-    ? pass('candidate receives short-lived CV URL')
-    : fail('CV download response is invalid', response.raw);
+  if (response.data.documentId === application.cvDocumentId && response.data.url) {
+    pass('candidate receives short-lived CV URL');
+  } else {
+    fail('CV download response is invalid', response.raw);
+  }
 }
 
 async function recruiterChecks(applicationId: string): Promise<void> {
@@ -424,9 +432,11 @@ async function withdraw(applicationId: string): Promise<void> {
   );
 
   if (expectStatusOneOf(response.status, [200, 201], 'withdraw application', response.raw)) {
-    response.data.status === 'WITHDRAWN'
-      ? pass('application moved to WITHDRAWN')
-      : fail('withdraw response has unexpected status', response.raw);
+    if (response.data.status === 'WITHDRAWN') {
+      pass('application moved to WITHDRAWN');
+    } else {
+      fail('withdraw response has unexpected status', response.raw);
+    }
   }
 }
 
@@ -461,7 +471,10 @@ async function cleanup(): Promise<void> {
       candidateHeaders(),
       { note: 'Application flow test cleanup.' },
     ).catch((error) => {
-      log(`cleanup application failed applicationId=${applicationId}: ${(error as Error).message}`, 'yellow');
+      log(
+        `cleanup application failed applicationId=${applicationId}: ${(error as Error).message}`,
+        'yellow',
+      );
       return null;
     });
     if (response && [200, 201, 409].includes(response.status)) {
@@ -476,21 +489,25 @@ async function cleanup(): Promise<void> {
       adminHeaders(),
       { reason: 'Application flow cleanup closes generated job.' },
     ).catch(() => null);
-    closeResponse && [200, 201].includes(closeResponse.status)
-      ? pass(`cleanup closed job ${createdJobId}`)
-      : log(`cleanup could not close job ${createdJobId}`, 'yellow');
+    if (closeResponse && [200, 201].includes(closeResponse.status)) {
+      pass(`cleanup closed job ${createdJobId}`);
+    } else {
+      log(`cleanup could not close job ${createdJobId}`, 'yellow');
+    }
   }
 
   if (createdCompanyId) {
     const suspendResponse = await request<CompanyResponse>(
       'PATCH',
-      `/companies/admin/${createdCompanyId}/suspend`,
+      `/admin/companies/${createdCompanyId}/suspend`,
       adminHeaders(),
       { reason: 'Application flow cleanup suspends generated company.' },
     ).catch(() => null);
-    suspendResponse && [200, 201].includes(suspendResponse.status)
-      ? pass(`cleanup suspended company ${createdCompanyId}`)
-      : log(`cleanup could not suspend company ${createdCompanyId}`, 'yellow');
+    if (suspendResponse && [200, 201].includes(suspendResponse.status)) {
+      pass(`cleanup suspended company ${createdCompanyId}`);
+    } else {
+      log(`cleanup could not suspend company ${createdCompanyId}`, 'yellow');
+    }
   }
 
   if (uploadedCvDocumentId) {

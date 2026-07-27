@@ -1113,6 +1113,84 @@ Errors:
 
 ## Admin Endpoints
 
+## `GET /api/v1/admin/jobs`
+
+Summary: List all jobs for admin management.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Request query:
+
+| Field | Type | Required | Default | Note |
+| ----- | ---- | -------- | ------- | ---- |
+| `page` | number | No | `1` | Pagination page. |
+| `limit` | number | No | `20` | Pagination size. |
+| `status` | `JobStatus` | No | all | Filter by any job status. |
+| `riskLevel` | `LOW` \| `MEDIUM` \| `HIGH` \| `CRITICAL` | No | all | Filter by moderation risk. |
+| `companyId` | uuid | No | - | Filter by company. |
+| `search` | string | No | - | Searches title, company name, location, skills. |
+| `sort` | `latest` \| `oldest` \| `risk_desc` \| `applications_desc` | No | `latest` | Sort table. |
+
+Success response: paginated array of `JobResponse`.
+
+FE notes:
+
+- Use this for admin job management/takedown table.
+- Use `review-queue` only for manual moderation queue.
+
+## `GET /api/v1/admin/jobs/overview`
+
+Summary: Return job counts for admin dashboard overview.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "totalJobs": 180,
+    "jobsByStatus": {
+      "DRAFT": 8,
+      "PENDING_REVIEW": 4,
+      "NEEDS_REVIEW": 6,
+      "SHOULD_REJECT": 2,
+      "PUBLISHED": 120,
+      "UNPUBLISHED": 10,
+      "REJECTED": 12,
+      "CLOSED": 15,
+      "EXPIRED": 3
+    },
+    "jobsWaitingReview": 12,
+    "publishedJobs": 120,
+    "unpublishedJobs": 10,
+    "closedJobs": 15,
+    "totalRevisions": 20,
+    "revisionsByStatus": {
+      "DRAFT": 2,
+      "PENDING_REVIEW": 1,
+      "NEEDS_REVIEW": 2,
+      "SHOULD_REJECT": 0,
+      "APPROVED": 10,
+      "REJECTED": 5,
+      "CANCELLED": 0
+    },
+    "revisionsWaitingReview": 3
+  }
+}
+```
+
+FE notes:
+
+- Gateway admin overview already includes this payload under `jobs`.
+
 ## `GET /api/v1/admin/jobs/review-queue`
 
 Summary: List jobs waiting for manual admin review.
@@ -1258,6 +1336,15 @@ Auth:
 - Required
 - Roles: `ADMIN`
 
+Request query:
+
+| Field | Type | Required | Default | Note |
+| ----- | ---- | -------- | ------- | ---- |
+| `page` | number | No | `1` | Pagination page. |
+| `limit` | number | No | `20` | Pagination size. |
+| `status` | `PENDING_REVIEW` \| `NEEDS_REVIEW` \| `SHOULD_REJECT` | No | all review statuses | Filter queue. |
+| `search` | string | No | - | Searches title, change summary, company id, job id. |
+
 Success response:
 
 ```json
@@ -1283,7 +1370,13 @@ Success response:
       "createdAt": "2026-07-16T09:00:00.000Z",
       "updatedAt": "2026-07-16T09:00:00.000Z"
     }
-  ]
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 1,
+    "totalPages": 1
+  }
 }
 ```
 

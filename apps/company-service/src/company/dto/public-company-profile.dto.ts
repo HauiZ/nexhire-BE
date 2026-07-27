@@ -13,6 +13,11 @@ export class PublicCompanyProfileDto extends OmitType(CompanyResponseDto, [
   'statusReason',
   'statusChangedAt',
   'statusChangedByUserId',
+  'verificationRejectedCount',
+  'lastVerificationRejectedReason',
+  'lastVerificationRejectedAt',
+  'verificationReviewRequestedAt',
+  'verificationReviewRequestedByUserId',
   'createdAt',
   'updatedAt',
 ] as const) {}

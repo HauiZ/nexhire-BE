@@ -75,6 +75,21 @@ export class Company extends BaseEntity {
   @Column({ name: 'status_changed_by_user_id', type: 'uuid', nullable: true })
   statusChangedByUserId: string | null;
 
+  @Column({ name: 'verification_rejected_count', type: 'integer', default: 0 })
+  verificationRejectedCount: number;
+
+  @Column({ name: 'last_verification_rejected_reason', type: 'text', nullable: true })
+  lastVerificationRejectedReason: string | null;
+
+  @Column({ name: 'last_verification_rejected_at', type: 'timestamptz', nullable: true })
+  lastVerificationRejectedAt: Date | null;
+
+  @Column({ name: 'verification_review_requested_at', type: 'timestamptz', nullable: true })
+  verificationReviewRequestedAt: Date | null;
+
+  @Column({ name: 'verification_review_requested_by_user_id', type: 'uuid', nullable: true })
+  verificationReviewRequestedByUserId: string | null;
+
   @Column({
     name: 'trust_level',
     type: 'enum',

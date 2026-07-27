@@ -6,7 +6,13 @@ import {
 } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CompanyStatus, CompanyTrustLevel, UserRole } from '@nexhire/shared';
+import {
+  CompanyStatus,
+  CompanyTrustLevel,
+  JobModerationRiskLevel,
+  JobReviewDecision,
+  UserRole,
+} from '@nexhire/shared';
 import { CompanyService } from '../company.service';
 import { CreateCompanyDto } from '../dto/create-company.dto';
 import { CompanyProcessedTrustSignal } from '../entities/company-processed-trust-signal.entity';
@@ -49,6 +55,11 @@ function createCompany(overrides: Partial<Company> = {}): Company {
     statusReason: null,
     statusChangedAt: null,
     statusChangedByUserId: null,
+    verificationRejectedCount: 0,
+    lastVerificationRejectedReason: null,
+    lastVerificationRejectedAt: null,
+    verificationReviewRequestedAt: null,
+    verificationReviewRequestedByUserId: null,
     trustLevel: CompanyTrustLevel.MEDIUM,
     approvedLowRiskCount: 0,
     negativeTrustSignalCount: 0,
@@ -63,6 +74,8 @@ describe('CompanyService', () => {
   let service: CompanyService;
   const companyRepo = {
     create: jest.fn((entity: Partial<Company>) => entity),
+    count: jest.fn(),
+    createQueryBuilder: jest.fn(),
     find: jest.fn(),
     findOne: jest.fn(),
     save: jest.fn(),
@@ -198,6 +211,88 @@ describe('CompanyService', () => {
         companyTrustLevel: CompanyTrustLevel.MEDIUM,
       }),
     );
+  });
+
+  it('lists companies for admin with filters and pagination', async () => {
+    const company = createCompany({ verificationRejectedCount: 2 });
+    const qb = {
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      addOrderBy: jest.fn().mockReturnThis(),
+      getManyAndCount: jest.fn().mockResolvedValue([[company], 1]),
+    };
+    companyRepo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.listAdmin({
+      page: 1,
+      limit: 10,
+      skip: 0,
+      status: CompanyStatus.PENDING,
+      trustLevel: CompanyTrustLevel.MEDIUM,
+      search: 'nexhire',
+      hasRejectedBefore: 'true',
+      sort: 'rejected_count_desc' as never,
+    });
+
+    expect(qb.andWhere).toHaveBeenCalledWith('company.status = :status', {
+      status: CompanyStatus.PENDING,
+    });
+    expect(qb.andWhere).toHaveBeenCalledWith('company.trustLevel = :trustLevel', {
+      trustLevel: CompanyTrustLevel.MEDIUM,
+    });
+    expect(qb.andWhere).toHaveBeenCalledWith('company.verificationRejectedCount > 0');
+    expect(qb.skip).toHaveBeenCalledWith(0);
+    expect(qb.take).toHaveBeenCalledWith(10);
+    expect(result.meta).toEqual({ page: 1, limit: 10, total: 1 });
+    expect(result.data[0].verificationRejectedCount).toBe(2);
+  });
+
+  it('returns company admin overview counts', async () => {
+    companyRepo.count.mockResolvedValueOnce(4);
+    const statusQb = {
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue([
+        { status: CompanyStatus.PENDING, count: '2' },
+        { status: CompanyStatus.APPROVED, count: '1' },
+        { status: CompanyStatus.REJECTED, count: '1' },
+      ]),
+    };
+    const trustQb = {
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue([
+        { trustLevel: CompanyTrustLevel.LOW, count: '1' },
+        { trustLevel: CompanyTrustLevel.MEDIUM, count: '3' },
+      ]),
+    };
+    const pendingAgainQb = {
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      getCount: jest.fn().mockResolvedValue(1),
+    };
+    const rejectedBeforeQb = {
+      where: jest.fn().mockReturnThis(),
+      getCount: jest.fn().mockResolvedValue(2),
+    };
+    companyRepo.createQueryBuilder
+      .mockReturnValueOnce(statusQb)
+      .mockReturnValueOnce(trustQb)
+      .mockReturnValueOnce(pendingAgainQb)
+      .mockReturnValueOnce(rejectedBeforeQb);
+
+    const result = await service.getAdminOverview();
+
+    expect(result.total).toBe(4);
+    expect(result.byStatus.PENDING).toBe(2);
+    expect(result.byStatus.SUSPENDED).toBe(0);
+    expect(result.byTrustLevel.MEDIUM).toBe(3);
+    expect(result.pendingReviewAgain).toBe(1);
+    expect(result.rejectedBefore).toBe(2);
   });
 
   it('rejects duplicate owner company creation', async () => {
@@ -393,7 +488,14 @@ describe('CompanyService', () => {
 
     expect(company.status).toBe(CompanyStatus.REJECTED);
     expect(company.statusReason).toBe('Invalid business license');
+    expect(company.verificationRejectedCount).toBe(1);
+    expect(company.lastVerificationRejectedReason).toBe('Invalid business license');
+    expect(company.lastVerificationRejectedAt).toBeInstanceOf(Date);
+    expect(company.verificationReviewRequestedAt).toBeNull();
+    expect(company.verificationReviewRequestedByUserId).toBeNull();
     expect(result.rejectionReason).toBe('Invalid business license');
+    expect(result.verificationRejectedCount).toBe(1);
+    expect(result.lastVerificationRejectedReason).toBe('Invalid business license');
     expect(result.status).toBe(CompanyStatus.REJECTED);
   });
 
@@ -582,6 +684,123 @@ describe('CompanyService', () => {
     );
   });
 
+  it('returns verification document metadata for recruiter owner review', async () => {
+    const company = createCompany({ status: CompanyStatus.REJECTED });
+    companyRepo.findOne.mockResolvedValue(company);
+    verificationDocumentRepo.find.mockResolvedValueOnce([
+      {
+        id: '00000000-0000-4000-8000-000000000077',
+        companyId: mockCompanyId,
+        documentId: '00000000-0000-4000-8000-000000000066',
+        type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+        uploadedByUserId: mockUserId,
+        createdAt: new Date('2026-01-01T00:00:00.000Z'),
+        updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+      },
+    ]);
+
+    const result = await service.listVerificationDocuments(mockCompanyId, {
+      id: mockUserId,
+      role: UserRole.RECRUITER,
+    });
+
+    expect(result).toEqual([
+      expect.objectContaining({
+        documentId: '00000000-0000-4000-8000-000000000066',
+        documentType: 'CERTIFICATE',
+        fileName: 'business-license.pdf',
+        mimeType: 'application/pdf',
+        size: 1024,
+      }),
+    ]);
+  });
+
+  it('returns a verification document download URL for recruiter owner', async () => {
+    const company = createCompany({ status: CompanyStatus.REJECTED });
+    companyRepo.findOne.mockResolvedValue(company);
+    verificationDocumentRepo.findOne.mockResolvedValueOnce({
+      id: '00000000-0000-4000-8000-000000000077',
+      companyId: mockCompanyId,
+      documentId: '00000000-0000-4000-8000-000000000066',
+      type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+      uploadedByUserId: mockUserId,
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+    });
+
+    const result = await service.getVerificationDocumentDownload(
+      mockCompanyId,
+      '00000000-0000-4000-8000-000000000066',
+      { id: mockUserId, role: UserRole.RECRUITER },
+    );
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        documentId: '00000000-0000-4000-8000-000000000066',
+        url: 'https://storage.local/business-license.pdf',
+        expiresInSeconds: 3600,
+      }),
+    );
+  });
+
+  it('lets recruiter request verification review again for a rejected company when proof exists', async () => {
+    const company = createCompany({
+      status: CompanyStatus.REJECTED,
+      statusReason: 'Missing proof',
+      verificationRejectedCount: 2,
+      lastVerificationRejectedReason: 'Missing proof',
+      lastVerificationRejectedAt: new Date('2026-01-01T00:00:00.000Z'),
+    });
+    companyRepo.findOne.mockResolvedValue(company);
+    verificationDocumentRepo.findOne.mockResolvedValueOnce({
+      id: '00000000-0000-4000-8000-000000000077',
+      companyId: mockCompanyId,
+      documentId: '00000000-0000-4000-8000-000000000066',
+      type: CompanyVerificationDocumentType.BUSINESS_LICENSE,
+      uploadedByUserId: mockUserId,
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+    });
+    companyRepo.save.mockImplementation((entity: Company) => Promise.resolve(entity));
+
+    const result = await service.requestVerificationReview(mockCompanyId, {
+      id: mockUserId,
+      role: UserRole.RECRUITER,
+    });
+
+    expect(company.status).toBe(CompanyStatus.PENDING);
+    expect(company.statusReason).toBeNull();
+    expect(company.statusChangedByUserId).toBe(mockUserId);
+    expect(company.verificationRejectedCount).toBe(2);
+    expect(company.lastVerificationRejectedReason).toBe('Missing proof');
+    expect(company.verificationReviewRequestedAt).toBeInstanceOf(Date);
+    expect(company.verificationReviewRequestedByUserId).toBe(mockUserId);
+    expect(result.status).toBe(CompanyStatus.PENDING);
+    expect(result.verificationRejectedCount).toBe(2);
+    expect(result.lastVerificationRejectedReason).toBe('Missing proof');
+    expect(companyEventPublisher.publishPostingSnapshotChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        companyId: mockCompanyId,
+        companyStatus: CompanyStatus.PENDING,
+        previousCompanyStatus: CompanyStatus.REJECTED,
+      }),
+    );
+  });
+
+  it('rejects resubmission without verification proof documents', async () => {
+    const company = createCompany({ status: CompanyStatus.REJECTED });
+    companyRepo.findOne.mockResolvedValue(company);
+    verificationDocumentRepo.findOne.mockResolvedValueOnce(null);
+
+    await expect(
+      service.requestVerificationReview(mockCompanyId, {
+        id: mockUserId,
+        role: UserRole.RECRUITER,
+      }),
+    ).rejects.toThrow('At least one verification document is required before review');
+    expect(companyRepo.save).not.toHaveBeenCalled();
+  });
+
   it('returns a verification document download URL for admin review', async () => {
     const company = createCompany({ status: CompanyStatus.PENDING });
     companyRepo.findOne.mockResolvedValue(company);
@@ -640,8 +859,8 @@ describe('CompanyService', () => {
       jobId: 'job-1',
       targetType: 'JOB',
       targetId: 'job-1',
-      decision: 'APPROVE' as any,
-      riskLevel: 'LOW' as any,
+      decision: JobReviewDecision.APPROVE,
+      riskLevel: JobModerationRiskLevel.LOW,
       riskScore: 10,
     });
 
@@ -678,8 +897,8 @@ describe('CompanyService', () => {
       jobId: 'job-1',
       targetType: 'JOB',
       targetId: 'job-1',
-      decision: 'APPROVE' as any,
-      riskLevel: 'HIGH' as any,
+      decision: JobReviewDecision.APPROVE,
+      riskLevel: JobModerationRiskLevel.HIGH,
       riskScore: 70,
     });
 
@@ -702,8 +921,8 @@ describe('CompanyService', () => {
       jobId: 'job-1',
       targetType: 'JOB',
       targetId: 'job-1',
-      decision: 'REJECT' as any,
-      riskLevel: 'HIGH' as any,
+      decision: JobReviewDecision.REJECT,
+      riskLevel: JobModerationRiskLevel.HIGH,
       riskScore: 70,
     });
 
@@ -735,8 +954,8 @@ describe('CompanyService', () => {
       jobId: 'job-1',
       targetType: 'JOB',
       targetId: 'job-1',
-      decision: 'APPROVE' as any,
-      riskLevel: 'LOW' as any,
+      decision: JobReviewDecision.APPROVE,
+      riskLevel: JobModerationRiskLevel.LOW,
       riskScore: 10,
     });
 

@@ -32,40 +32,45 @@ type CompanyTrustChangeSource = 'MANUAL' | 'AUTO';
 
 Used by recruiter self-service endpoints. Does not expose trust level.
 
-| Field                   | Type            | Nullable | Note                                                                                                            |
-| ----------------------- | --------------- | -------- | --------------------------------------------------------------------------------------------------------------- |
-| `id`                    | uuid            | No       | Company id.                                                                                                     |
-| `name`                  | string          | No       | Company display name.                                                                                           |
-| `logo`                  | string          | Yes      | Legacy/manual logo URL fallback.                                                                                |
-| `logoUrl`               | string          | Yes      | Resolved render URL for company logo. FE should prefer this when present.                                       |
-| `logoDocumentId`        | uuid            | Yes      | Logo document id uploaded through document-storage. FE should prefer this when rendering the logo.              |
-| `description`           | string          | Yes      | Company description.                                                                                            |
-| `industry`              | string          | Yes      | Public industry/field label.                                                                                    |
-| `size`                  | string          | Yes      | Public employee range label, for example `100-500`.                                                             |
-| `foundedYear`           | number          | Yes      | Public founded year.                                                                                            |
-| `mission`               | string          | Yes      | Public mission/building statement.                                                                              |
-| `culture`               | string          | Yes      | Public work culture description.                                                                                |
-| `values`                | string[]        | No       | Public company/team values. Empty array when unset.                                                             |
-| `perks`                 | string[]        | No       | Public benefits/perks. Empty array when unset.                                                                  |
-| `heroImageUrl`          | string          | Yes      | Legacy/manual hero image URL fallback.                                                                          |
-| `heroImageDocumentId`   | uuid            | Yes      | Hero image document id uploaded through document-storage. FE should prefer this when rendering the cover image. |
-| `website`               | string          | Yes      | Website URL.                                                                                                    |
-| `contactEmail`          | string          | Yes      | Public company contact email. This is separate from recruiter login email.                                      |
-| `contactPhone`          | string          | Yes      | Public company contact phone. This is separate from recruiter account phone.                                    |
-| `address`               | string          | Yes      | Company address.                                                                                                |
-| `taxCode`               | string          | No       | Company tax code.                                                                                               |
-| `ownerId`               | uuid            | No       | Recruiter user id that owns company.                                                                            |
-| `status`                | `CompanyStatus` | No       | Verification/posting status.                                                                                    |
-| `canPostJobs`           | boolean         | No       | True only when company is approved.                                                                             |
-| `completionPercent`     | number          | No       | Completion percent for recruiter verification UI.                                                               |
-| `missingRequiredFields` | string[]        | No       | Required profile fields still missing.                                                                          |
-| `submittedAt`           | ISO date-time   | Yes      | Initial submission timestamp for recruiter dashboard.                                                           |
-| `rejectionReason`       | string          | Yes      | Present when `status = REJECTED`.                                                                               |
-| `statusReason`          | string          | Yes      | Latest admin status-change reason.                                                                              |
-| `statusChangedAt`       | ISO date-time   | Yes      | Latest status-change timestamp.                                                                                 |
-| `statusChangedByUserId` | uuid            | Yes      | Admin/user id that changed status, when available.                                                              |
-| `createdAt`             | ISO date-time   | No       | Created timestamp.                                                                                              |
-| `updatedAt`             | ISO date-time   | No       | Updated timestamp.                                                                                              |
+| Field                                 | Type            | Nullable | Note                                                                                                            |
+| ------------------------------------- | --------------- | -------- | --------------------------------------------------------------------------------------------------------------- |
+| `id`                                  | uuid            | No       | Company id.                                                                                                     |
+| `name`                                | string          | No       | Company display name.                                                                                           |
+| `logo`                                | string          | Yes      | Legacy/manual logo URL fallback.                                                                                |
+| `logoUrl`                             | string          | Yes      | Resolved render URL for company logo. FE should prefer this when present.                                       |
+| `logoDocumentId`                      | uuid            | Yes      | Logo document id uploaded through document-storage. FE should prefer this when rendering the logo.              |
+| `description`                         | string          | Yes      | Company description.                                                                                            |
+| `industry`                            | string          | Yes      | Public industry/field label.                                                                                    |
+| `size`                                | string          | Yes      | Public employee range label, for example `100-500`.                                                             |
+| `foundedYear`                         | number          | Yes      | Public founded year.                                                                                            |
+| `mission`                             | string          | Yes      | Public mission/building statement.                                                                              |
+| `culture`                             | string          | Yes      | Public work culture description.                                                                                |
+| `values`                              | string[]        | No       | Public company/team values. Empty array when unset.                                                             |
+| `perks`                               | string[]        | No       | Public benefits/perks. Empty array when unset.                                                                  |
+| `heroImageUrl`                        | string          | Yes      | Legacy/manual hero image URL fallback.                                                                          |
+| `heroImageDocumentId`                 | uuid            | Yes      | Hero image document id uploaded through document-storage. FE should prefer this when rendering the cover image. |
+| `website`                             | string          | Yes      | Website URL.                                                                                                    |
+| `contactEmail`                        | string          | Yes      | Public company contact email. This is separate from recruiter login email.                                      |
+| `contactPhone`                        | string          | Yes      | Public company contact phone. This is separate from recruiter account phone.                                    |
+| `address`                             | string          | Yes      | Company address.                                                                                                |
+| `taxCode`                             | string          | No       | Company tax code.                                                                                               |
+| `ownerId`                             | uuid            | No       | Recruiter user id that owns company.                                                                            |
+| `status`                              | `CompanyStatus` | No       | Verification/posting status.                                                                                    |
+| `canPostJobs`                         | boolean         | No       | True only when company is approved.                                                                             |
+| `completionPercent`                   | number          | No       | Completion percent for recruiter verification UI.                                                               |
+| `missingRequiredFields`               | string[]        | No       | Required profile fields still missing.                                                                          |
+| `submittedAt`                         | ISO date-time   | Yes      | Initial submission timestamp for recruiter dashboard.                                                           |
+| `rejectionReason`                     | string          | Yes      | Present when `status = REJECTED`.                                                                               |
+| `statusReason`                        | string          | Yes      | Latest admin status-change reason.                                                                              |
+| `statusChangedAt`                     | ISO date-time   | Yes      | Latest status-change timestamp.                                                                                 |
+| `statusChangedByUserId`               | uuid            | Yes      | Admin/user id that changed status, when available.                                                              |
+| `verificationRejectedCount`           | number          | No       | Number of times admin rejected company verification. Kept when company is requested for review again.           |
+| `lastVerificationRejectedReason`      | string          | Yes      | Latest admin rejection reason, even if current status is back to `PENDING`.                                     |
+| `lastVerificationRejectedAt`          | ISO date-time   | Yes      | Latest admin rejection timestamp.                                                                               |
+| `verificationReviewRequestedAt`       | ISO date-time   | Yes      | When recruiter requested admin review again after rejection.                                                    |
+| `verificationReviewRequestedByUserId` | uuid            | Yes      | Recruiter user id that requested review again.                                                                  |
+| `createdAt`                           | ISO date-time   | No       | Created timestamp.                                                                                              |
+| `updatedAt`                           | ISO date-time   | No       | Updated timestamp.                                                                                              |
 
 Example:
 
@@ -100,6 +105,11 @@ Example:
   "statusReason": null,
   "statusChangedAt": null,
   "statusChangedByUserId": null,
+  "verificationRejectedCount": 1,
+  "lastVerificationRejectedReason": "Business license is missing or unreadable",
+  "lastVerificationRejectedAt": "2026-07-16T10:00:00.000Z",
+  "verificationReviewRequestedAt": "2026-07-16T11:00:00.000Z",
+  "verificationReviewRequestedByUserId": "11111111-1111-1111-1111-111111111111",
   "createdAt": "2026-07-16T09:00:00.000Z",
   "updatedAt": "2026-07-16T09:00:00.000Z"
 }
@@ -159,7 +169,7 @@ Used by recruiter company verification document endpoints.
 
 ### CompanyVerificationDocumentWithMetadataResponse
 
-Used by admin review endpoints. Extends `CompanyVerificationDocumentResponse`.
+Used by recruiter/admin review endpoints. Extends `CompanyVerificationDocumentResponse`.
 
 | Field          | Type   | Nullable | Note                                                                                    |
 | -------------- | ------ | -------- | --------------------------------------------------------------------------------------- |
@@ -170,7 +180,7 @@ Used by admin review endpoints. Extends `CompanyVerificationDocumentResponse`.
 
 ### CompanyVerificationDocumentDownloadResponse
 
-Used by admin download endpoint. Extends `CompanyVerificationDocumentWithMetadataResponse`.
+Used by recruiter/admin download endpoint. Extends `CompanyVerificationDocumentWithMetadataResponse`.
 
 | Field              | Type   | Nullable | Note                               |
 | ------------------ | ------ | -------- | ---------------------------------- |
@@ -591,7 +601,7 @@ Errors:
 
 ## `GET /api/v1/companies/:id/verification-documents`
 
-Summary: List verification proof documents attached to the recruiter's company.
+Summary: List verification proof documents attached to the recruiter's company, including document-storage metadata.
 
 Auth:
 
@@ -616,6 +626,10 @@ Success response:
       "documentId": "44444444-4444-4444-4444-444444444444",
       "type": "BUSINESS_LICENSE",
       "uploadedByUserId": "11111111-1111-1111-1111-111111111111",
+      "documentType": "CERTIFICATE",
+      "fileName": "business-license.pdf",
+      "mimeType": "application/pdf",
+      "size": 234567,
       "createdAt": "2026-07-16T09:00:00.000Z",
       "updatedAt": "2026-07-16T09:00:00.000Z"
     }
@@ -623,7 +637,53 @@ Success response:
 }
 ```
 
-Errors: `401`, `403`, `404`.
+Errors: `401`, `403`, `404`, `503`.
+
+FE notes:
+
+- Use this endpoint for the recruiter/company profile verification tab.
+- It returns metadata only. Use the download-url endpoint below when the recruiter wants to preview/download a proof.
+
+## `GET /api/v1/companies/:id/verification-documents/:documentId/download-url`
+
+Summary: Get a short-lived download URL for one verification proof document owned by the recruiter's company.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`
+
+Request params:
+
+| Field        | Type | Required | Note                                   |
+| ------------ | ---- | -------- | -------------------------------------- |
+| `id`         | uuid | Yes      | Company id owned by current recruiter. |
+| `documentId` | uuid | Yes      | Attached document-storage id.          |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "33333333-3333-3333-3333-333333333333",
+    "companyId": "22222222-2222-2222-2222-222222222222",
+    "documentId": "44444444-4444-4444-4444-444444444444",
+    "type": "BUSINESS_LICENSE",
+    "uploadedByUserId": "11111111-1111-1111-1111-111111111111",
+    "documentType": "CERTIFICATE",
+    "fileName": "business-license.pdf",
+    "mimeType": "application/pdf",
+    "size": 234567,
+    "url": "https://minio.local/nexhire/company-proof-url",
+    "expiresInSeconds": 3600,
+    "createdAt": "2026-07-16T09:00:00.000Z",
+    "updatedAt": "2026-07-16T09:00:00.000Z"
+  }
+}
+```
+
+Errors: `401`, `403`, `404`, `503`.
 
 ## `POST /api/v1/companies/:id/verification-documents`
 
@@ -689,9 +749,124 @@ Success response:
 
 Errors: `401`, `403`, `404`.
 
+## `POST /api/v1/companies/:id/request-verification-review`
+
+Summary: Request admin verification review again for a rejected company after updating proof documents.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`
+
+Request params:
+
+| Field | Type | Required | Note                                   |
+| ----- | ---- | -------- | -------------------------------------- |
+| `id`  | uuid | Yes      | Company id owned by current recruiter. |
+
+Request body: none.
+
+Success response: `CompanyResponse` with `status = PENDING`.
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "NexHire Tech",
+    "status": "PENDING",
+    "statusReason": null,
+    "statusChangedByUserId": "11111111-1111-1111-1111-111111111111"
+  }
+}
+```
+
+Errors:
+
+| Status | Code                  | Meaning                                                                   |
+| ------ | --------------------- | ------------------------------------------------------------------------- |
+| 401    | `COMMON.UNAUTHORIZED` | Missing/invalid token.                                                    |
+| 403    | `COMMON.FORBIDDEN`    | User is not the company owner.                                            |
+| 404    | `COMPANY.NOT_FOUND`   | Company not found.                                                        |
+| 409    | `COMMON.CONFLICT`     | Company is approved/suspended, or rejected company has no proof document. |
+
+FE notes:
+
+- Use this when a company was rejected and the recruiter has uploaded/replaced proof documents.
+- This endpoint does not approve/reject the company. It only moves the company back to admin's pending review queue.
+- The company keeps `verificationRejectedCount`, `lastVerificationRejectedReason`, and `lastVerificationRejectedAt`, so admin can see this is a retry case.
+- `PENDING` is idempotent: calling this while already pending returns the current company.
+- `APPROVED` does not need review again. `SUSPENDED` must be restored by admin first.
+
 ## Admin Endpoints
 
-## `GET /api/v1/companies/admin/pending`
+## `GET /api/v1/admin/companies`
+
+Summary: List companies for admin management.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Query:
+
+| Field               | Type           | Required | Note                                                                                      |
+| ------------------- | -------------- | -------- | ----------------------------------------------------------------------------------------- |
+| `page`              | number         | No       | Default `1`.                                                                              |
+| `limit`             | number         | No       | Default `20`, max from shared pagination.                                                 |
+| `status`            | enum           | No       | `PENDING`, `APPROVED`, `REJECTED`, `SUSPENDED`.                                           |
+| `trustLevel`        | enum           | No       | `LOW`, `MEDIUM`, `HIGH`.                                                                  |
+| `search`            | string         | No       | Search company name, tax code, website, contact email, owner id.                          |
+| `hasRejectedBefore` | boolean string | No       | `true` for companies with `verificationRejectedCount > 0`; `false` for first-time review. |
+| `sort`              | enum           | No       | `latest`, `oldest`, `rejected_count_desc`.                                                |
+
+Success response: paginated `AdminCompanyResponse[]`.
+
+FE notes:
+
+- Use this for the full admin company table.
+- Use `GET /api/v1/admin/companies/pending` only for a simple pending-only queue.
+- Show retry context when `verificationRejectedCount > 0`.
+
+## `GET /api/v1/admin/companies/overview`
+
+Summary: Return company counts for admin dashboard overview.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "total": 32,
+    "byStatus": {
+      "PENDING": 5,
+      "APPROVED": 20,
+      "REJECTED": 4,
+      "SUSPENDED": 3
+    },
+    "byTrustLevel": {
+      "LOW": 3,
+      "MEDIUM": 22,
+      "HIGH": 7
+    },
+    "pendingReviewAgain": 2,
+    "rejectedBefore": 8
+  }
+}
+```
+
+FE notes:
+
+- Gateway admin overview already includes this payload under `companies`.
+
+## `GET /api/v1/admin/companies/pending`
 
 Summary: List pending companies for verification.
 
@@ -716,6 +891,11 @@ Success response:
       "taxCode": "0101234567",
       "ownerId": "11111111-1111-1111-1111-111111111111",
       "status": "PENDING",
+      "verificationRejectedCount": 2,
+      "lastVerificationRejectedReason": "Tax certificate does not match company name",
+      "lastVerificationRejectedAt": "2026-07-16T10:00:00.000Z",
+      "verificationReviewRequestedAt": "2026-07-16T11:00:00.000Z",
+      "verificationReviewRequestedByUserId": "11111111-1111-1111-1111-111111111111",
       "trustLevel": "MEDIUM",
       "approvedLowRiskCount": 0,
       "negativeTrustSignalCount": 0,
@@ -737,7 +917,7 @@ FE notes:
 
 - This is currently pending-only, not a full admin company search endpoint.
 
-## `GET /api/v1/companies/admin/:id/verification-documents`
+## `GET /api/v1/admin/companies/:id/verification-documents`
 
 Summary: List attached company verification documents for admin review.
 
@@ -782,7 +962,7 @@ FE notes:
 - Use this on the admin company verification detail before approving/rejecting.
 - This endpoint returns metadata only, not a file URL.
 
-## `GET /api/v1/companies/admin/:id/verification-documents/:documentId/download-url`
+## `GET /api/v1/admin/companies/:id/verification-documents/:documentId/download-url`
 
 Summary: Get a short-lived download URL for one verification document.
 
@@ -823,7 +1003,7 @@ Errors:
 | 404    | `COMMON.NOT_FOUND`           | Company/document/attachment not found. |
 | 503    | `COMMON.SERVICE_UNAVAILABLE` | document-storage unavailable.          |
 
-## `PATCH /api/v1/companies/:id/verify`
+## `PATCH /api/v1/admin/companies/:id/verify`
 
 Summary: Approve or reject a company.
 
@@ -879,7 +1059,7 @@ FE notes:
 - `APPROVED` companies can post jobs.
 - `REJECTED` companies cannot post jobs.
 
-## `PATCH /api/v1/companies/admin/:id/suspend`
+## `PATCH /api/v1/admin/companies/:id/suspend`
 
 Summary: Suspend a company and disable posting eligibility.
 
@@ -927,7 +1107,7 @@ FE notes:
 
 - Job-service consumes the snapshot event and hides/marks affected jobs as not reviewable/public.
 
-## `PATCH /api/v1/companies/admin/:id/restore`
+## `PATCH /api/v1/admin/companies/:id/restore`
 
 Summary: Restore a rejected/suspended company to `PENDING` for another manual review.
 
@@ -952,7 +1132,7 @@ FE notes:
 
 - Restored company still cannot post jobs until admin verifies it as `APPROVED`.
 
-## `PATCH /api/v1/companies/admin/:id/trust-level`
+## `PATCH /api/v1/admin/companies/:id/trust-level`
 
 Summary: Manually update internal company trust level used by job moderation.
 
@@ -1002,7 +1182,7 @@ FE notes:
 - Manual trust update resets trust counters.
 - Do not show trust level to candidate/public UI.
 
-## `GET /api/v1/companies/admin/:id/trust-history`
+## `GET /api/v1/admin/companies/:id/trust-history`
 
 Summary: View trust level change history.
 

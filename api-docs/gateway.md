@@ -6,37 +6,42 @@ Responsibility: public HTTP entrypoint, JWT decoding, identity header forwarding
 
 ## Routing map
 
-| Public path                        | Target service             |
-| ---------------------------------- | -------------------------- |
-| `/api/v1/auth/*`                   | `auth-service`             |
-| `/api/v1/users/*`                  | `auth-service`             |
-| `/api/v1/admin/users/*`            | `auth-service`             |
-| `/api/v1/candidates/*`             | `candidate-service`        |
-| `/api/v1/cvs/*`                    | `candidate-service`        |
-| `/api/v1/saved-jobs`               | `candidate-service`        |
-| `/api/v1/saved-jobs/*`             | `candidate-service`        |
-| `/api/v1/companies`                | `company-service`          |
-| `/api/v1/companies/*`              | `company-service`          |
-| `/api/v1/hr-accounts`              | `company-service`          |
-| `/api/v1/hr-accounts/*`            | `company-service`          |
-| `/api/v1/jobs`                     | `job-service`              |
-| `/api/v1/jobs/*`                   | `job-service`              |
-| `/api/v1/recruiter/jobs`           | `job-service`              |
-| `/api/v1/recruiter/jobs/*`         | `job-service`              |
-| `/api/v1/recruiter/dashboard/summary` | gateway composition     |
-| `/api/v1/admin/jobs/*`             | `job-service`              |
-| `/api/v1/categories`               | `job-service`              |
-| `/api/v1/categories/*`             | `job-service`              |
-| `/api/v1/applications`             | `application-service`      |
-| `/api/v1/applications/*`           | `application-service`      |
-| `/api/v1/recruiter/applications`   | `application-service`      |
-| `/api/v1/recruiter/applications/*` | `application-service`      |
-| `/api/v1/cv-parsing/*`             | `cv-parsing-service`       |
-| `/api/v1/matching/*`               | `matching-service`         |
-| `/api/v1/notifications`            | `notification-service`     |
-| `/api/v1/notifications/*`          | `notification-service`     |
-| `/api/v1/documents`                | `document-storage-service` |
-| `/api/v1/documents/*`              | `document-storage-service` |
+| Public path                           | Target service             |
+| ------------------------------------- | -------------------------- |
+| `/api/v1/auth/*`                      | `auth-service`             |
+| `/api/v1/users/*`                     | `auth-service`             |
+| `/api/v1/admin/users`                 | `auth-service`             |
+| `/api/v1/admin/users/*`               | `auth-service`             |
+| `/api/v1/candidates/*`                | `candidate-service`        |
+| `/api/v1/cvs/*`                       | `candidate-service`        |
+| `/api/v1/saved-jobs`                  | `candidate-service`        |
+| `/api/v1/saved-jobs/*`                | `candidate-service`        |
+| `/api/v1/companies`                   | `company-service`          |
+| `/api/v1/companies/*`                 | `company-service`          |
+| `/api/v1/admin/companies`             | `company-service`          |
+| `/api/v1/admin/companies/*`           | `company-service`          |
+| `/api/v1/hr-accounts`                 | `company-service`          |
+| `/api/v1/hr-accounts/*`               | `company-service`          |
+| `/api/v1/jobs`                        | `job-service`              |
+| `/api/v1/jobs/*`                      | `job-service`              |
+| `/api/v1/recruiter/jobs`              | `job-service`              |
+| `/api/v1/recruiter/jobs/*`            | `job-service`              |
+| `/api/v1/recruiter/dashboard/summary` | gateway composition        |
+| `/api/v1/admin/dashboard/overview`    | gateway composition        |
+| `/api/v1/admin/jobs`                  | `job-service`              |
+| `/api/v1/admin/jobs/*`                | `job-service`              |
+| `/api/v1/categories`                  | `job-service`              |
+| `/api/v1/categories/*`                | `job-service`              |
+| `/api/v1/applications`                | `application-service`      |
+| `/api/v1/applications/*`              | `application-service`      |
+| `/api/v1/recruiter/applications`      | `application-service`      |
+| `/api/v1/recruiter/applications/*`    | `application-service`      |
+| `/api/v1/cv-parsing/*`                | `cv-parsing-service`       |
+| `/api/v1/matching/*`                  | `matching-service`         |
+| `/api/v1/notifications`               | `notification-service`     |
+| `/api/v1/notifications/*`             | `notification-service`     |
+| `/api/v1/documents`                   | `document-storage-service` |
+| `/api/v1/documents/*`                 | `document-storage-service` |
 
 ## Identity forwarding
 
@@ -138,6 +143,101 @@ FE notes:
 - Pending jobs are `PENDING_REVIEW + NEEDS_REVIEW + SHOULD_REJECT`.
 - `responseRate = round((OFFERED + REJECTED) / totalApplications * 100)` from application-service stats.
 - Gateway resolves `companyId` from `companies/me` before calling job/application stats, so the dashboard still works after company approval even if the current JWT has not been refreshed yet.
+
+Errors: `401`, `403`, `503 COMMON.SERVICE_UNAVAILABLE`.
+
+### `GET /api/v1/admin/dashboard/overview`
+
+Summary: Return one admin dashboard overview payload by composing auth, company, and job service counts.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Gateway calls:
+
+- `GET /api/v1/admin/users/overview`
+- `GET /api/v1/admin/companies/overview`
+- `GET /api/v1/admin/jobs/overview`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "users": {
+      "total": 120,
+      "byStatus": {
+        "ACTIVE": 96,
+        "SUSPENDED": 4,
+        "BANNED": 1,
+        "ARCHIVED": 2,
+        "INACTIVE": 0,
+        "LOCKED": 0
+      },
+      "byRole": {
+        "CANDIDATE": 90,
+        "RECRUITER": 25,
+        "ADMIN": 5
+      },
+      "emailVerified": 110,
+      "emailUnverified": 10
+    },
+    "companies": {
+      "total": 32,
+      "byStatus": {
+        "PENDING": 5,
+        "APPROVED": 20,
+        "REJECTED": 4,
+        "SUSPENDED": 3
+      },
+      "byTrustLevel": {
+        "LOW": 3,
+        "MEDIUM": 22,
+        "HIGH": 7
+      },
+      "pendingReviewAgain": 2,
+      "rejectedBefore": 8
+    },
+    "jobs": {
+      "totalJobs": 180,
+      "jobsByStatus": {
+        "DRAFT": 8,
+        "PENDING_REVIEW": 4,
+        "NEEDS_REVIEW": 6,
+        "SHOULD_REJECT": 2,
+        "PUBLISHED": 120,
+        "UNPUBLISHED": 10,
+        "REJECTED": 12,
+        "CLOSED": 15,
+        "EXPIRED": 3
+      },
+      "jobsWaitingReview": 12,
+      "publishedJobs": 120,
+      "unpublishedJobs": 10,
+      "closedJobs": 15,
+      "totalRevisions": 20,
+      "revisionsByStatus": {
+        "DRAFT": 2,
+        "PENDING_REVIEW": 1,
+        "NEEDS_REVIEW": 2,
+        "SHOULD_REJECT": 0,
+        "APPROVED": 10,
+        "REJECTED": 5,
+        "CANCELLED": 0
+      },
+      "revisionsWaitingReview": 3
+    }
+  }
+}
+```
+
+FE notes:
+
+- Use this endpoint for admin overview cards/charts instead of firing three service requests from FE.
+- If one upstream service is down, gateway returns `503 COMMON.SERVICE_UNAVAILABLE`.
 
 Errors: `401`, `403`, `503 COMMON.SERVICE_UNAVAILABLE`.
 

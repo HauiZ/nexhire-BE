@@ -280,6 +280,38 @@ GET /api/v1/companies/:companyId/verification-documents
 Authorization: Bearer <recruiterToken>
 ```
 
+Response includes the company attachment row plus document metadata from document-storage:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "66666666-6666-6666-6666-666666666666",
+      "companyId": "22222222-2222-2222-2222-222222222222",
+      "documentId": "44444444-4444-4444-4444-444444444444",
+      "type": "BUSINESS_LICENSE",
+      "uploadedByUserId": "11111111-1111-1111-1111-111111111111",
+      "documentType": "CERTIFICATE",
+      "fileName": "business-license.pdf",
+      "mimeType": "application/pdf",
+      "size": 234567,
+      "createdAt": "2026-07-27T10:00:00.000Z",
+      "updatedAt": "2026-07-27T10:00:00.000Z"
+    }
+  ]
+}
+```
+
+### Recruiter Previews A Proof
+
+```http
+GET /api/v1/companies/:companyId/verification-documents/:documentId/download-url
+Authorization: Bearer <recruiterToken>
+```
+
+The returned URL is short-lived. FE should open/use it immediately and request a new one later if it expires.
+
 ### Recruiter Removes Attachment
 
 ```http
@@ -289,26 +321,58 @@ Authorization: Bearer <recruiterToken>
 
 This removes the verification attachment only. It does not physically delete the document object.
 
+### Recruiter Requests Admin Review Again
+
+If admin rejected the company, the recruiter can upload/attach corrected proof documents and request admin review again:
+
+```http
+POST /api/v1/companies/:companyId/request-verification-review
+Authorization: Bearer <recruiterToken>
+```
+
+Rules:
+
+- `REJECTED` with at least one attached proof: becomes `PENDING`.
+- This endpoint does not approve/reject the company. It only moves the company back to admin's pending review queue.
+- The company keeps `verificationRejectedCount`, `lastVerificationRejectedReason`, and `lastVerificationRejectedAt`, so admin can see whether this is the first, second, or later retry.
+- The request action sets `verificationReviewRequestedAt` and `verificationReviewRequestedByUserId`.
+- `PENDING`: idempotent, returns current company.
+- `APPROVED`: rejected with `409 COMMON.CONFLICT` because no review is needed.
+- `SUSPENDED`: rejected with `409 COMMON.CONFLICT`; admin must restore first.
+- `REJECTED` without proof: rejected with `409 COMMON.CONFLICT`.
+
+Admin pending company cards should surface retry context when `verificationRejectedCount > 0`, for example:
+
+```json
+{
+  "status": "PENDING",
+  "verificationRejectedCount": 2,
+  "lastVerificationRejectedReason": "Tax certificate does not match company name",
+  "lastVerificationRejectedAt": "2026-07-27T09:00:00.000Z",
+  "verificationReviewRequestedAt": "2026-07-27T10:00:00.000Z"
+}
+```
+
 ### Admin Review
 
 List metadata:
 
 ```http
-GET /api/v1/companies/admin/:companyId/verification-documents
+GET /api/v1/admin/companies/:companyId/verification-documents
 Authorization: Bearer <adminToken>
 ```
 
 Get temporary URL for preview/download:
 
 ```http
-GET /api/v1/companies/admin/:companyId/verification-documents/:documentId/download-url
+GET /api/v1/admin/companies/:companyId/verification-documents/:documentId/download-url
 Authorization: Bearer <adminToken>
 ```
 
 Admin then approves/rejects company through the existing verify API:
 
 ```http
-PATCH /api/v1/companies/:companyId/verify
+PATCH /api/v1/admin/companies/:companyId/verify
 Authorization: Bearer <adminToken>
 Content-Type: application/json
 ```

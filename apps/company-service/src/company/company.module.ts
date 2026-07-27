@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CompanyController, CompanyInternalController } from './company.controller';
+import {
+  AdminCompanyController,
+  CompanyController,
+  CompanyInternalController,
+} from './company.controller';
 import { CompanyService } from './company.service';
 import { CompanyProcessedTrustSignal } from './entities/company-processed-trust-signal.entity';
 import { CompanyTrustHistory } from './entities/company-trust-history.entity';
@@ -20,7 +24,7 @@ import { DocumentClientModule } from '../document-client/document-client.module'
     ]),
     DocumentClientModule,
   ],
-  controllers: [CompanyController, CompanyInternalController],
+  controllers: [CompanyController, AdminCompanyController, CompanyInternalController],
   providers: [CompanyService, CompanyEventPublisher, JobReviewTrustSignalConsumer],
   exports: [CompanyService],
 })

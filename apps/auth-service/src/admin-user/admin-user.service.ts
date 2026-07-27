@@ -7,6 +7,7 @@ import { UserStatus } from '../auth/entities/auth.enum';
 import { RecruiterCompanyLink } from '../auth/entities/recruiter-company-link.entity';
 import { User } from '../auth/entities/user.entity';
 import { AdminUserActionDto, AdminUserRestoreDto } from './dto/admin-user-action.dto';
+import { AdminUserOverviewDto } from './dto/admin-user-overview.dto';
 import { AdminUserQueryDto } from './dto/admin-user-query.dto';
 import { AdminUserResponseDto } from './dto/admin-user-response.dto';
 
@@ -73,6 +74,35 @@ export class AdminUserService {
     const user = await this.findUser(id);
     const companyLink = await this.recruiterCompanyLinkRepo.findOne({ where: { userId: user.id } });
     return this.toResponse(user, companyLink);
+  }
+
+  async getOverview(): Promise<AdminUserOverviewDto> {
+    const [total, statusRows, roleRows, emailVerified] = await Promise.all([
+      this.userRepo.count(),
+      this.userRepo
+        .createQueryBuilder('user')
+        .select('user.status', 'status')
+        .addSelect('COUNT(user.id)', 'count')
+        .groupBy('user.status')
+        .getRawMany<{ status: UserStatus; count: string }>(),
+      this.userRepo
+        .createQueryBuilder('user')
+        .innerJoin('user.userRoles', 'userRole')
+        .innerJoin('userRole.role', 'role')
+        .select('role.name', 'role')
+        .addSelect('COUNT(user.id)', 'count')
+        .groupBy('role.name')
+        .getRawMany<{ role: UserRole; count: string }>(),
+      this.userRepo.count({ where: { emailVerified: true } }),
+    ]);
+
+    return {
+      total,
+      byStatus: this.userStatusCounts(statusRows),
+      byRole: this.userRoleCounts(roleRows),
+      emailVerified,
+      emailUnverified: total - emailVerified,
+    };
   }
 
   async suspend(
@@ -166,6 +196,35 @@ export class AdminUserService {
       });
     }
     return user;
+  }
+
+  private userStatusCounts(
+    rows: Array<{ status: UserStatus; count: string }>,
+  ): Record<UserStatus, number> {
+    const counts = {
+      [UserStatus.ACTIVE]: 0,
+      [UserStatus.INACTIVE]: 0,
+      [UserStatus.SUSPENDED]: 0,
+      [UserStatus.LOCKED]: 0,
+      [UserStatus.BANNED]: 0,
+      [UserStatus.ARCHIVED]: 0,
+    };
+    for (const row of rows) {
+      counts[row.status] = Number(row.count);
+    }
+    return counts;
+  }
+
+  private userRoleCounts(rows: Array<{ role: UserRole; count: string }>): Record<UserRole, number> {
+    const counts = {
+      [UserRole.CANDIDATE]: 0,
+      [UserRole.RECRUITER]: 0,
+      [UserRole.ADMIN]: 0,
+    };
+    for (const row of rows) {
+      counts[row.role] = Number(row.count);
+    }
+    return counts;
   }
 
   private toResponse(

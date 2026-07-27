@@ -46,6 +46,11 @@ export class CompanyMapper {
       statusReason: company.statusReason,
       statusChangedAt: company.statusChangedAt?.toISOString() ?? null,
       statusChangedByUserId: company.statusChangedByUserId,
+      verificationRejectedCount: company.verificationRejectedCount,
+      lastVerificationRejectedReason: company.lastVerificationRejectedReason,
+      lastVerificationRejectedAt: company.lastVerificationRejectedAt?.toISOString() ?? null,
+      verificationReviewRequestedAt: company.verificationReviewRequestedAt?.toISOString() ?? null,
+      verificationReviewRequestedByUserId: company.verificationReviewRequestedByUserId,
       createdAt: company.createdAt.toISOString(),
       updatedAt: company.updatedAt.toISOString(),
     };

@@ -1,4 +1,4 @@
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { ERROR_CODES, UserRole } from '@nexhire/shared';
 import { Repository } from 'typeorm';
 import { TokenService } from '../../token/token.service';
@@ -10,6 +10,7 @@ import { User } from '../../auth/entities/user.entity';
 import { AdminUserService } from '../admin-user.service';
 
 type MockRepo = {
+  count: jest.Mock;
   createQueryBuilder: jest.Mock;
   findOne: jest.Mock;
   save: jest.Mock;
@@ -50,6 +51,7 @@ describe('AdminUserService', () => {
 
   beforeEach(() => {
     userRepo = {
+      count: jest.fn(),
       createQueryBuilder: jest.fn(),
       findOne: jest.fn(),
       save: jest.fn((user: User) => Promise.resolve(user)),
@@ -150,6 +152,40 @@ describe('AdminUserService', () => {
         companyStatus: 'APPROVED',
       },
     });
+  });
+
+  it('returns admin user overview counts', async () => {
+    userRepo.count.mockResolvedValueOnce(5).mockResolvedValueOnce(4);
+    const statusQb = {
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue([
+        { status: UserStatus.ACTIVE, count: '4' },
+        { status: UserStatus.BANNED, count: '1' },
+      ]),
+    };
+    const roleQb = {
+      innerJoin: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue([
+        { role: UserRole.CANDIDATE, count: '3' },
+        { role: UserRole.RECRUITER, count: '1' },
+        { role: UserRole.ADMIN, count: '1' },
+      ]),
+    };
+    userRepo.createQueryBuilder.mockReturnValueOnce(statusQb).mockReturnValueOnce(roleQb);
+
+    const result = await service.getOverview();
+
+    expect(result.total).toBe(5);
+    expect(result.emailVerified).toBe(4);
+    expect(result.emailUnverified).toBe(1);
+    expect(result.byStatus.ACTIVE).toBe(4);
+    expect(result.byStatus.SUSPENDED).toBe(0);
+    expect(result.byRole.CANDIDATE).toBe(3);
   });
 
   it('bans user and revokes refresh tokens', async () => {

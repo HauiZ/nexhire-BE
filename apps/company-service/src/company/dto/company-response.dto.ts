@@ -108,6 +108,28 @@ export class CompanyResponseDto {
   @ApiPropertyOptional({ format: 'uuid', nullable: true })
   statusChangedByUserId: string | null;
 
+  @ApiProperty({
+    example: 2,
+    description:
+      'How many times admin has rejected company verification. Useful for admin/recruiter review context.',
+  })
+  verificationRejectedCount: number;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    description: 'Latest admin rejection reason kept even when recruiter requests review again.',
+  })
+  lastVerificationRejectedReason: string | null;
+
+  @ApiPropertyOptional({ format: 'date-time', nullable: true })
+  lastVerificationRejectedAt: string | null;
+
+  @ApiPropertyOptional({ format: 'date-time', nullable: true })
+  verificationReviewRequestedAt: string | null;
+
+  @ApiPropertyOptional({ format: 'uuid', nullable: true })
+  verificationReviewRequestedByUserId: string | null;
+
   @ApiProperty({ format: 'date-time' })
   createdAt: string;
 

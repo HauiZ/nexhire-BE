@@ -13,7 +13,6 @@ import {
   AuthUser,
   ERROR_CODES,
   JobModerationDecision,
-  JobModerationRiskLevel,
   JobRevisionStatus,
   JobReviewDecision,
   JobStatus,
@@ -29,12 +28,16 @@ import {
   UpdateJobRevisionDto,
 } from './dto/job-input.dto';
 import {
+  AdminJobQueryDto,
+  AdminJobRevisionReviewQueueQueryDto,
   AdminJobReviewQueueQueryDto,
+  AdminJobSort,
   PublicJobQueryDto,
   RecruiterJobRevisionQueryDto,
   RecruiterJobQueryDto,
 } from './dto/job-query.dto';
 import { JobReasonDto, ReviewJobDto } from './dto/job-review.dto';
+import { AdminJobOverviewDto } from './dto/admin-job-overview.dto';
 import {
   JobResponseDto,
   JobApplicationSnapshotDto,
@@ -587,6 +590,96 @@ export class JobService {
     );
   }
 
+  async listAdminJobs(query: AdminJobQueryDto): Promise<Paginated<JobResponseDto>> {
+    const qb = this.jobRepo
+      .createQueryBuilder('job')
+      .where('job.deletedAt IS NULL')
+      .skip(query.skip)
+      .take(query.limit);
+
+    if (query.status) {
+      qb.andWhere('job.status = :status', { status: query.status });
+    }
+    if (query.riskLevel) {
+      qb.andWhere('job.riskLevel = :riskLevel', { riskLevel: query.riskLevel });
+    }
+    if (query.companyId) {
+      qb.andWhere('job.companyId = :companyId', { companyId: query.companyId });
+    }
+
+    const search = query.search?.trim();
+    if (search) {
+      qb.andWhere(
+        new Brackets((where) => {
+          where
+            .where('job.title ILIKE :search', { search: `%${search}%` })
+            .orWhere('job.companyName ILIKE :search', { search: `%${search}%` })
+            .orWhere('job.location ILIKE :search', { search: `%${search}%` })
+            .orWhere('job.searchSkills ILIKE :search', { search: `%${search}%` });
+        }),
+      );
+    }
+
+    if (query.sort === AdminJobSort.OLDEST) {
+      qb.orderBy('job.createdAt', 'ASC');
+    } else if (query.sort === AdminJobSort.RISK_DESC) {
+      qb.orderBy('job.riskScore', 'DESC', 'NULLS LAST').addOrderBy('job.createdAt', 'DESC');
+    } else if (query.sort === AdminJobSort.APPLICATIONS_DESC) {
+      qb.orderBy('job.applicationCount', 'DESC').addOrderBy('job.createdAt', 'DESC');
+    } else {
+      qb.orderBy('job.createdAt', 'DESC');
+    }
+
+    const [jobs, total] = await qb.getManyAndCount();
+    return this.paginate(
+      jobs.map((job) => this.mapJob(job)),
+      query.page,
+      query.limit,
+      total,
+    );
+  }
+
+  async getAdminOverview(): Promise<AdminJobOverviewDto> {
+    const [totalJobs, jobStatusRows, totalRevisions, revisionStatusRows] = await Promise.all([
+      this.jobRepo.count({ where: { deletedAt: IsNull() } }),
+      this.jobRepo
+        .createQueryBuilder('job')
+        .select('job.status', 'status')
+        .addSelect('COUNT(job.id)', 'count')
+        .where('job.deletedAt IS NULL')
+        .groupBy('job.status')
+        .getRawMany<{ status: JobStatus; count: string }>(),
+      this.revisionRepo.count({ where: { deletedAt: IsNull() } }),
+      this.revisionRepo
+        .createQueryBuilder('revision')
+        .select('revision.status', 'status')
+        .addSelect('COUNT(revision.id)', 'count')
+        .where('revision.deletedAt IS NULL')
+        .groupBy('revision.status')
+        .getRawMany<{ status: JobRevisionStatus; count: string }>(),
+    ]);
+    const jobsByStatus = this.jobStatusCounts(jobStatusRows);
+    const revisionsByStatus = this.revisionStatusCounts(revisionStatusRows);
+    return {
+      totalJobs,
+      jobsByStatus,
+      jobsWaitingReview: ACTIVE_REVIEW_STATUSES.reduce(
+        (sum, status) => sum + jobsByStatus[status],
+        0,
+      ),
+      publishedJobs: jobsByStatus[JobStatus.PUBLISHED],
+      unpublishedJobs: jobsByStatus[JobStatus.UNPUBLISHED],
+      closedJobs: jobsByStatus[JobStatus.CLOSED],
+      totalRevisions,
+      revisionsByStatus,
+      revisionsWaitingReview: [
+        JobRevisionStatus.PENDING_REVIEW,
+        JobRevisionStatus.NEEDS_REVIEW,
+        JobRevisionStatus.SHOULD_REJECT,
+      ].reduce((sum, status) => sum + revisionsByStatus[status], 0),
+    };
+  }
+
   async reviewJob(admin: AuthUser, id: string, dto: ReviewJobDto): Promise<JobResponseDto> {
     this.assertAdmin(admin);
     const job = await this.jobRepo.findOne({ where: { id } });
@@ -651,18 +744,44 @@ export class JobService {
     return this.mapJob(saved);
   }
 
-  async listRevisionReviewQueue(): Promise<JobRevisionResponseDto[]> {
-    const revisions = await this.revisionRepo.find({
-      where: {
-        status: In([
-          JobRevisionStatus.PENDING_REVIEW,
-          JobRevisionStatus.NEEDS_REVIEW,
-          JobRevisionStatus.SHOULD_REJECT,
-        ]),
-      },
-      order: { createdAt: 'ASC' },
-    });
-    return revisions.map((revision) => this.mapRevision(revision));
+  async listRevisionReviewQueue(
+    query: AdminJobRevisionReviewQueueQueryDto,
+  ): Promise<Paginated<JobRevisionResponseDto>> {
+    const reviewStatuses = [
+      JobRevisionStatus.PENDING_REVIEW,
+      JobRevisionStatus.NEEDS_REVIEW,
+      JobRevisionStatus.SHOULD_REJECT,
+    ];
+    const qb = this.revisionRepo
+      .createQueryBuilder('revision')
+      .where('revision.status IN (:...statuses)', {
+        statuses: query.status ? [query.status] : reviewStatuses,
+      })
+      .andWhere('revision.deletedAt IS NULL')
+      .orderBy('revision.createdAt', 'ASC')
+      .skip(query.skip)
+      .take(query.limit);
+
+    const search = query.search?.trim();
+    if (search) {
+      qb.andWhere(
+        new Brackets((where) => {
+          where
+            .where('revision.title ILIKE :search', { search: `%${search}%` })
+            .orWhere('revision.changeSummary ILIKE :search', { search: `%${search}%` })
+            .orWhere('revision.companyId::text ILIKE :search', { search: `%${search}%` })
+            .orWhere('revision.jobId::text ILIKE :search', { search: `%${search}%` });
+        }),
+      );
+    }
+
+    const [revisions, total] = await qb.getManyAndCount();
+    return this.paginate(
+      revisions.map((revision) => this.mapRevision(revision)),
+      query.page,
+      query.limit,
+      total,
+    );
   }
 
   async reviewRevision(
@@ -1221,6 +1340,34 @@ export class JobService {
     };
   }
 
+  private jobStatusCounts(
+    rows: Array<{ status: JobStatus; count: string }>,
+  ): Record<JobStatus, number> {
+    const counts = this.emptyJobStatusCounts();
+    for (const row of rows) {
+      counts[row.status] = Number(row.count);
+    }
+    return counts;
+  }
+
+  private revisionStatusCounts(
+    rows: Array<{ status: JobRevisionStatus; count: string }>,
+  ): Record<JobRevisionStatus, number> {
+    const counts = {
+      [JobRevisionStatus.DRAFT]: 0,
+      [JobRevisionStatus.PENDING_REVIEW]: 0,
+      [JobRevisionStatus.NEEDS_REVIEW]: 0,
+      [JobRevisionStatus.SHOULD_REJECT]: 0,
+      [JobRevisionStatus.APPROVED]: 0,
+      [JobRevisionStatus.REJECTED]: 0,
+      [JobRevisionStatus.CANCELLED]: 0,
+    };
+    for (const row of rows) {
+      counts[row.status] = Number(row.count);
+    }
+    return counts;
+  }
+
   private mapJob(job: Job): JobResponseDto {
     return {
       id: job.id,
@@ -1412,7 +1559,9 @@ export class JobService {
       const cached = await this.redis.get(cacheKey);
       return cached ? (JSON.parse(cached) as T) : null;
     } catch (error) {
-      this.logger.warn(`Redis public cache read failed key=${cacheKey}: ${(error as Error).message}`);
+      this.logger.warn(
+        `Redis public cache read failed key=${cacheKey}: ${(error as Error).message}`,
+      );
       return null;
     }
   }
@@ -1421,7 +1570,9 @@ export class JobService {
     try {
       await this.redis.set(cacheKey, JSON.stringify(value), 'EX', PUBLIC_JOB_CACHE_TTL_SECONDS);
     } catch (error) {
-      this.logger.warn(`Redis public cache write failed key=${cacheKey}: ${(error as Error).message}`);
+      this.logger.warn(
+        `Redis public cache write failed key=${cacheKey}: ${(error as Error).message}`,
+      );
     }
   }
 
