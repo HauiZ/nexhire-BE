@@ -15,9 +15,10 @@ export class LoginDto {
   password: string;
 
   @ApiProperty({
-    enum: [UserRole.CANDIDATE, UserRole.RECRUITER],
-    description: 'Login context. Candidate and recruiter login pages must send their matching role.',
+    enum: [UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN],
+    description:
+      'Login context. Candidate, recruiter, and admin login pages must send their matching role.',
   })
-  @IsIn([UserRole.CANDIDATE, UserRole.RECRUITER])
-  role: UserRole.CANDIDATE | UserRole.RECRUITER;
+  @IsIn([UserRole.CANDIDATE, UserRole.RECRUITER, UserRole.ADMIN])
+  role: UserRole.CANDIDATE | UserRole.RECRUITER | UserRole.ADMIN;
 }

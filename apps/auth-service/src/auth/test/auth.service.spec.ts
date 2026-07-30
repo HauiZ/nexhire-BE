@@ -515,6 +515,57 @@ describe('AuthService', () => {
     );
   });
 
+  it('logs in an admin account without company scope', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'admin-1',
+      email: 'nexhire.team.support@gmail.com',
+      fullName: 'NexHire Team Support',
+      phone: null,
+      emailVerified: true,
+    } as User);
+    (credentialRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'credential-1',
+      userId: 'admin-1',
+      passwordHash: 'hashed-password',
+      failedLoginAttempts: 0,
+      lockedUntil: null,
+    } as UserCredential);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+    (userRoleRepo.findOne as jest.Mock).mockResolvedValue({
+      userId: 'admin-1',
+      role: { name: UserRole.ADMIN },
+    } as UserRoleEntity);
+    jwtService.signAsync
+      .mockResolvedValueOnce('access-token')
+      .mockResolvedValueOnce('refresh-token');
+
+    const manager = {
+      update: jest.fn(),
+    };
+    dataSource.transaction.mockImplementation(
+      async (callback: (entityManager: typeof manager) => Promise<unknown>) => callback(manager),
+    );
+
+    const result = await service.login({
+      email: 'nexhire.team.support@gmail.com',
+      password: 'SuperAdmin123@',
+      role: UserRole.ADMIN,
+    });
+
+    expect(result.user.role).toBe(UserRole.ADMIN);
+    expect(result.user.companyId).toBeNull();
+    expect(recruiterCompanyLinkRepo.findOne).not.toHaveBeenCalled();
+    expect(jwtService.signAsync).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        sub: 'admin-1',
+        role: UserRole.ADMIN,
+      }),
+      expect.any(Object),
+    );
+    expect(jwtService.signAsync.mock.calls[0][0]).not.toHaveProperty('companyId');
+  });
+
   it('creates a candidate account from a valid Google token', async () => {
     (global as unknown as { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
       ok: true,
