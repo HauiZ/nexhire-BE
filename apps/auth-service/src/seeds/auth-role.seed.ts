@@ -1,5 +1,6 @@
 import { UserRole } from '@nexhire/shared';
 import { DataSource } from 'typeorm';
+import authDataSource from '../../data-source';
 
 const DEFAULT_ROLES = [
   { name: UserRole.CANDIDATE, description: 'Candidate account' },
@@ -20,3 +21,15 @@ export async function seedAuthRoles(dataSource: DataSource): Promise<void> {
     );
   }
 }
+
+export async function seed(): Promise<void> {
+  await authDataSource.initialize();
+  try {
+    await seedAuthRoles(authDataSource);
+    console.log('auth roles seeded');
+  } finally {
+    await authDataSource.destroy();
+  }
+}
+
+export default seed;
