@@ -12,10 +12,20 @@ import { CvParseResultResponseDto } from './dto/cv-parse-result-response.dto';
 import { CvParseRequest } from './entities/cv-parse-request.entity';
 import { CvParseResult } from './entities/cv-parse-result.entity';
 import { CvParseContext, CvParseProvider, CvParseRequestStatus } from './entities/cv-parsing.enum';
-import { CandidateClientService } from '../candidate-client/candidate-client.service';
+import { CvParseEventPublisher } from './events/cv-parse-event.publisher';
 import { GeminiResumeParserClient } from '../gemini/gemini-resume-parser.client';
 import { ResumeNormalizerService } from '../skima/resume-normalizer.service';
 import { SkimaResumeParserClient } from '../skima/skima-resume-parser.client';
+
+export interface CvUploadedEventPayload {
+  candidateId: string;
+  candidateUserId: string;
+  candidateCvId: string;
+  documentId: string;
+  documentUrl: string;
+  context: CvParseContext.PROFILE_UPDATE | 'PROFILE_UPDATE';
+  uploadedAt?: string;
+}
 
 @Injectable()
 export class CvParsingService {
@@ -24,7 +34,7 @@ export class CvParsingService {
   constructor(
     private readonly dataSource: DataSource,
     private readonly configService: ConfigService,
-    private readonly candidateClientService: CandidateClientService,
+    private readonly cvParseEventPublisher: CvParseEventPublisher,
     private readonly geminiClient: GeminiResumeParserClient,
     private readonly skimaClient: SkimaResumeParserClient,
     private readonly resumeNormalizer: ResumeNormalizerService,
@@ -48,6 +58,19 @@ export class CvParsingService {
       where: { id: request.id },
     });
     return this.mapParseRequest(updatedRequest);
+  }
+
+  async processUploadedCv(payload: CvUploadedEventPayload): Promise<void> {
+    const request = await this.createQueuedRequest({
+      candidateId: payload.candidateId,
+      requestedByUserId: payload.candidateUserId,
+      candidateCvId: payload.candidateCvId,
+      documentId: payload.documentId,
+      documentUrl: payload.documentUrl,
+      context: CvParseContext.PROFILE_UPDATE,
+    });
+
+    await this.processWithProvider(request.id, payload.documentUrl);
   }
 
   async parseTemplateFill(dto: CreateCvParseRequestDto): Promise<CvParseResultResponseDto> {
@@ -125,17 +148,7 @@ export class CvParsingService {
 
     const profileApplied = this.shouldApplyParsedResume(result.request);
     if (profileApplied) {
-      await this.applyParsedResumeToCandidate(result.request, dto.normalizedPayload).catch(
-        async (error: unknown) => {
-          await this.markParseRequestFailed(
-            result.request.id,
-            'CANDIDATE.PROFILE_APPLY_FAILED',
-            (error as Error).message,
-          );
-          await this.markCandidateCvParseFailed(result.request, (error as Error).message);
-          throw error;
-        },
-      );
+      await this.publishParsedResume(result.request, dto.normalizedPayload);
     }
 
     await this.parseRequestRepo.update(result.request.id, {
@@ -174,8 +187,8 @@ export class CvParsingService {
         ERROR_CODES.AI.SERVICE_UNAVAILABLE,
         (error as Error).message,
       );
-      if (request) {
-        await this.markCandidateCvParseFailed(request, (error as Error).message);
+      if (request?.candidateCvId) {
+        await this.publishCvParseFailed(request, (error as Error).message);
       }
       throw error;
     }
@@ -196,33 +209,36 @@ export class CvParsingService {
     };
   }
 
-  private async applyParsedResumeToCandidate(
+  private async publishParsedResume(
     request: CvParseRequest,
     normalizedPayload: CompleteCvParseRequestDto['normalizedPayload'],
   ): Promise<void> {
     if (!request.candidateCvId) {
       return;
     }
-    await this.candidateClientService.applyParsedResume({
+    await this.cvParseEventPublisher.publishCvParsed({
+      parseRequestId: request.id,
       candidateId: request.candidateId,
+      candidateUserId: request.requestedByUserId,
       candidateCvId: request.candidateCvId,
-      requestedByUserId: request.requestedByUserId,
-      parsedResume: normalizedPayload,
+      documentId: request.documentId,
+      normalizedPayload,
+      parsedAt: new Date().toISOString(),
     });
   }
 
-  private async markCandidateCvParseFailed(
-    request: CvParseRequest,
-    errorMessage: string,
-  ): Promise<void> {
+  private async publishCvParseFailed(request: CvParseRequest, errorMessage: string): Promise<void> {
     if (!request.candidateCvId) {
       return;
     }
-    await this.candidateClientService.markCvParseFailed({
+    await this.cvParseEventPublisher.publishCvParseFailed({
+      parseRequestId: request.id,
       candidateId: request.candidateId,
+      candidateUserId: request.requestedByUserId,
       candidateCvId: request.candidateCvId,
-      requestedByUserId: request.requestedByUserId,
+      documentId: request.documentId,
       errorMessage,
+      failedAt: new Date().toISOString(),
     });
   }
 
@@ -230,7 +246,10 @@ export class CvParsingService {
     return request.context === CvParseContext.PROFILE_UPDATE && Boolean(request.candidateCvId);
   }
 
-  private assertCreateParseRequest(dto: CreateCvParseRequestDto, templateFillEndpoint: boolean): void {
+  private assertCreateParseRequest(
+    dto: CreateCvParseRequestDto,
+    templateFillEndpoint: boolean,
+  ): void {
     if (dto.context === CvParseContext.PROFILE_UPDATE && !dto.candidateCvId) {
       throw new BadRequestException({
         code: ERROR_CODES.COMMON.VALIDATION_FAILED,

@@ -15,7 +15,6 @@ import { ApplicationClientService } from '../application-client/application-clie
 import { CandidateService } from '../candidate/candidate.service';
 import { CandidateCv } from '../candidate/entities/candidate-cv.entity';
 import { CandidateCvParseStatus, CandidateCvSource } from '../candidate/entities/candidate.enum';
-import { CvParsingClientService } from '../cv-parsing-client/cv-parsing-client.service';
 import { DocumentClientService } from '../document-client/document-client.service';
 import {
   CANDIDATE_CV_MAX_UPLOAD_SIZE_BYTES,
@@ -25,8 +24,7 @@ import { CandidateUploadedFile } from '../document-client/interfaces/candidate-u
 import { CandidateCvResponseDto } from './dto/cv-response.dto';
 import { DeleteCvResponseDto } from './dto/delete-cv-response.dto';
 import { UploadCvDto } from './dto/upload-cv.dto';
-
-const FAILED_PARSE_STATUS = 'FAILED';
+import { CvEventPublisher } from './events/cv-event.publisher';
 
 @Injectable()
 export class CvService {
@@ -37,8 +35,8 @@ export class CvService {
     private readonly configService: ConfigService,
     private readonly candidateService: CandidateService,
     private readonly applicationClientService: ApplicationClientService,
-    private readonly cvParsingClientService: CvParsingClientService,
     private readonly documentClientService: DocumentClientService,
+    private readonly cvEventPublisher: CvEventPublisher,
     @InjectRepository(CandidateCv)
     private readonly cvRepo: Repository<CandidateCv>,
   ) {}
@@ -250,18 +248,15 @@ export class CvService {
   ): Promise<CandidateCvResponseDto> {
     try {
       const documentDownload = await this.documentClientService.createDownloadUrl(cv.documentId);
-      const parseRequest = await this.cvParsingClientService.createParseRequest({
-        user,
+      await this.cvEventPublisher.publishCvUploaded({
         candidateId,
+        candidateUserId: user.id,
         candidateCvId: cv.id,
         documentId: cv.documentId,
         documentUrl: documentDownload.url,
+        context: 'PROFILE_UPDATE',
+        uploadedAt: new Date().toISOString(),
       });
-
-      if (parseRequest.status === FAILED_PARSE_STATUS) {
-        await this.cvRepo.update(cv.id, { parseStatus: CandidateCvParseStatus.FAILED });
-        return this.mapCv({ ...cv, parseStatus: CandidateCvParseStatus.FAILED });
-      }
     } catch (error) {
       await this.cvRepo.update(cv.id, {
         parseStatus: CandidateCvParseStatus.FAILED,

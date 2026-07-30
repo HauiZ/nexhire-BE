@@ -9,6 +9,8 @@ export const QUEUES = {
   JOB_COMPANY_SNAPSHOT: 'job.company-snapshot',
   JOB_APPLICATION_SUBMITTED: 'job.application-submitted',
   CANDIDATE_JOB_PUBLISHED_FOLLOW: 'candidate.job-published-follow',
+  CANDIDATE_CV_PARSED: 'candidate.cv-parsed',
+  CV_PARSING_CV_UPLOADED: 'cv-parsing.cv-uploaded',
 } as const;
 
 export type QueueName = (typeof QUEUES)[keyof typeof QUEUES];

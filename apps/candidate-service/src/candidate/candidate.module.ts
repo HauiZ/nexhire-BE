@@ -13,6 +13,7 @@ import { CandidateExperience } from './entities/candidate-experience.entity';
 import { CandidateProfile } from './entities/candidate-profile.entity';
 import { CandidateProject } from './entities/candidate-project.entity';
 import { CandidateSkill } from './entities/candidate-skill.entity';
+import { CvParseEventsConsumer } from './events/consumers/cv-parse-events.consumer';
 import { CandidateEventPublisher } from './events/candidate-event.publisher';
 
 @Module({
@@ -30,7 +31,7 @@ import { CandidateEventPublisher } from './events/candidate-event.publisher';
     ]),
   ],
   controllers: [CandidateController, CandidateInternalController],
-  providers: [CandidateService, AuthClientService, CandidateEventPublisher],
+  providers: [CandidateService, AuthClientService, CandidateEventPublisher, CvParseEventsConsumer],
   exports: [CandidateService],
 })
 export class CandidateModule {}

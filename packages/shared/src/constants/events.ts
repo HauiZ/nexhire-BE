@@ -10,6 +10,7 @@ export const EVENTS = {
   APPLICATION_STAGE_CHANGED: 'application.stage-changed',
   CV_UPLOADED: 'cv.uploaded',
   CV_PARSED: 'cv.parsed',
+  CV_PARSE_FAILED: 'cv.parse-failed',
   CV_MATCH_REQUESTED: 'cv.match-requested',
   DOCUMENT_UPLOADED: 'document.uploaded',
   DOCUMENT_REMOVED: 'document.removed',

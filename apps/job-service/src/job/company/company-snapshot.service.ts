@@ -7,6 +7,8 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import {
   AuthUser,
   CompanyStatus,
@@ -15,6 +17,7 @@ import {
   HEADERS,
   UserRole,
 } from '@nexhire/shared';
+import { CompanyPostingSnapshot } from '../entities/company-posting-snapshot.entity';
 import { CompanyStatusSnapshot, CompanyTrustLevel } from '../entities/job.enum';
 
 export interface CompanyPermissionSnapshot {
@@ -49,6 +52,8 @@ export class CompanySnapshotService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
+    @InjectRepository(CompanyPostingSnapshot)
+    private readonly snapshotRepo: Repository<CompanyPostingSnapshot>,
   ) {}
 
   async getPostingSnapshot(user: AuthUser): Promise<CompanyPermissionSnapshot> {
@@ -59,7 +64,9 @@ export class CompanySnapshotService {
       });
     }
 
-    const snapshot = await this.fetchPostingSnapshot(user.companyId);
+    const snapshot =
+      (await this.getLocalPostingSnapshot(user.companyId)) ??
+      (await this.fetchPostingSnapshot(user.companyId));
 
     if (snapshot.companyStatus === CompanyStatusSnapshot.SUSPENDED) {
       throw new ForbiddenException({
@@ -118,5 +125,23 @@ export class CompanySnapshotService {
         message: 'Company service is unavailable',
       });
     }
+  }
+
+  private async getLocalPostingSnapshot(
+    companyId: string,
+  ): Promise<CompanyPermissionSnapshot | null> {
+    const snapshot = await this.snapshotRepo.findOne({ where: { companyId } });
+    if (!snapshot) {
+      return null;
+    }
+    return {
+      companyId: snapshot.companyId,
+      companyName: snapshot.companyName,
+      companyLogoUrl: snapshot.companyLogoUrl,
+      companyLogoDocumentId: snapshot.companyLogoDocumentId,
+      companyStatus: snapshot.companyStatus,
+      companyTrustLevel: snapshot.companyTrustLevel,
+      snapshotAt: snapshot.snapshotAt,
+    };
   }
 }

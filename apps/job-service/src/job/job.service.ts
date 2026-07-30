@@ -53,6 +53,7 @@ import { JobModerationReview } from './entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from './entities/job-processed-application-event.entity';
 import { JobRevision } from './entities/job-revision.entity';
 import { Job } from './entities/job.entity';
+import { CompanyPostingSnapshot } from './entities/company-posting-snapshot.entity';
 import {
   CompanyStatusSnapshot,
   CompanyTrustLevel,
@@ -896,6 +897,18 @@ export class JobService {
     }
 
     await this.dataSource.transaction(async (manager) => {
+      await manager.getRepository(CompanyPostingSnapshot).upsert(
+        {
+          companyId: payload.companyId,
+          companyName: payload.companyName ?? null,
+          companyLogoUrl: payload.companyLogoUrl ?? null,
+          companyLogoDocumentId: payload.companyLogoDocumentId ?? null,
+          companyStatus: payload.companyStatus,
+          companyTrustLevel: payload.companyTrustLevel ?? CompanyTrustLevel.MEDIUM,
+          snapshotAt,
+        },
+        ['companyId'],
+      );
       await manager.update(Job, { companyId: payload.companyId }, snapshotPatch);
       await this.invalidatePublicCache();
 

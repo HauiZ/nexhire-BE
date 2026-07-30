@@ -6,9 +6,9 @@ import { ApplicationClientService } from '../../application-client/application-c
 import { CandidateService } from '../../candidate/candidate.service';
 import { CandidateCv } from '../../candidate/entities/candidate-cv.entity';
 import { CandidateCvParseStatus } from '../../candidate/entities/candidate.enum';
-import { CvParsingClientService } from '../../cv-parsing-client/cv-parsing-client.service';
 import { DocumentClientService } from '../../document-client/document-client.service';
 import { CvService } from '../cv.service';
+import { CvEventPublisher } from '../events/cv-event.publisher';
 
 describe('CvService', () => {
   let service: CvService;
@@ -16,7 +16,7 @@ describe('CvService', () => {
   let configService: { get: jest.Mock };
   let candidateService: { ensureProfileForUser: jest.Mock };
   let applicationClientService: { getCvDocumentRetention: jest.Mock };
-  let cvParsingClientService: { createParseRequest: jest.Mock };
+  let cvEventPublisher: { publishCvUploaded: jest.Mock };
   let documentClientService: {
     createDownloadUrl: jest.Mock;
     deleteDocument: jest.Mock;
@@ -61,14 +61,8 @@ describe('CvService', () => {
         blockingStatus: null,
       }),
     };
-    cvParsingClientService = {
-      createParseRequest: jest.fn().mockResolvedValue({
-        id: 'parse-request-1',
-        candidateId: 'candidate-1',
-        candidateCvId: 'cv-1',
-        documentId: 'document-1',
-        status: 'QUEUED',
-      }),
+    cvEventPublisher = {
+      publishCvUploaded: jest.fn().mockResolvedValue(undefined),
     };
     documentClientService = {
       createDownloadUrl: jest.fn().mockResolvedValue({
@@ -102,8 +96,8 @@ describe('CvService', () => {
       configService as unknown as ConfigService,
       candidateService as unknown as CandidateService,
       applicationClientService as unknown as ApplicationClientService,
-      cvParsingClientService as unknown as CvParsingClientService,
       documentClientService as unknown as DocumentClientService,
+      cvEventPublisher as unknown as CvEventPublisher,
       cvRepo as unknown as Repository<CandidateCv>,
     );
   });
@@ -121,7 +115,7 @@ describe('CvService', () => {
     );
 
     expect(result.parseStatus).toBe(CandidateCvParseStatus.NOT_PARSED);
-    expect(cvParsingClientService.createParseRequest).not.toHaveBeenCalled();
+    expect(cvEventPublisher.publishCvUploaded).not.toHaveBeenCalled();
   });
 
   it('uploads and parses a CV when requested', async () => {
@@ -138,10 +132,10 @@ describe('CvService', () => {
 
     expect(result.parseStatus).toBe(CandidateCvParseStatus.PARSING);
     expect(documentClientService.createDownloadUrl).toHaveBeenCalledWith('document-1');
-    expect(cvParsingClientService.createParseRequest).toHaveBeenCalledWith(
+    expect(cvEventPublisher.publishCvUploaded).toHaveBeenCalledWith(
       expect.objectContaining({
-        user: { id: 'user-1', role: UserRole.CANDIDATE },
         candidateId: 'candidate-1',
+        candidateUserId: 'user-1',
         candidateCvId: 'cv-1',
         documentId: 'document-1',
         documentUrl: 'https://storage.local/download/cv.pdf',
@@ -169,9 +163,12 @@ describe('CvService', () => {
       parseStatus: CandidateCvParseStatus.PARSING,
       parsedAt: null,
     });
-    expect(cvParsingClientService.createParseRequest).toHaveBeenCalledWith(
+    expect(cvEventPublisher.publishCvUploaded).toHaveBeenCalledWith(
       expect.objectContaining({
+        candidateId: 'candidate-1',
+        candidateUserId: 'user-1',
         candidateCvId: 'cv-1',
+        documentId: 'document-1',
         documentUrl: 'https://storage.local/download/cv.pdf',
       }),
     );

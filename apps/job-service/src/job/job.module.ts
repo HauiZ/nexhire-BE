@@ -9,6 +9,7 @@ import { JobModerationReview } from './entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from './entities/job-processed-application-event.entity';
 import { JobRevision } from './entities/job-revision.entity';
 import { Job } from './entities/job.entity';
+import { CompanyPostingSnapshot } from './entities/company-posting-snapshot.entity';
 import { JobExpirationScheduler } from './job-expiration.scheduler';
 import { JobService } from './job.service';
 import { ApplicationEventsConsumer } from './events/consumers/application-events.consumer';
@@ -23,7 +24,13 @@ import { DocumentClientService } from '../document-client/document-client.servic
 @Module({
   imports: [
     HttpModule,
-    TypeOrmModule.forFeature([Job, JobRevision, JobModerationReview, JobProcessedApplicationEvent]),
+    TypeOrmModule.forFeature([
+      Job,
+      JobRevision,
+      JobModerationReview,
+      JobProcessedApplicationEvent,
+      CompanyPostingSnapshot,
+    ]),
   ],
   controllers: [JobController, JobInternalController, RecruiterJobController, AdminJobController],
   providers: [

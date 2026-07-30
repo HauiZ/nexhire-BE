@@ -20,10 +20,18 @@ describe('CompanySnapshotService', () => {
   };
 
   let service: CompanySnapshotService;
+  const snapshotRepo = {
+    findOne: jest.fn(),
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new CompanySnapshotService(httpService as any, configService as any);
+    snapshotRepo.findOne.mockResolvedValue(null);
+    service = new CompanySnapshotService(
+      httpService as any,
+      configService as any,
+      snapshotRepo as any,
+    );
   });
 
   it('returns approved posting snapshot from company-service', async () => {

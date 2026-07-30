@@ -24,6 +24,7 @@ import { JobModerationReview } from '../entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from '../entities/job-processed-application-event.entity';
 import { JobRevision } from '../entities/job-revision.entity';
 import { Job } from '../entities/job.entity';
+import { CompanyPostingSnapshot } from '../entities/company-posting-snapshot.entity';
 import { JobEventPublisher } from '../events/job-event.publisher';
 import { JobService } from '../job.service';
 import { JobModerationService } from '../moderation/job-moderation.service';
@@ -83,6 +84,9 @@ describe('JobService', () => {
     findOne: jest.Mock;
     create: jest.Mock;
     save: jest.Mock;
+  };
+  let companyPostingSnapshotRepo: {
+    upsert: jest.Mock;
   };
   let manager: {
     getRepository: jest.Mock;
@@ -271,10 +275,19 @@ describe('JobService', () => {
       create: jest.fn((value) => value),
       save: jest.fn(),
     };
+    companyPostingSnapshotRepo = {
+      upsert: jest.fn().mockResolvedValue(undefined),
+    };
     manager = {
-      getRepository: jest.fn((entity) =>
-        entity === JobModerationReview ? moderationReviewRepo : processedEventRepo,
-      ),
+      getRepository: jest.fn((entity) => {
+        if (entity === JobModerationReview) {
+          return moderationReviewRepo;
+        }
+        if (entity === CompanyPostingSnapshot) {
+          return companyPostingSnapshotRepo;
+        }
+        return processedEventRepo;
+      }),
       increment: jest.fn(),
       save: jest.fn((entityOrTarget, maybeEntity) =>
         Promise.resolve(maybeEntity ?? entityOrTarget),
@@ -306,6 +319,10 @@ describe('JobService', () => {
         { provide: getRepositoryToken(JobRevision), useValue: revisionRepo },
         { provide: getRepositoryToken(JobModerationReview), useValue: moderationReviewRepo },
         { provide: getRepositoryToken(JobProcessedApplicationEvent), useValue: processedEventRepo },
+        {
+          provide: getRepositoryToken(CompanyPostingSnapshot),
+          useValue: companyPostingSnapshotRepo,
+        },
       ],
     }).compile();
 

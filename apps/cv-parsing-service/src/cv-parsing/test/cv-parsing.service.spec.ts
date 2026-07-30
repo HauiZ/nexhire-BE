@@ -4,7 +4,7 @@ import { DataSource, Repository } from 'typeorm';
 import { CvParsingService } from '../cv-parsing.service';
 import { CvParseContext, CvParseProvider, CvParseRequestStatus } from '../entities/cv-parsing.enum';
 import { CvParseRequest } from '../entities/cv-parse-request.entity';
-import { CandidateClientService } from '../../candidate-client/candidate-client.service';
+import { CvParseEventPublisher } from '../events/cv-parse-event.publisher';
 import { GeminiResumeParserClient } from '../../gemini/gemini-resume-parser.client';
 import { ResumeNormalizerService } from '../../skima/resume-normalizer.service';
 import { SkimaResumeParserClient } from '../../skima/skima-resume-parser.client';
@@ -57,7 +57,7 @@ describe('CvParsingService', () => {
     service = new CvParsingService(
       {} as DataSource,
       configService as unknown as ConfigService,
-      {} as CandidateClientService,
+      {} as CvParseEventPublisher,
       {} as GeminiResumeParserClient,
       {} as SkimaResumeParserClient,
       {} as ResumeNormalizerService,

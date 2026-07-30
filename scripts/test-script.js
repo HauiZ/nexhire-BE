@@ -17,9 +17,15 @@ if (!scriptPath) {
 
 const absoluteScriptPath = path.resolve(process.cwd(), scriptPath);
 const testFlowsRoot = path.resolve(process.cwd(), 'test', 'test-flows');
+const allowedScriptRoots = [
+  testFlowsRoot,
+  path.resolve(process.cwd(), 'apps', 'notification-service', 'src', 'queue-monitor', 'manual'),
+];
 
-if (!absoluteScriptPath.startsWith(testFlowsRoot + path.sep)) {
-  console.error('Error: test scripts must live under test/test-flows.');
+if (!allowedScriptRoots.some((root) => absoluteScriptPath.startsWith(root + path.sep))) {
+  console.error(
+    'Error: test scripts must live under test/test-flows or apps/notification-service/src/queue-monitor/manual.',
+  );
   process.exit(1);
 }
 
@@ -85,6 +91,10 @@ function shouldRunCleanupAfterFlow() {
     return false;
   }
 
+  if (!absoluteScriptPath.startsWith(testFlowsRoot + path.sep)) {
+    return false;
+  }
+
   if (!scriptFileName.startsWith('test-')) {
     return false;
   }
@@ -99,18 +109,14 @@ if (shouldRunCleanupAfterFlow()) {
   if (existsSync(cleanupScript)) {
     console.log('');
     console.log('Running post-flow DB cleanup for generated test data...');
-    const cleanupResult = spawnSync(
-      process.execPath,
-      ['-r', 'ts-node/register', cleanupScript],
-      {
-        stdio: 'inherit',
-        env: {
-          ...childEnv,
-          TEST_FLOW_CLEANUP_APPLY: 'true',
-          TEST_FLOW_CLEANUP_RUN_ID: runId,
-        },
+    const cleanupResult = spawnSync(process.execPath, ['-r', 'ts-node/register', cleanupScript], {
+      stdio: 'inherit',
+      env: {
+        ...childEnv,
+        TEST_FLOW_CLEANUP_APPLY: 'true',
+        TEST_FLOW_CLEANUP_RUN_ID: runId,
       },
-    );
+    });
 
     const cleanupExitCode = cleanupResult.status ?? 1;
     if (cleanupExitCode !== 0) {

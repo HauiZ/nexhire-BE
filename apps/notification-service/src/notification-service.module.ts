@@ -9,6 +9,7 @@ import { buildTypeOrmOptions, databaseConfigFor, rabbitmqConfig } from '@nexhire
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { EmailModule } from './email/email.module';
 import { NotificationModule } from './in-app/notification.module';
+import { QueueMonitorModule } from './queue-monitor/queue-monitor.module';
 import { WebPushModule } from './web-push/web-push.module';
 import { notificationServiceConfig } from './config/notification-service.config';
 import { validationSchema } from './config/env.validation';
@@ -18,6 +19,7 @@ import { HealthModule } from './health/health.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ['.env.local', '.env'],
       load: [databaseConfigFor('NOTIFICATION_SERVICE'), rabbitmqConfig, notificationServiceConfig],
       validationSchema,
     }),
@@ -46,6 +48,7 @@ import { HealthModule } from './health/health.module';
     NotificationModule,
     EmailModule,
     WebPushModule,
+    QueueMonitorModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: InternalAuthGuard },
