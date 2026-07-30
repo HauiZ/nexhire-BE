@@ -10,9 +10,9 @@ const envNumber = (key: string, fallback: string): number => parseInt(env(key, f
 export const notificationServiceConfig = registerAs('notificationService', () => ({
   port: envNumber('NOTIFICATION_SERVICE_PORT', '3008'),
   smtp: {
-    host: env('SMTP_HOST', env('MAILTRAP_SMTP_HOST', 'sandbox.smtp.mailtrap.io')),
-    port: parseInt(env('SMTP_PORT', env('MAILTRAP_SMTP_PORT', '2525'))!, 10),
-    secure: env('SMTP_SECURE', env('MAILTRAP_SMTP_SECURE', 'false')) === 'true',
+    host: env('SMTP_HOST', 'smtp.gmail.com'),
+    port: parseInt(env('SMTP_PORT', '587')!, 10),
+    secure: env('SMTP_SECURE', 'false') === 'true',
     user: env('SMTP_USER', env('MAILTRAP_SMTP_USER')),
     pass: env('SMTP_PASS', env('MAILTRAP_SMTP_PASS')),
     from: env('SMTP_FROM', 'NexHire <noreply@nexhire.vn>'),

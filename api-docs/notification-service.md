@@ -143,12 +143,12 @@ Errors:
 
 Notification-service consumes application events:
 
-| Routing key                        | Notifications created                                                                      |
-| ---------------------------------- | ------------------------------------------------------------------------------------------ |
-| `application.submitted`            | Candidate receives confirmation; recruiter company receives a new application notification |
-| `application.stage-changed`        | Candidate receives status update for `OFFERED`, `REJECTED`, or `CANCELLED`                 |
+| Routing key                        | Notifications created                                                                                                                                                                                       |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `application.submitted`            | Candidate receives confirmation; recruiter company receives a new application notification                                                                                                                  |
+| `application.stage-changed`        | Candidate receives status update for `OFFERED`, `REJECTED`, or `CANCELLED`                                                                                                                                  |
 | `company.posting-snapshot-changed` | Company owner receives status update for `APPROVED`, `REJECTED`, `SUSPENDED`, or `PENDING`; if `previousCompanyStatus` equals `companyStatus`, notification-service skips the duplicate status notification |
-| `company-follow.job-published`     | Candidate receives an in-app notification when a followed company publishes a new public job |
+| `company-follow.job-published`     | Candidate receives an in-app notification when a followed company publishes a new public job                                                                                                                |
 
 Company trust changes are not shown to candidates/public users. If a trust change changes posting eligibility indirectly, users only see the resulting company/job status messaging.
 
@@ -168,3 +168,21 @@ FRONTEND_URL=http://localhost:5173
 FRONTEND_VERIFY_EMAIL_PATH=/verify-email
 FRONTEND_RESET_PASSWORD_PATH=/reset-password
 ```
+
+SMTP config for real email in local/dev currently uses Gmail app password:
+
+```env
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your-gmail-address@gmail.com
+SMTP_PASS=your-16-character-gmail-app-password
+SMTP_FROM="NexHire <your-gmail-address@gmail.com>"
+```
+
+To create `SMTP_PASS`, enable 2-Step Verification on the Gmail account, then create an App
+Password for Mail. Do not use the normal Gmail login password.
+
+Mailtrap sandbox is still supported through the `MAILTRAP_SMTP_*` variables, but it should stay
+commented unless the team wants to capture test emails inside Mailtrap instead of sending to a real
+inbox.
