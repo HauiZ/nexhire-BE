@@ -5,9 +5,9 @@ import { CvParsingService } from '../cv-parsing.service';
 import { CvParseContext, CvParseProvider, CvParseRequestStatus } from '../entities/cv-parsing.enum';
 import { CvParseRequest } from '../entities/cv-parse-request.entity';
 import { CvParseEventPublisher } from '../events/cv-parse-event.publisher';
+import { AiManagementService } from '../../ai-management/ai-management.service';
 import { GeminiResumeParserClient } from '../../gemini/gemini-resume-parser.client';
-import { ResumeNormalizerService } from '../../skima/resume-normalizer.service';
-import { SkimaResumeParserClient } from '../../skima/skima-resume-parser.client';
+import { OpenAiResumeParserClient } from '../../openai/openai-resume-parser.client';
 
 describe('CvParsingService', () => {
   let service: CvParsingService;
@@ -47,20 +47,26 @@ describe('CvParsingService', () => {
     const configService = {
       get: jest.fn((key: string, fallback?: unknown) => {
         const values: Record<string, unknown> = {
-          'cvParsingService.parseProvider': 'GEMINI',
           'cvParsingService.gemini.providerVersion': 'gemini-test',
         };
         return values[key] ?? fallback;
+      }),
+    };
+    const aiManagementService = {
+      getRuntimeConfig: jest.fn().mockResolvedValue({
+        activeProvider: CvParseProvider.GEMINI,
+        geminiModel: 'gemini-test',
+        openAiModel: 'gpt-5.5',
       }),
     };
 
     service = new CvParsingService(
       {} as DataSource,
       configService as unknown as ConfigService,
+      aiManagementService as unknown as AiManagementService,
       {} as CvParseEventPublisher,
       {} as GeminiResumeParserClient,
-      {} as SkimaResumeParserClient,
-      {} as ResumeNormalizerService,
+      {} as OpenAiResumeParserClient,
       parseRequestRepo as unknown as Repository<CvParseRequest>,
     );
   });

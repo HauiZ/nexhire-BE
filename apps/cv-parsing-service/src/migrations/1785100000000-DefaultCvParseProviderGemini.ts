@@ -14,10 +14,10 @@ export class DefaultCvParseProviderGemini1785100000000 implements MigrationInter
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "cv_parse_results" ALTER COLUMN "provider" SET DEFAULT 'SKIMA'`,
+      `ALTER TABLE "cv_parse_results" ALTER COLUMN "provider" SET DEFAULT 'GEMINI'`,
     );
     await queryRunner.query(
-      `ALTER TABLE "cv_parse_requests" ALTER COLUMN "provider" SET DEFAULT 'SKIMA'`,
+      `ALTER TABLE "cv_parse_requests" ALTER COLUMN "provider" SET DEFAULT 'GEMINI'`,
     );
   }
 }

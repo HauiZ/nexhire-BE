@@ -1,4 +1,4 @@
-export function buildGeminiResumeParsePrompt(): string {
+export function buildResumeParsePrompt(): string {
   return `
 You are a resume parser for a recruitment platform.
 

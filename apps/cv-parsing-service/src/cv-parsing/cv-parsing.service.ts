@@ -13,9 +13,9 @@ import { CvParseRequest } from './entities/cv-parse-request.entity';
 import { CvParseResult } from './entities/cv-parse-result.entity';
 import { CvParseContext, CvParseProvider, CvParseRequestStatus } from './entities/cv-parsing.enum';
 import { CvParseEventPublisher } from './events/cv-parse-event.publisher';
+import { AiManagementService, AiUsageTokens } from '../ai-management/ai-management.service';
 import { GeminiResumeParserClient } from '../gemini/gemini-resume-parser.client';
-import { ResumeNormalizerService } from '../skima/resume-normalizer.service';
-import { SkimaResumeParserClient } from '../skima/skima-resume-parser.client';
+import { OpenAiResumeParserClient } from '../openai/openai-resume-parser.client';
 
 export interface CvUploadedEventPayload {
   candidateId: string;
@@ -34,10 +34,10 @@ export class CvParsingService {
   constructor(
     private readonly dataSource: DataSource,
     private readonly configService: ConfigService,
+    private readonly aiManagementService: AiManagementService,
     private readonly cvParseEventPublisher: CvParseEventPublisher,
     private readonly geminiClient: GeminiResumeParserClient,
-    private readonly skimaClient: SkimaResumeParserClient,
-    private readonly resumeNormalizer: ResumeNormalizerService,
+    private readonly openAiClient: OpenAiResumeParserClient,
     @InjectRepository(CvParseRequest)
     private readonly parseRequestRepo: Repository<CvParseRequest>,
   ) {}
@@ -91,8 +91,9 @@ export class CvParsingService {
   }
 
   private async createQueuedRequest(dto: CreateCvParseRequestDto): Promise<CvParseRequest> {
-    const provider = this.resolveProvider();
-    const providerVersion = this.resolveProviderVersion(provider);
+    const runtimeConfig = await this.aiManagementService.getRuntimeConfig();
+    const provider = runtimeConfig.activeProvider;
+    const providerVersion = this.resolveProviderVersion(provider, runtimeConfig);
 
     return this.parseRequestRepo.save(
       this.parseRequestRepo.create({
@@ -170,24 +171,60 @@ export class CvParsingService {
       errorMessage: null,
     });
 
+    const request = await this.parseRequestRepo.findOneOrFail({ where: { id: parseRequestId } });
+    const startedAt = Date.now();
+    let providerResult: Awaited<ReturnType<CvParsingService['parseWithProvider']>>;
+
     try {
-      const request = await this.parseRequestRepo.findOneOrFail({ where: { id: parseRequestId } });
-      const { rawPayload, normalizedPayload } = await this.parseWithProvider(
-        request.provider,
-        documentUrl,
-      );
-      return this.completeParseRequest(parseRequestId, {
-        normalizedPayload,
-        rawProviderPayload: rawPayload,
-      });
+      providerResult = await this.parseWithProvider(request.provider, documentUrl);
     } catch (error) {
-      const request = await this.parseRequestRepo.findOne({ where: { id: parseRequestId } });
+      await this.aiManagementService.recordUsage({
+        parseRequestId: request.id,
+        candidateId: request.candidateId,
+        candidateCvId: request.candidateCvId,
+        context: request.context,
+        provider: request.provider,
+        model: request.providerVersion ?? request.provider,
+        status: 'FAILED',
+        latencyMs: Date.now() - startedAt,
+        errorCode: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
+        errorMessage: (error as Error).message,
+      });
       await this.markParseRequestFailed(
         parseRequestId,
         ERROR_CODES.AI.SERVICE_UNAVAILABLE,
         (error as Error).message,
       );
-      if (request?.candidateCvId) {
+      if (request.candidateCvId) {
+        await this.publishCvParseFailed(request, (error as Error).message);
+      }
+      throw error;
+    }
+
+    await this.aiManagementService.recordUsage({
+      parseRequestId: request.id,
+      candidateId: request.candidateId,
+      candidateCvId: request.candidateCvId,
+      context: request.context,
+      provider: request.provider,
+      model: request.providerVersion ?? request.provider,
+      status: 'SUCCEEDED',
+      latencyMs: Date.now() - startedAt,
+      tokens: providerResult.usage,
+    });
+
+    try {
+      return await this.completeParseRequest(parseRequestId, {
+        normalizedPayload: providerResult.normalizedPayload,
+        rawProviderPayload: providerResult.rawPayload,
+      });
+    } catch (error) {
+      await this.markParseRequestFailed(
+        parseRequestId,
+        ERROR_CODES.AI.SERVICE_UNAVAILABLE,
+        (error as Error).message,
+      );
+      if (request.candidateCvId) {
         await this.publishCvParseFailed(request, (error as Error).message);
       }
       throw error;
@@ -287,33 +324,24 @@ export class CvParsingService {
   ): Promise<{
     rawPayload: Record<string, unknown>;
     normalizedPayload: CompleteCvParseRequestDto['normalizedPayload'];
+    usage?: AiUsageTokens;
   }> {
     if (provider === CvParseProvider.GEMINI) {
       return this.geminiClient.parseResumeFromUrl(documentUrl);
     }
 
-    const rawPayload = await this.skimaClient.parseResumeFromUrl(documentUrl);
-    return {
-      rawPayload,
-      normalizedPayload: this.resumeNormalizer.normalize(rawPayload),
-    };
+    return this.openAiClient.parseResumeFromUrl(documentUrl);
   }
 
-  private resolveProvider(): CvParseProvider {
-    const provider = this.configService.get<string>('cvParsingService.parseProvider', 'GEMINI');
-    return provider === CvParseProvider.SKIMA ? CvParseProvider.SKIMA : CvParseProvider.GEMINI;
-  }
-
-  private resolveProviderVersion(provider: CvParseProvider): string | null {
+  private resolveProviderVersion(
+    provider: CvParseProvider,
+    runtimeConfig: Awaited<ReturnType<AiManagementService['getRuntimeConfig']>>,
+  ): string | null {
     if (provider === CvParseProvider.GEMINI) {
-      return (
-        this.configService.get<string | null>('cvParsingService.gemini.providerVersion') ??
-        this.configService.get<string | null>('cvParsingService.gemini.model') ??
-        null
-      );
+      return runtimeConfig.geminiModel;
     }
 
-    return this.configService.get<string | null>('cvParsingService.skima.providerVersion') ?? null;
+    return runtimeConfig.openAiModel;
   }
 
   private mapParseResult(result: CvParseResult, profileApplied: boolean): CvParseResultResponseDto {

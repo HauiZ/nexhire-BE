@@ -1,10 +1,19 @@
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import { AiManagementService } from '../../ai-management/ai-management.service';
 import { GeminiClient } from '../gemini.client';
 
 describe('GeminiClient', () => {
+  const aiManagementService = {
+    getGeminiModel: jest.fn().mockResolvedValue('gemini-3.5-flash'),
+  };
+
   it('extracts a JSON object from fenced model output', () => {
-    const client = new GeminiClient({} as HttpService, {} as ConfigService);
+    const client = new GeminiClient(
+      {} as HttpService,
+      {} as ConfigService,
+      aiManagementService as unknown as AiManagementService,
+    );
 
     const result = (client as unknown as { parseJson<T>(text: string): T }).parseJson<
       Record<string, unknown>
@@ -14,7 +23,11 @@ describe('GeminiClient', () => {
   });
 
   it('extracts a JSON object when the model adds surrounding text', () => {
-    const client = new GeminiClient({} as HttpService, {} as ConfigService);
+    const client = new GeminiClient(
+      {} as HttpService,
+      {} as ConfigService,
+      aiManagementService as unknown as AiManagementService,
+    );
 
     const result = (client as unknown as { parseJson<T>(text: string): T }).parseJson<
       Record<string, unknown>

@@ -12,6 +12,7 @@ import {
 } from '@nexhire/infra';
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { CvParsingModule } from './cv-parsing/cv-parsing.module';
+import { AiManagementModule } from './ai-management/ai-management.module';
 import { cvParsingServiceConfig } from './config/cv-parsing-service.config';
 import { validationSchema } from './config/env.validation';
 import { HealthModule } from './health/health.module';
@@ -32,6 +33,7 @@ import { HealthModule } from './health/health.module';
     HttpModule,
     EventBusModule,
     HealthModule,
+    AiManagementModule,
     CvParsingModule,
   ],
   providers: [

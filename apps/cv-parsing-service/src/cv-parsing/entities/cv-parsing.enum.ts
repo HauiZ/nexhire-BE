@@ -1,6 +1,6 @@
 export enum CvParseProvider {
-  SKIMA = 'SKIMA',
   GEMINI = 'GEMINI',
+  OPENAI = 'OPENAI',
 }
 
 export enum CvParseRequestStatus {

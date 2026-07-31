@@ -7,6 +7,8 @@ import { firstValueFrom } from 'rxjs';
 
 import { ERROR_CODES } from '@nexhire/shared';
 
+import { AiManagementService } from '../ai-management/ai-management.service';
+
 interface DocumentBuffer {
   data: Buffer;
   mimeType: string;
@@ -23,6 +25,7 @@ export class GeminiClient {
   constructor(
     private readonly httpService: HttpService,
     private readonly config: ConfigService,
+    private readonly aiManagementService: AiManagementService,
   ) {}
 
   async generate(prompt: string): Promise<string> {
@@ -62,7 +65,7 @@ export class GeminiClient {
 
     const client = new GoogleGenerativeAI(apiKey);
     const model = client.getGenerativeModel({
-      model: this.config.get<string>('cvParsingService.gemini.model', 'gemini-3.5-flash'),
+      model: await this.aiManagementService.getGeminiModel(),
       generationConfig: {
         maxOutputTokens: this.config.get<number>('cvParsingService.gemini.maxOutputTokens', 2048),
         responseMimeType: 'application/json',

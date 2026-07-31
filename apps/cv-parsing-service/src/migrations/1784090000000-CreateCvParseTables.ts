@@ -12,10 +12,10 @@ export class CreateCvParseTables1784090000000 implements MigrationInterface {
       `CREATE TYPE "public"."cv_parse_request_status_enum" AS ENUM('QUEUED', 'PROCESSING', 'SUCCEEDED', 'FAILED')`,
     );
     await queryRunner.query(
-      `CREATE TYPE "public"."cv_parse_provider_enum" AS ENUM('SKIMA', 'GEMINI')`,
+      `CREATE TYPE "public"."cv_parse_provider_enum" AS ENUM('GEMINI', 'OPENAI')`,
     );
     await queryRunner.query(
-      `CREATE TABLE "cv_parse_requests" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "candidate_id" uuid NOT NULL, "requested_by_user_id" uuid NOT NULL, "candidate_cv_id" uuid NOT NULL, "document_id" uuid NOT NULL, "document_url" text, "context" "public"."cv_parse_context_enum" NOT NULL DEFAULT 'PROFILE_UPDATE', "status" "public"."cv_parse_request_status_enum" NOT NULL DEFAULT 'QUEUED', "provider" "public"."cv_parse_provider_enum" NOT NULL DEFAULT 'SKIMA', "provider_version" character varying(80), "content_hash" character varying(128), "error_code" character varying(120), "error_message" text, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), CONSTRAINT "pk_cv_parse_requests_id" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "cv_parse_requests" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "candidate_id" uuid NOT NULL, "requested_by_user_id" uuid NOT NULL, "candidate_cv_id" uuid NOT NULL, "document_id" uuid NOT NULL, "document_url" text, "context" "public"."cv_parse_context_enum" NOT NULL DEFAULT 'PROFILE_UPDATE', "status" "public"."cv_parse_request_status_enum" NOT NULL DEFAULT 'QUEUED', "provider" "public"."cv_parse_provider_enum" NOT NULL DEFAULT 'GEMINI', "provider_version" character varying(80), "content_hash" character varying(128), "error_code" character varying(120), "error_message" text, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), CONSTRAINT "pk_cv_parse_requests_id" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE INDEX "idx_cv_parse_requests_candidate_id" ON "cv_parse_requests" ("candidate_id")`,
@@ -27,7 +27,7 @@ export class CreateCvParseTables1784090000000 implements MigrationInterface {
       `CREATE INDEX "idx_cv_parse_requests_document_id" ON "cv_parse_requests" ("document_id")`,
     );
     await queryRunner.query(
-      `CREATE TABLE "cv_parse_results" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "parse_request_id" uuid NOT NULL, "candidate_id" uuid NOT NULL, "candidate_cv_id" uuid NOT NULL, "document_id" uuid NOT NULL, "provider" "public"."cv_parse_provider_enum" NOT NULL DEFAULT 'SKIMA', "provider_version" character varying(80), "normalized_payload" jsonb NOT NULL, "raw_provider_payload" jsonb, "confidence" jsonb, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), CONSTRAINT "pk_cv_parse_results_id" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "cv_parse_results" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "parse_request_id" uuid NOT NULL, "candidate_id" uuid NOT NULL, "candidate_cv_id" uuid NOT NULL, "document_id" uuid NOT NULL, "provider" "public"."cv_parse_provider_enum" NOT NULL DEFAULT 'GEMINI', "provider_version" character varying(80), "normalized_payload" jsonb NOT NULL, "raw_provider_payload" jsonb, "confidence" jsonb, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), CONSTRAINT "pk_cv_parse_results_id" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE UNIQUE INDEX "uq_cv_parse_results_parse_request_id" ON "cv_parse_results" ("parse_request_id")`,
