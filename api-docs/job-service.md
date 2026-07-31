@@ -27,6 +27,33 @@ Responsibility: job posting lifecycle, manual moderation review, public job read
 - Salary fields are returned as `null` when `isSalaryVisible = false`.
 - Published jobs cannot update major fields directly. Use revision flow when applications exist.
 
+## Internal Snapshots
+
+### `GET /api/v1/internal/jobs/:id/matching-snapshot`
+
+Summary: Return a job snapshot for matching-service scoring.
+
+Auth:
+
+- Internal service token only.
+
+Success response payload:
+
+```json
+{
+  "id": "job-id",
+  "title": "Backend Engineer",
+  "description": "Build APIs",
+  "requirements": "NestJS and PostgreSQL",
+  "skills": ["NestJS", "PostgreSQL"],
+  "workingType": "ONSITE",
+  "experienceLevel": "JUNIOR",
+  "location": "Ha Noi",
+  "salaryMin": 15000000,
+  "salaryMax": 25000000
+}
+```
+
 ## Enums
 
 ```ts

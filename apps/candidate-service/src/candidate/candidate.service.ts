@@ -35,7 +35,10 @@ import { CandidateProfile } from './entities/candidate-profile.entity';
 import { CandidateProject } from './entities/candidate-project.entity';
 import { CandidateSkill } from './entities/candidate-skill.entity';
 import { CandidateCvResponseDto } from '../cv/dto/cv-response.dto';
-import { CandidateApplicationSnapshotDto } from './dto/candidate-application-snapshot.dto';
+import {
+  CandidateApplicationSnapshotDto,
+  CandidateMatchingSnapshotDto,
+} from './dto/candidate-application-snapshot.dto';
 import {
   CANDIDATE_AVATAR_MAX_UPLOAD_SIZE_BYTES,
   CANDIDATE_AVATAR_MIME_TYPES,
@@ -296,6 +299,81 @@ export class CandidateService {
       cvDocumentId: cv.documentId,
       cvTitle: cv.title,
       cvParseStatus: cv.parseStatus,
+    };
+  }
+
+  async getMatchingSnapshot(
+    candidateId: string,
+    candidateCvId?: string,
+  ): Promise<CandidateMatchingSnapshotDto> {
+    const profile = await this.profileRepo.findOne({ where: { id: candidateId } });
+    if (!profile) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.NOT_FOUND,
+        message: 'Candidate profile not found',
+      });
+    }
+
+    let cvId: string | null = null;
+    if (candidateCvId) {
+      const cv = await this.cvRepo.findOne({
+        where: { id: candidateCvId, candidateId: profile.id, deletedAt: IsNull() },
+      });
+      if (!cv) {
+        throw new BadRequestException({
+          code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
+          message: 'Candidate CV not found',
+        });
+      }
+      cvId = cv.id;
+    }
+
+    const [skills, experiences, educations, certifications, projects] = await Promise.all([
+      this.skillRepo.find({ where: { candidateId: profile.id }, order: { createdAt: 'ASC' } }),
+      this.experienceRepo.find({
+        where: { candidateId: profile.id },
+        order: { startYear: 'DESC', startMonth: 'DESC', createdAt: 'ASC' },
+      }),
+      this.educationRepo.find({
+        where: { candidateId: profile.id },
+        order: { endYear: 'DESC', createdAt: 'ASC' },
+      }),
+      this.certificationRepo.find({
+        where: { candidateId: profile.id },
+        order: { issuedYear: 'DESC', createdAt: 'ASC' },
+      }),
+      this.projectRepo.find({ where: { candidateId: profile.id }, order: { createdAt: 'ASC' } }),
+    ]);
+
+    return {
+      candidateId: profile.id,
+      candidateUserId: profile.userId,
+      candidateCvId: cvId,
+      fullName: profile.fullName,
+      headline: profile.headline,
+      summary: profile.summary,
+      location: profile.location,
+      skills: skills.map((skill) => ({
+        name: skill.name,
+        level: skill.level,
+        yearsOfExperience: skill.yearsOfExperience,
+      })),
+      experiences: experiences.map((experience) => ({
+        title: experience.position,
+        company: experience.companyName,
+        startYear: experience.startYear,
+        startMonth: experience.startMonth,
+        endYear: experience.endYear,
+        endMonth: experience.endMonth,
+        isCurrent: experience.isCurrent,
+      })),
+      educations: educations.map((education) => ({
+        degree: education.degree,
+        school: education.schoolName,
+        fieldOfStudy: education.fieldOfStudy,
+      })),
+      certifications: certifications.map((certification) => certification.name),
+      projects: projects.map((project) => project.name),
     };
   }
 

@@ -9,7 +9,10 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApplicationStage, AuthUser, ERROR_CODES, UserRole } from '@nexhire/shared';
 import { Brackets, In, Repository } from 'typeorm';
-import { ApplicationInternalClientService } from './application-internal-client.service';
+import {
+  ApplicationInternalClientService,
+  MatchRequestSnapshot,
+} from './application-internal-client.service';
 import {
   CreateApplicationDto,
   UpdateApplicationMatchSnapshotDto,
@@ -119,6 +122,8 @@ export class ApplicationService {
       jobTitle: application.jobTitle,
       candidateId: application.candidateId,
       candidateUserId: application.candidateUserId,
+      candidateCvId: application.candidateCvId,
+      cvDocumentId: application.cvDocumentId,
       candidateFullName: application.candidateFullName,
       candidateAvatarDocumentId: application.candidateAvatarDocumentId,
       companyId: application.companyId,
@@ -227,6 +232,22 @@ export class ApplicationService {
 
   async getCompanyApplication(user: AuthUser, id: string): Promise<ApplicationResponseDto> {
     return this.mapApplication(await this.findCompanyApplication(user, id));
+  }
+
+  async requestCompanyApplicationMatch(
+    user: AuthUser,
+    id: string,
+  ): Promise<MatchRequestSnapshot> {
+    const application = await this.findCompanyApplication(user, id);
+    return this.internalClient.createApplicationMatchRequest({
+      id: application.id,
+      jobId: application.jobId,
+      candidateId: application.candidateId,
+      candidateUserId: application.candidateUserId,
+      candidateCvId: application.candidateCvId,
+      cvDocumentId: application.cvDocumentId,
+      requestedByUserId: user.id,
+    });
   }
 
   async getRecruiterStats(

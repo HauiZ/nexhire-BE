@@ -14,6 +14,8 @@ export class ApplicationEventPublisher {
     jobTitle: string;
     candidateId: string;
     candidateUserId: string;
+    candidateCvId: string;
+    cvDocumentId: string;
     candidateFullName: string | null;
     candidateAvatarDocumentId: string | null;
     companyId: string;

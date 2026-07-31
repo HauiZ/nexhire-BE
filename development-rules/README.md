@@ -6,7 +6,7 @@
 
 - Topic: online job-search & recruitment management system on a microservice architecture.
 - Focus: recruitment core plus AI support for CV parsing, CV-JD matching, and document storage.
-- Stack: NestJS monorepo, TypeORM, PostgreSQL, RabbitMQ, Redis, MinIO, Gemini API.
+- Stack: NestJS monorepo, Python/FastAPI matching service, TypeORM/SQLAlchemy, PostgreSQL, RabbitMQ, Redis, MinIO, Gemini API.
 
 ## Services
 
@@ -105,7 +105,7 @@ Use this section as the first quick-read context when starting a new session.
 - `job-service`: job posting lifecycle, moderation-assisted manual review, public job read, and job categories.
 - `application-service`: applications and interview stage flow.
 - `cv-parsing-service`: AI CV parsing.
-- `matching-service`: AI CV-JD matching.
+- `matching-service`: Python/FastAPI CV-JD matching request queue and fit scoring.
 - `notification-service`: email and web push notifications.
 - `document-storage-service`: uploaded document metadata, upload API, and object-storage gateway.
 

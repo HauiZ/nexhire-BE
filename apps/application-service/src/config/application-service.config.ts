@@ -9,10 +9,14 @@ export const applicationServiceConfig = registerAs('applicationService', () => (
   services: {
     candidateService: process.env.CANDIDATE_SERVICE_URL ?? 'http://localhost:3002',
     jobService: process.env.JOB_SERVICE_URL ?? 'http://localhost:3004',
+    matchingService: process.env.MATCHING_SERVICE_URL ?? 'http://localhost:3007',
     documentStorageService: process.env.DOCUMENT_STORAGE_SERVICE_URL ?? 'http://localhost:3009',
   },
   queues: {
     jobLifecycle:
       process.env.APPLICATION_SERVICE_JOB_LIFECYCLE_QUEUE ?? 'application.job-lifecycle',
+    matchingCompleted:
+      process.env.APPLICATION_SERVICE_MATCHING_COMPLETED_QUEUE ??
+      'application.matching-completed',
   },
 }));

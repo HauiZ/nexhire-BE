@@ -23,6 +23,39 @@ Candidate-service is being designed around:
 
 ## Endpoints
 
+### Internal only: `GET /api/v1/internal/candidates/:candidateId/matching-snapshot`
+
+Summary: Return a candidate profile/CV snapshot for matching-service scoring.
+
+Auth:
+
+- Internal service token only.
+
+Query:
+
+| Field | Required | Note |
+| ----- | -------- | ---- |
+| `candidateCvId` | No | Validates the CV belongs to the candidate when supplied. |
+
+Success response payload:
+
+```json
+{
+  "candidateId": "candidate-id",
+  "candidateUserId": "candidate-user-id",
+  "candidateCvId": "candidate-cv-id",
+  "fullName": "Nguyen Van A",
+  "headline": "Backend Engineer",
+  "summary": "NestJS developer",
+  "location": "Ha Noi",
+  "skills": [{ "name": "NestJS", "level": "ADVANCED", "yearsOfExperience": 2 }],
+  "experiences": [{ "title": "Backend Engineer", "company": "NexHire", "startYear": 2024 }],
+  "educations": [{ "degree": "Bachelor", "school": "HUST", "fieldOfStudy": "Computer Science" }],
+  "certifications": ["AWS Cloud Practitioner"],
+  "projects": ["Recruitment API"]
+}
+```
+
 ### `GET /api/v1/candidates/me`
 
 Summary: Get the current candidate profile aggregate.
