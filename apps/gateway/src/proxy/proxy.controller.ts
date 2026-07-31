@@ -153,6 +153,16 @@ export class ProxyController {
     return this.proxy.forward('candidateService', req, res);
   }
 
+  @All('followed-companies/*')
+  followedCompanies(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('candidateService', req, res);
+  }
+
+  @All('followed-companies')
+  followedCompaniesRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('candidateService', req, res);
+  }
+
   @All('cv-parsing/*')
   cvParsing(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('cvParsingService', req, res);
