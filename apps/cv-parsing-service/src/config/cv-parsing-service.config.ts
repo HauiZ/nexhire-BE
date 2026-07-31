@@ -6,7 +6,7 @@ export const cvParsingServiceConfig = registerAs('cvParsingService', () => ({
   parseProvider: process.env.CV_PARSE_PROVIDER ?? 'GEMINI',
   persistRawPayload:
     process.env.CV_PARSE_PERSIST_RAW_PAYLOAD === 'true' ||
-    process.env.SKIMA_PERSIST_RAW_PAYLOAD === 'true',
+    process.env.OPENAI_PERSIST_RAW_PAYLOAD === 'true',
   gemini: {
     apiKey: process.env.GEMINI_API_KEY,
     model: process.env.GEMINI_MODEL ?? 'gemini-3.5-flash',
@@ -16,12 +16,14 @@ export const cvParsingServiceConfig = registerAs('cvParsingService', () => ({
     providerVersion:
       process.env.GEMINI_PROVIDER_VERSION ?? process.env.GEMINI_MODEL ?? 'gemini-3.5-flash',
   },
-  skima: {
-    apiKey: process.env.SKIMA_API_KEY,
-    baseUrl: process.env.SKIMA_BASE_URL ?? 'https://api.skima.ai',
-    parsePath: process.env.SKIMA_PARSE_PATH ?? '/resume/parse',
-    timeoutMs: parseInt(process.env.SKIMA_TIMEOUT_MS ?? '30000', 10),
-    providerVersion: process.env.SKIMA_PROVIDER_VERSION ?? null,
+  openai: {
+    apiKey: process.env.OPENAI_API_KEY,
+    baseUrl: process.env.OPENAI_BASE_URL ?? 'https://modelapi.vn/v1',
+    model: process.env.OPENAI_MODEL ?? 'gpt-5.5',
+    maxOutputTokens: parseInt(process.env.OPENAI_MAX_OUTPUT_TOKENS ?? '8192', 10),
+    timeoutMs: parseInt(process.env.OPENAI_TIMEOUT_MS ?? '60000', 10),
+    logProviderErrorBody: process.env.OPENAI_LOG_PROVIDER_ERROR_BODY === 'true',
+    providerVersion: process.env.OPENAI_PROVIDER_VERSION ?? process.env.OPENAI_MODEL ?? 'gpt-5.5',
   },
   services: {
     candidateService: process.env.CANDIDATE_SERVICE_URL ?? 'http://localhost:3002',

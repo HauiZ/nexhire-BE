@@ -3,8 +3,8 @@ import { ConfigService } from '@nestjs/config';
 
 import { ParsedResume } from '@nexhire/shared';
 
+import { buildResumeParsePrompt } from '../cv-parsing/prompts/resume-parse.prompt';
 import { GeminiClient } from './gemini.client';
-import { buildGeminiResumeParsePrompt } from './gemini-resume.prompt';
 import { GeminiResumeNormalizerService } from './gemini-resume-normalizer.service';
 
 export interface GeminiResumeParsePayload {
@@ -23,7 +23,7 @@ export class GeminiResumeParserClient {
   ) {}
 
   async parseResumeFromUrl(documentUrl: string): Promise<GeminiResumeParsePayload> {
-    const prompt = buildGeminiResumeParsePrompt();
+    const prompt = buildResumeParsePrompt();
     const rawPayload = await this.generateWithRetry(documentUrl, prompt);
     return {
       rawPayload,
@@ -32,7 +32,7 @@ export class GeminiResumeParserClient {
   }
 
   async parseResumeFromBuffer(buffer: Buffer, mimeType: string): Promise<GeminiResumeParsePayload> {
-    const prompt = buildGeminiResumeParsePrompt();
+    const prompt = buildResumeParsePrompt();
     const rawPayload = await this.generateBufferWithRetry(buffer, mimeType, prompt);
     return {
       rawPayload,

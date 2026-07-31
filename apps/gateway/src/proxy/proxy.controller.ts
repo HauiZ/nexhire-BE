@@ -98,6 +98,16 @@ export class ProxyController {
     return this.proxy.forward('authService', req, res);
   }
 
+  @All('admin/ai-configs/*')
+  adminAiConfigs(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('cvParsingService', req, res);
+  }
+
+  @All('admin/ai-configs')
+  adminAiConfigsRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('cvParsingService', req, res);
+  }
+
   @All('categories/*')
   categories(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('jobService', req, res);

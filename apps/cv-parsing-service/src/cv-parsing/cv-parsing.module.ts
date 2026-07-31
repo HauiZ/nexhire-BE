@@ -9,15 +9,17 @@ import { CvUploadedEventsConsumer } from './events/consumers/cv-uploaded-events.
 import { CvParseEventPublisher } from './events/cv-parse-event.publisher';
 import { ManualCvParsingController } from './manual/manual-cv-parsing.controller';
 import { ManualCvParsingService } from './manual/manual-cv-parsing.service';
+import { AiManagementModule } from '../ai-management/ai-management.module';
 import { GeminiModule } from '../gemini/gemini.module';
-import { SkimaModule } from '../skima/skima.module';
+import { OpenAiModule } from '../openai/openai.module';
 
 @Module({
   imports: [
     HttpModule,
     TypeOrmModule.forFeature([CvParseRequest, CvParseResult]),
+    AiManagementModule,
     GeminiModule,
-    SkimaModule,
+    OpenAiModule,
   ],
   controllers: [CvParsingInternalController, ManualCvParsingController],
   providers: [

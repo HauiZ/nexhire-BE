@@ -12,6 +12,8 @@ Responsibility: public HTTP entrypoint, JWT decoding, identity header forwarding
 | `/api/v1/users/*`                          | `auth-service`             |
 | `/api/v1/admin/users`                      | `auth-service`             |
 | `/api/v1/admin/users/*`                    | `auth-service`             |
+| `/api/v1/admin/ai-configs`                 | `cv-parsing-service`       |
+| `/api/v1/admin/ai-configs/*`               | `cv-parsing-service`       |
 | `/api/v1/candidates/*`                     | `candidate-service`        |
 | `/api/v1/cvs/*`                            | `candidate-service`        |
 | `/api/v1/saved-jobs`                       | `candidate-service`        |

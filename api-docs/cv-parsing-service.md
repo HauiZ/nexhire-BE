@@ -11,7 +11,7 @@ Responsibility: AI/NLP CV parsing.
 Provider:
 
 - Default provider: `GEMINI`.
-- Optional fallback provider: `SKIMA` when `CV_PARSE_PROVIDER=SKIMA`.
+- Optional fallback provider: `OPENAI` when `CV_PARSE_PROVIDER=OPENAI`.
 - Gemini reads the CV document from the temporary signed `documentUrl`, extracts a strict JSON payload, normalizes it into shared `ParsedResume`, then applies it to candidate-service.
 - Gemini parsing is most reliable with PDF files. DOC/DOCX can still be uploaded to the CV library, but parsing those formats may fail until a text extraction step is added.
 
@@ -29,13 +29,13 @@ Auth:
 
 Request body:
 
-| Field               | Type | Required | Note                                                      |
-| ------------------- | ---- | -------- | --------------------------------------------------------- |
-| `candidateId`       | uuid | Yes      | Candidate profile id                                      |
-| `requestedByUserId` | uuid | Yes      | User id used for applying parsed profile                  |
-| `candidateCvId`     | uuid | No       | CV library record id; omitted for `TEMPLATE_FILL`         |
-| `documentId`        | uuid | Yes      | Uploaded document id                                      |
-| `documentUrl`       | url  | No       | Temporary signed file URL used by the parser provider     |
+| Field               | Type | Required | Note                                                                       |
+| ------------------- | ---- | -------- | -------------------------------------------------------------------------- |
+| `candidateId`       | uuid | Yes      | Candidate profile id                                                       |
+| `requestedByUserId` | uuid | Yes      | User id used for applying parsed profile                                   |
+| `candidateCvId`     | uuid | No       | CV library record id; omitted for `TEMPLATE_FILL`                          |
+| `documentId`        | uuid | Yes      | Uploaded document id                                                       |
+| `documentUrl`       | url  | No       | Temporary signed file URL used by the parser provider                      |
 | `context`           | enum | Yes      | `PROFILE_UPDATE`, `TEMPLATE_FILL`, `MATCHING_APPLICATION`, `MANUAL_REVIEW` |
 
 Success response:
@@ -146,18 +146,139 @@ Success response:
 
 ## Environment
 
-| Env                            | Default                | Note                                          |
-| ------------------------------ | ---------------------- | --------------------------------------------- |
-| `CV_PARSE_PROVIDER`            | `GEMINI`               | `GEMINI` or `SKIMA`                           |
-| `CV_PARSE_PERSIST_RAW_PAYLOAD` | `false`                | Whether to store raw provider payload in DB   |
-| `GEMINI_API_KEY`               | empty                  | Required when provider is `GEMINI`            |
-| `GEMINI_MODEL`                 | `gemini-3.5-flash`     | Model used for CV parsing                     |
-| `GEMINI_MAX_OUTPUT_TOKENS`     | `8192`                 | Max JSON output tokens; increase for long CVs |
-| `GEMINI_PARSE_RETRY_ATTEMPTS`  | `0`                    | Retry count when Gemini returns invalid JSON  |
-| `GEMINI_TIMEOUT_MS`            | `60000`                | Timeout for fetching the signed CV document   |
-| `GEMINI_PROVIDER_VERSION`      | same as `GEMINI_MODEL` | Stored in `providerVersion` for audit         |
-| `SKIMA_API_KEY`                | empty                  | Required only when provider is `SKIMA`        |
-| `SKIMA_BASE_URL`               | `https://api.skima.ai` | Skima API base URL                            |
-| `SKIMA_PARSE_PATH`             | `/resume/parse`        | Skima parse endpoint path                     |
-| `SKIMA_TIMEOUT_MS`             | `30000`                | Skima HTTP timeout                            |
-| `SKIMA_PROVIDER_VERSION`       | empty                  | Stored in `providerVersion` when using Skima  |
+| Env                              | Default                  | Note                                                 |
+| -------------------------------- | ------------------------ | ---------------------------------------------------- |
+| `CV_PARSE_PROVIDER`              | `GEMINI`                 | `GEMINI` or `OPENAI`                                 |
+| `CV_PARSE_PERSIST_RAW_PAYLOAD`   | `false`                  | Whether to store raw provider payload in DB          |
+| `GEMINI_API_KEY`                 | empty                    | Required when provider is `GEMINI`                   |
+| `GEMINI_MODEL`                   | `gemini-3.5-flash`       | Legacy fallback; admin DB config has priority        |
+| `GEMINI_MAX_OUTPUT_TOKENS`       | `8192`                   | Max JSON output tokens; increase for long CVs        |
+| `GEMINI_PARSE_RETRY_ATTEMPTS`    | `0`                      | Retry count when Gemini returns invalid JSON         |
+| `GEMINI_TIMEOUT_MS`              | `60000`                  | Timeout for fetching the signed CV document          |
+| `GEMINI_PROVIDER_VERSION`        | same as `GEMINI_MODEL`   | Stored in `providerVersion` for audit                |
+| `OPENAI_API_KEY`                 | empty                    | Required only when provider is `OPENAI`              |
+| `OPENAI_BASE_URL`                | `https://modelapi.vn/v1` | OpenAI-compatible Responses API base URL             |
+| `OPENAI_MODEL`                   | `gpt-5.5`                | Legacy fallback; admin DB config has priority        |
+| `OPENAI_MAX_OUTPUT_TOKENS`       | `8192`                   | Max structured JSON output tokens                    |
+| `OPENAI_TIMEOUT_MS`              | `60000`                  | OpenAI HTTP timeout                                  |
+| `OPENAI_LOG_PROVIDER_ERROR_BODY` | `false`                  | Log raw provider error body for local debugging only |
+| `OPENAI_PROVIDER_VERSION`        | same as `OPENAI_MODEL`   | Stored in `providerVersion` when using OpenAI        |
+
+## Admin AI Management
+
+Base path through gateway: `/api/v1/admin/ai-configs`
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+### `GET /api/v1/admin/ai-configs`
+
+Summary: Get the active CV parsing provider/model and supported model whitelist.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "currentConfig": {
+      "activeProvider": "GEMINI",
+      "geminiModel": "gemini-3.5-flash",
+      "openAiModel": "gpt-5.5",
+      "updatedByUserId": null,
+      "updatedAt": null
+    },
+    "supportedModels": {
+      "GEMINI": [
+        {
+          "id": "gemini-3.5-flash",
+          "name": "Gemini 3.5 Flash",
+          "isDefault": true
+        }
+      ],
+      "OPENAI": [
+        {
+          "id": "gpt-4o-mini",
+          "name": "GPT-4o Mini",
+          "isDefault": false
+        },
+        {
+          "id": "gpt-5.5",
+          "name": "GPT-5.5 Compatible",
+          "isDefault": true
+        }
+      ]
+    }
+  }
+}
+```
+
+### `PUT /api/v1/admin/ai-configs`
+
+Summary: Update the active provider and model config used by future parse requests.
+
+Request body:
+
+| Field            | Type | Required | Note                           |
+| ---------------- | ---- | -------- | ------------------------------ |
+| `activeProvider` | enum | No       | `GEMINI` or `OPENAI`           |
+| `geminiModel`    | text | No       | Must be in supported whitelist |
+| `openAiModel`    | text | No       | Must be in supported whitelist |
+
+Example:
+
+```json
+{
+  "activeProvider": "OPENAI",
+  "geminiModel": "gemini-3.5-flash",
+  "openAiModel": "gpt-5.5"
+}
+```
+
+Notes:
+
+- Gemini remains the env fallback/default provider.
+- Config is stored in `cv-parsing-service.ai_system_configs`.
+- API keys are never stored in this table; keep them in environment variables.
+- OpenAI-compatible base URLs must support `POST /responses` and `input_file` payloads for CV parsing.
+
+### `GET /api/v1/admin/ai-configs/usage-summary`
+
+Summary: Get AI parsing usage grouped by provider/model for the last 30 days.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "provider": "OPENAI",
+      "model": "gpt-5.5",
+      "totalRequests": 12,
+      "succeededRequests": 10,
+      "failedRequests": 2,
+      "inputTokens": 12345,
+      "outputTokens": 2345,
+      "totalTokens": 14690,
+      "estimatedCostUsd": "0.116033",
+      "pricing": {
+        "currency": "USD",
+        "inputUsdPerMillionTokens": 5,
+        "outputUsdPerMillionTokens": 30,
+        "multiplier": 0.9,
+        "formula": "((inputTokens * inputUsdPerMillionTokens) + (outputTokens * outputUsdPerMillionTokens)) / 1000000 * multiplier"
+      }
+    }
+  ]
+}
+```
+
+Notes:
+
+- Usage rows are stored in `cv-parsing-service.ai_usage_logs`.
+- Token fields are nullable at row level because provider-compatible endpoints may not return usage metadata.
+- `gpt-5.5` cost is estimated from the current compatible-provider rate: input `$5 / 1M tokens`, output `$30 / 1M tokens`, multiplier `0.9`.
+- Other models keep `estimatedCostUsd = null` until pricing is configured.

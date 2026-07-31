@@ -6,6 +6,7 @@ Thu muc nay gom cac flow BE da chot de FE gan API dung ngu nghia.
 
 - [company-and-recruiter-flow.md](company-and-recruiter-flow.md)
 - [2026-07-27-admin-features-handoff.md](2026-07-27-admin-features-handoff.md)
+- [admin-ai-management-page.md](admin-ai-management-page.md)
 - [candidate-cv-parsing-flow.md](candidate-cv-parsing-flow.md)
 - [candidate-cv-template-flow.md](candidate-cv-template-flow.md)
 
