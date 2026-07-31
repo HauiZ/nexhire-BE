@@ -2,6 +2,8 @@
 node_modules/
 skills/
 plans/
+.venv/
+apps/matching-service/.venv/
 # build
 dist/
 build/

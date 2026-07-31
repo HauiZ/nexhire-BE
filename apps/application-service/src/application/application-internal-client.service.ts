@@ -46,6 +46,13 @@ export interface DocumentDownloadSnapshot {
   expiresInSeconds: number;
 }
 
+export interface MatchRequestSnapshot {
+  id: string;
+  applicationId: string | null;
+  status: string;
+  requestType: string;
+}
+
 @Injectable()
 export class ApplicationInternalClientService {
   private readonly logger = new Logger(ApplicationInternalClientService.name);
@@ -86,6 +93,30 @@ export class ApplicationInternalClientService {
     );
     await this.cacheDocumentDownload(cacheKey, download);
     return download;
+  }
+
+  async createApplicationMatchRequest(application: {
+    id: string;
+    jobId: string;
+    candidateId: string;
+    candidateUserId: string;
+    candidateCvId: string;
+    cvDocumentId: string;
+    requestedByUserId: string;
+  }): Promise<MatchRequestSnapshot> {
+    return this.postToService<MatchRequestSnapshot>(
+      'matchingService',
+      `/api/v1/matching/applications/${application.id}/requests`,
+      {
+        applicationId: application.id,
+        jobId: application.jobId,
+        candidateId: application.candidateId,
+        candidateUserId: application.candidateUserId,
+        candidateCvId: application.candidateCvId,
+        cvDocumentId: application.cvDocumentId,
+        requestedByUserId: application.requestedByUserId,
+      },
+    );
   }
 
   private async getCachedDocumentDownload(
@@ -140,6 +171,42 @@ export class ApplicationInternalClientService {
       }
       const detail = error instanceof AxiosError ? error.message : String(error);
       this.logger.error(`Internal call to ${serviceKey}${path} failed: ${detail}`);
+      throw new ServiceUnavailableException({
+        code: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
+        message: 'Required upstream service is unavailable',
+      });
+    }
+  }
+
+  private async postToService<T>(
+    serviceKey: string,
+    path: string,
+    body: unknown,
+  ): Promise<T> {
+    const baseUrl = this.configService.get<string>(`applicationService.services.${serviceKey}`);
+    const timeout = this.configService.get<number>('applicationService.http.timeoutMs', 5000);
+    const internalServiceToken = this.configService.get<string>(
+      'applicationService.internalServiceToken',
+    );
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.post<ApiEnvelope<T>>(`${baseUrl}${path}`, body, {
+          timeout,
+          headers: {
+            [HEADERS.INTERNAL_SERVICE_TOKEN]: internalServiceToken,
+            [HEADERS.USER_ID]: 'application-service',
+            [HEADERS.USER_ROLE]: UserRole.ADMIN,
+          },
+        }),
+      );
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        throw new HttpException(error.response.data, error.response.status);
+      }
+      const detail = error instanceof AxiosError ? error.message : String(error);
+      this.logger.error(`Internal POST to ${serviceKey}${path} failed: ${detail}`);
       throw new ServiceUnavailableException({
         code: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
         message: 'Required upstream service is unavailable',

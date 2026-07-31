@@ -6,6 +6,7 @@ import { ApplicationController, ApplicationInternalController } from './applicat
 import { ApplicationService } from './application.service';
 import { Application } from './entities/application.entity';
 import { JobLifecycleEventsConsumer } from './events/consumers/job-lifecycle-events.consumer';
+import { MatchingCompletedEventsConsumer } from './events/consumers/matching-completed-events.consumer';
 import { ApplicationEventPublisher } from './events/application-event.publisher';
 import { RecruiterApplicationController } from './recruiter-application.controller';
 
@@ -21,6 +22,7 @@ import { RecruiterApplicationController } from './recruiter-application.controll
     ApplicationInternalClientService,
     ApplicationEventPublisher,
     JobLifecycleEventsConsumer,
+    MatchingCompletedEventsConsumer,
   ],
   exports: [ApplicationService],
 })

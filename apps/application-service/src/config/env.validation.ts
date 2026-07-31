@@ -20,6 +20,10 @@ export const validationSchema = Joi.object({
   APPLICATION_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(5000),
   CANDIDATE_SERVICE_URL: Joi.string().default('http://localhost:3002'),
   JOB_SERVICE_URL: Joi.string().default('http://localhost:3004'),
+  MATCHING_SERVICE_URL: Joi.string().default('http://localhost:3007'),
   DOCUMENT_STORAGE_SERVICE_URL: Joi.string().default('http://localhost:3009'),
   APPLICATION_SERVICE_JOB_LIFECYCLE_QUEUE: Joi.string().default('application.job-lifecycle'),
+  APPLICATION_SERVICE_MATCHING_COMPLETED_QUEUE: Joi.string().default(
+    'application.matching-completed',
+  ),
 });

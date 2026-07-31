@@ -9,6 +9,7 @@ import {
 import { PublicJobQueryDto } from '../dto/job-query.dto';
 import {
   JobApplicationSnapshotDto,
+  JobMatchingSnapshotDto,
   PublicFeaturedCompanyDto,
   PublicHomeStatsDto,
   JobSavedSnapshotDto,
@@ -85,6 +86,14 @@ export class JobInternalController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<JobApplicationSnapshotDto> {
     return this.jobService.getApplicationSnapshot(id);
+  }
+
+  @Get(':id/matching-snapshot')
+  @ApiOperation({ summary: 'Get job snapshot for matching score calculation' })
+  @ApiSuccessResponse(JobMatchingSnapshotDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  getMatchingSnapshot(@Param('id', ParseUUIDPipe) id: string): Promise<JobMatchingSnapshotDto> {
+    return this.jobService.getMatchingSnapshot(id);
   }
 
   @Get(':id/saved-snapshot')

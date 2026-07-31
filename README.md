@@ -7,7 +7,7 @@ microservice architecture, with AI support for CV parsing and CV/JD matching.
 
 ## Stack
 
-NestJS (monorepo) - TypeORM - PostgreSQL (database-per-service) - RabbitMQ (event bus) - Redis (cache) - MinIO - Gemini API.
+NestJS monorepo plus Python/FastAPI for matching - TypeORM/SQLAlchemy - PostgreSQL (database-per-service) - RabbitMQ (event bus) - Redis (cache) - MinIO - Gemini API.
 
 ## Services
 
@@ -20,7 +20,7 @@ NestJS (monorepo) - TypeORM - PostgreSQL (database-per-service) - RabbitMQ (even
 | job-service | 3004 | job posting lifecycle, job categories | `job_service_db` |
 | application-service | 3005 | application journey, interview stage flow | `application_service_db` |
 | cv-parsing-service | 3006 | CV parsing with AI/NLP | `cv_parsing_service_db` |
-| matching-service | 3007 | CV-JD matching and fit score | `matching_service_db` |
+| matching-service | 3007 | CV-JD matching request queue and fit score (Python/FastAPI) | `matching_service_db` |
 | notification-service | 3008 | email and web push notifications | - |
 | document-storage-service | 3009 | uploaded documents and object-storage gateway | `document_storage_service_db` |
 
@@ -44,7 +44,10 @@ cp .env.example .env
 
 make dev
 npm install
+npm run matching:venv
+npm run matching:install
 npm run db:all:run
+npm run matching:migrate
 npm run start:all
 ```
 

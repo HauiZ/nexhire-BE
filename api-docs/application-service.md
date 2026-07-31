@@ -22,6 +22,36 @@ Responsibility: job application submission, candidate application history, recru
 - CV content is not embedded in the application response. FE calls the CV download endpoint to get a short-lived URL.
 - Candidate avatar URL is resolved dynamically from `candidateAvatarDocumentId` when available.
 
+## Recruiter Matching
+
+### `POST /api/v1/recruiter/applications/:id/match`
+
+Summary: Request a fresh match score for a company-owned application.
+
+Auth:
+
+- Required
+- Role: `RECRUITER`
+
+Path params:
+
+| Field | Required | Note |
+| ----- | -------- | ---- |
+| `id` | Yes | Application id. Must belong to the recruiter's company. |
+
+Success response payload:
+
+```json
+{
+  "id": "match-request-id",
+  "applicationId": "application-id",
+  "status": "PENDING",
+  "requestType": "RECRUITER_MANUAL"
+}
+```
+
+Errors: `401`, `403`, `404`, `503`.
+
 ## Statuses
 
 | Status      | Meaning                                                                  |

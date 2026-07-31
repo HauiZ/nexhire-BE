@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { ApiErrorResponses, ApiSuccessResponse, InternalServiceTokenGuard } from '@nexhire/shared';
@@ -8,7 +18,10 @@ import { ApplyParsedResumeDto } from './dto/apply-parsed-resume.dto';
 import { MarkCandidateCvParseFailedDto } from './dto/mark-candidate-cv-parse-failed.dto';
 import { CandidateProfileResponseDto } from './dto/candidate-profile-response.dto';
 import { CandidateCvResponseDto } from '../cv/dto/cv-response.dto';
-import { CandidateApplicationSnapshotDto } from './dto/candidate-application-snapshot.dto';
+import {
+  CandidateApplicationSnapshotDto,
+  CandidateMatchingSnapshotDto,
+} from './dto/candidate-application-snapshot.dto';
 
 @ApiTags('internal-candidates')
 @UseGuards(InternalServiceTokenGuard)
@@ -54,5 +67,16 @@ export class CandidateInternalController {
     @Param('candidateCvId', ParseUUIDPipe) candidateCvId: string,
   ): Promise<CandidateApplicationSnapshotDto> {
     return this.candidateService.getApplicationSnapshot(userId, candidateCvId);
+  }
+
+  @Get(':candidateId/matching-snapshot')
+  @ApiOperation({ summary: 'Get candidate profile snapshot for matching score calculation' })
+  @ApiSuccessResponse(CandidateMatchingSnapshotDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 500] })
+  getMatchingSnapshot(
+    @Param('candidateId', ParseUUIDPipe) candidateId: string,
+    @Query('candidateCvId') candidateCvId?: string,
+  ): Promise<CandidateMatchingSnapshotDto> {
+    return this.candidateService.getMatchingSnapshot(candidateId, candidateCvId);
   }
 }

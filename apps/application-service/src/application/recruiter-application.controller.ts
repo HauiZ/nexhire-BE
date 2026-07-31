@@ -6,6 +6,7 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
+  Post,
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -28,6 +29,7 @@ import {
   ApplicationResponseDto,
   RecruiterApplicationStatsDto,
 } from './dto/application-response.dto';
+import { MatchRequestSnapshot } from './application-internal-client.service';
 
 @ApiTags('recruiter-applications')
 @Controller('recruiter/applications')
@@ -75,6 +77,17 @@ export class RecruiterApplicationController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ApplicationCvDownloadDto> {
     return this.applicationService.getCompanyCvDownload(user, id);
+  }
+
+  @Post(':id/match')
+  @ApiOperation({ summary: 'Request a fresh match score for a company-owned application' })
+  @ApiSuccessResponse(Object, { status: 201 })
+  @ApiErrorResponses({ statuses: [401, 403, 404, 503] })
+  requestMatch(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<MatchRequestSnapshot> {
+    return this.applicationService.requestCompanyApplicationMatch(user, id);
   }
 
   @Patch(':id/status')

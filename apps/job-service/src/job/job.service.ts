@@ -47,6 +47,7 @@ import {
 import {
   JobResponseDto,
   JobApplicationSnapshotDto,
+  JobMatchingSnapshotDto,
   JobSavedSnapshotDto,
   JobRevisionResponseDto,
   PublicFeaturedCompanyDto,
@@ -271,6 +272,25 @@ export class JobService {
       status: job.status,
       deadline: job.deadline,
       isApplyable: job.status === JobStatus.PUBLISHED && isDeadlineOpen,
+    };
+  }
+
+  async getMatchingSnapshot(id: string): Promise<JobMatchingSnapshotDto> {
+    const job = await this.jobRepo.findOne({ where: { id } });
+    if (!job) {
+      throw this.jobNotFound();
+    }
+    return {
+      id: job.id,
+      title: job.title,
+      description: job.description,
+      requirements: job.requirements,
+      skills: job.skills,
+      workingType: job.workingType,
+      experienceLevel: job.experienceLevel,
+      location: job.location,
+      salaryMin: job.salaryMin,
+      salaryMax: job.salaryMax,
     };
   }
 

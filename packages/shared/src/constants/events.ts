@@ -12,6 +12,7 @@ export const EVENTS = {
   CV_PARSED: 'cv.parsed',
   CV_PARSE_FAILED: 'cv.parse-failed',
   CV_MATCH_REQUESTED: 'cv.match-requested',
+  MATCHING_COMPLETED: 'matching.completed',
   DOCUMENT_UPLOADED: 'document.uploaded',
   DOCUMENT_REMOVED: 'document.removed',
   CANDIDATE_PROFILE_SNAPSHOT_CHANGED: 'candidate.profile-snapshot-changed',

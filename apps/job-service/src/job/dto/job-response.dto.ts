@@ -351,6 +351,38 @@ export class JobApplicationSnapshotDto {
   isApplyable: boolean;
 }
 
+export class JobMatchingSnapshotDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty()
+  description: string;
+
+  @ApiProperty()
+  requirements: string;
+
+  @ApiProperty({ type: [String] })
+  skills: string[];
+
+  @ApiProperty({ enum: JobWorkingType })
+  workingType: JobWorkingType;
+
+  @ApiProperty({ enum: JobExperienceLevel })
+  experienceLevel: JobExperienceLevel;
+
+  @ApiProperty()
+  location: string;
+
+  @ApiPropertyOptional()
+  salaryMin: number | null;
+
+  @ApiPropertyOptional()
+  salaryMax: number | null;
+}
+
 export class JobSavedSnapshotDto {
   @ApiProperty()
   id: string;
