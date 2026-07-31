@@ -313,7 +313,9 @@ export class CompanyService {
             .orWhere('company.taxCode ILIKE :search', { search: `%${search}%` })
             .orWhere('company.website ILIKE :search', { search: `%${search}%` })
             .orWhere('company.contactEmail ILIKE :search', { search: `%${search}%` })
-            .orWhere('company.ownerId::text ILIKE :search', { search: `%${search}%` });
+            .orWhere('CAST("company"."owner_id" AS TEXT) ILIKE :search', {
+              search: `%${search}%`,
+            });
         }),
       );
     }

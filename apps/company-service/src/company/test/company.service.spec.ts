@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Brackets } from 'typeorm';
 import {
   CompanyStatus,
   CompanyTrustLevel,
@@ -243,6 +244,20 @@ describe('CompanyService', () => {
       trustLevel: CompanyTrustLevel.MEDIUM,
     });
     expect(qb.andWhere).toHaveBeenCalledWith('company.verificationRejectedCount > 0');
+    const searchBracket = qb.andWhere.mock.calls
+      .map(([condition]) => condition)
+      .find((condition) => condition instanceof Brackets) as
+      | { whereFactory: (where: { where: jest.Mock; orWhere: jest.Mock }) => void }
+      | undefined;
+    const searchWhere = {
+      where: jest.fn().mockReturnThis(),
+      orWhere: jest.fn().mockReturnThis(),
+    };
+    searchBracket?.whereFactory(searchWhere);
+    expect(searchWhere.orWhere).toHaveBeenCalledWith(
+      'CAST("company"."owner_id" AS TEXT) ILIKE :search',
+      { search: '%nexhire%' },
+    );
     expect(qb.skip).toHaveBeenCalledWith(0);
     expect(qb.take).toHaveBeenCalledWith(10);
     expect(result.meta).toEqual({ page: 1, limit: 10, total: 1 });

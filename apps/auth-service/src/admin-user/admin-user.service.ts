@@ -62,7 +62,7 @@ export class AdminUserService {
             .orWhere(
               `EXISTS (
                 SELECT 1 FROM recruiter_company_links link
-                WHERE link.user_id = user.id
+                WHERE link.user_id = "user"."id"
                 AND LOWER(link.company_name) LIKE :search
               )`,
               { search: `%${search}%` },

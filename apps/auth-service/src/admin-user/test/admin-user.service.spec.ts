@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { ERROR_CODES, UserRole } from '@nexhire/shared';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { TokenService } from '../../token/token.service';
 import { UserStatus } from '../../auth/entities/auth.enum';
 import { RecruiterCompanyLink } from '../../auth/entities/recruiter-company-link.entity';
@@ -99,6 +99,20 @@ describe('AdminUserService', () => {
     expect(qb.andWhere).toHaveBeenCalledWith('role.name = :role', {
       role: UserRole.CANDIDATE,
     });
+    const searchBracket = qb.andWhere.mock.calls
+      .map(([condition]) => condition)
+      .find((condition) => condition instanceof Brackets) as
+      | { whereFactory: (where: { where: jest.Mock; orWhere: jest.Mock }) => void }
+      | undefined;
+    const searchWhere = {
+      where: jest.fn().mockReturnThis(),
+      orWhere: jest.fn().mockReturnThis(),
+    };
+    searchBracket?.whereFactory(searchWhere);
+    expect(searchWhere.orWhere).toHaveBeenCalledWith(
+      expect.stringContaining('WHERE link.user_id = "user"."id"'),
+      { search: '%candidate%' },
+    );
     expect(result.meta).toEqual({ page: 2, limit: 10, total: 1 });
     expect(result.data[0]).toMatchObject({
       id: 'user-1',
