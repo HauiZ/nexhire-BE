@@ -13,6 +13,8 @@ interface RabbitQueueResponse {
   consumers: number;
 }
 
+type QueueAlertKind = 'backlog' | 'dlq' | 'no-consumer';
+
 @Injectable()
 export class QueueMonitorService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(QueueMonitorService.name);
@@ -83,53 +85,56 @@ export class QueueMonitorService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async checkQueueSnapshot(queue: RabbitQueueResponse): Promise<void> {
-    const threshold = this.alertThreshold();
-    const shouldAlert =
-      queue.messages >= threshold ||
-      this.hasDeadLetterBacklog(queue) ||
-      this.hasNoConsumerRisk(queue);
-    if (shouldAlert) {
+    const alertKind = this.alertKind(queue);
+    if (alertKind) {
       this.logger.warn(
-        `RabbitMQ queue risk detected queue=${queue.name} messages=${queue.messages} consumers=${queue.consumers} threshold=${threshold}`,
+        `RabbitMQ queue risk detected kind=${alertKind} queue=${queue.name} messages=${queue.messages} consumers=${queue.consumers} threshold=${this.alertThresholdFor(alertKind)}`,
       );
-      await this.alertBacklog(queue);
+      await this.alertBacklog(queue, alertKind);
       return;
     }
 
-    if (this.activeAlerts.has(queue.name)) {
-      this.activeAlerts.delete(queue.name);
-      await this.sendTelegramMessage(this.formatQueueAlert(queue, 'recovered'));
+    const activeAlertKeys = this.activeAlertKeys(queue.name);
+    if (activeAlertKeys.length) {
+      activeAlertKeys.forEach((key) => this.activeAlerts.delete(key));
+      const recoveredKind = this.alertKindFromKey(activeAlertKeys[0]) ?? 'backlog';
+      await this.sendTelegramMessage(this.formatQueueAlert(queue, 'recovered', recoveredKind));
     }
   }
 
-  private async alertBacklog(queue: RabbitQueueResponse): Promise<void> {
+  private async alertBacklog(queue: RabbitQueueResponse, alertKind: QueueAlertKind): Promise<void> {
     const now = Date.now();
-    const lastAlertAt = this.lastAlertAtByQueue.get(queue.name) ?? 0;
-    if (now - lastAlertAt < this.alertCooldownMs()) {
+    const alertKey = this.alertKey(queue.name, alertKind);
+    const lastAlertAt = this.lastAlertAtByQueue.get(alertKey) ?? 0;
+    if (now - lastAlertAt < this.alertCooldownMsFor(alertKind)) {
       this.logger.warn(
-        `RabbitMQ backlog alert suppressed by cooldown queue=${queue.name} messages=${queue.messages}`,
+        `RabbitMQ alert suppressed by cooldown kind=${alertKind} queue=${queue.name} messages=${queue.messages}`,
       );
       return;
     }
 
-    this.lastAlertAtByQueue.set(queue.name, now);
-    this.activeAlerts.add(queue.name);
-    const sent = await this.sendTelegramMessage(this.formatQueueAlert(queue, 'backlog'));
+    this.lastAlertAtByQueue.set(alertKey, now);
+    this.activeAlerts.add(alertKey);
+    const sent = await this.sendTelegramMessage(this.formatQueueAlert(queue, 'backlog', alertKind));
     if (sent) {
-      this.logger.log(`RabbitMQ backlog alert sent to Telegram queue=${queue.name}`);
+      this.logger.log(`RabbitMQ alert sent to Telegram kind=${alertKind} queue=${queue.name}`);
     }
   }
 
-  private formatQueueAlert(queue: RabbitQueueResponse, state: QueueAlertState): string {
+  private formatQueueAlert(
+    queue: RabbitQueueResponse,
+    state: QueueAlertState,
+    alertKind: QueueAlertKind,
+  ): string {
     return formatQueueMonitorAlert({
       queue,
       state,
-      threshold: this.alertThreshold(),
+      threshold: this.alertThresholdFor(alertKind),
       intervalMs: this.intervalMs(),
-      cooldownMs: this.alertCooldownMs(),
+      cooldownMs: this.alertCooldownMsFor(alertKind),
       vhost: this.vhost(),
       managementUrl: this.managementUrl(),
-      extraNote: this.alertNote(queue),
+      extraNote: this.alertNote(queue, alertKind),
     });
   }
 
@@ -222,22 +227,52 @@ export class QueueMonitorService implements OnModuleInit, OnModuleDestroy {
     return [...new Set(queues)];
   }
 
+  private alertKind(queue: RabbitQueueResponse): QueueAlertKind | null {
+    if (this.hasDeadLetterBacklog(queue)) {
+      return 'dlq';
+    }
+    if (this.hasNoConsumerRisk(queue)) {
+      return 'no-consumer';
+    }
+    if (queue.messages >= this.alertThreshold()) {
+      return 'backlog';
+    }
+    return null;
+  }
+
   private hasDeadLetterBacklog(queue: RabbitQueueResponse): boolean {
-    return queue.name.endsWith('.dlq') && queue.messages > 0;
+    return queue.name.endsWith('.dlq') && queue.messages >= this.dlqAlertThreshold();
   }
 
   private hasNoConsumerRisk(queue: RabbitQueueResponse): boolean {
-    return !queue.name.endsWith('.dlq') && queue.messages > 0 && queue.consumers === 0;
+    return (
+      !queue.name.endsWith('.dlq') &&
+      queue.messages >= this.noConsumerAlertThreshold() &&
+      queue.consumers === 0
+    );
   }
 
-  private alertNote(queue: RabbitQueueResponse): string | undefined {
-    if (this.hasDeadLetterBacklog(queue)) {
+  private alertNote(queue: RabbitQueueResponse, alertKind: QueueAlertKind): string | undefined {
+    if (alertKind === 'dlq') {
       return 'DLQ has failed events. Inspect payloads and decide whether to fix/reprocess manually.';
     }
-    if (this.hasNoConsumerRisk(queue)) {
+    if (alertKind === 'no-consumer') {
       return 'Queue has waiting messages but no active consumer. Check whether the owning service is running.';
     }
     return undefined;
+  }
+
+  private alertKey(queueName: string, alertKind: QueueAlertKind): string {
+    return `${alertKind}:${queueName}`;
+  }
+
+  private activeAlertKeys(queueName: string): string[] {
+    return [...this.activeAlerts].filter((key) => key.endsWith(`:${queueName}`));
+  }
+
+  private alertKindFromKey(key: string): QueueAlertKind | null {
+    const [kind] = key.split(':');
+    return kind === 'backlog' || kind === 'dlq' || kind === 'no-consumer' ? kind : null;
   }
 
   private startupQueueDescription(): string {
@@ -258,6 +293,51 @@ export class QueueMonitorService implements OnModuleInit, OnModuleDestroy {
       'notificationService.queueMonitor.alertCooldownMs',
       900000,
     );
+  }
+
+  private dlqAlertThreshold(): number {
+    return this.configService.get<number>('notificationService.queueMonitor.dlqAlertThreshold', 1);
+  }
+
+  private dlqAlertCooldownMs(): number {
+    return this.configService.get<number>(
+      'notificationService.queueMonitor.dlqAlertCooldownMs',
+      1800000,
+    );
+  }
+
+  private noConsumerAlertThreshold(): number {
+    return this.configService.get<number>(
+      'notificationService.queueMonitor.noConsumerAlertThreshold',
+      10,
+    );
+  }
+
+  private noConsumerAlertCooldownMs(): number {
+    return this.configService.get<number>(
+      'notificationService.queueMonitor.noConsumerAlertCooldownMs',
+      600000,
+    );
+  }
+
+  private alertThresholdFor(alertKind: QueueAlertKind): number {
+    if (alertKind === 'dlq') {
+      return this.dlqAlertThreshold();
+    }
+    if (alertKind === 'no-consumer') {
+      return this.noConsumerAlertThreshold();
+    }
+    return this.alertThreshold();
+  }
+
+  private alertCooldownMsFor(alertKind: QueueAlertKind): number {
+    if (alertKind === 'dlq') {
+      return this.dlqAlertCooldownMs();
+    }
+    if (alertKind === 'no-consumer') {
+      return this.noConsumerAlertCooldownMs();
+    }
+    return this.alertCooldownMs();
   }
 
   private managementUrl(): string {

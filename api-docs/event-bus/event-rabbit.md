@@ -121,14 +121,18 @@ Required environment variables:
 
 Optional environment variables:
 
-| Env                                | Default             | Purpose                                                                |
-| ---------------------------------- | ------------------- | ---------------------------------------------------------------------- |
-| `QUEUE_MONITOR_ALERT_THRESHOLD`    | `100`               | Alert when `messages >= threshold`.                                    |
-| `QUEUE_MONITOR_INTERVAL_MS`        | `60000`             | Poll interval.                                                         |
-| `QUEUE_MONITOR_ALERT_COOLDOWN_MS`  | `900000`            | Per-queue cooldown to avoid alert spam.                                |
-| `QUEUE_MONITOR_QUEUES`             | all RabbitMQ queues | Comma-separated queue override. Empty means query all queues in vhost. |
-| `QUEUE_MONITOR_INCLUDE_TEST_QUEUE` | non-production only | Include `QUEUE_MONITOR_TEST_QUEUE` in watched queues for demos.        |
-| `RABBITMQ_MANAGEMENT_VHOST`        | `/`                 | RabbitMQ vhost.                                                        |
+| Env                                           | Default             | Purpose                                                                |
+| --------------------------------------------- | ------------------- | ---------------------------------------------------------------------- |
+| `QUEUE_MONITOR_ALERT_THRESHOLD`               | `100`               | Alert when `messages >= threshold`.                                    |
+| `QUEUE_MONITOR_INTERVAL_MS`                   | `60000`             | Poll interval.                                                         |
+| `QUEUE_MONITOR_ALERT_COOLDOWN_MS`             | `900000`            | Normal backlog per-queue cooldown to avoid alert spam.                 |
+| `QUEUE_MONITOR_DLQ_ALERT_THRESHOLD`           | `1`                 | Alert when a `.dlq` queue has at least this many messages.             |
+| `QUEUE_MONITOR_DLQ_ALERT_COOLDOWN_MS`         | `1800000`           | DLQ alert cooldown. Default is 30 minutes.                             |
+| `QUEUE_MONITOR_NO_CONSUMER_ALERT_THRESHOLD`   | `10`                | Alert when a non-DLQ queue has this many messages and no consumer.     |
+| `QUEUE_MONITOR_NO_CONSUMER_ALERT_COOLDOWN_MS` | `600000`            | No-consumer alert cooldown. Default is 10 minutes.                     |
+| `QUEUE_MONITOR_QUEUES`                        | all RabbitMQ queues | Comma-separated queue override. Empty means query all queues in vhost. |
+| `QUEUE_MONITOR_INCLUDE_TEST_QUEUE`            | non-production only | Include `QUEUE_MONITOR_TEST_QUEUE` in watched queues for demos.        |
+| `RABBITMQ_MANAGEMENT_VHOST`                   | `/`                 | RabbitMQ vhost.                                                        |
 
 Example:
 
@@ -137,6 +141,10 @@ QUEUE_MONITOR_ENABLED=true
 QUEUE_MONITOR_ALERT_THRESHOLD=100
 QUEUE_MONITOR_INTERVAL_MS=60000
 QUEUE_MONITOR_ALERT_COOLDOWN_MS=900000
+QUEUE_MONITOR_DLQ_ALERT_THRESHOLD=1
+QUEUE_MONITOR_DLQ_ALERT_COOLDOWN_MS=1800000
+QUEUE_MONITOR_NO_CONSUMER_ALERT_THRESHOLD=10
+QUEUE_MONITOR_NO_CONSUMER_ALERT_COOLDOWN_MS=600000
 RABBITMQ_MANAGEMENT_URL=http://localhost:15672
 RABBITMQ_MANAGEMENT_USER=nexhire
 RABBITMQ_MANAGEMENT_PASS=nexhire
@@ -186,10 +194,10 @@ QUEUE_MONITOR_TEST_DELETE_QUEUE_DELAY_MS=15000
 
 Start or restart `notification-service`, then run the script. When `QUEUE_MONITOR_QUEUES=` is empty, the monitor queries all real queues in the RabbitMQ vhost, so the generated test queue is watched automatically.
 
-The monitor now also sends risk alerts for:
+The monitor also sends risk alerts for:
 
-- Any `.dlq` queue with one or more messages.
-- Any non-DLQ queue with waiting messages and `consumers=0`.
+- Any `.dlq` queue with `messages >= QUEUE_MONITOR_DLQ_ALERT_THRESHOLD`.
+- Any non-DLQ queue with `messages >= QUEUE_MONITOR_NO_CONSUMER_ALERT_THRESHOLD` and `consumers=0`.
 
 The script auto-cleans by default:
 

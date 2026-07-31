@@ -39,6 +39,10 @@ export const notificationServiceConfig = registerAs('notificationService', () =>
     intervalMs: envNumber('QUEUE_MONITOR_INTERVAL_MS', '60000'),
     alertThreshold: envNumber('QUEUE_MONITOR_ALERT_THRESHOLD', '100'),
     alertCooldownMs: envNumber('QUEUE_MONITOR_ALERT_COOLDOWN_MS', '900000'),
+    dlqAlertThreshold: envNumber('QUEUE_MONITOR_DLQ_ALERT_THRESHOLD', '1'),
+    dlqAlertCooldownMs: envNumber('QUEUE_MONITOR_DLQ_ALERT_COOLDOWN_MS', '1800000'),
+    noConsumerAlertThreshold: envNumber('QUEUE_MONITOR_NO_CONSUMER_ALERT_THRESHOLD', '10'),
+    noConsumerAlertCooldownMs: envNumber('QUEUE_MONITOR_NO_CONSUMER_ALERT_COOLDOWN_MS', '600000'),
     queues: process.env.QUEUE_MONITOR_QUEUES?.trim()
       ? process.env.QUEUE_MONITOR_QUEUES.split(',')
           .map((queue) => queue.trim())
