@@ -18,6 +18,12 @@ import {
 } from '@nexhire/shared';
 import { Brackets, Repository } from 'typeorm';
 import { CompanyMapper } from './company.mapper';
+import {
+  AdminCompanyGrowthBucket,
+  AdminCompanyGrowthDto,
+  AdminCompanyGrowthPointDto,
+  AdminCompanyGrowthQueryDto,
+} from './dto/admin-company-growth.dto';
 import { AdminCompanyOverviewDto } from './dto/admin-company-overview.dto';
 import { AdminCompanyQueryDto, AdminCompanySort } from './dto/admin-company-query.dto';
 import { AdminCompanyResponseDto } from './dto/admin-company-response.dto';
@@ -55,6 +61,13 @@ import { CompanyUploadedFile } from '../document-client/interfaces/company-uploa
 
 const POSITIVE_TRUST_SIGNAL_THRESHOLD = 5;
 const NEGATIVE_TRUST_SIGNAL_THRESHOLD = 3;
+
+interface AdminCompanyGrowthRange {
+  from: Date;
+  to: Date;
+  toExclusive: Date;
+  bucket: AdminCompanyGrowthBucket;
+}
 
 export interface JobReviewTrustSignalPayload {
   companyId: string;
@@ -358,6 +371,168 @@ export class CompanyService {
       pendingReviewAgain,
       rejectedBefore,
     };
+  }
+
+  async getAdminGrowth(query: AdminCompanyGrowthQueryDto): Promise<AdminCompanyGrowthDto> {
+    const range = this.normalizeCompanyGrowthRange(query);
+    const points = this.createCompanyGrowthPoints(range);
+    const pointByBucket = new Map(points.map((point) => [point.bucket, point]));
+
+    const [registeredRows, approvedRows, rejectedRows, suspendedRows, reviewAgainRows] =
+      await Promise.all([
+        this.countCompanyRows('"company"."created_at"', range),
+        this.countCompanyStatusRows(CompanyStatus.APPROVED, range),
+        this.countCompanyStatusRows(CompanyStatus.REJECTED, range),
+        this.countCompanyStatusRows(CompanyStatus.SUSPENDED, range),
+        this.countCompanyRows('"company"."verification_review_requested_at"', range),
+      ]);
+
+    this.applyCompanyGrowthRows(pointByBucket, registeredRows, 'registeredCompanies');
+    this.applyCompanyGrowthRows(pointByBucket, approvedRows, 'approvedCompanies');
+    this.applyCompanyGrowthRows(pointByBucket, rejectedRows, 'rejectedCompanies');
+    this.applyCompanyGrowthRows(pointByBucket, suspendedRows, 'suspendedCompanies');
+    this.applyCompanyGrowthRows(pointByBucket, reviewAgainRows, 'reviewRequestedAgain');
+
+    return {
+      from: this.formatCompanyDateKey(range.from, range.bucket),
+      to: this.formatCompanyDateKey(range.to, range.bucket),
+      bucket: range.bucket,
+      points,
+    };
+  }
+
+  private async countCompanyRows(
+    column: string,
+    range: AdminCompanyGrowthRange,
+  ): Promise<Array<{ bucket: string; count: string }>> {
+    return this.companyRepo
+      .createQueryBuilder('company')
+      .select(this.companyBucketSelect(column, range), 'bucket')
+      .addSelect('COUNT("company"."id")', 'count')
+      .where(`${column} >= :from`, { from: range.from })
+      .andWhere(`${column} < :to`, { to: range.toExclusive })
+      .groupBy('bucket')
+      .getRawMany<{ bucket: string; count: string }>();
+  }
+
+  private async countCompanyStatusRows(
+    status: CompanyStatus,
+    range: AdminCompanyGrowthRange,
+  ): Promise<Array<{ bucket: string; count: string }>> {
+    return this.companyRepo
+      .createQueryBuilder('company')
+      .select(this.companyBucketSelect('"company"."status_changed_at"', range), 'bucket')
+      .addSelect('COUNT("company"."id")', 'count')
+      .where('"company"."status" = :status', { status })
+      .andWhere('"company"."status_changed_at" >= :from', { from: range.from })
+      .andWhere('"company"."status_changed_at" < :to', { to: range.toExclusive })
+      .groupBy('bucket')
+      .getRawMany<{ bucket: string; count: string }>();
+  }
+
+  private applyCompanyGrowthRows(
+    pointByBucket: Map<string, AdminCompanyGrowthPointDto>,
+    rows: Array<{ bucket: string; count: string }>,
+    field: keyof Omit<AdminCompanyGrowthPointDto, 'bucket'>,
+  ): void {
+    for (const row of rows) {
+      const point = pointByBucket.get(row.bucket);
+      if (point) {
+        point[field] = Number(row.count);
+      }
+    }
+  }
+
+  private createCompanyGrowthPoints(range: AdminCompanyGrowthRange): AdminCompanyGrowthPointDto[] {
+    return this.createCompanyBucketKeys(range).map((bucket) => ({
+      bucket,
+      registeredCompanies: 0,
+      approvedCompanies: 0,
+      rejectedCompanies: 0,
+      suspendedCompanies: 0,
+      reviewRequestedAgain: 0,
+    }));
+  }
+
+  private normalizeCompanyGrowthRange(query: AdminCompanyGrowthQueryDto): AdminCompanyGrowthRange {
+    const bucket = query.bucket ?? AdminCompanyGrowthBucket.DAY;
+    const now = new Date();
+    const defaultTo = this.startOfUtcDay(now);
+    const defaultFrom = new Date(defaultTo);
+    defaultFrom.setUTCDate(defaultFrom.getUTCDate() - 29);
+
+    const from = query.from ? this.parseCompanyDateBoundary(query.from) : defaultFrom;
+    const to = query.to ? this.parseCompanyDateBoundary(query.to) : defaultTo;
+    if (from.getTime() > to.getTime()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'from must be before or equal to to',
+      });
+    }
+
+    return {
+      from,
+      to,
+      toExclusive: this.addCompanyBucket(to, bucket),
+      bucket,
+    };
+  }
+
+  private parseCompanyDateBoundary(value: string): Date {
+    const parsed = new Date(value);
+    return this.startOfUtcDay(parsed);
+  }
+
+  private startOfUtcDay(date: Date): Date {
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  }
+
+  private addCompanyBucket(date: Date, bucket: AdminCompanyGrowthBucket): Date {
+    const next = new Date(date);
+    if (bucket === AdminCompanyGrowthBucket.MONTH) {
+      next.setUTCMonth(next.getUTCMonth() + 1);
+    } else {
+      next.setUTCDate(next.getUTCDate() + 1);
+    }
+    return next;
+  }
+
+  private createCompanyBucketKeys(range: AdminCompanyGrowthRange): string[] {
+    const keys: string[] = [];
+    const cursor =
+      range.bucket === AdminCompanyGrowthBucket.MONTH
+        ? new Date(Date.UTC(range.from.getUTCFullYear(), range.from.getUTCMonth(), 1))
+        : new Date(range.from);
+    const end =
+      range.bucket === AdminCompanyGrowthBucket.MONTH
+        ? new Date(Date.UTC(range.to.getUTCFullYear(), range.to.getUTCMonth(), 1))
+        : range.to;
+
+    while (cursor.getTime() <= end.getTime()) {
+      keys.push(this.formatCompanyDateKey(cursor, range.bucket));
+      if (range.bucket === AdminCompanyGrowthBucket.MONTH) {
+        cursor.setUTCMonth(cursor.getUTCMonth() + 1);
+      } else {
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+      }
+    }
+    return keys;
+  }
+
+  private companyBucketSelect(column: string, range: AdminCompanyGrowthRange): string {
+    const unit = range.bucket === AdminCompanyGrowthBucket.MONTH ? 'month' : 'day';
+    const format = range.bucket === AdminCompanyGrowthBucket.MONTH ? 'YYYY-MM' : 'YYYY-MM-DD';
+    return `to_char(date_trunc('${unit}', ${column}), '${format}')`;
+  }
+
+  private formatCompanyDateKey(date: Date, bucket: AdminCompanyGrowthBucket): string {
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    if (bucket === AdminCompanyGrowthBucket.MONTH) {
+      return `${year}-${month}`;
+    }
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   async verify(

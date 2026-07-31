@@ -295,6 +295,42 @@ describe('CompanyService', () => {
     expect(result.rejectedBefore).toBe(2);
   });
 
+  it('returns company growth chart buckets with review lifecycle counts', async () => {
+    const makeQb = (rows: unknown[]) => ({
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue(rows),
+    });
+    companyRepo.createQueryBuilder
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-01', count: '3' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-01', count: '1' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-02', count: '1' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-02', count: '2' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-01', count: '1' }]));
+
+    const result = await service.getAdminGrowth({
+      from: '2026-07-01',
+      to: '2026-07-02',
+      bucket: 'day' as never,
+    });
+
+    expect(result.points).toHaveLength(2);
+    expect(result.points[0]).toMatchObject({
+      bucket: '2026-07-01',
+      registeredCompanies: 3,
+      approvedCompanies: 1,
+      reviewRequestedAgain: 1,
+    });
+    expect(result.points[1]).toMatchObject({
+      bucket: '2026-07-02',
+      rejectedCompanies: 1,
+      suspendedCompanies: 2,
+    });
+  });
+
   it('rejects duplicate owner company creation', async () => {
     companyRepo.findOne.mockResolvedValueOnce(createCompany());
 

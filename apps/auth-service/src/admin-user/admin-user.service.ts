@@ -1,4 +1,10 @@
-import { ForbiddenException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthUser, ERROR_CODES, paginated, UserRole } from '@nexhire/shared';
 import { Brackets, In, Repository } from 'typeorm';
@@ -7,9 +13,22 @@ import { UserStatus } from '../auth/entities/auth.enum';
 import { RecruiterCompanyLink } from '../auth/entities/recruiter-company-link.entity';
 import { User } from '../auth/entities/user.entity';
 import { AdminUserActionDto, AdminUserRestoreDto } from './dto/admin-user-action.dto';
+import {
+  AdminGrowthBucket,
+  AdminUserGrowthDto,
+  AdminUserGrowthPointDto,
+  AdminUserGrowthQueryDto,
+} from './dto/admin-user-growth.dto';
 import { AdminUserOverviewDto } from './dto/admin-user-overview.dto';
 import { AdminUserQueryDto } from './dto/admin-user-query.dto';
 import { AdminUserResponseDto } from './dto/admin-user-response.dto';
+
+interface AdminGrowthRange {
+  from: Date;
+  to: Date;
+  toExclusive: Date;
+  bucket: AdminGrowthBucket;
+}
 
 @Injectable()
 export class AdminUserService {
@@ -102,6 +121,56 @@ export class AdminUserService {
       byRole: this.userRoleCounts(roleRows),
       emailVerified,
       emailUnverified: total - emailVerified,
+    };
+  }
+
+  async getGrowth(query: AdminUserGrowthQueryDto): Promise<AdminUserGrowthDto> {
+    const range = this.normalizeGrowthRange(query);
+    const points = this.createUserGrowthPoints(range);
+    const pointByBucket = new Map(points.map((point) => [point.bucket, point]));
+
+    const [registeredRows, bannedRows, suspendedRows, archivedRows] = await Promise.all([
+      this.userRepo
+        .createQueryBuilder('user')
+        .innerJoin('user.userRoles', 'userRole')
+        .innerJoin('userRole.role', 'role')
+        .select(this.bucketSelect('"user"."created_at"', range), 'bucket')
+        .addSelect('role.name', 'role')
+        .addSelect('COUNT("user"."id")', 'count')
+        .where('"user"."created_at" >= :from', { from: range.from })
+        .andWhere('"user"."created_at" < :to', { to: range.toExclusive })
+        .groupBy('bucket')
+        .addGroupBy('role.name')
+        .getRawMany<{ bucket: string; role: UserRole; count: string }>(),
+      this.countLifecycleRows('"user"."banned_at"', range),
+      this.countLifecycleRows('"user"."suspended_at"', range),
+      this.countLifecycleRows('"user"."archived_at"', range),
+    ]);
+
+    for (const row of registeredRows) {
+      const point = pointByBucket.get(row.bucket);
+      if (!point) {
+        continue;
+      }
+      const count = Number(row.count);
+      point.registeredUsers += count;
+      if (row.role === UserRole.CANDIDATE) {
+        point.candidates += count;
+      } else if (row.role === UserRole.RECRUITER) {
+        point.recruiters += count;
+      } else if (row.role === UserRole.ADMIN) {
+        point.admins += count;
+      }
+    }
+    this.applyLifecycleRows(pointByBucket, bannedRows, 'bannedUsers');
+    this.applyLifecycleRows(pointByBucket, suspendedRows, 'suspendedUsers');
+    this.applyLifecycleRows(pointByBucket, archivedRows, 'archivedUsers');
+
+    return {
+      from: this.formatDateKey(range.from, range.bucket),
+      to: this.formatDateKey(range.to, range.bucket),
+      bucket: range.bucket,
+      points,
     };
   }
 
@@ -225,6 +294,127 @@ export class AdminUserService {
       counts[row.role] = Number(row.count);
     }
     return counts;
+  }
+
+  private async countLifecycleRows(
+    column: string,
+    range: AdminGrowthRange,
+  ): Promise<Array<{ bucket: string; count: string }>> {
+    return this.userRepo
+      .createQueryBuilder('user')
+      .select(this.bucketSelect(column, range), 'bucket')
+      .addSelect('COUNT("user"."id")', 'count')
+      .where(`${column} >= :from`, { from: range.from })
+      .andWhere(`${column} < :to`, { to: range.toExclusive })
+      .groupBy('bucket')
+      .getRawMany<{ bucket: string; count: string }>();
+  }
+
+  private applyLifecycleRows(
+    pointByBucket: Map<string, AdminUserGrowthPointDto>,
+    rows: Array<{ bucket: string; count: string }>,
+    field: 'bannedUsers' | 'suspendedUsers' | 'archivedUsers',
+  ): void {
+    for (const row of rows) {
+      const point = pointByBucket.get(row.bucket);
+      if (point) {
+        point[field] = Number(row.count);
+      }
+    }
+  }
+
+  private createUserGrowthPoints(range: AdminGrowthRange): AdminUserGrowthPointDto[] {
+    return this.createBucketKeys(range).map((bucket) => ({
+      bucket,
+      registeredUsers: 0,
+      candidates: 0,
+      recruiters: 0,
+      admins: 0,
+      bannedUsers: 0,
+      suspendedUsers: 0,
+      archivedUsers: 0,
+    }));
+  }
+
+  private normalizeGrowthRange(query: AdminUserGrowthQueryDto): AdminGrowthRange {
+    const bucket = query.bucket ?? AdminGrowthBucket.DAY;
+    const now = new Date();
+    const defaultTo = this.startOfUtcDay(now);
+    const defaultFrom = new Date(defaultTo);
+    defaultFrom.setUTCDate(defaultFrom.getUTCDate() - 29);
+
+    const from = query.from ? this.parseDateBoundary(query.from) : defaultFrom;
+    const to = query.to ? this.parseDateBoundary(query.to) : defaultTo;
+    if (from.getTime() > to.getTime()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'from must be before or equal to to',
+      });
+    }
+
+    return {
+      from,
+      to,
+      toExclusive: this.addBucket(to, bucket),
+      bucket,
+    };
+  }
+
+  private parseDateBoundary(value: string): Date {
+    const parsed = new Date(value);
+    return this.startOfUtcDay(parsed);
+  }
+
+  private startOfUtcDay(date: Date): Date {
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  }
+
+  private addBucket(date: Date, bucket: AdminGrowthBucket): Date {
+    const next = new Date(date);
+    if (bucket === AdminGrowthBucket.MONTH) {
+      next.setUTCMonth(next.getUTCMonth() + 1);
+    } else {
+      next.setUTCDate(next.getUTCDate() + 1);
+    }
+    return next;
+  }
+
+  private createBucketKeys(range: AdminGrowthRange): string[] {
+    const keys: string[] = [];
+    const cursor =
+      range.bucket === AdminGrowthBucket.MONTH
+        ? new Date(Date.UTC(range.from.getUTCFullYear(), range.from.getUTCMonth(), 1))
+        : new Date(range.from);
+    const end =
+      range.bucket === AdminGrowthBucket.MONTH
+        ? new Date(Date.UTC(range.to.getUTCFullYear(), range.to.getUTCMonth(), 1))
+        : range.to;
+
+    while (cursor.getTime() <= end.getTime()) {
+      keys.push(this.formatDateKey(cursor, range.bucket));
+      if (range.bucket === AdminGrowthBucket.MONTH) {
+        cursor.setUTCMonth(cursor.getUTCMonth() + 1);
+      } else {
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+      }
+    }
+    return keys;
+  }
+
+  private bucketSelect(column: string, range: AdminGrowthRange): string {
+    const unit = range.bucket === AdminGrowthBucket.MONTH ? 'month' : 'day';
+    const format = range.bucket === AdminGrowthBucket.MONTH ? 'YYYY-MM' : 'YYYY-MM-DD';
+    return `to_char(date_trunc('${unit}', ${column}), '${format}')`;
+  }
+
+  private formatDateKey(date: Date, bucket: AdminGrowthBucket): string {
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    if (bucket === AdminGrowthBucket.MONTH) {
+      return `${year}-${month}`;
+    }
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   private toResponse(

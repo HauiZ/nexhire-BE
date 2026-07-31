@@ -795,6 +795,52 @@ FE notes:
 - FE normally uses `GET /api/v1/admin/dashboard/overview` through gateway for the overview page.
 - Use this direct service endpoint only when building/debugging auth admin screens.
 
+### `GET /api/v1/admin/users/growth`
+
+Summary: Return user growth chart series for admin dashboard.
+
+Query:
+
+| Field    | Type | Required | Note                                 |
+| -------- | ---- | -------- | ------------------------------------ |
+| `from`   | date | No       | Inclusive date; default last 30 days |
+| `to`     | date | No       | Inclusive date; default today        |
+| `bucket` | enum | No       | `day` or `month`; default `day`      |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "from": "2026-07-01",
+    "to": "2026-07-31",
+    "bucket": "day",
+    "points": [
+      {
+        "bucket": "2026-07-01",
+        "registeredUsers": 12,
+        "candidates": 8,
+        "recruiters": 3,
+        "admins": 1,
+        "bannedUsers": 0,
+        "suspendedUsers": 1,
+        "archivedUsers": 0
+      }
+    ]
+  }
+}
+```
+
+FE notes:
+
+- `candidates`, `recruiters`, and `admins` are role breakdowns of newly registered users in the
+  bucket.
+- `bannedUsers`, `suspendedUsers`, and `archivedUsers` are counted by their lifecycle timestamp, not
+  by registration date.
+- FE normally uses `GET /api/v1/admin/dashboard/users/growth` through gateway for the dashboard
+  range summary. Use this direct service endpoint when a detailed `points[]` series is needed.
+
 ### `GET /api/v1/admin/users/:id`
 
 Summary: Get one user detail for admin management.

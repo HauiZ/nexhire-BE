@@ -13,7 +13,7 @@ import {
   JobWorkingType,
   UserRole,
 } from '@nexhire/shared';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { CompanySnapshotService } from '../company/company-snapshot.service';
 import {
   CompanyStatusSnapshot,
@@ -28,6 +28,7 @@ import { CompanyPostingSnapshot } from '../entities/company-posting-snapshot.ent
 import { JobEventPublisher } from '../events/job-event.publisher';
 import { JobService } from '../job.service';
 import { JobModerationService } from '../moderation/job-moderation.service';
+import { PublicJobQueryDto, RecruiterJobRevisionQueryDto } from '../dto/job-query.dto';
 import { JobSearchTextService } from '../search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER } from '../search/job-search.types';
 import { DocumentClientService } from '../../document-client/document-client.service';
@@ -83,6 +84,7 @@ describe('JobService', () => {
   let processedEventRepo: {
     findOne: jest.Mock;
     create: jest.Mock;
+    createQueryBuilder: jest.Mock;
     save: jest.Mock;
   };
   let companyPostingSnapshotRepo: {
@@ -273,6 +275,7 @@ describe('JobService', () => {
     processedEventRepo = {
       findOne: jest.fn(),
       create: jest.fn((value) => value),
+      createQueryBuilder: jest.fn(),
       save: jest.fn(),
     };
     companyPostingSnapshotRepo = {
@@ -752,10 +755,10 @@ describe('JobService', () => {
       ],
       meta: { page: 1, limit: 10, total: 1, totalPages: 1 },
     };
-    const query = { page: 1, limit: 10, skip: 0 };
+    const query: PublicJobQueryDto = { page: 1, limit: 10, skip: 0 };
     jobSearchProvider.searchPublicCompanyJobs.mockResolvedValue(expected);
 
-    await expect(service.listPublicByCompany(publishedJob.companyId, query as any)).resolves.toBe(
+    await expect(service.listPublicByCompany(publishedJob.companyId, query)).resolves.toBe(
       expected,
     );
     expect(jobSearchProvider.searchPublicCompanyJobs).toHaveBeenCalledWith(
@@ -790,7 +793,7 @@ describe('JobService', () => {
       ],
       meta: { page: 1, limit: 10, total: 1, totalPages: 1 },
     };
-    const query = { page: 1, limit: 10, skip: 0, q: 'nestjs' };
+    const query: PublicJobQueryDto = { page: 1, limit: 10, skip: 0, q: 'nestjs' };
     redis.get
       .mockResolvedValueOnce(null)
       .mockResolvedValueOnce(null)
@@ -798,8 +801,8 @@ describe('JobService', () => {
       .mockResolvedValueOnce(JSON.stringify(expected));
     jobSearchProvider.searchPublicJobs.mockResolvedValue(expected);
 
-    await expect(service.listPublic(query as any)).resolves.toBe(expected);
-    await expect(service.listPublic({ ...query } as any)).resolves.toEqual(
+    await expect(service.listPublic(query)).resolves.toBe(expected);
+    await expect(service.listPublic({ page: 1, limit: 10, skip: 0, q: 'nestjs' })).resolves.toEqual(
       JSON.parse(JSON.stringify(expected)),
     );
 
@@ -817,15 +820,15 @@ describe('JobService', () => {
       data: [],
       meta: { page: 1, limit: 10, total: 0, totalPages: 0 },
     };
-    const query = { page: 1, limit: 10, skip: 0 };
+    const query: PublicJobQueryDto = { page: 1, limit: 10, skip: 0 };
     redis.get.mockResolvedValue(null);
     jobSearchProvider.searchPublicJobs.mockResolvedValue(expected);
 
-    await service.listPublic(query as any);
+    await service.listPublic(query);
     jobRepo.findOne.mockResolvedValue({ ...publishedJob, status: JobStatus.PENDING_REVIEW });
     jobRepo.save.mockResolvedValue({ ...publishedJob, status: JobStatus.PUBLISHED });
     await service.reviewJob(admin, publishedJob.id, { decision: JobReviewDecision.APPROVE });
-    await service.listPublic(query as any);
+    await service.listPublic(query);
 
     expect(jobSearchProvider.searchPublicJobs).toHaveBeenCalledTimes(2);
     expect(redis.incr).toHaveBeenCalledWith('job:public-cache:version');
@@ -854,7 +857,7 @@ describe('JobService', () => {
       sort: 'applications_desc' as never,
     });
 
-    expect(qb.where).toHaveBeenCalledWith('job.deletedAt IS NULL');
+    expect(qb.where).toHaveBeenCalledWith('"job"."deleted_at" IS NULL');
     expect(qb.andWhere).toHaveBeenCalledWith('job.status = :status', {
       status: JobStatus.PUBLISHED,
     });
@@ -904,6 +907,48 @@ describe('JobService', () => {
     expect(result.revisionsWaitingReview).toBe(1);
   });
 
+  it('returns admin job growth chart buckets with application counts', async () => {
+    const makeQb = (rows: unknown[]) => ({
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue(rows),
+    });
+    jobRepo.createQueryBuilder
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-01', count: '4' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-01', count: '2' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-02', count: '1' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-02', count: '1' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-01', count: '3' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-02', count: '1' }]));
+    processedEventRepo.createQueryBuilder.mockReturnValueOnce(
+      makeQb([{ bucket: '2026-07-01', count: '9' }]),
+    );
+
+    const result = await service.getAdminGrowth({
+      from: '2026-07-01',
+      to: '2026-07-02',
+      bucket: 'day' as never,
+    });
+
+    expect(result.points).toHaveLength(2);
+    expect(result.points[0]).toMatchObject({
+      bucket: '2026-07-01',
+      createdJobs: 4,
+      publishedJobs: 2,
+      reviewedJobs: 3,
+      applicationsSubmitted: 9,
+    });
+    expect(result.points[1]).toMatchObject({
+      bucket: '2026-07-02',
+      unpublishedJobs: 1,
+      closedJobs: 1,
+      rejectedJobs: 1,
+    });
+  });
+
   it('lists revision review queue with pagination and search', async () => {
     const revision = majorRevision({ status: JobRevisionStatus.NEEDS_REVIEW });
     const qb = {
@@ -927,7 +972,7 @@ describe('JobService', () => {
     expect(qb.where).toHaveBeenCalledWith('revision.status IN (:...statuses)', {
       statuses: [JobRevisionStatus.NEEDS_REVIEW],
     });
-    expect(qb.andWhere).toHaveBeenCalledWith('revision.deletedAt IS NULL');
+    expect(qb.andWhere).toHaveBeenCalledWith('"revision"."deleted_at" IS NULL');
     expect(qb.skip).toHaveBeenCalledWith(0);
     expect(qb.take).toHaveBeenCalledWith(10);
     expect(result.meta.total).toBe(1);
@@ -970,7 +1015,7 @@ describe('JobService', () => {
     expect(qb.where).toHaveBeenCalledWith('job.status = :status', {
       status: JobStatus.PUBLISHED,
     });
-    expect(qb.andWhere).toHaveBeenCalledWith('job.deletedAt IS NULL');
+    expect(qb.andWhere).toHaveBeenCalledWith('"job"."deleted_at" IS NULL');
     expect(qb.limit).toHaveBeenCalledWith(8);
     expect(result).toEqual([
       {
@@ -1018,8 +1063,8 @@ describe('JobService', () => {
     expect(jobRepo.count).toHaveBeenCalledWith({
       where: { status: JobStatus.PUBLISHED, deletedAt: expect.any(Object) },
     });
-    expect(companyCountQb.andWhere).toHaveBeenCalledWith('job.deletedAt IS NULL');
-    expect(categoryCountQb.andWhere).toHaveBeenCalledWith('job.deletedAt IS NULL');
+    expect(companyCountQb.andWhere).toHaveBeenCalledWith('"job"."deleted_at" IS NULL');
+    expect(categoryCountQb.andWhere).toHaveBeenCalledWith('"job"."deleted_at" IS NULL');
     expect(categoryCountQb.andWhere).toHaveBeenCalledWith('job.categoryId IS NOT NULL');
   });
 
@@ -1027,9 +1072,14 @@ describe('JobService', () => {
     const revision = majorRevision({ status: JobRevisionStatus.PENDING_REVIEW });
     jobRepo.findOne.mockResolvedValue(publishedJob);
     revisionRepo.findAndCount.mockResolvedValue([[revision], 1]);
-    const query = { page: 1, limit: 10, skip: 0, status: JobRevisionStatus.PENDING_REVIEW };
+    const query: RecruiterJobRevisionQueryDto = {
+      page: 1,
+      limit: 10,
+      skip: 0,
+      status: JobRevisionStatus.PENDING_REVIEW,
+    };
 
-    const result = await service.listRevisions(user, publishedJob.id, query as any);
+    const result = await service.listRevisions(user, publishedJob.id, query);
 
     expect(jobRepo.findOne).toHaveBeenCalledWith({
       where: { id: publishedJob.id, companyId: user.companyId },

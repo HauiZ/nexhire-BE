@@ -39,6 +39,12 @@ import {
 import { JobReasonDto, ReviewJobDto } from './dto/job-review.dto';
 import { AdminJobOverviewDto } from './dto/admin-job-overview.dto';
 import {
+  AdminJobGrowthBucket,
+  AdminJobGrowthDto,
+  AdminJobGrowthPointDto,
+  AdminJobGrowthQueryDto,
+} from './dto/admin-job-growth.dto';
+import {
   JobResponseDto,
   JobApplicationSnapshotDto,
   JobSavedSnapshotDto,
@@ -81,6 +87,13 @@ const ACTIVE_REVISION_STATUSES = [
 const COMPANY_STATUS_NOT_APPROVED_MESSAGE = 'Company is no longer approved for job posting';
 const PUBLIC_JOB_CACHE_TTL_SECONDS = 30;
 const PUBLIC_JOB_CACHE_VERSION_KEY = 'job:public-cache:version';
+
+interface AdminJobGrowthRange {
+  from: Date;
+  to: Date;
+  toExclusive: Date;
+  bucket: AdminJobGrowthBucket;
+}
 
 export interface CompanyPostingSnapshotChangedPayload {
   companyId: string;
@@ -136,6 +149,8 @@ export class JobService {
     private readonly revisionRepo: Repository<JobRevision>,
     @InjectRepository(JobModerationReview)
     private readonly moderationReviewRepo: Repository<JobModerationReview>,
+    @InjectRepository(JobProcessedApplicationEvent)
+    private readonly processedApplicationEventRepo: Repository<JobProcessedApplicationEvent>,
   ) {}
 
   async listPublic(query: PublicJobQueryDto): Promise<Paginated<PublicJobListItemDto>> {
@@ -182,7 +197,7 @@ export class JobService {
       .addSelect('COUNT(job.id)', 'activeJobCount')
       .addSelect('MAX(job.publishedAt)', 'latestPublishedAt')
       .where('job.status = :status', { status: JobStatus.PUBLISHED })
-      .andWhere('job.deletedAt IS NULL')
+      .andWhere('"job"."deleted_at" IS NULL')
       .groupBy('job.companyId')
       .orderBy('COUNT(job.id)', 'DESC')
       .addOrderBy('MAX(job.publishedAt)', 'DESC')
@@ -222,13 +237,13 @@ export class JobService {
         .createQueryBuilder('job')
         .select('COUNT(DISTINCT job.companyId)', 'count')
         .where('job.status = :status', { status: JobStatus.PUBLISHED })
-        .andWhere('job.deletedAt IS NULL')
+        .andWhere('"job"."deleted_at" IS NULL')
         .getRawOne<{ count: string }>(),
       this.jobRepo
         .createQueryBuilder('job')
         .select('COUNT(DISTINCT job.categoryId)', 'count')
         .where('job.status = :status', { status: JobStatus.PUBLISHED })
-        .andWhere('job.deletedAt IS NULL')
+        .andWhere('"job"."deleted_at" IS NULL')
         .andWhere('job.categoryId IS NOT NULL')
         .getRawOne<{ count: string }>(),
     ]);
@@ -332,7 +347,7 @@ export class JobService {
       .select('job.status', 'status')
       .addSelect('COUNT(job.id)', 'count')
       .where('job.companyId = :companyId', { companyId: user.companyId })
-      .andWhere('job.deletedAt IS NULL')
+      .andWhere('"job"."deleted_at" IS NULL')
       .groupBy('job.status')
       .getRawMany<{ status: JobStatus; count: string }>();
 
@@ -594,7 +609,7 @@ export class JobService {
   async listAdminJobs(query: AdminJobQueryDto): Promise<Paginated<JobResponseDto>> {
     const qb = this.jobRepo
       .createQueryBuilder('job')
-      .where('job.deletedAt IS NULL')
+      .where('"job"."deleted_at" IS NULL')
       .skip(query.skip)
       .take(query.limit);
 
@@ -647,7 +662,7 @@ export class JobService {
         .createQueryBuilder('job')
         .select('job.status', 'status')
         .addSelect('COUNT(job.id)', 'count')
-        .where('job.deletedAt IS NULL')
+        .where('"job"."deleted_at" IS NULL')
         .groupBy('job.status')
         .getRawMany<{ status: JobStatus; count: string }>(),
       this.revisionRepo.count({ where: { deletedAt: IsNull() } }),
@@ -655,7 +670,7 @@ export class JobService {
         .createQueryBuilder('revision')
         .select('revision.status', 'status')
         .addSelect('COUNT(revision.id)', 'count')
-        .where('revision.deletedAt IS NULL')
+        .where('"revision"."deleted_at" IS NULL')
         .groupBy('revision.status')
         .getRawMany<{ status: JobRevisionStatus; count: string }>(),
     ]);
@@ -679,6 +694,197 @@ export class JobService {
         JobRevisionStatus.SHOULD_REJECT,
       ].reduce((sum, status) => sum + revisionsByStatus[status], 0),
     };
+  }
+
+  async getAdminGrowth(query: AdminJobGrowthQueryDto): Promise<AdminJobGrowthDto> {
+    const range = this.normalizeJobGrowthRange(query);
+    const points = this.createJobGrowthPoints(range);
+    const pointByBucket = new Map(points.map((point) => [point.bucket, point]));
+
+    const [
+      createdRows,
+      publishedRows,
+      unpublishedRows,
+      closedRows,
+      reviewedRows,
+      rejectedRows,
+      applicationRows,
+    ] = await Promise.all([
+      this.countJobRows('"job"."created_at"', range),
+      this.countJobRows('"job"."published_at"', range),
+      this.countJobRows('"job"."unpublished_at"', range),
+      this.countJobRows('"job"."closed_at"', range),
+      this.countJobRows('"job"."reviewed_at"', range),
+      this.countJobStatusRows(JobStatus.REJECTED, '"job"."reviewed_at"', range),
+      this.countApplicationRows(range),
+    ]);
+
+    this.applyJobGrowthRows(pointByBucket, createdRows, 'createdJobs');
+    this.applyJobGrowthRows(pointByBucket, publishedRows, 'publishedJobs');
+    this.applyJobGrowthRows(pointByBucket, unpublishedRows, 'unpublishedJobs');
+    this.applyJobGrowthRows(pointByBucket, closedRows, 'closedJobs');
+    this.applyJobGrowthRows(pointByBucket, reviewedRows, 'reviewedJobs');
+    this.applyJobGrowthRows(pointByBucket, rejectedRows, 'rejectedJobs');
+    this.applyJobGrowthRows(pointByBucket, applicationRows, 'applicationsSubmitted');
+
+    return {
+      from: this.formatJobDateKey(range.from, range.bucket),
+      to: this.formatJobDateKey(range.to, range.bucket),
+      bucket: range.bucket,
+      points,
+    };
+  }
+
+  private async countJobRows(
+    column: string,
+    range: AdminJobGrowthRange,
+  ): Promise<Array<{ bucket: string; count: string }>> {
+    return this.jobRepo
+      .createQueryBuilder('job')
+      .select(this.jobBucketSelect(column, range), 'bucket')
+      .addSelect('COUNT("job"."id")', 'count')
+      .where('"job"."deleted_at" IS NULL')
+      .andWhere(`${column} >= :from`, { from: range.from })
+      .andWhere(`${column} < :to`, { to: range.toExclusive })
+      .groupBy('bucket')
+      .getRawMany<{ bucket: string; count: string }>();
+  }
+
+  private async countJobStatusRows(
+    status: JobStatus,
+    column: string,
+    range: AdminJobGrowthRange,
+  ): Promise<Array<{ bucket: string; count: string }>> {
+    return this.jobRepo
+      .createQueryBuilder('job')
+      .select(this.jobBucketSelect(column, range), 'bucket')
+      .addSelect('COUNT("job"."id")', 'count')
+      .where('"job"."deleted_at" IS NULL')
+      .andWhere('"job"."status" = :status', { status })
+      .andWhere(`${column} >= :from`, { from: range.from })
+      .andWhere(`${column} < :to`, { to: range.toExclusive })
+      .groupBy('bucket')
+      .getRawMany<{ bucket: string; count: string }>();
+  }
+
+  private async countApplicationRows(
+    range: AdminJobGrowthRange,
+  ): Promise<Array<{ bucket: string; count: string }>> {
+    return this.processedApplicationEventRepo
+      .createQueryBuilder('event')
+      .select(this.jobBucketSelect('"event"."processed_at"', range), 'bucket')
+      .addSelect('COUNT("event"."application_id")', 'count')
+      .where('"event"."processed_at" >= :from', { from: range.from })
+      .andWhere('"event"."processed_at" < :to', { to: range.toExclusive })
+      .groupBy('bucket')
+      .getRawMany<{ bucket: string; count: string }>();
+  }
+
+  private applyJobGrowthRows(
+    pointByBucket: Map<string, AdminJobGrowthPointDto>,
+    rows: Array<{ bucket: string; count: string }>,
+    field: keyof Omit<AdminJobGrowthPointDto, 'bucket'>,
+  ): void {
+    for (const row of rows) {
+      const point = pointByBucket.get(row.bucket);
+      if (point) {
+        point[field] = Number(row.count);
+      }
+    }
+  }
+
+  private createJobGrowthPoints(range: AdminJobGrowthRange): AdminJobGrowthPointDto[] {
+    return this.createJobBucketKeys(range).map((bucket) => ({
+      bucket,
+      createdJobs: 0,
+      publishedJobs: 0,
+      unpublishedJobs: 0,
+      closedJobs: 0,
+      reviewedJobs: 0,
+      rejectedJobs: 0,
+      applicationsSubmitted: 0,
+    }));
+  }
+
+  private normalizeJobGrowthRange(query: AdminJobGrowthQueryDto): AdminJobGrowthRange {
+    const bucket = query.bucket ?? AdminJobGrowthBucket.DAY;
+    const now = new Date();
+    const defaultTo = this.startOfUtcDay(now);
+    const defaultFrom = new Date(defaultTo);
+    defaultFrom.setUTCDate(defaultFrom.getUTCDate() - 29);
+
+    const from = query.from ? this.parseJobDateBoundary(query.from) : defaultFrom;
+    const to = query.to ? this.parseJobDateBoundary(query.to) : defaultTo;
+    if (from.getTime() > to.getTime()) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'from must be before or equal to to',
+      });
+    }
+
+    return {
+      from,
+      to,
+      toExclusive: this.addJobBucket(to, bucket),
+      bucket,
+    };
+  }
+
+  private parseJobDateBoundary(value: string): Date {
+    const parsed = new Date(value);
+    return this.startOfUtcDay(parsed);
+  }
+
+  private startOfUtcDay(date: Date): Date {
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  }
+
+  private addJobBucket(date: Date, bucket: AdminJobGrowthBucket): Date {
+    const next = new Date(date);
+    if (bucket === AdminJobGrowthBucket.MONTH) {
+      next.setUTCMonth(next.getUTCMonth() + 1);
+    } else {
+      next.setUTCDate(next.getUTCDate() + 1);
+    }
+    return next;
+  }
+
+  private createJobBucketKeys(range: AdminJobGrowthRange): string[] {
+    const keys: string[] = [];
+    const cursor =
+      range.bucket === AdminJobGrowthBucket.MONTH
+        ? new Date(Date.UTC(range.from.getUTCFullYear(), range.from.getUTCMonth(), 1))
+        : new Date(range.from);
+    const end =
+      range.bucket === AdminJobGrowthBucket.MONTH
+        ? new Date(Date.UTC(range.to.getUTCFullYear(), range.to.getUTCMonth(), 1))
+        : range.to;
+
+    while (cursor.getTime() <= end.getTime()) {
+      keys.push(this.formatJobDateKey(cursor, range.bucket));
+      if (range.bucket === AdminJobGrowthBucket.MONTH) {
+        cursor.setUTCMonth(cursor.getUTCMonth() + 1);
+      } else {
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+      }
+    }
+    return keys;
+  }
+
+  private jobBucketSelect(column: string, range: AdminJobGrowthRange): string {
+    const unit = range.bucket === AdminJobGrowthBucket.MONTH ? 'month' : 'day';
+    const format = range.bucket === AdminJobGrowthBucket.MONTH ? 'YYYY-MM' : 'YYYY-MM-DD';
+    return `to_char(date_trunc('${unit}', ${column}), '${format}')`;
+  }
+
+  private formatJobDateKey(date: Date, bucket: AdminJobGrowthBucket): string {
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    if (bucket === AdminJobGrowthBucket.MONTH) {
+      return `${year}-${month}`;
+    }
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   async reviewJob(admin: AuthUser, id: string, dto: ReviewJobDto): Promise<JobResponseDto> {
@@ -758,7 +964,7 @@ export class JobService {
       .where('revision.status IN (:...statuses)', {
         statuses: query.status ? [query.status] : reviewStatuses,
       })
-      .andWhere('revision.deletedAt IS NULL')
+      .andWhere('"revision"."deleted_at" IS NULL')
       .orderBy('revision.createdAt', 'ASC')
       .skip(query.skip)
       .take(query.limit);

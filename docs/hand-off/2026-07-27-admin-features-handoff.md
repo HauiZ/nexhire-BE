@@ -101,7 +101,216 @@ UI notes:
 - Use `users.total`, `companies.byStatus.PENDING`, `jobs.jobsWaitingReview`, and `jobs.revisionsWaitingReview` for top cards.
 - If one upstream service is down, gateway returns `503 COMMON.SERVICE_UNAVAILABLE`.
 
-## 3. Quan Ly User
+## 3. Dashboard Growth Charts
+
+FE nen dung 3 endpoint rieng qua gateway de tranh loi mot service lam hong toan bo dashboard.
+Moi endpoint tra tong trong range da chon, khong tra chi tiet tung ngay.
+
+Query chung:
+
+| Field  | Note                                               |
+| ------ | -------------------------------------------------- |
+| `from` | Inclusive date, optional. Default is last 30 days. |
+| `to`   | Inclusive date, optional. Default is today.        |
+
+Default range:
+
+- Neu FE khong truyen `from`/`to`, BE se lay 30 ngay gan nhat tinh den ngay hien tai.
+- Vi du neu hom nay la `2026-07-31`, range mac dinh la `from=2026-07-02`, `to=2026-07-31`.
+- Ky so sanh se la 30 ngay lien truoc: `comparisonFrom=2026-06-02`, `comparisonTo=2026-07-01`.
+
+Range theo tung block:
+
+- Ba endpoint growth doc lap nhau, khong bat buoc dung chung range.
+- FE co the dung date filter rieng cho user/company/job block.
+- Doi range block nao thi chi can goi lai endpoint cua block do.
+
+### User growth
+
+```http
+GET /api/v1/admin/dashboard/users/growth?from=2026-07-01&to=2026-07-31
+```
+
+```json
+{
+  "success": true,
+  "data": {
+    "from": "2026-07-01",
+    "to": "2026-07-31",
+    "comparisonFrom": "2026-05-31",
+    "comparisonTo": "2026-06-30",
+    "registeredUsers": 120,
+    "candidates": 86,
+    "recruiters": 30,
+    "admins": 4,
+    "bannedUsers": 2,
+    "suspendedUsers": 5,
+    "archivedUsers": 1,
+    "growth": {
+      "registeredUsers": {
+        "previousValue": 100,
+        "change": 20,
+        "percent": 20
+      },
+      "candidates": {
+        "previousValue": 80,
+        "change": 6,
+        "percent": 7.5
+      },
+      "recruiters": {
+        "previousValue": 20,
+        "change": 10,
+        "percent": 50
+      },
+      "admins": {
+        "previousValue": 4,
+        "change": 0,
+        "percent": 0
+      },
+      "bannedUsers": {
+        "previousValue": 1,
+        "change": 1,
+        "percent": 100
+      },
+      "suspendedUsers": {
+        "previousValue": 0,
+        "change": 5,
+        "percent": null
+      },
+      "archivedUsers": {
+        "previousValue": 0,
+        "change": 1,
+        "percent": null
+      }
+    }
+  }
+}
+```
+
+### Company growth
+
+```http
+GET /api/v1/admin/dashboard/companies/growth?from=2026-07-01&to=2026-07-31
+```
+
+```json
+{
+  "success": true,
+  "data": {
+    "from": "2026-07-01",
+    "to": "2026-07-31",
+    "comparisonFrom": "2026-05-31",
+    "comparisonTo": "2026-06-30",
+    "registeredCompanies": 22,
+    "approvedCompanies": 14,
+    "rejectedCompanies": 3,
+    "suspendedCompanies": 1,
+    "reviewRequestedAgain": 2,
+    "growth": {
+      "registeredCompanies": {
+        "previousValue": 18,
+        "change": 4,
+        "percent": 22.22
+      },
+      "approvedCompanies": {
+        "previousValue": 10,
+        "change": 4,
+        "percent": 40
+      },
+      "rejectedCompanies": {
+        "previousValue": 2,
+        "change": 1,
+        "percent": 50
+      },
+      "suspendedCompanies": {
+        "previousValue": 0,
+        "change": 1,
+        "percent": null
+      },
+      "reviewRequestedAgain": {
+        "previousValue": 1,
+        "change": 1,
+        "percent": 100
+      }
+    }
+  }
+}
+```
+
+### Job growth
+
+```http
+GET /api/v1/admin/dashboard/jobs/growth?from=2026-07-01&to=2026-07-31
+```
+
+```json
+{
+  "success": true,
+  "data": {
+    "from": "2026-07-01",
+    "to": "2026-07-31",
+    "comparisonFrom": "2026-05-31",
+    "comparisonTo": "2026-06-30",
+    "createdJobs": 64,
+    "publishedJobs": 41,
+    "unpublishedJobs": 8,
+    "closedJobs": 4,
+    "reviewedJobs": 47,
+    "rejectedJobs": 6,
+    "applicationsSubmitted": 230,
+    "growth": {
+      "createdJobs": {
+        "previousValue": 50,
+        "change": 14,
+        "percent": 28
+      },
+      "publishedJobs": {
+        "previousValue": 35,
+        "change": 6,
+        "percent": 17.14
+      },
+      "unpublishedJobs": {
+        "previousValue": 5,
+        "change": 3,
+        "percent": 60
+      },
+      "closedJobs": {
+        "previousValue": 2,
+        "change": 2,
+        "percent": 100
+      },
+      "reviewedJobs": {
+        "previousValue": 40,
+        "change": 7,
+        "percent": 17.5
+      },
+      "rejectedJobs": {
+        "previousValue": 4,
+        "change": 2,
+        "percent": 50
+      },
+      "applicationsSubmitted": {
+        "previousValue": 200,
+        "change": 30,
+        "percent": 15
+      }
+    }
+  }
+}
+```
+
+Important notes:
+
+- `recruiters` la so account co role recruiter trong auth-service.
+- `registeredCompanies` la so company profile da tao trong company-service.
+- Hai so nay khong duoc gop chung; nen dung de ve funnel recruiter signup -> company created -> company approved.
+- `comparisonFrom`/`comparisonTo` la ky lien truoc cung do dai voi range hien tai.
+- `growth.*.percent = null` khi previousValue bang `0` va current co data, vi khong co mau so de tinh phan tram dung.
+- Moi endpoint summary chi goi dung 1 upstream service mot lan voi range mo rong tu `comparisonFrom` den `to`, sau do gateway tu cong current/previous.
+- Neu FE khong truyen range, moi endpoint tu dung default 30 ngay gan nhat; default nay ap dung rieng cho tung endpoint.
+- Endpoint cu `GET /api/v1/admin/dashboard/growth` van ton tai neu FE can series `points[]` theo ngay/thang.
+
+## 4. Quan Ly User
 
 Base path:
 
@@ -209,7 +418,7 @@ GET /api/v1/admin/users/overview
 
 Normally FE should use `/admin/dashboard/overview`; this direct endpoint is useful for auth admin debugging or a user-only analytics widget.
 
-## 4. Duyet Company Va Minh Chung
+## 5. Duyet Company Va Minh Chung
 
 Company status:
 
@@ -414,7 +623,7 @@ UI notes:
 - Auto trust signal den tu job review: approve low-risk tang positive count; reject job tao negative signal.
 - Candidate/public khong duoc thay trust level.
 
-## 5. Duyet Job
+## 6. Duyet Job
 
 Base path:
 
@@ -547,7 +756,7 @@ Rules:
 - `republish`: chi ap dung cho `UNPUBLISHED`, company snapshot phai approved.
 - `close`: chi ap dung cho `PUBLISHED` hoac `UNPUBLISHED`, la dong vinh vien.
 
-## 6. Review Major Job Revisions
+## 7. Review Major Job Revisions
 
 ### Revision Review Queue
 
@@ -615,7 +824,7 @@ Rules:
 - Reject giu job public hien tai khong doi.
 - Reject can reason.
 
-## 7. Loi Thuong Gap FE Can Handle
+## 8. Loi Thuong Gap FE Can Handle
 
 | Status | Example code                          | Meaning                                                          |
 | ------ | ------------------------------------- | ---------------------------------------------------------------- |
@@ -628,7 +837,7 @@ Rules:
 | `422`  | `COMMON.VALIDATION_ERROR`             | Body/query sai validation.                                       |
 | `503`  | `COMMON.SERVICE_UNAVAILABLE`          | document-storage hoac service noi bo tam thoi loi.               |
 
-## 8. Ghi Chu Trien Khai UI
+## 9. Ghi Chu Trien Khai UI
 
 - Admin company review detail nen gom 3 tab: Profile, Verification Documents, Trust History.
 - Admin job review detail nen gom job content, moderation panel, action approve/reject.

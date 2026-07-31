@@ -866,6 +866,57 @@ FE notes:
 
 - Gateway admin overview already includes this payload under `companies`.
 
+## `GET /api/v1/admin/companies/growth`
+
+Summary: Return company growth and verification lifecycle chart series for admin dashboard.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Query:
+
+| Field    | Type | Required | Note                                 |
+| -------- | ---- | -------- | ------------------------------------ |
+| `from`   | date | No       | Inclusive date; default last 30 days |
+| `to`     | date | No       | Inclusive date; default today        |
+| `bucket` | enum | No       | `day` or `month`; default `day`      |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "from": "2026-07-01",
+    "to": "2026-07-31",
+    "bucket": "day",
+    "points": [
+      {
+        "bucket": "2026-07-01",
+        "registeredCompanies": 4,
+        "approvedCompanies": 2,
+        "rejectedCompanies": 1,
+        "suspendedCompanies": 0,
+        "reviewRequestedAgain": 1
+      }
+    ]
+  }
+}
+```
+
+FE notes:
+
+- `registeredCompanies` counts company profiles created in company-service.
+- Recruiter accounts are counted in auth-service under `recruiters`; they are intentionally not
+  counted as companies.
+- `approvedCompanies`, `rejectedCompanies`, and `suspendedCompanies` use the company's latest
+  `statusChangedAt` and current status.
+- `reviewRequestedAgain` uses `verificationReviewRequestedAt`.
+- FE normally uses `GET /api/v1/admin/dashboard/companies/growth` through gateway for the dashboard
+  range summary. Use this direct service endpoint when a detailed `points[]` series is needed.
+
 ## `GET /api/v1/admin/companies/pending`
 
 Summary: List pending companies for verification.

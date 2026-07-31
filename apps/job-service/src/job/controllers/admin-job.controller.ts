@@ -1,5 +1,6 @@
 import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AdminJobGrowthDto, AdminJobGrowthQueryDto } from '../dto/admin-job-growth.dto';
 import {
   ApiErrorResponses,
   ApiSuccessResponse,
@@ -39,6 +40,14 @@ export class AdminJobController {
   @ApiErrorResponses({ statuses: [401, 403, 500] })
   getOverview(): Promise<AdminJobOverviewDto> {
     return this.jobService.getAdminOverview();
+  }
+
+  @Get('growth')
+  @ApiOperation({ summary: 'Get job growth chart series for admin dashboard' })
+  @ApiSuccessResponse(AdminJobGrowthDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500] })
+  getGrowth(@Query() query: AdminJobGrowthQueryDto): Promise<AdminJobGrowthDto> {
+    return this.jobService.getAdminGrowth(query);
   }
 
   @Get('review-queue')

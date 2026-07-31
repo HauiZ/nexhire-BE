@@ -1124,15 +1124,15 @@ Auth:
 
 Request query:
 
-| Field | Type | Required | Default | Note |
-| ----- | ---- | -------- | ------- | ---- |
-| `page` | number | No | `1` | Pagination page. |
-| `limit` | number | No | `20` | Pagination size. |
-| `status` | `JobStatus` | No | all | Filter by any job status. |
-| `riskLevel` | `LOW` \| `MEDIUM` \| `HIGH` \| `CRITICAL` | No | all | Filter by moderation risk. |
-| `companyId` | uuid | No | - | Filter by company. |
-| `search` | string | No | - | Searches title, company name, location, skills. |
-| `sort` | `latest` \| `oldest` \| `risk_desc` \| `applications_desc` | No | `latest` | Sort table. |
+| Field       | Type                                                       | Required | Default  | Note                                            |
+| ----------- | ---------------------------------------------------------- | -------- | -------- | ----------------------------------------------- |
+| `page`      | number                                                     | No       | `1`      | Pagination page.                                |
+| `limit`     | number                                                     | No       | `20`     | Pagination size.                                |
+| `status`    | `JobStatus`                                                | No       | all      | Filter by any job status.                       |
+| `riskLevel` | `LOW` \| `MEDIUM` \| `HIGH` \| `CRITICAL`                  | No       | all      | Filter by moderation risk.                      |
+| `companyId` | uuid                                                       | No       | -        | Filter by company.                              |
+| `search`    | string                                                     | No       | -        | Searches title, company name, location, skills. |
+| `sort`      | `latest` \| `oldest` \| `risk_desc` \| `applications_desc` | No       | `latest` | Sort table.                                     |
 
 Success response: paginated array of `JobResponse`.
 
@@ -1190,6 +1190,59 @@ Success response:
 FE notes:
 
 - Gateway admin overview already includes this payload under `jobs`.
+
+## `GET /api/v1/admin/jobs/growth`
+
+Summary: Return job lifecycle and application trend chart series for admin dashboard.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Query:
+
+| Field    | Type | Required | Note                                 |
+| -------- | ---- | -------- | ------------------------------------ |
+| `from`   | date | No       | Inclusive date; default last 30 days |
+| `to`     | date | No       | Inclusive date; default today        |
+| `bucket` | enum | No       | `day` or `month`; default `day`      |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "from": "2026-07-01",
+    "to": "2026-07-31",
+    "bucket": "day",
+    "points": [
+      {
+        "bucket": "2026-07-01",
+        "createdJobs": 8,
+        "publishedJobs": 5,
+        "unpublishedJobs": 1,
+        "closedJobs": 0,
+        "reviewedJobs": 4,
+        "rejectedJobs": 2,
+        "applicationsSubmitted": 12
+      }
+    ]
+  }
+}
+```
+
+FE notes:
+
+- `createdJobs` uses job `createdAt`.
+- `publishedJobs`, `unpublishedJobs`, `closedJobs`, and `reviewedJobs` use their matching lifecycle
+  timestamps.
+- `rejectedJobs` counts jobs currently rejected by admin review date.
+- `applicationsSubmitted` uses `job_processed_application_events.processedAt`, which is created when
+  job-service consumes `application.submitted`.
+- FE normally uses `GET /api/v1/admin/dashboard/jobs/growth` through gateway for the dashboard
+  range summary. Use this direct service endpoint when a detailed `points[]` series is needed.
 
 ## `GET /api/v1/admin/jobs/review-queue`
 
@@ -1338,12 +1391,12 @@ Auth:
 
 Request query:
 
-| Field | Type | Required | Default | Note |
-| ----- | ---- | -------- | ------- | ---- |
-| `page` | number | No | `1` | Pagination page. |
-| `limit` | number | No | `20` | Pagination size. |
-| `status` | `PENDING_REVIEW` \| `NEEDS_REVIEW` \| `SHOULD_REJECT` | No | all review statuses | Filter queue. |
-| `search` | string | No | - | Searches title, change summary, company id, job id. |
+| Field    | Type                                                  | Required | Default             | Note                                                |
+| -------- | ----------------------------------------------------- | -------- | ------------------- | --------------------------------------------------- |
+| `page`   | number                                                | No       | `1`                 | Pagination page.                                    |
+| `limit`  | number                                                | No       | `20`                | Pagination size.                                    |
+| `status` | `PENDING_REVIEW` \| `NEEDS_REVIEW` \| `SHOULD_REJECT` | No       | all review statuses | Filter queue.                                       |
+| `search` | string                                                | No       | -                   | Searches title, change summary, company id, job id. |
 
 Success response:
 

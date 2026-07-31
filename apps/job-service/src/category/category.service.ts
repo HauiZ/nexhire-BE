@@ -33,7 +33,7 @@ export class CategoryService {
       .leftJoin(
         Job,
         'job',
-        'job.categoryId = category.id AND job.status = :status AND job.deletedAt IS NULL',
+        'job.categoryId = category.id AND job.status = :status AND "job"."deleted_at" IS NULL',
         { status: JobStatus.PUBLISHED },
       )
       .select('category.id', 'id')

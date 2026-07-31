@@ -26,6 +26,7 @@ import {
   UserRole,
 } from '@nexhire/shared';
 import { CompanyService } from './company.service';
+import { AdminCompanyGrowthDto, AdminCompanyGrowthQueryDto } from './dto/admin-company-growth.dto';
 import { AdminCompanyOverviewDto } from './dto/admin-company-overview.dto';
 import { AdminCompanyQueryDto } from './dto/admin-company-query.dto';
 import { AdminCompanyResponseDto } from './dto/admin-company-response.dto';
@@ -260,6 +261,14 @@ export class AdminCompanyController {
   @ApiErrorResponses({ statuses: [401, 403, 500] })
   getAdminOverview(): Promise<AdminCompanyOverviewDto> {
     return this.companyService.getAdminOverview();
+  }
+
+  @Get('growth')
+  @ApiOperation({ summary: 'Get company growth chart series for admin dashboard' })
+  @ApiSuccessResponse(AdminCompanyGrowthDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500] })
+  getAdminGrowth(@Query() query: AdminCompanyGrowthQueryDto): Promise<AdminCompanyGrowthDto> {
+    return this.companyService.getAdminGrowth(query);
   }
 
   @Get('pending')

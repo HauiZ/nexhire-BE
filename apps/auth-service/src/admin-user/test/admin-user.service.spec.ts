@@ -188,6 +188,51 @@ describe('AdminUserService', () => {
     expect(result.byRole.CANDIDATE).toBe(3);
   });
 
+  it('returns user growth chart buckets with role and lifecycle counts', async () => {
+    const makeQb = (rows: unknown[]) => ({
+      innerJoin: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      addGroupBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn().mockResolvedValue(rows),
+    });
+    userRepo.createQueryBuilder
+      .mockReturnValueOnce(
+        makeQb([
+          { bucket: '2026-07-01', role: UserRole.CANDIDATE, count: '2' },
+          { bucket: '2026-07-01', role: UserRole.RECRUITER, count: '1' },
+        ]),
+      )
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-01', count: '1' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-02', count: '1' }]))
+      .mockReturnValueOnce(makeQb([{ bucket: '2026-07-02', count: '2' }]));
+
+    const result = await service.getGrowth({
+      from: '2026-07-01',
+      to: '2026-07-02',
+      bucket: 'day' as never,
+    });
+
+    expect(result.from).toBe('2026-07-01');
+    expect(result.to).toBe('2026-07-02');
+    expect(result.points).toHaveLength(2);
+    expect(result.points[0]).toMatchObject({
+      bucket: '2026-07-01',
+      registeredUsers: 3,
+      candidates: 2,
+      recruiters: 1,
+      bannedUsers: 1,
+    });
+    expect(result.points[1]).toMatchObject({
+      bucket: '2026-07-02',
+      suspendedUsers: 1,
+      archivedUsers: 2,
+    });
+  });
+
   it('bans user and revokes refresh tokens', async () => {
     const user = makeUser();
     userRepo.findOne.mockResolvedValue(user);

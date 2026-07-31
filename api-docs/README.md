@@ -84,6 +84,7 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/auth/change-password`
 - `GET /api/v1/admin/users`
 - `GET /api/v1/admin/users/overview`
+- `GET /api/v1/admin/users/growth`
 - `GET /api/v1/admin/users/:id`
 - `PATCH /api/v1/admin/users/:id/suspend`
 - `PATCH /api/v1/admin/users/:id/ban`
@@ -113,6 +114,7 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/companies/:id/request-verification-review`
 - `GET /api/v1/admin/companies`
 - `GET /api/v1/admin/companies/overview`
+- `GET /api/v1/admin/companies/growth`
 - `GET /api/v1/admin/companies/pending`
 - `GET /api/v1/admin/companies/:id/verification-documents`
 - `GET /api/v1/admin/companies/:id/verification-documents/:documentId/download-url`
@@ -138,6 +140,7 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/recruiter/jobs/:jobId/revisions/:revisionId/submit`
 - `GET /api/v1/admin/jobs`
 - `GET /api/v1/admin/jobs/overview`
+- `GET /api/v1/admin/jobs/growth`
 - `GET /api/v1/admin/jobs/review-queue`
 - `POST /api/v1/admin/jobs/:id/review`
 - `POST /api/v1/admin/jobs/:id/unpublish`
@@ -152,6 +155,10 @@ FE-facing business endpoints currently documented:
 - `POST /api/v1/applications/me/:id/withdraw`
 - `GET /api/v1/recruiter/dashboard/summary`
 - `GET /api/v1/admin/dashboard/overview`
+- `GET /api/v1/admin/dashboard/growth`
+- `GET /api/v1/admin/dashboard/users/growth`
+- `GET /api/v1/admin/dashboard/companies/growth`
+- `GET /api/v1/admin/dashboard/jobs/growth`
 - `GET /api/v1/recruiter/applications`
 - `GET /api/v1/recruiter/applications/stats`
 - `GET /api/v1/recruiter/applications/:id`

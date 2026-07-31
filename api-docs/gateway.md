@@ -6,42 +6,46 @@ Responsibility: public HTTP entrypoint, JWT decoding, identity header forwarding
 
 ## Routing map
 
-| Public path                           | Target service             |
-| ------------------------------------- | -------------------------- |
-| `/api/v1/auth/*`                      | `auth-service`             |
-| `/api/v1/users/*`                     | `auth-service`             |
-| `/api/v1/admin/users`                 | `auth-service`             |
-| `/api/v1/admin/users/*`               | `auth-service`             |
-| `/api/v1/candidates/*`                | `candidate-service`        |
-| `/api/v1/cvs/*`                       | `candidate-service`        |
-| `/api/v1/saved-jobs`                  | `candidate-service`        |
-| `/api/v1/saved-jobs/*`                | `candidate-service`        |
-| `/api/v1/companies`                   | `company-service`          |
-| `/api/v1/companies/*`                 | `company-service`          |
-| `/api/v1/admin/companies`             | `company-service`          |
-| `/api/v1/admin/companies/*`           | `company-service`          |
-| `/api/v1/hr-accounts`                 | `company-service`          |
-| `/api/v1/hr-accounts/*`               | `company-service`          |
-| `/api/v1/jobs`                        | `job-service`              |
-| `/api/v1/jobs/*`                      | `job-service`              |
-| `/api/v1/recruiter/jobs`              | `job-service`              |
-| `/api/v1/recruiter/jobs/*`            | `job-service`              |
-| `/api/v1/recruiter/dashboard/summary` | gateway composition        |
-| `/api/v1/admin/dashboard/overview`    | gateway composition        |
-| `/api/v1/admin/jobs`                  | `job-service`              |
-| `/api/v1/admin/jobs/*`                | `job-service`              |
-| `/api/v1/categories`                  | `job-service`              |
-| `/api/v1/categories/*`                | `job-service`              |
-| `/api/v1/applications`                | `application-service`      |
-| `/api/v1/applications/*`              | `application-service`      |
-| `/api/v1/recruiter/applications`      | `application-service`      |
-| `/api/v1/recruiter/applications/*`    | `application-service`      |
-| `/api/v1/cv-parsing/*`                | `cv-parsing-service`       |
-| `/api/v1/matching/*`                  | `matching-service`         |
-| `/api/v1/notifications`               | `notification-service`     |
-| `/api/v1/notifications/*`             | `notification-service`     |
-| `/api/v1/documents`                   | `document-storage-service` |
-| `/api/v1/documents/*`                 | `document-storage-service` |
+| Public path                                | Target service             |
+| ------------------------------------------ | -------------------------- |
+| `/api/v1/auth/*`                           | `auth-service`             |
+| `/api/v1/users/*`                          | `auth-service`             |
+| `/api/v1/admin/users`                      | `auth-service`             |
+| `/api/v1/admin/users/*`                    | `auth-service`             |
+| `/api/v1/candidates/*`                     | `candidate-service`        |
+| `/api/v1/cvs/*`                            | `candidate-service`        |
+| `/api/v1/saved-jobs`                       | `candidate-service`        |
+| `/api/v1/saved-jobs/*`                     | `candidate-service`        |
+| `/api/v1/companies`                        | `company-service`          |
+| `/api/v1/companies/*`                      | `company-service`          |
+| `/api/v1/admin/companies`                  | `company-service`          |
+| `/api/v1/admin/companies/*`                | `company-service`          |
+| `/api/v1/hr-accounts`                      | `company-service`          |
+| `/api/v1/hr-accounts/*`                    | `company-service`          |
+| `/api/v1/jobs`                             | `job-service`              |
+| `/api/v1/jobs/*`                           | `job-service`              |
+| `/api/v1/recruiter/jobs`                   | `job-service`              |
+| `/api/v1/recruiter/jobs/*`                 | `job-service`              |
+| `/api/v1/recruiter/dashboard/summary`      | gateway composition        |
+| `/api/v1/admin/dashboard/overview`         | gateway composition        |
+| `/api/v1/admin/dashboard/growth`           | gateway composition        |
+| `/api/v1/admin/dashboard/users/growth`     | gateway -> auth-service    |
+| `/api/v1/admin/dashboard/companies/growth` | gateway -> company-service |
+| `/api/v1/admin/dashboard/jobs/growth`      | gateway -> job-service     |
+| `/api/v1/admin/jobs`                       | `job-service`              |
+| `/api/v1/admin/jobs/*`                     | `job-service`              |
+| `/api/v1/categories`                       | `job-service`              |
+| `/api/v1/categories/*`                     | `job-service`              |
+| `/api/v1/applications`                     | `application-service`      |
+| `/api/v1/applications/*`                   | `application-service`      |
+| `/api/v1/recruiter/applications`           | `application-service`      |
+| `/api/v1/recruiter/applications/*`         | `application-service`      |
+| `/api/v1/cv-parsing/*`                     | `cv-parsing-service`       |
+| `/api/v1/matching/*`                       | `matching-service`         |
+| `/api/v1/notifications`                    | `notification-service`     |
+| `/api/v1/notifications/*`                  | `notification-service`     |
+| `/api/v1/documents`                        | `document-storage-service` |
+| `/api/v1/documents/*`                      | `document-storage-service` |
 
 ## Identity forwarding
 
@@ -240,6 +244,332 @@ FE notes:
 - If one upstream service is down, gateway returns `503 COMMON.SERVICE_UNAVAILABLE`.
 
 Errors: `401`, `403`, `503 COMMON.SERVICE_UNAVAILABLE`.
+
+### `GET /api/v1/admin/dashboard/growth`
+
+Summary: Return admin dashboard growth chart series by composing auth, company, and job service
+growth endpoints.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Query:
+
+| Field    | Type | Required | Note                                             |
+| -------- | ---- | -------- | ------------------------------------------------ |
+| `from`   | date | No       | Inclusive date. Defaults to 29 days before `to`. |
+| `to`     | date | No       | Inclusive date. Defaults to today.               |
+| `bucket` | enum | No       | `day` or `month`; default `day`.                 |
+
+Gateway calls:
+
+- `GET /api/v1/admin/users/growth`
+- `GET /api/v1/admin/companies/growth`
+- `GET /api/v1/admin/jobs/growth`
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "users": {
+      "from": "2026-07-01",
+      "to": "2026-07-31",
+      "bucket": "day",
+      "points": [
+        {
+          "bucket": "2026-07-01",
+          "registeredUsers": 12,
+          "candidates": 8,
+          "recruiters": 3,
+          "admins": 1,
+          "bannedUsers": 0,
+          "suspendedUsers": 1,
+          "archivedUsers": 0
+        }
+      ]
+    },
+    "companies": {
+      "from": "2026-07-01",
+      "to": "2026-07-31",
+      "bucket": "day",
+      "points": [
+        {
+          "bucket": "2026-07-01",
+          "registeredCompanies": 4,
+          "approvedCompanies": 2,
+          "rejectedCompanies": 1,
+          "suspendedCompanies": 0,
+          "reviewRequestedAgain": 1
+        }
+      ]
+    },
+    "jobs": {
+      "from": "2026-07-01",
+      "to": "2026-07-31",
+      "bucket": "day",
+      "points": [
+        {
+          "bucket": "2026-07-01",
+          "createdJobs": 8,
+          "publishedJobs": 5,
+          "unpublishedJobs": 1,
+          "closedJobs": 0,
+          "reviewedJobs": 4,
+          "rejectedJobs": 2,
+          "applicationsSubmitted": 12
+        }
+      ]
+    }
+  }
+}
+```
+
+FE notes:
+
+- Prefer the three split summary endpoints below for dashboard range totals, so one upstream
+  service failure does not block the other two chart sections.
+- Use this endpoint only when FE needs detailed line/bar chart points by day/month.
+- `recruiters` counts recruiter accounts, while `registeredCompanies` counts company profiles. They
+  are intentionally separate so FE can show the recruiter signup -> company created -> company
+  approved funnel.
+- Empty days/months are returned with zero values so FE can render continuous charts directly.
+
+### `GET /api/v1/admin/dashboard/users/growth`
+
+Summary: Return user growth totals for the selected date range.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Query:
+
+| Field  | Type | Required | Note                                             |
+| ------ | ---- | -------- | ------------------------------------------------ |
+| `from` | date | No       | Inclusive date. Defaults to 29 days before `to`. |
+| `to`   | date | No       | Inclusive date. Defaults to today.               |
+
+Gateway calls only:
+
+- `GET /api/v1/admin/users/growth`
+
+Implementation note: gateway requests one expanded date range from `comparisonFrom` to `to`, then
+sums the current and previous periods in memory.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "from": "2026-07-01",
+    "to": "2026-07-31",
+    "comparisonFrom": "2026-05-31",
+    "comparisonTo": "2026-06-30",
+    "registeredUsers": 120,
+    "candidates": 86,
+    "recruiters": 30,
+    "admins": 4,
+    "bannedUsers": 2,
+    "suspendedUsers": 5,
+    "archivedUsers": 1,
+    "growth": {
+      "registeredUsers": {
+        "previousValue": 100,
+        "change": 20,
+        "percent": 20
+      },
+      "candidates": {
+        "previousValue": 80,
+        "change": 6,
+        "percent": 7.5
+      },
+      "recruiters": {
+        "previousValue": 20,
+        "change": 10,
+        "percent": 50
+      },
+      "admins": {
+        "previousValue": 4,
+        "change": 0,
+        "percent": 0
+      },
+      "bannedUsers": {
+        "previousValue": 1,
+        "change": 1,
+        "percent": 100
+      },
+      "suspendedUsers": {
+        "previousValue": 0,
+        "change": 5,
+        "percent": null
+      },
+      "archivedUsers": {
+        "previousValue": 0,
+        "change": 1,
+        "percent": null
+      }
+    }
+  }
+}
+```
+
+### `GET /api/v1/admin/dashboard/companies/growth`
+
+Summary: Return company growth and verification totals for the selected date range.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Query:
+
+| Field  | Type | Required | Note                                             |
+| ------ | ---- | -------- | ------------------------------------------------ |
+| `from` | date | No       | Inclusive date. Defaults to 29 days before `to`. |
+| `to`   | date | No       | Inclusive date. Defaults to today.               |
+
+Gateway calls only:
+
+- `GET /api/v1/admin/companies/growth`
+
+Implementation note: gateway requests one expanded date range from `comparisonFrom` to `to`, then
+sums the current and previous periods in memory.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "from": "2026-07-01",
+    "to": "2026-07-31",
+    "comparisonFrom": "2026-05-31",
+    "comparisonTo": "2026-06-30",
+    "registeredCompanies": 22,
+    "approvedCompanies": 14,
+    "rejectedCompanies": 3,
+    "suspendedCompanies": 1,
+    "reviewRequestedAgain": 2,
+    "growth": {
+      "registeredCompanies": {
+        "previousValue": 18,
+        "change": 4,
+        "percent": 22.22
+      },
+      "approvedCompanies": {
+        "previousValue": 10,
+        "change": 4,
+        "percent": 40
+      },
+      "rejectedCompanies": {
+        "previousValue": 2,
+        "change": 1,
+        "percent": 50
+      },
+      "suspendedCompanies": {
+        "previousValue": 0,
+        "change": 1,
+        "percent": null
+      },
+      "reviewRequestedAgain": {
+        "previousValue": 1,
+        "change": 1,
+        "percent": 100
+      }
+    }
+  }
+}
+```
+
+### `GET /api/v1/admin/dashboard/jobs/growth`
+
+Summary: Return job lifecycle and application totals for the selected date range.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Query:
+
+| Field  | Type | Required | Note                                             |
+| ------ | ---- | -------- | ------------------------------------------------ |
+| `from` | date | No       | Inclusive date. Defaults to 29 days before `to`. |
+| `to`   | date | No       | Inclusive date. Defaults to today.               |
+
+Gateway calls only:
+
+- `GET /api/v1/admin/jobs/growth`
+
+Implementation note: gateway requests one expanded date range from `comparisonFrom` to `to`, then
+sums the current and previous periods in memory.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "from": "2026-07-01",
+    "to": "2026-07-31",
+    "comparisonFrom": "2026-05-31",
+    "comparisonTo": "2026-06-30",
+    "createdJobs": 64,
+    "publishedJobs": 41,
+    "unpublishedJobs": 8,
+    "closedJobs": 4,
+    "reviewedJobs": 47,
+    "rejectedJobs": 6,
+    "applicationsSubmitted": 230,
+    "growth": {
+      "createdJobs": {
+        "previousValue": 50,
+        "change": 14,
+        "percent": 28
+      },
+      "publishedJobs": {
+        "previousValue": 35,
+        "change": 6,
+        "percent": 17.14
+      },
+      "unpublishedJobs": {
+        "previousValue": 5,
+        "change": 3,
+        "percent": 60
+      },
+      "closedJobs": {
+        "previousValue": 2,
+        "change": 2,
+        "percent": 100
+      },
+      "reviewedJobs": {
+        "previousValue": 40,
+        "change": 7,
+        "percent": 17.5
+      },
+      "rejectedJobs": {
+        "previousValue": 4,
+        "change": 2,
+        "percent": 50
+      },
+      "applicationsSubmitted": {
+        "previousValue": 200,
+        "change": 30,
+        "percent": 15
+      }
+    }
+  }
+}
+```
+
+Errors: `400`, `401`, `403`, `422`, `503 COMMON.SERVICE_UNAVAILABLE`.
 
 ### `GET /api/v1/health`
 
