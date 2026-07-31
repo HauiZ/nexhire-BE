@@ -1,6 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EVENTS, QUEUES } from '@nexhire/shared';
+import { retryOrDeadLetter, setupReliableQueue } from '@nexhire/infra';
+import { EVENTS, QUEUES, unwrapEventData } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { ApplicationSubmittedPayload, JobService } from '../../job.service';
@@ -10,6 +11,8 @@ export class ApplicationEventsConsumer implements OnModuleInit, OnModuleDestroy 
   private readonly logger = new Logger(ApplicationEventsConsumer.name);
   private connection?: AmqpConnectionManager;
   private channel?: ChannelWrapper;
+  private exchange?: string;
+  private queueName?: string;
 
   constructor(
     private readonly configService: ConfigService,
@@ -29,6 +32,8 @@ export class ApplicationEventsConsumer implements OnModuleInit, OnModuleDestroy 
       return;
     }
 
+    this.exchange = exchange;
+    this.queueName = queueName;
     this.connection = connect([url]);
     this.connection.on('connect', () => this.logger.log('RabbitMQ consumer connected'));
     this.connection.on('disconnect', (event) =>
@@ -37,9 +42,11 @@ export class ApplicationEventsConsumer implements OnModuleInit, OnModuleDestroy 
 
     this.channel = this.connection.createChannel({
       setup: async (channel: ConfirmChannel) => {
-        await channel.assertExchange(exchange, 'topic', { durable: true });
-        await channel.assertQueue(queueName, { durable: true });
-        await channel.bindQueue(queueName, exchange, EVENTS.APPLICATION_SUBMITTED);
+        await setupReliableQueue(channel, {
+          exchange,
+          queueName,
+          bindingKeys: [EVENTS.APPLICATION_SUBMITTED],
+        });
         await channel.consume(queueName, (message) => this.consumeApplicationSubmitted(message), {
           noAck: false,
         });
@@ -58,13 +65,24 @@ export class ApplicationEventsConsumer implements OnModuleInit, OnModuleDestroy 
     }
 
     try {
-      const payload = JSON.parse(message.content.toString()) as ApplicationSubmittedPayload;
+      const payload = unwrapEventData(
+        JSON.parse(message.content.toString()) as ApplicationSubmittedPayload,
+      );
       this.assertPayload(payload);
       await this.jobService.recordApplicationSubmitted(payload);
       this.channel.ack(message);
     } catch (error) {
       this.logger.error('Failed to process application submitted event', error as Error);
-      this.channel.nack(message, false, false);
+      await this.retryOrRequeue(message);
+    }
+  }
+
+  private async retryOrRequeue(message: ConsumeMessage): Promise<void> {
+    try {
+      await retryOrDeadLetter(this.channel!, message, this.exchange!, this.queueName!);
+    } catch (error) {
+      this.logger.error('Failed to move application submitted event to retry/DLQ', error as Error);
+      this.channel!.nack(message, false, true);
     }
   }
 

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EventPublisher } from '@nexhire/infra';
-import { EVENTS } from '@nexhire/shared';
+import { createEventEnvelope, EVENTS } from '@nexhire/shared';
 
 export interface CvUploadedPayload {
   candidateId: string;
@@ -19,13 +19,22 @@ export class CvEventPublisher {
   constructor(private readonly eventPublisher: EventPublisher) {}
 
   async publishCvUploaded(payload: CvUploadedPayload): Promise<void> {
-    await this.eventPublisher.publish(EVENTS.CV_UPLOADED, payload).catch((error: unknown) => {
-      this.logger.error(
-        `Failed to publish CV uploaded event candidateCvId=${payload.candidateCvId}: ${
-          (error as Error).message
-        }`,
-      );
-      throw error;
-    });
+    await this.eventPublisher
+      .publish(
+        EVENTS.CV_UPLOADED,
+        createEventEnvelope({
+          eventType: EVENTS.CV_UPLOADED,
+          producer: 'candidate-service',
+          data: payload,
+        }),
+      )
+      .catch((error: unknown) => {
+        this.logger.error(
+          `Failed to publish CV uploaded event candidateCvId=${payload.candidateCvId}: ${
+            (error as Error).message
+          }`,
+        );
+        throw error;
+      });
   }
 }

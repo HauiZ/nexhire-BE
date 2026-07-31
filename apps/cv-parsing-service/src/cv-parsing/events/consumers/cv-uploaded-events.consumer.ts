@@ -1,6 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EVENTS, QUEUES } from '@nexhire/shared';
+import { retryOrDeadLetter, setupReliableQueue } from '@nexhire/infra';
+import { EVENTS, QUEUES, unwrapEventData } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { CvParsingService, CvUploadedEventPayload } from '../../cv-parsing.service';
@@ -10,6 +11,8 @@ export class CvUploadedEventsConsumer implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(CvUploadedEventsConsumer.name);
   private connection?: AmqpConnectionManager;
   private channel?: ChannelWrapper;
+  private exchange?: string;
+  private queueName?: string;
 
   constructor(
     private readonly configService: ConfigService,
@@ -29,6 +32,8 @@ export class CvUploadedEventsConsumer implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
+    this.exchange = exchange;
+    this.queueName = queueName;
     this.connection = connect([url]);
     this.connection.on('connect', () => this.logger.log('RabbitMQ consumer connected'));
     this.connection.on('disconnect', (event) =>
@@ -37,9 +42,11 @@ export class CvUploadedEventsConsumer implements OnModuleInit, OnModuleDestroy {
 
     this.channel = this.connection.createChannel({
       setup: async (channel: ConfirmChannel) => {
-        await channel.assertExchange(exchange, 'topic', { durable: true });
-        await channel.assertQueue(queueName, { durable: true });
-        await channel.bindQueue(queueName, exchange, EVENTS.CV_UPLOADED);
+        await setupReliableQueue(channel, {
+          exchange,
+          queueName,
+          bindingKeys: [EVENTS.CV_UPLOADED],
+        });
         await channel.consume(queueName, (message) => this.consume(message), { noAck: false });
       },
     });
@@ -61,12 +68,23 @@ export class CvUploadedEventsConsumer implements OnModuleInit, OnModuleDestroy {
       this.channel.ack(message);
     } catch (error) {
       this.logger.error('Failed to process CV uploaded event', error as Error);
-      this.channel.nack(message, false, false);
+      await this.retryOrRequeue(message);
+    }
+  }
+
+  private async retryOrRequeue(message: ConsumeMessage): Promise<void> {
+    try {
+      await retryOrDeadLetter(this.channel!, message, this.exchange!, this.queueName!);
+    } catch (error) {
+      this.logger.error('Failed to move CV uploaded event to retry/DLQ', error as Error);
+      this.channel!.nack(message, false, true);
     }
   }
 
   private parsePayload(message: ConsumeMessage): CvUploadedEventPayload {
-    const payload = JSON.parse(message.content.toString()) as CvUploadedEventPayload;
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as CvUploadedEventPayload,
+    );
     if (
       !payload.candidateId ||
       !payload.candidateUserId ||

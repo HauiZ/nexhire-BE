@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EventPublisher } from '@nexhire/infra';
-import { EVENTS, ParsedResume } from '@nexhire/shared';
+import { createEventEnvelope, EVENTS, ParsedResume } from '@nexhire/shared';
 
 export interface CvParsedPayload {
   parseRequestId: string;
@@ -41,13 +41,22 @@ export class CvParseEventPublisher {
     payload: unknown,
     candidateCvId: string,
   ): Promise<void> {
-    await this.eventPublisher.publish(routingKey, payload).catch((error: unknown) => {
-      this.logger.error(
-        `Failed to publish CV parse event routingKey=${routingKey} candidateCvId=${candidateCvId}: ${
-          (error as Error).message
-        }`,
-      );
-      throw error;
-    });
+    await this.eventPublisher
+      .publish(
+        routingKey,
+        createEventEnvelope({
+          eventType: routingKey,
+          producer: 'cv-parsing-service',
+          data: payload,
+        }),
+      )
+      .catch((error: unknown) => {
+        this.logger.error(
+          `Failed to publish CV parse event routingKey=${routingKey} candidateCvId=${candidateCvId}: ${
+            (error as Error).message
+          }`,
+        );
+        throw error;
+      });
   }
 }

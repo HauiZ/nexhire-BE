@@ -40,7 +40,69 @@ RabbitMQ uses a durable topic exchange from `rabbitmq.exchange` with dotted rout
 
 ## Delivery Notes
 
-Publishers use persistent messages on a confirm channel. Consumers use durable queues and manual `ack`/`nack`. Event handlers must be idempotent where the side effect can be repeated.
+Publishers use persistent messages on a confirm channel with a 5-second confirm timeout and 3 publish attempts. Consumers use durable queues and manual `ack`/`nack`. Event handlers must be idempotent where the side effect can be repeated.
+
+## Event Envelope
+
+Important bus flows should publish an envelope instead of a raw payload:
+
+```json
+{
+  "eventId": "uuid",
+  "eventType": "cv.uploaded",
+  "occurredAt": "2026-07-30T05:30:00.000Z",
+  "producer": "candidate-service",
+  "correlationId": "optional-request-id",
+  "causationId": "optional-parent-event-id",
+  "data": {}
+}
+```
+
+Shared helpers live in `packages/shared/src/interfaces/event-envelope.interface.ts`:
+
+- `EventEnvelope<T>`
+- `createEventEnvelope(...)`
+- `isEventEnvelope(...)`
+- `unwrapEventData(...)`
+
+Consumers should use `unwrapEventData(...)` while migrating so old raw messages and new envelope messages are both accepted.
+
+The first migrated envelope flow is:
+
+- `cv.uploaded`
+- `cv.parsed`
+- `cv.parse-failed`
+
+## Retry and DLQ Topology
+
+Important queues should use the shared RabbitMQ reliability helper from `packages/infra/src/messaging/rabbitmq-reliability.ts`.
+
+For a queue named `<queue>`, the helper creates:
+
+| Queue/exchange              | Purpose                                           |
+| --------------------------- | ------------------------------------------------- |
+| `<queue>`                   | Main durable consumer queue.                      |
+| `<queue>.retry`             | Durable retry queue with TTL delay.               |
+| `<queue>.dlq`               | Dead letter queue for messages that exceed retry. |
+| `<rabbitmq.exchange>`       | Main topic exchange.                              |
+| `<rabbitmq.exchange>.retry` | Retry topic exchange.                             |
+| `<rabbitmq.exchange>.dlx`   | Dead letter topic exchange.                       |
+
+Default behavior:
+
+- Retry delay: `10000ms`.
+- Max retries: `3`.
+- On handler failure below retry limit, message is acked from the main queue and republished to the retry exchange with `x-retry-count`.
+- The retry queue dead-letters the message back to the main exchange after TTL.
+- After max retries, the consumer publishes the message to the DLX with `x-dead-letter-reason=retry-limit-exceeded`, then acks the original message.
+
+The main queue is declared as durable without adding new queue arguments. This keeps the rollout compatible with queues that already exist in local/dev RabbitMQ.
+
+Currently upgraded queues:
+
+- `cv-parsing.cv-uploaded`
+- `candidate.cv-parsed`
+- `job.application-submitted`
 
 ## Telegram Queue Backlog Alerts
 
@@ -59,14 +121,14 @@ Required environment variables:
 
 Optional environment variables:
 
-| Env                                | Default             | Purpose                                                               |
-| ---------------------------------- | ------------------- | --------------------------------------------------------------------- |
-| `QUEUE_MONITOR_ALERT_THRESHOLD`    | `100`               | Alert when `messages >= threshold`.                                   |
-| `QUEUE_MONITOR_INTERVAL_MS`        | `60000`             | Poll interval.                                                        |
-| `QUEUE_MONITOR_ALERT_COOLDOWN_MS`  | `900000`            | Per-queue cooldown to avoid alert spam.                               |
-| `QUEUE_MONITOR_QUEUES`             | all known queues    | Comma-separated queue override. Empty means monitor all known queues. |
-| `QUEUE_MONITOR_INCLUDE_TEST_QUEUE` | non-production only | Include `QUEUE_MONITOR_TEST_QUEUE` in watched queues for demos.       |
-| `RABBITMQ_MANAGEMENT_VHOST`        | `/`                 | RabbitMQ vhost.                                                       |
+| Env                                | Default             | Purpose                                                                |
+| ---------------------------------- | ------------------- | ---------------------------------------------------------------------- |
+| `QUEUE_MONITOR_ALERT_THRESHOLD`    | `100`               | Alert when `messages >= threshold`.                                    |
+| `QUEUE_MONITOR_INTERVAL_MS`        | `60000`             | Poll interval.                                                         |
+| `QUEUE_MONITOR_ALERT_COOLDOWN_MS`  | `900000`            | Per-queue cooldown to avoid alert spam.                                |
+| `QUEUE_MONITOR_QUEUES`             | all RabbitMQ queues | Comma-separated queue override. Empty means query all queues in vhost. |
+| `QUEUE_MONITOR_INCLUDE_TEST_QUEUE` | non-production only | Include `QUEUE_MONITOR_TEST_QUEUE` in watched queues for demos.        |
+| `RABBITMQ_MANAGEMENT_VHOST`        | `/`                 | RabbitMQ vhost.                                                        |
 
 Example:
 
@@ -88,7 +150,7 @@ Monitor only selected queues:
 QUEUE_MONITOR_QUEUES=cv-parsing.cv-uploaded,candidate.cv-parsed,job.application-submitted
 ```
 
-Monitor all known queues:
+Monitor all queues in the RabbitMQ vhost:
 
 ```env
 QUEUE_MONITOR_QUEUES=
@@ -122,7 +184,12 @@ QUEUE_MONITOR_TEST_AUTO_CLEANUP_DELAY_MS=15000
 QUEUE_MONITOR_TEST_DELETE_QUEUE_DELAY_MS=15000
 ```
 
-Start or restart `notification-service`, then run the script. In local/dev, the monitor includes `QUEUE_MONITOR_TEST_QUEUE` automatically, reads the real RabbitMQ queue depth, and sends a Telegram backlog alert.
+Start or restart `notification-service`, then run the script. When `QUEUE_MONITOR_QUEUES=` is empty, the monitor queries all real queues in the RabbitMQ vhost, so the generated test queue is watched automatically.
+
+The monitor now also sends risk alerts for:
+
+- Any `.dlq` queue with one or more messages.
+- Any non-DLQ queue with waiting messages and `consumers=0`.
 
 The script auto-cleans by default:
 

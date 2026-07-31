@@ -12,6 +12,7 @@ export * from './redis/redis.module';
 // ── messaging (RabbitMQ event bus) ──
 export * from './messaging/event-publisher.service';
 export * from './messaging/event-bus.module';
+export * from './messaging/rabbitmq-reliability';
 
 // ── storage (MinIO) ──
 export * from './storage/storage.service';

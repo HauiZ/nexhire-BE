@@ -1,6 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EVENTS, ParsedResume, QUEUES } from '@nexhire/shared';
+import { retryOrDeadLetter, setupReliableQueue } from '@nexhire/infra';
+import { EVENTS, ParsedResume, QUEUES, unwrapEventData } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { CandidateService } from '../../candidate.service';
@@ -22,6 +23,8 @@ export class CvParseEventsConsumer implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(CvParseEventsConsumer.name);
   private connection?: AmqpConnectionManager;
   private channel?: ChannelWrapper;
+  private exchange?: string;
+  private queueName?: string;
 
   constructor(
     private readonly configService: ConfigService,
@@ -41,6 +44,8 @@ export class CvParseEventsConsumer implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
+    this.exchange = exchange;
+    this.queueName = queueName;
     this.connection = connect([url]);
     this.connection.on('connect', () => this.logger.log('RabbitMQ consumer connected'));
     this.connection.on('disconnect', (event) =>
@@ -49,10 +54,11 @@ export class CvParseEventsConsumer implements OnModuleInit, OnModuleDestroy {
 
     this.channel = this.connection.createChannel({
       setup: async (channel: ConfirmChannel) => {
-        await channel.assertExchange(exchange, 'topic', { durable: true });
-        await channel.assertQueue(queueName, { durable: true });
-        await channel.bindQueue(queueName, exchange, EVENTS.CV_PARSED);
-        await channel.bindQueue(queueName, exchange, EVENTS.CV_PARSE_FAILED);
+        await setupReliableQueue(channel, {
+          exchange,
+          queueName,
+          bindingKeys: [EVENTS.CV_PARSED, EVENTS.CV_PARSE_FAILED],
+        });
         await channel.consume(queueName, (message) => this.consume(message), { noAck: false });
       },
     });
@@ -87,12 +93,21 @@ export class CvParseEventsConsumer implements OnModuleInit, OnModuleDestroy {
       this.channel.ack(message);
     } catch (error) {
       this.logger.error('Failed to process CV parse result event', error as Error);
-      this.channel.nack(message, false, false);
+      await this.retryOrRequeue(message);
+    }
+  }
+
+  private async retryOrRequeue(message: ConsumeMessage): Promise<void> {
+    try {
+      await retryOrDeadLetter(this.channel!, message, this.exchange!, this.queueName!);
+    } catch (error) {
+      this.logger.error('Failed to move CV parse result event to retry/DLQ', error as Error);
+      this.channel!.nack(message, false, true);
     }
   }
 
   private parseParsedPayload(message: ConsumeMessage): CvParsedPayload {
-    const payload = JSON.parse(message.content.toString()) as CvParsedPayload;
+    const payload = unwrapEventData(JSON.parse(message.content.toString()) as CvParsedPayload);
     if (!payload.candidateId || !payload.candidateCvId || !payload.normalizedPayload) {
       throw new Error('Invalid CV parsed payload');
     }
@@ -100,7 +115,7 @@ export class CvParseEventsConsumer implements OnModuleInit, OnModuleDestroy {
   }
 
   private parseFailedPayload(message: ConsumeMessage): CvParseFailedPayload {
-    const payload = JSON.parse(message.content.toString()) as CvParseFailedPayload;
+    const payload = unwrapEventData(JSON.parse(message.content.toString()) as CvParseFailedPayload);
     if (!payload.candidateId || !payload.candidateCvId) {
       throw new Error('Invalid CV parse failed payload');
     }

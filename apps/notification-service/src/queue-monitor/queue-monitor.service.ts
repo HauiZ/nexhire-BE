@@ -84,9 +84,13 @@ export class QueueMonitorService implements OnModuleInit, OnModuleDestroy {
 
   private async checkQueueSnapshot(queue: RabbitQueueResponse): Promise<void> {
     const threshold = this.alertThreshold();
-    if (queue.messages >= threshold) {
+    const shouldAlert =
+      queue.messages >= threshold ||
+      this.hasDeadLetterBacklog(queue) ||
+      this.hasNoConsumerRisk(queue);
+    if (shouldAlert) {
       this.logger.warn(
-        `RabbitMQ queue backlog detected queue=${queue.name} messages=${queue.messages} threshold=${threshold}`,
+        `RabbitMQ queue risk detected queue=${queue.name} messages=${queue.messages} consumers=${queue.consumers} threshold=${threshold}`,
       );
       await this.alertBacklog(queue);
       return;
@@ -125,6 +129,7 @@ export class QueueMonitorService implements OnModuleInit, OnModuleDestroy {
       cooldownMs: this.alertCooldownMs(),
       vhost: this.vhost(),
       managementUrl: this.managementUrl(),
+      extraNote: this.alertNote(queue),
     });
   }
 
@@ -215,6 +220,24 @@ export class QueueMonitorService implements OnModuleInit, OnModuleDestroy {
     }
 
     return [...new Set(queues)];
+  }
+
+  private hasDeadLetterBacklog(queue: RabbitQueueResponse): boolean {
+    return queue.name.endsWith('.dlq') && queue.messages > 0;
+  }
+
+  private hasNoConsumerRisk(queue: RabbitQueueResponse): boolean {
+    return !queue.name.endsWith('.dlq') && queue.messages > 0 && queue.consumers === 0;
+  }
+
+  private alertNote(queue: RabbitQueueResponse): string | undefined {
+    if (this.hasDeadLetterBacklog(queue)) {
+      return 'DLQ has failed events. Inspect payloads and decide whether to fix/reprocess manually.';
+    }
+    if (this.hasNoConsumerRisk(queue)) {
+      return 'Queue has waiting messages but no active consumer. Check whether the owning service is running.';
+    }
+    return undefined;
   }
 
   private startupQueueDescription(): string {
