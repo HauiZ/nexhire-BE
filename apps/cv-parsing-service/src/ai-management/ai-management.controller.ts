@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put } from '@nestjs/common';
+import { Body, Controller, Get, Put, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import {
@@ -12,6 +12,8 @@ import {
 
 import { AiManagementService } from './ai-management.service';
 import { AiConfigResponseDto } from './dto/ai-config-response.dto';
+import { AiUsageLogQueryDto } from './dto/ai-usage-log-query.dto';
+import { AiUsageLogResponseDto } from './dto/ai-usage-log-response.dto';
 import { UpdateAiConfigDto } from './dto/update-ai-config.dto';
 
 @ApiTags('admin-ai-configs')
@@ -34,6 +36,14 @@ export class AiManagementController {
   @ApiErrorResponses({ statuses: [401, 403, 500] })
   getUsageSummary() {
     return this.aiManagementService.getUsageSummary();
+  }
+
+  @Get('usage-logs')
+  @ApiOperation({ summary: 'List AI usage logs for admin auditing' })
+  @ApiSuccessResponse(AiUsageLogResponseDto, { isArray: true })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500] })
+  getUsageLogs(@Query() query: AiUsageLogQueryDto) {
+    return this.aiManagementService.getUsageLogs(query);
   }
 
   @Put()

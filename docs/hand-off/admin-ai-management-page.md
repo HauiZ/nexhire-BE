@@ -172,7 +172,68 @@ UI notes:
 failedRequests / totalRequests
 ```
 
-## 5. Suggested Layout
+## 5. Usage Logs Table
+
+```http
+GET /admin/ai-configs/usage-logs?page=1&limit=20&provider=OPENAI&status=FAILED
+```
+
+Query filters:
+
+| Field           | Note                           |
+| --------------- | ------------------------------ |
+| `page`, `limit` | Pagination, default `1/20`     |
+| `provider`      | `GEMINI` or `OPENAI`           |
+| `model`         | Exact model id, e.g. `gpt-5.5` |
+| `status`        | `SUCCEEDED` or `FAILED`        |
+| `candidateCvId` | Filter by candidate CV id      |
+| `from`, `to`    | ISO date range on `createdAt`  |
+
+Response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "usage-log-id",
+      "parseRequestId": "parse-request-id",
+      "candidateId": "candidate-id",
+      "candidateCvId": "candidate-cv-id",
+      "context": "PROFILE_UPDATE",
+      "provider": "OPENAI",
+      "model": "gpt-5.5",
+      "operation": "CV_PARSE",
+      "status": "FAILED",
+      "latencyMs": 19123,
+      "inputTokens": null,
+      "outputTokens": null,
+      "totalTokens": null,
+      "estimatedCostUsd": null,
+      "errorCode": "AI.SERVICE_UNAVAILABLE",
+      "errorMessage": "OpenAI resume parser is temporarily unavailable",
+      "metadata": null,
+      "createdAt": "2026-08-01T10:00:00.000Z"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 1
+  }
+}
+```
+
+UI notes:
+
+- Dung table nay de admin xem tung AI request cu the.
+- Nen co quick filters: provider, model, status, date range.
+- Khi `status=FAILED`, show `errorCode` va short `errorMessage`.
+- Khi `status=SUCCEEDED`, show tokens, latency, estimated cost.
+- Neu `data=[]`, show empty state theo filter hien tai, khong coi la loi.
+- `candidateCvId` va `parseRequestId` nen hien dang copyable text.
+
+## 6. Suggested Layout
 
 Header:
 
@@ -209,7 +270,15 @@ Small summary cards:
 - Total tokens
 - Estimated cost
 
-## 6. Important Copy
+Loading/error states:
+
+- Load config va usage summary song song khi vao page.
+- Usage logs co the load sau, theo table pagination/filter.
+- Neu `GET /admin/ai-configs` loi thi disable form save.
+- Neu update config thanh cong, refresh lai config va show toast success.
+- Neu usage summary/logs loi, chi show error trong khu usage, khong khoa runtime config form.
+
+## 7. Important Copy
 
 Use neutral admin wording:
 
@@ -217,7 +286,7 @@ Use neutral admin wording:
 - `API keys are configured on the backend environment and are not visible here.`
 - `Cost is estimated from configured model pricing and may differ from provider billing.`
 
-## 7. Test Checklist
+## 8. Test Checklist
 
 - Login as admin and open page.
 - `GET /admin/ai-configs` loads current config.
@@ -225,4 +294,5 @@ Use neutral admin wording:
 - Refresh page, selected provider/model still persist.
 - Upload a candidate CV with parse enabled.
 - `GET /admin/ai-configs/usage-summary` shows request count/token/cost increasing.
+- `GET /admin/ai-configs/usage-logs` shows the latest request row.
 - Switch back to `GEMINI` and confirm future parse requests use Gemini.

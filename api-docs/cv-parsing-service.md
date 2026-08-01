@@ -282,3 +282,55 @@ Notes:
 - Token fields are nullable at row level because provider-compatible endpoints may not return usage metadata.
 - `gpt-5.5` cost is estimated from the current compatible-provider rate: input `$5 / 1M tokens`, output `$30 / 1M tokens`, multiplier `0.9`.
 - Other models keep `estimatedCostUsd = null` until pricing is configured.
+
+### `GET /api/v1/admin/ai-configs/usage-logs`
+
+Summary: List individual AI usage rows for admin audit/debug tables.
+
+Query:
+
+| Field           | Type | Required | Note                                |
+| --------------- | ---- | -------- | ----------------------------------- |
+| `page`          | int  | No       | Default `1`                         |
+| `limit`         | int  | No       | Default `20`, max `100`             |
+| `provider`      | enum | No       | `GEMINI` or `OPENAI`                |
+| `model`         | text | No       | Exact model id, e.g. `gpt-5.5`      |
+| `status`        | enum | No       | `SUCCEEDED` or `FAILED`             |
+| `candidateCvId` | uuid | No       | Filter by uploaded candidate CV row |
+| `from`          | ISO  | No       | Inclusive `createdAt` lower bound   |
+| `to`            | ISO  | No       | Inclusive `createdAt` upper bound   |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "usage-log-id",
+      "parseRequestId": "parse-request-id",
+      "candidateId": "candidate-id",
+      "candidateCvId": "candidate-cv-id",
+      "context": "PROFILE_UPDATE",
+      "provider": "OPENAI",
+      "model": "gpt-5.5",
+      "operation": "CV_PARSE",
+      "status": "SUCCEEDED",
+      "latencyMs": 19123,
+      "inputTokens": 6976,
+      "outputTokens": 758,
+      "totalTokens": 7734,
+      "estimatedCostUsd": "0.051858",
+      "errorCode": null,
+      "errorMessage": null,
+      "metadata": null,
+      "createdAt": "2026-08-01T10:00:00.000Z"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 1
+  }
+}
+```

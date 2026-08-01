@@ -182,6 +182,62 @@ describe('AiManagementService', () => {
     );
   });
 
+  it('lists AI usage logs with filters and pagination', async () => {
+    const usageLog = {
+      id: 'usage-1',
+      parseRequestId: 'parse-request-1',
+      candidateId: 'candidate-1',
+      candidateCvId: 'cv-1',
+      context: CvParseContext.PROFILE_UPDATE,
+      provider: CvParseProvider.OPENAI,
+      model: 'gpt-5.5',
+      operation: 'CV_PARSE',
+      status: 'FAILED',
+      latencyMs: 1200,
+      inputTokens: 100,
+      outputTokens: 20,
+      totalTokens: 120,
+      estimatedCostUsd: '0.001000',
+      errorCode: 'AI.SERVICE_UNAVAILABLE',
+      errorMessage: 'provider unavailable',
+      metadata: null,
+      createdAt: new Date('2026-08-01T00:00:00.000Z'),
+    };
+    const queryBuilder = {
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      getManyAndCount: jest.fn().mockResolvedValue([[usageLog], 1]),
+    };
+    usageRepo.createQueryBuilder.mockReturnValue(queryBuilder);
+
+    const result = await service.getUsageLogs({
+      page: 2,
+      limit: 10,
+      provider: CvParseProvider.OPENAI,
+      model: 'gpt-5.5',
+      status: 'FAILED',
+      candidateCvId: 'cv-1',
+      from: '2026-08-01T00:00:00.000Z',
+      to: '2026-08-01T23:59:59.999Z',
+      skip: 10,
+    } as never);
+
+    expect(queryBuilder.andWhere).toHaveBeenCalledWith('usage.provider = :provider', {
+      provider: CvParseProvider.OPENAI,
+    });
+    expect(queryBuilder.andWhere).toHaveBeenCalledWith('usage.status = :status', {
+      status: 'FAILED',
+    });
+    expect(queryBuilder.skip).toHaveBeenCalledWith(10);
+    expect(queryBuilder.take).toHaveBeenCalledWith(10);
+    expect(result).toEqual({
+      data: [expect.objectContaining({ id: 'usage-1', status: 'FAILED' })],
+      meta: { page: 2, limit: 10, total: 1 },
+    });
+  });
+
   it('rejects unsupported Gemini models', async () => {
     await expect(
       service.updateConfig({ geminiModel: 'image-model' }, 'admin-1'),

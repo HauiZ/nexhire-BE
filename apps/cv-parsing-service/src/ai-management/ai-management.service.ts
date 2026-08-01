@@ -3,10 +3,12 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { ERROR_CODES } from '@nexhire/shared';
+import { ERROR_CODES, paginated } from '@nexhire/shared';
 
 import { AI_CONFIG_KEYS, AI_MODEL_PRICING, SUPPORTED_AI_MODELS } from './ai-models.constant';
 import { AiConfigResponseDto, CurrentAiConfigDto } from './dto/ai-config-response.dto';
+import { AiUsageLogQueryDto } from './dto/ai-usage-log-query.dto';
+import { AiUsageLogResponseDto } from './dto/ai-usage-log-response.dto';
 import { UpdateAiConfigDto } from './dto/update-ai-config.dto';
 import { AiUsageLog } from './entities/ai-usage-log.entity';
 import { AiSystemConfig } from './entities/ai-system-config.entity';
@@ -195,6 +197,44 @@ export class AiManagementService {
     }));
   }
 
+  async getUsageLogs(query: AiUsageLogQueryDto) {
+    const builder = this.usageRepo.createQueryBuilder('usage');
+
+    if (query.provider) {
+      builder.andWhere('usage.provider = :provider', { provider: query.provider });
+    }
+    if (query.model?.trim()) {
+      builder.andWhere('usage.model = :model', { model: query.model.trim() });
+    }
+    if (query.status) {
+      builder.andWhere('usage.status = :status', { status: query.status });
+    }
+    if (query.candidateCvId?.trim()) {
+      builder.andWhere('usage.candidateCvId = :candidateCvId', {
+        candidateCvId: query.candidateCvId.trim(),
+      });
+    }
+    if (query.from) {
+      builder.andWhere('usage.createdAt >= :from', { from: new Date(query.from) });
+    }
+    if (query.to) {
+      builder.andWhere('usage.createdAt <= :to', { to: new Date(query.to) });
+    }
+
+    const [items, total] = await builder
+      .orderBy('usage.createdAt', 'DESC')
+      .skip(query.skip)
+      .take(query.limit)
+      .getManyAndCount();
+
+    return paginated(
+      items.map((item) => this.mapUsageLog(item)),
+      total,
+      query.page,
+      query.limit,
+    );
+  }
+
   private async getCurrentConfig(): Promise<CurrentAiConfigDto> {
     const runtime = await this.getRuntimeConfig();
     const rows = await this.configRepo.find();
@@ -204,6 +244,29 @@ export class AiManagementService {
       ...runtime,
       updatedByUserId: latestRow?.updatedByUserId ?? null,
       updatedAt: latestRow?.updatedAt ?? null,
+    };
+  }
+
+  private mapUsageLog(log: AiUsageLog): AiUsageLogResponseDto {
+    return {
+      id: log.id,
+      parseRequestId: log.parseRequestId,
+      candidateId: log.candidateId,
+      candidateCvId: log.candidateCvId,
+      context: log.context,
+      provider: log.provider,
+      model: log.model,
+      operation: log.operation,
+      status: log.status,
+      latencyMs: log.latencyMs,
+      inputTokens: log.inputTokens,
+      outputTokens: log.outputTokens,
+      totalTokens: log.totalTokens,
+      estimatedCostUsd: log.estimatedCostUsd,
+      errorCode: log.errorCode,
+      errorMessage: log.errorMessage,
+      metadata: log.metadata,
+      createdAt: log.createdAt,
     };
   }
 
