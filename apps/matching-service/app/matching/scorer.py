@@ -6,12 +6,12 @@ from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
 
 
 DEFAULT_WEIGHTS = {
-    "skill": 0.35,
+    "skill": 0.30,
     "experience": 0.25,
     "education": 0.1,
-    "location": 0.1,
-    "level": 0.1,
-    "semantic": 0.1,
+    "location": 0.075,
+    "level": 0.075,
+    "semantic": 0.20,
 }
 
 LEVEL_YEARS = {
@@ -88,12 +88,60 @@ class MatchingScorer:
         self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot
     ) -> tuple[float, list[str], list[str]]:
         required = [normalize_skill(skill) for skill in job.skills if normalize_skill(skill)]
-        candidate_skills = {normalize_skill(skill.name) for skill in candidate.skills if normalize_skill(skill.name)}
+        candidate_skills = [normalize_skill(skill.name) for skill in candidate.skills if normalize_skill(skill.name)]
         if not required:
             return 70, [], []
-        matched = [skill for skill in required if skill in candidate_skills]
-        missing = [skill for skill in required if skill not in candidate_skills]
-        return (len(matched) / len(required)) * 100, matched, missing
+
+        matched = []
+        missing = []
+        score_units = []
+
+        for skill in required:
+            match_score, matched_label = self._best_skill_match(skill, candidate_skills)
+            score_units.append(match_score)
+            if match_score >= 0.65:
+                matched.append(matched_label or skill)
+            else:
+                missing.append(skill)
+
+        return (sum(score_units) / len(required)) * 100, matched, missing
+
+    def _best_skill_match(self, required_skill: str, candidate_skills: list[str]) -> tuple[float, str | None]:
+        if not candidate_skills:
+            return 0, None
+        if required_skill in candidate_skills:
+            return 1, required_skill
+
+        best_score = 0.0
+        best_skill = None
+        for candidate_skill in candidate_skills:
+            semantic_score = self.semantic_scorer.score_text_pair(required_skill, candidate_skill)
+            if semantic_score is None:
+                semantic_score = self._token_overlap_score(required_skill, candidate_skill)
+            weighted_score = self._semantic_skill_weight(semantic_score)
+            if weighted_score > best_score:
+                best_score = weighted_score
+                best_skill = candidate_skill
+
+        if best_score >= 0.65 and best_skill:
+            return best_score, f"{required_skill} ~ {best_skill}"
+        return best_score, None
+
+    def _token_overlap_score(self, left: str, right: str) -> float:
+        left_terms = set(left.split())
+        right_terms = set(right.split())
+        if not left_terms or not right_terms:
+            return 0
+        return (len(left_terms & right_terms) / max(len(left_terms), len(right_terms))) * 100
+
+    def _semantic_skill_weight(self, semantic_score: float) -> float:
+        if semantic_score >= 85:
+            return 0.9
+        if semantic_score >= 75:
+            return 0.75
+        if semantic_score >= 65:
+            return 0.5
+        return 0
 
     def _score_experience(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot) -> float:
         required_years = LEVEL_YEARS.get(job.experienceLevel.upper(), 1)
