@@ -18,6 +18,7 @@
     "matching:venv": "node scripts/matching-service.js venv",
     "matching:install": "node scripts/matching-service.js install",
     "matching:migrate": "node scripts/matching-service.js migrate",
+    "matching:test": "node scripts/matching-service.js test",
     "start:matching-service": "node scripts/matching-service.js start",
     "start:notification-service": "nest start notification-service --watch",
     "start:document-storage-service": "nest start document-storage-service --watch",

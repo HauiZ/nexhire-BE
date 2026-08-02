@@ -8,6 +8,8 @@ const venvDir = path.join(serviceDir, '.venv');
 const binDir = process.platform === 'win32' ? 'Scripts' : 'bin';
 const python = path.join(venvDir, binDir, process.platform === 'win32' ? 'python.exe' : 'python');
 const uvicorn = path.join(venvDir, binDir, process.platform === 'win32' ? 'uvicorn.exe' : 'uvicorn');
+const fs = require('node:fs');
+const testPython = fs.existsSync(python) ? python : 'python';
 
 function run(cmd, args, options = {}) {
   const result = spawnSync(cmd, args, {
@@ -33,9 +35,15 @@ if (command === 'migrate') {
   });
 }
 
+if (command === 'test') {
+  run(testPython, ['-m', 'unittest', 'discover', '-s', path.join(serviceDir, 'tests')], {
+    env: { ...process.env, PYTHONPATH: serviceDir },
+  });
+}
+
 if (command === 'start') {
   run(uvicorn, ['app.main:app', '--app-dir', serviceDir, '--reload', '--host', '0.0.0.0', '--port', '3007']);
 }
 
-console.error('Usage: node scripts/matching-service.js <venv|install|migrate|start>');
+console.error('Usage: node scripts/matching-service.js <venv|install|migrate|test|start>');
 process.exit(1);
