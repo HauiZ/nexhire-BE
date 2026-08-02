@@ -67,6 +67,14 @@ class SemanticScorer:
 
         job_text = normalize_text(build_job_text(job))
         candidate_text = normalize_text(build_candidate_text(candidate))
+        return self.score_text_pair(job_text, candidate_text)
+
+    def score_text_pair(self, left: str, right: str) -> float | None:
+        if not self.enabled:
+            return None
+
+        job_text = normalize_text(left)
+        candidate_text = normalize_text(right)
         if not job_text or not candidate_text:
             return None
 

@@ -76,6 +76,74 @@ class MatchingScorerTest(unittest.TestCase):
         self.assertEqual(score.explanation.priority, "HIGH")
         self.assertEqual(score.explanation.riskFlags, [])
 
+    def test_non_it_candidate_can_be_shortlisted(self):
+        score = MatchingScorer().score(
+            job_snapshot(
+                title="Marketing Executive",
+                description="Plan digital campaigns, manage content calendars, and optimize conversion.",
+                requirements="Content marketing, campaign planning, social media, analytics",
+                skills=["Content Marketing", "Campaign Planning", "Social Media", "Analytics"],
+                experienceLevel="JUNIOR",
+                workingType="HYBRID",
+                location="Ho Chi Minh",
+            ),
+            candidate_snapshot(
+                summary="Marketing executive with experience planning campaigns and managing social media content.",
+                skills=[
+                    CandidateSkillSnapshot(name="Content Marketing"),
+                    CandidateSkillSnapshot(name="Campaign Planning"),
+                    CandidateSkillSnapshot(name="Social Media"),
+                    CandidateSkillSnapshot(name="Analytics"),
+                ],
+                experiences=[
+                    CandidateExperienceSnapshot(
+                        title="Marketing Executive",
+                        startYear=date.today().year - 2,
+                        startMonth=1,
+                        isCurrent=True,
+                    )
+                ],
+                educations=[
+                    CandidateEducationSnapshot(degree="Bachelor", fieldOfStudy="Marketing")
+                ],
+            ),
+        )
+
+        self.assertGreaterEqual(score.totalScore, 85)
+        self.assertEqual(score.explanation.decision, "SHORTLIST")
+        self.assertEqual(score.explanation.priority, "HIGH")
+
+    def test_semantic_skill_match_gives_partial_credit(self):
+        os.environ["MATCHING_ENABLE_SEMANTIC_SCORING"] = "true"
+        get_settings.cache_clear()
+
+        scorer = MatchingScorer()
+        with patch.object(scorer.semantic_scorer, "score", return_value=75), patch.object(
+            scorer.semantic_scorer,
+            "score_text_pair",
+            side_effect=lambda left, right: 88 if left == "human resources" and right == "talent acquisition" else 0,
+        ):
+            score = scorer.score(
+                job_snapshot(
+                    title="HR Executive",
+                    description="Manage employee lifecycle and recruitment operations.",
+                    requirements="Human resources, employee relations, payroll",
+                    skills=["Human Resources", "Employee Relations", "Payroll"],
+                    experienceLevel="JUNIOR",
+                ),
+                candidate_snapshot(
+                    summary="Talent acquisition specialist supporting hiring and people operations.",
+                    skills=[
+                        CandidateSkillSnapshot(name="Talent Acquisition"),
+                        CandidateSkillSnapshot(name="Employee Relations"),
+                    ],
+                ),
+            )
+
+        self.assertGreater(score.skillScore, 50)
+        self.assertIn("human resources ~ talent acquisition", score.explanation.matchedSkills)
+        self.assertIn("payroll", score.explanation.missingSkills)
+
     def test_weak_candidate_is_rejected_with_risk_flags(self):
         score = MatchingScorer().score(
             job_snapshot(experienceLevel="SENIOR", workingType="ONSITE", location="Ha Noi"),
