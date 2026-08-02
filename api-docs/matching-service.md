@@ -124,11 +124,24 @@ Matching-service no longer consumes `application.submitted` directly, to avoid s
     "missingSkills": ["redis"],
     "strongSignals": ["Candidate matches most required skills"],
     "weakSignals": [],
-    "recommendation": "GOOD_FIT"
+    "recommendation": "GOOD_FIT",
+    "decision": "REVIEW_MANUALLY",
+    "priority": "HIGH",
+    "summary": "Candidate looks promising, but recruiter should verify gaps before shortlisting.",
+    "nextActions": ["Review CV details before shortlisting"],
+    "riskFlags": []
   },
   "matchedAt": "2026-07-31T00:00:01.000Z"
 }
 ```
+
+Decision support fields are recruiter-facing hints:
+
+- `recommendation`: score band, useful for filtering;
+- `decision`: suggested recruiter action: `SHORTLIST`, `REVIEW_MANUALLY`, `KEEP_WARM`, or `REJECT`;
+- `priority`: queue priority hint: `HIGH`, `NORMAL`, or `LOW`;
+- `nextActions`: concrete follow-up checks;
+- `riskFlags`: machine-readable reasons that need attention.
 
 ## Internal Snapshot Dependencies
 

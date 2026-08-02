@@ -174,10 +174,91 @@ class MatchingScorer:
         recommendation = (
             "STRONG_FIT" if total >= 85 else "GOOD_FIT" if total >= 70 else "PARTIAL_FIT" if total >= 50 else "LOW_FIT"
         )
+        decision, priority = self._decision(total, skill_score, experience_score, semantic_score)
+        next_actions = self._next_actions(decision, missing_skills, skill_score, experience_score, semantic_score)
+        risk_flags = self._risk_flags(missing_skills, skill_score, experience_score, education_score, semantic_score)
         return MatchExplanation(
             matchedSkills=matched_skills,
             missingSkills=missing_skills,
             strongSignals=strong,
             weakSignals=weak,
             recommendation=recommendation,
+            decision=decision,
+            priority=priority,
+            summary=self._summary(recommendation, decision, missing_skills),
+            nextActions=next_actions,
+            riskFlags=risk_flags,
         )
+
+    def _decision(
+        self,
+        total: float,
+        skill_score: float,
+        experience_score: float,
+        semantic_score: float,
+    ) -> tuple[str, str]:
+        if total >= 85 and skill_score >= 70 and experience_score >= 70:
+            return "SHORTLIST", "HIGH"
+        if total >= 70 and semantic_score >= 60:
+            return "REVIEW_MANUALLY", "HIGH"
+        if total >= 50:
+            return "KEEP_WARM", "NORMAL"
+        return "REJECT", "LOW"
+
+    def _next_actions(
+        self,
+        decision: str,
+        missing_skills: list[str],
+        skill_score: float,
+        experience_score: float,
+        semantic_score: float,
+    ) -> list[str]:
+        if decision == "SHORTLIST":
+            return ["Move candidate to screening or first interview"]
+        if decision == "REVIEW_MANUALLY":
+            actions = ["Review CV details before shortlisting"]
+            if missing_skills:
+                actions.append(f"Check whether missing skills are covered by related experience: {', '.join(missing_skills[:5])}")
+            return actions
+        if decision == "KEEP_WARM":
+            actions = ["Keep candidate for future or less strict roles"]
+            if skill_score < 60:
+                actions.append("Validate core skills manually")
+            if experience_score < 60:
+                actions.append("Check whether experience level can be compensated by projects")
+            if semantic_score < 50:
+                actions.append("Compare CV summary with job requirements manually")
+            return actions
+        return ["Do not prioritize for this role unless recruiter has additional context"]
+
+    def _risk_flags(
+        self,
+        missing_skills: list[str],
+        skill_score: float,
+        experience_score: float,
+        education_score: float,
+        semantic_score: float,
+    ) -> list[str]:
+        flags = []
+        if len(missing_skills) >= 3:
+            flags.append("MULTIPLE_REQUIRED_SKILLS_MISSING")
+        if skill_score < 50:
+            flags.append("LOW_SKILL_MATCH")
+        if experience_score < 50:
+            flags.append("LOW_EXPERIENCE_MATCH")
+        if education_score < 60:
+            flags.append("WEAK_EDUCATION_SIGNAL")
+        if semantic_score < 45:
+            flags.append("LOW_SEMANTIC_RELEVANCE")
+        return flags
+
+    def _summary(self, recommendation: str, decision: str, missing_skills: list[str]) -> str:
+        if decision == "SHORTLIST":
+            return "Candidate is a strong fit and should be prioritized for recruiter screening."
+        if decision == "REVIEW_MANUALLY":
+            return "Candidate looks promising, but recruiter should verify gaps before shortlisting."
+        if decision == "KEEP_WARM":
+            return "Candidate is a partial fit and may be better for future or adjacent roles."
+        if missing_skills:
+            return "Candidate is currently a weak fit because several important requirements are missing."
+        return f"Candidate is currently classified as {recommendation.lower().replace('_', ' ')} for this role."
