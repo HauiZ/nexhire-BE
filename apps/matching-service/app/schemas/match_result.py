@@ -8,6 +8,11 @@ class MatchExplanation(BaseModel):
     strongSignals: list[str] = []
     weakSignals: list[str] = []
     recommendation: str
+    decision: str = "REVIEW_MANUALLY"
+    priority: str = "NORMAL"
+    summary: str | None = None
+    nextActions: list[str] = []
+    riskFlags: list[str] = []
 
 
 class MatchScores(BaseModel):
