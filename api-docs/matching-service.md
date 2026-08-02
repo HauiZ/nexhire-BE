@@ -12,6 +12,7 @@ Implementation note:
 - It does not read other service databases directly.
 - It processes match requests created by application-service after the applied CV is parsed.
 - Match requests may include a parsed CV snapshot from cv-parsing-service.
+- It uses hybrid scoring: deterministic profile signals plus optional sentence-transformer semantic similarity.
 
 ## Endpoints
 
@@ -55,6 +56,28 @@ Success response:
 ```
 
 The background worker processes pending requests, stores `match_results`, then publishes `matching.completed`.
+
+## AI/NLP Scoring
+
+Matching-service uses a hybrid scorer:
+
+- deterministic signals: required skills, estimated years of experience, education, location, and level fit;
+- semantic signal: job text is compared with parsed resume text through `sentence-transformers`;
+- fallback signal: if the embedding dependency/model is unavailable, the service falls back to lexical overlap and continues processing.
+
+Relevant env:
+
+```env
+MATCHING_ENABLE_SEMANTIC_SCORING=true
+MATCHING_EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+MATCHING_SEMANTIC_MIN_SIGNAL=0.35
+```
+
+Install/update Python dependencies:
+
+```bash
+npm run matching:install
+```
 
 ## Matching Prerequisite Flow
 
