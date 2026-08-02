@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Any
 
 
 class MatchExplanation(BaseModel):
@@ -29,3 +30,5 @@ class CreateMatchRequestDto(BaseModel):
     candidateCvId: str | None = None
     cvDocumentId: str | None = None
     requestedByUserId: str | None = None
+    requestType: str | None = None
+    parsedResume: dict[str, Any] | None = None

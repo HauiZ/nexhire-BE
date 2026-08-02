@@ -4,7 +4,7 @@ import { ApplicationClientModule } from '../application-client/application-clien
 import { CandidateModule } from '../candidate/candidate.module';
 import { CandidateCv } from '../candidate/entities/candidate-cv.entity';
 import { DocumentClientModule } from '../document-client/document-client.module';
-import { CvController } from './cv.controller';
+import { CvController, CvInternalController } from './cv.controller';
 import { CvDocumentCleanupScheduler } from './cv-document-cleanup.scheduler';
 import { CvService } from './cv.service';
 import { CvEventPublisher } from './events/cv-event.publisher';
@@ -16,7 +16,7 @@ import { CvEventPublisher } from './events/cv-event.publisher';
     ApplicationClientModule,
     DocumentClientModule,
   ],
-  controllers: [CvController],
+  controllers: [CvController, CvInternalController],
   providers: [CvService, CvDocumentCleanupScheduler, CvEventPublisher],
   exports: [CvService],
 })

@@ -9,6 +9,7 @@ export const applicationServiceConfig = registerAs('applicationService', () => (
   services: {
     candidateService: process.env.CANDIDATE_SERVICE_URL ?? 'http://localhost:3002',
     jobService: process.env.JOB_SERVICE_URL ?? 'http://localhost:3004',
+    cvParsingService: process.env.CV_PARSING_SERVICE_URL ?? 'http://localhost:3006',
     matchingService: process.env.MATCHING_SERVICE_URL ?? 'http://localhost:3007',
     documentStorageService: process.env.DOCUMENT_STORAGE_SERVICE_URL ?? 'http://localhost:3009',
   },
@@ -18,5 +19,6 @@ export const applicationServiceConfig = registerAs('applicationService', () => (
     matchingCompleted:
       process.env.APPLICATION_SERVICE_MATCHING_COMPLETED_QUEUE ??
       'application.matching-completed',
+    cvParsed: process.env.APPLICATION_SERVICE_CV_PARSED_QUEUE ?? 'application.cv-parsed',
   },
 }));

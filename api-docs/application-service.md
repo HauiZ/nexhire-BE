@@ -21,6 +21,7 @@ Responsibility: job application submission, candidate application history, recru
 - `CLOSED` jobs cancel active applications with status `CANCELLED`.
 - CV content is not embedded in the application response. FE calls the CV download endpoint to get a short-lived URL.
 - Candidate avatar URL is resolved dynamically from `candidateAvatarDocumentId` when available.
+- Matching is requested only after the applied CV is parsed. If the CV is not parsed at apply time, application-service triggers parsing and waits for `cv.parsed` before creating a match request.
 
 ## Recruiter Matching
 

@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { ApiErrorResponses, ApiSuccessResponse, InternalServiceTokenGuard } from '@nexhire/shared';
@@ -31,6 +31,16 @@ export class CvParsingInternalController {
   @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500, 503] })
   parseTemplateFill(@Body() dto: CreateCvParseRequestDto): Promise<CvParseResultResponseDto> {
     return this.cvParsingService.parseTemplateFill(dto);
+  }
+
+  @Get('cvs/:candidateCvId/latest-result')
+  @ApiOperation({ summary: 'Get latest parsed result for a candidate CV' })
+  @ApiSuccessResponse(CvParseResultResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  getLatestResult(
+    @Param('candidateCvId', ParseUUIDPipe) candidateCvId: string,
+  ): Promise<CvParseResultResponseDto> {
+    return this.cvParsingService.getLatestResultByCandidateCv(candidateCvId);
   }
 
   @Post('requests/:id/complete')

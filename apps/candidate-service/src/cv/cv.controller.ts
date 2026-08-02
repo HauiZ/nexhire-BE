@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -16,12 +17,14 @@ import {
   ApiSuccessResponse,
   AuthUser,
   CurrentUser,
+  InternalServiceTokenGuard,
   Roles,
   UserRole,
 } from '@nexhire/shared';
 import { CvService } from './cv.service';
 import { CandidateCvResponseDto } from './dto/cv-response.dto';
 import { DeleteCvResponseDto } from './dto/delete-cv-response.dto';
+import { RequestCvParseDto } from './dto/request-cv-parse.dto';
 import { UploadCvDto } from './dto/upload-cv.dto';
 import { CandidateUploadedFile } from '../document-client/interfaces/candidate-uploaded-file.interface';
 import { CANDIDATE_CV_MAX_UPLOAD_SIZE_BYTES } from '../document-client/document-upload.constants';
@@ -102,5 +105,25 @@ export class CvController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<DeleteCvResponseDto> {
     return this.cvService.deleteMine(user, id);
+  }
+}
+
+@ApiTags('internal-cvs')
+@Controller('internal/cvs')
+@UseGuards(InternalServiceTokenGuard)
+export class CvInternalController {
+  constructor(private readonly cvService: CvService) {}
+
+  @Post(':candidateId/:candidateCvId/request-parse')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Request parsing for a candidate CV before matching' })
+  @ApiSuccessResponse(CandidateCvResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 422, 500, 503] })
+  requestParse(
+    @Param('candidateId', ParseUUIDPipe) candidateId: string,
+    @Param('candidateCvId', ParseUUIDPipe) candidateCvId: string,
+    @Body() dto: RequestCvParseDto,
+  ): Promise<CandidateCvResponseDto> {
+    return this.cvService.requestParseForMatching(candidateId, candidateCvId, dto.requestedByUserId);
   }
 }

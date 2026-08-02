@@ -7,8 +7,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApplicationStage, AuthUser, ERROR_CODES, UserRole } from '@nexhire/shared';
-import { Brackets, In, Repository } from 'typeorm';
+import { ApplicationStage, AuthUser, ERROR_CODES, ParsedResume, UserRole } from '@nexhire/shared';
+import { Brackets, In, IsNull, Repository } from 'typeorm';
 import {
   ApplicationInternalClientService,
   MatchRequestSnapshot,
@@ -135,6 +135,7 @@ export class ApplicationService {
     this.logger.log(
       `Application submitted applicationId=${application.id} jobId=${application.jobId} candidateUserId=${application.candidateUserId}`,
     );
+    await this.queueMatchingWhenCvReady(application);
 
     return this.mapApplication(application);
   }
@@ -239,6 +240,7 @@ export class ApplicationService {
     id: string,
   ): Promise<MatchRequestSnapshot> {
     const application = await this.findCompanyApplication(user, id);
+    const parsedResult = await this.internalClient.getLatestCvParseResult(application.candidateCvId);
     return this.internalClient.createApplicationMatchRequest({
       id: application.id,
       jobId: application.jobId,
@@ -247,7 +249,31 @@ export class ApplicationService {
       candidateCvId: application.candidateCvId,
       cvDocumentId: application.cvDocumentId,
       requestedByUserId: user.id,
+      requestType: 'RECRUITER_MANUAL',
+      parsedResume: parsedResult.normalizedPayload,
     });
+  }
+
+  async handleCvParsedForMatching(payload: {
+    candidateCvId: string;
+    normalizedPayload: ParsedResume;
+  }): Promise<void> {
+    const applications = await this.applicationRepo.find({
+      where: {
+        candidateCvId: payload.candidateCvId,
+        status: In(this.activeStatuses),
+        matchScore: IsNull(),
+      },
+      order: { submittedAt: 'ASC' },
+    });
+
+    for (const application of applications) {
+      await this.createMatchRequestForApplication(
+        application,
+        application.candidateUserId,
+        payload.normalizedPayload,
+      );
+    }
   }
 
   async getRecruiterStats(
@@ -446,6 +472,60 @@ export class ApplicationService {
       `Application match snapshot updated applicationId=${id} score=${saved.matchScore} level=${saved.matchLevel}`,
     );
     return this.mapApplication(saved);
+  }
+
+  private async queueMatchingWhenCvReady(application: Application): Promise<void> {
+    try {
+      if (application.cvParseStatus === 'PARSED') {
+        const parsedResult = await this.internalClient.getLatestCvParseResult(
+          application.candidateCvId,
+        );
+        await this.createMatchRequestForApplication(
+          application,
+          application.candidateUserId,
+          parsedResult.normalizedPayload,
+        );
+        return;
+      }
+
+      if (application.cvParseStatus === 'PARSING') {
+        this.logger.log(
+          `Application matching waits for CV parsing applicationId=${application.id} candidateCvId=${application.candidateCvId}`,
+        );
+        return;
+      }
+
+      await this.internalClient.requestCandidateCvParse({
+        candidateId: application.candidateId,
+        candidateCvId: application.candidateCvId,
+        requestedByUserId: application.candidateUserId,
+      });
+      this.logger.log(
+        `Requested CV parsing before matching applicationId=${application.id} candidateCvId=${application.candidateCvId}`,
+      );
+    } catch (error) {
+      this.logger.warn(
+        `Failed to queue matching prerequisite applicationId=${application.id}: ${(error as Error).message}`,
+      );
+    }
+  }
+
+  private async createMatchRequestForApplication(
+    application: Application,
+    requestedByUserId: string,
+    parsedResume: ParsedResume,
+  ): Promise<MatchRequestSnapshot> {
+    return this.internalClient.createApplicationMatchRequest({
+      id: application.id,
+      jobId: application.jobId,
+      candidateId: application.candidateId,
+      candidateUserId: application.candidateUserId,
+      candidateCvId: application.candidateCvId,
+      cvDocumentId: application.cvDocumentId,
+      requestedByUserId,
+      requestType: 'AUTO_APPLICATION',
+      parsedResume,
+    });
   }
 
   private async getCvDownload(application: Application): Promise<ApplicationCvDownloadDto> {

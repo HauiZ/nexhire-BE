@@ -17,6 +17,42 @@ Provider:
 
 ## Endpoints
 
+### `GET /api/v1/internal/cv-parsing/cvs/:candidateCvId/latest-result`
+
+Summary: Return the latest parsed resume result for a candidate CV.
+
+Auth:
+
+- Required
+- Internal service token only
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "parse-result-id",
+    "parseRequestId": "parse-request-id",
+    "candidateId": "candidate-id",
+    "candidateCvId": "candidate-cv-id",
+    "documentId": "document-id",
+    "provider": "GEMINI",
+    "providerVersion": "gemini-1.5-flash",
+    "normalizedPayload": {
+      "profile": {},
+      "skills": [],
+      "experiences": [],
+      "educations": [],
+      "certifications": [],
+      "projects": []
+    },
+    "profileApplied": true,
+    "createdAt": "2026-08-01T00:00:00.000Z"
+  }
+}
+```
+
 ### `POST /api/v1/internal/cv-parsing/parse`
 
 Summary: Create a CV parse request for asynchronous processing.

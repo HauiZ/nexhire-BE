@@ -17,7 +17,6 @@ class Settings(BaseSettings):
 
     rabbitmq_url: str = Field(default="amqp://nexhire:nexhire@localhost:5672", alias="RABBITMQ_URL")
     rabbitmq_exchange: str = Field(default="nexhire.events", alias="RABBITMQ_EXCHANGE")
-    matching_queue: str = Field(default="matching.application-submitted", alias="MATCHING_QUEUE")
 
     internal_service_token: str = Field(default="", alias="INTERNAL_SERVICE_TOKEN")
     job_service_url: str = Field(default="http://localhost:3004", alias="JOB_SERVICE_URL")

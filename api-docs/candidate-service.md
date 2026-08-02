@@ -56,6 +56,24 @@ Success response payload:
 }
 ```
 
+### Internal only: `POST /api/v1/internal/cvs/:candidateId/:candidateCvId/request-parse`
+
+Summary: Request parsing for the exact CV used by an application before matching.
+
+Auth:
+
+- Internal service token only.
+
+Request body:
+
+```json
+{
+  "requestedByUserId": "candidate-user-id"
+}
+```
+
+Success response payload is the candidate CV metadata with `parseStatus`.
+
 ### `GET /api/v1/candidates/me`
 
 Summary: Get the current candidate profile aggregate.

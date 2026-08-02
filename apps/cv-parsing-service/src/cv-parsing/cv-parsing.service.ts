@@ -40,6 +40,8 @@ export class CvParsingService {
     private readonly openAiClient: OpenAiResumeParserClient,
     @InjectRepository(CvParseRequest)
     private readonly parseRequestRepo: Repository<CvParseRequest>,
+    @InjectRepository(CvParseResult)
+    private readonly parseResultRepo: Repository<CvParseResult>,
   ) {}
 
   async createParseRequest(dto: CreateCvParseRequestDto): Promise<CvParseRequestResponseDto> {
@@ -88,6 +90,20 @@ export class CvParsingService {
       candidateCvId: dto.candidateCvId ?? undefined,
     });
     return this.processWithProvider(request.id, dto.documentUrl);
+  }
+
+  async getLatestResultByCandidateCv(candidateCvId: string): Promise<CvParseResultResponseDto> {
+    const result = await this.parseResultRepo.findOne({
+      where: { candidateCvId },
+      order: { createdAt: 'DESC' },
+    });
+    if (!result) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.NOT_FOUND,
+        message: 'Parsed CV result not found',
+      });
+    }
+    return this.mapParseResult(result, true);
   }
 
   private async createQueuedRequest(dto: CreateCvParseRequestDto): Promise<CvParseRequest> {
