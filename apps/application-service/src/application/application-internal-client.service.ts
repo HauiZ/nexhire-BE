@@ -5,7 +5,7 @@ import { REDIS_CLIENT } from '@nexhire/infra';
 import { AxiosError } from 'axios';
 import { Redis } from 'ioredis';
 import { firstValueFrom } from 'rxjs';
-import { ERROR_CODES, HEADERS, JobStatus, UserRole } from '@nexhire/shared';
+import { ERROR_CODES, HEADERS, JobStatus, ParsedResume, UserRole } from '@nexhire/shared';
 
 interface ApiEnvelope<T> {
   success: boolean;
@@ -51,6 +51,24 @@ export interface MatchRequestSnapshot {
   applicationId: string | null;
   status: string;
   requestType: string;
+}
+
+export interface CvParseResultSnapshot {
+  id: string;
+  parseRequestId: string;
+  candidateId: string;
+  candidateCvId: string | null;
+  documentId: string;
+  normalizedPayload: ParsedResume;
+  createdAt: string;
+}
+
+export interface CandidateCvSnapshot {
+  id: string;
+  documentId: string;
+  title: string | null;
+  isDefault: boolean;
+  parseStatus: string;
 }
 
 @Injectable()
@@ -103,6 +121,8 @@ export class ApplicationInternalClientService {
     candidateCvId: string;
     cvDocumentId: string;
     requestedByUserId: string;
+    requestType?: 'AUTO_APPLICATION' | 'RECRUITER_MANUAL';
+    parsedResume?: ParsedResume;
   }): Promise<MatchRequestSnapshot> {
     return this.postToService<MatchRequestSnapshot>(
       'matchingService',
@@ -115,7 +135,28 @@ export class ApplicationInternalClientService {
         candidateCvId: application.candidateCvId,
         cvDocumentId: application.cvDocumentId,
         requestedByUserId: application.requestedByUserId,
+        requestType: application.requestType ?? 'AUTO_APPLICATION',
+        parsedResume: application.parsedResume,
       },
+    );
+  }
+
+  async requestCandidateCvParse(params: {
+    candidateId: string;
+    candidateCvId: string;
+    requestedByUserId: string;
+  }): Promise<CandidateCvSnapshot> {
+    return this.postToService<CandidateCvSnapshot>(
+      'candidateService',
+      `/api/v1/internal/cvs/${params.candidateId}/${params.candidateCvId}/request-parse`,
+      { requestedByUserId: params.requestedByUserId },
+    );
+  }
+
+  async getLatestCvParseResult(candidateCvId: string): Promise<CvParseResultSnapshot> {
+    return this.getFromService<CvParseResultSnapshot>(
+      'cvParsingService',
+      `/api/v1/internal/cv-parsing/cvs/${candidateCvId}/latest-result`,
     );
   }
 

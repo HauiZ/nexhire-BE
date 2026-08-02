@@ -8,6 +8,7 @@ import { Application } from './entities/application.entity';
 import { JobLifecycleEventsConsumer } from './events/consumers/job-lifecycle-events.consumer';
 import { MatchingCompletedEventsConsumer } from './events/consumers/matching-completed-events.consumer';
 import { ApplicationEventPublisher } from './events/application-event.publisher';
+import { CvParsedEventsConsumer } from './events/consumers/cv-parsed-events.consumer';
 import { RecruiterApplicationController } from './recruiter-application.controller';
 
 @Module({
@@ -21,6 +22,7 @@ import { RecruiterApplicationController } from './recruiter-application.controll
     ApplicationService,
     ApplicationInternalClientService,
     ApplicationEventPublisher,
+    CvParsedEventsConsumer,
     JobLifecycleEventsConsumer,
     MatchingCompletedEventsConsumer,
   ],

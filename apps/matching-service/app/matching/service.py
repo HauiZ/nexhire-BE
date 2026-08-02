@@ -59,6 +59,7 @@ class MatchingService:
             candidate_user_id=uuid.UUID(dto.candidateUserId) if dto.candidateUserId else None,
             candidate_cv_id=uuid.UUID(dto.candidateCvId) if dto.candidateCvId else None,
             cv_document_id=uuid.UUID(dto.cvDocumentId) if dto.cvDocumentId else None,
+            parsed_resume=dto.parsedResume,
             requested_by_user_id=uuid.UUID(dto.requestedByUserId) if dto.requestedByUserId else None,
             request_type=request_type,
             status=MatchRequestStatus.PENDING,
@@ -88,9 +89,13 @@ class MatchingService:
     async def process(self, session: AsyncSession, request: MatchRequest) -> MatchResult:
         try:
             job = await self.client.get_job_matching_snapshot(str(request.job_id))
-            candidate = await self.client.get_candidate_matching_snapshot(
-                str(request.candidate_id),
-                str(request.candidate_cv_id) if request.candidate_cv_id else None,
+            candidate = (
+                self._candidate_from_parsed_resume(request)
+                if request.parsed_resume
+                else await self.client.get_candidate_matching_snapshot(
+                    str(request.candidate_id),
+                    str(request.candidate_cv_id) if request.candidate_cv_id else None,
+                )
             )
             scores = self.scorer.score(job, candidate)
             result = self._build_success_result(request, scores)
@@ -115,6 +120,65 @@ class MatchingService:
             session.add(result)
             await session.flush()
             return result
+
+    def _candidate_from_parsed_resume(self, request: MatchRequest):
+        from app.schemas.snapshots import (
+            CandidateEducationSnapshot,
+            CandidateExperienceSnapshot,
+            CandidateMatchingSnapshot,
+            CandidateSkillSnapshot,
+        )
+
+        parsed = request.parsed_resume or {}
+        profile = parsed.get("profile") or {}
+        return CandidateMatchingSnapshot(
+            candidateId=str(request.candidate_id),
+            candidateUserId=str(request.candidate_user_id) if request.candidate_user_id else None,
+            candidateCvId=str(request.candidate_cv_id) if request.candidate_cv_id else None,
+            fullName=profile.get("fullName"),
+            headline=profile.get("headline"),
+            summary=profile.get("summary"),
+            location=profile.get("location"),
+            skills=[
+                CandidateSkillSnapshot(
+                    name=skill.get("name", ""),
+                    level=skill.get("level"),
+                    yearsOfExperience=skill.get("yearsOfExperience"),
+                )
+                for skill in parsed.get("skills", [])
+                if skill.get("name")
+            ],
+            experiences=[
+                CandidateExperienceSnapshot(
+                    title=experience.get("position"),
+                    company=experience.get("companyName"),
+                    startYear=experience.get("startYear"),
+                    startMonth=experience.get("startMonth"),
+                    endYear=experience.get("endYear"),
+                    endMonth=experience.get("endMonth"),
+                    isCurrent=experience.get("isCurrent"),
+                )
+                for experience in parsed.get("experiences", [])
+            ],
+            educations=[
+                CandidateEducationSnapshot(
+                    degree=education.get("degree"),
+                    school=education.get("schoolName"),
+                    fieldOfStudy=education.get("fieldOfStudy"),
+                )
+                for education in parsed.get("educations", [])
+            ],
+            certifications=[
+                certification.get("name")
+                for certification in parsed.get("certifications", [])
+                if certification.get("name")
+            ],
+            projects=[
+                project.get("name")
+                for project in parsed.get("projects", [])
+                if project.get("name")
+            ],
+        )
 
     async def publish_completed(self, result: MatchResult) -> None:
         await self.publisher.publish_matching_completed(

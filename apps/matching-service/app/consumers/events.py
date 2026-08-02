@@ -6,12 +6,7 @@ from aio_pika.abc import AbstractRobustConnection, AbstractRobustExchange
 from app.config import get_settings
 
 
-APPLICATION_SUBMITTED = "application.submitted"
 MATCHING_COMPLETED = "matching.completed"
-
-
-def unwrap_event_data(payload: dict) -> dict:
-    return payload.get("data", payload)
 
 
 class EventPublisher:

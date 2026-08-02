@@ -10,7 +10,8 @@ Implementation note:
 - `matching-service` is a Python/FastAPI service inside the monorepo.
 - It owns `matching_service_db`.
 - It does not read other service databases directly.
-- It consumes events and calls internal snapshot endpoints when it needs job/CV data.
+- It processes match requests created by application-service after the applied CV is parsed.
+- Match requests may include a parsed CV snapshot from cv-parsing-service.
 
 ## Endpoints
 
@@ -55,25 +56,31 @@ Success response:
 
 The background worker processes pending requests, stores `match_results`, then publishes `matching.completed`.
 
-## Events
+## Matching Prerequisite Flow
 
-### Consumes `application.submitted`
+`application-service` owns the decision to request matching:
 
-The matching service creates an `AUTO_APPLICATION` match request.
+- if the applied CV is already `PARSED`, application-service fetches the latest parsed result from cv-parsing-service and creates a match request immediately;
+- if the applied CV is not parsed yet, application-service asks candidate-service to trigger CV parsing and waits for `cv.parsed`;
+- after `cv.parsed`, application-service creates the match request with the parsed resume snapshot.
 
-Required payload fields:
+The request body may include:
 
 ```json
 {
-  "applicationId": "application-id",
-  "jobId": "job-id",
-  "candidateId": "candidate-id",
-  "candidateUserId": "candidate-user-id",
-  "candidateCvId": "candidate-cv-id",
-  "cvDocumentId": "document-id",
-  "submittedAt": "2026-07-31T00:00:00.000Z"
+  "requestType": "AUTO_APPLICATION",
+  "parsedResume": {
+    "profile": {},
+    "skills": [],
+    "experiences": [],
+    "educations": [],
+    "certifications": [],
+    "projects": []
+  }
 }
 ```
+
+Matching-service no longer consumes `application.submitted` directly, to avoid scoring an unparsed CV.
 
 ### Publishes `matching.completed`
 

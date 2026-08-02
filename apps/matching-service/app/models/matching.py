@@ -51,6 +51,7 @@ class MatchRequest(Base):
     candidate_user_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), nullable=True)
     candidate_cv_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), nullable=True)
     cv_document_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), nullable=True)
+    parsed_resume: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
     request_type: Mapped[MatchRequestType] = mapped_column(
         Enum(MatchRequestType, name="match_request_type"), nullable=False
     )

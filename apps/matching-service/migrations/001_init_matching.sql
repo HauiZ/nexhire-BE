@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS match_requests (
   candidate_user_id uuid NULL,
   candidate_cv_id uuid NULL,
   cv_document_id uuid NULL,
+  parsed_resume jsonb NULL,
   request_type match_request_type NOT NULL,
   status match_request_status NOT NULL DEFAULT 'PENDING',
   priority integer NOT NULL DEFAULT 100,
@@ -53,6 +54,7 @@ CREATE INDEX IF NOT EXISTS idx_match_requests_status_priority_created_at
   ON match_requests (status, priority, created_at);
 CREATE INDEX IF NOT EXISTS idx_match_requests_application_id ON match_requests (application_id);
 CREATE INDEX IF NOT EXISTS idx_match_requests_job_id ON match_requests (job_id);
+ALTER TABLE match_requests ADD COLUMN IF NOT EXISTS parsed_resume jsonb NULL;
 
 CREATE TABLE IF NOT EXISTS match_results (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),

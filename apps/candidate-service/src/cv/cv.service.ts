@@ -9,7 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, IsNull, LessThanOrEqual, Repository } from 'typeorm';
 
-import { AuthUser, ERROR_CODES } from '@nexhire/shared';
+import { AuthUser, ERROR_CODES, UserRole } from '@nexhire/shared';
 
 import { ApplicationClientService } from '../application-client/application-client.service';
 import { CandidateService } from '../candidate/candidate.service';
@@ -135,6 +135,45 @@ export class CvService {
       parseStatus: CandidateCvParseStatus.PARSING,
       parsedAt: null,
     });
+  }
+
+  async requestParseForMatching(
+    candidateId: string,
+    candidateCvId: string,
+    requestedByUserId: string,
+  ): Promise<CandidateCvResponseDto> {
+    const cv = await this.cvRepo.findOne({
+      where: { id: candidateCvId, candidateId, deletedAt: IsNull() },
+    });
+    if (!cv) {
+      throw new NotFoundException({
+        code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
+        message: 'Candidate CV not found',
+      });
+    }
+
+    if (cv.parseStatus === CandidateCvParseStatus.PARSED) {
+      return this.mapCv(cv);
+    }
+
+    if (cv.parseStatus === CandidateCvParseStatus.PARSING) {
+      return this.mapCv(cv);
+    }
+
+    await this.cvRepo.update(cv.id, {
+      parseStatus: CandidateCvParseStatus.PARSING,
+      parsedAt: null,
+    });
+
+    return this.triggerParse(
+      { id: requestedByUserId, role: UserRole.CANDIDATE } as AuthUser,
+      candidateId,
+      {
+        ...cv,
+        parseStatus: CandidateCvParseStatus.PARSING,
+        parsedAt: null,
+      },
+    );
   }
 
   async deleteMine(user: AuthUser, id: string): Promise<DeleteCvResponseDto> {

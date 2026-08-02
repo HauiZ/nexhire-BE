@@ -31,11 +31,16 @@ async def create_application_match_request(
     _internal: None = Depends(require_internal_service),
 ) -> dict:
     service = MatchingService()
+    request_type = (
+        MatchRequestType.RECRUITER_MANUAL
+        if dto.requestType == MatchRequestType.RECRUITER_MANUAL.value
+        else MatchRequestType.AUTO_APPLICATION
+    )
     request = await service.enqueue_application_request(
         session,
         dto.model_copy(update={"applicationId": application_id}),
-        request_type=MatchRequestType.RECRUITER_MANUAL,
-        priority=50,
+        request_type=request_type,
+        priority=50 if request_type == MatchRequestType.RECRUITER_MANUAL else 100,
     )
     return {
         "success": True,
