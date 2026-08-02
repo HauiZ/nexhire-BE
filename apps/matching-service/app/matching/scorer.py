@@ -1,15 +1,17 @@
 from datetime import date
 from app.matching.normalizer import normalize_skill, normalize_text
+from app.matching.semantic import SemanticScorer
 from app.schemas.match_result import MatchExplanation, MatchScores
 from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
 
 
 DEFAULT_WEIGHTS = {
-    "skill": 0.45,
+    "skill": 0.35,
     "experience": 0.25,
     "education": 0.1,
     "location": 0.1,
     "level": 0.1,
+    "semantic": 0.1,
 }
 
 LEVEL_YEARS = {
@@ -35,7 +37,12 @@ EDUCATION_LEVELS = {
 
 
 class MatchingScorer:
-    model_version = "heuristic-v1"
+    def __init__(self) -> None:
+        self.semantic_scorer = SemanticScorer()
+
+    @property
+    def model_version(self) -> str:
+        return f"hybrid-v1+{self.semantic_scorer.model_version}"
 
     def score(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot) -> MatchScores:
         skill_score, matched_skills, missing_skills = self._score_skills(job, candidate)
@@ -43,6 +50,8 @@ class MatchingScorer:
         education_score = self._score_education(candidate)
         location_score = self._score_location(job, candidate)
         level_score = self._score_level(job, candidate)
+        semantic_score = self.semantic_scorer.score(job, candidate)
+        effective_semantic_score = semantic_score if semantic_score is not None else skill_score
 
         total = (
             DEFAULT_WEIGHTS["skill"] * skill_score
@@ -50,10 +59,18 @@ class MatchingScorer:
             + DEFAULT_WEIGHTS["education"] * education_score
             + DEFAULT_WEIGHTS["location"] * location_score
             + DEFAULT_WEIGHTS["level"] * level_score
+            + DEFAULT_WEIGHTS["semantic"] * effective_semantic_score
         )
         total = round(max(0, min(100, total)), 2)
         explanation = self._explain(
-            total, matched_skills, missing_skills, skill_score, experience_score, education_score, location_score
+            total,
+            matched_skills,
+            missing_skills,
+            skill_score,
+            experience_score,
+            education_score,
+            location_score,
+            effective_semantic_score,
         )
         return MatchScores(
             totalScore=total,
@@ -63,7 +80,7 @@ class MatchingScorer:
             certificationScore=0,
             projectScore=0,
             preferenceScore=round((location_score + level_score) / 2, 2),
-            semanticScore=round(skill_score, 2),
+            semanticScore=round(effective_semantic_score, 2),
             explanation=explanation,
         )
 
@@ -134,6 +151,7 @@ class MatchingScorer:
         experience_score: float,
         education_score: float,
         location_score: float,
+        semantic_score: float,
     ) -> MatchExplanation:
         strong = []
         weak = []
@@ -149,6 +167,10 @@ class MatchingScorer:
             weak.append("Education signal is incomplete or below expectation")
         if location_score < 60:
             weak.append("Candidate location may not fit this working arrangement")
+        if semantic_score >= 75:
+            strong.append("Resume context is semantically close to the job description")
+        elif semantic_score < 45:
+            weak.append("Resume context has weak semantic overlap with the job description")
         recommendation = (
             "STRONG_FIT" if total >= 85 else "GOOD_FIT" if total >= 70 else "PARTIAL_FIT" if total >= 50 else "LOW_FIT"
         )

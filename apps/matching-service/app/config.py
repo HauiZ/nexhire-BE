@@ -26,6 +26,12 @@ class Settings(BaseSettings):
     worker_batch_size: int = Field(default=5, alias="MATCHING_WORKER_BATCH_SIZE")
     max_attempts: int = Field(default=3, alias="MATCHING_MAX_ATTEMPTS")
     http_timeout_seconds: float = Field(default=5.0, alias="MATCHING_HTTP_TIMEOUT_SECONDS")
+    enable_semantic_scoring: bool = Field(default=True, alias="MATCHING_ENABLE_SEMANTIC_SCORING")
+    embedding_model_name: str = Field(
+        default="sentence-transformers/all-MiniLM-L6-v2",
+        alias="MATCHING_EMBEDDING_MODEL",
+    )
+    semantic_min_signal: float = Field(default=0.35, alias="MATCHING_SEMANTIC_MIN_SIGNAL")
 
     @property
     def database_url(self) -> str:
