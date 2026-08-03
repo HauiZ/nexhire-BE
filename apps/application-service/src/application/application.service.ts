@@ -240,18 +240,7 @@ export class ApplicationService {
     id: string,
   ): Promise<MatchRequestSnapshot> {
     const application = await this.findCompanyApplication(user, id);
-    const parsedResult = await this.internalClient.getLatestCvParseResult(application.candidateCvId);
-    return this.internalClient.createApplicationMatchRequest({
-      id: application.id,
-      jobId: application.jobId,
-      candidateId: application.candidateId,
-      candidateUserId: application.candidateUserId,
-      candidateCvId: application.candidateCvId,
-      cvDocumentId: application.cvDocumentId,
-      requestedByUserId: user.id,
-      requestType: 'RECRUITER_MANUAL',
-      parsedResume: parsedResult.normalizedPayload,
-    });
+    return this.requestMatchWhenCvReady(application, user.id, 'RECRUITER_MANUAL');
   }
 
   async handleCvParsedForMatching(payload: {
@@ -268,10 +257,15 @@ export class ApplicationService {
     });
 
     for (const application of applications) {
+      if (application.cvParseStatus !== 'PARSED') {
+        application.cvParseStatus = 'PARSED';
+        await this.applicationRepo.save(application);
+      }
       await this.createMatchRequestForApplication(
         application,
         application.candidateUserId,
         payload.normalizedPayload,
+        'AUTO_APPLICATION',
       );
     }
   }
@@ -476,32 +470,10 @@ export class ApplicationService {
 
   private async queueMatchingWhenCvReady(application: Application): Promise<void> {
     try {
-      if (application.cvParseStatus === 'PARSED') {
-        const parsedResult = await this.internalClient.getLatestCvParseResult(
-          application.candidateCvId,
-        );
-        await this.createMatchRequestForApplication(
-          application,
-          application.candidateUserId,
-          parsedResult.normalizedPayload,
-        );
-        return;
-      }
-
-      if (application.cvParseStatus === 'PARSING') {
-        this.logger.log(
-          `Application matching waits for CV parsing applicationId=${application.id} candidateCvId=${application.candidateCvId}`,
-        );
-        return;
-      }
-
-      await this.internalClient.requestCandidateCvParse({
-        candidateId: application.candidateId,
-        candidateCvId: application.candidateCvId,
-        requestedByUserId: application.candidateUserId,
-      });
-      this.logger.log(
-        `Requested CV parsing before matching applicationId=${application.id} candidateCvId=${application.candidateCvId}`,
+      await this.requestMatchWhenCvReady(
+        application,
+        application.candidateUserId,
+        'AUTO_APPLICATION',
       );
     } catch (error) {
       this.logger.warn(
@@ -510,10 +482,62 @@ export class ApplicationService {
     }
   }
 
+  private async requestMatchWhenCvReady(
+    application: Application,
+    requestedByUserId: string,
+    requestType: 'AUTO_APPLICATION' | 'RECRUITER_MANUAL',
+  ): Promise<MatchRequestSnapshot> {
+    if (application.cvParseStatus === 'PARSED') {
+      const parsedResult = await this.internalClient.getLatestCvParseResult(
+        application.candidateCvId,
+      );
+      return this.createMatchRequestForApplication(
+        application,
+        requestedByUserId,
+        parsedResult.normalizedPayload,
+        requestType,
+      );
+    }
+
+    if (application.cvParseStatus === 'PARSING') {
+      this.logger.log(
+        `Application matching waits for CV parsing applicationId=${application.id} candidateCvId=${application.candidateCvId}`,
+      );
+      return this.waitingForCvParseSnapshot(application, requestType);
+    }
+
+    const cv = await this.internalClient.requestCandidateCvParse({
+      candidateId: application.candidateId,
+      candidateCvId: application.candidateCvId,
+      requestedByUserId,
+    });
+    if (application.cvParseStatus !== cv.parseStatus) {
+      application.cvParseStatus = cv.parseStatus;
+      await this.applicationRepo.save(application);
+    }
+    this.logger.log(
+      `Requested CV parsing before matching applicationId=${application.id} candidateCvId=${application.candidateCvId}`,
+    );
+    return this.waitingForCvParseSnapshot(application, requestType);
+  }
+
+  private waitingForCvParseSnapshot(
+    application: Application,
+    requestType: 'AUTO_APPLICATION' | 'RECRUITER_MANUAL',
+  ): MatchRequestSnapshot {
+    return {
+      id: null,
+      applicationId: application.id,
+      status: 'WAITING_FOR_CV_PARSE',
+      requestType,
+    };
+  }
+
   private async createMatchRequestForApplication(
     application: Application,
     requestedByUserId: string,
     parsedResume: ParsedResume,
+    requestType: 'AUTO_APPLICATION' | 'RECRUITER_MANUAL',
   ): Promise<MatchRequestSnapshot> {
     return this.internalClient.createApplicationMatchRequest({
       id: application.id,
@@ -523,7 +547,7 @@ export class ApplicationService {
       candidateCvId: application.candidateCvId,
       cvDocumentId: application.cvDocumentId,
       requestedByUserId,
-      requestType: 'AUTO_APPLICATION',
+      requestType,
       parsedResume,
     });
   }
