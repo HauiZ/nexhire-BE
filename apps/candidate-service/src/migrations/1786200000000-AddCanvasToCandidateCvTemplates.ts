@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddCanvasToCandidateCvTemplates1785400000000 implements MigrationInterface {
-  name = 'AddCanvasToCandidateCvTemplates1785400000000';
+export class AddCanvasToCandidateCvTemplates1786200000000 implements MigrationInterface {
+  name = 'AddCanvasToCandidateCvTemplates1786200000000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
