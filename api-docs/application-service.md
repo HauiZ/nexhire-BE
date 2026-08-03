@@ -29,6 +29,12 @@ Responsibility: job application submission, candidate application history, recru
 
 Summary: Request a fresh match score for a company-owned application.
 
+Application-service uses the same parse-before-match orchestration as candidate apply:
+
+- if the submitted CV is `PARSED`, it fetches the latest parsed result and creates a matching request immediately;
+- if the submitted CV is `PARSING`, it returns a waiting response and lets `cv.parsed` enqueue matching later;
+- if the submitted CV is not parsed, it asks candidate-service to trigger parsing, updates the application CV parse snapshot to `PARSING`, and returns a waiting response.
+
 Auth:
 
 - Required
@@ -47,6 +53,17 @@ Success response payload:
   "id": "match-request-id",
   "applicationId": "application-id",
   "status": "PENDING",
+  "requestType": "RECRUITER_MANUAL"
+}
+```
+
+If the CV must be parsed first:
+
+```json
+{
+  "id": null,
+  "applicationId": "application-id",
+  "status": "WAITING_FOR_CV_PARSE",
   "requestType": "RECRUITER_MANUAL"
 }
 ```

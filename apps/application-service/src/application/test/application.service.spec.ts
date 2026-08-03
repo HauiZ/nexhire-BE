@@ -57,6 +57,15 @@ const application: Application = {
   deletedAt: null,
 };
 
+const parsedResume = {
+  profile: { fullName: 'Candidate One' },
+  skills: [],
+  experiences: [],
+  educations: [],
+  certifications: [],
+  projects: [],
+};
+
 describe('ApplicationService', () => {
   let service: ApplicationService;
   let repo: MockRepo;
@@ -64,6 +73,9 @@ describe('ApplicationService', () => {
     getJobApplicationSnapshot: jest.Mock;
     getCandidateApplicationSnapshot: jest.Mock;
     getDocumentDownload: jest.Mock;
+    getLatestCvParseResult: jest.Mock;
+    createApplicationMatchRequest: jest.Mock;
+    requestCandidateCvParse: jest.Mock;
   };
   let applicationEventPublisher: {
     publishApplicationSubmitted: jest.Mock;
@@ -111,6 +123,28 @@ describe('ApplicationService', () => {
         url: 'https://storage.local/cv',
         expiresInSeconds: 3600,
       }),
+      getLatestCvParseResult: jest.fn().mockResolvedValue({
+        id: 'parse-result-1',
+        parseRequestId: 'parse-request-1',
+        candidateId: application.candidateId,
+        candidateCvId: application.candidateCvId,
+        documentId: application.cvDocumentId,
+        normalizedPayload: parsedResume,
+        createdAt: '2026-07-15T00:00:00.000Z',
+      }),
+      createApplicationMatchRequest: jest.fn().mockResolvedValue({
+        id: 'match-request-1',
+        applicationId: application.id,
+        status: 'PENDING',
+        requestType: 'AUTO_APPLICATION',
+      }),
+      requestCandidateCvParse: jest.fn().mockResolvedValue({
+        id: application.candidateCvId,
+        documentId: application.cvDocumentId,
+        title: application.cvTitle,
+        isDefault: true,
+        parseStatus: 'PARSING',
+      }),
     };
     applicationEventPublisher = {
       publishApplicationSubmitted: jest.fn().mockResolvedValue(undefined),
@@ -154,6 +188,43 @@ describe('ApplicationService', () => {
     );
     expect(result.status).toBe(ApplicationStage.SUBMITTED);
     expect(result.matchScore).toBeNull();
+    expect(internalClient.getLatestCvParseResult).toHaveBeenCalledWith(application.candidateCvId);
+    expect(internalClient.createApplicationMatchRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: application.id,
+        requestType: 'AUTO_APPLICATION',
+        parsedResume: expect.any(Object),
+      }),
+    );
+  });
+
+  it('requests CV parsing before matching when applied CV is not parsed', async () => {
+    repo.findOne.mockResolvedValue(null);
+    internalClient.getCandidateApplicationSnapshot.mockResolvedValueOnce({
+      candidateId: application.candidateId,
+      candidateUserId: application.candidateUserId,
+      fullName: application.candidateFullName,
+      email: application.candidateEmail,
+      phone: application.candidatePhone,
+      avatarDocumentId: application.candidateAvatarDocumentId,
+      candidateCvId: application.candidateCvId,
+      cvDocumentId: application.cvDocumentId,
+      cvTitle: application.cvTitle,
+      cvParseStatus: 'NOT_PARSED',
+    });
+
+    await service.create(candidateUser, {
+      jobId: application.jobId,
+      candidateCvId: application.candidateCvId,
+    });
+
+    expect(internalClient.requestCandidateCvParse).toHaveBeenCalledWith({
+      candidateId: application.candidateId,
+      candidateCvId: application.candidateCvId,
+      requestedByUserId: application.candidateUserId,
+    });
+    expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
+    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ cvParseStatus: 'PARSING' }));
   });
 
   it('allows CV document purge when there are no active or recent terminal applications', async () => {
@@ -311,6 +382,60 @@ describe('ApplicationService', () => {
     );
     expect(result.matchScore).toBe(92);
     expect(result.matchLevel).toBe(ApplicationMatchLevel.EXCELLENT);
+  });
+
+  it('requests recruiter manual matching immediately when CV is parsed', async () => {
+    repo.findOne.mockResolvedValue({ ...application });
+
+    const result = await service.requestCompanyApplicationMatch(recruiterUser, application.id);
+
+    expect(result).toEqual(expect.objectContaining({ id: 'match-request-1' }));
+    expect(internalClient.getLatestCvParseResult).toHaveBeenCalledWith(application.candidateCvId);
+    expect(internalClient.createApplicationMatchRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: application.id,
+        requestType: 'RECRUITER_MANUAL',
+        requestedByUserId: recruiterUser.id,
+        parsedResume: expect.any(Object),
+      }),
+    );
+  });
+
+  it('lets recruiter manual matching trigger parse first when CV is not parsed', async () => {
+    repo.findOne.mockResolvedValue({ ...application, cvParseStatus: 'NOT_PARSED' });
+
+    const result = await service.requestCompanyApplicationMatch(recruiterUser, application.id);
+
+    expect(result).toEqual({
+      id: null,
+      applicationId: application.id,
+      status: 'WAITING_FOR_CV_PARSE',
+      requestType: 'RECRUITER_MANUAL',
+    });
+    expect(internalClient.requestCandidateCvParse).toHaveBeenCalledWith({
+      candidateId: application.candidateId,
+      candidateCvId: application.candidateCvId,
+      requestedByUserId: recruiterUser.id,
+    });
+    expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
+  });
+
+  it('updates application CV parse status and queues matching when cv.parsed arrives', async () => {
+    repo.find.mockResolvedValue([{ ...application, cvParseStatus: 'PARSING' }]);
+
+    await service.handleCvParsedForMatching({
+      candidateCvId: application.candidateCvId,
+      normalizedPayload: parsedResume,
+    });
+
+    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ cvParseStatus: 'PARSED' }));
+    expect(internalClient.createApplicationMatchRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: application.id,
+        requestType: 'AUTO_APPLICATION',
+        parsedResume,
+      }),
+    );
   });
 
   it('cancels active applications when a job is closed', async () => {

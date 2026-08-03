@@ -47,7 +47,7 @@ export interface DocumentDownloadSnapshot {
 }
 
 export interface MatchRequestSnapshot {
-  id: string;
+  id: string | null;
   applicationId: string | null;
   status: string;
   requestType: string;
