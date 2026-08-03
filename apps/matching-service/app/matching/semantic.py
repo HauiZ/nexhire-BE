@@ -15,6 +15,7 @@ def build_job_text(job: JobMatchingSnapshot) -> str:
         job.description,
         job.requirements,
         " ".join(job.skills),
+        job.benefits,
         job.experienceLevel,
         job.workingType,
     ]

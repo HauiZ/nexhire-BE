@@ -367,6 +367,9 @@ export class JobMatchingSnapshotDto {
   @ApiProperty({ type: [String] })
   skills: string[];
 
+  @ApiPropertyOptional()
+  benefits: string | null;
+
   @ApiProperty({ enum: JobWorkingType })
   workingType: JobWorkingType;
 

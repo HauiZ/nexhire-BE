@@ -7,6 +7,7 @@ class JobMatchingSnapshot(BaseModel):
     description: str
     requirements: str
     skills: list[str]
+    benefits: str | None = None
     workingType: str
     experienceLevel: str
     location: str

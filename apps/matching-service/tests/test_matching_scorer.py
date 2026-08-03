@@ -172,6 +172,38 @@ class MatchingScorerTest(unittest.TestCase):
         self.assertIn("english communication ~ toeic 900 (certification)", score.explanation.matchedSkills)
         self.assertNotIn("english communication", score.explanation.missingSkills)
 
+    def test_requirement_can_be_discovered_from_job_description(self):
+        os.environ["MATCHING_ENABLE_SEMANTIC_SCORING"] = "true"
+        get_settings.cache_clear()
+
+        scorer = MatchingScorer()
+        with patch.object(scorer.semantic_scorer, "score", return_value=78), patch.object(
+            scorer.semantic_scorer,
+            "score_text_pair",
+            side_effect=lambda left, right: 90
+            if left == "english communication is needed for client meetings" and right == "toeic 900"
+            else 0,
+        ):
+            score = scorer.score(
+                job_snapshot(
+                    title="Account Executive",
+                    description="Work with regional customers. English communication is needed for client meetings.",
+                    requirements="",
+                    skills=[],
+                    experienceLevel="JUNIOR",
+                ),
+                candidate_snapshot(
+                    summary="Account executive supporting regional customers.",
+                    skills=[],
+                    certifications=["TOEIC 900"],
+                ),
+            )
+
+        self.assertIn(
+            "english communication is needed for client meetings ~ toeic 900 (certification)",
+            score.explanation.matchedSkills,
+        )
+
     def test_long_requirement_can_be_supported_by_short_skill_evidence(self):
         os.environ["MATCHING_ENABLE_SEMANTIC_SCORING"] = "true"
         get_settings.cache_clear()

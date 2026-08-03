@@ -61,9 +61,11 @@ The background worker processes pending requests, stores `match_results`, then p
 
 Matching-service uses a hybrid scorer:
 
-- deterministic signals: required skills, estimated years of experience, education, location, and level fit;
+- deterministic signals: job requirements, estimated years of experience, education, location, and level fit;
 - semantic signal: job text is compared with parsed resume text through `sentence-transformers`;
 - fallback signal: if the embedding dependency/model is unavailable, the service falls back to lexical overlap and continues processing.
+
+Requirement matching is evidence-based. The service extracts requirements from structured `skills`, `requirements`, and lower-weight signals in `description` / `benefits`, then searches for supporting evidence across the whole parsed resume: skills, certifications, experiences, projects, education, headline, and summary.
 
 Relevant env:
 
@@ -149,5 +151,7 @@ Matching calls:
 
 - `GET /api/v1/internal/jobs/:id/matching-snapshot`
 - `GET /api/v1/internal/candidates/:candidateId/matching-snapshot?candidateCvId=:candidateCvId`
+
+The job snapshot includes `title`, `description`, `requirements`, `skills`, `benefits`, working arrangement, level, location, and salary bounds. `skills` and `requirements` are treated as primary matching signals; `description` and `benefits` are lower-weight supporting signals because recruiters may write requirements there.
 
 Use the template from [README.md](README.md#endpoint-section-template).

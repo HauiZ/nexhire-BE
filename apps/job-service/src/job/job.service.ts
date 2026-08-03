@@ -286,6 +286,7 @@ export class JobService {
       description: job.description,
       requirements: job.requirements,
       skills: job.skills,
+      benefits: job.benefits,
       workingType: job.workingType,
       experienceLevel: job.experienceLevel,
       location: job.location,
