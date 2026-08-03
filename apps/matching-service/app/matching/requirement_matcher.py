@@ -87,9 +87,6 @@ class RequirementMatcher:
         for phrase in self._split_requirement_text(job.description):
             self._append_requirement(requirements, normalize_skill(phrase), "description", 0.25)
 
-        for phrase in self._split_requirement_text(job.benefits):
-            self._append_requirement(requirements, normalize_skill(phrase), "benefits", 0.1)
-
         return requirements[:16]
 
     def _build_evidence(self, candidate: CandidateMatchingSnapshot) -> list[Evidence]:
@@ -105,7 +102,21 @@ class RequirementMatcher:
                 "experience",
             )
         for project in candidate.projects:
-            self._append_evidence(evidence, project, "project")
+            self._append_evidence(
+                evidence,
+                " ".join(
+                    part
+                    for part in [
+                        project.name,
+                        project.description,
+                        " ".join(project.technologies),
+                    ]
+                    if part
+                ),
+                "project",
+            )
+            for technology in project.technologies:
+                self._append_evidence(evidence, normalize_skill(technology), "project")
         for education in candidate.educations:
             self._append_evidence(
                 evidence,

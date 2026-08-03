@@ -31,6 +31,18 @@ def build_candidate_text(candidate: CandidateMatchingSnapshot) -> str:
         " ".join(part for part in [item.degree, item.fieldOfStudy, item.school] if part)
         for item in candidate.educations
     ]
+    project_text = [
+        " ".join(
+            part
+            for part in [
+                item.name,
+                item.description,
+                " ".join(item.technologies),
+            ]
+            if part
+        )
+        for item in candidate.projects
+    ]
     parts = [
         candidate.headline,
         candidate.summary,
@@ -38,7 +50,7 @@ def build_candidate_text(candidate: CandidateMatchingSnapshot) -> str:
         " ".join(experience_text),
         " ".join(education_text),
         " ".join(candidate.certifications),
-        " ".join(candidate.projects),
+        " ".join(project_text),
     ]
     return " ".join(part for part in parts if part).strip()
 

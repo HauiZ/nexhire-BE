@@ -1,5 +1,7 @@
 import os
 import unittest
+from types import SimpleNamespace
+from uuid import uuid4
 from datetime import date
 from unittest.mock import patch
 
@@ -10,11 +12,13 @@ os.environ.setdefault("MATCHING_ENABLE_SEMANTIC_SCORING", "false")
 
 from app.config import get_settings
 from app.matching.scorer import MatchingScorer
+from app.matching.service import MatchingService
 from app.matching.semantic import SemanticScorer
 from app.schemas.snapshots import (
     CandidateEducationSnapshot,
     CandidateExperienceSnapshot,
     CandidateMatchingSnapshot,
+    CandidateProjectSnapshot,
     CandidateSkillSnapshot,
     JobMatchingSnapshot,
 )
@@ -234,6 +238,108 @@ class MatchingScorerTest(unittest.TestCase):
             score.explanation.matchedSkills,
         )
         self.assertNotIn(long_requirement, score.explanation.missingSkills)
+
+    def test_project_technologies_support_requirements_and_project_score(self):
+        os.environ["MATCHING_ENABLE_SEMANTIC_SCORING"] = "true"
+        get_settings.cache_clear()
+
+        scorer = MatchingScorer()
+        with patch.object(scorer.semantic_scorer, "score", return_value=76), patch.object(
+            scorer.semantic_scorer,
+            "score_text_pair",
+            side_effect=lambda left, right: 90 if "backend api" in right or right in {"node", "postgres"} else 0,
+        ):
+            score = scorer.score(
+                job_snapshot(
+                    requirements="Node.js, PostgreSQL",
+                    skills=["Node.js", "PostgreSQL"],
+                    experienceLevel="JUNIOR",
+                ),
+                candidate_snapshot(
+                    skills=[],
+                    experiences=[],
+                    projects=[
+                        CandidateProjectSnapshot(
+                            name="Recruitment Backend",
+                            description="Backend API using Node.js Express PostgreSQL JWT.",
+                            technologies=["Node.js", "PostgreSQL", "Express"],
+                        )
+                    ],
+                ),
+            )
+
+        self.assertGreater(score.projectScore, 0)
+        self.assertGreater(score.experienceScore, 0)
+        self.assertIn("node", score.explanation.matchedSkills)
+        self.assertIn("postgres", score.explanation.matchedSkills)
+
+    def test_benefits_are_not_reported_as_missing_skills(self):
+        score = MatchingScorer().score(
+            job_snapshot(
+                requirements="Node.js",
+                skills=["Node.js"],
+                benefits="Remote friendly setup, stock option plan, certification support",
+            ),
+            candidate_snapshot(skills=[CandidateSkillSnapshot(name="Node.js")]),
+        )
+
+        self.assertNotIn("remote friendly setup", score.explanation.missingSkills)
+        self.assertNotIn("stock option plan", score.explanation.missingSkills)
+        self.assertNotIn("certification support", score.explanation.missingSkills)
+
+    def test_parsed_project_without_name_is_preserved_when_it_has_evidence(self):
+        request = SimpleNamespace(
+            candidate_id=uuid4(),
+            candidate_user_id=uuid4(),
+            candidate_cv_id=uuid4(),
+            parsed_resume={
+                "profile": {},
+                "projects": [
+                    {
+                        "description": "Backend API with relational database and Swagger docs.",
+                        "technologies": ["Node.js", "PostgreSQL", "Swagger"],
+                    }
+                ],
+            },
+        )
+
+        candidate = MatchingService()._candidate_from_parsed_resume(request)
+
+        self.assertEqual(len(candidate.projects), 1)
+        self.assertEqual(candidate.projects[0].description, "Backend API with relational database and Swagger docs.")
+        self.assertEqual(candidate.projects[0].technologies, ["Node.js", "PostgreSQL", "Swagger"])
+
+    def test_high_semantic_and_project_signal_is_kept_warm_instead_of_rejected(self):
+        os.environ["MATCHING_ENABLE_SEMANTIC_SCORING"] = "true"
+        get_settings.cache_clear()
+
+        scorer = MatchingScorer()
+        with patch.object(scorer.semantic_scorer, "score", return_value=78), patch.object(
+            scorer.semantic_scorer,
+            "score_text_pair",
+            side_effect=lambda left, right: 78 if len(left.split()) > 4 and "backend api platform" in right else 0,
+        ):
+            score = scorer.score(
+                job_snapshot(
+                    requirements="NestJS, PostgreSQL, RabbitMQ, testing",
+                    skills=["NestJS", "PostgreSQL", "RabbitMQ", "Testing"],
+                    experienceLevel="JUNIOR",
+                ),
+                candidate_snapshot(
+                    skills=[CandidateSkillSnapshot(name="JavaScript")],
+                    experiences=[],
+                    projects=[
+                        CandidateProjectSnapshot(
+                            name="Recruitment Backend",
+                            description="Backend API platform with applications, authentication, database models, and API docs.",
+                            technologies=["Node.js", "Express", "MSSQL", "JWT", "Swagger"],
+                        )
+                    ],
+                ),
+            )
+
+        self.assertLess(score.totalScore, 70)
+        self.assertEqual(score.explanation.decision, "KEEP_WARM")
 
     def test_weak_candidate_is_rejected_with_risk_flags(self):
         score = MatchingScorer().score(

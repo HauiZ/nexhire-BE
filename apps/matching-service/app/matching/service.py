@@ -173,6 +173,7 @@ class MatchingService:
             CandidateEducationSnapshot,
             CandidateExperienceSnapshot,
             CandidateMatchingSnapshot,
+            CandidateProjectSnapshot,
             CandidateSkillSnapshot,
         )
 
@@ -221,9 +222,15 @@ class MatchingService:
                 if certification.get("name")
             ],
             projects=[
-                project.get("name")
+                CandidateProjectSnapshot(
+                    name=project.get("name"),
+                    description=project.get("description"),
+                    technologies=project.get("technologies") or [],
+                )
                 for project in parsed.get("projects", [])
                 if project.get("name")
+                or project.get("description")
+                or project.get("technologies")
             ],
         )
 

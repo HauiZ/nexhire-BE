@@ -8,7 +8,18 @@ from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
 
 DEFAULT_WEIGHTS = {
     "skill": 0.30,
+    "experience": 0.20,
+    "project": 0.10,
+    "education": 0.1,
+    "location": 0.05,
+    "level": 0.05,
+    "semantic": 0.20,
+}
+
+NO_PROJECT_WEIGHTS = {
+    "skill": 0.30,
     "experience": 0.25,
+    "project": 0.0,
     "education": 0.1,
     "location": 0.075,
     "level": 0.075,
@@ -48,20 +59,23 @@ class MatchingScorer:
 
     def score(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot) -> MatchScores:
         skill_score, matched_skills, missing_skills = self._score_requirements(job, candidate)
-        experience_score = self._score_experience(job, candidate)
+        project_score = self._score_projects(job, candidate)
+        experience_score = self._score_experience(job, candidate, project_score)
         education_score = self._score_education(candidate)
         location_score = self._score_location(job, candidate)
         level_score = self._score_level(job, candidate)
         semantic_score = self.semantic_scorer.score(job, candidate)
         effective_semantic_score = semantic_score if semantic_score is not None else skill_score
+        weights = DEFAULT_WEIGHTS if candidate.projects else NO_PROJECT_WEIGHTS
 
         total = (
-            DEFAULT_WEIGHTS["skill"] * skill_score
-            + DEFAULT_WEIGHTS["experience"] * experience_score
-            + DEFAULT_WEIGHTS["education"] * education_score
-            + DEFAULT_WEIGHTS["location"] * location_score
-            + DEFAULT_WEIGHTS["level"] * level_score
-            + DEFAULT_WEIGHTS["semantic"] * effective_semantic_score
+            weights["skill"] * skill_score
+            + weights["experience"] * experience_score
+            + weights["project"] * project_score
+            + weights["education"] * education_score
+            + weights["location"] * location_score
+            + weights["level"] * level_score
+            + weights["semantic"] * effective_semantic_score
         )
         total = round(max(0, min(100, total)), 2)
         explanation = self._explain(
@@ -70,6 +84,7 @@ class MatchingScorer:
             missing_skills,
             skill_score,
             experience_score,
+            project_score,
             education_score,
             location_score,
             effective_semantic_score,
@@ -80,7 +95,7 @@ class MatchingScorer:
             experienceScore=round(experience_score, 2),
             educationScore=round(education_score, 2),
             certificationScore=0,
-            projectScore=0,
+            projectScore=round(project_score, 2),
             preferenceScore=round((location_score + level_score) / 2, 2),
             semanticScore=round(effective_semantic_score, 2),
             explanation=explanation,
@@ -151,12 +166,64 @@ class MatchingScorer:
             return 0.5
         return 0
 
-    def _score_experience(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot) -> float:
+    def _score_experience(
+        self,
+        job: JobMatchingSnapshot,
+        candidate: CandidateMatchingSnapshot,
+        project_score: float,
+    ) -> float:
         required_years = LEVEL_YEARS.get(job.experienceLevel.upper(), 1)
         if required_years <= 0:
             return 100
         candidate_years = self._estimate_years(candidate)
-        return min(100, (candidate_years / required_years) * 100)
+        base_score = min(100, (candidate_years / required_years) * 100)
+        level = job.experienceLevel.upper()
+        if level in {"FRESHER", "JUNIOR"}:
+            return max(base_score, min(70, project_score * 0.75))
+        if level == "MIDDLE":
+            return max(base_score, min(40, project_score * 0.45))
+        if level in {"SENIOR", "LEAD", "MANAGER"}:
+            return max(base_score, min(20, project_score * 0.25))
+        return base_score
+
+    def _score_projects(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot) -> float:
+        if not candidate.projects:
+            return 0
+        job_text = normalize_text(
+            " ".join(
+                part
+                for part in [
+                    job.title,
+                    job.requirements,
+                    job.description,
+                    " ".join(job.skills),
+                ]
+                if part
+            )
+        )
+        if not job_text:
+            return 50
+
+        best_score = 0.0
+        for project in candidate.projects:
+            project_text = normalize_text(
+                " ".join(
+                    part
+                    for part in [
+                        project.name,
+                        project.description,
+                        " ".join(project.technologies),
+                    ]
+                    if part
+                )
+            )
+            if not project_text:
+                continue
+            score = self.semantic_scorer.score_text_pair(job_text, project_text)
+            if score is None:
+                score = self._token_overlap_score(job_text, project_text)
+            best_score = max(best_score, score)
+        return min(100, best_score)
 
     def _estimate_years(self, candidate: CandidateMatchingSnapshot) -> float:
         total_months = 0
@@ -205,6 +272,7 @@ class MatchingScorer:
         missing_skills: list[str],
         skill_score: float,
         experience_score: float,
+        project_score: float,
         education_score: float,
         location_score: float,
         semantic_score: float,
@@ -219,6 +287,8 @@ class MatchingScorer:
             strong.append("Candidate experience fits the requested level")
         else:
             weak.append("Candidate experience is below the requested level")
+        if project_score >= 70:
+            strong.append("Candidate projects are relevant to the role")
         if education_score < 60:
             weak.append("Education signal is incomplete or below expectation")
         if location_score < 60:
@@ -230,7 +300,7 @@ class MatchingScorer:
         recommendation = (
             "STRONG_FIT" if total >= 85 else "GOOD_FIT" if total >= 70 else "PARTIAL_FIT" if total >= 50 else "LOW_FIT"
         )
-        decision, priority = self._decision(total, skill_score, experience_score, semantic_score)
+        decision, priority = self._decision(total, skill_score, experience_score, project_score, semantic_score)
         next_actions = self._next_actions(decision, missing_skills, skill_score, experience_score, semantic_score)
         risk_flags = self._risk_flags(missing_skills, skill_score, experience_score, education_score, semantic_score)
         return MatchExplanation(
@@ -251,6 +321,7 @@ class MatchingScorer:
         total: float,
         skill_score: float,
         experience_score: float,
+        project_score: float,
         semantic_score: float,
     ) -> tuple[str, str]:
         if total >= 85 and skill_score >= 70 and experience_score >= 70:
@@ -259,6 +330,8 @@ class MatchingScorer:
             return "REVIEW_MANUALLY", "HIGH"
         if total >= 50:
             return "KEEP_WARM", "NORMAL"
+        if semantic_score >= 75 and project_score >= 55 and total >= 40:
+            return "KEEP_WARM", "LOW"
         return "REJECT", "LOW"
 
     def _next_actions(

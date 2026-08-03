@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 
 class JobMatchingSnapshot(BaseModel):
@@ -37,6 +37,12 @@ class CandidateEducationSnapshot(BaseModel):
     fieldOfStudy: str | None = None
 
 
+class CandidateProjectSnapshot(BaseModel):
+    name: str | None = None
+    description: str | None = None
+    technologies: list[str] = []
+
+
 class CandidateMatchingSnapshot(BaseModel):
     candidateId: str
     candidateUserId: str | None = None
@@ -49,4 +55,16 @@ class CandidateMatchingSnapshot(BaseModel):
     experiences: list[CandidateExperienceSnapshot] = []
     educations: list[CandidateEducationSnapshot] = []
     certifications: list[str] = []
-    projects: list[str] = []
+    projects: list[CandidateProjectSnapshot] = []
+
+    @field_validator("projects", mode="before")
+    @classmethod
+    def normalize_projects(cls, value):
+        if not value:
+            return []
+        return [
+            {"name": item}
+            if isinstance(item, str)
+            else item
+            for item in value
+        ]
