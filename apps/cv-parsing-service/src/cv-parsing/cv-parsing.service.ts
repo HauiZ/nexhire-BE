@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
@@ -98,7 +98,7 @@ export class CvParsingService {
       order: { createdAt: 'DESC' },
     });
     if (!result) {
-      throw new BadRequestException({
+      throw new NotFoundException({
         code: ERROR_CODES.COMMON.NOT_FOUND,
         message: 'Parsed CV result not found',
       });

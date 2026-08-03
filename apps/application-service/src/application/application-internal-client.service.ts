@@ -145,11 +145,15 @@ export class ApplicationInternalClientService {
     candidateId: string;
     candidateCvId: string;
     requestedByUserId: string;
+    force?: boolean;
   }): Promise<CandidateCvSnapshot> {
     return this.postToService<CandidateCvSnapshot>(
       'candidateService',
       `/api/v1/internal/cvs/${params.candidateId}/${params.candidateCvId}/request-parse`,
-      { requestedByUserId: params.requestedByUserId },
+      {
+        requestedByUserId: params.requestedByUserId,
+        ...(params.force ? { force: true } : {}),
+      },
     );
   }
 

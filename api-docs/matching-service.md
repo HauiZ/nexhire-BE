@@ -11,6 +11,7 @@ Implementation note:
 - It owns `matching_service_db`.
 - It does not read other service databases directly.
 - It processes match requests created by application-service after the applied CV is parsed.
+- It does not consume `application.submitted`; application-service calls the internal HTTP request endpoint.
 - Match requests may include a parsed CV snapshot from cv-parsing-service.
 - It uses hybrid scoring: deterministic profile signals plus optional sentence-transformer semantic similarity.
 
@@ -37,7 +38,16 @@ Request body:
   "candidateUserId": "candidate-user-id",
   "candidateCvId": "candidate-cv-id",
   "cvDocumentId": "document-id",
-  "requestedByUserId": "recruiter-user-id"
+  "requestedByUserId": "recruiter-user-id",
+  "requestType": "RECRUITER_MANUAL",
+  "parsedResume": {
+    "profile": {},
+    "skills": [],
+    "experiences": [],
+    "educations": [],
+    "certifications": [],
+    "projects": []
+  }
 }
 ```
 
@@ -55,7 +65,7 @@ Success response:
 }
 ```
 
-The background worker processes pending requests, stores `match_results`, then publishes `matching.completed`.
+The background worker processes pending requests, stores `match_results`, then publishes `matching.completed` when a request reaches terminal success or failure.
 
 ## AI/NLP Scoring
 
@@ -87,7 +97,9 @@ npm run matching:install
 
 - if the applied CV is already `PARSED`, application-service fetches the latest parsed result from cv-parsing-service and creates a match request immediately;
 - if the applied CV is not parsed yet, application-service asks candidate-service to trigger CV parsing and waits for `cv.parsed`;
-- after `cv.parsed`, application-service creates the match request with the parsed resume snapshot.
+- after `cv.parsed`, application-service marks active applications for that CV as parsed and creates match requests with the parsed resume snapshot;
+- after `cv.parse-failed`, application-service marks active waiting applications for that CV as failed so future manual matching can retry parsing.
+- matching-service receives match requests through `POST /api/v1/matching/applications/:applicationId/requests`, not through RabbitMQ.
 
 The request body may include:
 
@@ -109,7 +121,7 @@ Matching-service no longer consumes `application.submitted` directly, to avoid s
 
 ### Publishes `matching.completed`
 
-`application-service` consumes this event and updates `applications.match_score` / `match_level`.
+`application-service` consumes this event. On `status=SUCCEEDED`, it updates `applications.match_score` / `match_level`. On `status=FAILED`, it logs the failure and keeps the previous score snapshot unchanged.
 
 ```json
 {
@@ -119,6 +131,7 @@ Matching-service no longer consumes `application.submitted` directly, to avoid s
   "jobId": "job-id",
   "candidateId": "candidate-id",
   "candidateCvId": "candidate-cv-id",
+  "status": "SUCCEEDED",
   "totalScore": 82,
   "matchLevel": "HIGH",
   "explanation": {
@@ -133,6 +146,8 @@ Matching-service no longer consumes `application.submitted` directly, to avoid s
     "nextActions": ["Review CV details before shortlisting"],
     "riskFlags": []
   },
+  "errorCode": null,
+  "errorMessage": null,
   "matchedAt": "2026-07-31T00:00:01.000Z"
 }
 ```

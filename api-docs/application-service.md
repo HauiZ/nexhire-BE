@@ -21,7 +21,7 @@ Responsibility: job application submission, candidate application history, recru
 - `CLOSED` jobs cancel active applications with status `CANCELLED`.
 - CV content is not embedded in the application response. FE calls the CV download endpoint to get a short-lived URL.
 - Candidate avatar URL is resolved dynamically from `candidateAvatarDocumentId` when available.
-- Matching is requested only after the applied CV is parsed. If the CV is not parsed at apply time, application-service triggers parsing and waits for `cv.parsed` before creating a match request.
+- Matching is requested only after the applied CV is parsed. If the CV is not parsed at apply time, application-service triggers parsing and waits for `cv.parsed` before creating a match request. If parsing fails, application-service marks waiting application matching as `FAILED` through the application CV parse snapshot.
 
 ## Recruiter Matching
 
@@ -34,6 +34,7 @@ Application-service uses the same parse-before-match orchestration as candidate 
 - if the submitted CV is `PARSED`, it fetches the latest parsed result and creates a matching request immediately;
 - if the submitted CV is `PARSING`, it returns a waiting response and lets `cv.parsed` enqueue matching later;
 - if the submitted CV is not parsed, it asks candidate-service to trigger parsing, updates the application CV parse snapshot to `PARSING`, and returns a waiting response.
+- if cv-parsing-service later emits `cv.parse-failed`, application-service marks active waiting applications for that CV as `cvParseStatus=FAILED` so recruiter retry can request parsing again instead of staying stuck.
 
 Auth:
 

@@ -2,13 +2,14 @@ import {
   BadRequestException,
   ConflictException,
   ForbiddenException,
+  HttpException,
   Injectable,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApplicationStage, AuthUser, ERROR_CODES, ParsedResume, UserRole } from '@nexhire/shared';
-import { Brackets, In, IsNull, Repository } from 'typeorm';
+import { Brackets, In, Repository } from 'typeorm';
 import {
   ApplicationInternalClientService,
   MatchRequestSnapshot,
@@ -251,7 +252,6 @@ export class ApplicationService {
       where: {
         candidateCvId: payload.candidateCvId,
         status: In(this.activeStatuses),
-        matchScore: IsNull(),
       },
       order: { submittedAt: 'ASC' },
     });
@@ -266,6 +266,28 @@ export class ApplicationService {
         application.candidateUserId,
         payload.normalizedPayload,
         'AUTO_APPLICATION',
+      );
+    }
+  }
+
+  async handleCvParseFailedForMatching(payload: {
+    candidateCvId: string;
+    errorMessage?: string;
+  }): Promise<void> {
+    const applications = await this.applicationRepo.find({
+      where: {
+        candidateCvId: payload.candidateCvId,
+        status: In(this.activeStatuses),
+        cvParseStatus: 'PARSING',
+      },
+      order: { submittedAt: 'ASC' },
+    });
+
+    for (const application of applications) {
+      application.cvParseStatus = 'FAILED';
+      await this.applicationRepo.save(application);
+      this.logger.warn(
+        `Application matching CV parse failed applicationId=${application.id} candidateCvId=${application.candidateCvId}: ${payload.errorMessage ?? 'unknown error'}`,
       );
     }
   }
@@ -488,15 +510,24 @@ export class ApplicationService {
     requestType: 'AUTO_APPLICATION' | 'RECRUITER_MANUAL',
   ): Promise<MatchRequestSnapshot> {
     if (application.cvParseStatus === 'PARSED') {
-      const parsedResult = await this.internalClient.getLatestCvParseResult(
-        application.candidateCvId,
-      );
-      return this.createMatchRequestForApplication(
-        application,
-        requestedByUserId,
-        parsedResult.normalizedPayload,
-        requestType,
-      );
+      try {
+        const parsedResult = await this.internalClient.getLatestCvParseResult(
+          application.candidateCvId,
+        );
+        return this.createMatchRequestForApplication(
+          application,
+          requestedByUserId,
+          parsedResult.normalizedPayload,
+          requestType,
+        );
+      } catch (error) {
+        if (!this.isMissingCvParseResult(error)) {
+          throw error;
+        }
+        this.logger.warn(
+          `Application matching could not find parsed CV result, requesting reparse applicationId=${application.id} candidateCvId=${application.candidateCvId}`,
+        );
+      }
     }
 
     if (application.cvParseStatus === 'PARSING') {
@@ -510,6 +541,7 @@ export class ApplicationService {
       candidateId: application.candidateId,
       candidateCvId: application.candidateCvId,
       requestedByUserId,
+      ...(application.cvParseStatus === 'PARSED' ? { force: true } : {}),
     });
     if (application.cvParseStatus !== cv.parseStatus) {
       application.cvParseStatus = cv.parseStatus;
@@ -550,6 +582,29 @@ export class ApplicationService {
       requestType,
       parsedResume,
     });
+  }
+
+  private isMissingCvParseResult(error: unknown): boolean {
+    if (!(error instanceof HttpException)) {
+      return false;
+    }
+    const response = error.getResponse();
+    if (typeof response === 'string') {
+      return false;
+    }
+    const body = this.unwrapErrorBody(response as Record<string, unknown>);
+    return (
+      body.code === ERROR_CODES.COMMON.NOT_FOUND &&
+      body.message?.toLowerCase().includes('parsed cv result') === true
+    );
+  }
+
+  private unwrapErrorBody(response: Record<string, unknown>): { code?: string; message?: string } {
+    const nestedError = response.error;
+    if (nestedError && typeof nestedError === 'object') {
+      return nestedError as { code?: string; message?: string };
+    }
+    return response as { code?: string; message?: string };
   }
 
   private async getCvDownload(application: Application): Promise<ApplicationCvDownloadDto> {

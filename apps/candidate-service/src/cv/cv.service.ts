@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, IsNull, LessThanOrEqual, Repository } from 'typeorm';
+import { DataSource, IsNull, LessThanOrEqual, Not, Repository } from 'typeorm';
 
 import { AuthUser, ERROR_CODES, UserRole } from '@nexhire/shared';
 
@@ -141,6 +141,7 @@ export class CvService {
     candidateId: string,
     candidateCvId: string,
     requestedByUserId: string,
+    force = false,
   ): Promise<CandidateCvResponseDto> {
     const cv = await this.cvRepo.findOne({
       where: { id: candidateCvId, candidateId, deletedAt: IsNull() },
@@ -152,7 +153,7 @@ export class CvService {
       });
     }
 
-    if (cv.parseStatus === CandidateCvParseStatus.PARSED) {
+    if (!force && cv.parseStatus === CandidateCvParseStatus.PARSED) {
       return this.mapCv(cv);
     }
 
@@ -160,10 +161,22 @@ export class CvService {
       return this.mapCv(cv);
     }
 
-    await this.cvRepo.update(cv.id, {
-      parseStatus: CandidateCvParseStatus.PARSING,
-      parsedAt: null,
-    });
+    const result = await this.cvRepo.update(
+      {
+        id: cv.id,
+        candidateId,
+        deletedAt: IsNull(),
+        parseStatus: Not(CandidateCvParseStatus.PARSING),
+      },
+      {
+        parseStatus: CandidateCvParseStatus.PARSING,
+        parsedAt: null,
+      },
+    );
+    if (result.affected === 0) {
+      const latestCv = await this.cvRepo.findOne({ where: { id: cv.id } });
+      return this.mapCv(latestCv ?? cv);
+    }
 
     return this.triggerParse(
       { id: requestedByUserId, role: UserRole.CANDIDATE } as AuthUser,

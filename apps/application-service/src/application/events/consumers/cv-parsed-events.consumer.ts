@@ -11,6 +11,11 @@ interface CvParsedPayload {
   normalizedPayload: ParsedResume;
 }
 
+interface CvParseFailedPayload {
+  candidateCvId: string;
+  errorMessage?: string;
+}
+
 @Injectable()
 export class CvParsedEventsConsumer implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(CvParsedEventsConsumer.name);
@@ -50,7 +55,7 @@ export class CvParsedEventsConsumer implements OnModuleInit, OnModuleDestroy {
         await setupReliableQueue(channel, {
           exchange,
           queueName,
-          bindingKeys: [EVENTS.CV_PARSED],
+          bindingKeys: [EVENTS.CV_PARSED, EVENTS.CV_PARSE_FAILED],
         });
         await channel.consume(queueName, (message) => this.consume(message), { noAck: false });
       },
@@ -68,11 +73,16 @@ export class CvParsedEventsConsumer implements OnModuleInit, OnModuleDestroy {
     }
 
     try {
-      const payload = this.parsePayload(message);
-      await this.applicationService.handleCvParsedForMatching(payload);
+      if (message.fields.routingKey === EVENTS.CV_PARSE_FAILED) {
+        const payload = this.parseFailedPayload(message);
+        await this.applicationService.handleCvParseFailedForMatching(payload);
+      } else {
+        const payload = this.parseParsedPayload(message);
+        await this.applicationService.handleCvParsedForMatching(payload);
+      }
       this.channel.ack(message);
     } catch (error) {
-      this.logger.error('Failed to process CV parsed matching event', error as Error);
+      this.logger.error('Failed to process CV parse matching event', error as Error);
       await this.retryOrRequeue(message);
     }
   }
@@ -86,10 +96,18 @@ export class CvParsedEventsConsumer implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  private parsePayload(message: ConsumeMessage): CvParsedPayload {
+  private parseParsedPayload(message: ConsumeMessage): CvParsedPayload {
     const payload = unwrapEventData(JSON.parse(message.content.toString()) as CvParsedPayload);
     if (!payload.candidateCvId || !payload.normalizedPayload) {
       throw new Error('Invalid cv.parsed payload');
+    }
+    return payload;
+  }
+
+  private parseFailedPayload(message: ConsumeMessage): CvParseFailedPayload {
+    const payload = unwrapEventData(JSON.parse(message.content.toString()) as CvParseFailedPayload);
+    if (!payload.candidateCvId) {
+      throw new Error('Invalid cv.parse-failed payload');
     }
     return payload;
   }

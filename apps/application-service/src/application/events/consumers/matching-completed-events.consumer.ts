@@ -5,11 +5,14 @@ import { EVENTS, QUEUES, unwrapEventData } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { ApplicationService } from '../../application.service';
+import { ApplicationMatchLevel } from '../../entities/application.entity';
 
 interface MatchingCompletedPayload {
   applicationId?: string | null;
   totalScore: number;
-  matchLevel?: 'LOW' | 'MEDIUM' | 'HIGH' | 'EXCELLENT';
+  matchLevel?: ApplicationMatchLevel;
+  status?: 'SUCCEEDED' | 'FAILED';
+  errorMessage?: string | null;
 }
 
 @Injectable()
@@ -72,6 +75,13 @@ export class MatchingCompletedEventsConsumer implements OnModuleInit, OnModuleDe
       const payload = this.parsePayload(message);
       if (!payload.applicationId) {
         this.logger.warn('Ignoring matching.completed without applicationId');
+        this.channel.ack(message);
+        return;
+      }
+      if (payload.status === 'FAILED') {
+        this.logger.warn(
+          `Matching failed applicationId=${payload.applicationId}: ${payload.errorMessage ?? 'unknown error'}`,
+        );
         this.channel.ack(message);
         return;
       }

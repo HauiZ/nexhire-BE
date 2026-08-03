@@ -68,9 +68,12 @@ Request body:
 
 ```json
 {
-  "requestedByUserId": "candidate-user-id"
+  "requestedByUserId": "candidate-user-id",
+  "force": false
 }
 ```
+
+`force=true` is reserved for service orchestration recovery, for example when application-service sees `cvParseStatus=PARSED` but cv-parsing-service has no stored parsed result for that CV. Normal callers should omit it.
 
 Success response payload is the candidate CV metadata with `parseStatus`.
 

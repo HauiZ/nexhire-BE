@@ -124,6 +124,11 @@ export class CvInternalController {
     @Param('candidateCvId', ParseUUIDPipe) candidateCvId: string,
     @Body() dto: RequestCvParseDto,
   ): Promise<CandidateCvResponseDto> {
-    return this.cvService.requestParseForMatching(candidateId, candidateCvId, dto.requestedByUserId);
+    return this.cvService.requestParseForMatching(
+      candidateId,
+      candidateCvId,
+      dto.requestedByUserId,
+      dto.force,
+    );
   }
 }

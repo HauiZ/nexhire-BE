@@ -11,9 +11,10 @@ RabbitMQ uses a durable topic exchange from `rabbitmq.exchange` with dotted rout
 | `application.submitted`              | application-service | job-service, notification-service               | Increment application count and notify.                              |
 | `application.stage-changed`          | application-service | notification-service                            | Notify candidate about stage changes.                                |
 | `cv.uploaded`                        | candidate-service   | cv-parsing-service                              | Start async profile CV parsing.                                      |
-| `cv.parsed`                          | cv-parsing-service  | candidate-service                               | Apply parsed resume and mark CV parsed.                              |
-| `cv.parse-failed`                    | cv-parsing-service  | candidate-service                               | Mark CV parse failed.                                                |
-| `cv.match-requested`                 | reserved            | none currently                                  | Reserved for async matching flow.                                    |
+| `cv.parsed`                          | cv-parsing-service  | candidate-service, application-service          | Apply parsed resume, mark CV parsed, and continue waiting matching.   |
+| `cv.parse-failed`                    | cv-parsing-service  | candidate-service, application-service          | Mark CV parse failed and unblock waiting matching state.              |
+| `cv.match-requested`                 | reserved            | none currently                                  | Reserved for async matching flow; matching requests currently use internal HTTP. |
+| `matching.completed`                 | matching-service    | application-service                             | Report terminal matching success/failure for application score sync. |
 | `document.uploaded`                  | reserved            | none currently                                  | Reserved for document lifecycle.                                     |
 | `document.removed`                   | reserved            | none currently                                  | Reserved for document lifecycle.                                     |
 | `candidate.profile-snapshot-changed` | candidate-service   | auth-service, application-service               | Sync candidate profile snapshot.                                     |
@@ -36,6 +37,8 @@ RabbitMQ uses a durable topic exchange from `rabbitmq.exchange` with dotted rout
 | `job.application-submitted`       | job-service        | `application.submitted`              |
 | `candidate.job-published-follow`  | candidate-service  | `job.published`                      |
 | `candidate.cv-parsed`             | candidate-service  | `cv.parsed`, `cv.parse-failed`       |
+| `application.cv-parsed`           | application-service | `cv.parsed`, `cv.parse-failed`       |
+| `application.matching-completed`  | application-service | `matching.completed`                 |
 | `cv-parsing.cv-uploaded`          | cv-parsing-service | `cv.uploaded`                        |
 
 ## Delivery Notes

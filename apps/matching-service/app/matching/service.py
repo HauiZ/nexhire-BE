@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.clients.internal import InternalClient
 from app.config import get_settings
-from app.consumers.events import EventPublisher
+from app.publishers.events import EventPublisher
 from app.matching.scorer import MatchingScorer
 from app.models.matching import (
     MatchProvider,
@@ -121,6 +121,26 @@ class MatchingService:
             await session.flush()
             return result
 
+    async def find_unpublished_completed_results(
+        self, session: AsyncSession, limit: int
+    ) -> list[MatchResult]:
+        rows = (
+            await session.scalars(
+                select(MatchResult)
+                .where(MatchResult.matching_completed_published_at.is_(None))
+                .order_by(MatchResult.created_at.asc())
+                .limit(limit)
+                .with_for_update(skip_locked=True)
+            )
+        ).all()
+        return list(rows)
+
+    async def mark_completed_published(self, session: AsyncSession, result_id: uuid.UUID) -> None:
+        result = await session.get(MatchResult, result_id)
+        if result:
+            result.matching_completed_published_at = datetime.now(timezone.utc)
+            await session.flush()
+
     def _candidate_from_parsed_resume(self, request: MatchRequest):
         from app.schemas.snapshots import (
             CandidateEducationSnapshot,
@@ -189,9 +209,12 @@ class MatchingService:
                 "jobId": str(result.job_id),
                 "candidateId": str(result.candidate_id),
                 "candidateCvId": str(result.candidate_cv_id) if result.candidate_cv_id else None,
+                "status": result.status.value,
                 "totalScore": result.total_score,
                 "matchLevel": match_level(result.total_score),
                 "explanation": result.explanation,
+                "errorCode": result.error_code,
+                "errorMessage": result.error_message,
                 "matchedAt": datetime.now(timezone.utc).isoformat(),
             }
         )

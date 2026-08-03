@@ -1,4 +1,5 @@
-import { ApplicationStage, UserRole } from '@nexhire/shared';
+import { HttpException } from '@nestjs/common';
+import { ApplicationStage, ERROR_CODES, UserRole } from '@nexhire/shared';
 import { Repository } from 'typeorm';
 import { ApplicationInternalClientService } from '../application-internal-client.service';
 import { ApplicationService } from '../application.service';
@@ -420,6 +421,39 @@ describe('ApplicationService', () => {
     expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
   });
 
+  it('forces CV parsing when application says parsed but parsed result is missing', async () => {
+    repo.findOne.mockResolvedValue({ ...application, cvParseStatus: 'PARSED' });
+    internalClient.getLatestCvParseResult.mockRejectedValueOnce(
+      new HttpException(
+        {
+          success: false,
+          error: {
+            code: ERROR_CODES.COMMON.NOT_FOUND,
+            message: 'Parsed CV result not found',
+          },
+        },
+        400,
+      ),
+    );
+
+    const result = await service.requestCompanyApplicationMatch(recruiterUser, application.id);
+
+    expect(result).toEqual({
+      id: null,
+      applicationId: application.id,
+      status: 'WAITING_FOR_CV_PARSE',
+      requestType: 'RECRUITER_MANUAL',
+    });
+    expect(internalClient.requestCandidateCvParse).toHaveBeenCalledWith({
+      candidateId: application.candidateId,
+      candidateCvId: application.candidateCvId,
+      requestedByUserId: recruiterUser.id,
+      force: true,
+    });
+    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ cvParseStatus: 'PARSING' }));
+    expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
+  });
+
   it('updates application CV parse status and queues matching when cv.parsed arrives', async () => {
     repo.find.mockResolvedValue([{ ...application, cvParseStatus: 'PARSING' }]);
 
@@ -436,6 +470,50 @@ describe('ApplicationService', () => {
         parsedResume,
       }),
     );
+  });
+
+  it('requeues matching for already-scored active applications when CV is parsed again', async () => {
+    repo.find.mockResolvedValue([{ ...application, cvParseStatus: 'PARSED', matchScore: 72 }]);
+
+    await service.handleCvParsedForMatching({
+      candidateCvId: application.candidateCvId,
+      normalizedPayload: parsedResume,
+    });
+
+    expect(repo.find).toHaveBeenCalledWith({
+      where: {
+        candidateCvId: application.candidateCvId,
+        status: expect.any(Object),
+      },
+      order: { submittedAt: 'ASC' },
+    });
+    expect(internalClient.createApplicationMatchRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: application.id,
+        requestType: 'AUTO_APPLICATION',
+        parsedResume,
+      }),
+    );
+  });
+
+  it('marks waiting application matching as failed when cv.parse-failed arrives', async () => {
+    repo.find.mockResolvedValue([{ ...application, cvParseStatus: 'PARSING' }]);
+
+    await service.handleCvParseFailedForMatching({
+      candidateCvId: application.candidateCvId,
+      errorMessage: 'Unable to parse document',
+    });
+
+    expect(repo.find).toHaveBeenCalledWith({
+      where: {
+        candidateCvId: application.candidateCvId,
+        status: expect.any(Object),
+        cvParseStatus: 'PARSING',
+      },
+      order: { submittedAt: 'ASC' },
+    });
+    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ cvParseStatus: 'FAILED' }));
+    expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
   });
 
   it('cancels active applications when a job is closed', async () => {
