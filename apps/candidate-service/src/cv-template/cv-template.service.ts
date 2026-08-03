@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { randomUUID } from 'crypto';
 import { DataSource, IsNull, QueryDeepPartialEntity, Repository } from 'typeorm';
@@ -121,7 +116,9 @@ export class CvTemplateService {
       source === CvTemplateCreateSource.DEFAULT
         ? await this.buildContentSnapshotFromDefaultProfile(user.id)
         : this.buildEmptyContentSnapshot();
-    const contentSnapshot = this.validateContentSnapshot(dto.contentSnapshot ?? baseContentSnapshot);
+    const contentSnapshot = this.validateContentSnapshot(
+      dto.contentSnapshot ?? baseContentSnapshot,
+    );
     const layout = dto.layout ? this.validateLayout(dto.layout) : this.buildLayout(contentSnapshot);
 
     const template = await this.templateRepo.save(
@@ -136,6 +133,7 @@ export class CvTemplateService {
         theme: dto.theme ?? {},
         layout,
         contentSnapshot,
+        canvas: dto.canvas ?? {},
         isDefault: false,
         lastExportedCvId: null,
         lastExportedAt: null,
@@ -214,6 +212,7 @@ export class CvTemplateService {
       ...(dto.contentSnapshot !== undefined
         ? { contentSnapshot: this.validateContentSnapshot(dto.contentSnapshot) }
         : {}),
+      ...(dto.canvas !== undefined ? { canvas: dto.canvas } : {}),
     };
 
     await this.dataSource.transaction(async (manager) => {
@@ -455,9 +454,7 @@ export class CvTemplateService {
     return template;
   }
 
-  private async enrichTemplateAssets(
-    template: CandidateCvTemplate,
-  ): Promise<CandidateCvTemplate> {
+  private async enrichTemplateAssets(template: CandidateCvTemplate): Promise<CandidateCvTemplate> {
     const contentSnapshot = this.validateContentSnapshot(template.contentSnapshot);
     const profileSection = this.getProfileSection(contentSnapshot);
     const avatarDocumentId = this.readAvatarDocumentId(profileSection);
@@ -839,6 +836,7 @@ export class CvTemplateService {
       theme: template.theme,
       layout: template.layout,
       contentSnapshot: template.contentSnapshot,
+      canvas: template.canvas ?? {},
       isDefault: template.isDefault,
       lastExportedCvId: template.lastExportedCvId,
       lastExportedAt: template.lastExportedAt,
