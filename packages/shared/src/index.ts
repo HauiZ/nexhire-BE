@@ -5,6 +5,7 @@ export * from './enums/application-progress-step.enum';
 export * from './enums/job-status.enum';
 export * from './enums/job-type.enum';
 export * from './enums/company-status.enum';
+export * from './enums/user-language.enum';
 
 // ── constants ──
 export * from './constants/events';

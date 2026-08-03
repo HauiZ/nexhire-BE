@@ -13,6 +13,7 @@ import { CandidateEducation } from './candidate-education.entity';
 import { CandidateCv } from './candidate-cv.entity';
 import { CandidateExperience } from './candidate-experience.entity';
 import { CandidateProfileVisibility } from './candidate.enum';
+import { UserLanguage } from '@nexhire/shared';
 import { CandidateProject } from './candidate-project.entity';
 import { CandidateSkill } from './candidate-skill.entity';
 
@@ -56,6 +57,9 @@ export class CandidateProfile {
 
   @Column({ name: 'linkedin_url', type: 'text', nullable: true })
   linkedinUrl: string | null;
+
+  @Column({ name: 'language', type: 'varchar', length: 10, default: UserLanguage.VI })
+  language: UserLanguage;
 
   @Column({ name: 'open_to_work', type: 'boolean', default: true })
   openToWork: boolean;

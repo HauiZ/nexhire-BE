@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { UserRole } from '@nexhire/shared';
+import { UserLanguage, UserRole } from '@nexhire/shared';
 
 export class AuthMeResponseDto {
   @ApiProperty()
@@ -16,6 +16,9 @@ export class AuthMeResponseDto {
 
   @ApiProperty({ enum: UserRole })
   role: UserRole;
+
+  @ApiProperty({ enum: UserLanguage, example: UserLanguage.VI })
+  language: UserLanguage;
 
   @ApiPropertyOptional({ nullable: true })
   logoUrl: string | null;

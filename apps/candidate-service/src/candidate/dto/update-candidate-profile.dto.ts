@@ -17,6 +17,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { UserLanguage } from '@nexhire/shared';
 
 import {
   CandidateEmploymentType,
@@ -72,6 +73,15 @@ export class UpdateCandidateProfileFieldsDto {
   @IsUrl({ require_protocol: true })
   @MaxLength(500)
   linkedinUrl?: string | null;
+
+  @ApiPropertyOptional({
+    enum: UserLanguage,
+    example: UserLanguage.VI,
+    description: 'Preferred UI language for this candidate account.',
+  })
+  @IsOptional()
+  @IsEnum(UserLanguage)
+  language?: UserLanguage;
 
   @ApiPropertyOptional({ example: true })
   @IsOptional()

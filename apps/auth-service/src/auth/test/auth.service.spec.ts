@@ -2,12 +2,11 @@ import {
   BadRequestException,
   ConflictException,
   ForbiddenException,
-  HttpException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { ERROR_CODES, UserRole } from '@nexhire/shared';
+import { ERROR_CODES, UserLanguage, UserRole } from '@nexhire/shared';
 import * as bcrypt from 'bcrypt';
 import { DataSource, Repository } from 'typeorm';
 import { AuthService } from '../auth.service';
@@ -35,6 +34,10 @@ type MockRepo = {
   create: jest.Mock;
   save: jest.Mock;
   createQueryBuilder: jest.Mock;
+};
+
+type AuthServicePrivateAccess = {
+  hashToken(value: string): string;
 };
 
 function createRepoMock(): MockRepo {
@@ -923,7 +926,7 @@ describe('AuthService', () => {
       id: 'verification-1',
       userId: 'user-1',
       email: 'candidate@nexhire.vn',
-      tokenHash: (service as any).hashToken('123456'),
+      tokenHash: (service as unknown as AuthServicePrivateAccess).hashToken('123456'),
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
       verifiedAt: null,
       user: { id: 'user-1' },
@@ -1008,7 +1011,7 @@ describe('AuthService', () => {
     });
 
     expect(emailVerificationRepo.update).toHaveBeenCalledWith('verification-1', {
-      tokenHash: (service as any).hashToken('654321'),
+      tokenHash: (service as unknown as AuthServicePrivateAccess).hashToken('654321'),
       expiresAt,
       lastSentAt: expect.any(Date),
       resendCount: 2,
@@ -1115,7 +1118,7 @@ describe('AuthService', () => {
       expect.objectContaining({
         userId: 'user-1',
         email: 'candidate@nexhire.vn',
-        tokenHash: (service as any).hashToken('112233'),
+        tokenHash: (service as unknown as AuthServicePrivateAccess).hashToken('112233'),
         expiresAt,
         usedAt: null,
         resendCount: 0,
@@ -1168,7 +1171,7 @@ describe('AuthService', () => {
       id: 'reset-1',
       userId: 'user-1',
       email: 'candidate@nexhire.vn',
-      tokenHash: (service as any).hashToken('112233'),
+      tokenHash: (service as unknown as AuthServicePrivateAccess).hashToken('112233'),
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
       usedAt: null,
     } as PasswordResetToken;
@@ -1217,7 +1220,7 @@ describe('AuthService', () => {
       id: 'reset-1',
       userId: 'user-1',
       email: 'candidate@nexhire.vn',
-      tokenHash: (service as any).hashToken('112233'),
+      tokenHash: (service as unknown as AuthServicePrivateAccess).hashToken('112233'),
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
       usedAt: null,
     } as PasswordResetToken);
@@ -1391,6 +1394,7 @@ describe('AuthService', () => {
       email: 'candidate@nexhire.vn',
       fullName: 'Nguyen Minh Khoa',
       phone: '0987654321',
+      language: UserLanguage.VI,
       avatarUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
       avatarDocumentId: null,
     } as User);
@@ -1417,6 +1421,7 @@ describe('AuthService', () => {
       fullName: 'Nguyen Minh Khoa',
       phone: '0987654321',
       role: UserRole.CANDIDATE,
+      language: UserLanguage.VI,
       avatarUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
       avatarDocumentId: null,
       logoUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
@@ -1430,6 +1435,7 @@ describe('AuthService', () => {
       email: 'recruiter@nexhire.vn',
       fullName: 'Recruiter One',
       phone: '0901234567',
+      language: UserLanguage.EN,
       avatarUrl: 'https://cdn.nexhire.vn/avatar/recruiter.png',
       avatarDocumentId: null,
     } as User);
@@ -1455,6 +1461,7 @@ describe('AuthService', () => {
       fullName: 'Recruiter One',
       phone: '0901234567',
       role: UserRole.RECRUITER,
+      language: UserLanguage.EN,
       avatarUrl: 'https://cdn.nexhire.vn/avatar/recruiter.png',
       avatarDocumentId: null,
       logoUrl: 'https://cdn.nexhire.vn/company/logo.png',
@@ -1468,6 +1475,7 @@ describe('AuthService', () => {
       email: 'admin@nexhire.vn',
       fullName: 'Admin One',
       phone: null,
+      language: UserLanguage.VI,
       avatarUrl: 'https://fallback/avatar.png',
       avatarDocumentId: '00000000-0000-4000-8000-000000000123',
     } as User);
@@ -1491,6 +1499,7 @@ describe('AuthService', () => {
     expect(result).toEqual(
       expect.objectContaining({
         role: UserRole.ADMIN,
+        language: UserLanguage.VI,
         avatarUrl: 'https://signed/avatar.png',
         avatarDocumentId: '00000000-0000-4000-8000-000000000123',
         logoUrl: null,
@@ -1586,6 +1595,7 @@ describe('AuthService', () => {
         email: 'recruiter@nexhire.vn',
         fullName: 'Recruiter One',
         phone: '0901234567',
+        language: UserLanguage.VI,
         avatarUrl: null,
         status: UserStatus.ACTIVE,
       } as User)
@@ -1594,6 +1604,7 @@ describe('AuthService', () => {
         email: 'recruiter@nexhire.vn',
         fullName: 'Recruiter Updated',
         phone: '0909999999',
+        language: UserLanguage.EN,
         avatarUrl: null,
         status: UserStatus.ACTIVE,
       } as User);
@@ -1610,18 +1621,21 @@ describe('AuthService', () => {
       {
         fullName: ' Recruiter Updated ',
         phone: ' 0909999999 ',
+        language: UserLanguage.EN,
       },
     );
 
     expect(userRepo.update).toHaveBeenCalledWith('user-1', {
       fullName: 'Recruiter Updated',
       phone: '0909999999',
+      language: UserLanguage.EN,
     });
     expect(result).toEqual(
       expect.objectContaining({
         email: 'recruiter@nexhire.vn',
         fullName: 'Recruiter Updated',
         phone: '0909999999',
+        language: UserLanguage.EN,
       }),
     );
   });

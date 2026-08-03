@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EVENTS, QUEUES } from '@nexhire/shared';
+import { EVENTS, QUEUES, UserLanguage } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { Repository } from 'typeorm';
@@ -11,6 +11,7 @@ interface CandidateProfileSnapshotChangedPayload {
   candidateUserId: string;
   fullName?: string | null;
   phone?: string | null;
+  language?: UserLanguage;
   changedAt?: string;
 }
 
@@ -92,6 +93,9 @@ export class CandidateProfileEventsConsumer implements OnModuleInit, OnModuleDes
     }
     if (payload.phone !== undefined) {
       patch.phone = payload.phone;
+    }
+    if (payload.language !== undefined) {
+      patch.language = payload.language;
     }
     if (Object.keys(patch).length === 0) {
       return;

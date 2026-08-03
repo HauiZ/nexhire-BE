@@ -257,6 +257,7 @@ export class AuthService {
       fullName: user.fullName,
       phone: user.phone,
       role: currentUser.role,
+      language: user.language,
       avatarUrl: await this.resolveAvatarUrl(user),
       avatarDocumentId: user.avatarDocumentId,
       logoUrl:
@@ -290,6 +291,9 @@ export class AuthService {
     }
     if (dto.phone !== undefined) {
       patch.phone = this.nullableTrim(dto.phone);
+    }
+    if (dto.language !== undefined) {
+      patch.language = dto.language;
     }
 
     if (Object.keys(patch).length > 0) {

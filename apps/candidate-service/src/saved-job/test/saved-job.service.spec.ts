@@ -1,5 +1,5 @@
 import { ConflictException } from '@nestjs/common';
-import { JobExperienceLevel, JobStatus, UserRole } from '@nexhire/shared';
+import { JobExperienceLevel, JobStatus, UserLanguage, UserRole } from '@nexhire/shared';
 import { Repository } from 'typeorm';
 import { CandidateProfile } from '../../candidate/entities/candidate-profile.entity';
 import { CandidateProfileVisibility } from '../../candidate/entities/candidate.enum';
@@ -7,7 +7,7 @@ import { SavedJob } from '../entities/saved-job.entity';
 import { JobSnapshotClient, SavedJobSnapshot } from '../job-snapshot.client';
 import { SavedJobService } from '../saved-job.service';
 
-type MockRepo<T> = {
+type MockRepo = {
   create: jest.Mock;
   delete: jest.Mock;
   exist: jest.Mock;
@@ -16,7 +16,7 @@ type MockRepo<T> = {
   createQueryBuilder: jest.Mock;
 };
 
-function createRepo<T>(): MockRepo<T> {
+function createRepo(): MockRepo {
   return {
     create: jest.fn((value) => value),
     delete: jest.fn().mockResolvedValue(undefined),
@@ -40,6 +40,7 @@ function createCandidate(): CandidateProfile {
     location: null,
     portfolioUrl: null,
     linkedinUrl: null,
+    language: UserLanguage.VI,
     openToWork: true,
     visibility: CandidateProfileVisibility.PUBLIC,
     createdAt: new Date(),
@@ -78,13 +79,13 @@ function createSnapshot(overrides: Partial<SavedJobSnapshot> = {}): SavedJobSnap
 describe('SavedJobService', () => {
   const user = { id: 'user-1', role: UserRole.CANDIDATE };
   let service: SavedJobService;
-  let candidateRepo: MockRepo<CandidateProfile>;
-  let savedJobRepo: MockRepo<SavedJob>;
+  let candidateRepo: MockRepo;
+  let savedJobRepo: MockRepo;
   let jobSnapshotClient: { getSavedSnapshot: jest.Mock };
 
   beforeEach(() => {
-    candidateRepo = createRepo<CandidateProfile>();
-    savedJobRepo = createRepo<SavedJob>();
+    candidateRepo = createRepo();
+    savedJobRepo = createRepo();
     jobSnapshotClient = { getSavedSnapshot: jest.fn() };
     service = new SavedJobService(
       jobSnapshotClient as unknown as JobSnapshotClient,

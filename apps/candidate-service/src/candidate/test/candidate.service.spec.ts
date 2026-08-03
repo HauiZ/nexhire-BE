@@ -1,4 +1,4 @@
-import { ERROR_CODES, UserRole } from '@nexhire/shared';
+import { ERROR_CODES, UserLanguage, UserRole } from '@nexhire/shared';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 
 import { CandidateService } from '../candidate.service';
@@ -18,7 +18,7 @@ import { DocumentClientService } from '../../document-client/document-client.ser
 import { AuthClientService } from '../auth-client.service';
 import { CandidateEventPublisher } from '../events/candidate-event.publisher';
 
-type MockRepo<T> = {
+type MockRepo = {
   create: jest.Mock;
   find: jest.Mock;
   findOne: jest.Mock;
@@ -36,12 +36,12 @@ type MockManager = {
   update: jest.Mock;
 };
 
-function createRepoMock<T>(): MockRepo<T> {
+function createRepoMock(): MockRepo {
   return {
-    create: jest.fn((entity: T) => entity),
+    create: jest.fn((entity: unknown) => entity),
     find: jest.fn().mockResolvedValue([]),
     findOne: jest.fn(),
-    save: jest.fn((entity: T) => Promise.resolve(entity)),
+    save: jest.fn((entity: unknown) => Promise.resolve(entity)),
     update: jest.fn().mockResolvedValue(undefined),
   };
 }
@@ -59,6 +59,7 @@ function createProfile(overrides: Partial<CandidateProfile> = {}): CandidateProf
     location: null,
     portfolioUrl: null,
     linkedinUrl: null,
+    language: UserLanguage.VI,
     openToWork: true,
     visibility: CandidateProfileVisibility.PUBLIC,
     createdAt: new Date('2026-01-01T00:00:00.000Z'),
@@ -73,7 +74,7 @@ function createProfile(overrides: Partial<CandidateProfile> = {}): CandidateProf
   };
 }
 
-function createManager(profileRepo: MockRepo<CandidateProfile>): MockManager {
+function createManager(profileRepo: MockRepo): MockManager {
   return {
     create: jest.fn((_entity: unknown, payload: unknown) => payload),
     delete: jest.fn().mockResolvedValue(undefined),
@@ -88,13 +89,13 @@ function createManager(profileRepo: MockRepo<CandidateProfile>): MockManager {
 describe('CandidateService', () => {
   let service: CandidateService;
   let dataSource: { transaction: jest.Mock };
-  let profileRepo: MockRepo<CandidateProfile>;
-  let skillRepo: MockRepo<CandidateSkill>;
-  let educationRepo: MockRepo<CandidateEducation>;
-  let experienceRepo: MockRepo<CandidateExperience>;
-  let certificationRepo: MockRepo<CandidateCertification>;
-  let projectRepo: MockRepo<CandidateProject>;
-  let cvRepo: MockRepo<CandidateCv>;
+  let profileRepo: MockRepo;
+  let skillRepo: MockRepo;
+  let educationRepo: MockRepo;
+  let experienceRepo: MockRepo;
+  let certificationRepo: MockRepo;
+  let projectRepo: MockRepo;
+  let cvRepo: MockRepo;
   let documentClientService: { createDownloadUrl: jest.Mock; uploadCandidateDocument: jest.Mock };
   let authClientService: { getUserEmail: jest.Mock };
   let candidateEventPublisher: { publishProfileSnapshotChanged: jest.Mock };
@@ -103,13 +104,13 @@ describe('CandidateService', () => {
     dataSource = {
       transaction: jest.fn(),
     };
-    profileRepo = createRepoMock<CandidateProfile>();
-    skillRepo = createRepoMock<CandidateSkill>();
-    educationRepo = createRepoMock<CandidateEducation>();
-    experienceRepo = createRepoMock<CandidateExperience>();
-    certificationRepo = createRepoMock<CandidateCertification>();
-    projectRepo = createRepoMock<CandidateProject>();
-    cvRepo = createRepoMock<CandidateCv>();
+    profileRepo = createRepoMock();
+    skillRepo = createRepoMock();
+    educationRepo = createRepoMock();
+    experienceRepo = createRepoMock();
+    certificationRepo = createRepoMock();
+    projectRepo = createRepoMock();
+    cvRepo = createRepoMock();
     documentClientService = {
       createDownloadUrl: jest.fn(),
       uploadCandidateDocument: jest.fn(),
@@ -226,6 +227,7 @@ describe('CandidateService', () => {
       summary: 'Builds performant web products',
       location: 'Ha Noi',
       portfolioUrl: 'https://minhkhoa.dev',
+      language: UserLanguage.EN,
     });
     const manager = createManager(profileRepo);
     profileRepo.findOne.mockResolvedValue(existingProfile);
@@ -317,6 +319,7 @@ describe('CandidateService', () => {
         summary: 'Builds performant web products',
         location: 'Ha Noi',
         portfolioUrl: 'https://minhkhoa.dev',
+        language: UserLanguage.EN,
       },
       skills: [
         {
@@ -367,6 +370,7 @@ describe('CandidateService', () => {
       expect.objectContaining({
         fullName: 'Nguyen Minh Khoa',
         contactEmail: 'khoa@example.com',
+        language: UserLanguage.EN,
       }),
     );
     expect(manager.delete).toHaveBeenCalledWith(CandidateSkill, {
@@ -409,6 +413,7 @@ describe('CandidateService', () => {
         fullName: 'Nguyen Minh Khoa',
         email: 'khoa@example.com',
         phone: '0912345678',
+        language: UserLanguage.EN,
       }),
     );
     expect(result.completionPercent).toBe(100);

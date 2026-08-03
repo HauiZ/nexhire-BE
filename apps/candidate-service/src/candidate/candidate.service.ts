@@ -474,6 +474,7 @@ export class CandidateService {
       ...(dto.linkedinUrl !== undefined
         ? { linkedinUrl: this.nullableString(dto.linkedinUrl) }
         : {}),
+      ...(dto.language !== undefined ? { language: dto.language } : {}),
       ...(dto.openToWork !== undefined ? { openToWork: dto.openToWork } : {}),
       ...(dto.visibility !== undefined ? { visibility: dto.visibility } : {}),
       ...(dto.avatarDocumentId !== undefined
@@ -733,6 +734,7 @@ export class CandidateService {
       location: profile.location,
       portfolioUrl: profile.portfolioUrl,
       linkedinUrl: profile.linkedinUrl,
+      language: profile.language,
       openToWork: profile.openToWork,
       visibility: profile.visibility,
       createdAt: profile.createdAt,
@@ -857,6 +859,7 @@ export class CandidateService {
       email: await this.resolveContactEmail(profile),
       phone: profile.phone,
       avatarDocumentId: profile.avatarDocumentId,
+      language: profile.language,
       changedAt: new Date().toISOString(),
     });
   }

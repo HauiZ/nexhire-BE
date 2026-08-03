@@ -1,6 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsEnum, IsOptional, IsString, MaxLength } from 'class-validator';
+import { UserLanguage } from '@nexhire/shared';
 
 const trimNullableString = ({ value }: { value: unknown }) =>
   typeof value === 'string' ? value.trim() : value;
@@ -28,4 +29,13 @@ export class UpdateAuthProfileDto {
   @MaxLength(30)
   @Transform(trimNullableString)
   phone?: string | null;
+
+  @ApiPropertyOptional({
+    enum: UserLanguage,
+    example: UserLanguage.VI,
+    description: 'Preferred UI language for the current account.',
+  })
+  @IsOptional()
+  @IsEnum(UserLanguage)
+  language?: UserLanguage;
 }

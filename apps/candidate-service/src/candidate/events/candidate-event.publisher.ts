@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EventPublisher } from '@nexhire/infra';
-import { EVENTS } from '@nexhire/shared';
+import { EVENTS, UserLanguage } from '@nexhire/shared';
 
 @Injectable()
 export class CandidateEventPublisher {
@@ -13,6 +13,7 @@ export class CandidateEventPublisher {
     email: string | null;
     phone: string | null;
     avatarDocumentId: string | null;
+    language: UserLanguage;
     changedAt: string;
   }): Promise<void> {
     await this.eventPublisher

@@ -1,5 +1,11 @@
 import { ConflictException } from '@nestjs/common';
-import { CompanyStatus, JobExperienceLevel, JobStatus, UserRole } from '@nexhire/shared';
+import {
+  CompanyStatus,
+  JobExperienceLevel,
+  JobStatus,
+  UserLanguage,
+  UserRole,
+} from '@nexhire/shared';
 import { Repository } from 'typeorm';
 import { CandidateProfile } from '../../candidate/entities/candidate-profile.entity';
 import { CandidateProfileVisibility } from '../../candidate/entities/candidate.enum';
@@ -45,6 +51,7 @@ function createCandidate(): CandidateProfile {
     location: null,
     portfolioUrl: null,
     linkedinUrl: null,
+    language: UserLanguage.VI,
     openToWork: true,
     visibility: CandidateProfileVisibility.PUBLIC,
     createdAt: new Date(),

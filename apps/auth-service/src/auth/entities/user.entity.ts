@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserStatus } from './auth.enum';
+import { UserLanguage } from '@nexhire/shared';
 import { AuthIdentity } from './auth-identity.entity';
 import { EmailVerification } from './email-verification.entity';
 import { PasswordResetToken } from './password-reset-token.entity';
@@ -35,6 +36,9 @@ export class User {
 
   @Column({ name: 'avatar_document_id', type: 'uuid', nullable: true })
   avatarDocumentId: string | null;
+
+  @Column({ name: 'language', type: 'varchar', length: 10, default: UserLanguage.VI })
+  language: UserLanguage;
 
   @Column({
     type: 'enum',

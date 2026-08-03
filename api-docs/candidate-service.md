@@ -33,9 +33,9 @@ Auth:
 
 Query:
 
-| Field | Required | Note |
-| ----- | -------- | ---- |
-| `candidateCvId` | No | Validates the CV belongs to the candidate when supplied. |
+| Field           | Required | Note                                                     |
+| --------------- | -------- | -------------------------------------------------------- |
+| `candidateCvId` | No       | Validates the CV belongs to the candidate when supplied. |
 
 Success response payload:
 
@@ -111,6 +111,7 @@ Success response:
       "location": "Ha Noi, Viet Nam",
       "portfolioUrl": "https://minhkhoa.dev",
       "linkedinUrl": "https://linkedin.com/in/minhkhoa",
+      "language": "vi",
       "openToWork": true,
       "visibility": "PUBLIC",
       "createdAt": "2026-07-11T10:00:00.000Z",
@@ -228,6 +229,7 @@ Top-level fields:
 | `location`         | string  | No       | Max 255; blank string is stored as `null`                |
 | `portfolioUrl`     | string  | No       | Full URL with protocol; blank string is stored as `null` |
 | `linkedinUrl`      | string  | No       | Full URL with protocol; blank string is stored as `null` |
+| `language`         | enum    | No       | `vi` or `en`; syncs to auth-service for `/auth/me`       |
 | `openToWork`       | boolean | No       | Candidate availability flag                              |
 | `visibility`       | enum    | No       | `PUBLIC`, `PRIVATE`                                      |
 | `avatarDocumentId` | uuid    | No       | Document id for avatar; blank string is stored as `null` |
@@ -296,6 +298,7 @@ Top-level fields:
     "location": "Ha Noi, Viet Nam",
     "portfolioUrl": "https://minhkhoa.dev",
     "linkedinUrl": "https://linkedin.com/in/minhkhoa",
+    "language": "en",
     "openToWork": true,
     "visibility": "PUBLIC",
     "avatarDocumentId": "b8b33c46-4bb0-4a33-8b0d-927e081a38a5"
@@ -354,6 +357,7 @@ Allowed enums:
 | Field                          | Values                                                          |
 | ------------------------------ | --------------------------------------------------------------- |
 | `profile.visibility`           | `PUBLIC`, `PRIVATE`                                             |
+| `profile.language`             | `vi`, `en`                                                      |
 | `skills[].level`               | `BEGINNER`, `INTERMEDIATE`, `ADVANCED`, `EXPERT`                |
 | `experiences[].employmentType` | `FULL_TIME`, `PART_TIME`, `CONTRACT`, `INTERNSHIP`, `FREELANCE` |
 
@@ -705,9 +709,7 @@ Request body:
   "source": "DEFAULT",
   "theme": {},
   "layout": {
-    "sections": [
-      { "key": "profile", "visible": true, "sortOrder": 1 }
-    ]
+    "sections": [{ "key": "profile", "visible": true, "sortOrder": 1 }]
   },
   "contentSnapshot": {
     "profile": {

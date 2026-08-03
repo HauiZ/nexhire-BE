@@ -321,6 +321,7 @@ Success response:
     "fullName": "Nguyen Minh Khoa",
     "phone": "0901234567",
     "role": "CANDIDATE",
+    "language": "vi",
     "logoUrl": null,
     "logoDocumentId": null
   }
@@ -336,6 +337,7 @@ Field notes:
 | `fullName`       | string     | Yes      | User display name                                                                 |
 | `phone`          | string     | Yes      | Auth account phone. Company contact phone is stored on company-service.           |
 | `role`           | `UserRole` | No       | Current role context from access token                                            |
+| `language`       | `vi`, `en` | No       | Preferred UI language for the current account                                     |
 | `logoUrl`        | string     | Yes      | Header image URL: recruiter company logo, otherwise auth external avatar fallback |
 | `logoDocumentId` | uuid       | Yes      | Recruiter company logo document id when available                                 |
 
@@ -370,8 +372,9 @@ Auth:
 Intent:
 
 - Use this for recruiter/admin account identity, for example account display name and personal/account phone.
+- Use this for recruiter/admin UI language preference.
 - Do not use this for company contact information. Company contact is updated through company-service fields `contactEmail` and `contactPhone`.
-- Do not use this for candidate profile. Candidate name/phone/avatar are owned by candidate-service through `/api/v1/candidates/me`.
+- Do not use this for candidate profile. Candidate name/phone/avatar/language are owned by candidate-service through `/api/v1/candidates/me`; candidate-service syncs language back to `/auth/me` through an internal event.
 - Login email is intentionally not editable here. A future `change-email` flow should verify the new email first.
 
 Request body:
@@ -380,11 +383,13 @@ Request body:
 | ---------- | ------ | -------- | -------- | ------------------------------------------ |
 | `fullName` | string | No       | Yes      | Set or clear account display name          |
 | `phone`    | string | No       | Yes      | Set or clear recruiter/admin account phone |
+| `language` | enum   | No       | No       | `vi` or `en`                               |
 
 ```json
 {
   "fullName": "Nguyen Van A",
-  "phone": "0901234567"
+  "phone": "0901234567",
+  "language": "en"
 }
 ```
 
@@ -399,6 +404,7 @@ Success response: same shape as `GET /api/v1/auth/me`.
     "fullName": "Nguyen Van A",
     "phone": "0901234567",
     "role": "RECRUITER",
+    "language": "en",
     "logoUrl": "https://cdn.nexhire.vn/company/logo.png",
     "logoDocumentId": "9615d6c2-7d51-41bf-b2e9-4133abfe7b86"
   }

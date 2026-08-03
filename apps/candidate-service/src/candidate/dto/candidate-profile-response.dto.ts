@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { UserLanguage } from '@nexhire/shared';
 
 import {
   CandidateDataSource,
@@ -47,6 +48,9 @@ export class CandidateProfileFieldsResponseDto {
 
   @ApiPropertyOptional()
   linkedinUrl: string | null;
+
+  @ApiProperty({ enum: UserLanguage, example: UserLanguage.VI })
+  language: UserLanguage;
 
   @ApiProperty()
   openToWork: boolean;
