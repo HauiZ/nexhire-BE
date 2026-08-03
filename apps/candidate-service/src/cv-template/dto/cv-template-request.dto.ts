@@ -68,6 +68,11 @@ export class CreateCvTemplateDto {
   @IsOptional()
   @IsObject()
   contentSnapshot?: Record<string, unknown>;
+
+  @ApiPropertyOptional({ type: 'object', description: 'Freeform canvas document (CV builder)' })
+  @IsOptional()
+  @IsObject()
+  canvas?: Record<string, unknown>;
 }
 
 export class UpdateCvTemplateDto {
@@ -96,6 +101,11 @@ export class UpdateCvTemplateDto {
   @IsOptional()
   @IsObject()
   contentSnapshot?: Record<string, unknown>;
+
+  @ApiPropertyOptional({ type: 'object', description: 'Freeform canvas document (CV builder)' })
+  @IsOptional()
+  @IsObject()
+  canvas?: Record<string, unknown>;
 
   @ApiPropertyOptional({ example: false })
   @IsOptional()

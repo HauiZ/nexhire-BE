@@ -72,6 +72,10 @@ export class CandidateCvTemplate {
   @Column({ name: 'content_snapshot', type: 'jsonb', default: () => "'{}'" })
   contentSnapshot: Record<string, unknown>;
 
+  // Tài liệu thiết kế freeform (CanvasDocument) của CV-builder kiểu Canva.
+  @Column({ name: 'canvas', type: 'jsonb', default: () => "'{}'" })
+  canvas: Record<string, unknown>;
+
   @Column({ name: 'is_default', type: 'boolean', default: false })
   isDefault: boolean;
 

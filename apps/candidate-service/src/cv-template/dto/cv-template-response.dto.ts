@@ -1,9 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-import {
-  CvTemplateKey,
-  CvTemplateSectionKey,
-} from '../../candidate/entities/candidate.enum';
+import { CvTemplateKey, CvTemplateSectionKey } from '../../candidate/entities/candidate.enum';
 
 export class CvTemplateResponseDto {
   @ApiProperty()
@@ -38,6 +35,9 @@ export class CvTemplateResponseDto {
 
   @ApiProperty({ type: 'object' })
   contentSnapshot: Record<string, unknown>;
+
+  @ApiProperty({ type: 'object' })
+  canvas: Record<string, unknown>;
 
   @ApiProperty()
   isDefault: boolean;
