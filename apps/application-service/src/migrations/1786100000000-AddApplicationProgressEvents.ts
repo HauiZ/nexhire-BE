@@ -4,6 +4,7 @@ export class AddApplicationProgressEvents1786100000000 implements MigrationInter
   name = 'AddApplicationProgressEvents1786100000000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`);
     await queryRunner.query(
       `ALTER TABLE "applications" ADD "current_progress_step" character varying(40)`,
     );

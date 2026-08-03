@@ -4,6 +4,7 @@ export class CreateFollowedCompanies1785300000000 implements MigrationInterface 
   name = 'CreateFollowedCompanies1785300000000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`);
     await queryRunner.query(`
       CREATE TABLE "followed_companies" (
         "id" uuid NOT NULL DEFAULT gen_random_uuid(),
