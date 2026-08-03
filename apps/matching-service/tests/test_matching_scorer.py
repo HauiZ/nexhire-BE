@@ -141,8 +141,67 @@ class MatchingScorerTest(unittest.TestCase):
             )
 
         self.assertGreater(score.skillScore, 50)
-        self.assertIn("human resources ~ talent acquisition", score.explanation.matchedSkills)
+        self.assertIn("human resources ~ talent acquisition (skill)", score.explanation.matchedSkills)
         self.assertIn("payroll", score.explanation.missingSkills)
+
+    def test_requirement_can_be_supported_by_certification_evidence(self):
+        os.environ["MATCHING_ENABLE_SEMANTIC_SCORING"] = "true"
+        get_settings.cache_clear()
+
+        scorer = MatchingScorer()
+        with patch.object(scorer.semantic_scorer, "score", return_value=78), patch.object(
+            scorer.semantic_scorer,
+            "score_text_pair",
+            side_effect=lambda left, right: 90 if left == "english communication" and right == "toeic 900" else 0,
+        ):
+            score = scorer.score(
+                job_snapshot(
+                    title="Customer Success Executive",
+                    description="Support enterprise customers and communicate clearly with regional stakeholders.",
+                    requirements="English communication, customer support",
+                    skills=[],
+                    experienceLevel="JUNIOR",
+                ),
+                candidate_snapshot(
+                    summary="Customer support profile for regional clients.",
+                    skills=[CandidateSkillSnapshot(name="Customer Support")],
+                    certifications=["TOEIC 900"],
+                ),
+            )
+
+        self.assertIn("english communication ~ toeic 900 (certification)", score.explanation.matchedSkills)
+        self.assertNotIn("english communication", score.explanation.missingSkills)
+
+    def test_long_requirement_can_be_supported_by_short_skill_evidence(self):
+        os.environ["MATCHING_ENABLE_SEMANTIC_SCORING"] = "true"
+        get_settings.cache_clear()
+
+        scorer = MatchingScorer()
+        long_requirement = "team communication listening feedback collaboration"
+        with patch.object(scorer.semantic_scorer, "score", return_value=76), patch.object(
+            scorer.semantic_scorer,
+            "score_text_pair",
+            side_effect=lambda left, right: 88 if left == long_requirement and right == "teamwork" else 0,
+        ):
+            score = scorer.score(
+                job_snapshot(
+                    title="Operations Coordinator",
+                    description="Coordinate with internal teams.",
+                    requirements="Team communication listening feedback collaboration",
+                    skills=[],
+                    experienceLevel="JUNIOR",
+                ),
+                candidate_snapshot(
+                    summary="Operations coordinator supporting internal workflows.",
+                    skills=[CandidateSkillSnapshot(name="Teamwork")],
+                ),
+            )
+
+        self.assertIn(
+            "team communication listening feedback collaboration ~ teamwork (skill)",
+            score.explanation.matchedSkills,
+        )
+        self.assertNotIn(long_requirement, score.explanation.missingSkills)
 
     def test_weak_candidate_is_rejected_with_risk_flags(self):
         score = MatchingScorer().score(

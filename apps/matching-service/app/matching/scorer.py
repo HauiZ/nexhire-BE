@@ -1,5 +1,6 @@
 from datetime import date
 from app.matching.normalizer import normalize_skill, normalize_text
+from app.matching.requirement_matcher import RequirementMatcher
 from app.matching.semantic import SemanticScorer
 from app.schemas.match_result import MatchExplanation, MatchScores
 from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
@@ -39,13 +40,14 @@ EDUCATION_LEVELS = {
 class MatchingScorer:
     def __init__(self) -> None:
         self.semantic_scorer = SemanticScorer()
+        self.requirement_matcher = RequirementMatcher(self.semantic_scorer)
 
     @property
     def model_version(self) -> str:
         return f"hybrid-v1+{self.semantic_scorer.model_version}"
 
     def score(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot) -> MatchScores:
-        skill_score, matched_skills, missing_skills = self._score_skills(job, candidate)
+        skill_score, matched_skills, missing_skills = self._score_requirements(job, candidate)
         experience_score = self._score_experience(job, candidate)
         education_score = self._score_education(candidate)
         location_score = self._score_location(job, candidate)
@@ -83,6 +85,12 @@ class MatchingScorer:
             semanticScore=round(effective_semantic_score, 2),
             explanation=explanation,
         )
+
+    def _score_requirements(
+        self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot
+    ) -> tuple[float, list[str], list[str]]:
+        result = self.requirement_matcher.score(job, candidate)
+        return result.score, result.matched, result.missing
 
     def _score_skills(
         self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot
