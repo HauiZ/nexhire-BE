@@ -465,6 +465,7 @@ export class JobService {
     this.logger.log(
       `Job submitted for review jobId=${updated.id} status=${updated.status} riskLevel=${updated.riskLevel} riskScore=${updated.riskScore}`,
     );
+    await this.publishJobReviewRequired(updated);
 
     return this.mapJob(updated);
   }
@@ -594,6 +595,7 @@ export class JobService {
     this.logger.log(
       `Job revision submitted revisionId=${updated.id} jobId=${job.id} status=${updated.status} riskLevel=${updated.riskLevel} riskScore=${updated.riskScore}`,
     );
+    await this.publishJobRevisionReviewRequired(job, updated);
 
     return this.mapRevision(updated);
   }
@@ -674,6 +676,25 @@ export class JobService {
       query.limit,
       total,
     );
+  }
+
+  async getAdminJob(id: string): Promise<JobResponseDto> {
+    const job = await this.jobRepo.findOne({ where: { id } });
+    if (!job) {
+      throw this.jobNotFound();
+    }
+    return this.mapJob(job);
+  }
+
+  async getAdminRevision(revisionId: string): Promise<JobRevisionResponseDto> {
+    const revision = await this.revisionRepo.findOne({ where: { id: revisionId } });
+    if (!revision) {
+      throw new NotFoundException({
+        code: ERROR_CODES.JOB.REVISION_NOT_FOUND,
+        message: 'Job revision was not found',
+      });
+    }
+    return this.mapRevision(revision);
   }
 
   async getAdminOverview(): Promise<AdminJobOverviewDto> {
@@ -1531,6 +1552,39 @@ export class JobService {
     dto: ReviewJobDto,
   ): Promise<void> {
     await this.markLatestReviewTx(this.moderationReviewRepo, jobId, targetId, admin, dto);
+  }
+
+  private async publishJobReviewRequired(job: Job): Promise<void> {
+    if (!ACTIVE_REVIEW_STATUSES.includes(job.status)) {
+      return;
+    }
+    await this.jobEventPublisher.publishJobReviewRequired({
+      jobId: job.id,
+      companyId: job.companyId,
+      companyName: job.companyName,
+      title: job.title,
+      status: job.status,
+      version: job.version,
+      riskScore: job.riskScore,
+      riskLevel: job.riskLevel,
+      submittedAt: job.updatedAt?.toISOString(),
+    });
+  }
+
+  private async publishJobRevisionReviewRequired(job: Job, revision: JobRevision): Promise<void> {
+    if (!ACTIVE_REVISION_STATUSES.includes(revision.status)) {
+      return;
+    }
+    await this.jobEventPublisher.publishJobRevisionReviewRequired({
+      jobId: revision.jobId,
+      companyId: revision.companyId,
+      title: revision.title || job.title,
+      revisionId: revision.id,
+      status: revision.status,
+      riskScore: revision.riskScore,
+      riskLevel: revision.riskLevel,
+      submittedAt: revision.updatedAt?.toISOString(),
+    });
   }
 
   private async markLatestReviewTx(

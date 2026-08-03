@@ -4,6 +4,8 @@ import { QUEUES } from '@nexhire/shared';
 export const validationSchema = Joi.object({
   NODE_ENV: Joi.string().valid('development', 'test', 'production').default('development'),
   AUTH_SERVICE_PORT: Joi.number().default(3001),
+  AUTH_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(30000),
+  DOCUMENT_STORAGE_SERVICE_URL: Joi.string().uri().default('http://localhost:3009'),
   DB_HOST: Joi.string().required(),
   DB_PORT: Joi.number().default(5432),
   AUTH_SERVICE_DB_NAME: Joi.string().required(),

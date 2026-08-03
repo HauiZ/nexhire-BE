@@ -3,6 +3,13 @@ import { QUEUES } from '@nexhire/shared';
 
 export const authServiceConfig = registerAs('authService', () => ({
   port: parseInt(process.env.AUTH_SERVICE_PORT ?? '3001', 10),
+  internalServiceToken: process.env.INTERNAL_SERVICE_TOKEN,
+  http: {
+    timeoutMs: parseInt(process.env.AUTH_SERVICE_HTTP_TIMEOUT_MS ?? '30000', 10),
+  },
+  services: {
+    documentStorageService: process.env.DOCUMENT_STORAGE_SERVICE_URL ?? 'http://localhost:3009',
+  },
   jwt: {
     accessSecret: process.env.JWT_ACCESS_SECRET,
     refreshSecret: process.env.JWT_REFRESH_SECRET,

@@ -12,4 +12,5 @@ export enum DocumentOwnerType {
   CANDIDATE = 'candidate',
   COMPANY = 'company',
   APPLICATION = 'application',
+  USER = 'user',
 }

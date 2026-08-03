@@ -47,6 +47,12 @@ import { LogoutResponseDto } from './dto/logout-response.dto';
 import { UserContactSnapshotDto } from './dto/user-contact-snapshot.dto';
 import { AuthEventPublisher } from './events/auth-event.publisher';
 import { TokenService } from '../token/token.service';
+import { AuthDocumentClientService } from './document-client.service';
+import { AuthUploadedFile } from './interfaces/auth-uploaded-file.interface';
+import { AdminNotificationRecipientDto } from './dto/admin-notification-recipient.dto';
+
+const ADMIN_AVATAR_MAX_UPLOAD_SIZE_BYTES = 5 * 1024 * 1024;
+const ADMIN_AVATAR_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 
 type GoogleTokenInfoResponse = {
   sub?: string;
@@ -81,6 +87,7 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly authEventPublisher: AuthEventPublisher,
     private readonly tokenService: TokenService,
+    private readonly documentClientService: AuthDocumentClientService,
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
     @InjectRepository(UserCredential)
@@ -211,6 +218,23 @@ export class AuthService {
     };
   }
 
+  async listAdminNotificationRecipients(): Promise<AdminNotificationRecipientDto[]> {
+    const users = await this.userRepo
+      .createQueryBuilder('user')
+      .innerJoin('user.userRoles', 'userRole')
+      .innerJoin('userRole.role', 'role')
+      .where('role.name = :role', { role: UserRole.ADMIN })
+      .andWhere('user.status = :status', { status: UserStatus.ACTIVE })
+      .orderBy('user.createdAt', 'ASC')
+      .getMany();
+
+    return users.map((user) => ({
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+    }));
+  }
+
   async getMe(currentUser: AuthUser): Promise<AuthMeResponseDto> {
     const user = await this.userRepo.findOne({ where: { id: currentUser.id } });
     if (!user) {
@@ -233,8 +257,18 @@ export class AuthService {
       fullName: user.fullName,
       phone: user.phone,
       role: currentUser.role,
-      logoUrl: companyLink?.companyLogoUrl ?? user.avatarUrl,
-      logoDocumentId: companyLink?.companyLogoDocumentId ?? null,
+      avatarUrl: await this.resolveAvatarUrl(user),
+      avatarDocumentId: user.avatarDocumentId,
+      logoUrl:
+        currentUser.role === UserRole.RECRUITER
+          ? (companyLink?.companyLogoUrl ?? null)
+          : currentUser.role === UserRole.CANDIDATE
+            ? user.avatarUrl
+            : null,
+      logoDocumentId:
+        currentUser.role === UserRole.RECRUITER
+          ? (companyLink?.companyLogoDocumentId ?? null)
+          : null,
     };
   }
 
@@ -264,6 +298,60 @@ export class AuthService {
       this.logger.log(`Updated auth profile userId=${user.id}`);
     }
 
+    return this.getMe(currentUser);
+  }
+
+  async updateMyAvatar(currentUser: AuthUser, file?: AuthUploadedFile): Promise<AuthMeResponseDto> {
+    if (currentUser.role !== UserRole.ADMIN) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.COMMON.FORBIDDEN,
+        message: 'Only admins can update admin avatar',
+      });
+    }
+    this.assertAvatarFile(file);
+    const user = await this.userRepo.findOne({ where: { id: currentUser.id } });
+    if (!user) {
+      throw new NotFoundException({
+        code: ERROR_CODES.AUTH.USER_NOT_FOUND,
+        message: 'User not found',
+      });
+    }
+    this.assertUserActiveForAuth(user);
+    await this.assertUserCanLoginAs(user.id, currentUser.role);
+
+    const previousDocumentId = user.avatarDocumentId;
+    const document = await this.documentClientService.uploadUserAvatar(currentUser, file!);
+    await this.userRepo.update(user.id, {
+      avatarUrl: document.url,
+      avatarDocumentId: document.id,
+    });
+    await this.documentClientService.deleteDocumentBestEffort(previousDocumentId);
+    return this.getMe(currentUser);
+  }
+
+  async deleteMyAvatar(currentUser: AuthUser): Promise<AuthMeResponseDto> {
+    if (currentUser.role !== UserRole.ADMIN) {
+      throw new ForbiddenException({
+        code: ERROR_CODES.COMMON.FORBIDDEN,
+        message: 'Only admins can delete admin avatar',
+      });
+    }
+    const user = await this.userRepo.findOne({ where: { id: currentUser.id } });
+    if (!user) {
+      throw new NotFoundException({
+        code: ERROR_CODES.AUTH.USER_NOT_FOUND,
+        message: 'User not found',
+      });
+    }
+    this.assertUserActiveForAuth(user);
+    await this.assertUserCanLoginAs(user.id, currentUser.role);
+
+    const previousDocumentId = user.avatarDocumentId;
+    await this.userRepo.update(user.id, {
+      avatarUrl: null,
+      avatarDocumentId: null,
+    });
+    await this.documentClientService.deleteDocumentBestEffort(previousDocumentId);
     return this.getMe(currentUser);
   }
 
@@ -911,6 +999,42 @@ export class AuthService {
     }
     const trimmed = value.trim();
     return trimmed.length ? trimmed : null;
+  }
+
+  private assertAvatarFile(file?: AuthUploadedFile): void {
+    if (!file) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.FILE_REQUIRED,
+        message: 'Avatar file is required',
+      });
+    }
+    if (!ADMIN_AVATAR_MIME_TYPES.has(file.mimetype)) {
+      throw new BadRequestException({
+        code: ERROR_CODES.DOCUMENT.UNSUPPORTED_FILE_TYPE,
+        message: 'Unsupported avatar file type',
+      });
+    }
+    if (file.size > ADMIN_AVATAR_MAX_UPLOAD_SIZE_BYTES) {
+      throw new HttpException(
+        {
+          code: ERROR_CODES.DOCUMENT.FILE_TOO_LARGE,
+          message: 'Avatar file is too large',
+        },
+        HttpStatus.PAYLOAD_TOO_LARGE,
+      );
+    }
+  }
+
+  private async resolveAvatarUrl(user: User): Promise<string | null> {
+    if (!user.avatarDocumentId) {
+      return user.avatarUrl;
+    }
+    try {
+      const download = await this.documentClientService.createDownloadUrl(user.avatarDocumentId);
+      return download.url;
+    } catch {
+      return user.avatarUrl;
+    }
   }
 
   private async verifyRefreshToken(refreshToken: string): Promise<JwtPayload> {

@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config';
+import { QUEUES } from '@nexhire/shared';
 
 const env = (key: string, fallback?: string): string | undefined => {
   const value = process.env[key]?.trim();
@@ -9,6 +10,13 @@ const envNumber = (key: string, fallback: string): number => parseInt(env(key, f
 
 export const notificationServiceConfig = registerAs('notificationService', () => ({
   port: envNumber('NOTIFICATION_SERVICE_PORT', '3008'),
+  internalServiceToken: process.env.INTERNAL_SERVICE_TOKEN,
+  http: {
+    timeoutMs: envNumber('NOTIFICATION_SERVICE_HTTP_TIMEOUT_MS', '5000'),
+  },
+  services: {
+    authService: env('AUTH_SERVICE_URL', 'http://localhost:3001'),
+  },
   smtp: {
     host: env('SMTP_HOST', 'smtp.gmail.com'),
     port: parseInt(env('SMTP_PORT', '587')!, 10),
@@ -23,7 +31,7 @@ export const notificationServiceConfig = registerAs('notificationService', () =>
     passwordReset:
       process.env.NOTIFICATION_QUEUE_PASSWORD_RESET ?? 'notification.email.password-reset',
     inAppApplication:
-      process.env.NOTIFICATION_QUEUE_IN_APP_APPLICATION ?? 'notification.in-app.application',
+      process.env.NOTIFICATION_QUEUE_IN_APP_APPLICATION ?? QUEUES.NOTIFICATION_IN_APP,
   },
   frontend: {
     url: process.env.FRONTEND_URL ?? 'http://localhost:5173',

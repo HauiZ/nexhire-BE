@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EventPublisher } from '@nexhire/infra';
 import { EVENTS, JobModerationRiskLevel, JobReviewDecision } from '@nexhire/shared';
+import { JobRevisionStatus, JobStatus } from '@nexhire/shared';
 import { JobModerationTargetType } from '../entities/job.enum';
 
 export interface JobReviewTrustSignalPayload {
@@ -27,6 +28,33 @@ export class JobEventPublisher {
     publishedAt?: string;
   }): Promise<void> {
     await this.publish(EVENTS.JOB_PUBLISHED, payload);
+  }
+
+  async publishJobReviewRequired(payload: {
+    jobId: string;
+    companyId: string;
+    companyName: string | null;
+    title: string;
+    status: JobStatus;
+    version: number;
+    riskScore: number | null;
+    riskLevel: JobModerationRiskLevel | null;
+    submittedAt?: string;
+  }): Promise<void> {
+    await this.publish(EVENTS.JOB_REVIEW_REQUIRED, payload);
+  }
+
+  async publishJobRevisionReviewRequired(payload: {
+    jobId: string;
+    companyId: string;
+    title: string;
+    revisionId: string;
+    status: JobRevisionStatus;
+    riskScore: number | null;
+    riskLevel: JobModerationRiskLevel | null;
+    submittedAt?: string;
+  }): Promise<void> {
+    await this.publish(EVENTS.JOB_REVISION_REVIEW_REQUIRED, payload);
   }
 
   async publishRevisionApproved(payload: {

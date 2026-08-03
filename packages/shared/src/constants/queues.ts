@@ -13,6 +13,7 @@ export const QUEUES = {
   CV_PARSING_CV_UPLOADED: 'cv-parsing.cv-uploaded',
   APPLICATION_MATCHING_COMPLETED: 'application.matching-completed',
   APPLICATION_CV_PARSED: 'application.cv-parsed',
+  NOTIFICATION_IN_APP: 'notification.in-app.application',
 } as const;
 
 export type QueueName = (typeof QUEUES)[keyof typeof QUEUES];

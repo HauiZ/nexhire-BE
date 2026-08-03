@@ -22,6 +22,7 @@ import { UserRoleEntity } from '../entities/user-role.entity';
 import { User } from '../entities/user.entity';
 import { AuthEventPublisher } from '../events/auth-event.publisher';
 import { TokenService } from '../../token/token.service';
+import { AuthDocumentClientService } from '../document-client.service';
 
 jest.mock('bcrypt', () => ({
   hash: jest.fn(),
@@ -33,6 +34,7 @@ type MockRepo = {
   update: jest.Mock;
   create: jest.Mock;
   save: jest.Mock;
+  createQueryBuilder: jest.Mock;
 };
 
 function createRepoMock(): MockRepo {
@@ -41,6 +43,7 @@ function createRepoMock(): MockRepo {
     update: jest.fn(),
     create: jest.fn((entity: unknown) => entity),
     save: jest.fn(),
+    createQueryBuilder: jest.fn(),
   };
 }
 
@@ -60,6 +63,11 @@ describe('AuthService', () => {
     consumeRefreshToken: jest.Mock;
     revokeRefreshToken: jest.Mock;
     revokeAllUserRefreshTokens: jest.Mock;
+  };
+  let documentClientService: {
+    uploadUserAvatar: jest.Mock;
+    createDownloadUrl: jest.Mock;
+    deleteDocumentBestEffort: jest.Mock;
   };
   let userRepo: MockRepo;
   let credentialRepo: MockRepo;
@@ -112,6 +120,11 @@ describe('AuthService', () => {
       revokeRefreshToken: jest.fn(),
       revokeAllUserRefreshTokens: jest.fn(),
     };
+    documentClientService = {
+      uploadUserAvatar: jest.fn(),
+      createDownloadUrl: jest.fn(),
+      deleteDocumentBestEffort: jest.fn(),
+    };
     jest.restoreAllMocks();
     userRepo = createRepoMock();
     credentialRepo = createRepoMock();
@@ -128,6 +141,7 @@ describe('AuthService', () => {
       configService as unknown as ConfigService,
       authEventPublisher as unknown as AuthEventPublisher,
       tokenService as unknown as TokenService,
+      documentClientService as unknown as AuthDocumentClientService,
       userRepo as unknown as Repository<User>,
       credentialRepo as unknown as Repository<UserCredential>,
       roleRepo as unknown as Repository<Role>,
@@ -1378,6 +1392,7 @@ describe('AuthService', () => {
       fullName: 'Nguyen Minh Khoa',
       phone: '0987654321',
       avatarUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
+      avatarDocumentId: null,
     } as User);
     userRoleRepo.findOne.mockResolvedValue({
       role: { name: UserRole.CANDIDATE },
@@ -1402,6 +1417,8 @@ describe('AuthService', () => {
       fullName: 'Nguyen Minh Khoa',
       phone: '0987654321',
       role: UserRole.CANDIDATE,
+      avatarUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
+      avatarDocumentId: null,
       logoUrl: 'https://cdn.nexhire.vn/avatar/user-1.png',
       logoDocumentId: null,
     });
@@ -1414,6 +1431,7 @@ describe('AuthService', () => {
       fullName: 'Recruiter One',
       phone: '0901234567',
       avatarUrl: 'https://cdn.nexhire.vn/avatar/recruiter.png',
+      avatarDocumentId: null,
     } as User);
     userRoleRepo.findOne.mockResolvedValue({
       role: { name: UserRole.RECRUITER },
@@ -1437,9 +1455,128 @@ describe('AuthService', () => {
       fullName: 'Recruiter One',
       phone: '0901234567',
       role: UserRole.RECRUITER,
+      avatarUrl: 'https://cdn.nexhire.vn/avatar/recruiter.png',
+      avatarDocumentId: null,
       logoUrl: 'https://cdn.nexhire.vn/company/logo.png',
       logoDocumentId: '00000000-0000-4000-8000-000000000099',
     });
+  });
+
+  it('returns signed admin avatar URL and avatar document id', async () => {
+    userRepo.findOne.mockResolvedValue({
+      id: 'admin-1',
+      email: 'admin@nexhire.vn',
+      fullName: 'Admin One',
+      phone: null,
+      avatarUrl: 'https://fallback/avatar.png',
+      avatarDocumentId: '00000000-0000-4000-8000-000000000123',
+    } as User);
+    userRoleRepo.findOne.mockResolvedValue({
+      role: { name: UserRole.ADMIN },
+    } as UserRoleEntity);
+    documentClientService.createDownloadUrl.mockResolvedValue({
+      id: '00000000-0000-4000-8000-000000000123',
+      url: 'https://signed/avatar.png',
+      expiresInSeconds: 900,
+    });
+
+    const result = await service.getMe({
+      id: 'admin-1',
+      role: UserRole.ADMIN,
+    });
+
+    expect(documentClientService.createDownloadUrl).toHaveBeenCalledWith(
+      '00000000-0000-4000-8000-000000000123',
+    );
+    expect(result).toEqual(
+      expect.objectContaining({
+        role: UserRole.ADMIN,
+        avatarUrl: 'https://signed/avatar.png',
+        avatarDocumentId: '00000000-0000-4000-8000-000000000123',
+        logoUrl: null,
+        logoDocumentId: null,
+      }),
+    );
+  });
+
+  it('uploads admin avatar and deletes the previous document best effort', async () => {
+    userRepo.findOne
+      .mockResolvedValueOnce({
+        id: 'admin-1',
+        email: 'admin@nexhire.vn',
+        fullName: 'Admin One',
+        phone: null,
+        avatarUrl: 'https://old/avatar.png',
+        avatarDocumentId: 'old-document',
+        status: UserStatus.ACTIVE,
+      } as User)
+      .mockResolvedValueOnce({
+        id: 'admin-1',
+        email: 'admin@nexhire.vn',
+        fullName: 'Admin One',
+        phone: null,
+        avatarUrl: 'https://new/avatar.png',
+        avatarDocumentId: 'new-document',
+        status: UserStatus.ACTIVE,
+      } as User);
+    userRoleRepo.findOne.mockResolvedValue({ role: { name: UserRole.ADMIN } } as UserRoleEntity);
+    documentClientService.uploadUserAvatar.mockResolvedValue({
+      id: 'new-document',
+      url: 'https://new/avatar.png',
+      fileName: 'avatar.png',
+      mimeType: 'image/png',
+      size: 123,
+    });
+    documentClientService.createDownloadUrl.mockRejectedValue(new Error('offline'));
+
+    const result = await service.updateMyAvatar(
+      { id: 'admin-1', role: UserRole.ADMIN },
+      {
+        originalname: 'avatar.png',
+        mimetype: 'image/png',
+        size: 123,
+        buffer: Buffer.from('avatar'),
+      },
+    );
+
+    expect(userRepo.update).toHaveBeenCalledWith('admin-1', {
+      avatarUrl: 'https://new/avatar.png',
+      avatarDocumentId: 'new-document',
+    });
+    expect(documentClientService.deleteDocumentBestEffort).toHaveBeenCalledWith('old-document');
+    expect(result.avatarDocumentId).toBe('new-document');
+  });
+
+  it('removes admin avatar and clears document reference', async () => {
+    userRepo.findOne
+      .mockResolvedValueOnce({
+        id: 'admin-1',
+        email: 'admin@nexhire.vn',
+        fullName: 'Admin One',
+        phone: null,
+        avatarUrl: 'https://old/avatar.png',
+        avatarDocumentId: 'old-document',
+        status: UserStatus.ACTIVE,
+      } as User)
+      .mockResolvedValueOnce({
+        id: 'admin-1',
+        email: 'admin@nexhire.vn',
+        fullName: 'Admin One',
+        phone: null,
+        avatarUrl: null,
+        avatarDocumentId: null,
+        status: UserStatus.ACTIVE,
+      } as User);
+    userRoleRepo.findOne.mockResolvedValue({ role: { name: UserRole.ADMIN } } as UserRoleEntity);
+
+    const result = await service.deleteMyAvatar({ id: 'admin-1', role: UserRole.ADMIN });
+
+    expect(userRepo.update).toHaveBeenCalledWith('admin-1', {
+      avatarUrl: null,
+      avatarDocumentId: null,
+    });
+    expect(documentClientService.deleteDocumentBestEffort).toHaveBeenCalledWith('old-document');
+    expect(result.avatarDocumentId).toBeNull();
   });
 
   it('updates recruiter account profile without touching email or company fields', async () => {
@@ -1521,6 +1658,37 @@ describe('AuthService', () => {
       email: 'candidate@nexhire.vn',
       fullName: 'Nguyen Van A',
     });
+  });
+
+  it('lists active admin notification recipients', async () => {
+    const qb = {
+      innerJoin: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      getMany: jest.fn().mockResolvedValue([
+        {
+          id: 'admin-1',
+          email: 'admin@nexhire.vn',
+          fullName: 'Admin One',
+        },
+      ]),
+    };
+    userRepo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.listAdminNotificationRecipients();
+
+    expect(qb.where).toHaveBeenCalledWith('role.name = :role', { role: UserRole.ADMIN });
+    expect(qb.andWhere).toHaveBeenCalledWith('user.status = :status', {
+      status: UserStatus.ACTIVE,
+    });
+    expect(result).toEqual([
+      {
+        id: 'admin-1',
+        email: 'admin@nexhire.vn',
+        fullName: 'Admin One',
+      },
+    ]);
   });
 
   it('returns not found for a missing user contact snapshot', async () => {

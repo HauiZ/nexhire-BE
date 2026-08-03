@@ -1,5 +1,6 @@
 import { JwtModule } from '@nestjs/jwt';
 import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController, AuthInternalController } from './auth.controller';
@@ -18,10 +19,12 @@ import { CompanyLinkEventsConsumer } from './events/consumers/company-link-event
 import { AuthEventPublisher } from './events/auth-event.publisher';
 import { ManualAuthController } from './manual/manual-auth.controller';
 import { ManualAuthService } from './manual/manual-auth.service';
+import { AuthDocumentClientService } from './document-client.service';
 
 @Module({
   imports: [
     ConfigModule,
+    HttpModule,
     TokenModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -42,6 +45,7 @@ import { ManualAuthService } from './manual/manual-auth.service';
   providers: [
     AuthService,
     ManualAuthService,
+    AuthDocumentClientService,
     AuthEventPublisher,
     CompanyLinkEventsConsumer,
     CandidateProfileEventsConsumer,

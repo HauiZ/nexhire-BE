@@ -69,6 +69,8 @@ describe('JobService', () => {
   let jobEventPublisher: {
     publishJobPublished: jest.Mock;
     publishRevisionApproved: jest.Mock;
+    publishJobReviewRequired: jest.Mock;
+    publishJobRevisionReviewRequired: jest.Mock;
     publishJobUnpublished: jest.Mock;
     publishJobClosed: jest.Mock;
     publishReviewTrustSignal: jest.Mock;
@@ -260,6 +262,8 @@ describe('JobService', () => {
     jobEventPublisher = {
       publishJobPublished: jest.fn().mockResolvedValue(undefined),
       publishRevisionApproved: jest.fn().mockResolvedValue(undefined),
+      publishJobReviewRequired: jest.fn().mockResolvedValue(undefined),
+      publishJobRevisionReviewRequired: jest.fn().mockResolvedValue(undefined),
       publishJobUnpublished: jest.fn().mockResolvedValue(undefined),
       publishJobClosed: jest.fn().mockResolvedValue(undefined),
       publishReviewTrustSignal: jest.fn().mockResolvedValue(undefined),
@@ -410,6 +414,17 @@ describe('JobService', () => {
       }),
     );
     expect(result.status).toBe(JobStatus.NEEDS_REVIEW);
+    expect(jobEventPublisher.publishJobReviewRequired).toHaveBeenCalledWith(
+      expect.objectContaining({
+        jobId: publishedJob.id,
+        companyId: publishedJob.companyId,
+        title: publishedJob.title,
+        status: JobStatus.NEEDS_REVIEW,
+        version: publishedJob.version,
+        riskScore: 45,
+        riskLevel: JobModerationRiskLevel.MEDIUM,
+      }),
+    );
   });
 
   it('returns company job counts for every status', async () => {
@@ -871,6 +886,35 @@ describe('JobService', () => {
     expect(result.data[0].id).toBe(publishedJob.id);
   });
 
+  it('gets one admin job detail with moderation payload', async () => {
+    jobRepo.findOne.mockResolvedValue(publishedJob);
+
+    const result = await service.getAdminJob(publishedJob.id);
+
+    expect(jobRepo.findOne).toHaveBeenCalledWith({ where: { id: publishedJob.id } });
+    expect(result).toMatchObject({
+      id: publishedJob.id,
+      moderation: {
+        riskScore: publishedJob.riskScore,
+        riskLevel: publishedJob.riskLevel,
+        decision: publishedJob.moderationDecision,
+        reasons: publishedJob.moderationReasons,
+        matchedRules: publishedJob.moderationMatchedRules,
+      },
+    });
+  });
+
+  it('returns JOB_NOT_FOUND for missing admin job detail', async () => {
+    jobRepo.findOne.mockResolvedValue(null);
+
+    await expect(service.getAdminJob(publishedJob.id)).rejects.toMatchObject({
+      status: 404,
+      response: expect.objectContaining({
+        code: ERROR_CODES.JOB.JOB_NOT_FOUND,
+      }),
+    });
+  });
+
   it('returns admin job overview counts', async () => {
     jobRepo.count.mockResolvedValueOnce(5);
     revisionRepo.count.mockResolvedValueOnce(2);
@@ -977,6 +1021,36 @@ describe('JobService', () => {
     expect(qb.take).toHaveBeenCalledWith(10);
     expect(result.meta.total).toBe(1);
     expect(result.data[0].id).toBe(revision.id);
+  });
+
+  it('gets one admin revision detail with moderation payload', async () => {
+    const revision = majorRevision({ status: JobRevisionStatus.NEEDS_REVIEW });
+    revisionRepo.findOne.mockResolvedValue(revision);
+
+    const result = await service.getAdminRevision(revision.id);
+
+    expect(revisionRepo.findOne).toHaveBeenCalledWith({ where: { id: revision.id } });
+    expect(result).toMatchObject({
+      id: revision.id,
+      moderation: {
+        riskScore: revision.riskScore,
+        riskLevel: revision.riskLevel,
+        decision: revision.moderationDecision,
+        reasons: revision.moderationReasons,
+        matchedRules: revision.moderationMatchedRules,
+      },
+    });
+  });
+
+  it('returns REVISION_NOT_FOUND for missing admin revision detail', async () => {
+    revisionRepo.findOne.mockResolvedValue(null);
+
+    await expect(service.getAdminRevision('missing-revision')).rejects.toMatchObject({
+      status: 404,
+      response: expect.objectContaining({
+        code: ERROR_CODES.JOB.REVISION_NOT_FOUND,
+      }),
+    });
   });
 
   it('lists featured companies from published jobs', async () => {
@@ -1119,6 +1193,41 @@ describe('JobService', () => {
         id: revision.id,
         jobId: publishedJob.id,
         title: revision.title,
+      }),
+    );
+  });
+
+  it('submits a major revision through moderation and notifies admins', async () => {
+    const revision = majorRevision({ status: JobRevisionStatus.DRAFT });
+    jobRepo.findOne.mockResolvedValue(publishedJob);
+    revisionRepo.findOne.mockResolvedValue(revision);
+    companySnapshotService.getPostingSnapshot.mockResolvedValue({
+      companyId: publishedJob.companyId,
+      companyName: publishedJob.companyName,
+      companyLogoUrl: publishedJob.companyLogoUrl,
+      companyStatus: CompanyStatusSnapshot.APPROVED,
+      companyTrustLevel: CompanyTrustLevel.MEDIUM,
+      snapshotAt: new Date('2026-07-16T00:00:00.000Z'),
+    });
+    moderationService.moderate.mockReturnValue({
+      decision: JobModerationDecision.PENDING_REVIEW,
+      riskScore: 12,
+      riskLevel: JobModerationRiskLevel.LOW,
+      reasons: [],
+      matchedRules: [],
+    });
+
+    const result = await service.submitRevision(user, publishedJob.id, revision.id);
+
+    expect(result.status).toBe(JobRevisionStatus.PENDING_REVIEW);
+    expect(jobEventPublisher.publishJobRevisionReviewRequired).toHaveBeenCalledWith(
+      expect.objectContaining({
+        jobId: publishedJob.id,
+        companyId: publishedJob.companyId,
+        revisionId: revision.id,
+        status: JobRevisionStatus.PENDING_REVIEW,
+        riskScore: 12,
+        riskLevel: JobModerationRiskLevel.LOW,
       }),
     );
   });

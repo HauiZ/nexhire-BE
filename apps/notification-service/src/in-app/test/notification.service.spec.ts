@@ -25,6 +25,7 @@ const mockInsertBuilder = () => ({
 describe('NotificationService', () => {
   let service: NotificationService;
   let repo: MockRepo;
+  let adminRecipientClient: { listAdminRecipients: jest.Mock };
 
   beforeEach(() => {
     repo = {
@@ -32,7 +33,15 @@ describe('NotificationService', () => {
       save: jest.fn((payload: unknown) => Promise.resolve(payload)),
       createQueryBuilder: jest.fn(),
     };
-    service = new NotificationService(repo as unknown as Repository<Notification>);
+    adminRecipientClient = {
+      listAdminRecipients: jest
+        .fn()
+        .mockResolvedValue([{ id: 'admin-1', email: 'admin@nexhire.vn', fullName: 'Admin One' }]),
+    };
+    service = new NotificationService(
+      repo as unknown as Repository<Notification>,
+      adminRecipientClient as never,
+    );
   });
 
   it('creates candidate and company notifications when an application is submitted', async () => {
@@ -183,6 +192,77 @@ describe('NotificationService', () => {
     ]);
   });
 
+  it('creates admin notification when company enters pending review', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createAdminCompanyReviewRequiredNotifications({
+      companyId: 'company-1',
+      ownerUserId: 'owner-1',
+      companyName: 'NexHire',
+      companyStatus: CompanyStatus.PENDING,
+      previousCompanyStatus: CompanyStatus.REJECTED,
+      changedAt: '2026-08-03T00:00:00.000Z',
+    });
+
+    expect(qb.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: 'admin-1',
+        dedupeKey: 'admin-company-review:user:admin-1:company-1:PENDING:2026-08-03T00:00:00.000Z',
+        type: NotificationType.ADMIN_COMPANY_REVIEW_REQUIRED,
+        data: { companyId: 'company-1' },
+      }),
+    ]);
+  });
+
+  it('creates admin notification when job enters review queue', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createAdminJobReviewRequiredNotifications({
+      jobId: 'job-1',
+      companyId: 'company-1',
+      companyName: 'NexHire',
+      title: 'Backend Engineer',
+      status: 'NEEDS_REVIEW',
+      version: 1,
+    });
+
+    expect(qb.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: 'admin-1',
+        dedupeKey: 'admin-job-review:user:admin-1:job-1:1:NEEDS_REVIEW',
+        type: NotificationType.ADMIN_JOB_REVIEW_REQUIRED,
+        data: { jobId: 'job-1' },
+      }),
+    ]);
+  });
+
+  it('creates admin notification when job revision enters review queue', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createAdminJobRevisionReviewRequiredNotifications({
+      jobId: 'job-1',
+      companyId: 'company-1',
+      title: 'Backend Engineer',
+      revisionId: 'revision-1',
+      status: 'PENDING_REVIEW',
+    });
+
+    expect(qb.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: 'admin-1',
+        dedupeKey: 'admin-job-revision-review:user:admin-1:revision-1:PENDING_REVIEW',
+        type: NotificationType.ADMIN_JOB_REVISION_REVIEW_REQUIRED,
+        data: { jobId: 'job-1', revisionId: 'revision-1' },
+      }),
+    ]);
+  });
+
   it('scopes unread count to recruiter company', async () => {
     const qb = {
       where: jest.fn().mockReturnThis(),
@@ -200,6 +280,24 @@ describe('NotificationService', () => {
     expect(qb.where).toHaveBeenCalled();
     expect(qb.andWhere).toHaveBeenCalledWith('notification.readAt IS NULL');
     expect(result.count).toBe(3);
+  });
+
+  it('scopes unread count to admin user notifications', async () => {
+    const qb = {
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      getCount: jest.fn().mockResolvedValue(5),
+    };
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.unreadCount({
+      id: 'admin-1',
+      role: UserRole.ADMIN,
+    });
+
+    expect(qb.where).toHaveBeenCalled();
+    expect(qb.andWhere).toHaveBeenCalledWith('notification.readAt IS NULL');
+    expect(result.count).toBe(5);
   });
 
   it('marks all company notifications read with strict recipient type scope', async () => {
@@ -225,5 +323,29 @@ describe('NotificationService', () => {
       companyId: 'company-1',
     });
     expect(result.count).toBe(2);
+  });
+
+  it('marks all admin user notifications read with strict user scope', async () => {
+    const qb = {
+      update: jest.fn().mockReturnThis(),
+      set: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      execute: jest.fn().mockResolvedValue({ affected: 4 }),
+    };
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.markAllRead({
+      id: 'admin-1',
+      role: UserRole.ADMIN,
+    });
+
+    expect(qb.andWhere).toHaveBeenCalledWith('recipient_type = :recipientType', {
+      recipientType: NotificationRecipientType.USER,
+    });
+    expect(qb.andWhere).toHaveBeenCalledWith('recipient_user_id = :userId', {
+      userId: 'admin-1',
+    });
+    expect(result.count).toBe(4);
   });
 });

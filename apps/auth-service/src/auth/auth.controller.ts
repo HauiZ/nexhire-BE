@@ -7,8 +7,13 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Delete,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ApiErrorResponses,
@@ -40,6 +45,8 @@ import { VerifyEmailResponseDto } from './dto/verify-email-response.dto';
 import { AuthService } from './auth.service';
 import { UpdateAuthProfileDto } from './dto/update-auth-profile.dto';
 import { UserContactSnapshotDto } from './dto/user-contact-snapshot.dto';
+import { AuthUploadedFile } from './interfaces/auth-uploaded-file.interface';
+import { AdminNotificationRecipientDto } from './dto/admin-notification-recipient.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -110,6 +117,46 @@ export class AuthController {
     @Body() dto: UpdateAuthProfileDto,
   ): Promise<AuthMeResponseDto> {
     return this.authService.updateMe(user, dto);
+  }
+
+  @Patch('me/avatar')
+  @HttpCode(200)
+  @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: 5 * 1024 * 1024 },
+    }),
+  )
+  @ApiOperation({ summary: 'Upload or replace current admin avatar' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: { type: 'string', format: 'binary' },
+      },
+    },
+  })
+  @ApiSuccessResponse(AuthMeResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 413, 422, 503] })
+  updateMyAvatar(
+    @CurrentUser() user: AuthUser,
+    @UploadedFile() file?: AuthUploadedFile,
+  ): Promise<AuthMeResponseDto> {
+    return this.authService.updateMyAvatar(user, file);
+  }
+
+  @Delete('me/avatar')
+  @HttpCode(200)
+  @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Remove current admin avatar' })
+  @ApiSuccessResponse(AuthMeResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 503] })
+  deleteMyAvatar(@CurrentUser() user: AuthUser): Promise<AuthMeResponseDto> {
+    return this.authService.deleteMyAvatar(user);
   }
 
   @Post('logout')
@@ -188,5 +235,13 @@ export class AuthInternalController {
   @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
   getUserContactSnapshot(@Param('id', ParseUUIDPipe) id: string): Promise<UserContactSnapshotDto> {
     return this.authService.getUserContactSnapshot(id);
+  }
+
+  @Get('admin-notification-recipients')
+  @ApiOperation({ summary: 'List active admin users that can receive system notifications' })
+  @ApiSuccessResponse(AdminNotificationRecipientDto, { isArray: true })
+  @ApiErrorResponses({ statuses: [401, 403, 500] })
+  listAdminNotificationRecipients(): Promise<AdminNotificationRecipientDto[]> {
+    return this.authService.listAdminNotificationRecipients();
   }
 }

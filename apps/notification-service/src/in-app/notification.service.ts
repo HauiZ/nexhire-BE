@@ -14,6 +14,7 @@ import {
   NotificationSenderType,
   NotificationType,
 } from './entities/notification.enum';
+import { AdminRecipientClientService } from './admin-recipient-client.service';
 
 export interface ApplicationSubmittedNotificationPayload {
   applicationId: string;
@@ -73,11 +74,46 @@ export interface FollowedCompanyJobPublishedNotificationPayload {
   candidateUserIds: string[];
 }
 
+export interface AdminCompanyReviewRequiredPayload {
+  companyId: string;
+  ownerUserId: string;
+  companyName: string;
+  companyLogoUrl?: string | null;
+  companyLogoDocumentId?: string | null;
+  companyStatus: CompanyStatus;
+  previousCompanyStatus?: CompanyStatus;
+  changedAt?: string;
+}
+
+export interface AdminJobReviewRequiredPayload {
+  jobId: string;
+  companyId: string;
+  companyName?: string | null;
+  title: string;
+  status: string;
+  version: number;
+  riskScore?: number | null;
+  riskLevel?: string | null;
+  submittedAt?: string;
+}
+
+export interface AdminJobRevisionReviewRequiredPayload {
+  jobId: string;
+  companyId: string;
+  title: string;
+  revisionId: string;
+  status: string;
+  riskScore?: number | null;
+  riskLevel?: string | null;
+  submittedAt?: string;
+}
+
 @Injectable()
 export class NotificationService {
   constructor(
     @InjectRepository(Notification)
     private readonly notificationRepo: Repository<Notification>,
+    private readonly adminRecipientClient: AdminRecipientClientService,
   ) {}
 
   async list(user: AuthUser, query: NotificationQueryDto) {
@@ -130,7 +166,7 @@ export class NotificationService {
       .set({ readAt: now })
       .where('read_at IS NULL');
 
-    if (user.role === UserRole.CANDIDATE) {
+    if (user.role === UserRole.CANDIDATE || user.role === UserRole.ADMIN) {
       qb.andWhere('recipient_type = :recipientType', {
         recipientType: NotificationRecipientType.USER,
       }).andWhere('recipient_user_id = :userId', { userId: user.id });
@@ -291,6 +327,94 @@ export class NotificationService {
     await this.insertNotifications(notifications);
   }
 
+  async createAdminCompanyReviewRequiredNotifications(
+    payload: AdminCompanyReviewRequiredPayload,
+  ): Promise<void> {
+    if (
+      payload.companyStatus !== CompanyStatus.PENDING ||
+      payload.previousCompanyStatus === CompanyStatus.PENDING
+    ) {
+      return;
+    }
+    const admins = await this.adminRecipientClient.listAdminRecipients();
+    const notifications = admins.map((admin) =>
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: admin.id,
+        recipientCompanyId: null,
+        dedupeKey: `admin-company-review:user:${admin.id}:${payload.companyId}:${payload.companyStatus}:${payload.changedAt ?? 'unknown'}`,
+        senderType: NotificationSenderType.SYSTEM,
+        senderEntityId: null,
+        senderName: 'NexHire',
+        senderAvatarDocumentId: null,
+        senderLogoUrl: null,
+        type: NotificationType.ADMIN_COMPANY_REVIEW_REQUIRED,
+        title: 'Company review required',
+        body: `${payload.companyName ?? 'A company'} is waiting for verification review.`,
+        data: {
+          companyId: payload.companyId,
+        },
+        readAt: null,
+      }),
+    );
+    await this.insertNotifications(notifications);
+  }
+
+  async createAdminJobReviewRequiredNotifications(
+    payload: AdminJobReviewRequiredPayload,
+  ): Promise<void> {
+    const admins = await this.adminRecipientClient.listAdminRecipients();
+    const notifications = admins.map((admin) =>
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: admin.id,
+        recipientCompanyId: null,
+        dedupeKey: `admin-job-review:user:${admin.id}:${payload.jobId}:${payload.version}:${payload.status}`,
+        senderType: NotificationSenderType.SYSTEM,
+        senderEntityId: null,
+        senderName: 'NexHire',
+        senderAvatarDocumentId: null,
+        senderLogoUrl: null,
+        type: NotificationType.ADMIN_JOB_REVIEW_REQUIRED,
+        title: 'Job review required',
+        body: `${payload.title} is waiting for admin review.`,
+        data: {
+          jobId: payload.jobId,
+        },
+        readAt: null,
+      }),
+    );
+    await this.insertNotifications(notifications);
+  }
+
+  async createAdminJobRevisionReviewRequiredNotifications(
+    payload: AdminJobRevisionReviewRequiredPayload,
+  ): Promise<void> {
+    const admins = await this.adminRecipientClient.listAdminRecipients();
+    const notifications = admins.map((admin) =>
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: admin.id,
+        recipientCompanyId: null,
+        dedupeKey: `admin-job-revision-review:user:${admin.id}:${payload.revisionId}:${payload.status}`,
+        senderType: NotificationSenderType.SYSTEM,
+        senderEntityId: null,
+        senderName: 'NexHire',
+        senderAvatarDocumentId: null,
+        senderLogoUrl: null,
+        type: NotificationType.ADMIN_JOB_REVISION_REVIEW_REQUIRED,
+        title: 'Job revision review required',
+        body: `${payload.title} has a revision waiting for admin review.`,
+        data: {
+          jobId: payload.jobId,
+          revisionId: payload.revisionId,
+        },
+        readAt: null,
+      }),
+    );
+    await this.insertNotifications(notifications);
+  }
+
   private async findScopedNotification(user: AuthUser, id: string): Promise<Notification> {
     const notification = await this.notificationRepo
       .createQueryBuilder('notification')
@@ -308,7 +432,7 @@ export class NotificationService {
 
   private scopeWhere(user: AuthUser): Brackets {
     return new Brackets((where) => {
-      if (user.role === UserRole.CANDIDATE) {
+      if (user.role === UserRole.CANDIDATE || user.role === UserRole.ADMIN) {
         where
           .where('notification.recipientType = :recipientType', {
             recipientType: NotificationRecipientType.USER,
@@ -333,7 +457,7 @@ export class NotificationService {
   private forbidden(): ForbiddenException {
     return new ForbiddenException({
       code: ERROR_CODES.COMMON.FORBIDDEN,
-      message: 'Notifications are only available to candidates and recruiters',
+      message: 'Notifications are only available to candidates, recruiters, and admins',
     });
   }
 

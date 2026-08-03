@@ -58,6 +58,32 @@ export class AdminJobController {
     return this.jobService.listReviewQueue(query);
   }
 
+  @Get('revisions/:revisionId')
+  @ApiOperation({ summary: 'Get one job revision detail for admin review' })
+  @ApiSuccessResponse(JobRevisionResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  getRevisionDetail(
+    @Param('revisionId', ParseUUIDPipe) revisionId: string,
+  ): Promise<JobRevisionResponseDto> {
+    return this.jobService.getAdminRevision(revisionId);
+  }
+
+  @Get('revision-review-queue')
+  @ApiOperation({ summary: 'List major revisions waiting for manual review' })
+  @ApiSuccessResponse(JobRevisionResponseDto, { isArray: true, paginated: true })
+  @ApiErrorResponses({ statuses: [401, 403, 422, 500] })
+  listRevisionReviewQueue(@Query() query: AdminJobRevisionReviewQueueQueryDto) {
+    return this.jobService.listRevisionReviewQueue(query);
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get one job detail for admin management' })
+  @ApiSuccessResponse(JobResponseDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 500] })
+  getAdminJob(@Param('id', ParseUUIDPipe) id: string): Promise<JobResponseDto> {
+    return this.jobService.getAdminJob(id);
+  }
+
   @Post(':id/review')
   @HttpCode(200)
   @ApiOperation({ summary: 'Approve or reject a job waiting for manual review' })
@@ -107,14 +133,6 @@ export class AdminJobController {
     @Body() dto: JobReasonDto,
   ): Promise<JobResponseDto> {
     return this.jobService.closeByAdmin(admin, id, dto);
-  }
-
-  @Get('revision-review-queue')
-  @ApiOperation({ summary: 'List major revisions waiting for manual review' })
-  @ApiSuccessResponse(JobRevisionResponseDto, { isArray: true, paginated: true })
-  @ApiErrorResponses({ statuses: [401, 403, 422, 500] })
-  listRevisionReviewQueue(@Query() query: AdminJobRevisionReviewQueueQueryDto) {
-    return this.jobService.listRevisionReviewQueue(query);
   }
 
   @Post('revisions/:revisionId/review')

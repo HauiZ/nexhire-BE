@@ -20,4 +20,16 @@ export class CompanyEventPublisher {
         );
       });
   }
+
+  async publishCompanyReviewRequired(payload: CompanyPostingSnapshotDto): Promise<void> {
+    await this.eventPublisher
+      .publish(EVENTS.COMPANY_REVIEW_REQUIRED, payload)
+      .catch((error: unknown) => {
+        this.logger.error(
+          `Failed to publish company review required event companyId=${payload.companyId}: ${
+            (error as Error).message
+          }`,
+        );
+      });
+  }
 }

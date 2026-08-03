@@ -33,6 +33,9 @@ export class User {
   @Column({ name: 'avatar_url', type: 'text', nullable: true })
   avatarUrl: string | null;
 
+  @Column({ name: 'avatar_document_id', type: 'uuid', nullable: true })
+  avatarDocumentId: string | null;
+
   @Column({
     type: 'enum',
     enum: UserStatus,

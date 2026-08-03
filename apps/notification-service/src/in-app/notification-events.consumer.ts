@@ -1,11 +1,15 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EVENTS } from '@nexhire/shared';
+import { retryOrDeadLetter, setupReliableQueue } from '@nexhire/infra';
+import { EVENTS, QUEUES, unwrapEventData } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import {
   ApplicationStageChangedNotificationPayload,
   ApplicationSubmittedNotificationPayload,
+  AdminCompanyReviewRequiredPayload,
+  AdminJobReviewRequiredPayload,
+  AdminJobRevisionReviewRequiredPayload,
   CompanyPostingSnapshotNotificationPayload,
   FollowedCompanyJobPublishedNotificationPayload,
   NotificationService,
@@ -16,6 +20,8 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
   private readonly logger = new Logger(NotificationEventsConsumer.name);
   private connection?: AmqpConnectionManager;
   private channel?: ChannelWrapper;
+  private exchange?: string;
+  private queueName?: string;
 
   constructor(
     private readonly configService: ConfigService,
@@ -27,7 +33,7 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
     const exchange = this.configService.get<string>('rabbitmq.exchange');
     const queueName = this.configService.get<string>(
       'notificationService.queues.inAppApplication',
-      'notification.in-app.application',
+      QUEUES.NOTIFICATION_IN_APP,
     );
 
     if (!url || !exchange) {
@@ -35,6 +41,8 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
       return;
     }
 
+    this.exchange = exchange;
+    this.queueName = queueName;
     this.connection = connect([url]);
     this.connection.on('connect', () => this.logger.log('RabbitMQ consumer connected'));
     this.connection.on('disconnect', (event) =>
@@ -43,12 +51,19 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
 
     this.channel = this.connection.createChannel({
       setup: async (channel: ConfirmChannel) => {
-        await channel.assertExchange(exchange, 'topic', { durable: true });
-        await channel.assertQueue(queueName, { durable: true });
-        await channel.bindQueue(queueName, exchange, EVENTS.APPLICATION_SUBMITTED);
-        await channel.bindQueue(queueName, exchange, EVENTS.APPLICATION_STAGE_CHANGED);
-        await channel.bindQueue(queueName, exchange, EVENTS.COMPANY_POSTING_SNAPSHOT_CHANGED);
-        await channel.bindQueue(queueName, exchange, EVENTS.COMPANY_FOLLOWED_JOB_PUBLISHED);
+        await setupReliableQueue(channel, {
+          exchange,
+          queueName,
+          bindingKeys: [
+            EVENTS.APPLICATION_SUBMITTED,
+            EVENTS.APPLICATION_STAGE_CHANGED,
+            EVENTS.COMPANY_POSTING_SNAPSHOT_CHANGED,
+            EVENTS.COMPANY_REVIEW_REQUIRED,
+            EVENTS.JOB_REVIEW_REQUIRED,
+            EVENTS.JOB_REVISION_REVIEW_REQUIRED,
+            EVENTS.COMPANY_FOLLOWED_JOB_PUBLISHED,
+          ],
+        });
         await channel.consume(queueName, (message) => this.consume(message), { noAck: false });
       },
     });
@@ -77,6 +92,18 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
         await this.notificationService.createCompanyVerificationChangedNotification(
           this.parseCompanySnapshotPayload(message),
         );
+      } else if (message.fields.routingKey === EVENTS.COMPANY_REVIEW_REQUIRED) {
+        await this.notificationService.createAdminCompanyReviewRequiredNotifications(
+          this.parseAdminCompanyReviewPayload(message),
+        );
+      } else if (message.fields.routingKey === EVENTS.JOB_REVIEW_REQUIRED) {
+        await this.notificationService.createAdminJobReviewRequiredNotifications(
+          this.parseAdminJobReviewPayload(message),
+        );
+      } else if (message.fields.routingKey === EVENTS.JOB_REVISION_REVIEW_REQUIRED) {
+        await this.notificationService.createAdminJobRevisionReviewRequiredNotifications(
+          this.parseAdminJobRevisionReviewPayload(message),
+        );
       } else if (message.fields.routingKey === EVENTS.COMPANY_FOLLOWED_JOB_PUBLISHED) {
         await this.notificationService.createFollowedCompanyJobPublishedNotifications(
           this.parseFollowedCompanyJobPayload(message),
@@ -85,14 +112,23 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
       this.channel.ack(message);
     } catch (error) {
       this.logger.error('Failed to process in-app notification event', error as Error);
-      this.channel.nack(message, false, false);
+      await this.retryOrRequeue(message);
+    }
+  }
+
+  private async retryOrRequeue(message: ConsumeMessage): Promise<void> {
+    try {
+      await retryOrDeadLetter(this.channel!, message, this.exchange!, this.queueName!);
+    } catch (error) {
+      this.logger.error('Failed to move in-app notification event to retry/DLQ', error as Error);
+      this.channel!.nack(message, false, true);
     }
   }
 
   private parseSubmittedPayload(message: ConsumeMessage): ApplicationSubmittedNotificationPayload {
-    const payload = JSON.parse(
-      message.content.toString(),
-    ) as ApplicationSubmittedNotificationPayload;
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as ApplicationSubmittedNotificationPayload,
+    );
     if (!payload.applicationId || !payload.companyId || !payload.candidateUserId) {
       throw new Error('Invalid application submitted notification payload');
     }
@@ -105,25 +141,61 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
     const payload = JSON.parse(
       message.content.toString(),
     ) as ApplicationStageChangedNotificationPayload;
-    if (
-      !payload.applicationId ||
-      !payload.companyId ||
-      !payload.candidateUserId ||
-      !payload.status
-    ) {
+    const data = unwrapEventData(payload);
+    if (!data.applicationId || !data.companyId || !data.candidateUserId || !data.status) {
       throw new Error('Invalid application stage changed notification payload');
     }
-    return payload;
+    return data;
   }
 
   private parseCompanySnapshotPayload(
     message: ConsumeMessage,
   ): CompanyPostingSnapshotNotificationPayload {
-    const payload = JSON.parse(
-      message.content.toString(),
-    ) as CompanyPostingSnapshotNotificationPayload;
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as CompanyPostingSnapshotNotificationPayload,
+    );
     if (!payload.companyId || !payload.ownerUserId || !payload.companyStatus) {
       throw new Error('Invalid company snapshot notification payload');
+    }
+    return payload;
+  }
+
+  private parseAdminCompanyReviewPayload(
+    message: ConsumeMessage,
+  ): AdminCompanyReviewRequiredPayload {
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as AdminCompanyReviewRequiredPayload,
+    );
+    if (!payload.companyId || !payload.ownerUserId || !payload.companyStatus) {
+      throw new Error('Invalid admin company review notification payload');
+    }
+    return payload;
+  }
+
+  private parseAdminJobReviewPayload(message: ConsumeMessage): AdminJobReviewRequiredPayload {
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as AdminJobReviewRequiredPayload,
+    );
+    if (!payload.jobId || !payload.companyId || !payload.title || !payload.status) {
+      throw new Error('Invalid admin job review notification payload');
+    }
+    return payload;
+  }
+
+  private parseAdminJobRevisionReviewPayload(
+    message: ConsumeMessage,
+  ): AdminJobRevisionReviewRequiredPayload {
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as AdminJobRevisionReviewRequiredPayload,
+    );
+    if (
+      !payload.jobId ||
+      !payload.companyId ||
+      !payload.revisionId ||
+      !payload.title ||
+      !payload.status
+    ) {
+      throw new Error('Invalid admin job revision review notification payload');
     }
     return payload;
   }
@@ -131,9 +203,9 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
   private parseFollowedCompanyJobPayload(
     message: ConsumeMessage,
   ): FollowedCompanyJobPublishedNotificationPayload {
-    const payload = JSON.parse(
-      message.content.toString(),
-    ) as FollowedCompanyJobPublishedNotificationPayload;
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as FollowedCompanyJobPublishedNotificationPayload,
+    );
     if (
       !payload.jobId ||
       !payload.jobTitle ||

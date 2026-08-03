@@ -20,6 +20,16 @@ export class AuthMeResponseDto {
   @ApiPropertyOptional({ nullable: true })
   logoUrl: string | null;
 
+  @ApiPropertyOptional({ nullable: true })
+  avatarUrl: string | null;
+
+  @ApiPropertyOptional({
+    format: 'uuid',
+    nullable: true,
+    description: 'Document id for current account avatar when available',
+  })
+  avatarDocumentId: string | null;
+
   @ApiPropertyOptional({
     format: 'uuid',
     nullable: true,

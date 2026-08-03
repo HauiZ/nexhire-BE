@@ -98,6 +98,7 @@ describe('CompanyService', () => {
   };
   const companyEventPublisher = {
     publishPostingSnapshotChanged: jest.fn(),
+    publishCompanyReviewRequired: jest.fn(),
   };
   const documentClientService = {
     uploadCompanyLogo: jest.fn(),
@@ -210,6 +211,13 @@ describe('CompanyService', () => {
         ownerUserId: mockUserId,
         companyStatus: CompanyStatus.PENDING,
         companyTrustLevel: CompanyTrustLevel.MEDIUM,
+      }),
+    );
+    expect(companyEventPublisher.publishCompanyReviewRequired).toHaveBeenCalledWith(
+      expect.objectContaining({
+        companyId: mockCompanyId,
+        ownerUserId: mockUserId,
+        companyStatus: CompanyStatus.PENDING,
       }),
     );
   });
@@ -830,6 +838,13 @@ describe('CompanyService', () => {
     expect(result.verificationRejectedCount).toBe(2);
     expect(result.lastVerificationRejectedReason).toBe('Missing proof');
     expect(companyEventPublisher.publishPostingSnapshotChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        companyId: mockCompanyId,
+        companyStatus: CompanyStatus.PENDING,
+        previousCompanyStatus: CompanyStatus.REJECTED,
+      }),
+    );
+    expect(companyEventPublisher.publishCompanyReviewRequired).toHaveBeenCalledWith(
       expect.objectContaining({
         companyId: mockCompanyId,
         companyStatus: CompanyStatus.PENDING,

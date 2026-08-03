@@ -978,6 +978,9 @@ export class CompanyService {
   ): Promise<void> {
     const payload = this.toPostingSnapshot(company, previousStatus);
     await this.companyEventPublisher.publishPostingSnapshotChanged(payload);
+    if (company.status === CompanyStatus.PENDING && previousStatus !== CompanyStatus.PENDING) {
+      await this.companyEventPublisher.publishCompanyReviewRequired(payload);
+    }
   }
 
   private async toCompanyResponse(company: Company): Promise<CompanyResponseDto> {
