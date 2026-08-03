@@ -17,8 +17,17 @@ SOURCE_WEIGHTS = {
 
 
 @dataclass
+class Requirement:
+    text: str
+    source: str
+    weight: float
+
+
+@dataclass
 class RequirementMatch:
     requirement: str
+    requirement_source: str
+    requirement_weight: float
     evidence: str | None
     source: str | None
     score: float
@@ -59,22 +68,29 @@ class RequirementMatcher:
 
         evidence = self._build_evidence(candidate)
         matches = [self._best_match(requirement, evidence) for requirement in requirements]
+        weight_total = sum(requirement.weight for requirement in requirements)
         return RequirementScore(
-            score=(sum(match.score for match in matches) / len(matches)) * 100,
+            score=(sum(match.score * match.requirement_weight for match in matches) / weight_total) * 100,
             matched=[match.label for match in matches if match.matched],
             missing=[match.requirement for match in matches if not match.matched],
             matches=matches,
         )
 
-    def _build_requirements(self, job: JobMatchingSnapshot) -> list[str]:
-        requirements: list[str] = []
+    def _build_requirements(self, job: JobMatchingSnapshot) -> list[Requirement]:
+        requirements: list[Requirement] = []
         for skill in job.skills:
-            self._append_unique(requirements, normalize_skill(skill))
+            self._append_requirement(requirements, normalize_skill(skill), "skill", 1.0)
 
         for phrase in self._split_requirement_text(job.requirements):
-            self._append_unique(requirements, normalize_skill(phrase))
+            self._append_requirement(requirements, normalize_skill(phrase), "requirements", 0.9)
 
-        return requirements[:12]
+        for phrase in self._split_requirement_text(job.description):
+            self._append_requirement(requirements, normalize_skill(phrase), "description", 0.25)
+
+        for phrase in self._split_requirement_text(job.benefits):
+            self._append_requirement(requirements, normalize_skill(phrase), "benefits", 0.1)
+
+        return requirements[:16]
 
     def _build_evidence(self, candidate: CandidateMatchingSnapshot) -> list[Evidence]:
         evidence: list[Evidence] = []
@@ -100,17 +116,33 @@ class RequirementMatcher:
         self._append_evidence(evidence, candidate.summary, "profile")
         return evidence
 
-    def _best_match(self, requirement: str, evidence_items: list[Evidence]) -> RequirementMatch:
+    def _best_match(self, requirement: Requirement, evidence_items: list[Evidence]) -> RequirementMatch:
         if not evidence_items:
-            return RequirementMatch(requirement=requirement, evidence=None, source=None, score=0)
+            return RequirementMatch(
+                requirement=requirement.text,
+                requirement_source=requirement.source,
+                requirement_weight=requirement.weight,
+                evidence=None,
+                source=None,
+                score=0,
+            )
 
-        best = RequirementMatch(requirement=requirement, evidence=None, source=None, score=0)
+        best = RequirementMatch(
+            requirement=requirement.text,
+            requirement_source=requirement.source,
+            requirement_weight=requirement.weight,
+            evidence=None,
+            source=None,
+            score=0,
+        )
         for evidence in evidence_items:
-            raw_score = self._compare(requirement, evidence.text)
+            raw_score = self._compare(requirement.text, evidence.text)
             weighted_score = raw_score * SOURCE_WEIGHTS.get(evidence.source, 0.6)
             if weighted_score > best.score:
                 best = RequirementMatch(
-                    requirement=requirement,
+                    requirement=requirement.text,
+                    requirement_source=requirement.source,
+                    requirement_weight=requirement.weight,
                     evidence=evidence.text,
                     source=evidence.source,
                     score=weighted_score,
@@ -139,7 +171,12 @@ class RequirementMatcher:
     def _split_requirement_text(self, text: str | None) -> list[str]:
         if not text:
             return []
-        raw_chunks = re.split(r"\s*(?:[,;|]|\band\b|\bor\b|\n)\s*", text, flags=re.IGNORECASE)
+        clean_text = re.sub(r"<[^>]*>", " ", text)
+        raw_chunks = re.split(
+            r"\s*(?:[,;|•]|\band\b|\bor\b|\.|\n)\s*",
+            clean_text,
+            flags=re.IGNORECASE,
+        )
         chunks = [normalize_text(chunk) for chunk in raw_chunks]
         return [chunk for chunk in chunks if 1 <= len(chunk.split()) <= 18]
 
@@ -150,9 +187,20 @@ class RequirementMatcher:
             return 0
         return (len(left_terms & right_terms) / max(len(left_terms), len(right_terms))) * 100
 
-    def _append_unique(self, items: list[str], value: str) -> None:
-        if value and value not in items:
-            items.append(value)
+    def _append_requirement(
+        self,
+        items: list[Requirement],
+        value: str,
+        source: str,
+        weight: float,
+    ) -> None:
+        if not value:
+            return
+        existing = next((item for item in items if item.text == value), None)
+        if existing:
+            existing.weight = max(existing.weight, weight)
+            return
+        items.append(Requirement(text=value, source=source, weight=weight))
 
     def _append_evidence(self, items: list[Evidence], value: str | None, source: str) -> None:
         normalized = normalize_text(value)
