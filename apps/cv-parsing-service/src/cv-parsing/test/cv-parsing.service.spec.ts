@@ -4,6 +4,7 @@ import { DataSource, Repository } from 'typeorm';
 import { CvParsingService } from '../cv-parsing.service';
 import { CvParseContext, CvParseProvider, CvParseRequestStatus } from '../entities/cv-parsing.enum';
 import { CvParseRequest } from '../entities/cv-parse-request.entity';
+import { CvParseResult } from '../entities/cv-parse-result.entity';
 import { CvParseEventPublisher } from '../events/cv-parse-event.publisher';
 import { AiManagementService } from '../../ai-management/ai-management.service';
 import { GeminiResumeParserClient } from '../../gemini/gemini-resume-parser.client';
@@ -16,6 +17,9 @@ describe('CvParsingService', () => {
     findOneOrFail: jest.Mock;
     save: jest.Mock;
     update: jest.Mock;
+  };
+  let parseResultRepo: {
+    findOne: jest.Mock;
   };
 
   beforeEach(() => {
@@ -43,6 +47,9 @@ describe('CvParsingService', () => {
       providerVersion: 'gemini-test',
       createdAt: new Date('2026-01-01T00:00:00.000Z'),
     });
+    parseResultRepo = {
+      findOne: jest.fn(),
+    };
 
     const configService = {
       get: jest.fn((key: string, fallback?: unknown) => {
@@ -68,6 +75,7 @@ describe('CvParsingService', () => {
       {} as GeminiResumeParserClient,
       {} as OpenAiResumeParserClient,
       parseRequestRepo as unknown as Repository<CvParseRequest>,
+      parseResultRepo as unknown as Repository<CvParseResult>,
     );
   });
 
@@ -88,5 +96,35 @@ describe('CvParsingService', () => {
       }),
     );
     expect(result.provider).toBe(CvParseProvider.GEMINI);
+  });
+
+  it('returns latest parsed result by candidate CV id', async () => {
+    parseResultRepo.findOne.mockResolvedValue({
+      id: 'parse-result-1',
+      parseRequestId: 'parse-request-1',
+      candidateId: 'candidate-1',
+      candidateCvId: 'cv-1',
+      documentId: 'document-1',
+      provider: CvParseProvider.GEMINI,
+      providerVersion: 'gemini-test',
+      normalizedPayload: {
+        profile: { fullName: 'Candidate One' },
+        skills: [],
+        experiences: [],
+        educations: [],
+        certifications: [],
+        projects: [],
+      },
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+    });
+
+    const result = await service.getLatestResultByCandidateCv('cv-1');
+
+    expect(parseResultRepo.findOne).toHaveBeenCalledWith({
+      where: { candidateCvId: 'cv-1' },
+      order: { createdAt: 'DESC' },
+    });
+    expect(result.id).toBe('parse-result-1');
+    expect(result.profileApplied).toBe(true);
   });
 });
