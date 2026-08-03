@@ -51,3 +51,19 @@ async def create_application_match_request(
             "requestType": request.request_type.value,
         },
     }
+
+
+@router.get("/applications/{application_id}/latest-result")
+async def get_latest_application_match_result(
+    application_id: str,
+    session: AsyncSession = Depends(get_session),
+    _internal: None = Depends(require_internal_service),
+) -> dict:
+    service = MatchingService()
+    result = await service.get_latest_application_result(session, application_id)
+    if not result:
+        raise HTTPException(status_code=404, detail="Match result not found")
+    return {
+        "success": True,
+        "data": service.map_result_snapshot(result),
+    }

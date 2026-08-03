@@ -52,6 +52,7 @@ npm run start:all
 ```
 
 > The per-service databases + users are created automatically on a fresh Postgres volume by `scripts/init-databases.sql`.
+> Matching-service has extra Python setup and migration notes in `api-docs/matching-service.md`.
 
 Then open:
 

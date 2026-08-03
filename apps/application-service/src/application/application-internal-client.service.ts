@@ -71,6 +71,31 @@ export interface CandidateCvSnapshot {
   parseStatus: string;
 }
 
+export interface ApplicationMatchResultSnapshot {
+  id: string;
+  matchRequestId: string | null;
+  applicationId: string | null;
+  jobId: string;
+  candidateId: string;
+  candidateCvId: string | null;
+  status: 'SUCCEEDED' | 'FAILED';
+  totalScore: number;
+  matchLevel: string;
+  explanation: {
+    matchedSkills?: string[];
+    missingSkills?: string[];
+    recommendation?: string;
+    decision?: string;
+    priority?: string;
+    summary?: string | null;
+    nextActions?: string[];
+    riskFlags?: string[];
+  };
+  errorCode?: string | null;
+  errorMessage?: string | null;
+  createdAt: string | null;
+}
+
 @Injectable()
 export class ApplicationInternalClientService {
   private readonly logger = new Logger(ApplicationInternalClientService.name);
@@ -162,6 +187,22 @@ export class ApplicationInternalClientService {
       'cvParsingService',
       `/api/v1/internal/cv-parsing/cvs/${candidateCvId}/latest-result`,
     );
+  }
+
+  async getLatestApplicationMatchResult(
+    applicationId: string,
+  ): Promise<ApplicationMatchResultSnapshot | null> {
+    try {
+      return await this.getFromService<ApplicationMatchResultSnapshot>(
+        'matchingService',
+        `/api/v1/matching/applications/${applicationId}/latest-result`,
+      );
+    } catch (error) {
+      if (error instanceof HttpException && error.getStatus() === 404) {
+        return null;
+      }
+      throw error;
+    }
   }
 
   private async getCachedDocumentDownload(

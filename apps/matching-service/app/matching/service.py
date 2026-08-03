@@ -141,6 +141,33 @@ class MatchingService:
             result.matching_completed_published_at = datetime.now(timezone.utc)
             await session.flush()
 
+    async def get_latest_application_result(
+        self, session: AsyncSession, application_id: str
+    ) -> MatchResult | None:
+        return await session.scalar(
+            select(MatchResult)
+            .where(MatchResult.application_id == uuid.UUID(application_id))
+            .order_by(MatchResult.created_at.desc())
+            .limit(1)
+        )
+
+    def map_result_snapshot(self, result: MatchResult) -> dict:
+        return {
+            "id": str(result.id),
+            "matchRequestId": str(result.request_id) if result.request_id else None,
+            "applicationId": str(result.application_id) if result.application_id else None,
+            "jobId": str(result.job_id),
+            "candidateId": str(result.candidate_id),
+            "candidateCvId": str(result.candidate_cv_id) if result.candidate_cv_id else None,
+            "status": result.status.value,
+            "totalScore": result.total_score,
+            "matchLevel": match_level(result.total_score),
+            "explanation": result.explanation,
+            "errorCode": result.error_code,
+            "errorMessage": result.error_message,
+            "createdAt": result.created_at.isoformat() if result.created_at else None,
+        }
+
     def _candidate_from_parsed_resume(self, request: MatchRequest):
         from app.schemas.snapshots import (
             CandidateEducationSnapshot,

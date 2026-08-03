@@ -91,6 +91,50 @@ Install/update Python dependencies:
 npm run matching:install
 ```
 
+## Run Locally
+
+First-time setup:
+
+```bash
+make dev
+npm install
+npm run matching:venv
+npm run matching:install
+npm run db:all:run
+npm run matching:migrate
+```
+
+Start every service, including matching-service:
+
+```bash
+npm run start:all
+```
+
+Or start only matching-service after its dependencies are already running:
+
+```bash
+npm run start:matching-service
+```
+
+Required runtime dependencies for the full apply-to-match flow:
+
+- PostgreSQL with `matching_service_db`;
+- RabbitMQ, because cv-parsing-service publishes `cv.parsed` / `cv.parse-failed` and matching-service publishes `matching.completed`;
+- candidate-service, cv-parsing-service, application-service, job-service, document-storage-service, and matching-service;
+- matching-service migration `npm run matching:migrate`, including `match_results.matching_completed_published_at` for reliable result publishing.
+
+Required env:
+
+```env
+INTERNAL_SERVICE_TOKEN=...
+MATCHING_SERVICE_DB_HOST=localhost
+MATCHING_SERVICE_DB_PORT=5436
+MATCHING_SERVICE_DB_USER=nexhire_matching
+MATCHING_SERVICE_DB_PASS=...
+MATCHING_SERVICE_DB_NAME=matching_service_db
+MATCHING_SERVICE_URL=http://localhost:3007
+```
+
 ## Matching Prerequisite Flow
 
 `application-service` owns the decision to request matching:
