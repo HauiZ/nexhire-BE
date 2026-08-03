@@ -22,6 +22,8 @@ Responsibility: job application submission, candidate application history, recru
 - CV content is not embedded in the application response. FE calls the CV download endpoint to get a short-lived URL.
 - Candidate avatar URL is resolved dynamically from `candidateAvatarDocumentId` when available.
 - Matching is requested only after the applied CV is parsed. If the CV is not parsed at apply time, application-service triggers parsing and waits for `cv.parsed` before creating a match request. If parsing fails, application-service marks waiting application matching as `FAILED` through the application CV parse snapshot.
+- Candidate application responses include progress timeline data for candidate UI. Recruiter can ignore
+  progress in phase one.
 
 ## Recruiter Matching
 
@@ -43,9 +45,9 @@ Auth:
 
 Path params:
 
-| Field | Required | Note |
-| ----- | -------- | ---- |
-| `id` | Yes | Application id. Must belong to the recruiter's company. |
+| Field | Required | Note                                                    |
+| ----- | -------- | ------------------------------------------------------- |
+| `id`  | Yes      | Application id. Must belong to the recruiter's company. |
 
 Success response payload:
 
@@ -81,6 +83,29 @@ Errors: `401`, `403`, `404`, `503`.
 | `WITHDRAWN` | Candidate withdrew the application                                       |
 | `CANCELLED` | Backend cancelled the active application, for example when job is closed |
 
+## Progress Timeline
+
+Progress is separate from application `status`. Backend stores only real events:
+
+| Step           | Meaning                                                                 |
+| -------------- | ----------------------------------------------------------------------- |
+| `CV_SUBMITTED` | Candidate submitted the application successfully                        |
+| `CV_RECEIVED`  | Application was created and delivered to the recruiter/company side     |
+| `CV_VIEWED`    | Recruiter opened the submitted CV file through the CV download endpoint |
+| `RESPONDED`    | Recruiter marked the application as `OFFERED` or `REJECTED`             |
+| `CANCELLED`    | System cancelled the application, for example when the job was closed   |
+
+Event creation rules:
+
+- `POST /api/v1/applications` creates `CV_SUBMITTED` and `CV_RECEIVED`.
+- `GET /api/v1/recruiter/applications/:id/cv` creates `CV_VIEWED` once. If old data has no
+  `CV_RECEIVED`, it creates `CV_RECEIVED` first.
+- `PATCH /api/v1/recruiter/applications/:id/status` creates `RESPONDED` once.
+- Job closed event creates `CANCELLED` once.
+- Events are idempotent per application and step; repeated calls do not duplicate timeline rows.
+- Backend does not store `IN_REVIEW`. FE should display `IN_REVIEW` as current when `CV_VIEWED` is
+  done and `RESPONDED` is not done.
+
 ## Response object
 
 Application response data:
@@ -113,10 +138,42 @@ Application response data:
   "coverLetter": "I am interested in this role.",
   "status": "SUBMITTED",
   "statusNote": null,
+  "currentProgressStep": "CV_RECEIVED",
+  "progress": {
+    "currentProgressStep": "CV_RECEIVED",
+    "events": [
+      {
+        "id": "9b8f3b9f-7257-47f7-9d8c-70304f279b4a",
+        "step": "CV_RECEIVED",
+        "title": "NTD đã tiếp nhận hồ sơ",
+        "description": null,
+        "actorType": "SYSTEM",
+        "actorUserId": null,
+        "note": null,
+        "metadata": null,
+        "occurredAt": "2026-07-15T10:00:00.000Z",
+        "isLatest": true
+      },
+      {
+        "id": "3c60b33a-ef7b-4a1f-9ff2-814566b1e817",
+        "step": "CV_SUBMITTED",
+        "title": "Ứng viên gửi hồ sơ thành công",
+        "description": null,
+        "actorType": "CANDIDATE",
+        "actorUserId": "f9ae2e14-f689-4a3e-8c2f-249776d0b650",
+        "note": null,
+        "metadata": null,
+        "occurredAt": "2026-07-15T10:00:00.000Z",
+        "isLatest": false
+      }
+    ]
+  },
   "submittedAt": "2026-07-15T10:00:00.000Z",
   "withdrawnAt": null,
   "decidedAt": null,
   "cancelledAt": null,
+  "firstCvReceivedAt": "2026-07-15T10:00:00.000Z",
+  "firstCvViewedAt": null,
   "createdAt": "2026-07-15T10:00:00.000Z",
   "updatedAt": "2026-07-15T10:00:00.000Z"
 }
@@ -179,7 +236,8 @@ Query:
 | `limit`  | number | No       | Default pagination behavior                                  |
 | `status` | enum   | No       | `SUBMITTED`, `OFFERED`, `REJECTED`, `WITHDRAWN`, `CANCELLED` |
 
-Success response: paginated array of application response objects.
+Success response: paginated array of application response objects, including `progress` for
+candidate timeline UI.
 
 ### `GET /api/v1/applications/me/:id`
 
@@ -190,7 +248,7 @@ Auth:
 - Required
 - Roles: `CANDIDATE`
 
-Success response: application response object.
+Success response: application response object, including `progress` for candidate timeline UI.
 
 Errors: `401`, `403`, `404`.
 
@@ -295,10 +353,10 @@ Auth:
 
 Query:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `from` | ISO date `YYYY-MM-DD` | No | Start date. Defaults to 6 days before `to`. |
-| `to` | ISO date `YYYY-MM-DD` | No | End date. Defaults to today. |
+| Field  | Type                  | Required | Note                                        |
+| ------ | --------------------- | -------- | ------------------------------------------- |
+| `from` | ISO date `YYYY-MM-DD` | No       | Start date. Defaults to 6 days before `to`. |
+| `to`   | ISO date `YYYY-MM-DD` | No       | End date. Defaults to today.                |
 
 Success response:
 
@@ -361,6 +419,15 @@ Auth:
 
 Success response: same shape as candidate CV download response.
 
+Side effect:
+
+- Marks application progress `CV_VIEWED` once.
+- For legacy applications without `CV_RECEIVED`, creates `CV_RECEIVED` before `CV_VIEWED`.
+- Repeated calls do not duplicate progress events.
+- When `CV_VIEWED` is created for the first time, application-service publishes
+  `application.cv-viewed`; notification-service consumes it and creates one candidate in-app
+  notification with type `APPLICATION_CV_VIEWED`.
+
 Errors: `401`, `403`, `404`, `503`.
 
 ## Internal endpoints
@@ -378,10 +445,10 @@ Auth:
 
 Request body:
 
-| Field | Type | Required | Note |
-| --- | --- | --- | --- |
-| `matchScore` | number | Yes | 0..100. |
-| `matchLevel` | `LOW` \| `MEDIUM` \| `HIGH` \| `EXCELLENT` | No | If omitted, application-service derives it from score. |
+| Field        | Type                                       | Required | Note                                                   |
+| ------------ | ------------------------------------------ | -------- | ------------------------------------------------------ |
+| `matchScore` | number                                     | Yes      | 0..100.                                                |
+| `matchLevel` | `LOW` \| `MEDIUM` \| `HIGH` \| `EXCELLENT` | No       | If omitted, application-service derives it from score. |
 
 ```json
 {

@@ -8,6 +8,7 @@ export const EVENTS = {
   AUTH_PASSWORD_RESET_REQUESTED: 'auth.password-reset-requested',
   APPLICATION_SUBMITTED: 'application.submitted',
   APPLICATION_STAGE_CHANGED: 'application.stage-changed',
+  APPLICATION_CV_VIEWED: 'application.cv-viewed',
   CV_UPLOADED: 'cv.uploaded',
   CV_PARSED: 'cv.parsed',
   CV_PARSE_FAILED: 'cv.parse-failed',

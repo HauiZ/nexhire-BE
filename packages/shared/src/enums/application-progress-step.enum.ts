@@ -1,0 +1,7 @@
+export enum ApplicationProgressStep {
+  CV_SUBMITTED = 'CV_SUBMITTED',
+  CV_RECEIVED = 'CV_RECEIVED',
+  CV_VIEWED = 'CV_VIEWED',
+  RESPONDED = 'RESPONDED',
+  CANCELLED = 'CANCELLED',
+}

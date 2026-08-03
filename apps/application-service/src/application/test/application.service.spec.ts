@@ -1,9 +1,13 @@
 import { HttpException } from '@nestjs/common';
-import { ApplicationStage, ERROR_CODES, UserRole } from '@nexhire/shared';
+import { ApplicationProgressStep, ApplicationStage, ERROR_CODES, UserRole } from '@nexhire/shared';
 import { Repository } from 'typeorm';
 import { ApplicationInternalClientService } from '../application-internal-client.service';
 import { ApplicationService } from '../application.service';
 import { Application, ApplicationMatchLevel } from '../entities/application.entity';
+import {
+  ApplicationProgressActorType,
+  ApplicationProgressEvent,
+} from '../entities/application-progress-event.entity';
 import { ApplicationEventPublisher } from '../events/application-event.publisher';
 
 type MockRepo = {
@@ -47,12 +51,15 @@ const application: Application = {
   coverLetter: null,
   status: ApplicationStage.SUBMITTED,
   statusNote: null,
+  currentProgressStep: null,
   matchScore: null,
   matchLevel: null,
   submittedAt: new Date('2026-07-15T00:00:00.000Z'),
   withdrawnAt: null,
   decidedAt: null,
   cancelledAt: null,
+  firstCvReceivedAt: null,
+  firstCvViewedAt: null,
   createdAt: new Date('2026-07-15T00:00:00.000Z'),
   updatedAt: new Date('2026-07-15T00:00:00.000Z'),
   deletedAt: null,
@@ -70,17 +77,20 @@ const parsedResume = {
 describe('ApplicationService', () => {
   let service: ApplicationService;
   let repo: MockRepo;
+  let progressEventRepo: Pick<MockRepo, 'find' | 'findOne' | 'save' | 'create'>;
   let internalClient: {
     getJobApplicationSnapshot: jest.Mock;
     getCandidateApplicationSnapshot: jest.Mock;
     getDocumentDownload: jest.Mock;
     getLatestCvParseResult: jest.Mock;
+    getLatestApplicationMatchResult: jest.Mock;
     createApplicationMatchRequest: jest.Mock;
     requestCandidateCvParse: jest.Mock;
   };
   let applicationEventPublisher: {
     publishApplicationSubmitted: jest.Mock;
     publishApplicationStageChanged: jest.Mock;
+    publishApplicationCvViewed: jest.Mock;
   };
 
   beforeEach(() => {
@@ -92,6 +102,12 @@ describe('ApplicationService', () => {
       create: jest.fn((payload: Partial<Application>) => payload),
       createQueryBuilder: jest.fn(),
       update: jest.fn().mockResolvedValue(undefined),
+    };
+    progressEventRepo = {
+      find: jest.fn().mockResolvedValue([]),
+      findOne: jest.fn().mockResolvedValue(null),
+      save: jest.fn((payload: ApplicationProgressEvent) => Promise.resolve(payload)),
+      create: jest.fn((payload: Partial<ApplicationProgressEvent>) => payload),
     };
     internalClient = {
       getJobApplicationSnapshot: jest.fn().mockResolvedValue({
@@ -133,6 +149,7 @@ describe('ApplicationService', () => {
         normalizedPayload: parsedResume,
         createdAt: '2026-07-15T00:00:00.000Z',
       }),
+      getLatestApplicationMatchResult: jest.fn().mockResolvedValue(null),
       createApplicationMatchRequest: jest.fn().mockResolvedValue({
         id: 'match-request-1',
         applicationId: application.id,
@@ -150,12 +167,14 @@ describe('ApplicationService', () => {
     applicationEventPublisher = {
       publishApplicationSubmitted: jest.fn().mockResolvedValue(undefined),
       publishApplicationStageChanged: jest.fn().mockResolvedValue(undefined),
+      publishApplicationCvViewed: jest.fn().mockResolvedValue(undefined),
     };
 
     service = new ApplicationService(
       internalClient as unknown as ApplicationInternalClientService,
       applicationEventPublisher as unknown as ApplicationEventPublisher,
       repo as unknown as Repository<Application>,
+      progressEventRepo as unknown as Repository<ApplicationProgressEvent>,
     );
   });
 
@@ -185,6 +204,22 @@ describe('ApplicationService', () => {
         candidateUserId: candidateUser.id,
         candidateAvatarDocumentId: application.candidateAvatarDocumentId,
         companyLogoUrl: application.companyLogoUrl,
+      }),
+    );
+    expect(progressEventRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        applicationId: application.id,
+        step: ApplicationProgressStep.CV_SUBMITTED,
+        actorType: ApplicationProgressActorType.CANDIDATE,
+        actorUserId: candidateUser.id,
+      }),
+    );
+    expect(progressEventRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        applicationId: application.id,
+        step: ApplicationProgressStep.CV_RECEIVED,
+        actorType: ApplicationProgressActorType.SYSTEM,
+        actorUserId: null,
       }),
     );
     expect(result.status).toBe(ApplicationStage.SUBMITTED);
@@ -309,7 +344,57 @@ describe('ApplicationService', () => {
     expect(repo.findOne).toHaveBeenCalledWith({
       where: { id: application.id, companyId: recruiterUser.companyId },
     });
+    expect(progressEventRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        applicationId: application.id,
+        step: ApplicationProgressStep.CV_VIEWED,
+        actorType: ApplicationProgressActorType.RECRUITER,
+        actorUserId: recruiterUser.id,
+      }),
+    );
+    expect(applicationEventPublisher.publishApplicationCvViewed).toHaveBeenCalledWith(
+      expect.objectContaining({
+        applicationId: application.id,
+        candidateUserId: application.candidateUserId,
+        viewedByUserId: recruiterUser.id,
+      }),
+    );
     expect(result.url).toBe('https://storage.local/cv');
+  });
+
+  it('enriches recruiter application detail with latest AI match recommendation', async () => {
+    repo.findOne.mockResolvedValue({ ...application, matchScore: 82, matchLevel: ApplicationMatchLevel.HIGH });
+    internalClient.getLatestApplicationMatchResult.mockResolvedValueOnce({
+      id: 'match-result-1',
+      matchRequestId: 'match-request-1',
+      applicationId: application.id,
+      jobId: application.jobId,
+      candidateId: application.candidateId,
+      candidateCvId: application.candidateCvId,
+      status: 'SUCCEEDED',
+      totalScore: 82,
+      matchLevel: 'HIGH',
+      explanation: {
+        matchedSkills: ['nestjs'],
+        missingSkills: ['redis'],
+        recommendation: 'GOOD_FIT',
+        decision: 'REVIEW_MANUALLY',
+        priority: 'HIGH',
+        summary: 'Review the profile before shortlisting.',
+        nextActions: ['Review CV details before shortlisting'],
+        riskFlags: ['MISSING_REDIS'],
+      },
+      createdAt: '2026-07-15T00:00:00.000Z',
+    });
+
+    const result = await service.getCompanyApplication(recruiterUser, application.id);
+
+    expect(internalClient.getLatestApplicationMatchResult).toHaveBeenCalledWith(application.id);
+    expect(result.matchScore).toBe(82);
+    expect(result.matchLevel).toBe(ApplicationMatchLevel.HIGH);
+    expect(result.matchDecision).toBe('REVIEW_MANUALLY');
+    expect(result.matchNextActions).toEqual(['Review CV details before shortlisting']);
+    expect(result.matchRiskFlags).toEqual(['MISSING_REDIS']);
   });
 
   it('allows recruiter to offer an application and publishes stage change snapshot', async () => {
@@ -329,6 +414,15 @@ describe('ApplicationService', () => {
         note: 'Interview next',
         companyLogoUrl: application.companyLogoUrl,
         candidateAvatarDocumentId: application.candidateAvatarDocumentId,
+      }),
+    );
+    expect(progressEventRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        applicationId: application.id,
+        step: ApplicationProgressStep.RESPONDED,
+        actorType: ApplicationProgressActorType.RECRUITER,
+        actorUserId: recruiterUser.id,
+        metadata: { status: ApplicationStage.OFFERED },
       }),
     );
   });
@@ -544,6 +638,14 @@ describe('ApplicationService', () => {
         applicationId: application.id,
         previousStatus: ApplicationStage.SUBMITTED,
         status: ApplicationStage.CANCELLED,
+      }),
+    );
+    expect(progressEventRepo.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        applicationId: application.id,
+        step: ApplicationProgressStep.CANCELLED,
+        actorType: ApplicationProgressActorType.SYSTEM,
+        actorUserId: null,
       }),
     );
   });

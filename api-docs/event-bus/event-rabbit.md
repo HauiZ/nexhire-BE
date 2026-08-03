@@ -4,42 +4,44 @@ RabbitMQ uses a durable topic exchange from `rabbitmq.exchange` with dotted rout
 
 ## Events
 
-| Routing key                          | Producer            | Consumer(s)                                     | Purpose                                                              |
-| ------------------------------------ | ------------------- | ----------------------------------------------- | -------------------------------------------------------------------- |
-| `auth.email-verification-requested`  | auth-service        | notification-service email                      | Send verification email.                                             |
-| `auth.password-reset-requested`      | auth-service        | notification-service email                      | Send password reset email.                                           |
-| `application.submitted`              | application-service | job-service, notification-service               | Increment application count and notify.                              |
-| `application.stage-changed`          | application-service | notification-service                            | Notify candidate about stage changes.                                |
-| `cv.uploaded`                        | candidate-service   | cv-parsing-service                              | Start async profile CV parsing.                                      |
-| `cv.parsed`                          | cv-parsing-service  | candidate-service, application-service          | Apply parsed resume, mark CV parsed, and continue waiting matching.   |
-| `cv.parse-failed`                    | cv-parsing-service  | candidate-service, application-service          | Mark CV parse failed and unblock waiting matching state.              |
+| Routing key                          | Producer            | Consumer(s)                                     | Purpose                                                                          |
+| ------------------------------------ | ------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------- |
+| `auth.email-verification-requested`  | auth-service        | notification-service email                      | Send verification email.                                                         |
+| `auth.password-reset-requested`      | auth-service        | notification-service email                      | Send password reset email.                                                       |
+| `application.submitted`              | application-service | job-service, notification-service               | Increment application count and notify.                                          |
+| `application.stage-changed`          | application-service | notification-service                            | Notify candidate about stage changes.                                            |
+| `application.cv-viewed`              | application-service | notification-service                            | Notify candidate when recruiter views CV for the first time.                     |
+| `cv.uploaded`                        | candidate-service   | cv-parsing-service                              | Start async profile CV parsing.                                                  |
+| `cv.parsed`                          | cv-parsing-service  | candidate-service, application-service          | Apply parsed resume, mark CV parsed, and continue waiting matching.              |
+| `cv.parse-failed`                    | cv-parsing-service  | candidate-service, application-service          | Mark CV parse failed and unblock waiting matching state.                         |
 | `cv.match-requested`                 | reserved            | none currently                                  | Reserved for async matching flow; matching requests currently use internal HTTP. |
-| `matching.completed`                 | matching-service    | application-service                             | Report terminal matching success/failure for application score sync. |
-| `document.uploaded`                  | reserved            | none currently                                  | Reserved for document lifecycle.                                     |
-| `document.removed`                   | reserved            | none currently                                  | Reserved for document lifecycle.                                     |
-| `candidate.profile-snapshot-changed` | candidate-service   | auth-service, application-service               | Sync candidate profile snapshot.                                     |
-| `company.posting-snapshot-changed`   | company-service     | auth-service, job-service, notification-service | Sync company posting/read snapshots and notify verification changes. |
-| `company-follow.job-published`       | candidate-service   | notification-service                            | Notify followers about newly published jobs.                         |
-| `job.review-trust-signal`            | job-service         | company-service                                 | Feed company trust signals from job moderation.                      |
-| `job.published`                      | job-service         | candidate-service                               | Build followed-company notification fanout.                          |
-| `job.unpublished`                    | job-service         | application-service                             | Cancel/handle applications for unavailable job.                      |
-| `job.closed`                         | job-service         | application-service                             | Cancel/handle applications for closed job.                           |
-| `job.revision-approved`              | job-service         | none currently                                  | Reserved for downstream revision reactions.                          |
+| `matching.completed`                 | matching-service    | application-service                             | Report terminal matching success/failure for application score sync.             |
+| `document.uploaded`                  | reserved            | none currently                                  | Reserved for document lifecycle.                                                 |
+| `document.removed`                   | reserved            | none currently                                  | Reserved for document lifecycle.                                                 |
+| `candidate.profile-snapshot-changed` | candidate-service   | auth-service, application-service               | Sync candidate profile snapshot.                                                 |
+| `company.posting-snapshot-changed`   | company-service     | auth-service, job-service, notification-service | Sync company posting/read snapshots and notify verification changes.             |
+| `company-follow.job-published`       | candidate-service   | notification-service                            | Notify followers about newly published jobs.                                     |
+| `job.review-trust-signal`            | job-service         | company-service                                 | Feed company trust signals from job moderation.                                  |
+| `job.published`                      | job-service         | candidate-service                               | Build followed-company notification fanout.                                      |
+| `job.unpublished`                    | job-service         | application-service                             | Cancel/handle applications for unavailable job.                                  |
+| `job.closed`                         | job-service         | application-service                             | Cancel/handle applications for closed job.                                       |
+| `job.revision-approved`              | job-service         | none currently                                  | Reserved for downstream revision reactions.                                      |
 
 ## Queues
 
-| Queue                             | Service            | Bound routing keys                   |
-| --------------------------------- | ------------------ | ------------------------------------ |
-| `auth.company-link`               | auth-service       | `company.posting-snapshot-changed`   |
-| `auth.candidate-profile`          | auth-service       | `candidate.profile-snapshot-changed` |
-| `company.job-review-trust-signal` | company-service    | `job.review-trust-signal`            |
-| `job.company-snapshot`            | job-service        | `company.posting-snapshot-changed`   |
-| `job.application-submitted`       | job-service        | `application.submitted`              |
-| `candidate.job-published-follow`  | candidate-service  | `job.published`                      |
-| `candidate.cv-parsed`             | candidate-service  | `cv.parsed`, `cv.parse-failed`       |
-| `application.cv-parsed`           | application-service | `cv.parsed`, `cv.parse-failed`       |
-| `application.matching-completed`  | application-service | `matching.completed`                 |
-| `cv-parsing.cv-uploaded`          | cv-parsing-service | `cv.uploaded`                        |
+| Queue                             | Service              | Bound routing keys                                                                                                                                                                                                                  |
+| --------------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `auth.company-link`               | auth-service         | `company.posting-snapshot-changed`                                                                                                                                                                                                  |
+| `auth.candidate-profile`          | auth-service         | `candidate.profile-snapshot-changed`                                                                                                                                                                                                |
+| `company.job-review-trust-signal` | company-service      | `job.review-trust-signal`                                                                                                                                                                                                           |
+| `job.company-snapshot`            | job-service          | `company.posting-snapshot-changed`                                                                                                                                                                                                  |
+| `job.application-submitted`       | job-service          | `application.submitted`                                                                                                                                                                                                             |
+| `candidate.job-published-follow`  | candidate-service    | `job.published`                                                                                                                                                                                                                     |
+| `candidate.cv-parsed`             | candidate-service    | `cv.parsed`, `cv.parse-failed`                                                                                                                                                                                                      |
+| `application.cv-parsed`           | application-service  | `cv.parsed`, `cv.parse-failed`                                                                                                                                                                                                      |
+| `application.matching-completed`  | application-service  | `matching.completed`                                                                                                                                                                                                                |
+| `notification.in-app.application` | notification-service | `application.submitted`, `application.stage-changed`, `application.cv-viewed`, `company.posting-snapshot-changed`, `company.review-required`, `job.review-required`, `job-revision.review-required`, `company-follow.job-published` |
+| `cv-parsing.cv-uploaded`          | cv-parsing-service   | `cv.uploaded`                                                                                                                                                                                                                       |
 
 ## Delivery Notes
 

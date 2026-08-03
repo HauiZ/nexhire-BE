@@ -118,6 +118,42 @@ describe('NotificationService', () => {
     ]);
   });
 
+  it('creates candidate notification when recruiter views CV', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createApplicationCvViewedNotification({
+      applicationId: 'application-1',
+      jobId: 'job-1',
+      jobTitle: 'Backend Engineer',
+      companyId: 'company-1',
+      companyName: 'NexHire',
+      companyLogoUrl: 'https://cdn.nexhire.vn/logo.png',
+      candidateId: 'candidate-1',
+      candidateUserId: 'user-1',
+      viewedByUserId: 'recruiter-1',
+      viewedAt: '2026-08-03T09:00:00.000Z',
+    });
+
+    expect(qb.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: 'user-1',
+        dedupeKey: 'application-cv-viewed:user:application-1',
+        senderType: NotificationSenderType.COMPANY,
+        senderEntityId: 'company-1',
+        senderName: 'NexHire',
+        senderLogoUrl: 'https://cdn.nexhire.vn/logo.png',
+        type: NotificationType.APPLICATION_CV_VIEWED,
+        data: expect.objectContaining({
+          applicationId: 'application-1',
+          viewedByUserId: 'recruiter-1',
+          viewedAt: '2026-08-03T09:00:00.000Z',
+        }),
+      }),
+    ]);
+  });
+
   it('creates owner notification when company status changes', async () => {
     const qb = mockInsertBuilder();
     repo.createQueryBuilder.mockReturnValue(qb);

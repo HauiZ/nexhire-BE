@@ -47,6 +47,22 @@ export interface ApplicationStageChangedNotificationPayload {
   changedAt?: string;
 }
 
+export interface ApplicationCvViewedNotificationPayload {
+  applicationId: string;
+  jobId: string;
+  jobTitle?: string | null;
+  companyId: string;
+  companyName?: string | null;
+  companyLogoUrl?: string | null;
+  companyLogoDocumentId?: string | null;
+  candidateId: string;
+  candidateUserId: string;
+  candidateFullName?: string | null;
+  candidateAvatarDocumentId?: string | null;
+  viewedByUserId: string;
+  viewedAt?: string;
+}
+
 export interface CompanyPostingSnapshotNotificationPayload {
   companyId: string;
   ownerUserId: string;
@@ -245,6 +261,30 @@ export class NotificationService {
         type: NotificationType.APPLICATION_STAGE_CHANGED,
         title: message.title,
         body: message.body,
+        data: this.applicationData(payload),
+        readAt: null,
+      }),
+    ]);
+  }
+
+  async createApplicationCvViewedNotification(
+    payload: ApplicationCvViewedNotificationPayload,
+  ): Promise<void> {
+    const jobTitle = payload.jobTitle ?? 'vị trí tuyển dụng';
+    await this.insertNotifications([
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: payload.candidateUserId,
+        recipientCompanyId: null,
+        dedupeKey: `application-cv-viewed:user:${payload.applicationId}`,
+        senderType: NotificationSenderType.COMPANY,
+        senderEntityId: payload.companyId,
+        senderName: payload.companyName ?? null,
+        senderAvatarDocumentId: null,
+        senderLogoUrl: payload.companyLogoUrl ?? null,
+        type: NotificationType.APPLICATION_CV_VIEWED,
+        title: 'Nhà tuyển dụng đã xem CV',
+        body: `${payload.companyName ?? 'Nhà tuyển dụng'} đã xem CV của bạn cho ${jobTitle}.`,
         data: this.applicationData(payload),
         readAt: null,
       }),
@@ -519,7 +559,10 @@ export class NotificationService {
   }
 
   private applicationData(
-    payload: ApplicationSubmittedNotificationPayload | ApplicationStageChangedNotificationPayload,
+    payload:
+      | ApplicationSubmittedNotificationPayload
+      | ApplicationStageChangedNotificationPayload
+      | ApplicationCvViewedNotificationPayload,
   ): Record<string, unknown> {
     return {
       applicationId: payload.applicationId,
@@ -537,6 +580,12 @@ export class NotificationService {
             previousStatus: payload.previousStatus,
             status: payload.status,
             note: payload.note ?? null,
+          }
+        : {}),
+      ...('viewedByUserId' in payload
+        ? {
+            viewedByUserId: payload.viewedByUserId,
+            viewedAt: payload.viewedAt ?? null,
           }
         : {}),
     };

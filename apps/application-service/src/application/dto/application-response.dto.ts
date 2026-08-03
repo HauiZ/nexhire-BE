@@ -1,6 +1,47 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ApplicationStage } from '@nexhire/shared';
+import { ApplicationProgressStep, ApplicationStage } from '@nexhire/shared';
 import { ApplicationMatchLevel } from '../entities/application.entity';
+import { ApplicationProgressActorType } from '../entities/application-progress-event.entity';
+
+export class ApplicationProgressEventDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty({ enum: ApplicationProgressStep })
+  step: ApplicationProgressStep;
+
+  @ApiProperty()
+  title: string;
+
+  @ApiPropertyOptional({ nullable: true })
+  description: string | null;
+
+  @ApiProperty({ enum: ApplicationProgressActorType })
+  actorType: ApplicationProgressActorType;
+
+  @ApiPropertyOptional({ nullable: true })
+  actorUserId: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  note: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  metadata: Record<string, unknown> | null;
+
+  @ApiProperty()
+  occurredAt: Date;
+
+  @ApiProperty()
+  isLatest: boolean;
+}
+
+export class ApplicationProgressDto {
+  @ApiPropertyOptional({ enum: ApplicationProgressStep, nullable: true })
+  currentProgressStep: ApplicationProgressStep | null;
+
+  @ApiProperty({ type: [ApplicationProgressEventDto] })
+  events: ApplicationProgressEventDto[];
+}
 
 export class ApplicationResponseDto {
   @ApiProperty()
@@ -75,11 +116,41 @@ export class ApplicationResponseDto {
   @ApiPropertyOptional({ nullable: true })
   statusNote: string | null;
 
+  @ApiPropertyOptional({ enum: ApplicationProgressStep, nullable: true })
+  currentProgressStep: ApplicationProgressStep | null;
+
+  @ApiPropertyOptional({ type: ApplicationProgressDto, nullable: true })
+  progress: ApplicationProgressDto | null;
+
   @ApiPropertyOptional({ nullable: true })
   matchScore: number | null;
 
   @ApiPropertyOptional({ enum: ApplicationMatchLevel, nullable: true })
   matchLevel: ApplicationMatchLevel | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  matchRecommendation: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  matchDecision: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  matchPriority: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  matchSummary: string | null;
+
+  @ApiPropertyOptional({ type: [String], nullable: true })
+  matchMatchedSkills: string[] | null;
+
+  @ApiPropertyOptional({ type: [String], nullable: true })
+  matchMissingSkills: string[] | null;
+
+  @ApiPropertyOptional({ type: [String], nullable: true })
+  matchNextActions: string[] | null;
+
+  @ApiPropertyOptional({ type: [String], nullable: true })
+  matchRiskFlags: string[] | null;
 
   @ApiProperty()
   submittedAt: Date;
@@ -92,6 +163,12 @@ export class ApplicationResponseDto {
 
   @ApiPropertyOptional({ nullable: true })
   cancelledAt: Date | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  firstCvReceivedAt: Date | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  firstCvViewedAt: Date | null;
 
   @ApiProperty()
   createdAt: Date;

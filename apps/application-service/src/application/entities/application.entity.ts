@@ -7,7 +7,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApplicationStage } from '@nexhire/shared';
+import { ApplicationProgressStep, ApplicationStage } from '@nexhire/shared';
 
 export enum ApplicationMatchLevel {
   LOW = 'LOW',
@@ -101,6 +101,14 @@ export class Application {
   @Column({ name: 'status_note', type: 'text', nullable: true })
   statusNote: string | null;
 
+  @Column({
+    name: 'current_progress_step',
+    type: 'varchar',
+    length: 40,
+    nullable: true,
+  })
+  currentProgressStep: ApplicationProgressStep | null;
+
   @Column({ name: 'match_score', type: 'double precision', nullable: true })
   matchScore: number | null;
 
@@ -118,6 +126,12 @@ export class Application {
 
   @Column({ name: 'cancelled_at', type: 'timestamptz', nullable: true })
   cancelledAt: Date | null;
+
+  @Column({ name: 'first_cv_received_at', type: 'timestamptz', nullable: true })
+  firstCvReceivedAt: Date | null;
+
+  @Column({ name: 'first_cv_viewed_at', type: 'timestamptz', nullable: true })
+  firstCvViewedAt: Date | null;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;

@@ -5,6 +5,7 @@ import { ApplicationInternalClientService } from './application-internal-client.
 import { ApplicationController, ApplicationInternalController } from './application.controller';
 import { ApplicationService } from './application.service';
 import { Application } from './entities/application.entity';
+import { ApplicationProgressEvent } from './entities/application-progress-event.entity';
 import { JobLifecycleEventsConsumer } from './events/consumers/job-lifecycle-events.consumer';
 import { MatchingCompletedEventsConsumer } from './events/consumers/matching-completed-events.consumer';
 import { ApplicationEventPublisher } from './events/application-event.publisher';
@@ -12,7 +13,7 @@ import { CvParsedEventsConsumer } from './events/consumers/cv-parsed-events.cons
 import { RecruiterApplicationController } from './recruiter-application.controller';
 
 @Module({
-  imports: [HttpModule, TypeOrmModule.forFeature([Application])],
+  imports: [HttpModule, TypeOrmModule.forFeature([Application, ApplicationProgressEvent])],
   controllers: [
     ApplicationController,
     ApplicationInternalController,

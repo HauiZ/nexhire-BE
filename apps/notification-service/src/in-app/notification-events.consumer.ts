@@ -6,6 +6,7 @@ import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import {
   ApplicationStageChangedNotificationPayload,
+  ApplicationCvViewedNotificationPayload,
   ApplicationSubmittedNotificationPayload,
   AdminCompanyReviewRequiredPayload,
   AdminJobReviewRequiredPayload,
@@ -57,6 +58,7 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
           bindingKeys: [
             EVENTS.APPLICATION_SUBMITTED,
             EVENTS.APPLICATION_STAGE_CHANGED,
+            EVENTS.APPLICATION_CV_VIEWED,
             EVENTS.COMPANY_POSTING_SNAPSHOT_CHANGED,
             EVENTS.COMPANY_REVIEW_REQUIRED,
             EVENTS.JOB_REVIEW_REQUIRED,
@@ -87,6 +89,10 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
       } else if (message.fields.routingKey === EVENTS.APPLICATION_STAGE_CHANGED) {
         await this.notificationService.createApplicationStageChangedNotification(
           this.parseStageChangedPayload(message),
+        );
+      } else if (message.fields.routingKey === EVENTS.APPLICATION_CV_VIEWED) {
+        await this.notificationService.createApplicationCvViewedNotification(
+          this.parseCvViewedPayload(message),
         );
       } else if (message.fields.routingKey === EVENTS.COMPANY_POSTING_SNAPSHOT_CHANGED) {
         await this.notificationService.createCompanyVerificationChangedNotification(
@@ -146,6 +152,21 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
       throw new Error('Invalid application stage changed notification payload');
     }
     return data;
+  }
+
+  private parseCvViewedPayload(message: ConsumeMessage): ApplicationCvViewedNotificationPayload {
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as ApplicationCvViewedNotificationPayload,
+    );
+    if (
+      !payload.applicationId ||
+      !payload.companyId ||
+      !payload.candidateUserId ||
+      !payload.viewedByUserId
+    ) {
+      throw new Error('Invalid application CV viewed notification payload');
+    }
+    return payload;
   }
 
   private parseCompanySnapshotPayload(

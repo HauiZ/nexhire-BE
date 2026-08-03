@@ -8,9 +8,17 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApplicationStage, AuthUser, ERROR_CODES, ParsedResume, UserRole } from '@nexhire/shared';
+import {
+  ApplicationProgressStep,
+  ApplicationStage,
+  AuthUser,
+  ERROR_CODES,
+  ParsedResume,
+  UserRole,
+} from '@nexhire/shared';
 import { Brackets, In, Repository } from 'typeorm';
 import {
+  ApplicationMatchResultSnapshot,
   ApplicationInternalClientService,
   MatchRequestSnapshot,
 } from './application-internal-client.service';
@@ -27,6 +35,8 @@ import {
 } from './dto/application-query.dto';
 import {
   ApplicationCvDownloadDto,
+  ApplicationProgressDto,
+  ApplicationProgressEventDto,
   ApplicationResponseDto,
   RecruiterApplicationDailyStatsDto,
   RecruiterApplicationStatsDto,
@@ -35,6 +45,10 @@ import {
 import { CvDocumentRetentionResponseDto } from './dto/cv-document-retention.dto';
 import { Application } from './entities/application.entity';
 import { ApplicationMatchLevel } from './entities/application.entity';
+import {
+  ApplicationProgressActorType,
+  ApplicationProgressEvent,
+} from './entities/application-progress-event.entity';
 import { ApplicationEventPublisher } from './events/application-event.publisher';
 
 @Injectable()
@@ -47,6 +61,8 @@ export class ApplicationService {
     private readonly applicationEventPublisher: ApplicationEventPublisher,
     @InjectRepository(Application)
     private readonly applicationRepo: Repository<Application>,
+    @InjectRepository(ApplicationProgressEvent)
+    private readonly progressEventRepo: Repository<ApplicationProgressEvent>,
   ) {}
 
   async create(user: AuthUser, dto: CreateApplicationDto): Promise<ApplicationResponseDto> {
@@ -108,13 +124,30 @@ export class ApplicationService {
         coverLetter: dto.coverLetter?.trim() || null,
         status: ApplicationStage.SUBMITTED,
         statusNote: null,
+        currentProgressStep: null,
         matchScore: null,
         matchLevel: null,
         submittedAt: now,
         withdrawnAt: null,
         decidedAt: null,
         cancelledAt: null,
+        firstCvReceivedAt: null,
+        firstCvViewedAt: null,
       }),
+    );
+    await this.recordProgressEventOnce(
+      application,
+      ApplicationProgressStep.CV_SUBMITTED,
+      ApplicationProgressActorType.CANDIDATE,
+      user.id,
+      now,
+    );
+    await this.recordProgressEventOnce(
+      application,
+      ApplicationProgressStep.CV_RECEIVED,
+      ApplicationProgressActorType.SYSTEM,
+      null,
+      now,
     );
 
     await this.applicationEventPublisher.publishApplicationSubmitted({
@@ -138,7 +171,10 @@ export class ApplicationService {
     );
     await this.queueMatchingWhenCvReady(application);
 
-    return this.mapApplication(application);
+    return this.mapApplication(application, {
+      includeProgress: true,
+      progressEvents: await this.listProgressEvents(application.id),
+    });
   }
 
   async listMine(user: AuthUser, query: CandidateApplicationQueryDto) {
@@ -155,8 +191,18 @@ export class ApplicationService {
     }
 
     const [applications, total] = await qb.getManyAndCount();
+    const progressEvents = await this.getProgressEventsByApplicationId(
+      applications.map((application) => application.id),
+    );
     return this.paginate(
-      await Promise.all(applications.map((application) => this.mapApplication(application))),
+      await Promise.all(
+        applications.map((application) =>
+          this.mapApplication(application, {
+            includeProgress: true,
+            progressEvents: progressEvents.get(application.id) ?? [],
+          }),
+        ),
+      ),
       query.page,
       query.limit,
       total,
@@ -165,7 +211,11 @@ export class ApplicationService {
 
   async getMine(user: AuthUser, id: string): Promise<ApplicationResponseDto> {
     this.assertCandidate(user);
-    return this.mapApplication(await this.findMine(user, id));
+    const application = await this.findMine(user, id);
+    return this.mapApplication(application, {
+      includeProgress: true,
+      progressEvents: await this.listProgressEvents(application.id),
+    });
   }
 
   async withdrawMine(
@@ -233,13 +283,14 @@ export class ApplicationService {
   }
 
   async getCompanyApplication(user: AuthUser, id: string): Promise<ApplicationResponseDto> {
-    return this.mapApplication(await this.findCompanyApplication(user, id));
+    const application = await this.findCompanyApplication(user, id);
+    return this.mapApplication(application, {
+      includeMatchResult: true,
+      matchResult: await this.getLatestMatchResultForResponse(application.id),
+    });
   }
 
-  async requestCompanyApplicationMatch(
-    user: AuthUser,
-    id: string,
-  ): Promise<MatchRequestSnapshot> {
+  async requestCompanyApplicationMatch(user: AuthUser, id: string): Promise<MatchRequestSnapshot> {
     const application = await this.findCompanyApplication(user, id);
     return this.requestMatchWhenCvReady(application, user.id, 'RECRUITER_MANUAL');
   }
@@ -365,9 +416,19 @@ export class ApplicationService {
     const previousStatus = application.status;
     application.status = dto.status;
     application.statusNote = dto.note?.trim() || null;
-    application.decidedAt = new Date();
+    const decidedAt = new Date();
+    application.decidedAt = decidedAt;
     const saved = await this.applicationRepo.save(application);
     await this.publishStageChanged(saved, previousStatus);
+    await this.recordProgressEventOnce(
+      saved,
+      ApplicationProgressStep.RESPONDED,
+      ApplicationProgressActorType.RECRUITER,
+      user.id,
+      decidedAt,
+      saved.statusNote,
+      { status: saved.status },
+    );
     this.logger.log(
       `Application stage changed applicationId=${saved.id} ${previousStatus}->${saved.status} recruiterUserId=${user.id}`,
     );
@@ -380,7 +441,41 @@ export class ApplicationService {
   }
 
   async getCompanyCvDownload(user: AuthUser, id: string): Promise<ApplicationCvDownloadDto> {
-    return this.getCvDownload(await this.findCompanyApplication(user, id));
+    const application = await this.findCompanyApplication(user, id);
+    const download = await this.getCvDownload(application);
+    const now = new Date();
+    await this.recordProgressEventOnce(
+      application,
+      ApplicationProgressStep.CV_RECEIVED,
+      ApplicationProgressActorType.SYSTEM,
+      null,
+      now,
+    );
+    const cvViewedCreated = await this.recordProgressEventOnce(
+      application,
+      ApplicationProgressStep.CV_VIEWED,
+      ApplicationProgressActorType.RECRUITER,
+      user.id,
+      now,
+    );
+    if (cvViewedCreated) {
+      await this.applicationEventPublisher.publishApplicationCvViewed({
+        applicationId: application.id,
+        jobId: application.jobId,
+        jobTitle: application.jobTitle,
+        companyId: application.companyId,
+        companyName: application.companyName,
+        companyLogoUrl: application.companyLogoUrl,
+        companyLogoDocumentId: application.companyLogoDocumentId,
+        candidateId: application.candidateId,
+        candidateUserId: application.candidateUserId,
+        candidateFullName: application.candidateFullName,
+        candidateAvatarDocumentId: application.candidateAvatarDocumentId,
+        viewedByUserId: user.id,
+        viewedAt: now.toISOString(),
+      });
+    }
+    return download;
   }
 
   async handleJobUnpublished(payload: JobLifecyclePayload): Promise<void> {
@@ -398,9 +493,19 @@ export class ApplicationService {
       const previousStatus = application.status;
       application.status = ApplicationStage.CANCELLED;
       application.statusNote = payload.reason?.trim() || 'Job was closed';
-      application.cancelledAt = new Date();
+      const cancelledAt = new Date();
+      application.cancelledAt = cancelledAt;
       const saved = await this.applicationRepo.save(application);
       await this.publishStageChanged(saved, previousStatus);
+      await this.recordProgressEventOnce(
+        saved,
+        ApplicationProgressStep.CANCELLED,
+        ApplicationProgressActorType.SYSTEM,
+        null,
+        cancelledAt,
+        saved.statusNote,
+        { jobId: payload.jobId },
+      );
     }
     this.logger.log(
       `Job closed event processed jobId=${payload.jobId} cancelledApplications=${applications.length}`,
@@ -707,7 +812,156 @@ export class ApplicationService {
     };
   }
 
-  private async mapApplication(application: Application): Promise<ApplicationResponseDto> {
+  private async recordProgressEventOnce(
+    application: Application,
+    step: ApplicationProgressStep,
+    actorType: ApplicationProgressActorType,
+    actorUserId: string | null,
+    occurredAt: Date,
+    note: string | null = null,
+    metadata: Record<string, unknown> | null = null,
+  ): Promise<boolean> {
+    const existing = await this.progressEventRepo.findOne({
+      where: { applicationId: application.id, step },
+    });
+    let created = false;
+    if (!existing) {
+      await this.progressEventRepo.save(
+        this.progressEventRepo.create({
+          applicationId: application.id,
+          step,
+          title: this.progressTitle(step),
+          description: null,
+          actorType,
+          actorUserId,
+          note,
+          metadata,
+          occurredAt,
+        }),
+      );
+      created = true;
+    }
+
+    let changed = false;
+    if (
+      !application.currentProgressStep ||
+      this.progressRank(step) > this.progressRank(application.currentProgressStep)
+    ) {
+      application.currentProgressStep = step;
+      changed = true;
+    }
+    if (step === ApplicationProgressStep.CV_RECEIVED && !application.firstCvReceivedAt) {
+      application.firstCvReceivedAt = occurredAt;
+      changed = true;
+    }
+    if (step === ApplicationProgressStep.CV_VIEWED && !application.firstCvViewedAt) {
+      application.firstCvViewedAt = occurredAt;
+      changed = true;
+    }
+    if (changed) {
+      await this.applicationRepo.save(application);
+    }
+    return created;
+  }
+
+  private progressTitle(step: ApplicationProgressStep): string {
+    switch (step) {
+      case ApplicationProgressStep.CV_SUBMITTED:
+        return 'Ứng viên gửi hồ sơ thành công';
+      case ApplicationProgressStep.CV_RECEIVED:
+        return 'NTD đã tiếp nhận hồ sơ';
+      case ApplicationProgressStep.CV_VIEWED:
+        return 'NTD đã xem CV';
+      case ApplicationProgressStep.RESPONDED:
+        return 'NTD đã phản hồi hồ sơ';
+      case ApplicationProgressStep.CANCELLED:
+        return 'Hồ sơ ứng tuyển đã bị hủy';
+    }
+  }
+
+  private progressRank(step: ApplicationProgressStep): number {
+    switch (step) {
+      case ApplicationProgressStep.CV_SUBMITTED:
+        return 1;
+      case ApplicationProgressStep.CV_RECEIVED:
+        return 2;
+      case ApplicationProgressStep.CV_VIEWED:
+        return 3;
+      case ApplicationProgressStep.RESPONDED:
+        return 4;
+      case ApplicationProgressStep.CANCELLED:
+        return 5;
+    }
+  }
+
+  private async listProgressEvents(applicationId: string): Promise<ApplicationProgressEvent[]> {
+    return this.progressEventRepo.find({
+      where: { applicationId },
+      order: { occurredAt: 'DESC', createdAt: 'DESC' },
+    });
+  }
+
+  private async getProgressEventsByApplicationId(
+    applicationIds: string[],
+  ): Promise<Map<string, ApplicationProgressEvent[]>> {
+    if (applicationIds.length === 0) {
+      return new Map();
+    }
+    const events = await this.progressEventRepo.find({
+      where: { applicationId: In(applicationIds) },
+      order: { occurredAt: 'DESC', createdAt: 'DESC' },
+    });
+    const byApplicationId = new Map<string, ApplicationProgressEvent[]>();
+    for (const event of events) {
+      const bucket = byApplicationId.get(event.applicationId) ?? [];
+      bucket.push(event);
+      byApplicationId.set(event.applicationId, bucket);
+    }
+    return byApplicationId;
+  }
+
+  private mapProgress(
+    application: Application,
+    events: ApplicationProgressEvent[],
+  ): ApplicationProgressDto {
+    const latestEventId = events[0]?.id ?? null;
+    return {
+      currentProgressStep: application.currentProgressStep,
+      events: events.map(
+        (event): ApplicationProgressEventDto => ({
+          id: event.id,
+          step: event.step,
+          title: event.title,
+          description: event.description,
+          actorType: event.actorType,
+          actorUserId: event.actorUserId,
+          note: event.note,
+          metadata: event.metadata,
+          occurredAt: event.occurredAt,
+          isLatest: event.id === latestEventId,
+        }),
+      ),
+    };
+  }
+
+  private async mapApplication(
+    application: Application,
+    options: {
+      includeProgress?: boolean;
+      progressEvents?: ApplicationProgressEvent[];
+      includeMatchResult?: boolean;
+      matchResult?: ApplicationMatchResultSnapshot | null;
+    } = {},
+  ): Promise<ApplicationResponseDto> {
+    const progressEvents =
+      options.progressEvents ??
+      (options.includeProgress ? await this.listProgressEvents(application.id) : []);
+    const matchResult =
+      options.matchResult ??
+      (options.includeMatchResult
+        ? await this.getLatestMatchResultForResponse(application.id)
+        : null);
+    const matchExplanation = matchResult?.explanation ?? null;
     return {
       id: application.id,
       jobId: application.jobId,
@@ -733,15 +987,40 @@ export class ApplicationService {
       coverLetter: application.coverLetter,
       status: application.status,
       statusNote: application.statusNote,
+      currentProgressStep: application.currentProgressStep,
+      progress: options.includeProgress ? this.mapProgress(application, progressEvents) : null,
       matchScore: application.matchScore,
       matchLevel: application.matchLevel,
+      matchRecommendation: matchExplanation?.recommendation ?? null,
+      matchDecision: matchExplanation?.decision ?? null,
+      matchPriority: matchExplanation?.priority ?? null,
+      matchSummary: matchExplanation?.summary ?? null,
+      matchMatchedSkills: matchExplanation?.matchedSkills ?? null,
+      matchMissingSkills: matchExplanation?.missingSkills ?? null,
+      matchNextActions: matchExplanation?.nextActions ?? null,
+      matchRiskFlags: matchExplanation?.riskFlags ?? null,
       submittedAt: application.submittedAt,
       withdrawnAt: application.withdrawnAt,
       decidedAt: application.decidedAt,
       cancelledAt: application.cancelledAt,
+      firstCvReceivedAt: application.firstCvReceivedAt,
+      firstCvViewedAt: application.firstCvViewedAt,
       createdAt: application.createdAt,
       updatedAt: application.updatedAt,
     };
+  }
+
+  private async getLatestMatchResultForResponse(
+    applicationId: string,
+  ): Promise<ApplicationMatchResultSnapshot | null> {
+    try {
+      return await this.internalClient.getLatestApplicationMatchResult(applicationId);
+    } catch (error) {
+      this.logger.warn(
+        `Failed to load latest match result applicationId=${applicationId}: ${(error as Error).message}`,
+      );
+      return null;
+    }
   }
 
   private async resolveAvatarUrl(documentId: string | null): Promise<string | null> {
