@@ -124,6 +124,43 @@ export interface AdminJobRevisionReviewRequiredPayload {
   submittedAt?: string;
 }
 
+export interface JobReviewResultChangedNotificationPayload {
+  jobId: string;
+  companyId: string;
+  companyName?: string | null;
+  title: string;
+  status: string;
+  decision: string;
+  reason?: string | null;
+  reviewedByUserId?: string | null;
+  reviewedAt?: string;
+  publishedAt?: string | null;
+}
+
+export interface JobRevisionReviewResultChangedNotificationPayload {
+  jobId: string;
+  companyId: string;
+  title: string;
+  revisionId: string;
+  status: string;
+  decision: string;
+  reason?: string | null;
+  reviewedByUserId?: string | null;
+  reviewedAt?: string;
+}
+
+export interface UserLifecycleChangedNotificationPayload {
+  userId: string;
+  email: string;
+  fullName?: string | null;
+  roles?: UserRole[];
+  previousStatus: string;
+  status: string;
+  reason?: string | null;
+  changedByUserId: string;
+  changedAt?: string;
+}
+
 @Injectable()
 export class NotificationService {
   constructor(
@@ -455,6 +492,108 @@ export class NotificationService {
     await this.insertNotifications(notifications);
   }
 
+  async createJobReviewResultChangedNotification(
+    payload: JobReviewResultChangedNotificationPayload,
+  ): Promise<void> {
+    const message = this.jobReviewResultMessage(payload.status, payload.title);
+    await this.insertNotifications([
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.COMPANY,
+        recipientUserId: null,
+        recipientCompanyId: payload.companyId,
+        dedupeKey: `job-review-result:company:${payload.companyId}:${payload.jobId}:${payload.status}:${payload.reviewedAt ?? 'unknown'}`,
+        senderType: NotificationSenderType.SYSTEM,
+        senderEntityId: null,
+        senderName: 'NexHire',
+        senderAvatarDocumentId: null,
+        senderLogoUrl: null,
+        type: NotificationType.JOB_REVIEW_RESULT_CHANGED,
+        title: message.title,
+        body: message.body,
+        data: {
+          jobId: payload.jobId,
+          companyId: payload.companyId,
+          companyName: payload.companyName ?? null,
+          jobTitle: payload.title,
+          status: payload.status,
+          decision: payload.decision,
+          reason: payload.reason ?? null,
+          reviewedByUserId: payload.reviewedByUserId ?? null,
+          reviewedAt: payload.reviewedAt ?? null,
+          publishedAt: payload.publishedAt ?? null,
+        },
+        readAt: null,
+      }),
+    ]);
+  }
+
+  async createJobRevisionReviewResultChangedNotification(
+    payload: JobRevisionReviewResultChangedNotificationPayload,
+  ): Promise<void> {
+    const message = this.jobRevisionReviewResultMessage(payload.status, payload.title);
+    await this.insertNotifications([
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.COMPANY,
+        recipientUserId: null,
+        recipientCompanyId: payload.companyId,
+        dedupeKey: `job-revision-review-result:company:${payload.companyId}:${payload.revisionId}:${payload.status}:${payload.reviewedAt ?? 'unknown'}`,
+        senderType: NotificationSenderType.SYSTEM,
+        senderEntityId: null,
+        senderName: 'NexHire',
+        senderAvatarDocumentId: null,
+        senderLogoUrl: null,
+        type: NotificationType.JOB_REVISION_REVIEW_RESULT_CHANGED,
+        title: message.title,
+        body: message.body,
+        data: {
+          jobId: payload.jobId,
+          companyId: payload.companyId,
+          jobTitle: payload.title,
+          revisionId: payload.revisionId,
+          status: payload.status,
+          decision: payload.decision,
+          reason: payload.reason ?? null,
+          reviewedByUserId: payload.reviewedByUserId ?? null,
+          reviewedAt: payload.reviewedAt ?? null,
+        },
+        readAt: null,
+      }),
+    ]);
+  }
+
+  async createUserLifecycleChangedNotification(
+    payload: UserLifecycleChangedNotificationPayload,
+  ): Promise<void> {
+    const message = this.userLifecycleMessage(payload.status);
+    await this.insertNotifications([
+      this.notificationRepo.create({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: payload.userId,
+        recipientCompanyId: null,
+        dedupeKey: `user-lifecycle:user:${payload.userId}:${payload.status}:${payload.changedAt ?? 'unknown'}`,
+        senderType: NotificationSenderType.SYSTEM,
+        senderEntityId: null,
+        senderName: 'NexHire',
+        senderAvatarDocumentId: null,
+        senderLogoUrl: null,
+        type: NotificationType.USER_LIFECYCLE_CHANGED,
+        title: message.title,
+        body: message.body,
+        data: {
+          userId: payload.userId,
+          email: payload.email,
+          roles: payload.roles ?? [],
+          previousStatus: payload.previousStatus,
+          status: payload.status,
+          reason: payload.reason ?? null,
+          changedByUserId: payload.changedByUserId,
+          changedAt: payload.changedAt ?? null,
+        },
+        readAt: null,
+      }),
+    ]);
+  }
+
   private async findScopedNotification(user: AuthUser, id: string): Promise<Notification> {
     const notification = await this.notificationRepo
       .createQueryBuilder('notification')
@@ -556,6 +695,66 @@ export class NotificationService {
       };
     }
     return null;
+  }
+
+  private jobReviewResultMessage(status: string, title: string): { title: string; body: string } {
+    if (status === 'PUBLISHED') {
+      return {
+        title: 'Job approved',
+        body: `${title} has been approved and published.`,
+      };
+    }
+    return {
+      title: 'Job rejected',
+      body: `${title} was rejected by admin. Please review the reason and update it if needed.`,
+    };
+  }
+
+  private jobRevisionReviewResultMessage(
+    status: string,
+    title: string,
+  ): { title: string; body: string } {
+    if (status === 'APPROVED') {
+      return {
+        title: 'Job update approved',
+        body: `Your update for ${title} has been approved and applied.`,
+      };
+    }
+    return {
+      title: 'Job update rejected',
+      body: `Your update for ${title} was rejected by admin. Please review the reason and revise it if needed.`,
+    };
+  }
+
+  private userLifecycleMessage(status: string): { title: string; body: string } {
+    if (status === 'ACTIVE') {
+      return {
+        title: 'Account restored',
+        body: 'Your NexHire account has been restored by admin.',
+      };
+    }
+    if (status === 'SUSPENDED') {
+      return {
+        title: 'Account suspended',
+        body: 'Your NexHire account has been suspended by admin.',
+      };
+    }
+    if (status === 'BANNED') {
+      return {
+        title: 'Account banned',
+        body: 'Your NexHire account has been banned by admin.',
+      };
+    }
+    if (status === 'ARCHIVED') {
+      return {
+        title: 'Account archived',
+        body: 'Your NexHire account has been archived by admin.',
+      };
+    }
+    return {
+      title: 'Account status changed',
+      body: `Your NexHire account status changed to ${status}.`,
+    };
   }
 
   private applicationData(

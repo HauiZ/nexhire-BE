@@ -71,6 +71,8 @@ describe('JobService', () => {
     publishRevisionApproved: jest.Mock;
     publishJobReviewRequired: jest.Mock;
     publishJobRevisionReviewRequired: jest.Mock;
+    publishJobReviewResultChanged: jest.Mock;
+    publishJobRevisionReviewResultChanged: jest.Mock;
     publishJobUnpublished: jest.Mock;
     publishJobClosed: jest.Mock;
     publishReviewTrustSignal: jest.Mock;
@@ -264,6 +266,8 @@ describe('JobService', () => {
       publishRevisionApproved: jest.fn().mockResolvedValue(undefined),
       publishJobReviewRequired: jest.fn().mockResolvedValue(undefined),
       publishJobRevisionReviewRequired: jest.fn().mockResolvedValue(undefined),
+      publishJobReviewResultChanged: jest.fn().mockResolvedValue(undefined),
+      publishJobRevisionReviewResultChanged: jest.fn().mockResolvedValue(undefined),
       publishJobUnpublished: jest.fn().mockResolvedValue(undefined),
       publishJobClosed: jest.fn().mockResolvedValue(undefined),
       publishReviewTrustSignal: jest.fn().mockResolvedValue(undefined),
@@ -500,6 +504,15 @@ describe('JobService', () => {
       expect.objectContaining({
         jobId: publishedJob.id,
         companyId: publishedJob.companyId,
+      }),
+    );
+    expect(jobEventPublisher.publishJobReviewResultChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        jobId: publishedJob.id,
+        companyId: publishedJob.companyId,
+        title: publishedJob.title,
+        status: JobStatus.PUBLISHED,
+        decision: JobReviewDecision.APPROVE,
       }),
     );
     expect(jobEventPublisher.publishReviewTrustSignal).toHaveBeenCalledWith(
@@ -1282,6 +1295,15 @@ describe('JobService', () => {
         jobId: publishedJob.id,
         companyId: publishedJob.companyId,
         revisionId: revision.id,
+      }),
+    );
+    expect(jobEventPublisher.publishJobRevisionReviewResultChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        jobId: publishedJob.id,
+        companyId: publishedJob.companyId,
+        revisionId: revision.id,
+        status: JobRevisionStatus.APPROVED,
+        decision: JobReviewDecision.APPROVE,
       }),
     );
     expect(jobEventPublisher.publishReviewTrustSignal).toHaveBeenCalledWith(

@@ -30,6 +30,8 @@ export const notificationServiceConfig = registerAs('notificationService', () =>
       process.env.NOTIFICATION_QUEUE_EMAIL_VERIFICATION ?? 'notification.email.verification',
     passwordReset:
       process.env.NOTIFICATION_QUEUE_PASSWORD_RESET ?? 'notification.email.password-reset',
+    userLifecycle:
+      process.env.NOTIFICATION_QUEUE_USER_LIFECYCLE ?? QUEUES.NOTIFICATION_EMAIL_USER_LIFECYCLE,
     inAppApplication:
       process.env.NOTIFICATION_QUEUE_IN_APP_APPLICATION ?? QUEUES.NOTIFICATION_IN_APP,
   },

@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EVENTS } from '@nexhire/shared';
+import { EVENTS, QUEUES, unwrapEventData } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { EmailService } from './email.service';
@@ -13,6 +13,16 @@ type VerifyEmailEventPayload = {
 };
 
 type PasswordResetEventPayload = VerifyEmailEventPayload;
+
+type UserLifecycleEventPayload = {
+  userId: string;
+  email: string;
+  fullName?: string | null;
+  previousStatus: string;
+  status: string;
+  reason?: string | null;
+  changedAt?: string;
+};
 
 @Injectable()
 export class EmailEventsConsumer implements OnModuleInit, OnModuleDestroy {
@@ -36,6 +46,10 @@ export class EmailEventsConsumer implements OnModuleInit, OnModuleDestroy {
       'notificationService.queues.passwordReset',
       'notification.email.password-reset',
     );
+    const userLifecycleQueueName = this.configService.get<string>(
+      'notificationService.queues.userLifecycle',
+      QUEUES.NOTIFICATION_EMAIL_USER_LIFECYCLE,
+    );
 
     if (!url || !exchange) {
       this.logger.warn('RabbitMQ config missing, email event consumer is disabled');
@@ -53,18 +67,27 @@ export class EmailEventsConsumer implements OnModuleInit, OnModuleDestroy {
         await channel.assertExchange(exchange, 'topic', { durable: true });
         await channel.assertQueue(queueName, { durable: true });
         await channel.assertQueue(passwordResetQueueName, { durable: true });
+        await channel.assertQueue(userLifecycleQueueName, { durable: true });
         await channel.bindQueue(queueName, exchange, EVENTS.AUTH_EMAIL_VERIFICATION_REQUESTED);
         await channel.bindQueue(
           passwordResetQueueName,
           exchange,
           EVENTS.AUTH_PASSWORD_RESET_REQUESTED,
         );
+        await channel.bindQueue(userLifecycleQueueName, exchange, EVENTS.USER_LIFECYCLE_CHANGED);
         await channel.consume(queueName, (message) => this.consumeVerifyEmail(message), {
           noAck: false,
         });
         await channel.consume(
           passwordResetQueueName,
           (message) => this.consumePasswordResetEmail(message),
+          {
+            noAck: false,
+          },
+        );
+        await channel.consume(
+          userLifecycleQueueName,
+          (message) => this.consumeUserLifecycleEmail(message),
           {
             noAck: false,
           },
@@ -84,7 +107,9 @@ export class EmailEventsConsumer implements OnModuleInit, OnModuleDestroy {
     }
 
     try {
-      const payload = JSON.parse(message.content.toString()) as VerifyEmailEventPayload;
+      const payload = unwrapEventData(
+        JSON.parse(message.content.toString()) as VerifyEmailEventPayload,
+      );
       await this.emailService.sendVerifyEmail(payload);
       this.channel.ack(message);
     } catch (error) {
@@ -99,11 +124,30 @@ export class EmailEventsConsumer implements OnModuleInit, OnModuleDestroy {
     }
 
     try {
-      const payload = JSON.parse(message.content.toString()) as PasswordResetEventPayload;
+      const payload = unwrapEventData(
+        JSON.parse(message.content.toString()) as PasswordResetEventPayload,
+      );
       await this.emailService.sendPasswordResetEmail(payload);
       this.channel.ack(message);
     } catch (error) {
       this.logger.error('Failed to process password-reset event', error as Error);
+      this.channel.nack(message, false, false);
+    }
+  }
+
+  private async consumeUserLifecycleEmail(message: ConsumeMessage | null): Promise<void> {
+    if (!message || !this.channel) {
+      return;
+    }
+
+    try {
+      const payload = unwrapEventData(
+        JSON.parse(message.content.toString()) as UserLifecycleEventPayload,
+      );
+      await this.emailService.sendUserLifecycleEmail(payload);
+      this.channel.ack(message);
+    } catch (error) {
+      this.logger.error('Failed to process user-lifecycle email event', error as Error);
       this.channel.nack(message, false, false);
     }
   }

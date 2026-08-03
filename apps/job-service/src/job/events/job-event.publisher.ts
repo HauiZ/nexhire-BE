@@ -57,6 +57,35 @@ export class JobEventPublisher {
     await this.publish(EVENTS.JOB_REVISION_REVIEW_REQUIRED, payload);
   }
 
+  async publishJobReviewResultChanged(payload: {
+    jobId: string;
+    companyId: string;
+    companyName: string | null;
+    title: string;
+    status: JobStatus;
+    decision: JobReviewDecision;
+    reason: string | null;
+    reviewedByUserId: string | null;
+    reviewedAt?: string;
+    publishedAt?: string | null;
+  }): Promise<void> {
+    await this.publish(EVENTS.JOB_REVIEW_RESULT_CHANGED, payload);
+  }
+
+  async publishJobRevisionReviewResultChanged(payload: {
+    jobId: string;
+    companyId: string;
+    title: string;
+    revisionId: string;
+    status: JobRevisionStatus;
+    decision: JobReviewDecision;
+    reason: string | null;
+    reviewedByUserId: string | null;
+    reviewedAt?: string;
+  }): Promise<void> {
+    await this.publish(EVENTS.JOB_REVISION_REVIEW_RESULT_CHANGED, payload);
+  }
+
   async publishRevisionApproved(payload: {
     jobId: string;
     companyId: string;

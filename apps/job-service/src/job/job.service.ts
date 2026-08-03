@@ -977,6 +977,18 @@ export class JobService {
         publishedAt: saved.publishedAt?.toISOString(),
       });
     }
+    await this.jobEventPublisher.publishJobReviewResultChanged({
+      jobId: saved.id,
+      companyId: saved.companyId,
+      companyName: saved.companyName,
+      title: saved.title,
+      status: saved.status,
+      decision: dto.decision,
+      reason: saved.reviewReason,
+      reviewedByUserId: saved.reviewedByUserId,
+      reviewedAt: saved.reviewedAt?.toISOString(),
+      publishedAt: saved.publishedAt?.toISOString() ?? null,
+    });
     await this.jobEventPublisher.publishReviewTrustSignal({
       companyId: saved.companyId,
       jobId: saved.id,
@@ -1108,6 +1120,17 @@ export class JobService {
         approvedAt: saved.reviewedAt?.toISOString(),
       });
     }
+    await this.jobEventPublisher.publishJobRevisionReviewResultChanged({
+      jobId: saved.jobId,
+      companyId: saved.companyId,
+      title: saved.title,
+      revisionId: saved.id,
+      status: saved.status,
+      decision: dto.decision,
+      reason: saved.reviewReason,
+      reviewedByUserId: saved.reviewedByUserId,
+      reviewedAt: saved.reviewedAt?.toISOString(),
+    });
     await this.jobEventPublisher.publishReviewTrustSignal({
       companyId: saved.companyId,
       jobId: saved.jobId,

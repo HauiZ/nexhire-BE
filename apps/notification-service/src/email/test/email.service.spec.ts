@@ -67,4 +67,29 @@ describe('EmailService', () => {
       }),
     );
   });
+
+  it('sends user lifecycle status email', async () => {
+    await service.sendUserLifecycleEmail({
+      email: 'candidate@nexhire.vn',
+      fullName: 'Candidate',
+      previousStatus: 'ACTIVE',
+      status: 'BANNED',
+      reason: 'Policy violation',
+      changedAt: '2026-08-03T10:00:00.000Z',
+    });
+
+    expect(mailerService.sendMail).toHaveBeenCalledWith(
+      expect.objectContaining({
+        to: 'candidate@nexhire.vn',
+        subject: 'Your NexHire account has been banned',
+        template: 'user-lifecycle-changed',
+        context: expect.objectContaining({
+          name: 'Candidate',
+          previousStatus: 'ACTIVE',
+          status: 'BANNED',
+          reason: 'Policy violation',
+        }),
+      }),
+    );
+  });
 });

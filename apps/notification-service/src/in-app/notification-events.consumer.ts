@@ -13,7 +13,10 @@ import {
   AdminJobRevisionReviewRequiredPayload,
   CompanyPostingSnapshotNotificationPayload,
   FollowedCompanyJobPublishedNotificationPayload,
+  JobReviewResultChangedNotificationPayload,
+  JobRevisionReviewResultChangedNotificationPayload,
   NotificationService,
+  UserLifecycleChangedNotificationPayload,
 } from './notification.service';
 
 @Injectable()
@@ -62,8 +65,11 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
             EVENTS.COMPANY_POSTING_SNAPSHOT_CHANGED,
             EVENTS.COMPANY_REVIEW_REQUIRED,
             EVENTS.JOB_REVIEW_REQUIRED,
+            EVENTS.JOB_REVIEW_RESULT_CHANGED,
             EVENTS.JOB_REVISION_REVIEW_REQUIRED,
+            EVENTS.JOB_REVISION_REVIEW_RESULT_CHANGED,
             EVENTS.COMPANY_FOLLOWED_JOB_PUBLISHED,
+            EVENTS.USER_LIFECYCLE_CHANGED,
           ],
         });
         await channel.consume(queueName, (message) => this.consume(message), { noAck: false });
@@ -106,13 +112,25 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
         await this.notificationService.createAdminJobReviewRequiredNotifications(
           this.parseAdminJobReviewPayload(message),
         );
+      } else if (message.fields.routingKey === EVENTS.JOB_REVIEW_RESULT_CHANGED) {
+        await this.notificationService.createJobReviewResultChangedNotification(
+          this.parseJobReviewResultPayload(message),
+        );
       } else if (message.fields.routingKey === EVENTS.JOB_REVISION_REVIEW_REQUIRED) {
         await this.notificationService.createAdminJobRevisionReviewRequiredNotifications(
           this.parseAdminJobRevisionReviewPayload(message),
         );
+      } else if (message.fields.routingKey === EVENTS.JOB_REVISION_REVIEW_RESULT_CHANGED) {
+        await this.notificationService.createJobRevisionReviewResultChangedNotification(
+          this.parseJobRevisionReviewResultPayload(message),
+        );
       } else if (message.fields.routingKey === EVENTS.COMPANY_FOLLOWED_JOB_PUBLISHED) {
         await this.notificationService.createFollowedCompanyJobPublishedNotifications(
           this.parseFollowedCompanyJobPayload(message),
+        );
+      } else if (message.fields.routingKey === EVENTS.USER_LIFECYCLE_CHANGED) {
+        await this.notificationService.createUserLifecycleChangedNotification(
+          this.parseUserLifecyclePayload(message),
         );
       }
       this.channel.ack(message);
@@ -221,6 +239,36 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
     return payload;
   }
 
+  private parseJobReviewResultPayload(
+    message: ConsumeMessage,
+  ): JobReviewResultChangedNotificationPayload {
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as JobReviewResultChangedNotificationPayload,
+    );
+    if (!payload.jobId || !payload.companyId || !payload.title || !payload.status) {
+      throw new Error('Invalid job review result notification payload');
+    }
+    return payload;
+  }
+
+  private parseJobRevisionReviewResultPayload(
+    message: ConsumeMessage,
+  ): JobRevisionReviewResultChangedNotificationPayload {
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as JobRevisionReviewResultChangedNotificationPayload,
+    );
+    if (
+      !payload.jobId ||
+      !payload.companyId ||
+      !payload.revisionId ||
+      !payload.title ||
+      !payload.status
+    ) {
+      throw new Error('Invalid job revision review result notification payload');
+    }
+    return payload;
+  }
+
   private parseFollowedCompanyJobPayload(
     message: ConsumeMessage,
   ): FollowedCompanyJobPublishedNotificationPayload {
@@ -234,6 +282,18 @@ export class NotificationEventsConsumer implements OnModuleInit, OnModuleDestroy
       !Array.isArray(payload.candidateUserIds)
     ) {
       throw new Error('Invalid followed company job notification payload');
+    }
+    return payload;
+  }
+
+  private parseUserLifecyclePayload(
+    message: ConsumeMessage,
+  ): UserLifecycleChangedNotificationPayload {
+    const payload = unwrapEventData(
+      JSON.parse(message.content.toString()) as UserLifecycleChangedNotificationPayload,
+    );
+    if (!payload.userId || !payload.email || !payload.status || !payload.changedByUserId) {
+      throw new Error('Invalid user lifecycle notification payload');
     }
     return payload;
   }

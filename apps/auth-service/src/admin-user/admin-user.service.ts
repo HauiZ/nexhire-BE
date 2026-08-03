@@ -22,6 +22,7 @@ import {
 import { AdminUserOverviewDto } from './dto/admin-user-overview.dto';
 import { AdminUserQueryDto } from './dto/admin-user-query.dto';
 import { AdminUserResponseDto } from './dto/admin-user-response.dto';
+import { AdminUserEventPublisher } from './events/admin-user-event.publisher';
 
 interface AdminGrowthRange {
   from: Date;
@@ -40,6 +41,7 @@ export class AdminUserService {
     @InjectRepository(RecruiterCompanyLink)
     private readonly recruiterCompanyLinkRepo: Repository<RecruiterCompanyLink>,
     private readonly tokenService: TokenService,
+    private readonly adminUserEventPublisher: AdminUserEventPublisher,
   ) {}
 
   async list(query: AdminUserQueryDto) {
@@ -217,6 +219,7 @@ export class AdminUserService {
 
     const user = await this.findUser(id);
     const now = new Date();
+    const previousStatus = user.status;
     user.status = status;
     user.statusReason = reason.trim();
     user.statusChangedBy = admin.id;
@@ -236,6 +239,20 @@ export class AdminUserService {
 
     const saved = await this.userRepo.save(user);
     await this.tokenService.revokeAllUserRefreshTokens(user.id);
+    await this.adminUserEventPublisher.publishUserLifecycleChanged({
+      userId: saved.id,
+      email: saved.email,
+      fullName: saved.fullName,
+      roles:
+        saved.userRoles
+          ?.map((userRole) => userRole.role?.name)
+          .filter((role): role is UserRole => Boolean(role)) ?? [],
+      previousStatus,
+      status: saved.status,
+      reason: saved.statusReason,
+      changedByUserId: admin.id,
+      changedAt: saved.statusChangedAt?.toISOString() ?? now.toISOString(),
+    });
     this.logger.log(`Admin changed user status userId=${id} status=${status} adminId=${admin.id}`);
     const companyLink = await this.recruiterCompanyLinkRepo.findOne({
       where: { userId: saved.id },

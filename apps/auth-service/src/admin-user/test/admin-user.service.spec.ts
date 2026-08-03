@@ -7,6 +7,7 @@ import { RecruiterCompanyLink } from '../../auth/entities/recruiter-company-link
 import { Role } from '../../auth/entities/role.entity';
 import { UserRoleEntity } from '../../auth/entities/user-role.entity';
 import { User } from '../../auth/entities/user.entity';
+import { AdminUserEventPublisher } from '../events/admin-user-event.publisher';
 import { AdminUserService } from '../admin-user.service';
 
 type MockRepo = {
@@ -48,6 +49,7 @@ describe('AdminUserService', () => {
   let userRepo: MockRepo;
   let recruiterCompanyLinkRepo: { find: jest.Mock; findOne: jest.Mock };
   let tokenService: { revokeAllUserRefreshTokens: jest.Mock };
+  let adminUserEventPublisher: { publishUserLifecycleChanged: jest.Mock };
 
   beforeEach(() => {
     userRepo = {
@@ -63,11 +65,15 @@ describe('AdminUserService', () => {
     tokenService = {
       revokeAllUserRefreshTokens: jest.fn(),
     };
+    adminUserEventPublisher = {
+      publishUserLifecycleChanged: jest.fn().mockResolvedValue(undefined),
+    };
 
     service = new AdminUserService(
       userRepo as unknown as Repository<User>,
       recruiterCompanyLinkRepo as unknown as Repository<RecruiterCompanyLink>,
       tokenService as unknown as TokenService,
+      adminUserEventPublisher as unknown as AdminUserEventPublisher,
     );
   });
 
@@ -264,6 +270,17 @@ describe('AdminUserService', () => {
       }),
     );
     expect(tokenService.revokeAllUserRefreshTokens).toHaveBeenCalledWith('user-1');
+    expect(adminUserEventPublisher.publishUserLifecycleChanged).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        email: 'candidate@nexhire.vn',
+        roles: [UserRole.CANDIDATE],
+        previousStatus: UserStatus.ACTIVE,
+        status: UserStatus.BANNED,
+        reason: 'Policy violation',
+        changedByUserId: 'admin-1',
+      }),
+    );
     expect(result.status).toBe(UserStatus.BANNED);
   });
 

@@ -299,6 +299,103 @@ describe('NotificationService', () => {
     ]);
   });
 
+  it('creates company notification when admin reviews a job', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createJobReviewResultChangedNotification({
+      jobId: 'job-1',
+      companyId: 'company-1',
+      companyName: 'NexHire',
+      title: 'Backend Engineer',
+      status: 'PUBLISHED',
+      decision: 'APPROVE',
+      reason: null,
+      reviewedByUserId: 'admin-1',
+      reviewedAt: '2026-08-03T10:00:00.000Z',
+      publishedAt: '2026-08-03T10:00:00.000Z',
+    });
+
+    expect(qb.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.COMPANY,
+        recipientCompanyId: 'company-1',
+        dedupeKey: 'job-review-result:company:company-1:job-1:PUBLISHED:2026-08-03T10:00:00.000Z',
+        type: NotificationType.JOB_REVIEW_RESULT_CHANGED,
+        data: expect.objectContaining({
+          jobId: 'job-1',
+          status: 'PUBLISHED',
+          decision: 'APPROVE',
+        }),
+      }),
+    ]);
+  });
+
+  it('creates company notification when admin reviews a job revision', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createJobRevisionReviewResultChangedNotification({
+      jobId: 'job-1',
+      companyId: 'company-1',
+      title: 'Backend Engineer',
+      revisionId: 'revision-1',
+      status: 'REJECTED',
+      decision: 'REJECT',
+      reason: 'Missing salary clarity',
+      reviewedByUserId: 'admin-1',
+      reviewedAt: '2026-08-03T10:00:00.000Z',
+    });
+
+    expect(qb.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.COMPANY,
+        recipientCompanyId: 'company-1',
+        dedupeKey:
+          'job-revision-review-result:company:company-1:revision-1:REJECTED:2026-08-03T10:00:00.000Z',
+        type: NotificationType.JOB_REVISION_REVIEW_RESULT_CHANGED,
+        data: expect.objectContaining({
+          jobId: 'job-1',
+          revisionId: 'revision-1',
+          status: 'REJECTED',
+          decision: 'REJECT',
+        }),
+      }),
+    ]);
+  });
+
+  it('creates user notification when admin changes user lifecycle status', async () => {
+    const qb = mockInsertBuilder();
+    repo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.createUserLifecycleChangedNotification({
+      userId: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Candidate One',
+      roles: [UserRole.CANDIDATE],
+      previousStatus: 'ACTIVE',
+      status: 'BANNED',
+      reason: 'Policy violation',
+      changedByUserId: 'admin-1',
+      changedAt: '2026-08-03T10:00:00.000Z',
+    });
+
+    expect(qb.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        recipientType: NotificationRecipientType.USER,
+        recipientUserId: 'user-1',
+        dedupeKey: 'user-lifecycle:user:user-1:BANNED:2026-08-03T10:00:00.000Z',
+        type: NotificationType.USER_LIFECYCLE_CHANGED,
+        data: expect.objectContaining({
+          userId: 'user-1',
+          status: 'BANNED',
+          previousStatus: 'ACTIVE',
+          reason: 'Policy violation',
+        }),
+      }),
+    ]);
+  });
+
   it('scopes unread count to recruiter company', async () => {
     const qb = {
       where: jest.fn().mockReturnThis(),
