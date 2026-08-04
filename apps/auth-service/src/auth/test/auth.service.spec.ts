@@ -421,7 +421,7 @@ describe('AuthService', () => {
       email: 'candidate@nexhire.vn',
       fullName: 'Nguyen Van A',
       phone: '0987654321',
-      emailVerified: false,
+      emailVerified: true,
     } as User);
     (credentialRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'credential-1',
@@ -810,7 +810,7 @@ describe('AuthService', () => {
       email: 'candidate@nexhire.vn',
       fullName: 'Nguyen Van A',
       phone: '0987654321',
-      emailVerified: false,
+      emailVerified: true,
     } as User);
     (credentialRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'credential-1',
@@ -850,6 +850,7 @@ describe('AuthService', () => {
     (userRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'user-1',
       email: 'candidate@nexhire.vn',
+      emailVerified: true,
     } as User);
     (credentialRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'credential-1',
@@ -877,6 +878,7 @@ describe('AuthService', () => {
     (userRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'user-1',
       email: 'candidate@nexhire.vn',
+      emailVerified: true,
     } as User);
     (credentialRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'credential-1',
@@ -919,6 +921,33 @@ describe('AuthService', () => {
       }),
     });
     expect(credentialRepo.findOne).not.toHaveBeenCalled();
+  });
+
+  it('rejects login when email is not verified', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Van A',
+      phone: '0987654321',
+      status: UserStatus.ACTIVE,
+      emailVerified: false,
+    } as User);
+    (credentialRepo.findOne as jest.Mock).mockResolvedValue(null);
+    (bcrypt.compare as jest.Mock).mockReset();
+
+    await expect(
+      service.login({
+        email: 'candidate@nexhire.vn',
+        password: 'StrongPassword123!',
+        role: UserRole.CANDIDATE,
+      }),
+    ).rejects.toMatchObject({
+      response: expect.objectContaining({
+        code: ERROR_CODES.AUTH.EMAIL_NOT_VERIFIED,
+      }),
+    });
+    expect(credentialRepo.findOne).not.toHaveBeenCalled();
+    expect(bcrypt.compare).not.toHaveBeenCalled();
   });
 
   it('verifies email and updates both verification and user state', async () => {
