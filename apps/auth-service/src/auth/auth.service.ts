@@ -368,6 +368,15 @@ export class AuthService {
     }
 
     this.assertUserActiveForAuth(user);
+
+    if (!user.emailVerified) {
+      this.logger.warn(`Login blocked: email not verified email=${email}`);
+      throw new ForbiddenException({
+        code: ERROR_CODES.AUTH.EMAIL_NOT_VERIFIED,
+        message: 'Email is not verified',
+      });
+    }
+
     const credential = await this.credentialRepo.findOne({ where: { userId: user.id } });
     if (!credential) {
       this.logger.error(`Login failed: credential missing userId=${user.id}`);
