@@ -1096,13 +1096,6 @@ export class AuthService {
     const { resendCooldownSeconds, maxResends } = this.getVerificationConfig();
     const now = Date.now();
 
-    if (verification.expiresAt.getTime() <= now) {
-      throw new BadRequestException({
-        code: ERROR_CODES.AUTH.EMAIL_VERIFICATION_TOKEN_EXPIRED,
-        message: 'Current verification token has expired',
-      });
-    }
-
     if (verification.resendCount >= maxResends) {
       throw new HttpException(
         {

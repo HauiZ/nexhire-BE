@@ -1032,6 +1032,51 @@ describe('AuthService', () => {
     });
   });
 
+  it('resends verification even when the current token has expired', async () => {
+    (userRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'user-1',
+      email: 'candidate@nexhire.vn',
+      fullName: 'Nguyen Van A',
+      emailVerified: false,
+    } as User);
+    (emailVerificationRepo.findOne as jest.Mock).mockResolvedValue({
+      id: 'verification-1',
+      userId: 'user-1',
+      email: 'candidate@nexhire.vn',
+      expiresAt: new Date(Date.now() - 1000),
+      lastSentAt: new Date(Date.now() - 61 * 1000),
+      resendCount: 1,
+      verifiedAt: null,
+    } as EmailVerification);
+    jest
+      .spyOn(service as never, 'generateVerificationToken' as never)
+      .mockReturnValue('987654' as never);
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+    jest
+      .spyOn(service as never, 'buildVerificationExpiry' as never)
+      .mockReturnValue(expiresAt as never);
+
+    const result = await service.resendVerification({
+      email: 'candidate@nexhire.vn',
+    });
+
+    expect(emailVerificationRepo.update).toHaveBeenCalledWith('verification-1', {
+      tokenHash: (service as unknown as AuthServicePrivateAccess).hashToken('987654'),
+      expiresAt,
+      lastSentAt: expect.any(Date),
+      resendCount: 2,
+    });
+    expect(authEventPublisher.publishVerificationEmailRequested).toHaveBeenCalledWith(
+      expect.objectContaining({
+        email: 'candidate@nexhire.vn',
+        token: '987654',
+        expiresAt: expiresAt.toISOString(),
+      }),
+    );
+    expect(result.email).toBe('candidate@nexhire.vn');
+    expect(result.resendCount).toBe(2);
+  });
+
   it('blocks resend during cooldown window', async () => {
     (userRepo.findOne as jest.Mock).mockResolvedValue({
       id: 'user-1',
