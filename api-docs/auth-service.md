@@ -165,6 +165,7 @@ Errors:
 | ------ | --------------------------------- | ---------------------------------------------- |
 | 401    | `AUTH.INVALID_CREDENTIALS`        | Email or password is invalid                   |
 | 403    | `AUTH.LOGIN_ROLE_NOT_ALLOWED`     | Account does not have the requested login role |
+| 403    | `AUTH.EMAIL_NOT_VERIFIED`         | Email has not been verified yet                |
 | 423    | `AUTH.ACCOUNT_TEMPORARILY_LOCKED` | Account is temporarily locked                  |
 | 422    | validation error                  | Invalid request body                           |
 
