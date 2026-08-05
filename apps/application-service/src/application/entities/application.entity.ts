@@ -115,6 +115,9 @@ export class Application {
   @Column({ name: 'match_level', type: 'varchar', length: 20, nullable: true })
   matchLevel: ApplicationMatchLevel | null;
 
+  @Column({ name: 'auto_match_requested', type: 'boolean', default: false })
+  autoMatchRequested: boolean;
+
   @Column({ name: 'submitted_at', type: 'timestamptz' })
   submittedAt: Date;
 
