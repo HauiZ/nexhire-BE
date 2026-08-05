@@ -54,6 +54,7 @@ const application: Application = {
   currentProgressStep: null,
   matchScore: null,
   matchLevel: null,
+  autoMatchRequested: false,
   submittedAt: new Date('2026-07-15T00:00:00.000Z'),
   withdrawnAt: null,
   decidedAt: null,
@@ -224,6 +225,22 @@ describe('ApplicationService', () => {
     );
     expect(result.status).toBe(ApplicationStage.SUBMITTED);
     expect(result.matchScore).toBeNull();
+    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ autoMatchRequested: false }));
+    expect(internalClient.getLatestCvParseResult).not.toHaveBeenCalled();
+    expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
+    expect(internalClient.requestCandidateCvParse).not.toHaveBeenCalled();
+  });
+
+  it('queues automatic matching when apply requests parsing', async () => {
+    repo.findOne.mockResolvedValue(null);
+
+    await service.create(candidateUser, {
+      jobId: application.jobId,
+      candidateCvId: application.candidateCvId,
+      parse: true,
+    });
+
+    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ autoMatchRequested: true }));
     expect(internalClient.getLatestCvParseResult).toHaveBeenCalledWith(application.candidateCvId);
     expect(internalClient.createApplicationMatchRequest).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -234,7 +251,7 @@ describe('ApplicationService', () => {
     );
   });
 
-  it('requests CV parsing before matching when applied CV is not parsed', async () => {
+  it('requests CV parsing before matching when apply requests parsing and CV is not parsed', async () => {
     repo.findOne.mockResolvedValue(null);
     internalClient.getCandidateApplicationSnapshot.mockResolvedValueOnce({
       candidateId: application.candidateId,
@@ -252,6 +269,7 @@ describe('ApplicationService', () => {
     await service.create(candidateUser, {
       jobId: application.jobId,
       candidateCvId: application.candidateCvId,
+      parse: true,
     });
 
     expect(internalClient.requestCandidateCvParse).toHaveBeenCalledWith({
@@ -363,7 +381,11 @@ describe('ApplicationService', () => {
   });
 
   it('enriches recruiter application detail with latest AI match recommendation', async () => {
-    repo.findOne.mockResolvedValue({ ...application, matchScore: 82, matchLevel: ApplicationMatchLevel.HIGH });
+    repo.findOne.mockResolvedValue({
+      ...application,
+      matchScore: 82,
+      matchLevel: ApplicationMatchLevel.HIGH,
+    });
     internalClient.getLatestApplicationMatchResult.mockResolvedValueOnce({
       id: 'match-result-1',
       matchRequestId: 'match-request-1',
@@ -548,8 +570,10 @@ describe('ApplicationService', () => {
     expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
   });
 
-  it('updates application CV parse status and queues matching when cv.parsed arrives', async () => {
-    repo.find.mockResolvedValue([{ ...application, cvParseStatus: 'PARSING' }]);
+  it('updates application CV parse status and queues matching when cv.parsed arrives for opted-in applications', async () => {
+    repo.find.mockResolvedValue([
+      { ...application, cvParseStatus: 'PARSING', autoMatchRequested: true },
+    ]);
 
     await service.handleCvParsedForMatching({
       candidateCvId: application.candidateCvId,
@@ -566,8 +590,8 @@ describe('ApplicationService', () => {
     );
   });
 
-  it('requeues matching for already-scored active applications when CV is parsed again', async () => {
-    repo.find.mockResolvedValue([{ ...application, cvParseStatus: 'PARSED', matchScore: 72 }]);
+  it('does not queue matching when cv.parsed arrives for applications that did not opt in', async () => {
+    repo.find.mockResolvedValue([]);
 
     await service.handleCvParsedForMatching({
       candidateCvId: application.candidateCvId,
@@ -578,6 +602,28 @@ describe('ApplicationService', () => {
       where: {
         candidateCvId: application.candidateCvId,
         status: expect.any(Object),
+        autoMatchRequested: true,
+      },
+      order: { submittedAt: 'ASC' },
+    });
+    expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
+  });
+
+  it('requeues matching for already-scored opted-in active applications when CV is parsed again', async () => {
+    repo.find.mockResolvedValue([
+      { ...application, cvParseStatus: 'PARSED', matchScore: 72, autoMatchRequested: true },
+    ]);
+
+    await service.handleCvParsedForMatching({
+      candidateCvId: application.candidateCvId,
+      normalizedPayload: parsedResume,
+    });
+
+    expect(repo.find).toHaveBeenCalledWith({
+      where: {
+        candidateCvId: application.candidateCvId,
+        status: expect.any(Object),
+        autoMatchRequested: true,
       },
       order: { submittedAt: 'ASC' },
     });
@@ -590,8 +636,10 @@ describe('ApplicationService', () => {
     );
   });
 
-  it('marks waiting application matching as failed when cv.parse-failed arrives', async () => {
-    repo.find.mockResolvedValue([{ ...application, cvParseStatus: 'PARSING' }]);
+  it('marks waiting opted-in application matching as failed when cv.parse-failed arrives', async () => {
+    repo.find.mockResolvedValue([
+      { ...application, cvParseStatus: 'PARSING', autoMatchRequested: true },
+    ]);
 
     await service.handleCvParseFailedForMatching({
       candidateCvId: application.candidateCvId,
@@ -603,6 +651,7 @@ describe('ApplicationService', () => {
         candidateCvId: application.candidateCvId,
         status: expect.any(Object),
         cvParseStatus: 'PARSING',
+        autoMatchRequested: true,
       },
       order: { submittedAt: 'ASC' },
     });

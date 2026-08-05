@@ -127,6 +127,7 @@ export class ApplicationService {
         currentProgressStep: null,
         matchScore: null,
         matchLevel: null,
+        autoMatchRequested: dto.parse === true,
         submittedAt: now,
         withdrawnAt: null,
         decidedAt: null,
@@ -169,7 +170,9 @@ export class ApplicationService {
     this.logger.log(
       `Application submitted applicationId=${application.id} jobId=${application.jobId} candidateUserId=${application.candidateUserId}`,
     );
-    await this.queueMatchingWhenCvReady(application);
+    if (application.autoMatchRequested) {
+      await this.queueMatchingWhenCvReady(application);
+    }
 
     return this.mapApplication(application, {
       includeProgress: true,
@@ -303,6 +306,7 @@ export class ApplicationService {
       where: {
         candidateCvId: payload.candidateCvId,
         status: In(this.activeStatuses),
+        autoMatchRequested: true,
       },
       order: { submittedAt: 'ASC' },
     });
@@ -330,6 +334,7 @@ export class ApplicationService {
         candidateCvId: payload.candidateCvId,
         status: In(this.activeStatuses),
         cvParseStatus: 'PARSING',
+        autoMatchRequested: true,
       },
       order: { submittedAt: 'ASC' },
     });

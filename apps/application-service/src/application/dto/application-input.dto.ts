@@ -1,5 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
+  IsBoolean,
   IsEnum,
   IsNumber,
   IsOptional,
@@ -11,6 +13,16 @@ import {
 } from 'class-validator';
 import { ApplicationStage } from '@nexhire/shared';
 import { ApplicationMatchLevel } from '../entities/application.entity';
+
+function toOptionalBoolean(value: unknown): boolean | undefined {
+  if (value === undefined || value === null || value === '') {
+    return undefined;
+  }
+  if (typeof value === 'boolean') {
+    return value;
+  }
+  return String(value).toLowerCase() === 'true';
+}
 
 export class CreateApplicationDto {
   @ApiProperty()
@@ -26,6 +38,15 @@ export class CreateApplicationDto {
   @IsString()
   @MaxLength(5000)
   coverLetter?: string;
+
+  @ApiPropertyOptional({
+    example: false,
+    description: 'When true, trigger CV parsing and automatic matching after applying.',
+  })
+  @IsOptional()
+  @Transform(({ value }) => toOptionalBoolean(value))
+  @IsBoolean()
+  parse?: boolean;
 }
 
 export class UpdateApplicationStageDto {
