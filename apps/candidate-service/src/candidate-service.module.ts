@@ -14,6 +14,7 @@ import {
 import { InternalAuthGuard, RolesGuard } from '@nexhire/shared';
 import { CandidateModule } from './candidate/candidate.module';
 import { CvModule } from './cv/cv.module';
+import { CvTemplatePresetModule } from './cv-template-preset/cv-template-preset.module';
 import { CvTemplateModule } from './cv-template/cv-template.module';
 import { FollowedCompanyModule } from './followed-company/followed-company.module';
 import { SavedJobModule } from './saved-job/saved-job.module';
@@ -40,6 +41,7 @@ import { HealthModule } from './health/health.module';
     EventBusModule,
     CandidateModule,
     CvModule,
+    CvTemplatePresetModule,
     CvTemplateModule,
     FollowedCompanyModule,
     SavedJobModule,

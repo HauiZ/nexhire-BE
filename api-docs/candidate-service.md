@@ -4,11 +4,12 @@ Base path through gateway:
 
 - `/api/v1/candidates`
 - `/api/v1/cvs`
+- `/api/v1/cv-template-presets`
 - `/api/v1/cv-templates`
 - `/api/v1/followed-companies`
 - `/api/v1/saved-jobs`
 
-Responsibility: candidate profile, skills, education, experience, CV Library, saved jobs, followed companies.
+Responsibility: candidate profile, skills, education, experience, CV Library, public CV template presets, saved jobs, followed companies.
 
 ## Domain notes
 
@@ -563,6 +564,91 @@ Errors:
 | 404    | `APPLICATION.CV_NOT_FOUND` | CV does not exist, was deleted, or not owned |
 
 ## CV Template Editor
+
+### Public CV template presets
+
+These endpoints expose published system templates for the public `/cv-templates` page and the FE CV builder template picker. They are separate from `/cv-templates`, which stores candidate-owned CV drafts.
+
+#### `GET /api/v1/cv-template-presets`
+
+Auth: public.
+
+Query:
+
+| Field           | Required | Note                                                           |
+| --------------- | -------- | -------------------------------------------------------------- |
+| `category`      | No       | `all`, `it`, `marketing`, `sales`, `hr`; defaults to `all`     |
+| `includeCanvas` | No       | `true`/`false`; defaults to `true` so FE can render/apply them |
+
+Behavior:
+
+- Returns only `PUBLISHED` and non-deleted presets.
+- Sorts by `sortOrder ASC`, then `createdAt ASC`.
+- `includeCanvas=false` returns `canvas: null`.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "0bafc70d-8a1e-4e56-83f6-cc0d16bbf895",
+      "key": "professional",
+      "name": {
+        "vi": "Chuyên nghiệp",
+        "en": "Professional",
+        "ja": "プロフェッショナル"
+      },
+      "description": {
+        "vi": "Header màu nổi bật, bố cục 1 cột rõ ràng.",
+        "en": "A polished one-column layout with a strong header.",
+        "ja": "印象的なヘッダーを備えた明快な1カラム構成です。"
+      },
+      "categories": ["it", "marketing", "sales", "hr"],
+      "accent": "#2563eb",
+      "thumbnailUrl": null,
+      "canvas": {
+        "id": "template-professional",
+        "name": "Professional",
+        "pageSize": { "width": 794, "height": 1123 },
+        "pages": []
+      },
+      "version": 1,
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+Errors:
+
+| Status | Code                       | Meaning               |
+| ------ | -------------------------- | --------------------- |
+| 400    | `COMMON.VALIDATION_FAILED` | Invalid query         |
+| 500    | `COMMON.INTERNAL_ERROR`    | Unexpected server bug |
+
+#### `GET /api/v1/cv-template-presets/:idOrKey`
+
+Auth: public.
+
+Params:
+
+| Field     | Required | Note                                |
+| --------- | -------- | ----------------------------------- |
+| `idOrKey` | Yes      | UUID preset id or key, e.g. `modern` |
+
+Behavior:
+
+- Returns only `PUBLISHED` and non-deleted presets.
+
+Errors:
+
+| Status | Code                           | Meaning                   |
+| ------ | ------------------------------ | ------------------------- |
+| 404    | `CV_TEMPLATE_PRESET.NOT_FOUND` | Published preset not found |
+| 500    | `COMMON.INTERNAL_ERROR`        | Unexpected server bug     |
 
 ### `GET /api/v1/cv-templates/options`
 
