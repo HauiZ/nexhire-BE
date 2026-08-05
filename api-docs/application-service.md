@@ -21,7 +21,7 @@ Responsibility: job application submission, candidate application history, recru
 - `CLOSED` jobs cancel active applications with status `CANCELLED`.
 - CV content is not embedded in the application response. FE calls the CV download endpoint to get a short-lived URL.
 - Candidate avatar URL is resolved dynamically from `candidateAvatarDocumentId` when available.
-- Matching is requested only after the applied CV is parsed. If the CV is not parsed at apply time, application-service triggers parsing and waits for `cv.parsed` before creating a match request. If parsing fails, application-service marks waiting application matching as `FAILED` through the application CV parse snapshot.
+- New applications do not trigger CV parsing by default. If the create request sends `parse=true`, matching is requested only after the applied CV is parsed; for an unparsed CV, application-service triggers parsing and waits for `cv.parsed` before creating a match request. If parsing fails, application-service marks waiting application matching as `FAILED` through the application CV parse snapshot.
 - Candidate application responses include progress timeline data for candidate UI. Recruiter can ignore
   progress in phase one.
 
@@ -197,12 +197,14 @@ Request body:
 | `jobId`         | uuid   | Yes      | Published and applyable job id               |
 | `candidateCvId` | uuid   | Yes      | CV id from candidate-service `candidate_cvs` |
 | `coverLetter`   | string | No       | Max 5000 chars                               |
+| `parse`         | boolean | No       | Defaults to `false`; when true, trigger CV parsing and automatic matching after applying |
 
 ```json
 {
   "jobId": "11c72a94-a00f-4f1a-83ca-87e4c67fba3f",
   "candidateCvId": "3c31a5db-870d-4f70-a589-0556f35b46d4",
-  "coverLetter": "I am interested in this role."
+  "coverLetter": "I am interested in this role.",
+  "parse": false
 }
 ```
 

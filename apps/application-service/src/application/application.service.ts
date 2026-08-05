@@ -169,7 +169,9 @@ export class ApplicationService {
     this.logger.log(
       `Application submitted applicationId=${application.id} jobId=${application.jobId} candidateUserId=${application.candidateUserId}`,
     );
-    await this.queueMatchingWhenCvReady(application);
+    if (dto.parse) {
+      await this.queueMatchingWhenCvReady(application);
+    }
 
     return this.mapApplication(application, {
       includeProgress: true,
