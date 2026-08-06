@@ -1649,7 +1649,7 @@ describe('AuthService', () => {
         email: 'recruiter@nexhire.vn',
         fullName: 'Recruiter Updated',
         phone: '0909999999',
-        language: UserLanguage.EN,
+        language: UserLanguage.JA,
         avatarUrl: null,
         status: UserStatus.ACTIVE,
       } as User);
@@ -1666,21 +1666,21 @@ describe('AuthService', () => {
       {
         fullName: ' Recruiter Updated ',
         phone: ' 0909999999 ',
-        language: UserLanguage.EN,
+        language: UserLanguage.JA,
       },
     );
 
     expect(userRepo.update).toHaveBeenCalledWith('user-1', {
       fullName: 'Recruiter Updated',
       phone: '0909999999',
-      language: UserLanguage.EN,
+      language: UserLanguage.JA,
     });
     expect(result).toEqual(
       expect.objectContaining({
         email: 'recruiter@nexhire.vn',
         fullName: 'Recruiter Updated',
         phone: '0909999999',
-        language: UserLanguage.EN,
+        language: UserLanguage.JA,
       }),
     );
   });

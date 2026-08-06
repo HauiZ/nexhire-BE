@@ -227,7 +227,7 @@ describe('CandidateService', () => {
       summary: 'Builds performant web products',
       location: 'Ha Noi',
       portfolioUrl: 'https://minhkhoa.dev',
-      language: UserLanguage.EN,
+      language: UserLanguage.JA,
     });
     const manager = createManager(profileRepo);
     profileRepo.findOne.mockResolvedValue(existingProfile);
@@ -319,7 +319,7 @@ describe('CandidateService', () => {
         summary: 'Builds performant web products',
         location: 'Ha Noi',
         portfolioUrl: 'https://minhkhoa.dev',
-        language: UserLanguage.EN,
+        language: UserLanguage.JA,
       },
       skills: [
         {
@@ -370,7 +370,7 @@ describe('CandidateService', () => {
       expect.objectContaining({
         fullName: 'Nguyen Minh Khoa',
         contactEmail: 'khoa@example.com',
-        language: UserLanguage.EN,
+        language: UserLanguage.JA,
       }),
     );
     expect(manager.delete).toHaveBeenCalledWith(CandidateSkill, {
@@ -413,7 +413,7 @@ describe('CandidateService', () => {
         fullName: 'Nguyen Minh Khoa',
         email: 'khoa@example.com',
         phone: '0912345678',
-        language: UserLanguage.EN,
+        language: UserLanguage.JA,
       }),
     );
     expect(result.completionPercent).toBe(100);
