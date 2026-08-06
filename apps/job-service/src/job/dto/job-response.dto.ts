@@ -157,17 +157,17 @@ export class PublicJobListItemDto {
   @ApiPropertyOptional()
   categoryId: string | null;
 
-  @ApiProperty({ enum: JobType })
-  employmentType: JobType;
+  @ApiPropertyOptional({ enum: JobType })
+  employmentType: JobType | null;
 
-  @ApiProperty({ enum: JobWorkingType })
-  workingType: JobWorkingType;
+  @ApiPropertyOptional({ enum: JobWorkingType })
+  workingType: JobWorkingType | null;
 
-  @ApiProperty({ enum: JobExperienceLevel })
-  experienceLevel: JobExperienceLevel;
+  @ApiPropertyOptional({ enum: JobExperienceLevel })
+  experienceLevel: JobExperienceLevel | null;
 
-  @ApiProperty()
-  location: string;
+  @ApiPropertyOptional()
+  location: string | null;
 
   @ApiPropertyOptional()
   salaryMin: number | null;
