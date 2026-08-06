@@ -976,8 +976,32 @@ erDiagram
     }
 
     %% ─────────────── Matching Service ───────────────
+    match_requests {
+        uuid id PK
+        uuid applicationId null
+        uuid jobId not_null
+        uuid candidateId not_null
+        uuid candidateUserId null
+        uuid candidateCvId null
+        uuid cvDocumentId null
+        jsonb parsedResume null
+        enum requestType not_null
+        enum status not_null
+        int priority not_null
+        int attemptCount not_null
+        varchar lastErrorCode null
+        varchar lastErrorMessage null
+        uuid requestedByUserId null
+        timestamptz requestedAt not_null
+        timestamptz startedAt null
+        timestamptz finishedAt null
+        timestamptz createdAt not_null
+        timestamptz updatedAt not_null
+    }
+
     match_results {
         uuid id PK
+        uuid requestId null
         uuid jobId not_null
         uuid candidateId not_null
         uuid candidateCvId null
@@ -1067,6 +1091,8 @@ erDiagram
     jobs ||--o{ applications : "applications"
     applications ||--o{ application_progress_events : "history"
     applications ||--o| match_results : "match"
+    applications ||--o{ match_requests : "match_requests"
+    match_requests ||--o| match_results : "result"
 
 ```
 
