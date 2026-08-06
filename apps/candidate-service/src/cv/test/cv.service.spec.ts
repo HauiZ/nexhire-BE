@@ -115,10 +115,12 @@ describe('CvService', () => {
     );
 
     expect(result.parseStatus).toBe(CandidateCvParseStatus.NOT_PARSED);
+    expect(result.isDefault).toBe(false);
+    expect(cvRepo.count).not.toHaveBeenCalled();
     expect(cvEventPublisher.publishCvUploaded).not.toHaveBeenCalled();
   });
 
-  it('uploads and parses a CV when requested', async () => {
+  it('does not parse or mark default from upload, even when parse is requested', async () => {
     const result = await service.uploadCv(
       { id: 'user-1', role: UserRole.CANDIDATE },
       { parse: true },
@@ -130,17 +132,31 @@ describe('CvService', () => {
       },
     );
 
-    expect(result.parseStatus).toBe(CandidateCvParseStatus.PARSING);
-    expect(documentClientService.createDownloadUrl).toHaveBeenCalledWith('document-1');
-    expect(cvEventPublisher.publishCvUploaded).toHaveBeenCalledWith(
-      expect.objectContaining({
-        candidateId: 'candidate-1',
-        candidateUserId: 'user-1',
-        candidateCvId: 'cv-1',
-        documentId: 'document-1',
-        documentUrl: 'https://storage.local/download/cv.pdf',
-      }),
+    expect(result.parseStatus).toBe(CandidateCvParseStatus.NOT_PARSED);
+    expect(result.isDefault).toBe(false);
+    expect(documentClientService.createDownloadUrl).not.toHaveBeenCalled();
+    expect(cvEventPublisher.publishCvUploaded).not.toHaveBeenCalled();
+  });
+
+  it('marks a CV as default only when explicitly requested', async () => {
+    const result = await service.uploadCv(
+      { id: 'user-1', role: UserRole.CANDIDATE },
+      { isDefault: true },
+      {
+        originalname: 'cv.pdf',
+        mimetype: 'application/pdf',
+        size: 1024,
+        buffer: Buffer.from('cv'),
+      },
     );
+
+    expect(result.isDefault).toBe(true);
+    expect(result.parseStatus).toBe(CandidateCvParseStatus.NOT_PARSED);
+    expect(cvRepo.update).toHaveBeenCalledWith(
+      { candidateId: 'candidate-1', isDefault: true, deletedAt: expect.any(Object) },
+      { isDefault: false },
+    );
+    expect(cvEventPublisher.publishCvUploaded).not.toHaveBeenCalled();
   });
 
   it('triggers parsing for a saved CV', async () => {

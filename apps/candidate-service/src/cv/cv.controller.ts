@@ -64,7 +64,8 @@ export class CvController {
         parse: {
           type: 'boolean',
           example: false,
-          description: 'When true, trigger profile parsing immediately after upload.',
+          description:
+            'Deprecated. Upload never triggers parsing; call POST /cvs/{id}/parse explicitly.',
         },
       },
     },

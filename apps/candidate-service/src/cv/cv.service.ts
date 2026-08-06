@@ -61,11 +61,7 @@ export class CvService {
       'CV',
       file,
     );
-    const shouldSetDefault =
-      dto.isDefault ??
-      (await this.cvRepo.count({
-        where: { candidateId: profile.id, deletedAt: IsNull() },
-      })) === 0;
+    const shouldSetDefault = dto.isDefault === true;
 
     if (shouldSetDefault) {
       await this.cvRepo.update(
@@ -80,7 +76,7 @@ export class CvService {
         documentId: document.id,
         title: this.resolveCvTitle(dto.title, file.originalname),
         isDefault: shouldSetDefault,
-        parseStatus: dto.parse ? CandidateCvParseStatus.PARSING : CandidateCvParseStatus.NOT_PARSED,
+        parseStatus: CandidateCvParseStatus.NOT_PARSED,
         source: CandidateCvSource.UPLOADED,
         sourceTemplateId: null,
         sourceCvId: null,
@@ -90,10 +86,6 @@ export class CvService {
         documentDeleteError: null,
       }),
     );
-
-    if (dto.parse) {
-      return this.triggerParse(user, profile.id, cv);
-    }
 
     const latestCv = await this.cvRepo.findOne({ where: { id: cv.id } });
     return this.mapCv(latestCv ?? cv);

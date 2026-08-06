@@ -27,7 +27,7 @@ export class UploadCvDto {
 
   @ApiPropertyOptional({
     example: false,
-    description: 'When true, trigger profile parsing immediately after upload.',
+    description: 'Deprecated. Upload never triggers parsing; call POST /cvs/{id}/parse explicitly.',
   })
   @IsOptional()
   @Transform(({ value }) => toOptionalBoolean(value))
