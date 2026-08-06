@@ -25,7 +25,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const status =
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const { code, message, details } = this.normalize(exception, status);
+    const { code, message, details, fields } = this.normalize(exception, status);
 
     if (status >= HttpStatus.INTERNAL_SERVER_ERROR) {
       this.logger.error(
@@ -36,7 +36,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const body: ApiErrorResponse = {
       success: false,
-      error: { code, message, ...(details ? { details } : {}) },
+      error: {
+        code,
+        message,
+        ...(details ? { details } : {}),
+        ...(fields ? { fields } : {}),
+      },
       requestId,
     };
     response.status(status).json(body);
@@ -54,12 +59,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
             code: ERROR_CODES.COMMON.VALIDATION_FAILED,
             message: 'Validation failed',
             details: rawMessage.map((m) => ({ field: '', issue: String(m) })),
+            fields: undefined as string[] | undefined,
           };
         }
         return {
           code: (r.code as string) ?? this.codeForStatus(status),
           message: (rawMessage as string) ?? exception.message,
           details: undefined as { field: string; issue: string }[] | undefined,
+          fields: (r.fields as string[]) ?? undefined,
         };
       }
       return { code: this.codeForStatus(status), message: exception.message, details: undefined };

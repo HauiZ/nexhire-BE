@@ -406,16 +406,11 @@ export class ApplicationService {
         message: 'Recruiters can only mark applications as offered or rejected',
       });
     }
-    if (![ApplicationStage.SUBMITTED, ApplicationStage.OFFERED].includes(application.status)) {
-      throw this.invalidTransition();
-    }
-    if (application.status === dto.status) {
-      application.statusNote = dto.note?.trim() || application.statusNote;
-      const saved = await this.applicationRepo.save(application);
-      this.logger.log(
-        `Application note updated applicationId=${saved.id} status=${saved.status} recruiterUserId=${user.id}`,
-      );
-      return this.mapApplication(saved);
+    if (application.status !== ApplicationStage.SUBMITTED) {
+      throw new ConflictException({
+        code: ERROR_CODES.APPLICATION.DECISION_ALREADY_COMPLETED,
+        message: 'Application has already been processed.',
+      });
     }
 
     const previousStatus = application.status;

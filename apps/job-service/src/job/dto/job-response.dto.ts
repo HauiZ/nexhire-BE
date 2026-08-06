@@ -50,11 +50,11 @@ export class JobResponseDto {
   @ApiProperty()
   title: string;
 
-  @ApiProperty()
-  description: string;
+  @ApiPropertyOptional()
+  description: string | null;
 
-  @ApiProperty()
-  requirements: string;
+  @ApiPropertyOptional()
+  requirements: string | null;
 
   @ApiProperty({ type: [String] })
   skills: string[];
@@ -65,17 +65,17 @@ export class JobResponseDto {
   @ApiPropertyOptional()
   categoryId: string | null;
 
-  @ApiProperty({ enum: JobType })
-  employmentType: JobType;
+  @ApiPropertyOptional({ enum: JobType })
+  employmentType: JobType | null;
 
-  @ApiProperty({ enum: JobWorkingType })
-  workingType: JobWorkingType;
+  @ApiPropertyOptional({ enum: JobWorkingType })
+  workingType: JobWorkingType | null;
 
-  @ApiProperty({ enum: JobExperienceLevel })
-  experienceLevel: JobExperienceLevel;
+  @ApiPropertyOptional({ enum: JobExperienceLevel })
+  experienceLevel: JobExperienceLevel | null;
 
-  @ApiProperty()
-  location: string;
+  @ApiPropertyOptional()
+  location: string | null;
 
   @ApiPropertyOptional()
   salaryMin: number | null;
@@ -267,11 +267,11 @@ export class PublicJobDetailDto {
   @ApiProperty()
   title: string;
 
-  @ApiProperty()
-  description: string;
+  @ApiPropertyOptional()
+  description: string | null;
 
-  @ApiProperty()
-  requirements: string;
+  @ApiPropertyOptional()
+  requirements: string | null;
 
   @ApiProperty({ type: [String] })
   skills: string[];
@@ -282,17 +282,17 @@ export class PublicJobDetailDto {
   @ApiPropertyOptional()
   categoryId: string | null;
 
-  @ApiProperty({ enum: JobType })
-  employmentType: JobType;
+  @ApiPropertyOptional({ enum: JobType })
+  employmentType: JobType | null;
 
-  @ApiProperty({ enum: JobWorkingType })
-  workingType: JobWorkingType;
+  @ApiPropertyOptional({ enum: JobWorkingType })
+  workingType: JobWorkingType | null;
 
-  @ApiProperty({ enum: JobExperienceLevel })
-  experienceLevel: JobExperienceLevel;
+  @ApiPropertyOptional({ enum: JobExperienceLevel })
+  experienceLevel: JobExperienceLevel | null;
 
-  @ApiProperty()
-  location: string;
+  @ApiPropertyOptional()
+  location: string | null;
 
   @ApiPropertyOptional()
   salaryMin: number | null;
@@ -358,11 +358,11 @@ export class JobMatchingSnapshotDto {
   @ApiProperty()
   title: string;
 
-  @ApiProperty()
-  description: string;
+  @ApiPropertyOptional()
+  description: string | null;
 
-  @ApiProperty()
-  requirements: string;
+  @ApiPropertyOptional()
+  requirements: string | null;
 
   @ApiProperty({ type: [String] })
   skills: string[];
@@ -370,14 +370,14 @@ export class JobMatchingSnapshotDto {
   @ApiPropertyOptional()
   benefits: string | null;
 
-  @ApiProperty({ enum: JobWorkingType })
-  workingType: JobWorkingType;
+  @ApiPropertyOptional({ enum: JobWorkingType })
+  workingType: JobWorkingType | null;
 
-  @ApiProperty({ enum: JobExperienceLevel })
-  experienceLevel: JobExperienceLevel;
+  @ApiPropertyOptional({ enum: JobExperienceLevel })
+  experienceLevel: JobExperienceLevel | null;
 
-  @ApiProperty()
-  location: string;
+  @ApiPropertyOptional()
+  location: string | null;
 
   @ApiPropertyOptional()
   salaryMin: number | null;
@@ -408,11 +408,11 @@ export class JobSavedSnapshotDto {
   @ApiProperty({ enum: JobStatus })
   status: JobStatus;
 
-  @ApiProperty({ enum: JobExperienceLevel })
-  experienceLevel: JobExperienceLevel;
+  @ApiPropertyOptional({ enum: JobExperienceLevel })
+  experienceLevel: JobExperienceLevel | null;
 
-  @ApiProperty()
-  location: string;
+  @ApiPropertyOptional()
+  location: string | null;
 
   @ApiPropertyOptional()
   salaryMin: number | null;
@@ -449,11 +449,11 @@ export class JobRevisionResponseDto {
   @ApiProperty()
   title: string;
 
-  @ApiProperty()
-  description: string;
+  @ApiPropertyOptional()
+  description: string | null;
 
-  @ApiProperty()
-  requirements: string;
+  @ApiPropertyOptional()
+  requirements: string | null;
 
   @ApiProperty({ type: [String] })
   skills: string[];
@@ -464,17 +464,17 @@ export class JobRevisionResponseDto {
   @ApiPropertyOptional()
   categoryId: string | null;
 
-  @ApiProperty({ enum: JobType })
-  employmentType: JobType;
+  @ApiPropertyOptional({ enum: JobType })
+  employmentType: JobType | null;
 
-  @ApiProperty({ enum: JobWorkingType })
-  workingType: JobWorkingType;
+  @ApiPropertyOptional({ enum: JobWorkingType })
+  workingType: JobWorkingType | null;
 
-  @ApiProperty({ enum: JobExperienceLevel })
-  experienceLevel: JobExperienceLevel;
+  @ApiPropertyOptional({ enum: JobExperienceLevel })
+  experienceLevel: JobExperienceLevel | null;
 
-  @ApiProperty()
-  location: string;
+  @ApiPropertyOptional()
+  location: string | null;
 
   @ApiPropertyOptional()
   salaryMin: number | null;

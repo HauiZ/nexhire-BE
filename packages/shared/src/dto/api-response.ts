@@ -20,6 +20,7 @@ export interface ApiErrorResponse {
     code: string;
     message: string;
     details?: { field: string; issue: string }[];
+    fields?: string[];
   };
   requestId?: string;
 }
@@ -57,6 +58,9 @@ export class ApiErrorBodyDto {
 
   @ApiPropertyOptional({ type: [ApiErrorDetailDto] })
   details?: ApiErrorDetailDto[];
+
+  @ApiPropertyOptional({ type: [String], example: ['description', 'requirements'] })
+  fields?: string[];
 }
 
 export class ApiErrorEnvelopeDto implements ApiErrorResponse {

@@ -18,30 +18,34 @@ import {
 import { JobExperienceLevel, JobType, JobWorkingType } from '@nexhire/shared';
 
 export class JobInputDto {
-  @ApiProperty({ example: 'Backend Developer' })
+  @ApiPropertyOptional({ example: 'Backend Developer' })
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  title: string;
+  title?: string;
 
-  @ApiProperty({ example: 'Develop and maintain REST APIs for NexHire.' })
+  @ApiPropertyOptional({ example: 'Develop and maintain REST APIs for NexHire.' })
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(12000)
-  description: string;
+  description?: string;
 
-  @ApiProperty({ example: 'At least 1 year experience with Node.js and PostgreSQL.' })
+  @ApiPropertyOptional({ example: 'At least 1 year experience with Node.js and PostgreSQL.' })
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(8000)
-  requirements: string;
+  requirements?: string;
 
-  @ApiProperty({ type: [String], example: ['NestJS', 'PostgreSQL', 'RabbitMQ'] })
+  @ApiPropertyOptional({ type: [String], example: ['NestJS', 'PostgreSQL', 'RabbitMQ'] })
+  @IsOptional()
   @IsArray()
   @ArrayMaxSize(50)
   @IsString({ each: true })
   @MaxLength(80, { each: true })
-  skills: string[];
+  skills?: string[];
 
   @ApiPropertyOptional({ example: '13th salary, insurance, hybrid work.' })
   @IsOptional()
@@ -54,23 +58,27 @@ export class JobInputDto {
   @IsUUID()
   categoryId?: string;
 
-  @ApiProperty({ enum: JobType })
+  @ApiPropertyOptional({ enum: JobType })
+  @IsOptional()
   @IsEnum(JobType)
-  employmentType: JobType;
+  employmentType?: JobType;
 
-  @ApiProperty({ enum: JobWorkingType })
+  @ApiPropertyOptional({ enum: JobWorkingType })
+  @IsOptional()
   @IsEnum(JobWorkingType)
-  workingType: JobWorkingType;
+  workingType?: JobWorkingType;
 
-  @ApiProperty({ enum: JobExperienceLevel })
+  @ApiPropertyOptional({ enum: JobExperienceLevel })
+  @IsOptional()
   @IsEnum(JobExperienceLevel)
-  experienceLevel: JobExperienceLevel;
+  experienceLevel?: JobExperienceLevel;
 
-  @ApiProperty({ example: 'Ha Noi, Viet Nam' })
+  @ApiPropertyOptional({ example: 'Ha Noi, Viet Nam' })
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  location: string;
+  location?: string;
 
   @ApiPropertyOptional({ example: 15000000, minimum: 0 })
   @IsOptional()
@@ -112,7 +120,13 @@ export class JobInputDto {
   numberOfOpenings?: number;
 }
 
-export class CreateJobDto extends JobInputDto {}
+export class CreateJobDto extends JobInputDto {
+  @ApiProperty({ example: 'Backend Developer' })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(255)
+  title: string;
+}
 
 export class UpdateJobDto extends JobInputDto {}
 

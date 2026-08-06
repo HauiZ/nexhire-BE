@@ -29,6 +29,7 @@ import { JobEventPublisher } from '../events/job-event.publisher';
 import { JobService } from '../job.service';
 import { JobModerationService } from '../moderation/job-moderation.service';
 import { PublicJobQueryDto, RecruiterJobRevisionQueryDto } from '../dto/job-query.dto';
+import { UpdateJobDto } from '../dto/job-input.dto';
 import { JobSearchTextService } from '../search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER } from '../search/job-search.types';
 import { DocumentClientService } from '../../document-client/document-client.service';
@@ -40,6 +41,7 @@ describe('JobService', () => {
     save: jest.Mock;
     count: jest.Mock;
     createQueryBuilder: jest.Mock;
+    create: jest.Mock;
   };
   let revisionRepo: {
     count: jest.Mock;
@@ -172,21 +174,21 @@ describe('JobService', () => {
     deletedAt: null,
   };
 
-  const jobInput = (overrides: Partial<Job> = {}) => ({
-    title: overrides.title ?? publishedJob.title,
-    description: overrides.description ?? publishedJob.description,
-    requirements: overrides.requirements ?? publishedJob.requirements,
-    skills: overrides.skills ?? publishedJob.skills,
+  const jobInput = (overrides: Partial<Job> = {}): UpdateJobDto => ({
+    title: overrides.title ?? publishedJob.title ?? undefined,
+    description: overrides.description ?? publishedJob.description ?? undefined,
+    requirements: overrides.requirements ?? publishedJob.requirements ?? undefined,
+    skills: overrides.skills ?? publishedJob.skills ?? undefined,
     benefits: overrides.benefits ?? publishedJob.benefits ?? undefined,
     categoryId: overrides.categoryId ?? publishedJob.categoryId ?? undefined,
-    employmentType: overrides.employmentType ?? publishedJob.employmentType,
-    workingType: overrides.workingType ?? publishedJob.workingType,
-    experienceLevel: overrides.experienceLevel ?? publishedJob.experienceLevel,
-    location: overrides.location ?? publishedJob.location,
+    employmentType: overrides.employmentType ?? publishedJob.employmentType ?? undefined,
+    workingType: overrides.workingType ?? publishedJob.workingType ?? undefined,
+    experienceLevel: overrides.experienceLevel ?? publishedJob.experienceLevel ?? undefined,
+    location: overrides.location ?? publishedJob.location ?? undefined,
     salaryMin: overrides.salaryMin ?? publishedJob.salaryMin ?? undefined,
     salaryMax: overrides.salaryMax ?? publishedJob.salaryMax ?? undefined,
-    salaryCurrency: overrides.salaryCurrency ?? publishedJob.salaryCurrency,
-    isSalaryVisible: overrides.isSalaryVisible ?? publishedJob.isSalaryVisible,
+    salaryCurrency: overrides.salaryCurrency ?? publishedJob.salaryCurrency ?? undefined,
+    isSalaryVisible: overrides.isSalaryVisible ?? publishedJob.isSalaryVisible ?? undefined,
     deadline: overrides.deadline ?? undefined,
     numberOfOpenings: overrides.numberOfOpenings ?? publishedJob.numberOfOpenings ?? undefined,
   });
@@ -235,6 +237,7 @@ describe('JobService', () => {
       save: jest.fn((job: Job) => Promise.resolve(job)),
       count: jest.fn(),
       createQueryBuilder: jest.fn(),
+      create: jest.fn((value) => value),
     };
     revisionRepo = {
       count: jest.fn(),
@@ -1314,5 +1317,78 @@ describe('JobService', () => {
         riskLevel: JobModerationRiskLevel.LOW,
       }),
     );
+  });
+
+  describe('Recruiter Job Enhancements (Drafts, Partial Updates, Revisions)', () => {
+    it('allows creating a draft with only a title', async () => {
+      const dto = { title: 'Draft Job' } as any;
+      revisionRepo.count.mockResolvedValue(0);
+      companySnapshotService.getPostingSnapshot.mockResolvedValue({
+        companyId: user.companyId,
+        companyName: 'NexHire',
+        companyLogoUrl: null,
+        companyLogoDocumentId: null,
+        companyStatus: CompanyStatusSnapshot.APPROVED,
+        companyTrustLevel: CompanyTrustLevel.MEDIUM,
+        snapshotAt: new Date(),
+      });
+
+      const result = await service.createDraft(user, dto);
+
+      expect(result.title).toBe('Draft Job');
+      expect(result.description).toBeNull();
+      expect(result.status).toBe(JobStatus.DRAFT);
+    });
+
+    it('rejects draft submission with 400 and fields list when incomplete', async () => {
+      const incompleteDraft: Job = {
+        ...publishedJob,
+        status: JobStatus.DRAFT,
+        description: null,
+        requirements: null,
+        skills: [],
+      };
+      jobRepo.findOne.mockResolvedValue(incompleteDraft);
+
+      await expect(service.submitMine(user, publishedJob.id)).rejects.toMatchObject({
+        response: expect.objectContaining({
+          code: ERROR_CODES.JOB.DRAFT_INCOMPLETE,
+          fields: expect.arrayContaining(['description', 'requirements', 'skills']),
+        }),
+      });
+    });
+
+    it('supports partial updates via PATCH', async () => {
+      const job = { ...publishedJob, status: JobStatus.DRAFT, description: 'Old Description' };
+      jobRepo.findOne.mockResolvedValue(job);
+
+      const result = await service.updateMine(user, publishedJob.id, { title: 'New Title' });
+
+      expect(jobRepo.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'New Title',
+          description: 'Old Description',
+        }),
+      );
+    });
+
+    it('clones all fields from the published job when creating a revision draft', async () => {
+      const published = { ...publishedJob, status: JobStatus.PUBLISHED, applicationCount: 5 };
+      jobRepo.findOne.mockResolvedValue(published);
+      revisionRepo.count.mockResolvedValue(0);
+
+      await service.createRevision(user, published.id, { changeSummary: 'Minor tweaks' } as any);
+
+      expect(revisionRepo.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: published.title,
+          description: published.description,
+          requirements: published.requirements,
+          skills: published.skills,
+          changeSummary: 'Minor tweaks',
+          status: JobRevisionStatus.DRAFT,
+        }),
+      );
+    });
   });
 });

@@ -67,7 +67,11 @@ import {
   JobModerationTargetType,
 } from './entities/job.enum';
 import { JobEventPublisher } from './events/job-event.publisher';
-import { JobModerationResult, JobModerationService } from './moderation/job-moderation.service';
+import {
+  JobModerationInput,
+  JobModerationResult,
+  JobModerationService,
+} from './moderation/job-moderation.service';
 import { JobSearchTextService } from './search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER, JobSearchProvider, Paginated } from './search/job-search.types';
 import { DocumentClientService } from '../document-client/document-client.service';
@@ -388,6 +392,13 @@ export class JobService {
     this.assertJobInput(dto);
     const job = await this.findCompanyJob(user, id);
 
+    if (![JobStatus.DRAFT, JobStatus.PUBLISHED].includes(job.status)) {
+      throw new ConflictException({
+        code: ERROR_CODES.JOB.JOB_NOT_EDITABLE,
+        message: 'Only draft or published jobs can be edited by recruiters',
+      });
+    }
+
     if (job.status === JobStatus.PUBLISHED && this.hasMajorChange(job, dto)) {
       if (job.applicationCount > 0) {
         this.logger.warn(
@@ -405,18 +416,19 @@ export class JobService {
       });
     }
 
-    if (![JobStatus.DRAFT, JobStatus.PUBLISHED].includes(job.status)) {
-      throw new ConflictException({
-        code: ERROR_CODES.JOB.JOB_NOT_EDITABLE,
-        message: 'Only draft or published jobs can be edited by recruiters',
-      });
+    const hasSearchFieldChanges =
+      (dto.title !== undefined && dto.title?.trim() !== job.title) ||
+      (dto.description !== undefined && dto.description?.trim() !== job.description) ||
+      (dto.requirements !== undefined && dto.requirements?.trim() !== job.requirements) ||
+      (dto.skills !== undefined && JSON.stringify(this.searchTextService.normalizeSkills(dto.skills)) !== JSON.stringify(job.skills)) ||
+      (dto.location !== undefined && dto.location?.trim() !== job.location);
+
+    this.applyPartialInput(job, dto);
+
+    if (hasSearchFieldChanges) {
+      Object.assign(job, this.searchTextService.buildSearchFields(job, job.companyName ?? ''));
     }
 
-    Object.assign(
-      job,
-      this.jobInput(dto),
-      this.searchTextService.buildSearchFields(dto, job.companyName),
-    );
     const updated = await this.jobRepo.save(job);
     await this.invalidatePublicCache();
     this.logger.log(`Job updated jobId=${updated.id} status=${updated.status} userId=${user.id}`);
@@ -432,8 +444,25 @@ export class JobService {
       });
     }
 
+    const missingFields: string[] = [];
+    if (!job.description?.trim()) missingFields.push('description');
+    if (!job.requirements?.trim()) missingFields.push('requirements');
+    if (!job.skills || job.skills.length === 0) missingFields.push('skills');
+    if (!job.employmentType) missingFields.push('employmentType');
+    if (!job.workingType) missingFields.push('workingType');
+    if (!job.experienceLevel) missingFields.push('experienceLevel');
+    if (!job.location?.trim()) missingFields.push('location');
+
+    if (missingFields.length > 0) {
+      throw new BadRequestException({
+        code: ERROR_CODES.JOB.DRAFT_INCOMPLETE,
+        message: 'Job draft is incomplete',
+        fields: missingFields,
+      });
+    }
+
     const company = await this.companySnapshotService.getPostingSnapshot(user);
-    const moderation = this.moderationService.moderate(job, company);
+    const moderation = this.moderationService.moderate(job as unknown as JobModerationInput, company);
     const updated = await this.dataSource.transaction(async (manager) => {
       Object.assign(job, {
         companyName: company.companyName,
@@ -485,22 +514,41 @@ export class JobService {
     }
     await this.assertNoActiveRevision(job.id);
 
-    const revision = await this.revisionRepo.save(
-      this.revisionRepo.create({
-        ...this.revisionInput(dto),
-        jobId: job.id,
-        companyId: job.companyId,
-        createdByUserId: user.id,
-        status: JobRevisionStatus.DRAFT,
-        moderationReasons: [],
-        moderationMatchedRules: [],
-        deletedAt: null,
-      }),
-    );
+    const revision = this.revisionRepo.create({
+      title: job.title,
+      description: job.description,
+      requirements: job.requirements,
+      skills: job.skills,
+      benefits: job.benefits,
+      categoryId: job.categoryId,
+      employmentType: job.employmentType,
+      workingType: job.workingType,
+      experienceLevel: job.experienceLevel,
+      location: job.location,
+      salaryMin: job.salaryMin,
+      salaryMax: job.salaryMax,
+      salaryCurrency: job.salaryCurrency,
+      isSalaryVisible: job.isSalaryVisible,
+      deadline: job.deadline,
+      numberOfOpenings: job.numberOfOpenings,
+      changeSummary: dto.changeSummary?.trim() || null,
+
+      jobId: job.id,
+      companyId: job.companyId,
+      createdByUserId: user.id,
+      status: JobRevisionStatus.DRAFT,
+      moderationReasons: [],
+      moderationMatchedRules: [],
+      deletedAt: null,
+    });
+
+    this.applyPartialInput(revision, dto);
+
+    const saved = await this.revisionRepo.save(revision);
     this.logger.log(
-      `Job revision draft created revisionId=${revision.id} jobId=${job.id} userId=${user.id}`,
+      `Job revision draft created revisionId=${saved.id} jobId=${job.id} userId=${user.id}`,
     );
-    return this.mapRevision(revision);
+    return this.mapRevision(saved);
   }
 
   async listRevisions(
@@ -552,7 +600,10 @@ export class JobService {
         message: 'Only draft revisions can be edited',
       });
     }
-    Object.assign(revision, this.revisionInput(dto));
+    this.applyPartialInput(revision, dto);
+    if (dto.changeSummary !== undefined) {
+      revision.changeSummary = dto.changeSummary?.trim() || null;
+    }
     const saved = await this.revisionRepo.save(revision);
     this.logger.log(`Job revision updated revisionId=${saved.id} jobId=${jobId} userId=${user.id}`);
     return this.mapRevision(saved);
@@ -572,8 +623,25 @@ export class JobService {
       });
     }
 
+    const missingFields: string[] = [];
+    if (!revision.description?.trim()) missingFields.push('description');
+    if (!revision.requirements?.trim()) missingFields.push('requirements');
+    if (!revision.skills || revision.skills.length === 0) missingFields.push('skills');
+    if (!revision.employmentType) missingFields.push('employmentType');
+    if (!revision.workingType) missingFields.push('workingType');
+    if (!revision.experienceLevel) missingFields.push('experienceLevel');
+    if (!revision.location?.trim()) missingFields.push('location');
+
+    if (missingFields.length > 0) {
+      throw new BadRequestException({
+        code: ERROR_CODES.JOB.DRAFT_INCOMPLETE,
+        message: 'Job revision draft is incomplete',
+        fields: missingFields,
+      });
+    }
+
     const company = await this.companySnapshotService.getPostingSnapshot(user);
-    const moderation = this.moderationService.moderate(revision, company);
+    const moderation = this.moderationService.moderate(revision as unknown as JobModerationInput, company);
     const updated = await this.dataSource.transaction(async (manager) => {
       Object.assign(revision, {
         status: this.revisionStatusForDecision(moderation.decision),
@@ -1418,21 +1486,21 @@ export class JobService {
   }
 
   private hasMajorChange(job: Job, dto: UpdateJobDto): boolean {
-    return MAJOR_FIELDS.some((field) => (job[field] ?? null) !== (dto[field] ?? null));
+    return MAJOR_FIELDS.some((field) => dto[field] !== undefined && (job[field] ?? null) !== (dto[field] ?? null));
   }
 
   private jobInput(dto: UpdateJobDto | JobRevision) {
     return {
-      title: dto.title.trim(),
-      description: dto.description.trim(),
-      requirements: dto.requirements.trim(),
+      title: dto.title?.trim() || '',
+      description: dto.description?.trim() || null,
+      requirements: dto.requirements?.trim() || null,
       skills: this.searchTextService.normalizeSkills(dto.skills),
       benefits: dto.benefits?.trim() || null,
       categoryId: dto.categoryId ?? null,
-      employmentType: dto.employmentType,
-      workingType: dto.workingType,
-      experienceLevel: dto.experienceLevel,
-      location: dto.location.trim(),
+      employmentType: dto.employmentType ?? null,
+      workingType: dto.workingType ?? null,
+      experienceLevel: dto.experienceLevel ?? null,
+      location: dto.location?.trim() || null,
       salaryMin: dto.salaryMin ?? null,
       salaryMax: dto.salaryMax ?? null,
       salaryCurrency: (dto.salaryCurrency ?? 'VND').toUpperCase(),
@@ -1447,6 +1515,29 @@ export class JobService {
       ...this.jobInput(dto),
       changeSummary: dto.changeSummary?.trim() || null,
     };
+  }
+
+  private applyPartialInput(job: Job | JobRevision, dto: UpdateJobDto | UpdateJobRevisionDto) {
+    if (dto.title !== undefined) job.title = dto.title?.trim() || '';
+    if (dto.description !== undefined) job.description = dto.description?.trim() || null;
+    if (dto.requirements !== undefined) job.requirements = dto.requirements?.trim() || null;
+    if (dto.skills !== undefined) {
+      job.skills = this.searchTextService.normalizeSkills(dto.skills);
+    }
+    if (dto.benefits !== undefined) job.benefits = dto.benefits?.trim() || null;
+    if (dto.categoryId !== undefined) job.categoryId = dto.categoryId ?? null;
+    if (dto.employmentType !== undefined) job.employmentType = dto.employmentType ?? null;
+    if (dto.workingType !== undefined) job.workingType = dto.workingType ?? null;
+    if (dto.experienceLevel !== undefined) job.experienceLevel = dto.experienceLevel ?? null;
+    if (dto.location !== undefined) job.location = dto.location?.trim() || null;
+    if (dto.salaryMin !== undefined) job.salaryMin = dto.salaryMin ?? null;
+    if (dto.salaryMax !== undefined) job.salaryMax = dto.salaryMax ?? null;
+    if (dto.salaryCurrency !== undefined) {
+      job.salaryCurrency = (dto.salaryCurrency ?? 'VND').toUpperCase();
+    }
+    if (dto.isSalaryVisible !== undefined) job.isSalaryVisible = dto.isSalaryVisible ?? true;
+    if (dto.deadline !== undefined) job.deadline = dto.deadline ?? null;
+    if (dto.numberOfOpenings !== undefined) job.numberOfOpenings = dto.numberOfOpenings ?? null;
   }
 
   private async unpublishJob(job: Job, user: AuthUser, reason?: string): Promise<JobResponseDto> {

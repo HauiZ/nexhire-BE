@@ -68,11 +68,11 @@ export class Job {
   @Column({ name: 'title', type: 'varchar', length: 255 })
   title: string;
 
-  @Column({ name: 'description', type: 'text' })
-  description: string;
+  @Column({ name: 'description', type: 'text', nullable: true })
+  description: string | null;
 
-  @Column({ name: 'requirements', type: 'text' })
-  requirements: string;
+  @Column({ name: 'requirements', type: 'text', nullable: true })
+  requirements: string | null;
 
   @Column({ name: 'skills', type: 'text', array: true, default: () => "'{}'" })
   skills: string[];
@@ -88,27 +88,30 @@ export class Job {
     type: 'enum',
     enum: JobType,
     enumName: 'job_employment_type_enum',
+    nullable: true,
   })
-  employmentType: JobType;
+  employmentType: JobType | null;
 
   @Column({
     name: 'working_type',
     type: 'enum',
     enum: JobWorkingType,
     enumName: 'job_working_type_enum',
+    nullable: true,
   })
-  workingType: JobWorkingType;
+  workingType: JobWorkingType | null;
 
   @Column({
     name: 'experience_level',
     type: 'enum',
     enum: JobExperienceLevel,
     enumName: 'job_experience_level_enum',
+    nullable: true,
   })
-  experienceLevel: JobExperienceLevel;
+  experienceLevel: JobExperienceLevel | null;
 
-  @Column({ name: 'location', type: 'varchar', length: 255 })
-  location: string;
+  @Column({ name: 'location', type: 'varchar', length: 255, nullable: true })
+  location: string | null;
 
   @Column({ name: 'salary_min', type: 'integer', nullable: true })
   salaryMin: number | null;

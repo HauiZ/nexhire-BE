@@ -17,18 +17,18 @@ export class JobSearchTextService {
   ]);
 
   buildSearchFields(
-    job: Pick<
+    job: Partial<Pick<
       UpdateJobDto | JobRevision,
       'title' | 'description' | 'requirements' | 'skills' | 'location'
-    >,
+    >>,
     companyName: string | null,
   ) {
-    const searchTitle = this.normalize(job.title);
-    const searchDescription = this.normalize(job.description);
-    const searchRequirements = this.normalize(job.requirements);
+    const searchTitle = this.normalize(job.title ?? '');
+    const searchDescription = this.normalize(job.description ?? '');
+    const searchRequirements = this.normalize(job.requirements ?? '');
     const searchSkills = this.normalize(this.normalizeSkills(job.skills).join(' '));
     const searchCompanyName = this.normalize(companyName ?? '');
-    const searchLocation = this.normalize(job.location);
+    const searchLocation = this.normalize(job.location ?? '');
     return {
       searchTitle,
       searchDescription,
@@ -49,9 +49,12 @@ export class JobSearchTextService {
     };
   }
 
-  normalizeSkills(skills: string[]): string[] {
+  normalizeSkills(skills: string[] | undefined | null): string[] {
+    if (!skills || !Array.isArray(skills)) {
+      return [];
+    }
     return Array.from(
-      new Set(skills.map((skill) => skill.trim()).filter((skill) => skill.length > 0)),
+      new Set(skills.map((skill) => skill?.trim()).filter((skill) => skill && skill.length > 0)),
     );
   }
 
