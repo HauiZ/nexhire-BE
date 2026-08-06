@@ -225,25 +225,25 @@ This diagram details the Event-Driven architecture showing how microservices pub
         </mxCell>
 
         <!-- RabbitMQ Event Bus Swimlane -->
-        <mxCell id="cRabbitMQ" value="RabbitMQ Exchange &amp; Routing Keys" style="swimlane;html=1;startSize=30;rounded=1;arcSize=10;strokeColor=#FF8C00;fillColor=#FFFDF5;fontColor=#D97706;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="cRabbitMQ" value="Domain Events (RabbitMQ)" style="swimlane;html=1;startSize=30;rounded=1;arcSize=10;strokeColor=#FF8C00;fillColor=#FFFDF5;fontColor=#D97706;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="440" y="120" width="340" height="870" as="geometry" />
         </mxCell>
-        <mxCell id="keyAuth" value="auth.verification-email&lt;br&gt;auth.password-reset" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
+        <mxCell id="keyAuth" value="Xác thực email người dùng&lt;br&gt;Đặt lại mật khẩu" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
           <mxGeometry x="30" y="60" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="keyCandidate" value="candidate.profile-snapshot-changed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
+        <mxCell id="keyCandidate" value="Thông tin ứng viên thay đổi&lt;br&gt;→ đồng bộ snapshot hồ sơ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
           <mxGeometry x="30" y="200" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="keyCompany" value="company.posting-snapshot-changed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
+        <mxCell id="keyCompany" value="Thông tin công ty thay đổi&lt;br&gt;→ đồng bộ snapshot tin tuyển dụng" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
           <mxGeometry x="30" y="340" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="keyJob" value="job.published / job.closed&lt;br&gt;job.unpublished / job.review-trust-signal&lt;br&gt;job.revision-approved" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
+        <mxCell id="keyJob" value="Tin đăng / Tin gỡ / Tin đóng&lt;br&gt;Kiểm duyệt nội dung tin tuyển dụng" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
           <mxGeometry x="30" y="490" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="keyApplication" value="application.submitted&lt;br&gt;application.stage-changed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
+        <mxCell id="keyApplication" value="Ứng viên nộp hồ sơ&lt;br&gt;Cập nhật trạng thái hồ sơ ứng tuyển" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
           <mxGeometry x="30" y="640" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="keyCvParsing" value="cv.parse-requested&lt;br&gt;cv.parse-completed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
+        <mxCell id="keyCvParsing" value="Yêu cầu phân tích CV bằng AI&lt;br&gt;Phân tích hoàn tất → cập nhật profile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#FFB300;fontColor=#5D4037;" vertex="1" parent="cRabbitMQ">
           <mxGeometry x="30" y="780" width="280" height="60" as="geometry" />
         </mxCell>
 
@@ -1084,15 +1084,19 @@ A collection of independent services that handle the core business domain of Nex
 - **Notification Service (`notification-service`)**: Dispatches email, SMS, or web push alerts based on system events.
 
 ### 5. Event Bus (RabbitMQ)
-- Enables asynchronous, decoupled event-driven communication between services.
-- **Publishers & routing keys:**
-  - Auth Service → `auth.verification-email`, `auth.password-reset`
-  - Candidate Service → `candidate.profile-snapshot-changed`
-  - Company Service → `company.posting-snapshot-changed`
-  - Job Service → `job.published`, `job.closed`, `job.unpublished`, `job.review-trust-signal`, `job.revision-approved`
-  - Application Service → `application.submitted`, `application.stage-changed`
-  - CV Parsing Service → `cv.parse-requested`, `cv.parse-completed`
-- Interested microservices subscribe to these events asynchronously to update local state snapshots or trigger side-effects (e.g., matching or dispatching notifications).
+Hệ thống sử dụng **kiến trúc hướng sự kiện (Event-Driven Architecture)** thông qua RabbitMQ để đảm bảo các service giao tiếp bất đồng bộ, tách biệt hoàn toàn. Mỗi sự kiện đại diện cho một thay đổi nghiệp vụ đã xảy ra:
+
+| Sự kiện nghiệp vụ | Publisher | Consumers | Mục đích |
+|---|---|---|---|
+| Xác thực email / Đặt lại mật khẩu | Auth | Notification | Gửi email bất đồng bộ, tách khỏi luồng xác thực |
+| Thông tin ứng viên thay đổi | Candidate | Application | Đồng bộ **snapshot** — tránh truy vấn chéo service |
+| Thông tin công ty thay đổi | Company | Job | Cập nhật logo/tên trên toàn bộ tin tuyển dụng |
+| Tin đăng / Tin gỡ / Tin đóng | Job | Notification, Matching, Application | Thông báo ứng viên; kích hoạt gợi ý tự động |
+| Kiểm duyệt nội dung tin | Job | Company | Cập nhật điểm tin cậy nhà tuyển dụng |
+| Ứng viên nộp hồ sơ | Application | Matching, Notification, Job | Tính điểm phù hợp; thông báo NTD; cập nhật số lượng |
+| Cập nhật trạng thái hồ sơ | Application | Notification | Thông báo ứng viên về tiến trình xét duyệt |
+| Yêu cầu phân tích CV bằng AI | CV Parsing | *(nội bộ)* | Khởi động pipeline AI bất đồng bộ, không chặn UI |
+| Phân tích CV hoàn tất | CV Parsing | Candidate | Cập nhật hồ sơ ứng viên với dữ liệu có cấu trúc |
 
 ### 8. External Providers
 - **Google OAuth 2.0**: Used by the Auth Service to support social login via Google accounts.
