@@ -143,6 +143,16 @@ export class ProxyController {
     return this.proxy.forward('candidateService', req, res);
   }
 
+  @All('admin/cv-template-presets/*')
+  adminCvTemplatePresets(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('candidateService', req, res);
+  }
+
+  @All('admin/cv-template-presets')
+  adminCvTemplatePresetsRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('candidateService', req, res);
+  }
+
   @All('applications/*')
   applications(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('applicationService', req, res);

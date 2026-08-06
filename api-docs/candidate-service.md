@@ -650,6 +650,87 @@ Errors:
 | 404    | `CV_TEMPLATE_PRESET.NOT_FOUND` | Published preset not found |
 | 500    | `COMMON.INTERNAL_ERROR`        | Unexpected server bug     |
 
+### Admin CV template presets
+
+Auth: required, role `ADMIN`.
+
+These endpoints manage the same `cv_template_presets` records used by public
+`/api/v1/cv-template-presets`. Public pages only read `PUBLISHED` and
+non-deleted presets; archived presets are soft-deleted and remain visible to
+admin list/detail endpoints.
+
+#### `GET /api/v1/admin/cv-template-presets`
+
+Query:
+
+| Field           | Type    | Default | Note                                  |
+| --------------- | ------- | ------- | ------------------------------------- |
+| `page`          | number  | `1`     | Pagination page                       |
+| `limit`         | number  | `20`    | Max `100`                             |
+| `search`        | string  | -       | Searches key, localized name, description |
+| `status`        | enum    | `all`   | `all`, `DRAFT`, `PUBLISHED`, `ARCHIVED` |
+| `category`      | enum    | `all`   | `all`, `it`, `marketing`, `sales`, `hr` |
+| `includeCanvas` | boolean | `false` | Include full canvas JSON in list rows |
+
+#### `POST /api/v1/admin/cv-template-presets`
+
+Creates a draft preset. Admins only need `defaultName` and
+`defaultDescription`; missing `vi`, `en`, or `ja` localized fields are filled
+from those default values.
+
+Request body:
+
+```json
+{
+  "key": "professional",
+  "defaultName": "Professional",
+  "defaultDescription": "A polished one-column CV layout.",
+  "name": {
+    "vi": "Chuyên nghiệp"
+  },
+  "description": {
+    "vi": "Bố cục CV một cột rõ ràng."
+  },
+  "categories": ["it", "marketing"],
+  "accent": "#2563eb",
+  "thumbnailUrl": "https://cdn.example.com/cv-template.png",
+  "sortOrder": 10,
+  "canvas": {
+    "id": "template-professional",
+    "name": "Professional",
+    "pages": [
+      {
+        "id": "template-professional-page-1",
+        "elements": []
+      }
+    ]
+  }
+}
+```
+
+Canvas validation is intentionally light for phase 1: `canvas` must be an
+object with a non-empty `pages` array, and each page needs `id` plus an
+`elements` array.
+
+#### Admin actions
+
+| Method | Path                                      | Behavior                        |
+| ------ | ----------------------------------------- | ------------------------------- |
+| `GET`  | `/api/v1/admin/cv-template-presets/:id`   | Detail with full canvas         |
+| `PATCH` | `/api/v1/admin/cv-template-presets/:id`  | Update metadata, categories, thumbnail, canvas, sort order |
+| `POST` | `/api/v1/admin/cv-template-presets/:id/publish` | Validate canvas and publish |
+| `POST` | `/api/v1/admin/cv-template-presets/:id/archive` | Mark `ARCHIVED` and soft delete |
+| `POST` | `/api/v1/admin/cv-template-presets/:id/restore` | Restore as `DRAFT` |
+| `PATCH` | `/api/v1/admin/cv-template-presets/sort-order` | Bulk update sort order |
+
+Errors:
+
+| Status | Code                              | Meaning                      |
+| ------ | --------------------------------- | ---------------------------- |
+| 400    | `CV_TEMPLATE_PRESET.INVALID_CANVAS` | Canvas JSON is not usable   |
+| 404    | `CV_TEMPLATE_PRESET.NOT_FOUND`    | Preset not found             |
+| 409    | `CV_TEMPLATE_PRESET.KEY_CONFLICT` | `key` already exists         |
+
 ### `GET /api/v1/cv-templates/options`
 
 Summary: Get supported template keys and fixed CV section keys.
