@@ -19,7 +19,10 @@ export class UploadCvDto {
   @MaxLength(255)
   title?: string;
 
-  @ApiPropertyOptional({ example: true })
+  @ApiPropertyOptional({
+    example: false,
+    description: 'Deprecated. Upload never marks a CV as default.',
+  })
   @IsOptional()
   @Transform(({ value }) => toOptionalBoolean(value))
   @IsBoolean()

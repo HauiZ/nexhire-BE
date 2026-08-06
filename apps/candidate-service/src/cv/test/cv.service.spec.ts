@@ -138,7 +138,7 @@ describe('CvService', () => {
     expect(cvEventPublisher.publishCvUploaded).not.toHaveBeenCalled();
   });
 
-  it('marks a CV as default only when explicitly requested', async () => {
+  it('never marks a CV as default from upload, even when default is requested', async () => {
     const result = await service.uploadCv(
       { id: 'user-1', role: UserRole.CANDIDATE },
       { isDefault: true },
@@ -150,12 +150,9 @@ describe('CvService', () => {
       },
     );
 
-    expect(result.isDefault).toBe(true);
+    expect(result.isDefault).toBe(false);
     expect(result.parseStatus).toBe(CandidateCvParseStatus.NOT_PARSED);
-    expect(cvRepo.update).toHaveBeenCalledWith(
-      { candidateId: 'candidate-1', isDefault: true, deletedAt: expect.any(Object) },
-      { isDefault: false },
-    );
+    expect(cvRepo.update).not.toHaveBeenCalled();
     expect(cvEventPublisher.publishCvUploaded).not.toHaveBeenCalled();
   });
 

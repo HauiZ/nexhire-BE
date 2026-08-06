@@ -61,21 +61,12 @@ export class CvService {
       'CV',
       file,
     );
-    const shouldSetDefault = dto.isDefault === true;
-
-    if (shouldSetDefault) {
-      await this.cvRepo.update(
-        { candidateId: profile.id, isDefault: true, deletedAt: IsNull() },
-        { isDefault: false },
-      );
-    }
-
     const cv = await this.cvRepo.save(
       this.cvRepo.create({
         candidateId: profile.id,
         documentId: document.id,
         title: this.resolveCvTitle(dto.title, file.originalname),
-        isDefault: shouldSetDefault,
+        isDefault: false,
         parseStatus: CandidateCvParseStatus.NOT_PARSED,
         source: CandidateCvSource.UPLOADED,
         sourceTemplateId: null,

@@ -59,7 +59,8 @@ export class CvController {
         },
         isDefault: {
           type: 'boolean',
-          example: true,
+          example: false,
+          description: 'Deprecated. Upload never marks a CV as default.',
         },
         parse: {
           type: 'boolean',
