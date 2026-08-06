@@ -606,6 +606,23 @@ erDiagram
         timestamptz deletedAt null
     }
 
+    cv_template_presets {
+        uuid id PK
+        varchar key not_null
+        jsonb nameI18n not_null
+        jsonb descriptionI18n not_null
+        array categories not_null
+        varchar accent null
+        varchar thumbnailUrl null
+        jsonb canvas not_null
+        enum status not_null
+        int sortOrder not_null
+        int version not_null
+        timestamptz createdAt not_null
+        timestamptz updatedAt not_null
+        timestamptz deletedAt null
+    }
+
     saved_jobs {
         uuid id PK
         uuid candidateId not_null
