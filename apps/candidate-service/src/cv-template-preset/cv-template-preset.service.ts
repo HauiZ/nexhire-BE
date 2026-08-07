@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ERROR_CODES, paginated } from '@nexhire/shared';
-import { Brackets, Repository } from 'typeorm';
+import { Brackets, DataSource, Repository } from 'typeorm';
 import {
   AdminCvTemplatePresetQueryDto,
   AdminCvTemplatePresetSortOrderDto,
@@ -30,6 +30,7 @@ const LOCALES: Array<keyof CvTemplatePresetI18n> = ['vi', 'en', 'ja'];
 @Injectable()
 export class CvTemplatePresetService {
   constructor(
+    private readonly dataSource: DataSource,
     @InjectRepository(CvTemplatePreset)
     private readonly presetRepo: Repository<CvTemplatePreset>,
   ) {}
@@ -182,7 +183,12 @@ export class CvTemplatePresetService {
 
     if (dto.defaultName !== undefined || dto.name !== undefined) {
       const fallbackName = dto.defaultName ?? this.firstLocaleValue(preset.nameI18n);
-      preset.nameI18n = this.normalizeI18n(fallbackName, dto.name, preset.nameI18n);
+      preset.nameI18n = this.normalizeI18n(
+        fallbackName,
+        dto.name,
+        preset.nameI18n,
+        dto.defaultName !== undefined,
+      );
     }
 
     if (dto.defaultDescription !== undefined || dto.description !== undefined) {
@@ -193,6 +199,7 @@ export class CvTemplatePresetService {
         fallbackDescription,
         dto.description,
         preset.descriptionI18n,
+        dto.defaultDescription !== undefined,
       );
     }
 
@@ -273,13 +280,27 @@ export class CvTemplatePresetService {
   async updateSortOrder(
     dto: AdminCvTemplatePresetSortOrderDto,
   ): Promise<AdminCvTemplatePresetResponseDto[]> {
-    const presets = await Promise.all(
-      dto.items.map(async (item) => {
-        const preset = await this.findAdminPresetOrThrow(item.id);
+    const presets = await this.dataSource.transaction(async (manager) => {
+      const updated: CvTemplatePreset[] = [];
+
+      for (const item of dto.items) {
+        const preset = await manager.findOne(CvTemplatePreset, {
+          where: { id: item.id },
+          withDeleted: true,
+        });
+        if (!preset) {
+          throw new NotFoundException({
+            code: ERROR_CODES.CV_TEMPLATE_PRESET.NOT_FOUND,
+            message: 'CV template preset not found',
+          });
+        }
+
         preset.sortOrder = item.sortOrder;
-        return this.presetRepo.save(preset);
-      }),
-    );
+        updated.push(preset);
+      }
+
+      return manager.save(CvTemplatePreset, updated);
+    });
     presets.sort((a, b) => a.sortOrder - b.sortOrder || a.createdAt.getTime() - b.createdAt.getTime());
     return presets.map((preset) => this.mapAdminPreset(preset, true));
   }
@@ -353,12 +374,23 @@ export class CvTemplatePresetService {
     fallback: string | undefined,
     incoming: Partial<CvTemplatePresetI18n> | undefined,
     previous: CvTemplatePresetI18n | undefined,
+    replacePreviousWithFallback = false,
   ): CvTemplatePresetI18n {
     const resolvedFallback = fallback?.trim() || this.firstLocaleValue(previous) || '';
+    const resolveLocale = (locale: keyof CvTemplatePresetI18n) => {
+      const value = this.normalizeLocaleValue(incoming?.[locale]);
+      if (value && (!replacePreviousWithFallback || value !== previous?.[locale])) {
+        return value;
+      }
+      return replacePreviousWithFallback
+        ? resolvedFallback
+        : (previous?.[locale] ?? resolvedFallback);
+    };
+
     return {
-      vi: this.normalizeLocaleValue(incoming?.vi) ?? previous?.vi ?? resolvedFallback,
-      en: this.normalizeLocaleValue(incoming?.en) ?? previous?.en ?? resolvedFallback,
-      ja: this.normalizeLocaleValue(incoming?.ja) ?? previous?.ja ?? resolvedFallback,
+      vi: resolveLocale('vi'),
+      en: resolveLocale('en'),
+      ja: resolveLocale('ja'),
     };
   }
 

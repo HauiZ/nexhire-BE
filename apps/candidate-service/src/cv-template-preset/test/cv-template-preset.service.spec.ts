@@ -1,8 +1,9 @@
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import {
   AdminCvTemplatePresetQueryDto,
   CreateAdminCvTemplatePresetDto,
+  UpdateAdminCvTemplatePresetDto,
 } from '../dto/admin-cv-template-preset-request.dto';
 import { ListCvTemplatePresetsQueryDto } from '../dto/cv-template-preset-query.dto';
 import { CvTemplatePresetService } from '../cv-template-preset.service';
@@ -19,6 +20,10 @@ type MockRepo = {
   restore: jest.Mock;
   save: jest.Mock;
   softDelete: jest.Mock;
+};
+
+type MockDataSource = {
+  transaction: jest.Mock;
 };
 
 type MockQueryBuilder = {
@@ -42,6 +47,12 @@ function createRepo(): MockRepo {
     restore: jest.fn(),
     save: jest.fn((entity) => Promise.resolve(entity)),
     softDelete: jest.fn(),
+  };
+}
+
+function createDataSource(): MockDataSource {
+  return {
+    transaction: jest.fn(),
   };
 }
 
@@ -111,10 +122,15 @@ function createPreset(overrides: Partial<CvTemplatePreset> = {}): CvTemplatePres
 describe('CvTemplatePresetService', () => {
   let service: CvTemplatePresetService;
   let presetRepo: MockRepo;
+  let dataSource: MockDataSource;
 
   beforeEach(() => {
     presetRepo = createRepo();
-    service = new CvTemplatePresetService(presetRepo as unknown as Repository<CvTemplatePreset>);
+    dataSource = createDataSource();
+    service = new CvTemplatePresetService(
+      dataSource as unknown as DataSource,
+      presetRepo as unknown as Repository<CvTemplatePreset>,
+    );
   });
 
   it('lists published presets sorted for public catalog', async () => {
@@ -269,6 +285,66 @@ describe('CvTemplatePresetService', () => {
         canvas: createValidCanvas(),
       } as CreateAdminCvTemplatePresetDto),
     ).rejects.toBeInstanceOf(ConflictException);
+  });
+
+  it('replaces all missing locales when the default name or description changes', async () => {
+    const preset = createPreset();
+    const qb = createQueryBuilder({
+      getOne: jest.fn().mockResolvedValue(preset),
+    });
+    presetRepo.createQueryBuilder.mockReturnValue(qb);
+
+    await service.updateAdmin(preset.id, {
+      defaultName: 'Tên mới',
+      defaultDescription: 'Mô tả mới',
+      name: {
+        vi: preset.nameI18n.vi,
+        en: preset.nameI18n.en,
+        ja: 'Tên tiếng Nhật mới',
+      },
+      description: {
+        vi: preset.descriptionI18n.vi,
+        en: preset.descriptionI18n.en,
+        ja: 'Mô tả tiếng Nhật mới',
+      },
+    } as UpdateAdminCvTemplatePresetDto);
+
+    expect(preset.nameI18n).toEqual({
+      vi: 'Tên mới',
+      en: 'Tên mới',
+      ja: 'Tên tiếng Nhật mới',
+    });
+    expect(preset.descriptionI18n).toEqual({
+      vi: 'Mô tả mới',
+      en: 'Mô tả mới',
+      ja: 'Mô tả tiếng Nhật mới',
+    });
+  });
+
+  it('updates sort order in one transaction', async () => {
+    const first = createPreset({ id: '0bafc70d-8a1e-4e56-83f6-cc0d16bbf895' });
+    const second = createPreset({
+      id: '1bafc70d-8a1e-4e56-83f6-cc0d16bbf896',
+      key: 'minimal',
+      sortOrder: 20,
+    });
+    const manager = {
+      findOne: jest.fn().mockResolvedValueOnce(first).mockResolvedValueOnce(second),
+      save: jest.fn().mockResolvedValue([first, second]),
+    };
+    dataSource.transaction.mockImplementation(async (callback) => callback(manager));
+
+    const result = await service.updateSortOrder({
+      items: [
+        { id: first.id, sortOrder: 20 },
+        { id: second.id, sortOrder: 10 },
+      ],
+    });
+
+    expect(dataSource.transaction).toHaveBeenCalledTimes(1);
+    expect(manager.save).toHaveBeenCalledWith(CvTemplatePreset, [first, second]);
+    expect(presetRepo.save).not.toHaveBeenCalled();
+    expect(result.map((preset) => preset.id)).toEqual([second.id, first.id]);
   });
 
   it('archives presets by status and soft delete', async () => {

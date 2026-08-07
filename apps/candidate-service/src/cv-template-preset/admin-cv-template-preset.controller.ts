@@ -58,6 +58,17 @@ export class AdminCvTemplatePresetController {
     return this.cvTemplatePresetService.createAdmin(dto);
   }
 
+  @Patch('sort-order')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Bulk update preset sort order' })
+  @ApiSuccessResponse(AdminCvTemplatePresetResponseDto, { isArray: true })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500] })
+  updateSortOrder(
+    @Body() dto: AdminCvTemplatePresetSortOrderDto,
+  ): Promise<AdminCvTemplatePresetResponseDto[]> {
+    return this.cvTemplatePresetService.updateSortOrder(dto);
+  }
+
   @Patch(':id')
   @ApiOperation({ summary: 'Update a CV template preset draft or published preset' })
   @ApiSuccessResponse(AdminCvTemplatePresetResponseDto)
@@ -100,16 +111,5 @@ export class AdminCvTemplatePresetController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<AdminCvTemplatePresetResponseDto> {
     return this.cvTemplatePresetService.restoreAdmin(id);
-  }
-
-  @Patch('sort-order')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Bulk update preset sort order' })
-  @ApiSuccessResponse(AdminCvTemplatePresetResponseDto, { isArray: true })
-  @ApiErrorResponses({ statuses: [400, 401, 403, 422, 500] })
-  updateSortOrder(
-    @Body() dto: AdminCvTemplatePresetSortOrderDto,
-  ): Promise<AdminCvTemplatePresetResponseDto[]> {
-    return this.cvTemplatePresetService.updateSortOrder(dto);
   }
 }
