@@ -53,6 +53,12 @@ export class JobModerationReview {
   @Column({ name: 'matched_rules', type: 'text', array: true })
   matchedRules: string[];
 
+  @Column({ name: 'moderation_policy_id', type: 'uuid', nullable: true })
+  moderationPolicyId: string | null;
+
+  @Column({ name: 'moderation_policy_version', type: 'integer', nullable: true })
+  moderationPolicyVersion: number | null;
+
   @Column({ name: 'reviewed_by_user_id', type: 'uuid', nullable: true })
   reviewedByUserId: string | null;
 

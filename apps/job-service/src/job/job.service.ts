@@ -420,7 +420,9 @@ export class JobService {
       (dto.title !== undefined && dto.title?.trim() !== job.title) ||
       (dto.description !== undefined && dto.description?.trim() !== job.description) ||
       (dto.requirements !== undefined && dto.requirements?.trim() !== job.requirements) ||
-      (dto.skills !== undefined && JSON.stringify(this.searchTextService.normalizeSkills(dto.skills)) !== JSON.stringify(job.skills)) ||
+      (dto.skills !== undefined &&
+        JSON.stringify(this.searchTextService.normalizeSkills(dto.skills)) !==
+          JSON.stringify(job.skills)) ||
       (dto.location !== undefined && dto.location?.trim() !== job.location);
 
     this.applyPartialInput(job, dto);
@@ -462,7 +464,10 @@ export class JobService {
     }
 
     const company = await this.companySnapshotService.getPostingSnapshot(user);
-    const moderation = this.moderationService.moderate(job as unknown as JobModerationInput, company);
+    const moderation = await this.moderationService.moderate(
+      job as unknown as JobModerationInput,
+      company,
+    );
     const updated = await this.dataSource.transaction(async (manager) => {
       Object.assign(job, {
         companyName: company.companyName,
@@ -478,6 +483,8 @@ export class JobService {
         moderationDecision: moderation.decision,
         moderationReasons: moderation.reasons,
         moderationMatchedRules: moderation.matchedRules,
+        moderationPolicyId: moderation.policyId,
+        moderationPolicyVersion: moderation.policyVersion,
         reviewedByUserId: null,
         reviewedAt: null,
         reviewReason: null,
@@ -641,7 +648,10 @@ export class JobService {
     }
 
     const company = await this.companySnapshotService.getPostingSnapshot(user);
-    const moderation = this.moderationService.moderate(revision as unknown as JobModerationInput, company);
+    const moderation = await this.moderationService.moderate(
+      revision as unknown as JobModerationInput,
+      company,
+    );
     const updated = await this.dataSource.transaction(async (manager) => {
       Object.assign(revision, {
         status: this.revisionStatusForDecision(moderation.decision),
@@ -650,6 +660,8 @@ export class JobService {
         moderationDecision: moderation.decision,
         moderationReasons: moderation.reasons,
         moderationMatchedRules: moderation.matchedRules,
+        moderationPolicyId: moderation.policyId,
+        moderationPolicyVersion: moderation.policyVersion,
       });
       const saved = await manager.save(JobRevision, revision);
       await this.recordModeration(manager.getRepository(JobModerationReview), {
@@ -1486,7 +1498,9 @@ export class JobService {
   }
 
   private hasMajorChange(job: Job, dto: UpdateJobDto): boolean {
-    return MAJOR_FIELDS.some((field) => dto[field] !== undefined && (job[field] ?? null) !== (dto[field] ?? null));
+    return MAJOR_FIELDS.some(
+      (field) => dto[field] !== undefined && (job[field] ?? null) !== (dto[field] ?? null),
+    );
   }
 
   private jobInput(dto: UpdateJobDto | JobRevision) {
@@ -1655,6 +1669,8 @@ export class JobService {
         decision: input.moderation.decision,
         reasons: input.moderation.reasons,
         matchedRules: input.moderation.matchedRules,
+        moderationPolicyId: input.moderation.policyId,
+        moderationPolicyVersion: input.moderation.policyVersion,
       }),
     );
   }
@@ -1814,6 +1830,8 @@ export class JobService {
         decision: job.moderationDecision,
         reasons: job.moderationReasons,
         matchedRules: job.moderationMatchedRules,
+        policyId: job.moderationPolicyId,
+        policyVersion: job.moderationPolicyVersion,
       },
       createdAt: job.createdAt,
       updatedAt: job.updatedAt,
@@ -1921,6 +1939,8 @@ export class JobService {
         decision: revision.moderationDecision,
         reasons: revision.moderationReasons,
         matchedRules: revision.moderationMatchedRules,
+        policyId: revision.moderationPolicyId,
+        policyVersion: revision.moderationPolicyVersion,
       },
       reviewedAt: revision.reviewedAt,
       reviewReason: revision.reviewReason,

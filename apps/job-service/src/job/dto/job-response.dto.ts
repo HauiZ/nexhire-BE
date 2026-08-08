@@ -24,6 +24,12 @@ export class JobModerationSnapshotDto {
 
   @ApiProperty({ type: [String] })
   matchedRules: string[];
+
+  @ApiPropertyOptional({ format: 'uuid', nullable: true })
+  policyId: string | null;
+
+  @ApiPropertyOptional({ example: 1, nullable: true })
+  policyVersion: number | null;
 }
 
 export class DeleteJobResponseDto {

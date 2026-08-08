@@ -78,6 +78,16 @@ export class ProxyController {
     return this.proxy.forward('jobService', req, res);
   }
 
+  @All('admin/job-moderation-policies/*')
+  adminJobModerationPolicies(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
+  }
+
+  @All('admin/job-moderation-policies')
+  adminJobModerationPoliciesRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
+  }
+
   @All('admin/companies/*')
   adminCompanies(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('companyService', req, res);

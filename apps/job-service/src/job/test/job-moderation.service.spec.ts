@@ -5,7 +5,10 @@ import {
   JobWorkingType,
 } from '@nexhire/shared';
 import { CompanyTrustLevel } from '../entities/job.enum';
-import { JobModerationService } from '../moderation/job-moderation.service';
+import {
+  DEFAULT_JOB_MODERATION_POLICY_RULES,
+  JobModerationService,
+} from '../moderation/job-moderation.service';
 
 describe('JobModerationService', () => {
   let service: JobModerationService;
@@ -14,8 +17,8 @@ describe('JobModerationService', () => {
     service = new JobModerationService();
   });
 
-  it('classifies safe content as pending review for manual admin approval', () => {
-    const result = service.moderate(
+  it('classifies safe content as pending review for manual admin approval', async () => {
+    const result = await service.moderate(
       {
         title: 'Backend Developer',
         description:
@@ -39,8 +42,8 @@ describe('JobModerationService', () => {
     expect(result.matchedRules).toEqual([]);
   });
 
-  it('classifies suspicious remote income content as needs review', () => {
-    const result = service.moderate(
+  it('classifies suspicious remote income content as needs review', async () => {
+    const result = await service.moderate(
       {
         title: 'Remote Sales Collaborator',
         description:
@@ -63,8 +66,8 @@ describe('JobModerationService', () => {
     expect(result.matchedRules).toContain('LOW_DESCRIPTION_LENGTH');
   });
 
-  it('classifies upfront payment scam signals as should reject', () => {
-    const result = service.moderate(
+  it('classifies upfront payment scam signals as should reject', async () => {
+    const result = await service.moderate(
       {
         title: 'Cong tac vien online',
         description:
@@ -87,8 +90,8 @@ describe('JobModerationService', () => {
     expect(result.matchedRules).toContain('REMOTE_JOB_WITH_UPFRONT_PAYMENT');
   });
 
-  it('adds risk for low-trust companies without auto-rejecting safe content', () => {
-    const result = service.moderate(
+  it('adds risk for low-trust companies without auto-rejecting safe content', async () => {
+    const result = await service.moderate(
       {
         title: 'Backend Developer',
         description:
@@ -110,5 +113,48 @@ describe('JobModerationService', () => {
     expect(result.decision).toBe(JobModerationDecision.PENDING_REVIEW);
     expect(result.riskScore).toBe(20);
     expect(result.matchedRules).toContain('LOW_COMPANY_TRUST_LEVEL');
+  });
+
+  it('uses the active policy snapshot when one exists', async () => {
+    service = new JobModerationService({
+      findOne: jest.fn().mockResolvedValue({
+        id: '00000000-0000-0000-0000-000000000001',
+        version: 3,
+        rules: {
+          ...DEFAULT_JOB_MODERATION_POLICY_RULES,
+          keywordRules: [
+            {
+              id: 'CUSTOM_POLICY_KEYWORD',
+              keyword: 'manual review phrase',
+              score: 30,
+              reason: 'Custom policy keyword matched',
+              enabled: true,
+            },
+          ],
+        },
+      }),
+    } as any);
+
+    const result = await service.moderate(
+      {
+        title: 'Backend Developer',
+        description:
+          'This job includes a manual review phrase while still providing enough legitimate detail for candidates.',
+        requirements:
+          'At least one year of experience with Node.js, TypeScript, PostgreSQL, Git, and REST API development.',
+        skills: ['NestJS'],
+        salaryMin: 15_000_000,
+        salaryMax: 25_000_000,
+        experienceLevel: JobExperienceLevel.JUNIOR,
+        workingType: JobWorkingType.HYBRID,
+        employmentType: JobType.FULL_TIME,
+        location: 'Ha Noi, Viet Nam',
+      },
+      { companyTrustLevel: CompanyTrustLevel.MEDIUM },
+    );
+
+    expect(result.policyId).toBe('00000000-0000-0000-0000-000000000001');
+    expect(result.policyVersion).toBe(3);
+    expect(result.matchedRules).toContain('CUSTOM_POLICY_KEYWORD');
   });
 });

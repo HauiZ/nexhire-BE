@@ -268,45 +268,47 @@ Used by `GET /api/v1/categories`.
 
 Used by recruiter/admin endpoints.
 
-| Field                     | Type                                      | Nullable | Note                                                                                           |
-| ------------------------- | ----------------------------------------- | -------- | ---------------------------------------------------------------------------------------------- |
-| `id`                      | uuid                                      | No       | Job id.                                                                                        |
-| `companyId`               | uuid                                      | No       | Owner company id.                                                                              |
-| `companyName`             | string                                    | Yes      | Company snapshot.                                                                              |
-| `companyLogoUrl`          | string                                    | Yes      | Resolved render URL for company logo when possible, otherwise legacy/manual logo URL snapshot. |
-| `companyLogoDocumentId`   | uuid                                      | Yes      | Company logo document id snapshot.                                                             |
-| `title`                   | string                                    | No       | Full job field.                                                                                |
-| `description`             | string                                    | No       | Full job field.                                                                                |
-| `requirements`            | string                                    | No       | Full job field.                                                                                |
-| `skills`                  | string[]                                  | No       | Full job field.                                                                                |
-| `benefits`                | string                                    | Yes      | Full job field.                                                                                |
-| `categoryId`              | uuid                                      | Yes      | Full job field.                                                                                |
-| `employmentType`          | `JobType`                                 | No       | Full job field.                                                                                |
-| `workingType`             | `JobWorkingType`                          | No       | Full job field.                                                                                |
-| `experienceLevel`         | `JobExperienceLevel`                      | No       | Full job field.                                                                                |
-| `location`                | string                                    | No       | Full job field.                                                                                |
-| `salaryMin`               | number                                    | Yes      | Already hidden when `isSalaryVisible = false`.                                                 |
-| `salaryMax`               | number                                    | Yes      | Already hidden when `isSalaryVisible = false`.                                                 |
-| `salaryCurrency`          | string                                    | No       | Example `VND`.                                                                                 |
-| `isSalaryVisible`         | boolean                                   | No       | Salary visibility flag.                                                                        |
-| `deadline`                | ISO date-time                             | Yes      | Deadline.                                                                                      |
-| `numberOfOpenings`        | number                                    | Yes      | Opening count.                                                                                 |
-| `status`                  | `JobStatus`                               | No       | Current lifecycle status.                                                                      |
-| `version`                 | number                                    | No       | Incremented when major revision is approved.                                                   |
-| `applicationCount`        | number                                    | No       | Used to decide revision flow.                                                                  |
-| `publishedAt`             | ISO date-time                             | Yes      | Set after approve.                                                                             |
-| `closedAt`                | ISO date-time                             | Yes      | Set after close.                                                                               |
-| `reviewedAt`              | ISO date-time                             | Yes      | Last admin review timestamp.                                                                   |
-| `reviewReason`            | string                                    | Yes      | Admin reject/close reason.                                                                     |
-| `unpublishedAt`           | ISO date-time                             | Yes      | Set after unpublish/expire.                                                                    |
-| `unpublishReason`         | string                                    | Yes      | Hide reason.                                                                                   |
-| `moderation.riskScore`    | number                                    | Yes      | 0..100 after submit.                                                                           |
-| `moderation.riskLevel`    | `LOW` \| `MEDIUM` \| `HIGH` \| `CRITICAL` | Yes      | Null before submit.                                                                            |
-| `moderation.decision`     | `JobModerationDecision`                   | Yes      | Null before submit.                                                                            |
-| `moderation.reasons`      | string[]                                  | No       | Human-readable moderation reasons.                                                             |
-| `moderation.matchedRules` | string[]                                  | No       | Rule ids for admin UI.                                                                         |
-| `createdAt`               | ISO date-time                             | No       | Created timestamp.                                                                             |
-| `updatedAt`               | ISO date-time                             | No       | Updated timestamp.                                                                             |
+| Field                      | Type                                      | Nullable | Note                                                                                           |
+| -------------------------- | ----------------------------------------- | -------- | ---------------------------------------------------------------------------------------------- |
+| `id`                       | uuid                                      | No       | Job id.                                                                                        |
+| `companyId`                | uuid                                      | No       | Owner company id.                                                                              |
+| `companyName`              | string                                    | Yes      | Company snapshot.                                                                              |
+| `companyLogoUrl`           | string                                    | Yes      | Resolved render URL for company logo when possible, otherwise legacy/manual logo URL snapshot. |
+| `companyLogoDocumentId`    | uuid                                      | Yes      | Company logo document id snapshot.                                                             |
+| `title`                    | string                                    | No       | Full job field.                                                                                |
+| `description`              | string                                    | No       | Full job field.                                                                                |
+| `requirements`             | string                                    | No       | Full job field.                                                                                |
+| `skills`                   | string[]                                  | No       | Full job field.                                                                                |
+| `benefits`                 | string                                    | Yes      | Full job field.                                                                                |
+| `categoryId`               | uuid                                      | Yes      | Full job field.                                                                                |
+| `employmentType`           | `JobType`                                 | No       | Full job field.                                                                                |
+| `workingType`              | `JobWorkingType`                          | No       | Full job field.                                                                                |
+| `experienceLevel`          | `JobExperienceLevel`                      | No       | Full job field.                                                                                |
+| `location`                 | string                                    | No       | Full job field.                                                                                |
+| `salaryMin`                | number                                    | Yes      | Already hidden when `isSalaryVisible = false`.                                                 |
+| `salaryMax`                | number                                    | Yes      | Already hidden when `isSalaryVisible = false`.                                                 |
+| `salaryCurrency`           | string                                    | No       | Example `VND`.                                                                                 |
+| `isSalaryVisible`          | boolean                                   | No       | Salary visibility flag.                                                                        |
+| `deadline`                 | ISO date-time                             | Yes      | Deadline.                                                                                      |
+| `numberOfOpenings`         | number                                    | Yes      | Opening count.                                                                                 |
+| `status`                   | `JobStatus`                               | No       | Current lifecycle status.                                                                      |
+| `version`                  | number                                    | No       | Incremented when major revision is approved.                                                   |
+| `applicationCount`         | number                                    | No       | Used to decide revision flow.                                                                  |
+| `publishedAt`              | ISO date-time                             | Yes      | Set after approve.                                                                             |
+| `closedAt`                 | ISO date-time                             | Yes      | Set after close.                                                                               |
+| `reviewedAt`               | ISO date-time                             | Yes      | Last admin review timestamp.                                                                   |
+| `reviewReason`             | string                                    | Yes      | Admin reject/close reason.                                                                     |
+| `unpublishedAt`            | ISO date-time                             | Yes      | Set after unpublish/expire.                                                                    |
+| `unpublishReason`          | string                                    | Yes      | Hide reason.                                                                                   |
+| `moderation.riskScore`     | number                                    | Yes      | 0..100 after submit.                                                                           |
+| `moderation.riskLevel`     | `LOW` \| `MEDIUM` \| `HIGH` \| `CRITICAL` | Yes      | Null before submit.                                                                            |
+| `moderation.decision`      | `JobModerationDecision`                   | Yes      | Null before submit.                                                                            |
+| `moderation.reasons`       | string[]                                  | No       | Human-readable moderation reasons.                                                             |
+| `moderation.matchedRules`  | string[]                                  | No       | Rule ids for admin UI.                                                                         |
+| `moderation.policyId`      | uuid                                      | Yes      | Policy snapshot used by the latest moderation run.                                             |
+| `moderation.policyVersion` | number                                    | Yes      | Policy version used by the latest moderation run.                                              |
+| `createdAt`                | ISO date-time                             | No       | Created timestamp.                                                                             |
+| `updatedAt`                | ISO date-time                             | No       | Updated timestamp.                                                                             |
 
 ### JobRevisionResponse
 
@@ -1486,6 +1488,150 @@ Errors:
 | 403    | `JOB.COMPANY_NOT_APPROVED`            | Company snapshot is not approved, cannot apply revision. |
 | 404    | `JOB.REVISION_NOT_FOUND`              | Revision not found.                                      |
 | 409    | `JOB.REVISION_NOT_EDITABLE`           | Revision is not waiting for review.                      |
+
+## `GET /api/v1/admin/job-moderation-policies`
+
+Summary: List job moderation policies for admin configuration.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Query:
+
+| Field    | Type                                               | Required | Default      | Note              |
+| -------- | -------------------------------------------------- | -------- | ------------ | ----------------- |
+| `status` | `DRAFT` \| `ACTIVE` \| `UNPUBLISHED` \| `ARCHIVED` | No       | non-archived | Filter by status. |
+
+Success response: `JobModerationPolicy[]`.
+
+Rules:
+
+- Without `status`, backend returns `DRAFT`, `ACTIVE`, and `UNPUBLISHED`.
+- `ARCHIVED` policies are hidden from the default operational list.
+- Use `status=ARCHIVED` only for an explicit archive view.
+
+## `GET /api/v1/admin/job-moderation-policies/default-rules`
+
+Summary: Return backend default rules for FE policy form bootstrapping.
+
+This endpoint returns the code-level default rule template only. It is not the active policy record and does not include `id`, `name`, `status`, `version`, or timestamps.
+
+Use it only to prefill a create-policy form or reset a draft to the default template. To display the policy currently applied by the system, call `GET /api/v1/admin/job-moderation-policies?status=ACTIVE`.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Success response: `JobModerationPolicyRules`.
+
+## `POST /api/v1/admin/job-moderation-policies`
+
+Summary: Create a draft moderation policy.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Body:
+
+| Field   | Type                       | Required | Note                          |
+| ------- | -------------------------- | -------- | ----------------------------- |
+| `name`  | string                     | Yes      | Max 255 chars.                |
+| `rules` | `JobModerationPolicyRules` | Yes      | Full moderation rules object. |
+
+Success response: `JobModerationPolicy` with `status = DRAFT`.
+
+## `PATCH /api/v1/admin/job-moderation-policies/:id`
+
+Summary: Update a draft or active moderation policy.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Body: partial `{ name, rules }`. Updating `rules` increments `version`.
+
+Rules:
+
+- `DRAFT`: name and rules can be edited.
+- `ACTIVE`: name can be edited, rules cannot be edited.
+- `UNPUBLISHED`: name and rules can be edited.
+- `ARCHIVED`: cannot be edited.
+
+Keyword rules:
+
+- `keywordRules.id` may be reused for aliases of the same logical rule.
+- Normalized keyword text must be unique within one policy.
+- FE should not expose `keywordRules.id` as a raw editable input. Render a readable `Rule group` field instead.
+- FE should not implement duplicate/clone selected for keyword rows. Prefer `Add keyword`, `Add alias`, and `Delete selected`.
+
+Errors:
+
+| Status | Code                              | Meaning                                           |
+| ------ | --------------------------------- | ------------------------------------------------- |
+| 404    | `JOB.MODERATION_POLICY_NOT_FOUND` | Policy not found.                                 |
+| 409    | `COMMON.CONFLICT`                 | Archived policy edit or active policy rules edit. |
+
+## `POST /api/v1/admin/job-moderation-policies/:id/publish`
+
+Summary: Publish or restore a policy as active. Previous active policies become unpublished.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Success response: `JobModerationPolicy` with `status = ACTIVE`.
+
+Rules:
+
+- `DRAFT` and `UNPUBLISHED` policies can be published.
+- Publishing an `UNPUBLISHED` policy works as restore-as-active. FE should label this action `Restore as active`.
+- Publishing an `ACTIVE` policy is a no-op response.
+- Previous active policies become `UNPUBLISHED`, not `ARCHIVED`.
+- `ARCHIVED` policies cannot be published again.
+
+## `POST /api/v1/admin/job-moderation-policies/:id/archive`
+
+Summary: Archive a policy.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Success response: `JobModerationPolicy` with `status = ARCHIVED`.
+
+Rules:
+
+- `DRAFT` and `UNPUBLISHED` policies can be archived.
+- `ACTIVE` policies cannot be archived directly. Publish another policy first.
+- `ARCHIVED` policies return a no-op response.
+- Archived policies are excluded from the default policy list. Use `status=ARCHIVED` when FE needs an archive view.
+
+## `POST /api/v1/admin/job-moderation-policies/test`
+
+Summary: Test active or draft rules against a sample job payload.
+
+Auth:
+
+- Required
+- Roles: `ADMIN`
+
+Body:
+
+| Field               | Type                        | Required | Note                                                      |
+| ------------------- | --------------------------- | -------- | --------------------------------------------------------- |
+| `rules`             | `JobModerationPolicyRules`  | No       | If omitted, backend uses the active policy.               |
+| `companyTrustLevel` | `LOW` \| `MEDIUM` \| `HIGH` | No       | Defaults to `MEDIUM`.                                     |
+| `job`               | object                      | Yes      | Same moderation fields used by recruiter job submit flow. |
+
+Success response: `JobModerationResult`.
 
 ## Internal Endpoints
 
