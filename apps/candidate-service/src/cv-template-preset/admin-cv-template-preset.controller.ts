@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -97,6 +98,17 @@ export class AdminCvTemplatePresetController {
   @ApiSuccessResponse(AdminCvTemplatePresetResponseDto)
   @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
   archiveAdmin(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<AdminCvTemplatePresetResponseDto> {
+    return this.cvTemplatePresetService.archiveAdmin(id);
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Delete a CV template preset by archiving it' })
+  @ApiSuccessResponse(AdminCvTemplatePresetResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 500] })
+  deleteAdmin(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<AdminCvTemplatePresetResponseDto> {
     return this.cvTemplatePresetService.archiveAdmin(id);

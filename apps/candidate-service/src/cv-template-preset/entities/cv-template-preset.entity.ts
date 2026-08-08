@@ -57,7 +57,7 @@ export class CvTemplatePreset {
   @Column({ name: 'accent', type: 'varchar', length: 32, nullable: true })
   accent: string | null;
 
-  @Column({ name: 'thumbnail_url', type: 'varchar', length: 1000, nullable: true })
+  @Column({ name: 'thumbnail_url', type: 'text', nullable: true })
   thumbnailUrl: string | null;
 
   @Column({ name: 'canvas', type: 'jsonb' })

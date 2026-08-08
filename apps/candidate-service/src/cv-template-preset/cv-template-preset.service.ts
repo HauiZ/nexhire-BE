@@ -23,8 +23,7 @@ import {
   CvTemplatePresetStatus,
 } from './entities/cv-template-preset.entity';
 
-const UUID_V4_PATTERN =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const UUID_V4_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const LOCALES: Array<keyof CvTemplatePresetI18n> = ['vi', 'en', 'ja'];
 
 @Injectable()
@@ -82,9 +81,10 @@ export class CvTemplatePresetService {
     return this.mapPreset(preset, includeCanvas);
   }
 
-  async listAdmin(
-    query: AdminCvTemplatePresetQueryDto,
-  ): Promise<{ data: AdminCvTemplatePresetResponseDto[]; meta: { page: number; limit: number; total: number } }> {
+  async listAdmin(query: AdminCvTemplatePresetQueryDto): Promise<{
+    data: AdminCvTemplatePresetResponseDto[];
+    meta: { page: number; limit: number; total: number };
+  }> {
     const includeCanvas = query.includeCanvas ?? false;
     const qb = this.presetRepo
       .createQueryBuilder('preset')
@@ -142,11 +142,7 @@ export class CvTemplatePresetService {
     const preset = this.presetRepo.create({
       key: dto.key.trim().toLowerCase(),
       nameI18n: this.normalizeI18n(dto.defaultName, dto.name, undefined),
-      descriptionI18n: this.normalizeI18n(
-        dto.defaultDescription,
-        dto.description,
-        undefined,
-      ),
+      descriptionI18n: this.normalizeI18n(dto.defaultDescription, dto.description, undefined),
       categories: dto.categories,
       accent: dto.accent ?? null,
       thumbnailUrl: this.normalizeOptionalText(dto.thumbnailUrl),
@@ -192,9 +188,8 @@ export class CvTemplatePresetService {
     }
 
     if (dto.defaultDescription !== undefined || dto.description !== undefined) {
-      const fallbackDescription = dto.defaultDescription ?? this.firstLocaleValue(
-        preset.descriptionI18n,
-      );
+      const fallbackDescription =
+        dto.defaultDescription ?? this.firstLocaleValue(preset.descriptionI18n);
       preset.descriptionI18n = this.normalizeI18n(
         fallbackDescription,
         dto.description,
@@ -217,6 +212,9 @@ export class CvTemplatePresetService {
 
     if (dto.canvas !== undefined) {
       preset.canvas = this.validateCanvas(dto.canvas);
+      if (dto.thumbnailUrl === undefined) {
+        preset.thumbnailUrl = null;
+      }
       preset.version += 1;
     }
 
@@ -301,14 +299,15 @@ export class CvTemplatePresetService {
 
       return manager.save(CvTemplatePreset, updated);
     });
-    presets.sort((a, b) => a.sortOrder - b.sortOrder || a.createdAt.getTime() - b.createdAt.getTime());
+    presets.sort(
+      (a, b) => a.sortOrder - b.sortOrder || a.createdAt.getTime() - b.createdAt.getTime(),
+    );
     return presets.map((preset) => this.mapAdminPreset(preset, true));
   }
 
-  private mapPreset(
-    preset: CvTemplatePreset,
-    includeCanvas: boolean,
-  ): CvTemplatePresetResponseDto {
+  private mapPreset(preset: CvTemplatePreset, includeCanvas: boolean): CvTemplatePresetResponseDto {
+    const thumbnailUrl = preset.thumbnailUrl ?? this.extractCanvasThumbnailUrl(preset.canvas);
+
     return {
       id: preset.id,
       key: preset.key,
@@ -316,7 +315,7 @@ export class CvTemplatePresetService {
       description: preset.descriptionI18n,
       categories: preset.categories,
       accent: preset.accent,
-      thumbnailUrl: preset.thumbnailUrl,
+      thumbnailUrl,
       canvas: includeCanvas ? preset.canvas : null,
       version: preset.version,
       createdAt: preset.createdAt,
@@ -368,6 +367,33 @@ export class CvTemplatePresetService {
   private normalizeOptionalText(value: string | null | undefined): string | null {
     const text = value?.trim();
     return text ? text : null;
+  }
+
+  private extractCanvasThumbnailUrl(
+    canvas: Record<string, unknown> | null | undefined,
+  ): string | null {
+    const pages = Array.isArray(canvas?.pages) ? canvas.pages : [];
+    for (const page of pages) {
+      const elements = Array.isArray((page as { elements?: unknown }).elements)
+        ? (page as { elements: unknown[] }).elements
+        : [];
+      const image = elements.find(
+        (element): element is { type?: unknown; src?: unknown } =>
+          typeof element === 'object' &&
+          element !== null &&
+          (element as { type?: unknown }).type === 'image' &&
+          typeof (element as { src?: unknown }).src === 'string' &&
+          ((element as { src: string }).src.startsWith('data:image/') ||
+            (element as { src: string }).src.startsWith('http://') ||
+            (element as { src: string }).src.startsWith('https://')),
+      );
+      const src = image?.src;
+      if (typeof src === 'string') {
+        return src;
+      }
+    }
+
+    return null;
   }
 
   private normalizeI18n(
@@ -432,10 +458,7 @@ export class CvTemplatePresetService {
         return true;
       }
       const typedPage = page as { id?: unknown; elements?: unknown };
-      return (
-        typeof typedPage.id !== 'string' ||
-        !Array.isArray(typedPage.elements)
-      );
+      return typeof typedPage.id !== 'string' || !Array.isArray(typedPage.elements);
     });
 
     if (hasInvalidPage) {

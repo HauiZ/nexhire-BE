@@ -16,6 +16,7 @@ import { AiManagementModule } from './ai-management/ai-management.module';
 import { cvParsingServiceConfig } from './config/cv-parsing-service.config';
 import { validationSchema } from './config/env.validation';
 import { HealthModule } from './health/health.module';
+import { TemplateDesignModule } from './template-design/template-design.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { HealthModule } from './health/health.module';
     HealthModule,
     AiManagementModule,
     CvParsingModule,
+    TemplateDesignModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: InternalAuthGuard },

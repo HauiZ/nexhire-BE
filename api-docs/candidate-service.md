@@ -720,6 +720,7 @@ object with a non-empty `pages` array, and each page needs `id` plus an
 | `PATCH` | `/api/v1/admin/cv-template-presets/:id`  | Update metadata, categories, thumbnail, canvas, sort order |
 | `POST` | `/api/v1/admin/cv-template-presets/:id/publish` | Validate canvas and publish |
 | `POST` | `/api/v1/admin/cv-template-presets/:id/archive` | Mark `ARCHIVED` and soft delete |
+| `DELETE` | `/api/v1/admin/cv-template-presets/:id` | Mark `ARCHIVED` and soft delete |
 | `POST` | `/api/v1/admin/cv-template-presets/:id/restore` | Restore as `DRAFT` |
 | `PATCH` | `/api/v1/admin/cv-template-presets/sort-order` | Bulk update sort order |
 
