@@ -3,18 +3,21 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CompanySnapshotService } from './company/company-snapshot.service';
 import { AdminJobController } from './controllers/admin-job.controller';
+import { AdminJobModerationPolicyController } from './controllers/admin-job-moderation-policy.controller';
 import { JobController, JobInternalController } from './controllers/job.controller';
 import { RecruiterJobController } from './controllers/recruiter-job.controller';
+import { CompanyPostingSnapshot } from './entities/company-posting-snapshot.entity';
+import { JobModerationPolicy } from './entities/job-moderation-policy.entity';
 import { JobModerationReview } from './entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from './entities/job-processed-application-event.entity';
 import { JobRevision } from './entities/job-revision.entity';
 import { Job } from './entities/job.entity';
-import { CompanyPostingSnapshot } from './entities/company-posting-snapshot.entity';
 import { JobExpirationScheduler } from './job-expiration.scheduler';
 import { JobService } from './job.service';
 import { ApplicationEventsConsumer } from './events/consumers/application-events.consumer';
 import { CompanySnapshotEventsConsumer } from './events/consumers/company-snapshot-events.consumer';
 import { JobEventPublisher } from './events/job-event.publisher';
+import { JobModerationPolicyService } from './moderation/job-moderation-policy.service';
 import { JobModerationService } from './moderation/job-moderation.service';
 import { JobSearchTextService } from './search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER } from './search/job-search.types';
@@ -28,14 +31,22 @@ import { DocumentClientService } from '../document-client/document-client.servic
       Job,
       JobRevision,
       JobModerationReview,
+      JobModerationPolicy,
       JobProcessedApplicationEvent,
       CompanyPostingSnapshot,
     ]),
   ],
-  controllers: [JobController, JobInternalController, RecruiterJobController, AdminJobController],
+  controllers: [
+    JobController,
+    JobInternalController,
+    RecruiterJobController,
+    AdminJobController,
+    AdminJobModerationPolicyController,
+  ],
   providers: [
     JobService,
     JobModerationService,
+    JobModerationPolicyService,
     JobSearchTextService,
     DocumentClientService,
     JobEventPublisher,

@@ -297,6 +297,8 @@ export class PostgresJobSearchProvider implements JobSearchProvider {
         decision: job.moderationDecision,
         reasons: job.moderationReasons,
         matchedRules: job.moderationMatchedRules,
+        policyId: job.moderationPolicyId,
+        policyVersion: job.moderationPolicyVersion,
       },
       createdAt: job.createdAt,
       updatedAt: job.updatedAt,
