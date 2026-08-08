@@ -86,12 +86,18 @@ export class AdminCvTemplatePresetQueryDto extends PaginationQueryDto {
   @MaxLength(255)
   search?: string;
 
-  @ApiPropertyOptional({ enum: AdminCvTemplatePresetStatusFilter, default: AdminCvTemplatePresetStatusFilter.ALL })
+  @ApiPropertyOptional({
+    enum: AdminCvTemplatePresetStatusFilter,
+    default: AdminCvTemplatePresetStatusFilter.ALL,
+  })
   @IsOptional()
   @IsEnum(AdminCvTemplatePresetStatusFilter)
   status?: AdminCvTemplatePresetStatusFilter;
 
-  @ApiPropertyOptional({ enum: CvTemplatePresetCategoryFilter, default: CvTemplatePresetCategoryFilter.ALL })
+  @ApiPropertyOptional({
+    enum: CvTemplatePresetCategoryFilter,
+    default: CvTemplatePresetCategoryFilter.ALL,
+  })
   @IsOptional()
   @IsEnum(CvTemplatePresetCategoryFilter)
   category?: CvTemplatePresetCategoryFilter | CvTemplatePresetCategory;
@@ -149,7 +155,6 @@ export class CreateAdminCvTemplatePresetDto {
   @ApiPropertyOptional({ example: 'https://cdn.example.com/cv-template.png' })
   @IsOptional()
   @IsString()
-  @MaxLength(1000)
   thumbnailUrl?: string;
 
   @ApiProperty({ type: 'object', description: 'Canvas document JSON used by the CV builder.' })

@@ -86,6 +86,31 @@ function createValidCanvas(): Record<string, unknown> {
   };
 }
 
+function createCanvasWithImage(src = 'data:image/png;base64,abc'): Record<string, unknown> {
+  return {
+    id: 'template-image',
+    name: 'Image',
+    pages: [
+      {
+        id: 'template-image-page-1',
+        elements: [
+          {
+            id: 'template-image-image-1',
+            type: 'image',
+            x: 0,
+            y: 0,
+            width: 794,
+            height: 1123,
+            src,
+            objectFit: 'fill',
+            borderRadius: 0,
+          },
+        ],
+      },
+    ],
+  };
+}
+
 function createPreset(overrides: Partial<CvTemplatePreset> = {}): CvTemplatePreset {
   return {
     id: '0bafc70d-8a1e-4e56-83f6-cc0d16bbf895',
@@ -177,6 +202,38 @@ describe('CvTemplatePresetService', () => {
     const result = await service.listPublished({ includeCanvas: false });
 
     expect(result[0].canvas).toBeNull();
+  });
+
+  it('derives thumbnailUrl from the first canvas image when no manual thumbnail is set', async () => {
+    const qb = createQueryBuilder({
+      getMany: jest.fn().mockResolvedValue([createPreset({ canvas: createCanvasWithImage() })]),
+    });
+    presetRepo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.listPublished({ includeCanvas: false });
+
+    expect(result[0]).toEqual(
+      expect.objectContaining({
+        canvas: null,
+        thumbnailUrl: 'data:image/png;base64,abc',
+      }),
+    );
+  });
+
+  it('keeps a manual thumbnailUrl before the derived canvas thumbnail', async () => {
+    const qb = createQueryBuilder({
+      getMany: jest.fn().mockResolvedValue([
+        createPreset({
+          thumbnailUrl: 'https://cdn.example.com/manual.png',
+          canvas: createCanvasWithImage(),
+        }),
+      ]),
+    });
+    presetRepo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.listPublished({ includeCanvas: false });
+
+    expect(result[0].thumbnailUrl).toBe('https://cdn.example.com/manual.png');
   });
 
   it('gets a published preset by uuid', async () => {
@@ -319,6 +376,27 @@ describe('CvTemplatePresetService', () => {
       en: 'Mô tả mới',
       ja: 'Mô tả tiếng Nhật mới',
     });
+  });
+
+  it('clears a manual thumbnail when replacing canvas without a new thumbnail', async () => {
+    const preset = createPreset({
+      thumbnailUrl: 'https://cdn.example.com/old-thumbnail.png',
+      canvas: createValidCanvas(),
+      version: 1,
+    });
+    const qb = createQueryBuilder({
+      getOne: jest.fn().mockResolvedValue(preset),
+    });
+    presetRepo.createQueryBuilder.mockReturnValue(qb);
+
+    const result = await service.updateAdmin(preset.id, {
+      canvas: createCanvasWithImage('data:image/png;base64,new-cv'),
+    } as UpdateAdminCvTemplatePresetDto);
+
+    expect(preset.thumbnailUrl).toBeNull();
+    expect(preset.version).toBe(2);
+    expect(presetRepo.save).toHaveBeenCalledWith(preset);
+    expect(result.thumbnailUrl).toBe('data:image/png;base64,new-cv');
   });
 
   it('updates sort order in one transaction', async () => {

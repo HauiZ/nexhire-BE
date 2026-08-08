@@ -31,6 +31,9 @@ export const validationSchema = Joi.object({
   OPENAI_LOG_PROVIDER_ERROR_BODY: Joi.boolean().default(false),
   OPENAI_PROVIDER_VERSION: Joi.string().allow('').optional(),
   OPENAI_PERSIST_RAW_PAYLOAD: Joi.boolean().default(false),
+  TEMPLATE_DESIGN_MAX_OUTPUT_TOKENS: Joi.number().default(16384),
+  TEMPLATE_DESIGN_JOB_TIMEOUT_MS: Joi.number().default(300000),
   CANDIDATE_SERVICE_URL: Joi.string().uri().default('http://localhost:3002'),
+  DOCUMENT_STORAGE_SERVICE_URL: Joi.string().uri().default('http://localhost:3009'),
   CV_PARSING_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(30000),
 });

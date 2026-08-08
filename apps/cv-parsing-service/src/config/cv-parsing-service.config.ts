@@ -25,8 +25,15 @@ export const cvParsingServiceConfig = registerAs('cvParsingService', () => ({
     logProviderErrorBody: process.env.OPENAI_LOG_PROVIDER_ERROR_BODY === 'true',
     providerVersion: process.env.OPENAI_PROVIDER_VERSION ?? process.env.OPENAI_MODEL ?? 'gpt-5.5',
   },
+  templateDesign: {
+    // Ngân sách riêng: 8192 của luồng parse CV không đủ cho một canvas 40+ element.
+    maxOutputTokens: parseInt(process.env.TEMPLATE_DESIGN_MAX_OUTPUT_TOKENS ?? '16384', 10),
+    // Reaper lười trong GET /:id lật job PROCESSING quá hạn thành FAILED.
+    jobTimeoutMs: parseInt(process.env.TEMPLATE_DESIGN_JOB_TIMEOUT_MS ?? '300000', 10),
+  },
   services: {
     candidateService: process.env.CANDIDATE_SERVICE_URL ?? 'http://localhost:3002',
+    documentStorageService: process.env.DOCUMENT_STORAGE_SERVICE_URL ?? 'http://localhost:3009',
   },
   http: {
     timeoutMs: parseInt(process.env.CV_PARSING_SERVICE_HTTP_TIMEOUT_MS ?? '30000', 10),

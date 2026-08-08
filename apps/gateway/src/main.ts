@@ -2,16 +2,21 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { json, urlencoded } from 'express';
 import helmet from 'helmet';
 import { AllExceptionsFilter, logAppLinks } from '@nexhire/shared';
 import { GatewayModule } from './gateway.module';
 
+const LARGE_JSON_BODY_LIMIT = '25mb';
+
 async function bootstrap() {
-  const app = await NestFactory.create(GatewayModule);
+  const app = await NestFactory.create(GatewayModule, { bodyParser: false });
   const config = app.get(ConfigService);
   const port = config.get<number>('gateway.port', 3000);
   const frontendUrl = config.get<string>('gateway.frontendUrl');
 
+  app.use(json({ limit: LARGE_JSON_BODY_LIMIT }));
+  app.use(urlencoded({ extended: true, limit: LARGE_JSON_BODY_LIMIT }));
   app.use(helmet());
   app.enableCors({ origin: frontendUrl, credentials: true });
   app.setGlobalPrefix('api/v1');
