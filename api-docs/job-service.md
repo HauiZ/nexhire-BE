@@ -22,7 +22,8 @@ Responsibility: job posting lifecycle, manual moderation review, public job read
 - Moderation never auto-publishes. Admin approval is required before a job becomes public.
 - Guests/candidates only see jobs with `status = PUBLISHED`.
 - Public list is intentionally lightweight for job cards.
-- Recruiter/admin responses include internal fields such as `status`, `applicationCount`, `reviewReason`, and `moderation`.
+- Recruiter responses include lifecycle fields and a friendly `review` summary, but do not expose moderation risk/rules.
+- Admin responses include internal moderation fields such as `riskScore`, `riskLevel`, `matchedRules`, and policy snapshot.
 - Public responses never expose moderation, review reason, unpublish reason, or application count.
 - Salary fields are returned as `null` when `isSalaryVisible = false`.
 - Published jobs cannot update major fields directly. Use revision flow when applications exist.
@@ -323,6 +324,51 @@ Used by revision endpoints. Same job fields as `JobResponse`, but:
 | `moderation`    | object              | No       | Same shape as `JobResponse.moderation`. |
 | `reviewedAt`    | ISO date-time       | Yes      | Admin review timestamp.                 |
 | `reviewReason`  | string              | Yes      | Admin reason.                           |
+
+### RecruiterJobResponse
+
+Used by `/api/v1/recruiter/jobs` endpoints. Same base fields as `JobResponse`, except:
+
+| Field             | Type                        | Nullable | Note                                                               |
+| ----------------- | --------------------------- | -------- | ------------------------------------------------------------------ |
+| `moderation`      | -                           | -        | Not returned to recruiter. Internal moderation remains admin-only. |
+| `reviewedAt`      | -                           | -        | Not returned at root. Use `review.reviewedAt`.                     |
+| `reviewReason`    | -                           | -        | Not returned at root. Use `review.reason`.                         |
+| `unpublishedAt`   | -                           | -        | Not returned at root. Use lifecycle `status`.                      |
+| `unpublishReason` | -                           | -        | Not returned at root. Use `review.reason`.                         |
+| `review`          | `RecruiterJobReviewSummary` | No       | FE-friendly review summary for recruiter job detail/list screens.  |
+
+`review.status` values:
+
+| Value                  | Meaning for recruiter UI                              |
+| ---------------------- | ----------------------------------------------------- |
+| `NOT_SUBMITTED`        | Draft/revision has not been submitted for review yet. |
+| `PENDING_ADMIN_REVIEW` | Submitted and waiting for admin review.               |
+| `APPROVED`             | Approved by admin and public/accepted.                |
+| `REJECTED`             | Rejected by admin; show `review.reason`.              |
+| `UNPUBLISHED`          | Temporarily hidden from public pages.                 |
+| `CLOSED`               | Recruitment is closed.                                |
+| `EXPIRED`              | Deadline has passed and job expired.                  |
+| `CANCELLED`            | Revision was cancelled.                               |
+
+Example:
+
+```json
+{
+  "status": "NEEDS_REVIEW",
+  "review": {
+    "status": "PENDING_ADMIN_REVIEW",
+    "message": "Waiting for admin review",
+    "reviewedAt": null,
+    "reason": null
+  }
+}
+```
+
+FE note:
+
+- Do not render risk score/risk level/matched rules on recruiter screens.
+- Use `status` for lifecycle actions and `review` for human-readable review state.
 
 ## Public Endpoints
 
@@ -635,16 +681,11 @@ Success response:
     "applicationCount": 0,
     "publishedAt": null,
     "closedAt": null,
-    "reviewedAt": null,
-    "reviewReason": null,
-    "unpublishedAt": null,
-    "unpublishReason": null,
-    "moderation": {
-      "riskScore": null,
-      "riskLevel": null,
-      "decision": null,
-      "reasons": [],
-      "matchedRules": []
+    "review": {
+      "status": "NOT_SUBMITTED",
+      "message": "Not submitted for admin review",
+      "reviewedAt": null,
+      "reason": null
     },
     "createdAt": "2026-07-16T09:00:00.000Z",
     "updatedAt": "2026-07-16T09:00:00.000Z"
@@ -687,7 +728,7 @@ Same as public list plus:
 | -------- | ----------- | -------- | ------- | --------------------------- |
 | `status` | `JobStatus` | No       | -       | Filter by lifecycle status. |
 
-Success response: paginated array of `JobResponse`.
+Success response: paginated array of `RecruiterJobResponse`.
 
 ```json
 {
@@ -719,16 +760,11 @@ Success response: paginated array of `JobResponse`.
       "applicationCount": 0,
       "publishedAt": null,
       "closedAt": null,
-      "reviewedAt": null,
-      "reviewReason": null,
-      "unpublishedAt": null,
-      "unpublishReason": null,
-      "moderation": {
-        "riskScore": null,
-        "riskLevel": null,
-        "decision": null,
-        "reasons": [],
-        "matchedRules": []
+      "review": {
+        "status": "NOT_SUBMITTED",
+        "message": "Not submitted for admin review",
+        "reviewedAt": null,
+        "reason": null
       },
       "createdAt": "2026-07-16T09:00:00.000Z",
       "updatedAt": "2026-07-16T09:00:00.000Z"
@@ -811,7 +847,7 @@ Request params:
 | ----- | ---- | -------- | ------- |
 | `id`  | uuid | Yes      | Job id. |
 
-Success response: `JobResponse`.
+Success response: `RecruiterJobResponse`.
 
 Errors:
 
@@ -839,7 +875,7 @@ Request params:
 
 Request body: full `Job input body`.
 
-Success response: `JobResponse`.
+Success response: `RecruiterJobResponse`.
 
 Errors:
 
@@ -875,7 +911,7 @@ Request params:
 | ----- | ---- | -------- | ------------- |
 | `id`  | uuid | Yes      | Draft job id. |
 
-Success response: `JobResponse`.
+Success response: `RecruiterJobResponse`.
 
 ```json
 {
@@ -883,12 +919,11 @@ Success response: `JobResponse`.
   "data": {
     "id": "33333333-3333-3333-3333-333333333333",
     "status": "NEEDS_REVIEW",
-    "moderation": {
-      "riskScore": 45,
-      "riskLevel": "MEDIUM",
-      "decision": "NEEDS_REVIEW",
-      "reasons": ["Job content links to an external form"],
-      "matchedRules": ["RISK_EXTERNAL_FORM"]
+    "review": {
+      "status": "PENDING_ADMIN_REVIEW",
+      "message": "Waiting for admin review",
+      "reviewedAt": null,
+      "reason": null
     }
   }
 }
@@ -917,6 +952,7 @@ Errors:
 FE notes:
 
 - After submit, switch recruiter UI from editor to review-status view.
+- Recruiter API intentionally does not expose `moderation`; admin review screens use admin endpoints for risk score/rules.
 - Do not show public link until status becomes `PUBLISHED`.
 
 ## `DELETE /api/v1/recruiter/jobs/:id`
@@ -965,7 +1001,7 @@ Auth:
 
 Request body: `Reason body`.
 
-Success response: `JobResponse` with `status = UNPUBLISHED`.
+Success response: `RecruiterJobResponse` with `status = UNPUBLISHED`.
 
 Errors:
 
@@ -985,7 +1021,7 @@ Auth:
 - Required
 - Roles: `RECRUITER`
 
-Success response: `JobResponse` with `status = PUBLISHED`.
+Success response: `RecruiterJobResponse` with `status = PUBLISHED`.
 
 Errors:
 
@@ -1006,7 +1042,7 @@ Auth:
 
 Request body: `Reason body`.
 
-Success response: `JobResponse` with `status = CLOSED`.
+Success response: `RecruiterJobResponse` with `status = CLOSED`.
 
 Errors:
 
@@ -1034,7 +1070,7 @@ Request params:
 
 Request body: `Job input body` plus optional `changeSummary`.
 
-Success response: `JobRevisionResponse` with `status = DRAFT`.
+Success response: `RecruiterJobRevisionResponse` with `status = DRAFT`.
 
 Errors:
 
@@ -1068,7 +1104,7 @@ Request query:
 | `limit`  | number              | No       | `20`    | Pagination size.                     |
 | `status` | `JobRevisionStatus` | No       | all     | Filter by revision lifecycle status. |
 
-Success response: paginated array of `JobRevisionResponse`.
+Success response: paginated array of `RecruiterJobRevisionResponse`.
 
 Errors:
 
@@ -1091,7 +1127,7 @@ Auth:
 - Required
 - Roles: `RECRUITER`
 
-Success response: `JobRevisionResponse`.
+Success response: `RecruiterJobRevisionResponse`.
 
 Errors:
 
@@ -1112,7 +1148,7 @@ Auth:
 
 Request body: full `Job input body` plus optional `changeSummary`.
 
-Success response: `JobRevisionResponse`.
+Success response: `RecruiterJobRevisionResponse`.
 
 Errors:
 
@@ -1130,7 +1166,7 @@ Auth:
 - Required
 - Roles: `RECRUITER`
 
-Success response: `JobRevisionResponse` with `status = PENDING_REVIEW`, `NEEDS_REVIEW`, or `SHOULD_REJECT`.
+Success response: `RecruiterJobRevisionResponse` with `status = PENDING_REVIEW`, `NEEDS_REVIEW`, or `SHOULD_REJECT`.
 
 Errors:
 
@@ -1625,11 +1661,11 @@ Auth:
 
 Body:
 
-| Field               | Type                        | Required | Note                                                      |
-| ------------------- | --------------------------- | -------- | --------------------------------------------------------- |
-| `rules`             | `JobModerationPolicyRules`  | No       | If omitted, backend uses the active policy.               |
-| `companyTrustLevel` | `LOW` \| `MEDIUM` \| `HIGH` | No       | Defaults to `MEDIUM`.                                     |
-| `job`               | object                      | Yes      | Same moderation fields used by recruiter job submit flow. |
+| Field               | Type                        | Required | Note                                                   |
+| ------------------- | --------------------------- | -------- | ------------------------------------------------------ |
+| `rules`             | `JobModerationPolicyRules`  | No       | If omitted, backend uses the active policy.            |
+| `companyTrustLevel` | `LOW` \| `MEDIUM` \| `HIGH` | No       | Defaults to `MEDIUM`.                                  |
+| `job`               | object                      | Yes      | Same content fields used by the job moderation engine. |
 
 Success response: `JobModerationResult`.
 

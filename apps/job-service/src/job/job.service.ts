@@ -54,6 +54,9 @@ import {
   PublicHomeStatsDto,
   PublicJobDetailDto,
   PublicJobListItemDto,
+  RecruiterJobResponseDto,
+  RecruiterJobReviewStatus,
+  RecruiterJobRevisionResponseDto,
   RecruiterJobStatusCountsDto,
 } from './dto/job-response.dto';
 import { JobModerationReview } from './entities/job-moderation-review.entity';
@@ -329,7 +332,7 @@ export class JobService {
     return affected;
   }
 
-  async createDraft(user: AuthUser, dto: CreateJobDto): Promise<JobResponseDto> {
+  async createDraft(user: AuthUser, dto: CreateJobDto): Promise<RecruiterJobResponseDto> {
     this.assertRecruiter(user);
     this.assertJobInput(dto);
     const company = await this.companySnapshotService.getPostingSnapshot(user);
@@ -357,12 +360,19 @@ export class JobService {
       `Job draft created jobId=${job.id} companyId=${job.companyId} userId=${user.id}`,
     );
 
-    return this.mapJob(job);
+    return this.mapRecruiterJob(job);
   }
 
-  async listMine(user: AuthUser, query: RecruiterJobQueryDto): Promise<Paginated<JobResponseDto>> {
+  async listMine(
+    user: AuthUser,
+    query: RecruiterJobQueryDto,
+  ): Promise<Paginated<RecruiterJobResponseDto>> {
     this.assertRecruiter(user);
-    return this.jobSearchProvider.searchCompanyJobs(user.companyId!, query);
+    const page = await this.jobSearchProvider.searchCompanyJobs(user.companyId!, query);
+    return {
+      ...page,
+      data: page.data.map((job) => this.mapRecruiterJobResponse(job)),
+    };
   }
 
   async getCompanyStatusCounts(user: AuthUser): Promise<RecruiterJobStatusCountsDto> {
@@ -383,12 +393,16 @@ export class JobService {
     return counts;
   }
 
-  async getMine(user: AuthUser, id: string): Promise<JobResponseDto> {
+  async getMine(user: AuthUser, id: string): Promise<RecruiterJobResponseDto> {
     const job = await this.findCompanyJob(user, id);
-    return this.mapJob(job);
+    return this.mapRecruiterJob(job);
   }
 
-  async updateMine(user: AuthUser, id: string, dto: UpdateJobDto): Promise<JobResponseDto> {
+  async updateMine(
+    user: AuthUser,
+    id: string,
+    dto: UpdateJobDto,
+  ): Promise<RecruiterJobResponseDto> {
     this.assertJobInput(dto);
     const job = await this.findCompanyJob(user, id);
 
@@ -434,10 +448,10 @@ export class JobService {
     const updated = await this.jobRepo.save(job);
     await this.invalidatePublicCache();
     this.logger.log(`Job updated jobId=${updated.id} status=${updated.status} userId=${user.id}`);
-    return this.mapJob(updated);
+    return this.mapRecruiterJob(updated);
   }
 
-  async submitMine(user: AuthUser, id: string): Promise<JobResponseDto> {
+  async submitMine(user: AuthUser, id: string): Promise<RecruiterJobResponseDto> {
     const job = await this.findCompanyJob(user, id);
     if (job.status !== JobStatus.DRAFT) {
       throw new ConflictException({
@@ -503,14 +517,14 @@ export class JobService {
     );
     await this.publishJobReviewRequired(updated);
 
-    return this.mapJob(updated);
+    return this.mapRecruiterJob(updated);
   }
 
   async createRevision(
     user: AuthUser,
     jobId: string,
     dto: CreateJobRevisionDto,
-  ): Promise<JobRevisionResponseDto> {
+  ): Promise<RecruiterJobRevisionResponseDto> {
     this.assertJobInput(dto);
     const job = await this.findCompanyJob(user, jobId);
     if (job.status !== JobStatus.PUBLISHED || job.applicationCount <= 0) {
@@ -555,14 +569,14 @@ export class JobService {
     this.logger.log(
       `Job revision draft created revisionId=${saved.id} jobId=${job.id} userId=${user.id}`,
     );
-    return this.mapRevision(saved);
+    return this.mapRecruiterRevision(saved);
   }
 
   async listRevisions(
     user: AuthUser,
     jobId: string,
     query: RecruiterJobRevisionQueryDto,
-  ): Promise<Paginated<JobRevisionResponseDto>> {
+  ): Promise<Paginated<RecruiterJobRevisionResponseDto>> {
     await this.findCompanyJob(user, jobId);
     const where = {
       jobId,
@@ -576,7 +590,7 @@ export class JobService {
       take: query.limit,
     });
     return this.paginate(
-      revisions.map((revision) => this.mapRevision(revision)),
+      revisions.map((revision) => this.mapRecruiterRevision(revision)),
       query.page,
       query.limit,
       total,
@@ -587,9 +601,9 @@ export class JobService {
     user: AuthUser,
     jobId: string,
     revisionId: string,
-  ): Promise<JobRevisionResponseDto> {
+  ): Promise<RecruiterJobRevisionResponseDto> {
     await this.findCompanyJob(user, jobId);
-    return this.mapRevision(await this.findCompanyRevision(user, jobId, revisionId));
+    return this.mapRecruiterRevision(await this.findCompanyRevision(user, jobId, revisionId));
   }
 
   async updateRevision(
@@ -597,7 +611,7 @@ export class JobService {
     jobId: string,
     revisionId: string,
     dto: UpdateJobRevisionDto,
-  ): Promise<JobRevisionResponseDto> {
+  ): Promise<RecruiterJobRevisionResponseDto> {
     this.assertJobInput(dto);
     await this.findCompanyJob(user, jobId);
     const revision = await this.findCompanyRevision(user, jobId, revisionId);
@@ -613,14 +627,14 @@ export class JobService {
     }
     const saved = await this.revisionRepo.save(revision);
     this.logger.log(`Job revision updated revisionId=${saved.id} jobId=${jobId} userId=${user.id}`);
-    return this.mapRevision(saved);
+    return this.mapRecruiterRevision(saved);
   }
 
   async submitRevision(
     user: AuthUser,
     jobId: string,
     revisionId: string,
-  ): Promise<JobRevisionResponseDto> {
+  ): Promise<RecruiterJobRevisionResponseDto> {
     const job = await this.findCompanyJob(user, jobId);
     const revision = await this.findCompanyRevision(user, jobId, revisionId);
     if (revision.status !== JobRevisionStatus.DRAFT) {
@@ -677,7 +691,7 @@ export class JobService {
     );
     await this.publishJobRevisionReviewRequired(job, updated);
 
-    return this.mapRevision(updated);
+    return this.mapRecruiterRevision(updated);
   }
 
   async listReviewQueue(query: AdminJobReviewQueueQueryDto): Promise<Paginated<JobResponseDto>> {
@@ -1359,19 +1373,23 @@ export class JobService {
     return { deleted: true };
   }
 
-  async unpublishMine(user: AuthUser, id: string, dto: JobReasonDto): Promise<JobResponseDto> {
+  async unpublishMine(
+    user: AuthUser,
+    id: string,
+    dto: JobReasonDto,
+  ): Promise<RecruiterJobResponseDto> {
     const job = await this.findCompanyJob(user, id);
-    return this.unpublishJob(job, user, dto.reason);
+    return this.mapRecruiterJobResponse(await this.unpublishJob(job, user, dto.reason));
   }
 
-  async republishMine(user: AuthUser, id: string): Promise<JobResponseDto> {
+  async republishMine(user: AuthUser, id: string): Promise<RecruiterJobResponseDto> {
     const job = await this.findCompanyJob(user, id);
-    return this.republishJob(job);
+    return this.mapRecruiterJobResponse(await this.republishJob(job));
   }
 
-  async closeMine(user: AuthUser, id: string, dto: JobReasonDto): Promise<JobResponseDto> {
+  async closeMine(user: AuthUser, id: string, dto: JobReasonDto): Promise<RecruiterJobResponseDto> {
     const job = await this.findCompanyJob(user, id);
-    return this.closeJob(job, user, dto.reason);
+    return this.mapRecruiterJobResponse(await this.closeJob(job, user, dto.reason));
   }
 
   async unpublishByAdmin(admin: AuthUser, id: string, dto: JobReasonDto): Promise<JobResponseDto> {
@@ -1790,6 +1808,131 @@ export class JobService {
       counts[row.status] = Number(row.count);
     }
     return counts;
+  }
+
+  private mapRecruiterJob(job: Job): RecruiterJobResponseDto {
+    return this.mapRecruiterJobResponse(this.mapJob(job));
+  }
+
+  private mapRecruiterJobResponse(job: JobResponseDto): RecruiterJobResponseDto {
+    const response = { ...job };
+    delete (response as Partial<JobResponseDto>).moderation;
+    delete (response as Partial<JobResponseDto>).reviewedAt;
+    delete (response as Partial<JobResponseDto>).reviewReason;
+    delete (response as Partial<JobResponseDto>).unpublishedAt;
+    delete (response as Partial<JobResponseDto>).unpublishReason;
+    return {
+      ...(response as Omit<
+        JobResponseDto,
+        'moderation' | 'reviewedAt' | 'reviewReason' | 'unpublishedAt' | 'unpublishReason'
+      >),
+      review: this.buildRecruiterReviewSummary(job.status, {
+        reviewedAt: job.reviewedAt,
+        reviewReason: job.reviewReason,
+        unpublishReason: job.unpublishReason,
+      }),
+    };
+  }
+
+  private mapRecruiterRevision(revision: JobRevision): RecruiterJobRevisionResponseDto {
+    const revisionResponse = this.mapRevision(revision);
+    const response = { ...revisionResponse };
+    delete (response as Partial<JobRevisionResponseDto>).moderation;
+    delete (response as Partial<JobRevisionResponseDto>).reviewedAt;
+    delete (response as Partial<JobRevisionResponseDto>).reviewReason;
+    return {
+      ...(response as Omit<JobRevisionResponseDto, 'moderation' | 'reviewedAt' | 'reviewReason'>),
+      review: this.buildRecruiterReviewSummary(revision.status, {
+        reviewedAt: revision.reviewedAt,
+        reviewReason: revision.reviewReason,
+      }),
+    };
+  }
+
+  private buildRecruiterReviewSummary(
+    status: JobStatus | JobRevisionStatus,
+    context: {
+      reviewedAt: Date | null;
+      reviewReason: string | null;
+      unpublishReason?: string | null;
+    },
+  ) {
+    if (status === JobStatus.DRAFT || status === JobRevisionStatus.DRAFT) {
+      return {
+        status: RecruiterJobReviewStatus.NOT_SUBMITTED,
+        message: 'Not submitted for admin review',
+        reviewedAt: context.reviewedAt,
+        reason: null,
+      };
+    }
+
+    if (
+      status === JobStatus.PENDING_REVIEW ||
+      status === JobStatus.NEEDS_REVIEW ||
+      status === JobStatus.SHOULD_REJECT ||
+      status === JobRevisionStatus.PENDING_REVIEW ||
+      status === JobRevisionStatus.NEEDS_REVIEW ||
+      status === JobRevisionStatus.SHOULD_REJECT
+    ) {
+      return {
+        status: RecruiterJobReviewStatus.PENDING_ADMIN_REVIEW,
+        message: 'Waiting for admin review',
+        reviewedAt: context.reviewedAt,
+        reason: null,
+      };
+    }
+
+    if (status === JobStatus.PUBLISHED || status === JobRevisionStatus.APPROVED) {
+      return {
+        status: RecruiterJobReviewStatus.APPROVED,
+        message: 'Approved by admin',
+        reviewedAt: context.reviewedAt,
+        reason: context.reviewReason,
+      };
+    }
+
+    if (status === JobStatus.REJECTED || status === JobRevisionStatus.REJECTED) {
+      return {
+        status: RecruiterJobReviewStatus.REJECTED,
+        message: 'Rejected by admin',
+        reviewedAt: context.reviewedAt,
+        reason: context.reviewReason,
+      };
+    }
+
+    if (status === JobStatus.UNPUBLISHED) {
+      return {
+        status: RecruiterJobReviewStatus.UNPUBLISHED,
+        message: 'Hidden from public pages',
+        reviewedAt: context.reviewedAt,
+        reason: context.unpublishReason ?? context.reviewReason,
+      };
+    }
+
+    if (status === JobStatus.CLOSED) {
+      return {
+        status: RecruiterJobReviewStatus.CLOSED,
+        message: 'Recruitment closed',
+        reviewedAt: context.reviewedAt,
+        reason: context.reviewReason,
+      };
+    }
+
+    if (status === JobStatus.EXPIRED) {
+      return {
+        status: RecruiterJobReviewStatus.EXPIRED,
+        message: 'Application deadline expired',
+        reviewedAt: context.reviewedAt,
+        reason: context.reviewReason,
+      };
+    }
+
+    return {
+      status: RecruiterJobReviewStatus.CANCELLED,
+      message: 'Revision cancelled',
+      reviewedAt: context.reviewedAt,
+      reason: context.reviewReason,
+    };
   }
 
   private mapJob(job: Job): JobResponseDto {

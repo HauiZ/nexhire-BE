@@ -28,8 +28,13 @@ import { CompanyPostingSnapshot } from '../entities/company-posting-snapshot.ent
 import { JobEventPublisher } from '../events/job-event.publisher';
 import { JobService } from '../job.service';
 import { JobModerationService } from '../moderation/job-moderation.service';
-import { PublicJobQueryDto, RecruiterJobRevisionQueryDto } from '../dto/job-query.dto';
-import { UpdateJobDto } from '../dto/job-input.dto';
+import {
+  PublicJobQueryDto,
+  RecruiterJobQueryDto,
+  RecruiterJobRevisionQueryDto,
+} from '../dto/job-query.dto';
+import { CreateJobDto, CreateJobRevisionDto, UpdateJobDto } from '../dto/job-input.dto';
+import { JobResponseDto } from '../dto/job-response.dto';
 import { JobSearchTextService } from '../search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER } from '../search/job-search.types';
 import { DocumentClientService } from '../../document-client/document-client.service';
@@ -235,6 +240,15 @@ describe('JobService', () => {
     ...overrides,
   });
 
+  const expectRecruiterReviewFieldsOnly = (response: object) => {
+    expect(response).not.toHaveProperty('moderation');
+    expect(response).not.toHaveProperty('reviewedAt');
+    expect(response).not.toHaveProperty('reviewReason');
+    expect(response).not.toHaveProperty('unpublishedAt');
+    expect(response).not.toHaveProperty('unpublishReason');
+    expect(response).toHaveProperty('review');
+  };
+
   beforeEach(async () => {
     jobRepo = {
       findOne: jest.fn(),
@@ -425,6 +439,13 @@ describe('JobService', () => {
       }),
     );
     expect(result.status).toBe(JobStatus.NEEDS_REVIEW);
+    expectRecruiterReviewFieldsOnly(result);
+    expect(result.review).toEqual({
+      status: 'PENDING_ADMIN_REVIEW',
+      message: 'Waiting for admin review',
+      reviewedAt: null,
+      reason: null,
+    });
     expect(jobEventPublisher.publishJobReviewRequired).toHaveBeenCalledWith(
       expect.objectContaining({
         jobId: publishedJob.id,
@@ -436,6 +457,87 @@ describe('JobService', () => {
         riskLevel: JobModerationRiskLevel.MEDIUM,
       }),
     );
+  });
+
+  it('gets a recruiter job without moderation or root review fields', async () => {
+    jobRepo.findOne.mockResolvedValue({
+      ...publishedJob,
+      reviewedAt: new Date('2026-07-16T10:00:00.000Z'),
+      reviewReason: 'Approved by admin',
+    });
+
+    const result = await service.getMine(user, publishedJob.id);
+
+    expectRecruiterReviewFieldsOnly(result);
+    expect(result.review).toEqual({
+      status: 'APPROVED',
+      message: 'Approved by admin',
+      reviewedAt: new Date('2026-07-16T10:00:00.000Z'),
+      reason: 'Approved by admin',
+    });
+  });
+
+  it('lists recruiter jobs without moderation or root review fields', async () => {
+    const query: RecruiterJobQueryDto = { page: 1, limit: 10, skip: 0 };
+    const reviewedAt = new Date('2026-07-16T10:00:00.000Z');
+    const rejectedJobResponse: JobResponseDto = {
+      id: publishedJob.id,
+      companyId: publishedJob.companyId,
+      companyName: publishedJob.companyName,
+      companyLogoUrl: publishedJob.companyLogoUrl,
+      companyLogoDocumentId: publishedJob.companyLogoDocumentId,
+      title: publishedJob.title,
+      description: publishedJob.description,
+      requirements: publishedJob.requirements,
+      skills: publishedJob.skills,
+      benefits: publishedJob.benefits,
+      categoryId: publishedJob.categoryId,
+      employmentType: publishedJob.employmentType,
+      workingType: publishedJob.workingType,
+      experienceLevel: publishedJob.experienceLevel,
+      location: publishedJob.location,
+      salaryMin: publishedJob.salaryMin,
+      salaryMax: publishedJob.salaryMax,
+      salaryCurrency: publishedJob.salaryCurrency,
+      isSalaryVisible: publishedJob.isSalaryVisible,
+      deadline: publishedJob.deadline,
+      numberOfOpenings: publishedJob.numberOfOpenings,
+      status: JobStatus.REJECTED,
+      version: publishedJob.version,
+      applicationCount: publishedJob.applicationCount,
+      publishedAt: publishedJob.publishedAt,
+      closedAt: publishedJob.closedAt,
+      reviewedAt,
+      reviewReason: 'Rejected by admin',
+      unpublishedAt: publishedJob.unpublishedAt,
+      unpublishReason: publishedJob.unpublishReason,
+      moderation: {
+        riskScore: 80,
+        riskLevel: JobModerationRiskLevel.HIGH,
+        decision: JobModerationDecision.SHOULD_REJECT,
+        reasons: ['Risky content'],
+        matchedRules: ['RISK_RULE'],
+        policyId: null,
+        policyVersion: null,
+      },
+      createdAt: publishedJob.createdAt,
+      updatedAt: publishedJob.updatedAt,
+    };
+    jobSearchProvider.searchCompanyJobs.mockResolvedValue({
+      data: [rejectedJobResponse],
+      meta: { page: 1, limit: 10, total: 1, totalPages: 1 },
+    });
+
+    const result = await service.listMine(user, query);
+
+    expect(jobSearchProvider.searchCompanyJobs).toHaveBeenCalledWith(user.companyId, query);
+    expectRecruiterReviewFieldsOnly(result.data[0]);
+    expect(result.data[0].review).toEqual({
+      status: 'REJECTED',
+      message: 'Rejected by admin',
+      reviewedAt,
+      reason: 'Rejected by admin',
+    });
   });
 
   it('returns company job counts for every status', async () => {
@@ -636,6 +738,50 @@ describe('JobService', () => {
       }),
     );
     expect(result.status).toBe(JobStatus.CLOSED);
+    expectRecruiterReviewFieldsOnly(result);
+    expect(result.review).toEqual({
+      status: 'CLOSED',
+      message: 'Recruitment closed',
+      reviewedAt: null,
+      reason: 'Position filled',
+    });
+  });
+
+  it('unpublishes a recruiter job without root review fields', async () => {
+    jobRepo.findOne.mockResolvedValue({ ...publishedJob });
+
+    const result = await service.unpublishMine(user, publishedJob.id, {
+      reason: 'Paused hiring',
+    });
+
+    expect(result.status).toBe(JobStatus.UNPUBLISHED);
+    expectRecruiterReviewFieldsOnly(result);
+    expect(result.review).toEqual({
+      status: 'UNPUBLISHED',
+      message: 'Hidden from public pages',
+      reviewedAt: null,
+      reason: 'Paused hiring',
+    });
+  });
+
+  it('republishes a recruiter job without root review fields', async () => {
+    jobRepo.findOne.mockResolvedValue({
+      ...publishedJob,
+      status: JobStatus.UNPUBLISHED,
+      unpublishedAt: new Date('2026-07-16T10:00:00.000Z'),
+      unpublishReason: 'Paused hiring',
+    });
+
+    const result = await service.republishMine(user, publishedJob.id);
+
+    expect(result.status).toBe(JobStatus.PUBLISHED);
+    expectRecruiterReviewFieldsOnly(result);
+    expect(result.review).toEqual({
+      status: 'APPROVED',
+      message: 'Approved by admin',
+      reviewedAt: null,
+      reason: null,
+    });
   });
 
   it('expires published jobs whose deadline has passed', async () => {
@@ -1195,6 +1341,13 @@ describe('JobService', () => {
         status: JobRevisionStatus.PENDING_REVIEW,
       }),
     ]);
+    expectRecruiterReviewFieldsOnly(result.data[0]);
+    expect(result.data[0].review).toEqual({
+      status: 'PENDING_ADMIN_REVIEW',
+      message: 'Waiting for admin review',
+      reviewedAt: null,
+      reason: null,
+    });
     expect(result.meta.total).toBe(1);
   });
 
@@ -1215,6 +1368,7 @@ describe('JobService', () => {
         title: revision.title,
       }),
     );
+    expectRecruiterReviewFieldsOnly(result);
   });
 
   it('submits a major revision through moderation and notifies admins', async () => {
@@ -1325,7 +1479,7 @@ describe('JobService', () => {
 
   describe('Recruiter Job Enhancements (Drafts, Partial Updates, Revisions)', () => {
     it('allows creating a draft with only a title', async () => {
-      const dto = { title: 'Draft Job' } as any;
+      const dto = { title: 'Draft Job' } as CreateJobDto;
       revisionRepo.count.mockResolvedValue(0);
       companySnapshotService.getPostingSnapshot.mockResolvedValue({
         companyId: user.companyId,
@@ -1366,7 +1520,7 @@ describe('JobService', () => {
       const job = { ...publishedJob, status: JobStatus.DRAFT, description: 'Old Description' };
       jobRepo.findOne.mockResolvedValue(job);
 
-      const result = await service.updateMine(user, publishedJob.id, { title: 'New Title' });
+      await service.updateMine(user, publishedJob.id, { title: 'New Title' });
 
       expect(jobRepo.save).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -1381,7 +1535,9 @@ describe('JobService', () => {
       jobRepo.findOne.mockResolvedValue(published);
       revisionRepo.count.mockResolvedValue(0);
 
-      await service.createRevision(user, published.id, { changeSummary: 'Minor tweaks' } as any);
+      await service.createRevision(user, published.id, {
+        changeSummary: 'Minor tweaks',
+      } as CreateJobRevisionDto);
 
       expect(revisionRepo.create).toHaveBeenCalledWith(
         expect.objectContaining({

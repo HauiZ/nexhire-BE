@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import {
   JobExperienceLevel,
   JobModerationDecision,
@@ -136,6 +136,42 @@ export class JobResponseDto {
 
   @ApiProperty()
   updatedAt: Date;
+}
+
+export enum RecruiterJobReviewStatus {
+  NOT_SUBMITTED = 'NOT_SUBMITTED',
+  PENDING_ADMIN_REVIEW = 'PENDING_ADMIN_REVIEW',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  UNPUBLISHED = 'UNPUBLISHED',
+  CLOSED = 'CLOSED',
+  EXPIRED = 'EXPIRED',
+  CANCELLED = 'CANCELLED',
+}
+
+export class RecruiterJobReviewSummaryDto {
+  @ApiProperty({ enum: RecruiterJobReviewStatus })
+  status: RecruiterJobReviewStatus;
+
+  @ApiProperty()
+  message: string;
+
+  @ApiPropertyOptional()
+  reviewedAt: Date | null;
+
+  @ApiPropertyOptional()
+  reason: string | null;
+}
+
+export class RecruiterJobResponseDto extends OmitType(JobResponseDto, [
+  'moderation',
+  'reviewedAt',
+  'reviewReason',
+  'unpublishedAt',
+  'unpublishReason',
+] as const) {
+  @ApiProperty({ type: RecruiterJobReviewSummaryDto })
+  review: RecruiterJobReviewSummaryDto;
 }
 
 export class PublicJobListItemDto {
@@ -517,4 +553,13 @@ export class JobRevisionResponseDto {
 
   @ApiProperty()
   updatedAt: Date;
+}
+
+export class RecruiterJobRevisionResponseDto extends OmitType(JobRevisionResponseDto, [
+  'moderation',
+  'reviewedAt',
+  'reviewReason',
+] as const) {
+  @ApiProperty({ type: RecruiterJobReviewSummaryDto })
+  review: RecruiterJobReviewSummaryDto;
 }
