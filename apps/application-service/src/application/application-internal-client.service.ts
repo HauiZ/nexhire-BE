@@ -1,5 +1,11 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, Inject, Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
+import {
+  HttpException,
+  Inject,
+  Injectable,
+  Logger,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { REDIS_CLIENT } from '@nexhire/infra';
 import { AxiosError } from 'axios';
@@ -94,6 +100,23 @@ export interface ApplicationMatchResultSnapshot {
   errorCode?: string | null;
   errorMessage?: string | null;
   createdAt: string | null;
+}
+
+export interface CandidateMatchingSkillSnapshot {
+  name: string;
+  level: string | null;
+  yearsOfExperience: number | null;
+}
+
+export interface CandidateMatchingSnapshot {
+  candidateId: string;
+  candidateUserId: string | null;
+  candidateCvId: string | null;
+  fullName: string | null;
+  headline: string | null;
+  summary: string | null;
+  location: string | null;
+  skills: CandidateMatchingSkillSnapshot[];
 }
 
 @Injectable()
@@ -205,6 +228,13 @@ export class ApplicationInternalClientService {
     }
   }
 
+  async getCandidateMatchingSnapshot(candidateId: string): Promise<CandidateMatchingSnapshot> {
+    return this.getFromService<CandidateMatchingSnapshot>(
+      'candidateService',
+      `/api/v1/internal/candidates/${candidateId}/matching-snapshot`,
+    );
+  }
+
   private async getCachedDocumentDownload(
     cacheKey: string,
   ): Promise<DocumentDownloadSnapshot | null> {
@@ -212,7 +242,9 @@ export class ApplicationInternalClientService {
       const cached = await this.redis.get(cacheKey);
       return cached ? (JSON.parse(cached) as DocumentDownloadSnapshot) : null;
     } catch (error) {
-      this.logger.warn(`Redis document cache read failed key=${cacheKey}: ${(error as Error).message}`);
+      this.logger.warn(
+        `Redis document cache read failed key=${cacheKey}: ${(error as Error).message}`,
+      );
       return null;
     }
   }
@@ -228,7 +260,9 @@ export class ApplicationInternalClientService {
     try {
       await this.redis.set(cacheKey, JSON.stringify(download), 'EX', ttlSeconds);
     } catch (error) {
-      this.logger.warn(`Redis document cache write failed key=${cacheKey}: ${(error as Error).message}`);
+      this.logger.warn(
+        `Redis document cache write failed key=${cacheKey}: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -264,11 +298,7 @@ export class ApplicationInternalClientService {
     }
   }
 
-  private async postToService<T>(
-    serviceKey: string,
-    path: string,
-    body: unknown,
-  ): Promise<T> {
+  private async postToService<T>(serviceKey: string, path: string, body: unknown): Promise<T> {
     const baseUrl = this.configService.get<string>(`applicationService.services.${serviceKey}`);
     const timeout = this.configService.get<number>('applicationService.http.timeoutMs', 5000);
     const internalServiceToken = this.configService.get<string>(

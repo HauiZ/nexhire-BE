@@ -193,6 +193,16 @@ export class ProxyController {
     return this.proxy.forward('applicationService', req, res);
   }
 
+  @All('recruiter/candidates/*')
+  recruiterCandidates(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('applicationService', req, res);
+  }
+
+  @All('recruiter/candidates')
+  recruiterCandidatesRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('applicationService', req, res);
+  }
+
   @All('saved-jobs/*')
   savedJobs(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('candidateService', req, res);

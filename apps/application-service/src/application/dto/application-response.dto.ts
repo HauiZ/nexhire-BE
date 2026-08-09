@@ -156,9 +156,6 @@ export class ApplicationResponseDto {
   submittedAt: Date;
 
   @ApiPropertyOptional({ nullable: true })
-  withdrawnAt: Date | null;
-
-  @ApiPropertyOptional({ nullable: true })
   decidedAt: Date | null;
 
   @ApiPropertyOptional({ nullable: true })
@@ -197,6 +194,87 @@ export class ApplicationCvDownloadDto {
   expiresInSeconds: number;
 }
 
+export class RecruiterCandidateSkillDto {
+  @ApiProperty()
+  name: string;
+
+  @ApiPropertyOptional({ nullable: true })
+  level: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  yearsOfExperience: number | null;
+}
+
+export class RecruiterCandidateListItemDto {
+  @ApiProperty()
+  candidateId: string;
+
+  @ApiProperty()
+  candidateUserId: string;
+
+  @ApiPropertyOptional({ nullable: true })
+  fullName: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  email: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  phone: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  avatarDocumentId: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  avatarUrl: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  headline: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  location: string | null;
+
+  @ApiProperty({ type: [RecruiterCandidateSkillDto] })
+  skills: RecruiterCandidateSkillDto[];
+
+  @ApiProperty()
+  latestApplicationId: string;
+
+  @ApiProperty()
+  latestJobId: string;
+
+  @ApiProperty()
+  latestJobTitle: string;
+
+  @ApiProperty({ enum: ApplicationStage })
+  latestStatus: ApplicationStage;
+
+  @ApiProperty()
+  applicationCount: number;
+
+  @ApiProperty()
+  lastAppliedAt: Date;
+
+  @ApiPropertyOptional({ nullable: true })
+  bestMatchScore: number | null;
+
+  @ApiPropertyOptional({ enum: ApplicationMatchLevel, nullable: true })
+  bestMatchLevel: ApplicationMatchLevel | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  bestMatchedApplicationId: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  bestMatchedJobId: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  bestMatchedJobTitle: string | null;
+}
+
+export class RecruiterCandidateDetailDto extends RecruiterCandidateListItemDto {
+  @ApiProperty({ type: [ApplicationResponseDto] })
+  applications: ApplicationResponseDto[];
+}
+
 export class RecruiterApplicationStatusCountsDto {
   @ApiProperty()
   SUBMITTED: number;
@@ -206,9 +284,6 @@ export class RecruiterApplicationStatusCountsDto {
 
   @ApiProperty()
   REJECTED: number;
-
-  @ApiProperty()
-  WITHDRAWN: number;
 
   @ApiProperty()
   CANCELLED: number;
@@ -226,9 +301,6 @@ export class RecruiterApplicationDailyStatsDto {
 
   @ApiProperty()
   rejected: number;
-
-  @ApiProperty()
-  withdrawn: number;
 
   @ApiProperty()
   cancelled: number;

@@ -544,7 +544,7 @@ Notes:
 - Physical document cleanup is asynchronous and only starts from soft-deleted CVs.
 - Default cleanup waits `CV_DOCUMENT_CLEANUP_DELETED_GRACE_DAYS=30` after candidate deletion.
 - Candidate-service then asks application-service whether the CV document is still referenced by active or recently terminal applications.
-- If there are no active applications and all `WITHDRAWN`/`REJECTED`/`CANCELLED` applications are older than `CV_DOCUMENT_CLEANUP_TERMINAL_APPLICATION_RETENTION_DAYS=180`, candidate-service calls document-storage-service to remove the MinIO object and soft-delete document metadata.
+- If there are no active applications and all `REJECTED`/`CANCELLED` applications are older than `CV_DOCUMENT_CLEANUP_TERMINAL_APPLICATION_RETENTION_DAYS=180`, candidate-service calls document-storage-service to remove the MinIO object and soft-delete document metadata.
 
 CV cleanup env:
 
@@ -552,7 +552,7 @@ CV cleanup env:
 | --------------------------------------------------------- | --------- | ------------------------------------------------------------------------- |
 | `CV_DOCUMENT_CLEANUP_SWEEP_INTERVAL_MS`                   | `3600000` | Scheduler interval; minimum 60s                                           |
 | `CV_DOCUMENT_CLEANUP_DELETED_GRACE_DAYS`                  | `30`      | Minimum age of `candidate_cvs.deleted_at` before physical cleanup can run |
-| `CV_DOCUMENT_CLEANUP_TERMINAL_APPLICATION_RETENTION_DAYS` | `180`     | Retention window for `WITHDRAWN`/`REJECTED`/`CANCELLED` applications      |
+| `CV_DOCUMENT_CLEANUP_TERMINAL_APPLICATION_RETENTION_DAYS` | `180`     | Retention window for `REJECTED`/`CANCELLED` applications                  |
 | `CV_DOCUMENT_CLEANUP_BATCH_SIZE`                          | `50`      | Max soft-deleted CV documents checked per sweep                           |
 
 Errors:

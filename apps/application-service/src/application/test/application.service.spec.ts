@@ -17,6 +17,7 @@ type MockRepo = {
   save: jest.Mock;
   create: jest.Mock;
   createQueryBuilder: jest.Mock;
+  query: jest.Mock;
   update: jest.Mock;
 };
 
@@ -85,6 +86,7 @@ describe('ApplicationService', () => {
     getDocumentDownload: jest.Mock;
     getLatestCvParseResult: jest.Mock;
     getLatestApplicationMatchResult: jest.Mock;
+    getCandidateMatchingSnapshot: jest.Mock;
     createApplicationMatchRequest: jest.Mock;
     requestCandidateCvParse: jest.Mock;
   };
@@ -102,6 +104,7 @@ describe('ApplicationService', () => {
       save: jest.fn((payload: Application) => Promise.resolve({ ...payload, id: application.id })),
       create: jest.fn((payload: Partial<Application>) => payload),
       createQueryBuilder: jest.fn(),
+      query: jest.fn(),
       update: jest.fn().mockResolvedValue(undefined),
     };
     progressEventRepo = {
@@ -151,6 +154,22 @@ describe('ApplicationService', () => {
         createdAt: '2026-07-15T00:00:00.000Z',
       }),
       getLatestApplicationMatchResult: jest.fn().mockResolvedValue(null),
+      getCandidateMatchingSnapshot: jest.fn().mockResolvedValue({
+        candidateId: application.candidateId,
+        candidateUserId: application.candidateUserId,
+        candidateCvId: application.candidateCvId,
+        fullName: application.candidateFullName,
+        headline: 'Backend Developer',
+        summary: null,
+        location: 'Ha Noi',
+        skills: [
+          {
+            name: 'NestJS',
+            level: 'ADVANCED',
+            yearsOfExperience: 3,
+          },
+        ],
+      }),
       createApplicationMatchRequest: jest.fn().mockResolvedValue({
         id: 'match-request-1',
         applicationId: application.id,
@@ -339,21 +358,6 @@ describe('ApplicationService', () => {
     ).rejects.toMatchObject({ status: 409 });
   });
 
-  it('allows withdrawing active applications', async () => {
-    repo.findOne.mockResolvedValue({ ...application });
-
-    const result = await service.withdrawMine(candidateUser, application.id, { note: 'later' });
-
-    expect(result.status).toBe(ApplicationStage.WITHDRAWN);
-    expect(applicationEventPublisher.publishApplicationStageChanged).toHaveBeenCalledWith(
-      expect.objectContaining({
-        applicationId: application.id,
-        previousStatus: ApplicationStage.SUBMITTED,
-        status: ApplicationStage.WITHDRAWN,
-      }),
-    );
-  });
-
   it('returns CV download only for recruiter company scope', async () => {
     repo.findOne.mockResolvedValue(application);
 
@@ -417,6 +421,87 @@ describe('ApplicationService', () => {
     expect(result.matchDecision).toBe('REVIEW_MANUALLY');
     expect(result.matchNextActions).toEqual(['Review CV details before shortlisting']);
     expect(result.matchRiskFlags).toEqual(['MISSING_REDIS']);
+  });
+
+  it('lists company candidates from company-scoped applications', async () => {
+    repo.query.mockResolvedValueOnce([{ total: 1 }]).mockResolvedValueOnce([
+      {
+        candidateId: application.candidateId,
+        candidateUserId: application.candidateUserId,
+        fullName: application.candidateFullName,
+        email: application.candidateEmail,
+        phone: application.candidatePhone,
+        avatarDocumentId: application.candidateAvatarDocumentId,
+        latestApplicationId: application.id,
+        latestJobId: application.jobId,
+        latestJobTitle: application.jobTitle,
+        latestStatus: ApplicationStage.SUBMITTED,
+        applicationCount: 2,
+        lastAppliedAt: application.submittedAt,
+        bestMatchScore: 92,
+        bestMatchLevel: ApplicationMatchLevel.EXCELLENT,
+        bestMatchedApplicationId: application.id,
+        bestMatchedJobId: application.jobId,
+        bestMatchedJobTitle: application.jobTitle,
+      },
+    ]);
+
+    const result = await service.listCompanyCandidates(recruiterUser, {
+      page: 1,
+      limit: 20,
+      skip: 0,
+      sortBy: 'bestMatchScore',
+      sortOrder: 'desc',
+    } as never);
+
+    expect(repo.query).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('COUNT(DISTINCT "candidate_id")'),
+      [recruiterUser.companyId],
+    );
+    expect(internalClient.getCandidateMatchingSnapshot).toHaveBeenCalledWith(
+      application.candidateId,
+    );
+    expect(result.data[0]).toEqual(
+      expect.objectContaining({
+        candidateId: application.candidateId,
+        latestJobTitle: application.jobTitle,
+        applicationCount: 2,
+        bestMatchScore: 92,
+        headline: 'Backend Developer',
+        skills: [
+          {
+            name: 'NestJS',
+            level: 'ADVANCED',
+            yearsOfExperience: 3,
+          },
+        ],
+      }),
+    );
+  });
+
+  it('returns company candidate detail with only company applications', async () => {
+    repo.find.mockResolvedValue([
+      {
+        ...application,
+        matchScore: 92,
+        matchLevel: ApplicationMatchLevel.EXCELLENT,
+      },
+    ]);
+
+    const result = await service.getCompanyCandidate(recruiterUser, application.candidateId);
+
+    expect(repo.find).toHaveBeenCalledWith({
+      where: {
+        companyId: recruiterUser.companyId,
+        candidateId: application.candidateId,
+      },
+      order: { submittedAt: 'DESC', createdAt: 'DESC' },
+    });
+    expect(result.candidateId).toBe(application.candidateId);
+    expect(result.applicationCount).toBe(1);
+    expect(result.bestMatchScore).toBe(92);
+    expect(result.applications).toHaveLength(1);
   });
 
   it('allows recruiter to offer an application and publishes stage change snapshot', async () => {

@@ -10,6 +10,7 @@ import { JobLifecycleEventsConsumer } from './events/consumers/job-lifecycle-eve
 import { MatchingCompletedEventsConsumer } from './events/consumers/matching-completed-events.consumer';
 import { ApplicationEventPublisher } from './events/application-event.publisher';
 import { CvParsedEventsConsumer } from './events/consumers/cv-parsed-events.consumer';
+import { RecruiterCandidateController } from './recruiter-candidate.controller';
 import { RecruiterApplicationController } from './recruiter-application.controller';
 
 @Module({
@@ -18,6 +19,7 @@ import { RecruiterApplicationController } from './recruiter-application.controll
     ApplicationController,
     ApplicationInternalController,
     RecruiterApplicationController,
+    RecruiterCandidateController,
   ],
   providers: [
     ApplicationService,

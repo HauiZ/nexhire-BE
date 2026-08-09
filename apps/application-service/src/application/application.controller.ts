@@ -24,7 +24,6 @@ import { ApplicationService } from './application.service';
 import {
   CreateApplicationDto,
   UpdateApplicationMatchSnapshotDto,
-  WithdrawApplicationDto,
 } from './dto/application-input.dto';
 import { CandidateApplicationQueryDto } from './dto/application-query.dto';
 import { ApplicationCvDownloadDto, ApplicationResponseDto } from './dto/application-response.dto';
@@ -82,21 +81,6 @@ export class ApplicationController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ApplicationCvDownloadDto> {
     return this.applicationService.getMineCvDownload(user, id);
-  }
-
-  @Post('me/:id/withdraw')
-  @HttpCode(200)
-  @Roles(UserRole.CANDIDATE)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Withdraw an active application' })
-  @ApiSuccessResponse(ApplicationResponseDto)
-  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409] })
-  withdrawMine(
-    @CurrentUser() user: AuthUser,
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: WithdrawApplicationDto,
-  ): Promise<ApplicationResponseDto> {
-    return this.applicationService.withdrawMine(user, id, dto);
   }
 }
 

@@ -73,11 +73,3 @@ export class UpdateApplicationMatchSnapshotDto {
   @IsEnum(ApplicationMatchLevel)
   matchLevel?: ApplicationMatchLevel;
 }
-
-export class WithdrawApplicationDto {
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  @MaxLength(2000)
-  note?: string;
-}

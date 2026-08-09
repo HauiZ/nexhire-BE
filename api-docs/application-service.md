@@ -16,7 +16,9 @@ Responsibility: job application submission, candidate application history, recru
   - candidate/contact/avatar snapshot from candidate-service,
   - CV metadata snapshot from candidate-service.
 - Active duplicate applications are blocked for the same candidate user and job when an existing application is `SUBMITTED` or `OFFERED`.
-- Candidates may apply again after `WITHDRAWN`, `REJECTED`, or `CANCELLED`.
+- Candidates may apply again after `REJECTED` or `CANCELLED`.
+- Legacy `WITHDRAWN` rows are migrated to `CANCELLED`; new APIs no longer create or expose
+  `WITHDRAWN` as a business status.
 - `UNPUBLISHED` jobs are not applyable for new submissions, but existing applications remain available for recruiter handling.
 - `CLOSED` jobs cancel active applications with status `CANCELLED`.
 - CV content is not embedded in the application response. FE calls the CV download endpoint to get a short-lived URL.
@@ -80,7 +82,6 @@ Errors: `401`, `403`, `404`, `503`.
 | `SUBMITTED` | Candidate submitted the application and recruiter has not decided yet    |
 | `OFFERED`   | Recruiter accepted the application for the next step/interview           |
 | `REJECTED`  | Recruiter rejected the application                                       |
-| `WITHDRAWN` | Candidate withdrew the application                                       |
 | `CANCELLED` | Backend cancelled the active application, for example when job is closed |
 
 ## Progress Timeline
@@ -169,7 +170,6 @@ Application response data:
     ]
   },
   "submittedAt": "2026-07-15T10:00:00.000Z",
-  "withdrawnAt": null,
   "decidedAt": null,
   "cancelledAt": null,
   "firstCvReceivedAt": "2026-07-15T10:00:00.000Z",
@@ -236,7 +236,7 @@ Query:
 | -------- | ------ | -------- | ------------------------------------------------------------ |
 | `page`   | number | No       | Default pagination behavior                                  |
 | `limit`  | number | No       | Default pagination behavior                                  |
-| `status` | enum   | No       | `SUBMITTED`, `OFFERED`, `REJECTED`, `WITHDRAWN`, `CANCELLED` |
+| `status` | enum   | No       | `SUBMITTED`, `OFFERED`, `REJECTED`, `CANCELLED` |
 
 Success response: paginated array of application response objects, including `progress` for
 candidate timeline UI.
@@ -281,39 +281,6 @@ Success response:
 
 Errors: `401`, `403`, `404`, `503`.
 
-### `POST /api/v1/applications/me/:id/withdraw`
-
-Summary: Withdraw an active application.
-
-Auth:
-
-- Required
-- Roles: `CANDIDATE`
-
-Request body:
-
-| Field  | Type   | Required | Note           |
-| ------ | ------ | -------- | -------------- |
-| `note` | string | No       | Max 2000 chars |
-
-```json
-{
-  "note": "I accepted another offer."
-}
-```
-
-Success response: application response object with `status = WITHDRAWN`.
-
-Errors:
-
-| Status | Meaning                                                 |
-| ------ | ------------------------------------------------------- |
-| 400    | Request body invalid                                    |
-| 401    | Missing/invalid access token                            |
-| 403    | User role is not allowed                                |
-| 404    | Application not found                                   |
-| 409    | Application cannot be withdrawn from its current status |
-
 ## Recruiter endpoints
 
 ### `GET /api/v1/recruiter/applications`
@@ -328,13 +295,17 @@ Auth:
 
 Query:
 
-| Field    | Type   | Required | Note                                             |
-| -------- | ------ | -------- | ------------------------------------------------ |
-| `page`   | number | No       | Default pagination behavior                      |
-| `limit`  | number | No       | Default pagination behavior                      |
-| `jobId`  | uuid   | No       | Filter by one job                                |
-| `status` | enum   | No       | Application status                               |
-| `search` | string | No       | Searches candidate name/email/job title snapshot |
+| Field           | Type                                     | Required | Note                                             |
+| --------------- | ---------------------------------------- | -------- | ------------------------------------------------ |
+| `page`          | number                                   | No       | Default pagination behavior                      |
+| `limit`         | number                                   | No       | Default pagination behavior                      |
+| `jobId`         | uuid                                     | No       | Filter by one job                                |
+| `status`        | enum                                     | No       | Application status                               |
+| `search`        | string                                   | No       | Searches candidate name/email/job title snapshot |
+| `matchLevel`    | `LOW`, `MEDIUM`, `HIGH`, `EXCELLENT`     | No       | Filter by stored application match level         |
+| `minMatchScore` | number 0..100                            | No       | Filter by stored application match score         |
+| `sortBy`        | `submittedAt`, `updatedAt`, `matchScore` | No       | Defaults to `submittedAt`                        |
+| `sortOrder`     | `asc`, `desc`                            | No       | Defaults to `desc`                               |
 
 Success response: paginated array of application response objects.
 
@@ -342,6 +313,117 @@ FE notes:
 
 - `matchScore` and `matchLevel` may be `null` when matching-service has not scored the application yet.
 - Recent candidate cards can use this endpoint with `limit=3`; no separate recent endpoint is required right now.
+- For job-specific ranking, call this endpoint with `jobId=...&sortBy=matchScore&sortOrder=desc`.
+
+### `GET /api/v1/recruiter/candidates`
+
+Summary: List company candidates derived from applications.
+
+This endpoint is for the recruiter "Candidates" page. It returns **candidate profiles within the
+recruiter's company scope**, not global candidates. A candidate appears here only if they have at
+least one application for a job owned by the recruiter's company.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`
+- User must have `companyId` in access token/gateway identity.
+
+Query:
+
+| Field           | Type                                                                   | Required | Note                                                         |
+| --------------- | ---------------------------------------------------------------------- | -------- | ------------------------------------------------------------ |
+| `page`          | number                                                                 | No       | Default pagination behavior                                  |
+| `limit`         | number                                                                 | No       | Default pagination behavior                                  |
+| `jobId`         | uuid                                                                   | No       | Restrict candidates to those who applied to one job          |
+| `status`        | enum                                                                   | No       | Restrict by application status within company                |
+| `search`        | string                                                                 | No       | Searches latest candidate name/email and job title snapshots |
+| `matchLevel`    | `LOW`, `MEDIUM`, `HIGH`, `EXCELLENT`                                   | No       | Restrict by application match level                          |
+| `minMatchScore` | number 0..100                                                          | No       | Restrict by application match score                          |
+| `sortBy`        | `lastAppliedAt`, `bestMatchScore`, `applicationCount`, `candidateName` | No       | Defaults to `lastAppliedAt`                                  |
+| `sortOrder`     | `asc`, `desc`                                                          | No       | Defaults to `desc`                                           |
+
+Success response:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "candidateId": "66666666-6666-6666-6666-666666666666",
+      "candidateUserId": "11111111-1111-1111-1111-111111111111",
+      "fullName": "Candidate One",
+      "email": "candidate@nexhire.vn",
+      "phone": "0912345678",
+      "avatarDocumentId": null,
+      "avatarUrl": null,
+      "headline": "Backend Developer",
+      "location": "Ha Noi",
+      "skills": [
+        {
+          "name": "NestJS",
+          "level": "ADVANCED",
+          "yearsOfExperience": 3
+        }
+      ],
+      "latestApplicationId": "44444444-4444-4444-4444-444444444444",
+      "latestJobId": "55555555-5555-5555-5555-555555555555",
+      "latestJobTitle": "Backend Engineer",
+      "latestStatus": "SUBMITTED",
+      "applicationCount": 2,
+      "lastAppliedAt": "2026-07-15T00:00:00.000Z",
+      "bestMatchScore": 92,
+      "bestMatchLevel": "EXCELLENT",
+      "bestMatchedApplicationId": "44444444-4444-4444-4444-444444444444",
+      "bestMatchedJobId": "55555555-5555-5555-5555-555555555555",
+      "bestMatchedJobTitle": "Backend Engineer"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 1,
+    "totalPages": 1
+  }
+}
+```
+
+FE notes:
+
+- This is not a global talent pool. It is the company candidate database derived from company applications.
+- `skills`, `headline`, and `location` are best-effort enriched from candidate-service after company scope is verified.
+- If enrichment is temporarily unavailable, BE still returns the candidate card with `skills=[]`.
+
+### `GET /api/v1/recruiter/candidates/:candidateId`
+
+Summary: Get a company candidate detail and their application history inside the recruiter company.
+
+Auth:
+
+- Required
+- Roles: `RECRUITER`
+
+Rules:
+
+- Candidate must have at least one application for the recruiter's company.
+- Response does not expose applications that belong to another company.
+
+Success response: same candidate fields as list item, plus:
+
+```json
+{
+  "applications": [
+    {
+      "id": "44444444-4444-4444-4444-444444444444",
+      "jobId": "55555555-5555-5555-5555-555555555555",
+      "jobTitle": "Backend Engineer",
+      "status": "SUBMITTED",
+      "matchScore": 92,
+      "matchLevel": "EXCELLENT"
+    }
+  ]
+}
+```
 
 ### `GET /api/v1/recruiter/applications/stats`
 
@@ -371,7 +453,6 @@ Success response:
       "SUBMITTED": 3,
       "OFFERED": 2,
       "REJECTED": 1,
-      "WITHDRAWN": 4,
       "CANCELLED": 0
     },
     "byDay": [
@@ -380,7 +461,6 @@ Success response:
         "submitted": 2,
         "offered": 1,
         "rejected": 0,
-        "withdrawn": 0,
         "cancelled": 0
       }
     ],
@@ -502,7 +582,7 @@ Success response:
 Retention rules:
 
 - `SUBMITTED` and `OFFERED` are active blockers.
-- `WITHDRAWN`, `REJECTED`, and `CANCELLED` block cleanup until their terminal timestamp is older than `terminalBefore`.
+- `REJECTED` and `CANCELLED` block cleanup until their terminal timestamp is older than `terminalBefore`.
 - Candidate-service only calls this after the candidate has already soft-deleted the CV.
 - Existing application snapshots remain queryable until document-storage physically removes the CV document after retention.
 
@@ -548,7 +628,7 @@ Application-service publishes:
 | Routing key                 | When                                           |
 | --------------------------- | ---------------------------------------------- |
 | `application.submitted`     | After a successful application submit          |
-| `application.stage-changed` | After withdraw, offer, reject, or cancellation |
+| `application.stage-changed` | After offer, reject, or cancellation |
 
 Application-service consumes:
 

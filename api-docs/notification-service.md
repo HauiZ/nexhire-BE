@@ -156,7 +156,7 @@ Notification-service consumes application events:
 
 Company trust changes are not shown to candidates/public users. If a trust change changes posting eligibility indirectly, users only see the resulting company/job status messaging.
 
-`SUBMITTED` and `WITHDRAWN` stage-change payloads are ignored by in-app notification handling.
+`SUBMITTED` stage-change payloads are ignored by in-app notification handling.
 
 ## Email links
 

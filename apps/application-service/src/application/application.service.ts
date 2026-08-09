@@ -20,18 +20,22 @@ import { Brackets, In, Repository } from 'typeorm';
 import {
   ApplicationMatchResultSnapshot,
   ApplicationInternalClientService,
+  CandidateMatchingSnapshot,
   MatchRequestSnapshot,
 } from './application-internal-client.service';
 import {
   CreateApplicationDto,
   UpdateApplicationMatchSnapshotDto,
   UpdateApplicationStageDto,
-  WithdrawApplicationDto,
 } from './dto/application-input.dto';
 import {
   CandidateApplicationQueryDto,
   RecruiterApplicationQueryDto,
+  RecruiterApplicationSortBy,
+  RecruiterCandidateQueryDto,
+  RecruiterCandidateSortBy,
   RecruiterApplicationStatsQueryDto,
+  SortOrder,
 } from './dto/application-query.dto';
 import {
   ApplicationCvDownloadDto,
@@ -41,6 +45,9 @@ import {
   RecruiterApplicationDailyStatsDto,
   RecruiterApplicationStatsDto,
   RecruiterApplicationStatusCountsDto,
+  RecruiterCandidateDetailDto,
+  RecruiterCandidateListItemDto,
+  RecruiterCandidateSkillDto,
 } from './dto/application-response.dto';
 import { CvDocumentRetentionResponseDto } from './dto/cv-document-retention.dto';
 import { Application } from './entities/application.entity';
@@ -50,6 +57,26 @@ import {
   ApplicationProgressEvent,
 } from './entities/application-progress-event.entity';
 import { ApplicationEventPublisher } from './events/application-event.publisher';
+
+interface RecruiterCandidateRawRow {
+  candidateId: string;
+  candidateUserId: string;
+  fullName: string | null;
+  email: string | null;
+  phone: string | null;
+  avatarDocumentId: string | null;
+  latestApplicationId: string;
+  latestJobId: string;
+  latestJobTitle: string;
+  latestStatus: ApplicationStage;
+  applicationCount: number | string;
+  lastAppliedAt: Date | string;
+  bestMatchScore: number | string | null;
+  bestMatchLevel: ApplicationMatchLevel | null;
+  bestMatchedApplicationId: string | null;
+  bestMatchedJobId: string | null;
+  bestMatchedJobTitle: string | null;
+}
 
 @Injectable()
 export class ApplicationService {
@@ -64,6 +91,150 @@ export class ApplicationService {
     @InjectRepository(ApplicationProgressEvent)
     private readonly progressEventRepo: Repository<ApplicationProgressEvent>,
   ) {}
+
+  async listCompanyCandidates(user: AuthUser, query: RecruiterCandidateQueryDto) {
+    this.assertRecruiter(user);
+    const companyId = user.companyId!;
+    const { whereSql, params } = this.buildCompanyCandidateWhere(companyId, query);
+    const totalRows = await this.applicationRepo.query(
+      `SELECT COUNT(DISTINCT "candidate_id")::int AS "total" FROM "applications" WHERE ${whereSql}`,
+      params,
+    );
+    const total = Number(totalRows[0]?.total ?? 0);
+
+    const sortSql = this.companyCandidateSortSql(query.sortBy, query.sortOrder);
+    const rows = (await this.applicationRepo.query(
+      `
+        WITH filtered AS (
+          SELECT *
+          FROM "applications"
+          WHERE ${whereSql}
+        ),
+        ranked_latest AS (
+          SELECT
+            *,
+            ROW_NUMBER() OVER (
+              PARTITION BY "candidate_id"
+              ORDER BY "submitted_at" DESC, "created_at" DESC, "id" ASC
+            ) AS "latest_rank"
+          FROM filtered
+        ),
+        grouped AS (
+          SELECT
+            "candidate_id",
+            COUNT(*)::int AS "applicationCount",
+            MAX("submitted_at") AS "lastAppliedAt",
+            MAX("match_score") AS "bestMatchScore"
+          FROM filtered
+          GROUP BY "candidate_id"
+        ),
+        best_match AS (
+          SELECT DISTINCT ON ("candidate_id")
+            "candidate_id",
+            "id" AS "bestMatchedApplicationId",
+            "job_id" AS "bestMatchedJobId",
+            "job_title" AS "bestMatchedJobTitle",
+            "match_score" AS "bestMatchScore",
+            "match_level" AS "bestMatchLevel"
+          FROM filtered
+          WHERE "match_score" IS NOT NULL
+          ORDER BY "candidate_id", "match_score" DESC NULLS LAST, "submitted_at" DESC, "created_at" DESC
+        )
+        SELECT
+          latest."candidate_id" AS "candidateId",
+          latest."candidate_user_id" AS "candidateUserId",
+          latest."candidate_full_name" AS "fullName",
+          latest."candidate_email" AS "email",
+          latest."candidate_phone" AS "phone",
+          latest."candidate_avatar_document_id" AS "avatarDocumentId",
+          latest."id" AS "latestApplicationId",
+          latest."job_id" AS "latestJobId",
+          latest."job_title" AS "latestJobTitle",
+          latest."status" AS "latestStatus",
+          grouped."applicationCount",
+          grouped."lastAppliedAt",
+          best_match."bestMatchScore",
+          best_match."bestMatchLevel",
+          best_match."bestMatchedApplicationId",
+          best_match."bestMatchedJobId",
+          best_match."bestMatchedJobTitle"
+        FROM ranked_latest latest
+        INNER JOIN grouped ON grouped."candidate_id" = latest."candidate_id"
+        LEFT JOIN best_match ON best_match."candidate_id" = latest."candidate_id"
+        WHERE latest."latest_rank" = 1
+        ORDER BY ${sortSql}
+        LIMIT $${params.length + 1}
+        OFFSET $${params.length + 2}
+      `,
+      [...params, query.limit, query.skip],
+    )) as RecruiterCandidateRawRow[];
+
+    return this.paginate(
+      await Promise.all(rows.map((row) => this.mapRecruiterCandidateRow(row))),
+      query.page,
+      query.limit,
+      total,
+    );
+  }
+
+  async getCompanyCandidate(
+    user: AuthUser,
+    candidateId: string,
+  ): Promise<RecruiterCandidateDetailDto> {
+    this.assertRecruiter(user);
+    const companyId = user.companyId!;
+    const applications = await this.applicationRepo.find({
+      where: { companyId, candidateId },
+      order: { submittedAt: 'DESC', createdAt: 'DESC' },
+    });
+    if (applications.length === 0) {
+      throw this.notFound();
+    }
+
+    const applicationDtos = await Promise.all(
+      applications.map((application) =>
+        this.mapApplication(application, {
+          includeMatchResult: true,
+        }),
+      ),
+    );
+    const latest = applications[0];
+    const best = applications
+      .filter((application) => application.matchScore !== null)
+      .sort((a, b) => {
+        const byScore = (b.matchScore ?? -1) - (a.matchScore ?? -1);
+        if (byScore !== 0) {
+          return byScore;
+        }
+        return b.submittedAt.getTime() - a.submittedAt.getTime();
+      })[0];
+    const snapshot = await this.getCandidateSnapshotBestEffort(candidateId);
+
+    return {
+      candidateId: latest.candidateId,
+      candidateUserId: latest.candidateUserId,
+      fullName: latest.candidateFullName,
+      email: latest.candidateEmail,
+      phone: latest.candidatePhone,
+      avatarDocumentId: latest.candidateAvatarDocumentId,
+      avatarUrl: await this.resolveAvatarUrl(latest.candidateAvatarDocumentId),
+      headline: snapshot?.headline ?? null,
+      location: snapshot?.location ?? null,
+      skills: this.mapCandidateSkills(snapshot),
+      latestApplicationId: latest.id,
+      latestJobId: latest.jobId,
+      latestJobTitle: latest.jobTitle,
+      latestStatus: latest.status,
+      applicationCount: applications.length,
+      lastAppliedAt: latest.submittedAt,
+      bestMatchScore: best?.matchScore ?? null,
+      bestMatchLevel: best?.matchLevel ?? null,
+      bestMatchedApplicationId: best?.id ?? null,
+      bestMatchedJobId: best?.jobId ?? null,
+      bestMatchedJobTitle: best?.jobTitle ?? null,
+      applications: applicationDtos,
+    };
+  }
 
   async create(user: AuthUser, dto: CreateApplicationDto): Promise<ApplicationResponseDto> {
     this.assertCandidate(user);
@@ -221,35 +392,11 @@ export class ApplicationService {
     });
   }
 
-  async withdrawMine(
-    user: AuthUser,
-    id: string,
-    dto: WithdrawApplicationDto,
-  ): Promise<ApplicationResponseDto> {
-    this.assertCandidate(user);
-    const application = await this.findMine(user, id);
-    if (![ApplicationStage.SUBMITTED, ApplicationStage.OFFERED].includes(application.status)) {
-      throw this.invalidTransition();
-    }
-
-    const previousStatus = application.status;
-    application.status = ApplicationStage.WITHDRAWN;
-    application.statusNote = dto.note?.trim() || null;
-    application.withdrawnAt = new Date();
-    const saved = await this.applicationRepo.save(application);
-    await this.publishStageChanged(saved, previousStatus);
-    this.logger.log(
-      `Application withdrawn applicationId=${saved.id} previousStatus=${previousStatus} candidateUserId=${user.id}`,
-    );
-    return this.mapApplication(saved);
-  }
-
   async listCompany(user: AuthUser, query: RecruiterApplicationQueryDto) {
     this.assertRecruiter(user);
     const qb = this.applicationRepo
       .createQueryBuilder('application')
       .where('application.companyId = :companyId', { companyId: user.companyId })
-      .orderBy('application.createdAt', 'DESC')
       .skip(query.skip)
       .take(query.limit);
 
@@ -258,6 +405,14 @@ export class ApplicationService {
     }
     if (query.status) {
       qb.andWhere('application.status = :status', { status: query.status });
+    }
+    if (query.matchLevel) {
+      qb.andWhere('application.matchLevel = :matchLevel', { matchLevel: query.matchLevel });
+    }
+    if (query.minMatchScore !== undefined) {
+      qb.andWhere('application.matchScore >= :minMatchScore', {
+        minMatchScore: query.minMatchScore,
+      });
     }
     if (query.search?.trim()) {
       qb.andWhere(
@@ -274,6 +429,22 @@ export class ApplicationService {
             });
         }),
       );
+    }
+    const direction = query.sortOrder === SortOrder.ASC ? 'ASC' : 'DESC';
+    switch (query.sortBy) {
+      case RecruiterApplicationSortBy.MATCH_SCORE:
+        qb.orderBy('application.matchScore', direction, 'NULLS LAST').addOrderBy(
+          'application.submittedAt',
+          'DESC',
+        );
+        break;
+      case RecruiterApplicationSortBy.UPDATED_AT:
+        qb.orderBy('application.updatedAt', direction);
+        break;
+      case RecruiterApplicationSortBy.SUBMITTED_AT:
+      default:
+        qb.orderBy('application.submittedAt', direction);
+        break;
     }
 
     const [applications, total] = await qb.getManyAndCount();
@@ -534,11 +705,7 @@ export class ApplicationService {
     terminalBefore?: string,
   ): Promise<CvDocumentRetentionResponseDto> {
     const terminalCutoff = terminalBefore ? new Date(terminalBefore) : new Date();
-    const terminalStatuses = [
-      ApplicationStage.REJECTED,
-      ApplicationStage.WITHDRAWN,
-      ApplicationStage.CANCELLED,
-    ];
+    const terminalStatuses = [ApplicationStage.REJECTED, ApplicationStage.CANCELLED];
 
     const [activeApplicationCount, recentTerminalApplicationCount, blockingApplication] =
       await Promise.all([
@@ -920,6 +1087,108 @@ export class ApplicationService {
     return byApplicationId;
   }
 
+  private buildCompanyCandidateWhere(
+    companyId: string,
+    query: RecruiterCandidateQueryDto,
+  ): { whereSql: string; params: unknown[] } {
+    const clauses = ['"company_id" = $1', '"deleted_at" IS NULL'];
+    const params: unknown[] = [companyId];
+    const addParam = (value: unknown): string => {
+      params.push(value);
+      return `$${params.length}`;
+    };
+
+    if (query.jobId) {
+      clauses.push(`"job_id" = ${addParam(query.jobId)}`);
+    }
+    if (query.status) {
+      clauses.push(`"status" = ${addParam(query.status)}`);
+    }
+    if (query.matchLevel) {
+      clauses.push(`"match_level" = ${addParam(query.matchLevel)}`);
+    }
+    if (query.minMatchScore !== undefined) {
+      clauses.push(`"match_score" >= ${addParam(query.minMatchScore)}`);
+    }
+    if (query.search?.trim()) {
+      const searchParam = addParam(`%${query.search.trim()}%`);
+      clauses.push(
+        `("candidate_full_name" ILIKE ${searchParam} OR "candidate_email" ILIKE ${searchParam} OR "job_title" ILIKE ${searchParam})`,
+      );
+    }
+
+    return { whereSql: clauses.join(' AND '), params };
+  }
+
+  private companyCandidateSortSql(sortBy: RecruiterCandidateSortBy, sortOrder: SortOrder): string {
+    const direction = sortOrder === SortOrder.ASC ? 'ASC' : 'DESC';
+    switch (sortBy) {
+      case RecruiterCandidateSortBy.BEST_MATCH_SCORE:
+        return `"bestMatchScore" ${direction} NULLS LAST, "lastAppliedAt" DESC`;
+      case RecruiterCandidateSortBy.APPLICATION_COUNT:
+        return `"applicationCount" ${direction}, "lastAppliedAt" DESC`;
+      case RecruiterCandidateSortBy.CANDIDATE_NAME:
+        return `"fullName" ${direction} NULLS LAST, "lastAppliedAt" DESC`;
+      case RecruiterCandidateSortBy.LAST_APPLIED_AT:
+      default:
+        return `"lastAppliedAt" ${direction}`;
+    }
+  }
+
+  private async mapRecruiterCandidateRow(
+    row: RecruiterCandidateRawRow,
+  ): Promise<RecruiterCandidateListItemDto> {
+    const snapshot = await this.getCandidateSnapshotBestEffort(row.candidateId);
+    return {
+      candidateId: row.candidateId,
+      candidateUserId: row.candidateUserId,
+      fullName: row.fullName,
+      email: row.email,
+      phone: row.phone,
+      avatarDocumentId: row.avatarDocumentId,
+      avatarUrl: await this.resolveAvatarUrl(row.avatarDocumentId),
+      headline: snapshot?.headline ?? null,
+      location: snapshot?.location ?? null,
+      skills: this.mapCandidateSkills(snapshot),
+      latestApplicationId: row.latestApplicationId,
+      latestJobId: row.latestJobId,
+      latestJobTitle: row.latestJobTitle,
+      latestStatus: row.latestStatus,
+      applicationCount: Number(row.applicationCount),
+      lastAppliedAt: new Date(row.lastAppliedAt),
+      bestMatchScore: row.bestMatchScore === null ? null : Number(row.bestMatchScore),
+      bestMatchLevel: row.bestMatchLevel,
+      bestMatchedApplicationId: row.bestMatchedApplicationId,
+      bestMatchedJobId: row.bestMatchedJobId,
+      bestMatchedJobTitle: row.bestMatchedJobTitle,
+    };
+  }
+
+  private async getCandidateSnapshotBestEffort(
+    candidateId: string,
+  ): Promise<CandidateMatchingSnapshot | null> {
+    try {
+      return await this.internalClient.getCandidateMatchingSnapshot(candidateId);
+    } catch (error) {
+      this.logger.warn(
+        `Failed to load candidate matching snapshot candidateId=${candidateId}: ${(error as Error).message}`,
+      );
+      return null;
+    }
+  }
+
+  private mapCandidateSkills(
+    snapshot: CandidateMatchingSnapshot | null,
+  ): RecruiterCandidateSkillDto[] {
+    return (
+      snapshot?.skills.map((skill) => ({
+        name: skill.name,
+        level: skill.level,
+        yearsOfExperience: skill.yearsOfExperience,
+      })) ?? []
+    );
+  }
+
   private mapProgress(
     application: Application,
     events: ApplicationProgressEvent[],
@@ -1000,7 +1269,6 @@ export class ApplicationService {
       matchNextActions: matchExplanation?.nextActions ?? null,
       matchRiskFlags: matchExplanation?.riskFlags ?? null,
       submittedAt: application.submittedAt,
-      withdrawnAt: application.withdrawnAt,
       decidedAt: application.decidedAt,
       cancelledAt: application.cancelledAt,
       firstCvReceivedAt: application.firstCvReceivedAt,
@@ -1068,7 +1336,6 @@ export class ApplicationService {
       [ApplicationStage.SUBMITTED]: 0,
       [ApplicationStage.OFFERED]: 0,
       [ApplicationStage.REJECTED]: 0,
-      [ApplicationStage.WITHDRAWN]: 0,
       [ApplicationStage.CANCELLED]: 0,
     };
   }
@@ -1085,7 +1352,6 @@ export class ApplicationService {
         submitted: 0,
         offered: 0,
         rejected: 0,
-        withdrawn: 0,
         cancelled: 0,
       });
     }
@@ -1124,8 +1390,6 @@ export class ApplicationService {
         return 'offered';
       case ApplicationStage.REJECTED:
         return 'rejected';
-      case ApplicationStage.WITHDRAWN:
-        return 'withdrawn';
       case ApplicationStage.CANCELLED:
         return 'cancelled';
       case ApplicationStage.SUBMITTED:

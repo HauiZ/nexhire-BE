@@ -29,7 +29,7 @@ Flow scripts may also run their own focused preflight and fail early before call
 ## Cleanup generated test data
 
 Most flow scripts clean up through public APIs by default. That means records may still remain in
-the database as business history, for example withdrawn applications, closed jobs, suspended
+the database as business history, for example closed jobs, suspended
 companies, uploaded document metadata, and generated auth users.
 
 The `npm run test:script ...` runner now also runs a post-flow DB cleanup automatically for known
@@ -187,8 +187,6 @@ It covers:
 - candidate list/detail
 - candidate CV download URL
 - optional recruiter list/detail/CV checks
-- withdraw application
-- apply again after withdraw
 
 Optional env:
 
@@ -209,8 +207,8 @@ $env:APPLICATION_TEST_KEEP_DATA="true"
 If job/CV/token env is omitted, the script mints local JWTs from `JWT_ACCESS_SECRET`, creates an
 approved company, publishes a job, uploads a candidate CV, and then runs the application flow.
 
-Cleanup note: applications created by the flow are withdrawn by default. Set
-`APPLICATION_TEST_KEEP_DATA=true` to inspect them after the run.
+Cleanup note: application rows created by the flow are removed by the post-flow DB cleanup. Set
+`APPLICATION_TEST_KEEP_DATA=true` or `TEST_FLOW_CLEANUP_AFTER_RUN=false` to inspect them after the run.
 
 ## Company -> job moderation -> admin review
 

@@ -152,7 +152,6 @@ FE-facing business endpoints currently documented:
 - `GET /api/v1/applications/me`
 - `GET /api/v1/applications/me/:id`
 - `GET /api/v1/applications/me/:id/cv`
-- `POST /api/v1/applications/me/:id/withdraw`
 - `GET /api/v1/recruiter/dashboard/summary`
 - `GET /api/v1/admin/dashboard/overview`
 - `GET /api/v1/admin/dashboard/growth`

@@ -2,6 +2,5 @@ export enum ApplicationStage {
   SUBMITTED = 'SUBMITTED',
   OFFERED = 'OFFERED',
   REJECTED = 'REJECTED',
-  WITHDRAWN = 'WITHDRAWN',
   CANCELLED = 'CANCELLED',
 }

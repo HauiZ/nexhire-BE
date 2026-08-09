@@ -422,41 +422,6 @@ async function recruiterChecks(applicationId: string): Promise<void> {
   expectStatus(cvResponse.status, 200, 'recruiter CV URL', cvResponse.raw);
 }
 
-async function withdraw(applicationId: string): Promise<void> {
-  logSection('6. Withdraw application');
-  const response = await request<ApplicationResponse>(
-    'POST',
-    `/applications/me/${applicationId}/withdraw`,
-    candidateHeaders(),
-    { note: 'Application flow test withdraw.' },
-  );
-
-  if (expectStatusOneOf(response.status, [200, 201], 'withdraw application', response.raw)) {
-    if (response.data.status === 'WITHDRAWN') {
-      pass('application moved to WITHDRAWN');
-    } else {
-      fail('withdraw response has unexpected status', response.raw);
-    }
-  }
-}
-
-async function applyAgainAfterWithdraw(): Promise<void> {
-  logSection('7. Apply again after withdraw');
-  const response = await request<ApplicationResponse>('POST', '/applications', candidateHeaders(), {
-    jobId,
-    candidateCvId,
-  });
-  if (!expectStatus(response.status, 201, 'apply again after withdraw', response.raw)) {
-    return;
-  }
-  if (response.data.status === 'SUBMITTED') {
-    createdApplicationIds.push(response.data.id);
-    pass('withdrawn application does not block a new application');
-  } else {
-    fail('new application status is unexpected', response.raw);
-  }
-}
-
 async function cleanup(): Promise<void> {
   if (KEEP_DATA) {
     log('Cleanup skipped because APPLICATION_TEST_KEEP_DATA=true', 'yellow');
@@ -464,22 +429,11 @@ async function cleanup(): Promise<void> {
   }
 
   logSection('Cleanup');
-  for (const applicationId of Array.from(new Set(createdApplicationIds)).reverse()) {
-    const response = await request<ApplicationResponse>(
-      'POST',
-      `/applications/me/${applicationId}/withdraw`,
-      candidateHeaders(),
-      { note: 'Application flow test cleanup.' },
-    ).catch((error) => {
-      log(
-        `cleanup application failed applicationId=${applicationId}: ${(error as Error).message}`,
-        'yellow',
-      );
-      return null;
-    });
-    if (response && [200, 201, 409].includes(response.status)) {
-      pass(`cleanup application ${applicationId}`);
-    }
+  if (createdApplicationIds.length > 0) {
+    log(
+      'Application rows are cleaned by test/test-flows/test-cleanup-data.ts because withdraw API was removed.',
+      'yellow',
+    );
   }
 
   if (createdJobId) {
@@ -541,8 +495,6 @@ async function main(): Promise<void> {
     await listAndDetail(application.id);
     await getCandidateCv(application);
     await recruiterChecks(application.id);
-    await withdraw(application.id);
-    await applyAgainAfterWithdraw();
   } finally {
     await cleanup();
   }

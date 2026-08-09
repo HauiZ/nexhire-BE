@@ -132,7 +132,6 @@ async function cleanupApplications(): Promise<string[]> {
           WHERE job_title LIKE 'Application Flow Job %'
             OR cover_letter LIKE 'Application flow test cover letter %.'
             OR cover_letter = 'Application flow test cover letter.'
-            OR status_note = 'Application flow test withdraw.'
             OR status_note = 'Application flow test cleanup.'
         `,
       runScopedParams,

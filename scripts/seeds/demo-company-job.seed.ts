@@ -916,12 +916,12 @@ const demoApplications: DemoApplication[] = [
     id: '60000000-0000-4000-8000-000000000005',
     candidateId: demoCandidates[0].id,
     jobId: demoJobs[14].id,
-    status: ApplicationStage.WITHDRAWN,
-    coverLetter: 'I wanted to explore QA automation but later withdrew this application.',
+    status: ApplicationStage.CANCELLED,
+    coverLetter: 'I wanted to explore QA automation before the role was cancelled.',
     matchScore: 49,
     matchLevel: ApplicationMatchLevel.LOW,
     submittedDaysAgo: 9,
-    statusNote: 'Candidate withdrew application.',
+    statusNote: 'Demo cancelled application.',
   },
   {
     id: '60000000-0000-4000-8000-000000000006',
@@ -1339,8 +1339,8 @@ async function seedDemoApplications(dataSource: DataSource): Promise<void> {
       item.status === ApplicationStage.OFFERED || item.status === ApplicationStage.REJECTED
         ? new Date(submittedAt.getTime() + 2 * 24 * 60 * 60 * 1000)
         : null;
-    const withdrawnAt =
-      item.status === ApplicationStage.WITHDRAWN
+    const cancelledAt =
+      item.status === ApplicationStage.CANCELLED
         ? new Date(submittedAt.getTime() + 24 * 60 * 60 * 1000)
         : null;
 
@@ -1372,9 +1372,9 @@ async function seedDemoApplications(dataSource: DataSource): Promise<void> {
         matchScore: item.matchScore,
         matchLevel: item.matchLevel,
         submittedAt,
-        withdrawnAt,
+        withdrawnAt: null,
         decidedAt,
-        cancelledAt: null,
+        cancelledAt,
         deletedAt: null,
       }),
     );

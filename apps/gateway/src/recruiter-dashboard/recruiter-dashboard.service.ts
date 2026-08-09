@@ -15,7 +15,6 @@ import {
   RecruiterDashboardCompanyDto,
   RecruiterDashboardStatsDto,
   RecruiterDashboardSummaryDto,
-  RecruiterDashboardTasksDto,
 } from './recruiter-dashboard.dto';
 
 type ServiceKey = 'companyService' | 'jobService' | 'applicationService';
@@ -50,7 +49,6 @@ interface ApplicationStatusCounts {
   SUBMITTED: number;
   OFFERED: number;
   REJECTED: number;
-  WITHDRAWN: number;
   CANCELLED: number;
 }
 
