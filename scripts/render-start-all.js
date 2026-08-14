@@ -2,10 +2,10 @@
 const { spawn, spawnSync } = require('child_process');
 
 const NEST_SERVICES = [
+  ['job-service', 'JOB_SERVICE_PORT', 3004, 'dist/apps/job-service/main.js'],
   ['auth-service', 'AUTH_SERVICE_PORT', 3001, 'dist/apps/auth-service/main.js'],
   ['candidate-service', 'CANDIDATE_SERVICE_PORT', 3002, 'dist/apps/candidate-service/main.js'],
   ['company-service', 'COMPANY_SERVICE_PORT', 3003, 'dist/apps/company-service/main.js'],
-  ['job-service', 'JOB_SERVICE_PORT', 3004, 'dist/apps/job-service/main.js'],
   ['application-service', 'APPLICATION_SERVICE_PORT', 3005, 'dist/apps/application-service/main.js'],
   ['cv-parsing-service', 'CV_PARSING_SERVICE_PORT', 3006, 'dist/apps/cv-parsing-service/main.js'],
   ['notification-service', 'NOTIFICATION_SERVICE_PORT', 3008, 'dist/apps/notification-service/main.js'],
@@ -147,6 +147,16 @@ function startNestServices(services) {
   }
 }
 
+function startNestServicesStaggered(services, intervalMs) {
+  services.forEach((service, index) => {
+    setTimeout(() => {
+      const [name] = service;
+      console.log(`------------ starting ${name} ------------`);
+      startNestServices([service]);
+    }, index * intervalMs).unref?.();
+  });
+}
+
 function startMatchingService() {
   if (process.env.START_MATCHING_SERVICE === 'false') {
     console.log('------------ matching-service skipped ------------');
@@ -163,6 +173,10 @@ function startMatchingService() {
 
 function startServices() {
   const internalStartDelayMs = parseInt(process.env.RENDER_INTERNAL_START_DELAY_MS ?? '30000', 10);
+  const internalStartIntervalMs = parseInt(
+    process.env.RENDER_INTERNAL_START_INTERVAL_MS ?? '15000',
+    10,
+  );
 
   console.log('------------ starting gateway ------------');
   startNestServices([GATEWAY_SERVICE]);
@@ -172,8 +186,11 @@ function startServices() {
   );
   setTimeout(() => {
     console.log('------------ starting internal services ------------');
-    startNestServices(NEST_SERVICES);
-    startMatchingService();
+    startNestServicesStaggered(NEST_SERVICES, internalStartIntervalMs);
+    setTimeout(
+      () => startMatchingService(),
+      NEST_SERVICES.length * internalStartIntervalMs,
+    ).unref?.();
   }, internalStartDelayMs).unref?.();
 }
 
