@@ -3,8 +3,9 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig*.json ./
 COPY nest-cli.json ./
+COPY scripts ./scripts
 COPY apps ./apps
 COPY packages ./packages
 RUN npm ci
 RUN npm run build -- job-service
-CMD [\"node\", \"dist/apps/job-service/main.js\"]
+CMD ["node", "scripts/render-start-service.js", "job-service", "dist/apps/job-service/main.js"]
