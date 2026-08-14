@@ -19,7 +19,6 @@ import { HealthModule } from './health/health.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.local', '.env'],
       load: [databaseConfigFor('NOTIFICATION_SERVICE'), rabbitmqConfig, notificationServiceConfig],
       validationSchema,
     }),
