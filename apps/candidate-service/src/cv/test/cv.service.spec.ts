@@ -188,6 +188,37 @@ describe('CvService', () => {
     expect(result.parseStatus).toBe(CandidateCvParseStatus.PARSING);
   });
 
+  it('allows candidate profile parsing for a CV already parsed for matching', async () => {
+    cvRepo.findOne.mockResolvedValueOnce({
+      id: 'cv-1',
+      candidateId: 'candidate-1',
+      documentId: 'document-1',
+      title: 'Main CV',
+      isDefault: true,
+      parseStatus: CandidateCvParseStatus.PARSED,
+      parsedAt: new Date('2026-01-01T00:00:00.000Z'),
+      deletedAt: null,
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+    } as CandidateCv);
+
+    const result = await service.parseMine({ id: 'user-1', role: UserRole.CANDIDATE }, 'cv-1');
+
+    expect(cvRepo.update).toHaveBeenCalledWith('cv-1', {
+      parseStatus: CandidateCvParseStatus.PARSING,
+      parsedAt: null,
+    });
+    expect(cvEventPublisher.publishCvUploaded).toHaveBeenCalledWith(
+      expect.objectContaining({
+        candidateId: 'candidate-1',
+        candidateUserId: 'user-1',
+        candidateCvId: 'cv-1',
+        context: 'PROFILE_UPDATE',
+      }),
+    );
+    expect(result.parseStatus).toBe(CandidateCvParseStatus.PARSING);
+  });
+
   it('forces parsing for a saved CV that is already marked parsed', async () => {
     cvRepo.findOne.mockResolvedValueOnce({
       id: 'cv-1',
@@ -222,6 +253,51 @@ describe('CvService', () => {
         candidateUserId: 'user-1',
         candidateCvId: 'cv-1',
         documentId: 'document-1',
+      }),
+    );
+    expect(result.parseStatus).toBe(CandidateCvParseStatus.PARSING);
+  });
+
+  it('allows internal profile-applying parse even when the CV is already marked parsed', async () => {
+    cvRepo.findOne.mockResolvedValueOnce({
+      id: 'cv-1',
+      candidateId: 'candidate-1',
+      documentId: 'document-1',
+      title: 'Main CV',
+      isDefault: true,
+      parseStatus: CandidateCvParseStatus.PARSED,
+      parsedAt: new Date('2026-01-01T00:00:00.000Z'),
+      deletedAt: null,
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+    } as CandidateCv);
+
+    const result = await service.requestParseForMatching(
+      'candidate-1',
+      'cv-1',
+      'user-1',
+      false,
+      true,
+    );
+
+    expect(cvRepo.update).toHaveBeenCalledWith(
+      {
+        id: 'cv-1',
+        candidateId: 'candidate-1',
+        deletedAt: expect.any(Object),
+        parseStatus: expect.any(Object),
+      },
+      {
+        parseStatus: CandidateCvParseStatus.PARSING,
+        parsedAt: null,
+      },
+    );
+    expect(cvEventPublisher.publishCvUploaded).toHaveBeenCalledWith(
+      expect.objectContaining({
+        candidateId: 'candidate-1',
+        candidateUserId: 'user-1',
+        candidateCvId: 'cv-1',
+        context: 'PROFILE_UPDATE',
       }),
     );
     expect(result.parseStatus).toBe(CandidateCvParseStatus.PARSING);

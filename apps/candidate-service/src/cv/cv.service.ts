@@ -101,13 +101,6 @@ export class CvService {
       });
     }
 
-    if (cv.parseStatus === CandidateCvParseStatus.PARSED) {
-      throw new ConflictException({
-        code: ERROR_CODES.COMMON.CONFLICT,
-        message: 'CV has already been parsed',
-      });
-    }
-
     await this.cvRepo.update(cv.id, {
       parseStatus: CandidateCvParseStatus.PARSING,
       parsedAt: null,
@@ -125,6 +118,7 @@ export class CvService {
     candidateCvId: string,
     requestedByUserId: string,
     force = false,
+    applyToProfile = false,
   ): Promise<CandidateCvResponseDto> {
     const cv = await this.cvRepo.findOne({
       where: { id: candidateCvId, candidateId, deletedAt: IsNull() },
@@ -136,7 +130,7 @@ export class CvService {
       });
     }
 
-    if (!force && cv.parseStatus === CandidateCvParseStatus.PARSED) {
+    if (!force && !applyToProfile && cv.parseStatus === CandidateCvParseStatus.PARSED) {
       return this.mapCv(cv);
     }
 
@@ -169,6 +163,7 @@ export class CvService {
         parseStatus: CandidateCvParseStatus.PARSING,
         parsedAt: null,
       },
+      applyToProfile ? 'PROFILE_UPDATE' : 'MATCHING_APPLICATION',
     );
   }
 
@@ -280,6 +275,7 @@ export class CvService {
     user: AuthUser,
     candidateId: string,
     cv: CandidateCv,
+    context: 'PROFILE_UPDATE' | 'MATCHING_APPLICATION' = 'PROFILE_UPDATE',
   ): Promise<CandidateCvResponseDto> {
     try {
       const documentDownload = await this.documentClientService.createDownloadUrl(cv.documentId);
@@ -289,7 +285,7 @@ export class CvService {
         candidateCvId: cv.id,
         documentId: cv.documentId,
         documentUrl: documentDownload.url,
-        context: 'PROFILE_UPDATE',
+        context,
         uploadedAt: new Date().toISOString(),
       });
     } catch (error) {

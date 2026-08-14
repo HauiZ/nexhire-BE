@@ -23,7 +23,11 @@ export interface CvUploadedEventPayload {
   candidateCvId: string;
   documentId: string;
   documentUrl: string;
-  context: CvParseContext.PROFILE_UPDATE | 'PROFILE_UPDATE';
+  context:
+    | CvParseContext.PROFILE_UPDATE
+    | CvParseContext.MATCHING_APPLICATION
+    | 'PROFILE_UPDATE'
+    | 'MATCHING_APPLICATION';
   uploadedAt?: string;
 }
 
@@ -69,7 +73,7 @@ export class CvParsingService {
       candidateCvId: payload.candidateCvId,
       documentId: payload.documentId,
       documentUrl: payload.documentUrl,
-      context: CvParseContext.PROFILE_UPDATE,
+      context: payload.context as CvParseContext,
     });
 
     await this.processWithProvider(request.id, payload.documentUrl);
@@ -164,7 +168,7 @@ export class CvParsingService {
     });
 
     const profileApplied = this.shouldApplyParsedResume(result.request);
-    if (profileApplied) {
+    if (this.shouldPublishParsedResume(result.request)) {
       await this.publishParsedResume(result.request, dto.normalizedPayload);
     }
 
@@ -275,6 +279,7 @@ export class CvParsingService {
       candidateUserId: request.requestedByUserId,
       candidateCvId: request.candidateCvId,
       documentId: request.documentId,
+      context: request.context,
       normalizedPayload,
       parsedAt: new Date().toISOString(),
     });
@@ -290,6 +295,7 @@ export class CvParsingService {
       candidateUserId: request.requestedByUserId,
       candidateCvId: request.candidateCvId,
       documentId: request.documentId,
+      context: request.context,
       errorMessage,
       failedAt: new Date().toISOString(),
     });
@@ -297,6 +303,13 @@ export class CvParsingService {
 
   private shouldApplyParsedResume(request: CvParseRequest): boolean {
     return request.context === CvParseContext.PROFILE_UPDATE && Boolean(request.candidateCvId);
+  }
+
+  private shouldPublishParsedResume(request: CvParseRequest): boolean {
+    return (
+      Boolean(request.candidateCvId) &&
+      [CvParseContext.PROFILE_UPDATE, CvParseContext.MATCHING_APPLICATION].includes(request.context)
+    );
   }
 
   private assertCreateParseRequest(

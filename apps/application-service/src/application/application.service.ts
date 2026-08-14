@@ -298,7 +298,7 @@ export class ApplicationService {
         currentProgressStep: null,
         matchScore: null,
         matchLevel: null,
-        autoMatchRequested: dto.parse === true,
+        autoMatchRequested: true,
         submittedAt: now,
         withdrawnAt: null,
         decidedAt: null,
@@ -341,9 +341,7 @@ export class ApplicationService {
     this.logger.log(
       `Application submitted applicationId=${application.id} jobId=${application.jobId} candidateUserId=${application.candidateUserId}`,
     );
-    if (application.autoMatchRequested) {
-      await this.queueMatchingWhenCvReady(application);
-    }
+    await this.queueMatchingWhenCvReady(application, dto.parse === true);
 
     return this.mapApplication(application, {
       includeProgress: true,
@@ -762,12 +760,16 @@ export class ApplicationService {
     return this.mapApplication(saved);
   }
 
-  private async queueMatchingWhenCvReady(application: Application): Promise<void> {
+  private async queueMatchingWhenCvReady(
+    application: Application,
+    applyParsedCvToProfile = false,
+  ): Promise<void> {
     try {
       await this.requestMatchWhenCvReady(
         application,
         application.candidateUserId,
         'AUTO_APPLICATION',
+        applyParsedCvToProfile,
       );
     } catch (error) {
       this.logger.warn(
@@ -780,6 +782,7 @@ export class ApplicationService {
     application: Application,
     requestedByUserId: string,
     requestType: 'AUTO_APPLICATION' | 'RECRUITER_MANUAL',
+    applyParsedCvToProfile = false,
   ): Promise<MatchRequestSnapshot> {
     if (application.cvParseStatus === 'PARSED') {
       try {
@@ -813,6 +816,7 @@ export class ApplicationService {
       candidateId: application.candidateId,
       candidateCvId: application.candidateCvId,
       requestedByUserId,
+      applyToProfile: applyParsedCvToProfile,
       ...(application.cvParseStatus === 'PARSED' ? { force: true } : {}),
     });
     if (application.cvParseStatus !== cv.parseStatus) {

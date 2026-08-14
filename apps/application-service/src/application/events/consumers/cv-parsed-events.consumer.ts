@@ -8,11 +8,13 @@ import { ApplicationService } from '../../application.service';
 
 interface CvParsedPayload {
   candidateCvId: string;
+  context?: string;
   normalizedPayload: ParsedResume;
 }
 
 interface CvParseFailedPayload {
   candidateCvId: string;
+  context?: string;
   errorMessage?: string;
 }
 
@@ -75,10 +77,14 @@ export class CvParsedEventsConsumer implements OnModuleInit, OnModuleDestroy {
     try {
       if (message.fields.routingKey === EVENTS.CV_PARSE_FAILED) {
         const payload = this.parseFailedPayload(message);
-        await this.applicationService.handleCvParseFailedForMatching(payload);
+        if (this.isMatchingRelevantContext(payload.context)) {
+          await this.applicationService.handleCvParseFailedForMatching(payload);
+        }
       } else {
         const payload = this.parseParsedPayload(message);
-        await this.applicationService.handleCvParsedForMatching(payload);
+        if (this.isMatchingRelevantContext(payload.context)) {
+          await this.applicationService.handleCvParsedForMatching(payload);
+        }
       }
       this.channel.ack(message);
     } catch (error) {
@@ -110,5 +116,9 @@ export class CvParsedEventsConsumer implements OnModuleInit, OnModuleDestroy {
       throw new Error('Invalid cv.parse-failed payload');
     }
     return payload;
+  }
+
+  private isMatchingRelevantContext(context?: string): boolean {
+    return !context || context === 'PROFILE_UPDATE' || context === 'MATCHING_APPLICATION';
   }
 }

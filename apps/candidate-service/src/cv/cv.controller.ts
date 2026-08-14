@@ -131,6 +131,7 @@ export class CvInternalController {
       candidateCvId,
       dto.requestedByUserId,
       dto.force,
+      dto.applyToProfile,
     );
   }
 }

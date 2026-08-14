@@ -193,6 +193,7 @@ export class ApplicationInternalClientService {
     candidateId: string;
     candidateCvId: string;
     requestedByUserId: string;
+    applyToProfile?: boolean;
     force?: boolean;
   }): Promise<CandidateCvSnapshot> {
     return this.postToService<CandidateCvSnapshot>(
@@ -200,6 +201,7 @@ export class ApplicationInternalClientService {
       `/api/v1/internal/cvs/${params.candidateId}/${params.candidateCvId}/request-parse`,
       {
         requestedByUserId: params.requestedByUserId,
+        applyToProfile: params.applyToProfile,
         ...(params.force ? { force: true } : {}),
       },
     );

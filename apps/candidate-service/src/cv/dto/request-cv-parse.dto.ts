@@ -12,4 +12,11 @@ export class RequestCvParseDto {
   @IsOptional()
   @IsBoolean()
   force?: boolean;
+
+  @ApiPropertyOptional({
+    description: 'When true, parsed CV data may be applied to the candidate profile.',
+  })
+  @IsOptional()
+  @IsBoolean()
+  applyToProfile?: boolean;
 }

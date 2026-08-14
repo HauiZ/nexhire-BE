@@ -8,6 +8,7 @@ export interface CvParsedPayload {
   candidateUserId: string;
   candidateCvId: string;
   documentId: string;
+  context: string;
   normalizedPayload: ParsedResume;
   parsedAt: string;
 }
@@ -18,6 +19,7 @@ export interface CvParseFailedPayload {
   candidateUserId: string;
   candidateCvId: string;
   documentId: string;
+  context: string;
   errorMessage: string;
   failedAt: string;
 }

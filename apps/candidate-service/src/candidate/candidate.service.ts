@@ -273,6 +273,29 @@ export class CandidateService {
     });
   }
 
+  async markCvParsed(candidateId: string, candidateCvId: string): Promise<CandidateCvResponseDto> {
+    const cv = await this.cvRepo.findOne({
+      where: { id: candidateCvId, candidateId, deletedAt: IsNull() },
+    });
+    if (!cv) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.NOT_FOUND,
+        message: 'Candidate CV not found',
+      });
+    }
+
+    const parsedAt = new Date();
+    await this.cvRepo.update(candidateCvId, {
+      parseStatus: CandidateCvParseStatus.PARSED,
+      parsedAt,
+    });
+    return this.mapCv({
+      ...cv,
+      parseStatus: CandidateCvParseStatus.PARSED,
+      parsedAt,
+    });
+  }
+
   async getApplicationSnapshot(
     userId: string,
     candidateCvId: string,

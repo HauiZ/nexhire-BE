@@ -198,7 +198,7 @@ describe('ApplicationService', () => {
     );
   });
 
-  it('creates an application and publishes application.submitted', async () => {
+  it('creates an application, publishes application.submitted, and queues matching by default', async () => {
     repo.findOne.mockResolvedValue(null);
 
     const result = await service.create(candidateUser, {
@@ -244,13 +244,19 @@ describe('ApplicationService', () => {
     );
     expect(result.status).toBe(ApplicationStage.SUBMITTED);
     expect(result.matchScore).toBeNull();
-    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ autoMatchRequested: false }));
-    expect(internalClient.getLatestCvParseResult).not.toHaveBeenCalled();
-    expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
+    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ autoMatchRequested: true }));
+    expect(internalClient.getLatestCvParseResult).toHaveBeenCalledWith(application.candidateCvId);
+    expect(internalClient.createApplicationMatchRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: application.id,
+        requestType: 'AUTO_APPLICATION',
+        parsedResume: expect.any(Object),
+      }),
+    );
     expect(internalClient.requestCandidateCvParse).not.toHaveBeenCalled();
   });
 
-  it('queues automatic matching when apply requests parsing', async () => {
+  it('queues automatic matching when apply asks to apply parsed CV to profile', async () => {
     repo.findOne.mockResolvedValue(null);
 
     await service.create(candidateUser, {
@@ -270,7 +276,7 @@ describe('ApplicationService', () => {
     );
   });
 
-  it('requests CV parsing before matching when apply requests parsing and CV is not parsed', async () => {
+  it('requests profile-applying CV parsing before matching when apply parse is true and CV is not parsed', async () => {
     repo.findOne.mockResolvedValue(null);
     internalClient.getCandidateApplicationSnapshot.mockResolvedValueOnce({
       candidateId: application.candidateId,
@@ -295,9 +301,40 @@ describe('ApplicationService', () => {
       candidateId: application.candidateId,
       candidateCvId: application.candidateCvId,
       requestedByUserId: application.candidateUserId,
+      applyToProfile: true,
     });
     expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
     expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ cvParseStatus: 'PARSING' }));
+  });
+
+  it('requests matching-only CV parsing before matching by default when CV is not parsed', async () => {
+    repo.findOne.mockResolvedValue(null);
+    internalClient.getCandidateApplicationSnapshot.mockResolvedValueOnce({
+      candidateId: application.candidateId,
+      candidateUserId: application.candidateUserId,
+      fullName: application.candidateFullName,
+      email: application.candidateEmail,
+      phone: application.candidatePhone,
+      avatarDocumentId: application.candidateAvatarDocumentId,
+      candidateCvId: application.candidateCvId,
+      cvDocumentId: application.cvDocumentId,
+      cvTitle: application.cvTitle,
+      cvParseStatus: 'NOT_PARSED',
+    });
+
+    await service.create(candidateUser, {
+      jobId: application.jobId,
+      candidateCvId: application.candidateCvId,
+    });
+
+    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ autoMatchRequested: true }));
+    expect(internalClient.requestCandidateCvParse).toHaveBeenCalledWith({
+      candidateId: application.candidateId,
+      candidateCvId: application.candidateCvId,
+      requestedByUserId: application.candidateUserId,
+      applyToProfile: false,
+    });
+    expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
   });
 
   it('allows CV document purge when there are no active or recent terminal applications', async () => {
@@ -618,6 +655,7 @@ describe('ApplicationService', () => {
       candidateId: application.candidateId,
       candidateCvId: application.candidateCvId,
       requestedByUserId: recruiterUser.id,
+      applyToProfile: false,
     });
     expect(internalClient.createApplicationMatchRequest).not.toHaveBeenCalled();
   });
@@ -649,6 +687,7 @@ describe('ApplicationService', () => {
       candidateId: application.candidateId,
       candidateCvId: application.candidateCvId,
       requestedByUserId: recruiterUser.id,
+      applyToProfile: false,
       force: true,
     });
     expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ cvParseStatus: 'PARSING' }));

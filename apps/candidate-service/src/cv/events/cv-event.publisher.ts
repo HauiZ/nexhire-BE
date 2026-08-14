@@ -8,7 +8,7 @@ export interface CvUploadedPayload {
   candidateCvId: string;
   documentId: string;
   documentUrl: string;
-  context: 'PROFILE_UPDATE';
+  context: 'PROFILE_UPDATE' | 'MATCHING_APPLICATION';
   uploadedAt: string;
 }
 

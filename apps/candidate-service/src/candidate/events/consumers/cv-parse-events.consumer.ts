@@ -9,6 +9,7 @@ import { CandidateService } from '../../candidate.service';
 interface CvParsedPayload {
   candidateId: string;
   candidateCvId: string;
+  context?: string;
   normalizedPayload: ParsedResume;
 }
 
@@ -77,11 +78,15 @@ export class CvParseEventsConsumer implements OnModuleInit, OnModuleDestroy {
     try {
       if (message.fields.routingKey === EVENTS.CV_PARSED) {
         const payload = this.parseParsedPayload(message);
-        await this.candidateService.applyParsedResume(
-          payload.candidateId,
-          payload.normalizedPayload,
-          payload.candidateCvId,
-        );
+        if (!payload.context || payload.context === 'PROFILE_UPDATE') {
+          await this.candidateService.applyParsedResume(
+            payload.candidateId,
+            payload.normalizedPayload,
+            payload.candidateCvId,
+          );
+        } else {
+          await this.candidateService.markCvParsed(payload.candidateId, payload.candidateCvId);
+        }
       } else if (message.fields.routingKey === EVENTS.CV_PARSE_FAILED) {
         const payload = this.parseFailedPayload(message);
         await this.candidateService.markCvParseFailed(
