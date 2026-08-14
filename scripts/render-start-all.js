@@ -17,9 +17,11 @@ const NEST_SERVICES = [
   ],
 ];
 
-const ALL_SERVICES = [
-  ['gateway', 'GATEWAY_PORT', Number(process.env.PORT ?? 10000), 'dist/apps/gateway/main.js'],
-  ...NEST_SERVICES,
+const GATEWAY_SERVICE = [
+  'gateway',
+  'GATEWAY_PORT',
+  Number(process.env.PORT ?? 10000),
+  'dist/apps/gateway/main.js',
 ];
 
 const LOCAL_SERVICE_URLS = {
@@ -119,6 +121,14 @@ function startProcess(name, command, args, options = {}) {
   prefixOutput(name, process.stdout, child.stdout);
   prefixOutput(name, process.stderr, child.stderr);
 
+  child.on('error', (error) => {
+    children.delete(name);
+    if (shuttingDown) {
+      return;
+    }
+    console.error(`[${name}] failed to start: ${error.message}`);
+  });
+
   child.on('exit', (code, signal) => {
     children.delete(name);
     if (shuttingDown) {
@@ -130,10 +140,17 @@ function startProcess(name, command, args, options = {}) {
   });
 }
 
-function startServices() {
-  for (const [name, portKey, port, entrypoint] of ALL_SERVICES) {
+function startNestServices(services) {
+  for (const [name, portKey, port, entrypoint] of services) {
     process.env[portKey] = process.env[portKey] || String(port);
     startProcess(name, process.execPath, [entrypoint]);
+  }
+}
+
+function startMatchingService() {
+  if (process.env.START_MATCHING_SERVICE === 'false') {
+    console.log('------------ matching-service skipped ------------');
+    return;
   }
 
   startProcess(
@@ -142,6 +159,22 @@ function startServices() {
     ['app.main:app', '--host', '0.0.0.0', '--port', process.env.MATCHING_SERVICE_PORT || '3007'],
     { cwd: 'apps/matching-service' },
   );
+}
+
+function startServices() {
+  const internalStartDelayMs = parseInt(process.env.RENDER_INTERNAL_START_DELAY_MS ?? '30000', 10);
+
+  console.log('------------ starting gateway ------------');
+  startNestServices([GATEWAY_SERVICE]);
+
+  console.log(
+    `------------ internal services scheduled in ${internalStartDelayMs}ms ------------`,
+  );
+  setTimeout(() => {
+    console.log('------------ starting internal services ------------');
+    startNestServices(NEST_SERVICES);
+    startMatchingService();
+  }, internalStartDelayMs).unref?.();
 }
 
 function shutdown(signal) {
