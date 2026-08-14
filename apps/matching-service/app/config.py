@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     db_pass: str = Field(alias="MATCHING_SERVICE_DB_PASS")
     db_ssl: bool = Field(default=False, alias="DB_SSL")
     db_ssl_reject_unauthorized: bool = Field(default=False, alias="DB_SSL_REJECT_UNAUTHORIZED")
+    db_pool_max: int = Field(default=3, alias="DB_POOL_MAX")
+    db_pool_connection_timeout_ms: int = Field(default=5000, alias="DB_POOL_CONNECTION_TIMEOUT_MS")
 
     rabbitmq_url: str = Field(default="amqp://nexhire:nexhire@localhost:5672", alias="RABBITMQ_URL")
     rabbitmq_exchange: str = Field(default="nexhire.events", alias="RABBITMQ_EXCHANGE")
@@ -62,6 +64,10 @@ class Settings(BaseSettings):
     @property
     def database_connect_args(self) -> dict[str, bool | ssl.SSLContext]:
         return {"ssl": self.database_ssl} if self.db_ssl else {}
+
+    @property
+    def db_pool_connection_timeout_seconds(self) -> float:
+        return self.db_pool_connection_timeout_ms / 1000
 
 
 @lru_cache

@@ -14,6 +14,9 @@ export const databaseConfigFor = (prefix: string) =>
     pass: process.env[`${prefix}_DB_PASS`],
     ssl: (process.env.DB_SSL ?? 'false') === 'true',
     sslRejectUnauthorized: (process.env.DB_SSL_REJECT_UNAUTHORIZED ?? 'false') === 'true',
+    poolMax: parseInt(process.env.DB_POOL_MAX ?? '3', 10),
+    poolIdleTimeoutMs: parseInt(process.env.DB_POOL_IDLE_TIMEOUT_MS ?? '10000', 10),
+    poolConnectionTimeoutMs: parseInt(process.env.DB_POOL_CONNECTION_TIMEOUT_MS ?? '5000', 10),
   }));
 
 /** Shared Redis config (cache, rate limit, token store). */

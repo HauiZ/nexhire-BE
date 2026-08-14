@@ -23,6 +23,11 @@ export function buildTypeOrmOptions() {
     ssl: config.get<boolean>('db.ssl')
       ? { rejectUnauthorized: config.get<boolean>('db.sslRejectUnauthorized') ?? false }
       : false,
+    extra: {
+      max: config.get<number>('db.poolMax') ?? 3,
+      idleTimeoutMillis: config.get<number>('db.poolIdleTimeoutMs') ?? 10000,
+      connectionTimeoutMillis: config.get<number>('db.poolConnectionTimeoutMs') ?? 5000,
+    },
     logging: config.get<string>('NODE_ENV') === 'development' ? ['error', 'warn'] : ['error'],
   });
 }
@@ -48,5 +53,10 @@ export function buildDataSourceOptions(rootDir: string, prefix: string) {
       (process.env.DB_SSL ?? 'false') === 'true'
         ? { rejectUnauthorized: (process.env.DB_SSL_REJECT_UNAUTHORIZED ?? 'false') === 'true' }
         : false,
+    extra: {
+      max: parseInt(process.env.DB_POOL_MAX ?? '3', 10),
+      idleTimeoutMillis: parseInt(process.env.DB_POOL_IDLE_TIMEOUT_MS ?? '10000', 10),
+      connectionTimeoutMillis: parseInt(process.env.DB_POOL_CONNECTION_TIMEOUT_MS ?? '5000', 10),
+    },
   };
 }
