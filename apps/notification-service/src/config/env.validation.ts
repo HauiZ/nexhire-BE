@@ -11,7 +11,10 @@ export const validationSchema = Joi.object({
   NOTIFICATION_SERVICE_DB_NAME: Joi.string().required(),
   NOTIFICATION_SERVICE_DB_USER: Joi.string().required(),
   NOTIFICATION_SERVICE_DB_PASS: Joi.string().required(),
-  REDIS_URL: Joi.string().uri({ scheme: ['redis', 'rediss'] }).allow('').optional(),
+  REDIS_URL: Joi.string()
+    .uri({ scheme: ['redis', 'rediss'] })
+    .allow('')
+    .optional(),
   REDIS_HOST: Joi.string().when('REDIS_URL', {
     is: Joi.string().min(1).required(),
     then: Joi.optional(),
@@ -39,6 +42,8 @@ export const validationSchema = Joi.object({
   MAILTRAP_SMTP_USER: Joi.string().allow('').optional(),
   MAILTRAP_SMTP_PASS: Joi.string().allow('').optional(),
   SMTP_FROM: Joi.string().default('NexHire <noreply@nexhire.vn>'),
+  EMAIL_LOCALE: Joi.string().default('vi-VN'),
+  EMAIL_TIME_ZONE: Joi.string().default('Asia/Ho_Chi_Minh'),
   NOTIFICATION_QUEUE_EMAIL_VERIFICATION: Joi.string().default('notification.email.verification'),
   NOTIFICATION_QUEUE_PASSWORD_RESET: Joi.string().default('notification.email.password-reset'),
   NOTIFICATION_QUEUE_USER_LIFECYCLE: Joi.string().default(QUEUES.NOTIFICATION_EMAIL_USER_LIFECYCLE),

@@ -40,6 +40,10 @@ export const notificationServiceConfig = registerAs('notificationService', () =>
     verifyEmailPath: process.env.FRONTEND_VERIFY_EMAIL_PATH ?? '/verify-email',
     resetPasswordPath: process.env.FRONTEND_RESET_PASSWORD_PATH ?? '/reset-password',
   },
+  email: {
+    locale: env('EMAIL_LOCALE', 'vi-VN'),
+    timeZone: env('EMAIL_TIME_ZONE', 'Asia/Ho_Chi_Minh'),
+  },
   redis: {
     host: env('REDIS_HOST', 'localhost'),
     port: envNumber('REDIS_PORT', '6379'),
