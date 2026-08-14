@@ -63,6 +63,12 @@ function run(label, command, args, options = {}) {
 }
 
 function migrate() {
+  if (process.env.RUN_MIGRATIONS_ON_START !== 'true') {
+    console.log('------------ migrations skipped ------------');
+    console.log('Set RUN_MIGRATIONS_ON_START=true to run migrations before starting services.');
+    return;
+  }
+
   for (const [service] of NEST_SERVICES) {
     run(`migrating ${service}`, process.execPath, ['scripts/migration.js', 'run', service]);
   }
@@ -73,6 +79,12 @@ function migrate() {
 }
 
 function seed() {
+  if (process.env.RUN_SEEDS_ON_START !== 'true') {
+    console.log('------------ seeds skipped ------------');
+    console.log('Set RUN_SEEDS_ON_START=true and POST_MIGRATE_SEEDS to run startup seeds.');
+    return;
+  }
+
   const aliases = (process.env.POST_MIGRATE_SEEDS || '')
     .split(',')
     .map((value) => value.trim())
