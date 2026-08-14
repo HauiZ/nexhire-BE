@@ -1,0 +1,17 @@
+.git
+.github
+.agents
+.codex
+node_modules
+dist
+coverage
+.env
+.env.*
+!.env.example
+npm-debug.log*
+apps/matching-service/.venv
+**/.venv
+**/__pycache__
+**/*.pyc
+UML
+plans
