@@ -11,7 +11,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
-RUN npm ci --legacy-peer-deps
+RUN npm ci --legacy-peer-deps --include=dev
 
 COPY apps/matching-service/requirements.txt ./apps/matching-service/requirements.txt
 RUN python3 -m venv /opt/matching-venv \
