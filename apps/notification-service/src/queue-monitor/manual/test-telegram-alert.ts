@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 import { formatQueueMonitorAlert } from '../templates/queue-monitor-alert.template';
 
-dotenv.config({ path: '.env.local' });
 dotenv.config({ path: '.env' });
+dotenv.config({ path: '.env.local' });
 
 const botToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.TELEGRAM_CHAT_ID;

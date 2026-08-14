@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 import { connect } from 'amqplib';
 
-dotenv.config({ path: '.env.local' });
 dotenv.config({ path: '.env' });
+dotenv.config({ path: '.env.local' });
 
 const rabbitUrl = process.env.RABBITMQ_URL ?? 'amqp://nexhire:nexhire@localhost:5672';
 const queueName = process.env.QUEUE_MONITOR_TEST_QUEUE ?? 'queue-monitor.test-backlog';

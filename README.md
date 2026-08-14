@@ -112,3 +112,11 @@ docker-compose.yml  # infra (postgres / rabbitmq / redis / minio)
 - Long-running AI and notification flows should be event-driven via RabbitMQ.
 - Cross-service data exchange should use IDs, HTTP calls, or events; not shared tables.
 - `synchronize` stays off; schema changes go through migrations.
+
+## Required seeds
+
+```bash
+npm run seed -- auth-role
+npm run seed -- admin-account
+npm run seed -- cv-template-presets
+```

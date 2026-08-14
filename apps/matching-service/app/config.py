@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=(".env.local", ".env"), extra="ignore")
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     node_env: str = Field(default="development", alias="NODE_ENV")
     port: int = Field(default=3007, alias="MATCHING_SERVICE_PORT")
