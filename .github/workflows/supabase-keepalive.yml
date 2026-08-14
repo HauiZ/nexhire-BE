@@ -1,0 +1,28 @@
+name: Supabase Keepalive
+
+on:
+  schedule:
+    # Runs daily at 02:00 UTC / 09:00 Asia/Bangkok.
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Ping Supabase database
+        env:
+          SUPABASE_DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
+        run: |
+          for attempt in 1 2 3; do
+            if psql "$SUPABASE_DATABASE_URL" -v ON_ERROR_STOP=1 -c "select now();"; then
+              exit 0
+            fi
+            echo "Supabase keepalive failed on attempt ${attempt}; retrying..."
+            sleep 10
+          done
+          exit 1
