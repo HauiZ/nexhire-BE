@@ -30,13 +30,13 @@ export class EmailService {
 
     await this.mailerService.sendMail({
       to: payload.email,
-      subject: 'Verify your NexHire email',
+      subject: 'Xác minh email NexHire của bạn',
       template: 'verify-email',
       context: {
         name: payload.fullName ?? payload.email,
         token: payload.token,
         verificationLink,
-        expiresAt: payload.expiresAt,
+        expiresAt: this.formatEmailDateTime(payload.expiresAt),
       },
     });
 
@@ -62,13 +62,13 @@ export class EmailService {
 
     await this.mailerService.sendMail({
       to: payload.email,
-      subject: 'Reset your NexHire password',
+      subject: 'Đặt lại mật khẩu NexHire',
       template: 'password-reset',
       context: {
         name: payload.fullName ?? payload.email,
         token: payload.token,
         resetLink,
-        expiresAt: payload.expiresAt,
+        expiresAt: this.formatEmailDateTime(payload.expiresAt),
       },
     });
 
@@ -95,8 +95,8 @@ export class EmailService {
         body: message.body,
         previousStatus: payload.previousStatus,
         status: payload.status,
-        reason: payload.reason ?? 'No reason provided',
-        changedAt: payload.changedAt ?? new Date().toISOString(),
+        reason: payload.reason ?? 'Không có lý do cụ thể',
+        changedAt: this.formatEmailDateTime(payload.changedAt ?? new Date().toISOString()),
       },
     });
 
@@ -117,6 +117,39 @@ export class EmailService {
     return url.toString();
   }
 
+  private formatEmailDateTime(value: string): string {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return value;
+    }
+
+    const locale = this.configService.get<string>('notificationService.email.locale', 'vi-VN');
+    const timeZone = this.configService.get<string>(
+      'notificationService.email.timeZone',
+      'Asia/Ho_Chi_Minh',
+    );
+
+    const parts = new Intl.DateTimeFormat(locale, {
+      timeZone,
+      hour: '2-digit',
+      minute: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hourCycle: 'h23',
+      timeZoneName: 'short',
+    })
+      .formatToParts(date)
+      .reduce<Record<string, string>>((bucket, part) => {
+        if (part.type !== 'literal') {
+          bucket[part.type] = part.value;
+        }
+        return bucket;
+      }, {});
+
+    return `${parts.hour}:${parts.minute}, ${parts.day}/${parts.month}/${parts.year} (${parts.timeZoneName})`;
+  }
+
   private userLifecycleEmailMessage(status: string): {
     subject: string;
     title: string;
@@ -124,36 +157,36 @@ export class EmailService {
   } {
     if (status === 'ACTIVE') {
       return {
-        subject: 'Your NexHire account has been restored',
-        title: 'Account restored',
-        body: 'Your NexHire account has been restored. You can sign in again.',
+        subject: 'Tài khoản NexHire của bạn đã được khôi phục',
+        title: 'Tài khoản đã được khôi phục',
+        body: 'Tài khoản NexHire của bạn đã được mở lại. Bạn có thể đăng nhập và tiếp tục sử dụng hệ thống.',
       };
     }
     if (status === 'SUSPENDED') {
       return {
-        subject: 'Your NexHire account has been suspended',
-        title: 'Account suspended',
-        body: 'Your NexHire account has been temporarily suspended by admin.',
+        subject: 'Tài khoản NexHire của bạn đã bị tạm khóa',
+        title: 'Tài khoản đã bị tạm khóa',
+        body: 'Tài khoản NexHire của bạn đã bị quản trị viên tạm khóa. Một số chức năng có thể không khả dụng trong thời gian này.',
       };
     }
     if (status === 'BANNED') {
       return {
-        subject: 'Your NexHire account has been banned',
-        title: 'Account banned',
-        body: 'Your NexHire account has been banned by admin.',
+        subject: 'Tài khoản NexHire của bạn đã bị khóa',
+        title: 'Tài khoản đã bị khóa',
+        body: 'Tài khoản NexHire của bạn đã bị quản trị viên khóa. Nếu bạn cho rằng đây là nhầm lẫn, vui lòng liên hệ bộ phận hỗ trợ.',
       };
     }
     if (status === 'ARCHIVED') {
       return {
-        subject: 'Your NexHire account has been archived',
-        title: 'Account archived',
-        body: 'Your NexHire account has been archived and can no longer be used unless restored by admin.',
+        subject: 'Tài khoản NexHire của bạn đã được lưu trữ',
+        title: 'Tài khoản đã được lưu trữ',
+        body: 'Tài khoản NexHire của bạn đã được lưu trữ và không thể sử dụng cho đến khi quản trị viên khôi phục.',
       };
     }
     return {
-      subject: 'Your NexHire account status changed',
-      title: 'Account status changed',
-      body: `Your NexHire account status changed to ${status}.`,
+      subject: 'Trạng thái tài khoản NexHire đã thay đổi',
+      title: 'Trạng thái tài khoản đã thay đổi',
+      body: `Trạng thái tài khoản NexHire của bạn đã được cập nhật thành ${status}.`,
     };
   }
 }

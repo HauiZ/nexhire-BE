@@ -13,6 +13,8 @@ describe('EmailService', () => {
         'notificationService.frontend.url': 'http://localhost:5173',
         'notificationService.frontend.verifyEmailPath': '/verify-email',
         'notificationService.frontend.resetPasswordPath': '/reset-password',
+        'notificationService.email.locale': 'vi-VN',
+        'notificationService.email.timeZone': 'Asia/Ho_Chi_Minh',
       };
 
       return values[key] ?? fallback;
@@ -42,6 +44,7 @@ describe('EmailService', () => {
           token: '123456',
           verificationLink:
             'http://localhost:5173/verify-email?email=candidate%40nexhire.vn&token=123456',
+          expiresAt: '17:00, 11/07/2026 (GMT+7)',
         }),
       }),
     );
@@ -63,6 +66,7 @@ describe('EmailService', () => {
           token: '654321',
           resetLink:
             'http://localhost:5173/reset-password?email=candidate%40nexhire.vn&token=654321',
+          expiresAt: '17:00, 11/07/2026 (GMT+7)',
         }),
       }),
     );
@@ -81,13 +85,14 @@ describe('EmailService', () => {
     expect(mailerService.sendMail).toHaveBeenCalledWith(
       expect.objectContaining({
         to: 'candidate@nexhire.vn',
-        subject: 'Your NexHire account has been banned',
+        subject: 'Tài khoản NexHire của bạn đã bị khóa',
         template: 'user-lifecycle-changed',
         context: expect.objectContaining({
           name: 'Candidate',
           previousStatus: 'ACTIVE',
           status: 'BANNED',
           reason: 'Policy violation',
+          changedAt: '17:00, 03/08/2026 (GMT+7)',
         }),
       }),
     );
