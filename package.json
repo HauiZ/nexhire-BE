@@ -84,6 +84,8 @@
     "test:flows:cleanup": "node scripts/test-script.js test/test-flows/test-cleanup-data.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.864.0",
+    "@aws-sdk/s3-request-presigner": "^3.864.0",
     "@google/generative-ai": "^0.21.0",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/axios": "^3.0.3",

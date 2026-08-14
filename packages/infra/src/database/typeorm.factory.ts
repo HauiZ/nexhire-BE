@@ -20,6 +20,9 @@ export function buildTypeOrmOptions() {
     autoLoadEntities: true,
     namingStrategy: new NexHireNamingStrategy(),
     synchronize: false,
+    ssl: config.get<boolean>('db.ssl')
+      ? { rejectUnauthorized: config.get<boolean>('db.sslRejectUnauthorized') ?? false }
+      : false,
     logging: config.get<string>('NODE_ENV') === 'development' ? ['error', 'warn'] : ['error'],
   });
 }
@@ -41,5 +44,9 @@ export function buildDataSourceOptions(rootDir: string, prefix: string) {
     migrations: [`${rootDir}/src/migrations/*.ts`],
     namingStrategy: new NexHireNamingStrategy(),
     synchronize: false,
+    ssl:
+      (process.env.DB_SSL ?? 'false') === 'true'
+        ? { rejectUnauthorized: (process.env.DB_SSL_REJECT_UNAUTHORIZED ?? 'false') === 'true' }
+        : false,
   };
 }

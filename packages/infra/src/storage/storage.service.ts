@@ -1,32 +1,45 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Client } from 'minio';
+import {
+  CreateBucketCommand,
+  DeleteObjectCommand,
+  GetObjectCommand,
+  HeadBucketCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 /**
- * Wrapper over MinIO for object storage (CV files, exported PDFs).
+ * Wrapper over S3-compatible object storage (CV files, exported PDFs).
  * Features call this service, never the SDK directly. The DB stores only keys.
  */
 @Injectable()
 export class StorageService implements OnModuleInit {
   private readonly logger = new Logger(StorageService.name);
-  private readonly client: Client;
+  private readonly client: S3Client;
   private readonly bucket: string;
 
   constructor(private readonly config: ConfigService) {
     this.bucket = this.config.get<string>('storage.bucket') as string;
-    this.client = new Client({
-      endPoint: this.config.get<string>('storage.endpoint') as string,
-      port: this.config.get<number>('storage.port'),
-      useSSL: this.config.get<boolean>('storage.useSsl') as boolean,
-      accessKey: this.config.get<string>('storage.accessKey') as string,
-      secretKey: this.config.get<string>('storage.secretKey') as string,
+    this.client = new S3Client({
+      endpoint: this.config.get<string>('storage.endpoint') as string,
+      region: this.config.get<string>('storage.region') as string,
+      forcePathStyle: this.config.get<boolean>('storage.forcePathStyle') as boolean,
+      credentials: {
+        accessKeyId: this.config.get<string>('storage.accessKey') as string,
+        secretAccessKey: this.config.get<string>('storage.secretKey') as string,
+      },
     });
   }
 
   async onModuleInit(): Promise<void> {
-    const exists = await this.client.bucketExists(this.bucket).catch(() => false);
+    const exists = await this.client
+      .send(new HeadBucketCommand({ Bucket: this.bucket }))
+      .then(() => true)
+      .catch(() => false);
     if (!exists) {
-      await this.client.makeBucket(this.bucket);
+      await this.client.send(new CreateBucketCommand({ Bucket: this.bucket }));
       this.logger.log(`Created bucket "${this.bucket}"`);
     }
   }
@@ -38,17 +51,31 @@ export class StorageService implements OnModuleInit {
     size?: number,
     contentType?: string,
   ): Promise<string> {
-    const meta = contentType ? { 'Content-Type': contentType } : undefined;
-    await this.client.putObject(this.bucket, key, body, size, meta);
+    await this.client.send(
+      new PutObjectCommand({
+        Bucket: this.bucket,
+        Key: key,
+        Body: body,
+        ContentLength: size,
+        ContentType: contentType,
+      }),
+    );
     return key;
   }
 
   /** Short-lived URL to download an object directly. */
   presignedGetUrl(key: string, expirySeconds = 3600): Promise<string> {
-    return this.client.presignedGetObject(this.bucket, key, expirySeconds);
+    return getSignedUrl(
+      this.client,
+      new GetObjectCommand({
+        Bucket: this.bucket,
+        Key: key,
+      }),
+      { expiresIn: expirySeconds },
+    );
   }
 
-  remove(key: string): Promise<void> {
-    return this.client.removeObject(this.bucket, key);
+  async remove(key: string): Promise<void> {
+    await this.client.send(new DeleteObjectCommand({ Bucket: this.bucket, Key: key }));
   }
 }

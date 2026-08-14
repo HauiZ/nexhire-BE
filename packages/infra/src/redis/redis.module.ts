@@ -20,12 +20,21 @@ export class RedisModule {
         {
           provide: REDIS_CLIENT,
           inject: [ConfigService],
-          useFactory: (config: ConfigService) =>
-            new Redis({
+          useFactory: (config: ConfigService) => {
+            const url = config.get<string>('redis.url');
+
+            if (url) {
+              return new Redis(url, {
+                maxRetriesPerRequest: null,
+              });
+            }
+
+            return new Redis({
               host: config.get<string>('redis.host'),
               port: config.get<number>('redis.port'),
               maxRetriesPerRequest: null,
-            }),
+            });
+          },
         },
       ],
       exports: [REDIS_CLIENT],

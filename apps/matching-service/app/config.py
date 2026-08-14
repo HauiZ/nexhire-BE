@@ -1,4 +1,5 @@
 from functools import lru_cache
+import ssl
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -14,6 +15,8 @@ class Settings(BaseSettings):
     db_name: str = Field(alias="MATCHING_SERVICE_DB_NAME")
     db_user: str = Field(alias="MATCHING_SERVICE_DB_USER")
     db_pass: str = Field(alias="MATCHING_SERVICE_DB_PASS")
+    db_ssl: bool = Field(default=False, alias="DB_SSL")
+    db_ssl_reject_unauthorized: bool = Field(default=False, alias="DB_SSL_REJECT_UNAUTHORIZED")
 
     rabbitmq_url: str = Field(default="amqp://nexhire:nexhire@localhost:5672", alias="RABBITMQ_URL")
     rabbitmq_exchange: str = Field(default="nexhire.events", alias="RABBITMQ_EXCHANGE")
@@ -42,6 +45,23 @@ class Settings(BaseSettings):
             f"postgresql+asyncpg://{self.db_user}:{self.db_pass}"
             f"@{self.db_host}:{self.db_port}/{self.db_name}"
         )
+
+    @property
+    def database_ssl(self) -> bool | ssl.SSLContext:
+        if not self.db_ssl:
+            return False
+
+        if self.db_ssl_reject_unauthorized:
+            return True
+
+        context = ssl.create_default_context()
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
+        return context
+
+    @property
+    def database_connect_args(self) -> dict[str, bool | ssl.SSLContext]:
+        return {"ssl": self.database_ssl} if self.db_ssl else {}
 
 
 @lru_cache

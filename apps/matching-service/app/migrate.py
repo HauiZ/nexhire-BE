@@ -14,6 +14,7 @@ async def main() -> None:
         user=settings.db_user,
         password=settings.db_pass,
         database=settings.db_name,
+        ssl=settings.database_ssl,
     )
     try:
         for path in sorted(migration_dir.glob("*.sql")):

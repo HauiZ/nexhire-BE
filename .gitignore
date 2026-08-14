@@ -19,6 +19,7 @@ build/
 # env & secrets
 .env
 .env.local
+.env.deploy
 .env.*.local
 
 # logs

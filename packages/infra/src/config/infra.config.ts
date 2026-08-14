@@ -12,10 +12,13 @@ export const databaseConfigFor = (prefix: string) =>
     name: process.env[`${prefix}_DB_NAME`],
     user: process.env[`${prefix}_DB_USER`],
     pass: process.env[`${prefix}_DB_PASS`],
+    ssl: (process.env.DB_SSL ?? 'false') === 'true',
+    sslRejectUnauthorized: (process.env.DB_SSL_REJECT_UNAUTHORIZED ?? 'false') === 'true',
   }));
 
 /** Shared Redis config (cache, rate limit, token store). */
 export const redisConfig = registerAs('redis', () => ({
+  url: process.env.REDIS_URL,
   host: process.env.REDIS_HOST ?? 'localhost',
   port: parseInt(process.env.REDIS_PORT ?? '6379', 10),
 }));
@@ -26,12 +29,14 @@ export const rabbitmqConfig = registerAs('rabbitmq', () => ({
   exchange: process.env.RABBITMQ_EXCHANGE ?? 'nexhire.events',
 }));
 
-/** MinIO / object-storage config. */
+/** S3-compatible object-storage config. Falls back to local MinIO env names. */
 export const storageConfig = registerAs('storage', () => ({
-  endpoint: process.env.MINIO_ENDPOINT ?? 'localhost',
-  port: parseInt(process.env.MINIO_PORT ?? '9000', 10),
-  useSsl: process.env.MINIO_USE_SSL === 'true',
-  accessKey: process.env.MINIO_ACCESS_KEY ?? 'minioadmin',
-  secretKey: process.env.MINIO_SECRET_KEY ?? 'minioadmin',
-  bucket: process.env.MINIO_BUCKET ?? 'nexhire',
+  endpoint:
+    process.env.STORAGE_ENDPOINT ??
+    `${process.env.MINIO_USE_SSL === 'true' ? 'https' : 'http'}://${process.env.MINIO_ENDPOINT ?? 'localhost'}:${process.env.MINIO_PORT ?? '9000'}`,
+  region: process.env.STORAGE_REGION ?? 'us-east-1',
+  accessKey: process.env.STORAGE_ACCESS_KEY ?? process.env.MINIO_ACCESS_KEY ?? 'minioadmin',
+  secretKey: process.env.STORAGE_SECRET_KEY ?? process.env.MINIO_SECRET_KEY ?? 'minioadmin',
+  bucket: process.env.STORAGE_BUCKET_NAME ?? process.env.MINIO_BUCKET ?? 'nexhire',
+  forcePathStyle: (process.env.STORAGE_FORCE_PATH_STYLE ?? 'true') === 'true',
 }));
