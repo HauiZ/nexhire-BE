@@ -79,7 +79,7 @@ export class AiManagementService {
       currentConfig: await this.getCurrentConfig(),
       supportedModels: {
         GEMINI: [...SUPPORTED_AI_MODELS.GEMINI],
-        OPENAI: [...SUPPORTED_AI_MODELS.OPENAI],
+        OPENAI: this.getAllowedOpenAiModels(),
       },
     };
   }
@@ -351,7 +351,7 @@ export class AiManagementService {
       });
     }
 
-    const supportedOpenAiModel = SUPPORTED_AI_MODELS.OPENAI.some(
+    const supportedOpenAiModel = this.getAllowedOpenAiModels().some(
       (model) => model.id === config.openAiModel,
     );
     if (!supportedOpenAiModel) {
@@ -360,5 +360,20 @@ export class AiManagementService {
         message: 'Unsupported OpenAI model',
       });
     }
+  }
+
+  private getAllowedOpenAiModels(): Array<{ id: string; name: string; isDefault: boolean }> {
+    const models: Array<{ id: string; name: string; isDefault: boolean }> = [
+      ...SUPPORTED_AI_MODELS.OPENAI,
+    ];
+    const configured = this.configService.get<string>('cvParsingService.openai.model')?.trim();
+    if (configured && !models.some((model) => model.id === configured)) {
+      models.push({
+        id: configured,
+        name: `${configured} (configured compatibility alias; availability unverified)`,
+        isDefault: false,
+      });
+    }
+    return models;
   }
 }

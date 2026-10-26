@@ -1,5 +1,58 @@
 # CV Parsing Service API Docs
 
+## Runtime Model Configuration And Recovery (2026-10-25)
+
+Persisted `ai_system_configs` values take priority over environment defaults.
+Changing `OPENAI_MODEL` in `.env.local` alone does not override an existing
+`OPENAI_ACTIVE_MODEL`. Inspect the effective configuration with admin-authenticated
+`GET /api/v1/admin/ai-configs`; change it through `PUT` on the same route, using
+`{ "activeProvider": "OPENAI", "openAiModel": "<provider model ID>" }`.
+The provider's actual availability and PDF/Responses support still need checking;
+a locally allowed model ID is not proof of availability or a known price.
+The admin model list also includes the explicitly configured `OPENAI_MODEL`
+compatibility alias when it is absent from the built-in catalog. Only that
+configured extra alias is accepted; arbitrary client-supplied IDs are not added.
+Pricing for an alias without a pricing entry remains unknown (`null`).
+
+Parser model/auth configuration failures (including provider `model_not_found`
+even with HTTP 503, missing API key, HTTP 401/403) are terminal for that delivery:
+after normal parse failure handling, the consumer publishes the original event
+to the existing DLQ and acknowledges only after publication succeeds. It does
+not spend the automatic transient retry budget on the same bad configuration.
+Transient 503/timeout errors keep existing bounded retry behavior. Failed DLQ
+publication retains the existing requeue behavior to avoid losing the event.
+This does not clear existing retry/DLQ messages or guarantee exactly-once calls.
+
+`503` accompanied by provider `model_not_found` / “No available channel” points
+to model/channel configuration, not a semantic-matching failure. Parsing must
+succeed before a fresh CV can reach AI1. A DLQ notification reports the failed
+message; it is not a second root cause and does not recover it automatically.
+
+After correcting the runtime model, explicitly request a fresh attempt for the
+existing failed CV through candidate-authenticated `POST /api/v1/cvs/:id/parse`,
+or the existing recruiter application matching action, which orchestrates parsing
+when needed. Choose one action and wait; do not repeatedly click both. A new
+upload is unnecessary. Existing DLQ records remain available for diagnosis;
+do not purge or replay the whole queue as a recovery shortcut. Further matching
+may need refreshing after parsing finishes. Each new parse can incur provider cost.
+
+## Dataset Generator Provider Note (2026-10-15)
+
+`dataset/build_recruitment_dataset.py` now follows the OpenAI parser's Responses
+request structure and environment settings, using a separate synthetic dataset
+JSON Schema. CV parsing endpoints, ParsedResume and parser implementation remain
+unchanged. Dataset generation does not consume the CV parsing API or its usage-log
+tables; it retains its own checkpoint/usage metadata. See
+[the dataset provider alignment](matching-data-contract.md#dataset-provider-alignment-2026-10-15).
+
+## Downstream Matching Contract Note (2026-10-08)
+
+`ParsedResume` input/output fields remain unchanged. Matching now preserves parsed
+experience/education descriptions, certification metadata and project technologies,
+assigns snapshot-scoped source paths and stores the validated input for dataset
+annotation. See [the matching v2 contract](matching-data-contract.md). This update
+does not add JD parsing, a new CV provider, or DOCX text extraction.
+
 Base path:
 
 - Preferred internal service path: `/api/v1/internal/cv-parsing`
