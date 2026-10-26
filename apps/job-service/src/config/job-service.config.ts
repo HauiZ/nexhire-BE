@@ -13,6 +13,7 @@ export const jobServiceConfig = registerAs('jobService', () => ({
     sweepIntervalMs: parseInt(process.env.JOB_EXPIRATION_SWEEP_INTERVAL_MS ?? '300000', 10),
   },
   services: {
+    matchingService: process.env.MATCHING_SERVICE_URL ?? 'http://localhost:3007',
     companyService: process.env.COMPANY_SERVICE_URL ?? 'http://localhost:3003',
     documentStorageService: process.env.DOCUMENT_STORAGE_SERVICE_URL ?? 'http://localhost:3009',
   },

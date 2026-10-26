@@ -12,6 +12,16 @@ import { JobModerationReview } from './entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from './entities/job-processed-application-event.entity';
 import { JobRevision } from './entities/job-revision.entity';
 import { Job } from './entities/job.entity';
+import {
+  JobRequirementPlan,
+  JobRequirementPlanEvent,
+} from './entities/job-requirement-plan.entity';
+import {
+  InternalRequirementPlanController,
+  RequirementPlanController,
+} from './requirement-plan/requirement-plan.controller';
+import { RequirementPlanService } from './requirement-plan/requirement-plan.service';
+import { PlanContractClient } from './requirement-plan/plan-contract.client';
 import { JobExpirationScheduler } from './job-expiration.scheduler';
 import { JobService } from './job.service';
 import { ApplicationEventsConsumer } from './events/consumers/application-events.consumer';
@@ -29,6 +39,8 @@ import { DocumentClientService } from '../document-client/document-client.servic
     HttpModule,
     TypeOrmModule.forFeature([
       Job,
+      JobRequirementPlan,
+      JobRequirementPlanEvent,
       JobRevision,
       JobModerationReview,
       JobModerationPolicy,
@@ -40,11 +52,15 @@ import { DocumentClientService } from '../document-client/document-client.servic
     JobController,
     JobInternalController,
     RecruiterJobController,
+    RequirementPlanController,
+    InternalRequirementPlanController,
     AdminJobController,
     AdminJobModerationPolicyController,
   ],
   providers: [
     JobService,
+    RequirementPlanService,
+    PlanContractClient,
     JobModerationService,
     JobModerationPolicyService,
     JobSearchTextService,
