@@ -86,6 +86,7 @@ describe('ApplicationService', () => {
     getDocumentDownload: jest.Mock;
     getLatestCvParseResult: jest.Mock;
     getLatestApplicationMatchResult: jest.Mock;
+    getLatestApplicationHrReview: jest.Mock;
     getCandidateMatchingSnapshot: jest.Mock;
     createApplicationMatchRequest: jest.Mock;
     requestCandidateCvParse: jest.Mock;
@@ -154,6 +155,7 @@ describe('ApplicationService', () => {
         createdAt: '2026-07-15T00:00:00.000Z',
       }),
       getLatestApplicationMatchResult: jest.fn().mockResolvedValue(null),
+      getLatestApplicationHrReview: jest.fn().mockResolvedValue(null),
       getCandidateMatchingSnapshot: jest.fn().mockResolvedValue({
         candidateId: application.candidateId,
         candidateUserId: application.candidateUserId,
@@ -421,7 +423,7 @@ describe('ApplicationService', () => {
     expect(result.url).toBe('https://storage.local/cv');
   });
 
-  it('enriches recruiter application detail with latest AI match recommendation', async () => {
+  it('masks stored legacy scores and heuristic recommendations in recruiter detail', async () => {
     repo.findOne.mockResolvedValue({
       ...application,
       matchScore: 82,
@@ -446,18 +448,62 @@ describe('ApplicationService', () => {
         summary: 'Review the profile before shortlisting.',
         nextActions: ['Review CV details before shortlisting'],
         riskFlags: ['MISSING_REDIS'],
+        requirementMatches: [
+          {
+            requirementId: 'skills/0',
+            requirement: 'NestJS',
+            requirementSource: 'skill',
+            evidenceId: 'skills/0',
+            evidence: 'NestJS',
+            evidenceSource: 'skill',
+            comparisonScore: 100,
+            comparisonMethod: 'EXACT',
+            score: 100,
+            status: 'MATCHED',
+          },
+        ],
+        rankingFeatures: {
+          semantic_score: 80,
+          skill_score: 90,
+          experience_score: 70,
+          education_score: 100,
+          project_score: 75,
+          certification_score: 0,
+          location_score: 100,
+          level_score: 80,
+        },
+        featureSchemaVersion: 'candidate-job-v2',
+        preprocessingVersion: 'matching-text-v2',
+        featureExtractorVersion: 'heuristic-features-v2',
+        scoreReferenceDate: '2026-10-08',
+        dataOrigin: 'PARSED_CV',
+        featureLimitations: ['CERTIFICATION_NOT_SCORED'],
       },
       createdAt: '2026-07-15T00:00:00.000Z',
     });
 
     const result = await service.getCompanyApplication(recruiterUser, application.id);
 
-    expect(internalClient.getLatestApplicationMatchResult).toHaveBeenCalledWith(application.id);
-    expect(result.matchScore).toBe(82);
-    expect(result.matchLevel).toBe(ApplicationMatchLevel.HIGH);
-    expect(result.matchDecision).toBe('REVIEW_MANUALLY');
-    expect(result.matchNextActions).toEqual(['Review CV details before shortlisting']);
-    expect(result.matchRiskFlags).toEqual(['MISSING_REDIS']);
+    expect(internalClient.getLatestApplicationMatchResult).not.toHaveBeenCalled();
+    for (const key of [
+      'matchScore',
+      'matchLevel',
+      'matchRecommendation',
+      'matchDecision',
+      'matchPriority',
+      'matchSummary',
+      'matchMatchedSkills',
+      'matchMissingSkills',
+      'matchNextActions',
+      'matchRiskFlags',
+      'matchRequirementMatches',
+      'matchRankingFeatures',
+      'matchModelMetadata',
+    ]) {
+      expect(result[key as keyof typeof result]).toBeNull();
+    }
+    expect(result.scoringStatus).toBe('NOT_AVAILABLE');
+    expect(repo.save).not.toHaveBeenCalled();
   });
 
   it('lists company candidates from company-scoped applications', async () => {
@@ -487,7 +533,7 @@ describe('ApplicationService', () => {
       page: 1,
       limit: 20,
       skip: 0,
-      sortBy: 'bestMatchScore',
+      sortBy: 'lastAppliedAt',
       sortOrder: 'desc',
     } as never);
 
@@ -504,7 +550,7 @@ describe('ApplicationService', () => {
         candidateId: application.candidateId,
         latestJobTitle: application.jobTitle,
         applicationCount: 2,
-        bestMatchScore: 92,
+        bestMatchScore: null,
         headline: 'Backend Developer',
         skills: [
           {
@@ -537,7 +583,7 @@ describe('ApplicationService', () => {
     });
     expect(result.candidateId).toBe(application.candidateId);
     expect(result.applicationCount).toBe(1);
-    expect(result.bestMatchScore).toBe(92);
+    expect(result.bestMatchScore).toBeNull();
     expect(result.applications).toHaveLength(1);
   });
 
@@ -608,19 +654,128 @@ describe('ApplicationService', () => {
     ]);
   });
 
-  it('updates application match score snapshot for matching-service', async () => {
+  it('preserves historical rows when explicit no-score completion is replayed', async () => {
+    const historical = {
+      ...application,
+      matchScore: 92,
+      matchLevel: ApplicationMatchLevel.EXCELLENT,
+    };
+    repo.findOne.mockResolvedValue(historical);
+    for (let replay = 0; replay < 2; replay++) {
+      const result = await service.updateMatchSnapshot(application.id, {
+        scoringStatus: 'NOT_AVAILABLE',
+        matchScore: null,
+        matchLevel: null,
+      });
+      expect(result.matchScore).toBeNull();
+      expect(result.matchLevel).toBeNull();
+    }
+    expect(historical.matchScore).toBe(92);
+    expect(repo.save).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { matchScore: 92 },
+    { matchScore: null, matchLevel: null },
+    { scoringStatus: 'NOT_AVAILABLE', matchScore: 0, matchLevel: null },
+    { scoringStatus: 'NOT_AVAILABLE', matchScore: null },
+  ])('rejects retired or incomplete snapshot contract %j', async (dto) => {
     repo.findOne.mockResolvedValue({ ...application });
+    await expect(service.updateMatchSnapshot(application.id, dto as never)).rejects.toMatchObject({
+      status: 400,
+    });
+    expect(repo.save).not.toHaveBeenCalled();
+  });
 
-    const result = await service.updateMatchSnapshot(application.id, { matchScore: 92 });
+  it.each([{ matchLevel: 'HIGH' }, { minMatchScore: 0 }, { sortBy: 'matchScore' }])(
+    'rejects application score dependence before querying %j',
+    async (query) => {
+      await expect(service.listCompany(recruiterUser, query as never)).rejects.toMatchObject({
+        status: 400,
+      });
+      expect(repo.createQueryBuilder).not.toHaveBeenCalled();
+    },
+  );
 
-    expect(repo.save).toHaveBeenCalledWith(
-      expect.objectContaining({
-        matchScore: 92,
-        matchLevel: ApplicationMatchLevel.EXCELLENT,
-      }),
+  it.each([{ matchLevel: 'HIGH' }, { minMatchScore: 0 }, { sortBy: 'bestMatchScore' }])(
+    'rejects candidate score dependence before querying %j',
+    async (query) => {
+      await expect(
+        service.listCompanyCandidates(recruiterUser, query as never),
+      ).rejects.toMatchObject({ status: 400 });
+      expect(repo.query).not.toHaveBeenCalled();
+    },
+  );
+
+  describe('matching status completion identity', () => {
+    const result = {
+      id: 'result-1',
+      matchRequestId: 'request-1',
+      applicationId: application.id,
+      jobId: application.jobId,
+      candidateId: application.candidateId,
+      candidateCvId: application.candidateCvId,
+      status: 'SUCCEEDED',
+      createdAt: '2026-10-25T00:00:00Z',
+      scoringStatus: 'NOT_AVAILABLE',
+      totalScore: null,
+      matchLevel: null,
+      explanation: { secretSnapshot: 'must not leak' },
+    };
+    it('returns null when no latest result exists', async () => {
+      repo.findOne.mockResolvedValue({ ...application });
+      expect(
+        await service.getCompanyApplicationMatchingStatus(recruiterUser, application.id),
+      ).toBeNull();
+    });
+    it.each(['SUCCEEDED', 'FAILED'])(
+      'allowlists %s completion and retains request correlation',
+      async (status) => {
+        repo.findOne.mockResolvedValue({ ...application });
+        internalClient.getLatestApplicationMatchResult.mockResolvedValue({ ...result, status });
+        expect(
+          await service.getCompanyApplicationMatchingStatus(recruiterUser, application.id),
+        ).toEqual({
+          schemaVersion: 'matching-status-v1',
+          applicationId: application.id,
+          jobId: application.jobId,
+          candidateId: application.candidateId,
+          candidateCvId: application.candidateCvId,
+          resultId: 'result-1',
+          matchRequestId: 'request-1',
+          status,
+          createdAt: result.createdAt,
+          scoringStatus: 'NOT_AVAILABLE',
+        });
+      },
     );
-    expect(result.matchScore).toBe(92);
-    expect(result.matchLevel).toBe(ApplicationMatchLevel.EXCELLENT);
+    it.each([
+      { applicationId: 'other' },
+      { jobId: 'other' },
+      { candidateId: 'other' },
+      { candidateCvId: 'other' },
+      { scoringStatus: undefined },
+      { totalScore: 0 },
+      { matchLevel: 'LOW' },
+      { status: 'PROCESSING' },
+      { matchRequestId: undefined },
+      { matchRequestId: '' },
+      { createdAt: 'invalid' },
+      { createdAt: null },
+    ])('fails closed for mismatched identity or malformed result %j', async (change) => {
+      repo.findOne.mockResolvedValue({ ...application });
+      internalClient.getLatestApplicationMatchResult.mockResolvedValue({ ...result, ...change });
+      await expect(
+        service.getCompanyApplicationMatchingStatus(recruiterUser, application.id),
+      ).rejects.toMatchObject({ status: 503 });
+    });
+    it('does not call matching for an application outside the company', async () => {
+      repo.findOne.mockResolvedValue(null);
+      await expect(
+        service.getCompanyApplicationMatchingStatus(recruiterUser, application.id),
+      ).rejects.toMatchObject({ status: 404 });
+      expect(internalClient.getLatestApplicationMatchResult).not.toHaveBeenCalled();
+    });
   });
 
   it('requests recruiter manual matching immediately when CV is parsed', async () => {
@@ -842,5 +997,76 @@ describe('ApplicationService', () => {
         candidateAvatarDocumentId: '99999999-9999-9999-9999-999999999999',
       },
     );
+  });
+
+  it('checks company ownership before reading HR evidence', async () => {
+    repo.findOne.mockResolvedValueOnce(null);
+    await expect(
+      service.getCompanyApplicationHrReview(recruiterUser, application.id),
+    ).rejects.toThrow();
+    expect(repo.findOne).toHaveBeenCalledWith({
+      where: { id: application.id, companyId: recruiterUser.companyId },
+    });
+    expect(internalClient.getLatestApplicationHrReview).not.toHaveBeenCalled();
+  });
+
+  it('rejects candidate access to recruiter HR evidence', async () => {
+    await expect(
+      service.getCompanyApplicationHrReview(candidateUser, application.id),
+    ).rejects.toThrow();
+    expect(internalClient.getLatestApplicationHrReview).not.toHaveBeenCalled();
+  });
+
+  it('returns null for a company-owned application with no matching result yet', async () => {
+    repo.findOne.mockResolvedValueOnce(application);
+    expect(await service.getCompanyApplicationHrReview(recruiterUser, application.id)).toBeNull();
+  });
+
+  it('does not expose baseline diagnostics through the recruiter HR endpoint', async () => {
+    repo.findOne.mockResolvedValueOnce(application);
+    internalClient.getLatestApplicationHrReview.mockResolvedValueOnce({
+      schemaVersion: 'hr-review-v1',
+      applicationId: application.id,
+      jobId: application.jobId,
+      candidateId: application.candidateId,
+      candidateCvId: application.candidateCvId,
+      candidateSupportVerified: false,
+      automaticallyReject: false,
+      overallFitScore: null,
+      hiringDecision: null,
+      rankingPosition: null,
+      baselineDiagnostics: { totalScore: 87.6, decision: 'SHORTLIST' },
+      isTrainingLabel: false,
+      requirements: [],
+    });
+    const result = await service.getCompanyApplicationHrReview(recruiterUser, application.id);
+    expect(result!.baselineDiagnostics).toBeNull();
+    expect(result!.overallFitScore).toBeNull();
+  });
+
+  it('rejects a review bound to another CV or containing a confirmed candidate decision', async () => {
+    for (const change of [
+      { candidateCvId: 'another-cv' },
+      { candidateSupportVerified: true },
+      { hiringDecision: 'SHORTLIST' },
+    ]) {
+      repo.findOne.mockResolvedValueOnce(application);
+      internalClient.getLatestApplicationHrReview.mockResolvedValueOnce({
+        schemaVersion: 'hr-review-v1',
+        applicationId: application.id,
+        jobId: application.jobId,
+        candidateId: application.candidateId,
+        candidateCvId: application.candidateCvId,
+        candidateSupportVerified: false,
+        automaticallyReject: false,
+        overallFitScore: null,
+        hiringDecision: null,
+        rankingPosition: null,
+        ...change,
+      });
+      await expect(
+        service.getCompanyApplicationHrReview(recruiterUser, application.id),
+      ).rejects.toThrow();
+    }
   });
 });

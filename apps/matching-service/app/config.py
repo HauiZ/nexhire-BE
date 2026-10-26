@@ -1,5 +1,6 @@
 from functools import lru_cache
 import ssl
+from typing import Literal
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -29,7 +30,6 @@ class Settings(BaseSettings):
     )
     job_service_url: str = Field(default="http://localhost:3004", alias="JOB_SERVICE_URL")
     candidate_service_url: str = Field(default="http://localhost:3002", alias="CANDIDATE_SERVICE_URL")
-
     worker_poll_seconds: float = Field(default=3.0, alias="MATCHING_WORKER_POLL_SECONDS")
     worker_batch_size: int = Field(default=5, alias="MATCHING_WORKER_BATCH_SIZE")
     max_attempts: int = Field(default=3, alias="MATCHING_MAX_ATTEMPTS")
@@ -40,6 +40,16 @@ class Settings(BaseSettings):
         alias="MATCHING_EMBEDDING_MODEL",
     )
     semantic_min_signal: float = Field(default=0.35, alias="MATCHING_SEMANTIC_MIN_SIGNAL")
+    ranking_artifact_path: str | None = Field(default=None, alias="MATCHING_RANKING_ARTIFACT_PATH")
+    ai1_backend: Literal['disabled', 'local_m1'] = Field(default='disabled', alias='MATCHING_AI1_BACKEND')
+    ai1_manifest_path: str | None = Field(default=None, alias='MATCHING_AI1_MANIFEST_PATH')
+    ai1_manifest_sha256: str | None = Field(default=None, alias='MATCHING_AI1_MANIFEST_SHA256')
+    enable_local_hr_test: bool = Field(default=False, alias="MATCHING_ENABLE_LOCAL_HR_TEST")
+    local_hr_test_url: str | None = Field(default=None, alias="MATCHING_LOCAL_HR_TEST_URL")
+    local_hr_test_token: str | None = Field(default=None, alias="MATCHING_LOCAL_HR_TEST_TOKEN")
+    local_hr_test_weights_sha256: str | None = Field(default=None, alias="MATCHING_LOCAL_HR_TEST_WEIGHTS_SHA256")
+    local_hr_test_job_ids: str = Field(default='', alias="MATCHING_LOCAL_HR_TEST_JOB_IDS")
+    local_hr_test_candidate_ids: str = Field(default='', alias="MATCHING_LOCAL_HR_TEST_CANDIDATE_IDS")
 
     @property
     def database_url(self) -> str:

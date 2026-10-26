@@ -1,9 +1,11 @@
-from fastapi import APIRouter, Depends, Header, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException, Query
+from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import get_settings
 from app.db import session_scope
 from app.matching.service import MatchingService
+from app.matching.hr_review import hr_review_snapshot
 from app.models.matching import MatchRequestType
 from app.schemas.match_result import CreateMatchRequestDto
 
@@ -67,3 +69,16 @@ async def get_latest_application_match_result(
         "success": True,
         "data": service.map_result_snapshot(result),
     }
+
+
+@router.get('/applications/{application_id}/latest-hr-review')
+async def get_latest_hr_review(
+    application_id: UUID,
+    includeBaselineDiagnostics: bool = Query(default=False),
+    session: AsyncSession = Depends(get_session),
+    _internal: None = Depends(require_internal_service),
+) -> dict:
+    result = await MatchingService().get_latest_application_result(session, str(application_id))
+    if not result:
+        raise HTTPException(status_code=404, detail='Match result not found')
+    return {'success': True, 'data': hr_review_snapshot(result, include_baseline=includeBaselineDiagnostics)}

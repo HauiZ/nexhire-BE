@@ -11,7 +11,16 @@ import { REDIS_CLIENT } from '@nexhire/infra';
 import { AxiosError } from 'axios';
 import { Redis } from 'ioredis';
 import { firstValueFrom } from 'rxjs';
-import { ERROR_CODES, HEADERS, JobStatus, ParsedResume, UserRole } from '@nexhire/shared';
+import {
+  CandidateMatchingSnapshot,
+  ERROR_CODES,
+  HEADERS,
+  JobStatus,
+  MatchExplanation,
+  MatchHrReview,
+  ParsedResume,
+  UserRole,
+} from '@nexhire/shared';
 
 interface ApiEnvelope<T> {
   success: boolean;
@@ -85,39 +94,16 @@ export interface ApplicationMatchResultSnapshot {
   candidateId: string;
   candidateCvId: string | null;
   status: 'SUCCEEDED' | 'FAILED';
-  totalScore: number;
-  matchLevel: string;
-  explanation: {
-    matchedSkills?: string[];
-    missingSkills?: string[];
-    recommendation?: string;
-    decision?: string;
-    priority?: string;
-    summary?: string | null;
-    nextActions?: string[];
-    riskFlags?: string[];
-  };
+  scoringStatus?: 'NOT_AVAILABLE';
+  totalScore: number | null;
+  matchLevel: string | null;
+  explanation: Partial<MatchExplanation>;
   errorCode?: string | null;
   errorMessage?: string | null;
   createdAt: string | null;
 }
 
-export interface CandidateMatchingSkillSnapshot {
-  name: string;
-  level: string | null;
-  yearsOfExperience: number | null;
-}
-
-export interface CandidateMatchingSnapshot {
-  candidateId: string;
-  candidateUserId: string | null;
-  candidateCvId: string | null;
-  fullName: string | null;
-  headline: string | null;
-  summary: string | null;
-  location: string | null;
-  skills: CandidateMatchingSkillSnapshot[];
-}
+export type { CandidateMatchingSnapshot } from '@nexhire/shared';
 
 @Injectable()
 export class ApplicationInternalClientService {
@@ -235,6 +221,18 @@ export class ApplicationInternalClientService {
       'candidateService',
       `/api/v1/internal/candidates/${candidateId}/matching-snapshot`,
     );
+  }
+
+  async getLatestApplicationHrReview(applicationId: string): Promise<MatchHrReview | null> {
+    try {
+      return await this.getFromService<MatchHrReview>(
+        'matchingService',
+        `/api/v1/matching/applications/${applicationId}/latest-hr-review`,
+      );
+    } catch (error) {
+      if (error instanceof HttpException && error.getStatus() === 404) return null;
+      throw error;
+    }
   }
 
   private async getCachedDocumentDownload(

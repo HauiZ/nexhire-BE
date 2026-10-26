@@ -1,16 +1,18 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { retryOrDeadLetter, setupReliableQueue } from '@nexhire/infra';
-import { EVENTS, QUEUES, unwrapEventData } from '@nexhire/shared';
+import { EVENTS, QUEUES, unwrapEventData, isUnavailableMatchScore } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
+import { isUUID } from 'class-validator';
 import { ApplicationService } from '../../application.service';
 import { ApplicationMatchLevel } from '../../entities/application.entity';
 
 interface MatchingCompletedPayload {
   applicationId?: string | null;
-  totalScore: number;
-  matchLevel?: ApplicationMatchLevel;
+  scoringStatus?: 'NOT_AVAILABLE';
+  totalScore: number | null;
+  matchLevel?: ApplicationMatchLevel | null;
   status?: 'SUCCEEDED' | 'FAILED';
   errorMessage?: string | null;
 }
@@ -73,6 +75,13 @@ export class MatchingCompletedEventsConsumer implements OnModuleInit, OnModuleDe
 
     try {
       const payload = this.parsePayload(message);
+      if (!isUnavailableMatchScore(payload)) {
+        this.logger.warn(
+          'Ignoring deprecated numeric matching.completed; aggregate scoring is retired',
+        );
+        this.channel.ack(message);
+        return;
+      }
       if (!payload.applicationId) {
         this.logger.warn('Ignoring matching.completed without applicationId');
         this.channel.ack(message);
@@ -86,6 +95,7 @@ export class MatchingCompletedEventsConsumer implements OnModuleInit, OnModuleDe
         return;
       }
       await this.applicationService.updateMatchSnapshot(payload.applicationId, {
+        scoringStatus: payload.scoringStatus,
         matchScore: payload.totalScore,
         matchLevel: payload.matchLevel,
       });
@@ -109,7 +119,21 @@ export class MatchingCompletedEventsConsumer implements OnModuleInit, OnModuleDe
     const payload = unwrapEventData(
       JSON.parse(message.content.toString()) as MatchingCompletedPayload,
     );
-    if (typeof payload.totalScore !== 'number') {
+    const legacy =
+      payload.scoringStatus === undefined &&
+      typeof payload.totalScore === 'number' &&
+      Number.isFinite(payload.totalScore) &&
+      payload.totalScore >= 0 &&
+      payload.totalScore <= 100 &&
+      (payload.matchLevel === undefined ||
+        Object.values(ApplicationMatchLevel).includes(payload.matchLevel!));
+    if (
+      (!isUnavailableMatchScore(payload) && !legacy) ||
+      !['SUCCEEDED', 'FAILED'].includes(payload.status ?? '') ||
+      (payload.applicationId !== null &&
+        payload.applicationId !== undefined &&
+        (typeof payload.applicationId !== 'string' || !isUUID(payload.applicationId)))
+    ) {
       throw new Error('Invalid matching.completed payload');
     }
     return payload;

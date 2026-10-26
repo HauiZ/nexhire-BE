@@ -6,6 +6,7 @@ import {
   Injectable,
   Logger,
   NotFoundException,
+  ServiceUnavailableException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
@@ -14,11 +15,12 @@ import {
   AuthUser,
   ERROR_CODES,
   ParsedResume,
+  MatchHrReview,
   UserRole,
+  isUnavailableMatchScore,
 } from '@nexhire/shared';
 import { Brackets, In, Repository } from 'typeorm';
 import {
-  ApplicationMatchResultSnapshot,
   ApplicationInternalClientService,
   CandidateMatchingSnapshot,
   MatchRequestSnapshot,
@@ -42,6 +44,7 @@ import {
   ApplicationProgressDto,
   ApplicationProgressEventDto,
   ApplicationResponseDto,
+  ApplicationMatchingStatusDto,
   RecruiterApplicationDailyStatsDto,
   RecruiterApplicationStatsDto,
   RecruiterApplicationStatusCountsDto,
@@ -94,6 +97,7 @@ export class ApplicationService {
 
   async listCompanyCandidates(user: AuthUser, query: RecruiterCandidateQueryDto) {
     this.assertRecruiter(user);
+    this.assertScoreQueryUnavailable(query);
     const companyId = user.companyId!;
     const { whereSql, params } = this.buildCompanyCandidateWhere(companyId, query);
     const totalRows = await this.applicationRepo.query(
@@ -123,22 +127,9 @@ export class ApplicationService {
           SELECT
             "candidate_id",
             COUNT(*)::int AS "applicationCount",
-            MAX("submitted_at") AS "lastAppliedAt",
-            MAX("match_score") AS "bestMatchScore"
+            MAX("submitted_at") AS "lastAppliedAt"
           FROM filtered
           GROUP BY "candidate_id"
-        ),
-        best_match AS (
-          SELECT DISTINCT ON ("candidate_id")
-            "candidate_id",
-            "id" AS "bestMatchedApplicationId",
-            "job_id" AS "bestMatchedJobId",
-            "job_title" AS "bestMatchedJobTitle",
-            "match_score" AS "bestMatchScore",
-            "match_level" AS "bestMatchLevel"
-          FROM filtered
-          WHERE "match_score" IS NOT NULL
-          ORDER BY "candidate_id", "match_score" DESC NULLS LAST, "submitted_at" DESC, "created_at" DESC
         )
         SELECT
           latest."candidate_id" AS "candidateId",
@@ -153,14 +144,13 @@ export class ApplicationService {
           latest."status" AS "latestStatus",
           grouped."applicationCount",
           grouped."lastAppliedAt",
-          best_match."bestMatchScore",
-          best_match."bestMatchLevel",
-          best_match."bestMatchedApplicationId",
-          best_match."bestMatchedJobId",
-          best_match."bestMatchedJobTitle"
+          NULL AS "bestMatchScore",
+          NULL AS "bestMatchLevel",
+          NULL AS "bestMatchedApplicationId",
+          NULL AS "bestMatchedJobId",
+          NULL AS "bestMatchedJobTitle"
         FROM ranked_latest latest
         INNER JOIN grouped ON grouped."candidate_id" = latest."candidate_id"
-        LEFT JOIN best_match ON best_match."candidate_id" = latest."candidate_id"
         WHERE latest."latest_rank" = 1
         ORDER BY ${sortSql}
         LIMIT $${params.length + 1}
@@ -192,22 +182,9 @@ export class ApplicationService {
     }
 
     const applicationDtos = await Promise.all(
-      applications.map((application) =>
-        this.mapApplication(application, {
-          includeMatchResult: true,
-        }),
-      ),
+      applications.map((application) => this.mapApplication(application)),
     );
     const latest = applications[0];
-    const best = applications
-      .filter((application) => application.matchScore !== null)
-      .sort((a, b) => {
-        const byScore = (b.matchScore ?? -1) - (a.matchScore ?? -1);
-        if (byScore !== 0) {
-          return byScore;
-        }
-        return b.submittedAt.getTime() - a.submittedAt.getTime();
-      })[0];
     const snapshot = await this.getCandidateSnapshotBestEffort(candidateId);
 
     return {
@@ -227,11 +204,11 @@ export class ApplicationService {
       latestStatus: latest.status,
       applicationCount: applications.length,
       lastAppliedAt: latest.submittedAt,
-      bestMatchScore: best?.matchScore ?? null,
-      bestMatchLevel: best?.matchLevel ?? null,
-      bestMatchedApplicationId: best?.id ?? null,
-      bestMatchedJobId: best?.jobId ?? null,
-      bestMatchedJobTitle: best?.jobTitle ?? null,
+      bestMatchScore: null,
+      bestMatchLevel: null,
+      bestMatchedApplicationId: null,
+      bestMatchedJobId: null,
+      bestMatchedJobTitle: null,
       applications: applicationDtos,
     };
   }
@@ -392,6 +369,7 @@ export class ApplicationService {
 
   async listCompany(user: AuthUser, query: RecruiterApplicationQueryDto) {
     this.assertRecruiter(user);
+    this.assertScoreQueryUnavailable(query);
     const qb = this.applicationRepo
       .createQueryBuilder('application')
       .where('application.companyId = :companyId', { companyId: user.companyId })
@@ -403,14 +381,6 @@ export class ApplicationService {
     }
     if (query.status) {
       qb.andWhere('application.status = :status', { status: query.status });
-    }
-    if (query.matchLevel) {
-      qb.andWhere('application.matchLevel = :matchLevel', { matchLevel: query.matchLevel });
-    }
-    if (query.minMatchScore !== undefined) {
-      qb.andWhere('application.matchScore >= :minMatchScore', {
-        minMatchScore: query.minMatchScore,
-      });
     }
     if (query.search?.trim()) {
       qb.andWhere(
@@ -430,12 +400,6 @@ export class ApplicationService {
     }
     const direction = query.sortOrder === SortOrder.ASC ? 'ASC' : 'DESC';
     switch (query.sortBy) {
-      case RecruiterApplicationSortBy.MATCH_SCORE:
-        qb.orderBy('application.matchScore', direction, 'NULLS LAST').addOrderBy(
-          'application.submittedAt',
-          'DESC',
-        );
-        break;
       case RecruiterApplicationSortBy.UPDATED_AT:
         qb.orderBy('application.updatedAt', direction);
         break;
@@ -456,15 +420,72 @@ export class ApplicationService {
 
   async getCompanyApplication(user: AuthUser, id: string): Promise<ApplicationResponseDto> {
     const application = await this.findCompanyApplication(user, id);
-    return this.mapApplication(application, {
-      includeMatchResult: true,
-      matchResult: await this.getLatestMatchResultForResponse(application.id),
-    });
+    return this.mapApplication(application);
   }
 
   async requestCompanyApplicationMatch(user: AuthUser, id: string): Promise<MatchRequestSnapshot> {
     const application = await this.findCompanyApplication(user, id);
     return this.requestMatchWhenCvReady(application, user.id, 'RECRUITER_MANUAL');
+  }
+
+  async getCompanyApplicationMatchingStatus(
+    user: AuthUser,
+    id: string,
+  ): Promise<ApplicationMatchingStatusDto | null> {
+    const application = await this.findCompanyApplication(user, id);
+    const result = await this.internalClient.getLatestApplicationMatchResult(application.id);
+    if (!result) return null;
+    if (
+      result.applicationId !== application.id ||
+      result.jobId !== application.jobId ||
+      result.candidateId !== application.candidateId ||
+      result.candidateCvId !== application.candidateCvId ||
+      !isUnavailableMatchScore(result) ||
+      !['SUCCEEDED', 'FAILED'].includes(result.status) ||
+      typeof result.id !== 'string' ||
+      !result.id ||
+      (result.matchRequestId !== null &&
+        (typeof result.matchRequestId !== 'string' || !result.matchRequestId)) ||
+      typeof result.createdAt !== 'string' ||
+      !Number.isFinite(Date.parse(result.createdAt))
+    ) {
+      throw new ServiceUnavailableException('Invalid matching status or application identity');
+    }
+    return {
+      schemaVersion: 'matching-status-v1' as const,
+      applicationId: application.id,
+      jobId: application.jobId,
+      candidateId: application.candidateId,
+      candidateCvId: application.candidateCvId,
+      resultId: result.id,
+      matchRequestId: result.matchRequestId,
+      status: result.status,
+      createdAt: result.createdAt,
+      scoringStatus: 'NOT_AVAILABLE' as const,
+    };
+  }
+
+  async getCompanyApplicationHrReview(user: AuthUser, id: string): Promise<MatchHrReview | null> {
+    const application = await this.findCompanyApplication(user, id);
+    const review = await this.internalClient.getLatestApplicationHrReview(application.id);
+    if (!review) return null;
+    if (
+      review.applicationId !== application.id ||
+      review.jobId !== application.jobId ||
+      review.candidateId !== application.candidateId ||
+      review.candidateCvId !== application.candidateCvId ||
+      review.schemaVersion !== 'hr-review-v1' ||
+      review.candidateSupportVerified !== false ||
+      review.automaticallyReject !== false ||
+      review.overallFitScore !== null ||
+      review.hiringDecision !== null ||
+      review.rankingPosition !== null
+    ) {
+      throw new ServiceUnavailableException(
+        'HR review identity does not match the submitted application',
+      );
+    }
+    return { ...review, baselineDiagnostics: null };
   }
 
   async handleCvParsedForMatching(payload: {
@@ -751,13 +772,11 @@ export class ApplicationService {
     if (!application) {
       throw this.notFound();
     }
-    application.matchScore = dto.matchScore;
-    application.matchLevel = dto.matchLevel ?? this.matchLevelForScore(dto.matchScore);
-    const saved = await this.applicationRepo.save(application);
-    this.logger.log(
-      `Application match snapshot updated applicationId=${id} score=${saved.matchScore} level=${saved.matchLevel}`,
-    );
-    return this.mapApplication(saved);
+    if (!isUnavailableMatchScore({ ...dto, totalScore: dto.matchScore })) {
+      throw new BadRequestException('Aggregate scoring is unavailable until AI2');
+    }
+    // Completion is read from latest-result. Preserve stored history; replay is a no-op.
+    return this.mapApplication(application);
   }
 
   private async queueMatchingWhenCvReady(
@@ -1108,12 +1127,6 @@ export class ApplicationService {
     if (query.status) {
       clauses.push(`"status" = ${addParam(query.status)}`);
     }
-    if (query.matchLevel) {
-      clauses.push(`"match_level" = ${addParam(query.matchLevel)}`);
-    }
-    if (query.minMatchScore !== undefined) {
-      clauses.push(`"match_score" >= ${addParam(query.minMatchScore)}`);
-    }
     if (query.search?.trim()) {
       const searchParam = addParam(`%${query.search.trim()}%`);
       clauses.push(
@@ -1127,8 +1140,6 @@ export class ApplicationService {
   private companyCandidateSortSql(sortBy: RecruiterCandidateSortBy, sortOrder: SortOrder): string {
     const direction = sortOrder === SortOrder.ASC ? 'ASC' : 'DESC';
     switch (sortBy) {
-      case RecruiterCandidateSortBy.BEST_MATCH_SCORE:
-        return `"bestMatchScore" ${direction} NULLS LAST, "lastAppliedAt" DESC`;
       case RecruiterCandidateSortBy.APPLICATION_COUNT:
         return `"applicationCount" ${direction}, "lastAppliedAt" DESC`;
       case RecruiterCandidateSortBy.CANDIDATE_NAME:
@@ -1160,11 +1171,11 @@ export class ApplicationService {
       latestStatus: row.latestStatus,
       applicationCount: Number(row.applicationCount),
       lastAppliedAt: new Date(row.lastAppliedAt),
-      bestMatchScore: row.bestMatchScore === null ? null : Number(row.bestMatchScore),
-      bestMatchLevel: row.bestMatchLevel,
-      bestMatchedApplicationId: row.bestMatchedApplicationId,
-      bestMatchedJobId: row.bestMatchedJobId,
-      bestMatchedJobTitle: row.bestMatchedJobTitle,
+      bestMatchScore: null,
+      bestMatchLevel: null,
+      bestMatchedApplicationId: null,
+      bestMatchedJobId: null,
+      bestMatchedJobTitle: null,
     };
   }
 
@@ -1222,19 +1233,11 @@ export class ApplicationService {
     options: {
       includeProgress?: boolean;
       progressEvents?: ApplicationProgressEvent[];
-      includeMatchResult?: boolean;
-      matchResult?: ApplicationMatchResultSnapshot | null;
     } = {},
   ): Promise<ApplicationResponseDto> {
     const progressEvents =
       options.progressEvents ??
       (options.includeProgress ? await this.listProgressEvents(application.id) : []);
-    const matchResult =
-      options.matchResult ??
-      (options.includeMatchResult
-        ? await this.getLatestMatchResultForResponse(application.id)
-        : null);
-    const matchExplanation = matchResult?.explanation ?? null;
     return {
       id: application.id,
       jobId: application.jobId,
@@ -1262,16 +1265,20 @@ export class ApplicationService {
       statusNote: application.statusNote,
       currentProgressStep: application.currentProgressStep,
       progress: options.includeProgress ? this.mapProgress(application, progressEvents) : null,
-      matchScore: application.matchScore,
-      matchLevel: application.matchLevel,
-      matchRecommendation: matchExplanation?.recommendation ?? null,
-      matchDecision: matchExplanation?.decision ?? null,
-      matchPriority: matchExplanation?.priority ?? null,
-      matchSummary: matchExplanation?.summary ?? null,
-      matchMatchedSkills: matchExplanation?.matchedSkills ?? null,
-      matchMissingSkills: matchExplanation?.missingSkills ?? null,
-      matchNextActions: matchExplanation?.nextActions ?? null,
-      matchRiskFlags: matchExplanation?.riskFlags ?? null,
+      matchScore: null,
+      matchLevel: null,
+      matchRecommendation: null,
+      matchDecision: null,
+      matchPriority: null,
+      matchSummary: null,
+      matchMatchedSkills: null,
+      matchMissingSkills: null,
+      matchNextActions: null,
+      matchRiskFlags: null,
+      matchRequirementMatches: null,
+      matchRankingFeatures: null,
+      matchModelMetadata: null,
+      scoringStatus: 'NOT_AVAILABLE',
       submittedAt: application.submittedAt,
       decidedAt: application.decidedAt,
       cancelledAt: application.cancelledAt,
@@ -1280,19 +1287,6 @@ export class ApplicationService {
       createdAt: application.createdAt,
       updatedAt: application.updatedAt,
     };
-  }
-
-  private async getLatestMatchResultForResponse(
-    applicationId: string,
-  ): Promise<ApplicationMatchResultSnapshot | null> {
-    try {
-      return await this.internalClient.getLatestApplicationMatchResult(applicationId);
-    } catch (error) {
-      this.logger.warn(
-        `Failed to load latest match result applicationId=${applicationId}: ${(error as Error).message}`,
-      );
-      return null;
-    }
   }
 
   private async resolveAvatarUrl(documentId: string | null): Promise<string | null> {
@@ -1402,17 +1396,19 @@ export class ApplicationService {
     }
   }
 
-  private matchLevelForScore(score: number): ApplicationMatchLevel {
-    if (score >= 90) {
-      return ApplicationMatchLevel.EXCELLENT;
+  private assertScoreQueryUnavailable(query: {
+    matchLevel?: unknown;
+    minMatchScore?: unknown;
+    sortBy?: string;
+  }): void {
+    if (
+      query.matchLevel !== undefined ||
+      query.minMatchScore !== undefined ||
+      query.sortBy === RecruiterApplicationSortBy.MATCH_SCORE ||
+      query.sortBy === RecruiterCandidateSortBy.BEST_MATCH_SCORE
+    ) {
+      throw new BadRequestException('Score filters and sorting are unavailable until AI2');
     }
-    if (score >= 75) {
-      return ApplicationMatchLevel.HIGH;
-    }
-    if (score >= 50) {
-      return ApplicationMatchLevel.MEDIUM;
-    }
-    return ApplicationMatchLevel.LOW;
   }
 }
 

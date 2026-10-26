@@ -17,6 +17,7 @@ import {
   CurrentUser,
   Roles,
   UserRole,
+  MatchHrReview,
 } from '@nexhire/shared';
 import { ApplicationService } from './application.service';
 import { UpdateApplicationStageDto } from './dto/application-input.dto';
@@ -27,6 +28,7 @@ import {
 import {
   ApplicationCvDownloadDto,
   ApplicationResponseDto,
+  ApplicationMatchingStatusDto,
   RecruiterApplicationStatsDto,
 } from './dto/application-response.dto';
 import { MatchRequestSnapshot } from './application-internal-client.service';
@@ -79,8 +81,31 @@ export class RecruiterApplicationController {
     return this.applicationService.getCompanyCvDownload(user, id);
   }
 
+  @Get(':id/hr-review')
+  @ApiOperation({
+    summary: 'Read unverified evidence proposals separately from legacy matching scores',
+  })
+  @ApiErrorResponses({ statuses: [401, 403, 404, 503] })
+  getCompanyHrReview(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<MatchHrReview | null> {
+    return this.applicationService.getCompanyApplicationHrReview(user, id);
+  }
+
+  @Get(':id/matching-status')
+  @ApiOperation({ summary: 'Read completion identity for the latest matching request' })
+  @ApiSuccessResponse(ApplicationMatchingStatusDto)
+  @ApiErrorResponses({ statuses: [401, 403, 404, 503] })
+  getCompanyMatchingStatus(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ApplicationMatchingStatusDto | null> {
+    return this.applicationService.getCompanyApplicationMatchingStatus(user, id);
+  }
+
   @Post(':id/match')
-  @ApiOperation({ summary: 'Request a fresh match score for a company-owned application' })
+  @ApiOperation({ summary: 'Request fresh matching evidence for a company-owned application' })
   @ApiSuccessResponse(Object, { status: 201 })
   @ApiErrorResponses({ statuses: [401, 403, 404, 503] })
   requestMatch(

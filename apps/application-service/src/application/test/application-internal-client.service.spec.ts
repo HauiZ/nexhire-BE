@@ -21,6 +21,7 @@ describe('ApplicationInternalClientService', () => {
       get: jest.fn((key: string, fallback?: unknown) => {
         const values: Record<string, unknown> = {
           'applicationService.services.jobService': 'http://job-service:3004',
+          'applicationService.services.matchingService': 'http://matching-service:3007',
           'applicationService.services.documentStorageService': 'http://document-storage:3007',
           'applicationService.http.timeoutMs': 5000,
           'applicationService.internalServiceToken': 'internal-token',
@@ -37,6 +38,14 @@ describe('ApplicationInternalClientService', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
+  });
+
+  it('reads the HR projection without requesting legacy baseline diagnostics', async () => {
+    httpService.get.mockReturnValue(of({ data: { success: true, data: { schemaVersion: 'hr-review-v1' } } }));
+    await service.getLatestApplicationHrReview('application-1');
+    expect(httpService.get).toHaveBeenCalledWith(
+      'http://matching-service:3007/api/v1/matching/applications/application-1/latest-hr-review',
+      expect.objectContaining({ headers: expect.objectContaining({ [HEADERS.INTERNAL_SERVICE_TOKEN]: 'internal-token' }) }));
   });
 
   it('calls upstream services with internal identity headers', async () => {

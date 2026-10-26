@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 
 from app.api.health import router as health_router
 from app.api.matching import router as matching_router
+from app.api.jd_plans import router as jd_plans_router
 from app.worker import MatchRequestWorker
 
 logging.basicConfig(level=logging.INFO)
@@ -39,3 +40,4 @@ async def exception_handler(_request: Request, exc: Exception):
 
 app.include_router(health_router, prefix="/api/v1")
 app.include_router(matching_router, prefix="/api/v1")
+app.include_router(jd_plans_router, prefix="/api/v1")
