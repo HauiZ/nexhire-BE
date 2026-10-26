@@ -372,16 +372,21 @@ export class CandidateService {
       candidateId: profile.id,
       candidateUserId: profile.userId,
       candidateCvId: cvId,
+      snapshotSchemaVersion: 'candidate-matching-v2',
+      dataOrigin: 'PROFILE',
       fullName: profile.fullName,
       headline: profile.headline,
       summary: profile.summary,
       location: profile.location,
       skills: skills.map((skill) => ({
+        id: skill.id,
         name: skill.name,
         level: skill.level,
         yearsOfExperience: skill.yearsOfExperience,
       })),
       experiences: experiences.map((experience) => ({
+        id: experience.id,
+        description: experience.description,
         title: experience.position,
         company: experience.companyName,
         startYear: experience.startYear,
@@ -391,12 +396,25 @@ export class CandidateService {
         isCurrent: experience.isCurrent,
       })),
       educations: educations.map((education) => ({
+        id: education.id,
+        description: education.description,
         degree: education.degree,
         school: education.schoolName,
         fieldOfStudy: education.fieldOfStudy,
       })),
-      certifications: certifications.map((certification) => certification.name),
-      projects: projects.map((project) => project.name),
+      certifications: certifications.map((certification) => ({
+        id: certification.id,
+        name: certification.name,
+        issuer: certification.issuer,
+        description: certification.description,
+        issuedYear: certification.issuedYear,
+      })),
+      projects: projects.map((project) => ({
+        id: project.id,
+        name: project.name,
+        description: project.description,
+        technologies: project.technologies ?? [],
+      })),
     };
   }
 

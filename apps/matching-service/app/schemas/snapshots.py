@@ -1,4 +1,5 @@
-from pydantic import BaseModel, field_validator
+from typing import Literal
+from pydantic import BaseModel, Field, field_validator
 
 
 class JobMatchingSnapshot(BaseModel):
@@ -16,34 +17,50 @@ class JobMatchingSnapshot(BaseModel):
 
 
 class CandidateSkillSnapshot(BaseModel):
+    id: str | None = None
     name: str
     level: str | None = None
     yearsOfExperience: float | None = None
 
 
 class CandidateExperienceSnapshot(BaseModel):
+    id: str | None = None
+    description: str | None = None
     title: str | None = None
     company: str | None = None
     startYear: int | None = None
-    startMonth: int | None = None
+    startMonth: int | None = Field(default=None, ge=1, le=12)
     endYear: int | None = None
-    endMonth: int | None = None
+    endMonth: int | None = Field(default=None, ge=1, le=12)
     isCurrent: bool | None = None
 
 
 class CandidateEducationSnapshot(BaseModel):
+    id: str | None = None
+    description: str | None = None
     degree: str | None = None
     school: str | None = None
     fieldOfStudy: str | None = None
 
 
 class CandidateProjectSnapshot(BaseModel):
+    id: str | None = None
     name: str | None = None
     description: str | None = None
     technologies: list[str] = []
 
 
+class CandidateCertificationSnapshot(BaseModel):
+    id: str | None = None
+    name: str
+    issuer: str | None = None
+    description: str | None = None
+    issuedYear: int | None = None
+
+
 class CandidateMatchingSnapshot(BaseModel):
+    snapshotSchemaVersion: Literal["candidate-matching-v1", "candidate-matching-v2"] = "candidate-matching-v1"
+    dataOrigin: Literal["PROFILE", "PARSED_CV"] = "PROFILE"
     candidateId: str
     candidateUserId: str | None = None
     candidateCvId: str | None = None
@@ -54,8 +71,13 @@ class CandidateMatchingSnapshot(BaseModel):
     skills: list[CandidateSkillSnapshot] = []
     experiences: list[CandidateExperienceSnapshot] = []
     educations: list[CandidateEducationSnapshot] = []
-    certifications: list[str] = []
+    certifications: list[CandidateCertificationSnapshot] = []
     projects: list[CandidateProjectSnapshot] = []
+
+    @field_validator("certifications", mode="before")
+    @classmethod
+    def normalize_certifications(cls, value):
+        return [{"name": item} if isinstance(item, str) else item for item in (value or [])]
 
     @field_validator("projects", mode="before")
     @classmethod

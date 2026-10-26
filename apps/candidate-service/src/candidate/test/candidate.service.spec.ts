@@ -137,6 +137,70 @@ describe('CandidateService', () => {
     );
   });
 
+  it('preserves matching evidence and source IDs in the v2 profile snapshot', async () => {
+    profileRepo.findOne.mockResolvedValue(createProfile());
+    skillRepo.find.mockResolvedValue([
+      { id: 'skill-1', name: 'Java', level: null, yearsOfExperience: 3 },
+    ]);
+    experienceRepo.find.mockResolvedValue([
+      {
+        id: 'experience-1',
+        position: 'Developer',
+        companyName: 'Example',
+        description: 'Built Spring Boot APIs',
+        startYear: 2023,
+        startMonth: 1,
+        endYear: null,
+        endMonth: null,
+        isCurrent: true,
+      },
+    ]);
+    educationRepo.find.mockResolvedValue([
+      {
+        id: 'education-1',
+        degree: 'Bachelor',
+        schoolName: 'University',
+        fieldOfStudy: 'CS',
+        description: 'Distributed systems',
+      },
+    ]);
+    certificationRepo.find.mockResolvedValue([
+      {
+        id: 'certification-1',
+        name: 'AWS',
+        issuer: 'Amazon',
+        issuedYear: 2025,
+        description: 'Cloud architecture',
+      },
+    ]);
+    projectRepo.find.mockResolvedValue([
+      {
+        id: 'project-1',
+        name: 'ATS',
+        description: 'Recruitment backend',
+        technologies: ['Java', 'PostgreSQL'],
+      },
+    ]);
+
+    const result = await service.getMatchingSnapshot('candidate-1');
+
+    expect(result.snapshotSchemaVersion).toBe('candidate-matching-v2');
+    expect(result.dataOrigin).toBe('PROFILE');
+    expect(result.experiences[0]).toEqual(
+      expect.objectContaining({ id: 'experience-1', description: 'Built Spring Boot APIs' }),
+    );
+    expect(result.educations[0].description).toBe('Distributed systems');
+    expect(result.certifications[0]).toEqual(
+      expect.objectContaining({ issuer: 'Amazon', issuedYear: 2025 }),
+    );
+    expect(result.projects[0]).toEqual(
+      expect.objectContaining({
+        description: 'Recruitment backend',
+        technologies: ['Java', 'PostgreSQL'],
+      }),
+    );
+  });
+
   it('lazy-creates an empty profile when the candidate profile does not exist', async () => {
     const createdProfile = createProfile();
     profileRepo.findOne.mockResolvedValue(null);

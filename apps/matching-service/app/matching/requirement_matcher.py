@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass
 
-from app.matching.normalizer import normalize_skill, normalize_text
+from app.matching.normalizer import normalize_semantic_text, normalize_skill, normalize_text
 from app.matching.semantic import SemanticScorer
 from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
 
@@ -21,6 +21,8 @@ class Requirement:
     text: str
     source: str
     weight: float
+    original_text: str = ""
+    id: str = ""
 
 
 @dataclass
@@ -31,6 +33,12 @@ class RequirementMatch:
     evidence: str | None
     source: str | None
     score: float
+    requirement_id: str = ""
+    original_requirement: str = ""
+    evidence_id: str | None = None
+    original_evidence: str | None = None
+    comparison_score: float | None = None
+    comparison_method: str | None = None
 
     @property
     def matched(self) -> bool:
@@ -55,6 +63,8 @@ class RequirementScore:
 class Evidence:
     text: str
     source: str
+    original_text: str = ""
+    id: str = ""
 
 
 class RequirementMatcher:
@@ -78,30 +88,33 @@ class RequirementMatcher:
 
     def _build_requirements(self, job: JobMatchingSnapshot) -> list[Requirement]:
         requirements: list[Requirement] = []
-        for skill in job.skills:
-            self._append_requirement(requirements, normalize_skill(skill), "skill", 1.0)
+        for index, skill in enumerate(job.skills):
+            self._append_requirement(requirements, skill, "skill", 1.0, f"skills/{index}")
 
-        for phrase in self._split_requirement_text(job.requirements):
-            self._append_requirement(requirements, normalize_skill(phrase), "requirements", 0.9)
+        for index, phrase in enumerate(self._split_requirement_text(job.requirements)):
+            self._append_requirement(requirements, phrase, "requirements", 0.9, f"requirements/{index}")
 
-        for phrase in self._split_requirement_text(job.description):
-            self._append_requirement(requirements, normalize_skill(phrase), "description", 0.25)
+        for index, phrase in enumerate(self._split_requirement_text(job.description)):
+            self._append_requirement(requirements, phrase, "description", 0.25, f"description/{index}")
 
-        return requirements[:16]
+        return requirements
 
     def _build_evidence(self, candidate: CandidateMatchingSnapshot) -> list[Evidence]:
         evidence: list[Evidence] = []
-        for skill in candidate.skills:
-            self._append_evidence(evidence, skill.name, "skill")
-        for certification in candidate.certifications:
-            self._append_evidence(evidence, certification, "certification")
-        for experience in candidate.experiences:
+        for index, skill in enumerate(candidate.skills):
+            self._append_evidence(evidence, skill.name, "skill", skill.id or f"skills/{index}")
+        for index, certification in enumerate(candidate.certifications):
+            self._append_evidence(evidence, " ".join(part for part in [certification.name, certification.issuer,
+                                  certification.description] if part), "certification",
+                                  certification.id or f"certifications/{index}")
+        for index, experience in enumerate(candidate.experiences):
             self._append_evidence(
                 evidence,
-                " ".join(part for part in [experience.title, experience.company] if part),
+                " ".join(part for part in [experience.title, experience.company, experience.description] if part),
                 "experience",
+                experience.id or f"experiences/{index}",
             )
-        for project in candidate.projects:
+        for index, project in enumerate(candidate.projects):
             self._append_evidence(
                 evidence,
                 " ".join(
@@ -114,17 +127,21 @@ class RequirementMatcher:
                     if part
                 ),
                 "project",
+                project.id or f"projects/{index}",
             )
-            for technology in project.technologies:
-                self._append_evidence(evidence, normalize_skill(technology), "project")
-        for education in candidate.educations:
+            for technology_index, technology in enumerate(project.technologies):
+                self._append_evidence(evidence, technology, "project",
+                                      f"{project.id or f'projects/{index}'}/technologies/{technology_index}")
+        for index, education in enumerate(candidate.educations):
             self._append_evidence(
                 evidence,
-                " ".join(part for part in [education.degree, education.fieldOfStudy, education.school] if part),
+                " ".join(part for part in [education.degree, education.fieldOfStudy, education.school,
+                                          education.description] if part),
                 "education",
+                education.id or f"educations/{index}",
             )
-        self._append_evidence(evidence, candidate.headline, "profile")
-        self._append_evidence(evidence, candidate.summary, "profile")
+        self._append_evidence(evidence, candidate.headline, "profile", "profile/headline")
+        self._append_evidence(evidence, candidate.summary, "profile", "profile/summary")
         return evidence
 
     def _best_match(self, requirement: Requirement, evidence_items: list[Evidence]) -> RequirementMatch:
@@ -136,6 +153,8 @@ class RequirementMatcher:
                 evidence=None,
                 source=None,
                 score=0,
+                requirement_id=requirement.id,
+                original_requirement=requirement.original_text,
             )
 
         best = RequirementMatch(
@@ -145,9 +164,11 @@ class RequirementMatcher:
             evidence=None,
             source=None,
             score=0,
+            requirement_id=requirement.id,
+            original_requirement=requirement.original_text,
         )
         for evidence in evidence_items:
-            raw_score = self._compare(requirement.text, evidence.text)
+            raw_score, comparison_score, method = self._compare_details(requirement, evidence)
             weighted_score = raw_score * SOURCE_WEIGHTS.get(evidence.source, 0.6)
             if weighted_score > best.score:
                 best = RequirementMatch(
@@ -157,18 +178,31 @@ class RequirementMatcher:
                     evidence=evidence.text,
                     source=evidence.source,
                     score=weighted_score,
+                    requirement_id=requirement.id,
+                    original_requirement=requirement.original_text,
+                    evidence_id=evidence.id,
+                    original_evidence=evidence.original_text,
+                    comparison_score=comparison_score,
+                    comparison_method=method,
                 )
         return best
 
-    def _compare(self, requirement: str, evidence: str) -> float:
-        if requirement == evidence:
-            return 1
-        if requirement in evidence or evidence in requirement:
-            return 0.9
-        semantic_score = self.semantic_scorer.score_text_pair(requirement, evidence)
-        if semantic_score is None:
-            semantic_score = self._token_overlap_score(requirement, evidence)
-        return self._semantic_weight(semantic_score)
+    def _compare_details(self, requirement: Requirement, evidence: Evidence) -> tuple[float, float, str]:
+        if requirement.text == evidence.text:
+            return 1, 100, "EXACT"
+        if requirement.text in evidence.text or evidence.text in requirement.text:
+            return 0.9, 90, "CONTAINMENT"
+        signal = self.semantic_scorer.score_text_pair(
+            normalize_semantic_text(requirement.original_text or requirement.text),
+            normalize_semantic_text(evidence.original_text or evidence.text),
+        )
+        method = "SEMANTIC"
+        if signal is None:
+            signal = self._token_overlap_score(requirement.text, evidence.text)
+            method = "LEXICAL"
+        elif self.semantic_scorer.model_version == "lexical-fallback":
+            method = "LEXICAL"
+        return self._semantic_weight(signal), signal, method
 
     def _semantic_weight(self, semantic_score: float) -> float:
         if semantic_score >= 88:
@@ -183,13 +217,8 @@ class RequirementMatcher:
         if not text:
             return []
         clean_text = re.sub(r"<[^>]*>", " ", text)
-        raw_chunks = re.split(
-            r"\s*(?:[,;|•]|\band\b|\bor\b|\.|\n)\s*",
-            clean_text,
-            flags=re.IGNORECASE,
-        )
-        chunks = [normalize_text(chunk) for chunk in raw_chunks]
-        return [chunk for chunk in chunks if 1 <= len(chunk.split()) <= 18]
+        raw_chunks = re.split(r"[,;|\u2022\n]|[.!?](?:\s+|$)", clean_text)
+        return [chunk.strip() for chunk in raw_chunks if chunk.strip()]
 
     def _token_overlap_score(self, left: str, right: str) -> float:
         left_terms = set(left.split())
@@ -204,16 +233,19 @@ class RequirementMatcher:
         value: str,
         source: str,
         weight: float,
+        source_id: str = "",
     ) -> None:
+        original_text = value.strip()
+        value = normalize_skill(value) or normalize_semantic_text(value)
         if not value:
             return
         existing = next((item for item in items if item.text == value), None)
         if existing:
             existing.weight = max(existing.weight, weight)
             return
-        items.append(Requirement(text=value, source=source, weight=weight))
+        items.append(Requirement(text=value, source=source, weight=weight, original_text=original_text, id=source_id))
 
-    def _append_evidence(self, items: list[Evidence], value: str | None, source: str) -> None:
-        normalized = normalize_text(value)
+    def _append_evidence(self, items: list[Evidence], value: str | None, source: str, source_id: str = "") -> None:
+        normalized = normalize_skill(value or "") or normalize_semantic_text(value)
         if normalized:
-            items.append(Evidence(text=normalized, source=source))
+            items.append(Evidence(text=normalized, source=source, original_text=(value or "").strip(), id=source_id))

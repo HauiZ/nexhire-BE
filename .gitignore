@@ -12,10 +12,13 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+apps/matching-service/ml/data/
+apps/matching-service/ml/artifacts/
 # build
 dist/
 build/
-
+dataset/
+trainning/
 # env & secrets
 .env
 .env.local
