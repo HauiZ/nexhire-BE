@@ -1,8 +1,11 @@
 #!/usr/bin/env node
+const path = require('path');
 const { spawnSync } = require('child_process');
 const dotenv = require('dotenv');
 
-dotenv.config();
+const root = path.resolve(__dirname, '..');
+dotenv.config({ path: path.join(root, '.env'), override: false });
+dotenv.config({ path: path.join(root, '.env.local'), override: true });
 
 const SERVICES = [
   ['auth-service', 'AUTH_SERVICE', 'auth_service'],

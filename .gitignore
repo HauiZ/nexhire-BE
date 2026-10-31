@@ -14,11 +14,20 @@ __pycache__/
 .ruff_cache/
 apps/matching-service/ml/data/
 apps/matching-service/ml/artifacts/
+apps/matching-service/models/m1-ranking-retention/
 # build
 dist/
 build/
 dataset/
 trainning/
+.codegraph/
+*.zip
+*.docx
+*.pdf
+*.jsonl
+raw_llm_dataset*.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
 # env & secrets
 .env
 .env.local

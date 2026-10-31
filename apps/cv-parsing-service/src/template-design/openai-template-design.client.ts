@@ -43,6 +43,7 @@ interface OpenAiResponse {
     completion_tokens?: number;
   };
   output?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
+  choices?: Array<{ message?: { content?: string } }>;
 }
 
 /** Ném khi provider trả về JSON dở dang — phân biệt với lỗi hạ tầng. */
@@ -152,32 +153,61 @@ export class OpenAiTemplateDesignClient {
       'https://modelapi.vn/v1',
     );
     const model = await this.aiManagementService.getOpenAiModel();
-    const endpoint = `${baseUrl}/responses`;
+    const isChatCompletions =
+      baseUrl.includes('20128') ||
+      baseUrl.includes('localhost') ||
+      baseUrl.includes('127.0.0.1') ||
+      process.env.OPENAI_USE_CHAT_COMPLETIONS === 'true';
+
+    const endpoint = isChatCompletions ? `${baseUrl}/chat/completions` : `${baseUrl}/responses`;
+    const payload = isChatCompletions
+      ? {
+          model,
+          stream: false,
+          response_format: { type: 'json_object' },
+          messages: [
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'image_url',
+                  image_url: {
+                    url: `data:${document.mimeType};base64,${document.data.toString('base64')}`,
+                  },
+                },
+                { type: 'text', text: prompt },
+              ],
+            },
+          ],
+          max_tokens: maxOutputTokens,
+        }
+      : {
+          model,
+          stream: false,
+          input: [
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'input_file',
+                  filename: 'cv-template-source.pdf',
+                  file_data: `data:${document.mimeType};base64,${document.data.toString('base64')}`,
+                },
+                { type: 'input_text', text: prompt },
+              ],
+            },
+          ],
+          max_output_tokens: maxOutputTokens,
+          text: {
+            format: { type: 'json_schema', name: schemaName, strict: true, schema },
+          },
+        };
 
     try {
       const response = await firstValueFrom(
         this.httpService.post<OpenAiResponse>(
           endpoint,
-          {
-            model,
-            input: [
-              {
-                role: 'user',
-                content: [
-                  {
-                    type: 'input_file',
-                    filename: 'cv-template-source.pdf',
-                    file_data: `data:${document.mimeType};base64,${document.data.toString('base64')}`,
-                  },
-                  { type: 'input_text', text: prompt },
-                ],
-              },
-            ],
-            max_output_tokens: maxOutputTokens,
-            text: {
-              format: { type: 'json_schema', name: schemaName, strict: true, schema },
-            },
-          },
+          payload,
           {
             timeout: this.timeoutMs(),
             headers: {
@@ -223,7 +253,12 @@ export class OpenAiTemplateDesignClient {
     }
 
     const text = this.extractText(response);
-    return JSON.parse(text) as Record<string, unknown>;
+    const clean = text
+      .trim()
+      .replace(/^```(?:json)?\s*/i, '')
+      .replace(/\s*```$/i, '')
+      .trim();
+    return JSON.parse(clean) as Record<string, unknown>;
   }
 
   private extractText(response: OpenAiResponse): string {
@@ -235,6 +270,12 @@ export class OpenAiTemplateDesignClient {
         if (content.type === 'output_text' && content.text) {
           return content.text;
         }
+      }
+    }
+    if (response.choices && response.choices.length > 0) {
+      const content = response.choices[0]?.message?.content;
+      if (content) {
+        return content;
       }
     }
     throw new Error('OpenAI response did not include output text');

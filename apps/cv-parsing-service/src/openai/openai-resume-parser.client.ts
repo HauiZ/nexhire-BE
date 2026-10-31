@@ -31,6 +31,11 @@ interface OpenAiResponse {
       text?: string;
     }>;
   }>;
+  choices?: Array<{
+    message?: {
+      content?: string;
+    };
+  }>;
 }
 
 export interface OpenAiResumeParsePayload {
@@ -77,40 +82,72 @@ export class OpenAiResumeParserClient {
       8192,
     );
     const model = await this.aiManagementService.getOpenAiModel();
-    const endpoint = `${baseUrl}/responses`;
+    const isChatCompletions =
+      baseUrl.includes('20128') ||
+      baseUrl.includes('localhost') ||
+      baseUrl.includes('127.0.0.1') ||
+      process.env.OPENAI_USE_CHAT_COMPLETIONS === 'true';
+
+    const endpoint = isChatCompletions ? `${baseUrl}/chat/completions` : `${baseUrl}/responses`;
+    const payload = isChatCompletions
+      ? {
+          model,
+          stream: false,
+          response_format: { type: 'json_object' },
+          messages: [
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'image_url',
+                  image_url: {
+                    url: `data:${document.mimeType};base64,${document.data.toString('base64')}`,
+                  },
+                },
+                {
+                  type: 'text',
+                  text: `${buildResumeParsePrompt()}\n\nCRITICAL: Respond ONLY with a valid JSON object matching the requested schema. No additional commentary outside the JSON.`,
+                },
+              ],
+            },
+          ],
+          max_tokens: maxOutputTokens,
+        }
+      : {
+          model,
+          stream: false,
+          input: [
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'input_file',
+                  filename: 'resume.pdf',
+                  file_data: `data:${document.mimeType};base64,${document.data.toString('base64')}`,
+                },
+                {
+                  type: 'input_text',
+                  text: buildResumeParsePrompt(),
+                },
+              ],
+            },
+          ],
+          max_output_tokens: maxOutputTokens,
+          text: {
+            format: {
+              type: 'json_schema',
+              name: 'parsed_resume',
+              strict: true,
+              schema: OPENAI_PARSED_RESUME_SCHEMA,
+            },
+          },
+        };
 
     try {
       const response = await firstValueFrom(
         this.httpService.post<OpenAiResponse>(
           endpoint,
-          {
-            model,
-            input: [
-              {
-                role: 'user',
-                content: [
-                  {
-                    type: 'input_file',
-                    filename: 'resume.pdf',
-                    file_data: `data:${document.mimeType};base64,${document.data.toString('base64')}`,
-                  },
-                  {
-                    type: 'input_text',
-                    text: buildResumeParsePrompt(),
-                  },
-                ],
-              },
-            ],
-            max_output_tokens: maxOutputTokens,
-            text: {
-              format: {
-                type: 'json_schema',
-                name: 'parsed_resume',
-                strict: true,
-                schema: OPENAI_PARSED_RESUME_SCHEMA,
-              },
-            },
-          },
+          payload,
           {
             timeout,
             headers: {
@@ -197,11 +234,22 @@ export class OpenAiResumeParserClient {
         }
       }
     }
+    if (response.choices && response.choices.length > 0) {
+      const content = response.choices[0]?.message?.content;
+      if (content) {
+        return content;
+      }
+    }
     throw new Error('OpenAI response did not include output text');
   }
 
   private parseJson(text: string): Record<string, unknown> {
-    return JSON.parse(text) as Record<string, unknown>;
+    const trimmed = text.trim();
+    const clean = trimmed
+      .replace(/^```(?:json)?\s*/i, '')
+      .replace(/\s*```$/i, '')
+      .trim();
+    return JSON.parse(clean) as Record<string, unknown>;
   }
 
   private extractUsage(response: OpenAiResponse): AiUsageTokens | undefined {

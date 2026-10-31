@@ -91,15 +91,8 @@ class _RequirementBlocks(HTMLParser):
 
 
 def requirement_blocks(text: str) -> list[str]:
-    parser = _RequirementBlocks()
-    parser.feed(text)
-    parser.close()
-    blocks = []
-    for line in "".join(parser.parts).splitlines():
-        value = re.sub(r"^\s*(?:[-*\u2022]|\d+[.)])\s+", "", line).strip()
-        if value:
-            blocks.append(value)
-    return blocks
+    from app.schemas.jd_plan import source_blocks
+    return source_blocks(text)
 
 
 def explicit_negation_cue(requirement: str, passage: str) -> bool:

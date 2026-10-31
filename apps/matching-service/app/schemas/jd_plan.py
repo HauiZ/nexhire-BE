@@ -74,6 +74,38 @@ class _SourceBlocks(HTMLParser):
             self.parts.append(data)
 
 
+_TECH_PATTERNS = [
+    r'\b[a-zA-Z0-9_-]+\.(?:js|ts|io|ai|net|org|com)\b',
+    r'(?:\bASP\.NET|\.NET|\bVB\.NET)(?:\s+Core)?(?:\s+\d+(?:\.\d+)*)?',
+    r'\b[vV]?\d+(?:\.\d+)+\+?\b',
+    r'\b\d+\.\d+\b',
+]
+_ABBR_PATTERNS = [
+    r'\b(?:e\.g\.|i\.e\.|vs\.|approx\.|dept\.|inc\.|corp\.|ltd\.|sr\.|jr\.|dr\.|mr\.|ms\.|prof\.)',
+    r'\b(?:tp\.|tp\.hcm|th\.s|ts\.|pgs\.|gs\.|\u0111/h|cty\.|tnhh|cntt)\b',
+]
+_PROT_REGEX = re.compile('|'.join(f'(?:{p})' for p in _TECH_PATTERNS + _ABBR_PATTERNS), re.IGNORECASE)
+_INTERNAL_BOUNDARY_REGEX = re.compile(r'([.!?\u2026]+)\s+(?=[A-Z\u00c0-\u1ef8\d\(\"\'])')
+
+
+def _split_prose_sentences(line: str) -> list[str]:
+    masked = _PROT_REGEX.sub(lambda m: m.group(0).replace('.', '\ue000'), line)
+    masked = re.sub(r'\([^)]*\)', lambda m: m.group(0).replace('.', '\ue000'), masked)
+    if not _INTERNAL_BOUNDARY_REGEX.search(masked):
+        return [line.strip()]
+    parts = []
+    last = 0
+    for m in _INTERNAL_BOUNDARY_REGEX.finditer(masked):
+        end_idx = m.start(1) + len(m.group(1))
+        part = masked[last:end_idx].strip()
+        if part:
+            parts.append(part.replace('\ue000', '.'))
+        last = m.end()
+    if last < len(masked) and masked[last:].strip():
+        parts.append(masked[last:].strip().replace('\ue000', '.'))
+    return parts
+
+
 def source_blocks(text):
     parser = _SourceBlocks()
     parser.feed(text)
@@ -82,7 +114,9 @@ def source_blocks(text):
     for line in ''.join(parser.parts).splitlines():
         value = re.sub(r'^\s*(?:[-*\u2022]|\d+[.)])\s+', '', line).strip()
         if value:
-            result.append(value)
+            for sent in _split_prose_sentences(value):
+                if sent:
+                    result.append(sent)
     return result
 
 

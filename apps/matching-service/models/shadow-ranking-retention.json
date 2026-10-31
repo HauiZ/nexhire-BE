@@ -1,0 +1,24 @@
+{
+  "schema": "nexhire-ai1-shadow-deployment-v1",
+  "scope": "shadow_only",
+  "production_approved": false,
+  "max_sequence_length": 256,
+  "embedding_dimension": 384,
+  "threshold_fit_split": "train",
+  "model_path": "m1-ranking-retention",
+  "weights_sha256": "871aeef8a305b0336b443ce8ed1c275e0a656eee6760d87d8cab1b6665c829df",
+  "artifact_sha256": {
+    "model.safetensors": "871aeef8a305b0336b443ce8ed1c275e0a656eee6760d87d8cab1b6665c829df",
+    "modules.json": "8f4b264b80206c830bebbdcae377e137925650a433b689343a63bdc9b3145460",
+    "config.json": "376a54b28d37e8502389a87d6c8ff59247fc361cd8d980a47b36b6cae876de5e",
+    "config_sentence_transformers.json": "7662662aa9c59c51a0115e43a7f051321dd18949a1bf4f987acd4f9e7a782201",
+    "sentence_bert_config.json": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7",
+    "tokenizer_config.json": "f469534f4662884f6a1f5ff2a5fe70cbc6dc4a8c34c1fa765d2f022ea9a0ac12",
+    "tokenizer.json": "a514807cffabd8abaf028cfaffe7ff0c4f60b97ea2db80c41f14172ae6b018ca",
+    "special_tokens_map.json": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835",
+    "README.md": "d5aeffdcca3cc5efdde9444e1af5eb975af3f38f57f519d1beaf214f1d642b57",
+    "1_Pooling/config.json": "a19c83805e1ce4174f3fbfec4ac8d3b8dbae0c958f8fd51b80937eb33e0c5335"
+  },
+  "model_version": "ai1-shadow:ranking-retention:871aeef8a305",
+  "pair_reference_threshold": 67
+}

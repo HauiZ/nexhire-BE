@@ -1,9 +1,15 @@
 #!/usr/bin/env node
+const path = require('path');
+const dotenv = require('dotenv');
+
+const rootDir = path.resolve(__dirname, '..');
+dotenv.config({ path: path.join(rootDir, '.env'), override: false });
+dotenv.config({ path: path.join(rootDir, '.env.local'), override: true });
+
 require('ts-node/register');
 require('tsconfig-paths/register');
 
 const fs = require('fs');
-const path = require('path');
 
 const command = process.argv[2];
 const exportName = process.argv[3];

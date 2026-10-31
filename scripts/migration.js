@@ -90,5 +90,15 @@ switch (command) {
     usage();
 }
 
-const result = spawnSync(process.execPath, args, { stdio: 'inherit' });
+const result = spawnSync(process.execPath, args, {
+  stdio: 'inherit',
+  env: (() => {
+    const dotenv = require('dotenv');
+    const env = { ...process.env };
+    const rootDir = path.resolve(__dirname, '..');
+    dotenv.config({ path: path.join(rootDir, '.env'), processEnv: env, override: false });
+    dotenv.config({ path: path.join(rootDir, '.env.local'), processEnv: env, override: true });
+    return env;
+  })(),
+});
 process.exit(result.status ?? 1);

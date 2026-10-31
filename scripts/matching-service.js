@@ -1,15 +1,21 @@
 const { spawnSync } = require('node:child_process');
 const path = require('node:path');
+const fs = require('node:fs');
+const dotenv = require('dotenv');
+
+const root = process.cwd();
+dotenv.config({ path: path.join(root, '.env'), override: false });
+dotenv.config({ path: path.join(root, '.env.local'), override: true });
 
 const command = process.argv[2];
-const root = process.cwd();
 const serviceDir = path.join(root, 'apps', 'matching-service');
 const venvDir = path.join(serviceDir, '.venv');
 const binDir = process.platform === 'win32' ? 'Scripts' : 'bin';
-const python = path.join(venvDir, binDir, process.platform === 'win32' ? 'python.exe' : 'python');
-const uvicorn = path.join(venvDir, binDir, process.platform === 'win32' ? 'uvicorn.exe' : 'uvicorn');
-const fs = require('node:fs');
-const testPython = fs.existsSync(python) ? python : 'python';
+const venvPython = path.join(venvDir, binDir, process.platform === 'win32' ? 'python.exe' : 'python');
+const venvUvicorn = path.join(venvDir, binDir, process.platform === 'win32' ? 'uvicorn.exe' : 'uvicorn');
+
+const python = fs.existsSync(venvPython) ? venvPython : 'python';
+const uvicorn = fs.existsSync(venvUvicorn) ? venvUvicorn : 'uvicorn';
 
 function run(cmd, args, options = {}) {
   const result = spawnSync(cmd, args, {
@@ -36,14 +42,12 @@ if (command === 'migrate') {
 }
 
 if (command === 'test') {
-  run(testPython, ['-m', 'unittest', 'discover', '-s', path.join(serviceDir, 'tests')], {
+  run(python, ['-m', 'unittest', 'discover', '-s', path.join(serviceDir, 'tests')], {
     env: { ...process.env, PYTHONPATH: serviceDir },
   });
 }
 
 if (command === 'start') {
-  // --app-dir affects imports, not reload scope. Keep training/data changes
-  // outside the live API watcher while retaining the repository-root cwd/env.
   run(uvicorn, ['app.main:app', '--app-dir', serviceDir, '--reload',
     '--reload-dir', path.join(serviceDir, 'app'),
     '--host', '0.0.0.0', '--port', '3007']);
