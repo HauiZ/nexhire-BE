@@ -448,6 +448,26 @@ Artifact: [AI1_ANNOTATION_PROTOCOL.md](AI1_ANNOTATION_PROTOCOL.md).
     - Cung cấp sẵn cơ chế fallback về Iframe truyền thống và nút mở tab mới khi cần.
   * Kiểm thử: Frontend đạt **40/40 tests pass**, build Vite thành công trong 1.5s với đầy đủ worker asset. Đã kiểm thử trực tiếp trên ứng dụng thật bằng Playwright xác nhận trích xuất và bôi vàng chính xác 50 điểm xuất hiện trên CV của ứng viên Do Bao Truong.
 
+## E29 — Tối ưu Fit-to-Width & Khắc phục Lệch Chữ Highlight (2026-11-02)
+
+- **Vấn đề phát hiện thực tế (Ảnh 16)**:
+  * *Tràn viền ngang*: Scale PDF cố định 120% khiến chiều rộng trang PDF (734px) vượt quá khung viewport (550px–600px), sinh ra thanh cuộn ngang khó nhìn và cắt mất 25% lề phải của CV ("không hiện full").
+  * *Lệch chữ & bôi vàng sai từ con (Substring Collision)*:
+    - Từ khóa `ci` trong `ci/cd` bị bôi vàng nhầm bên trong chữ `Proficient` thành `Prof[ci]nt`.
+    - Chữ hiển thị bị bóng ma, xô lệch ký tự do thẻ `<mark>` bị gán `color` và `font-weight: 800` cùng `padding: 0 2px`, làm thay đổi độ rộng text trong DOM TextLayer so với chữ vector vẽ trên canvas bên dưới.
+- **Giải pháp triển khai**:
+  1. **Responsive Fit-to-Width (Tự động co vừa chiều rộng)**:
+     - Tích hợp `ResizeObserver` trên container viewport để đo kích thước thực tế, tự động tính tỷ lệ co giãn `scale = (containerWidth - 36) / basePageWidth` (thường rơi vào khoảng 0.9x – 1.14x tùy độ phân giải màn hình).
+     - Thiết lập `overflow-x: hidden` ở chế độ fit-width: Loại bỏ hoàn toàn thanh cuộn ngang, toàn bộ trang CV hiển thị 100% trọn vẹn từ lề trái sang lề phải với lề đệm cân đối.
+     - Bổ sung nút **"Vừa trang" (Fit Width)** trên thanh công cụ cho phép HR chuyển đổi tức thì giữa chế độ co vừa trang và phóng to thủ công.
+  2. **Kiểm tra Biên Từ (`\b`) & Hiệu ứng Bút Dạ Quang Tự nhiên**:
+     - Hàm `buildTermRegex`: Sử dụng regex word boundaries `\b(keyword)\b` cho tất cả các từ khóa kỹ năng dạng chữ/số. Loại bỏ bí danh `ci` đơn lẻ để tránh khớp sai vào các từ thông dụng tiếng Anh (`proficient`, `principal`, `incident`).
+     - Reset `regex.lastIndex = 0` trước khi thực thi `test()` và `replace()` để tránh hiện tượng cắt ghép chuỗi dở dang.
+     - Thiết lập CSS `.pdf-cv-highlight { color: transparent !important; padding: 0 !important; margin: 0 !important; font-weight: inherit !important; }`:
+       * Giữ nguyên 100% độ sắc nét của font chữ vector gốc được PDF.js vẽ trên canvas.
+       * Thẻ highlight chỉ phủ lớp nền vàng trong suốt tự nhiên (`rgba(250, 204, 21, 0.42)`), hoàn toàn không làm xô lệch hoặc biến dạng bất kỳ ký tự nào xung quanh.
+- **Kết quả kiểm chứng**: Trình duyệt Playwright xác nhận `hasHorizontalScroll: false`, trang CV căn giữa hoàn hảo, các từ khóa `FastAPI`, `ReactJS`, `TypeScript`, `Node.js`, `WebSocket`, `Docker`, `PostgreSQL` được bôi vàng chính xác và chữ `Proficient` hiển thị nguyên vẹn 100%.
+
 ---
 
 ## Tóm tắt Trạng thái Checklist Hoàn Thành (8/8 Mục Hoàn Thành)
