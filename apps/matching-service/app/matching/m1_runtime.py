@@ -22,7 +22,32 @@ _MODULES = [
     {"idx": 0, "name": "0", "path": "", "type": "sentence_transformers.models.Transformer"},
     {"idx": 1, "name": "1", "path": "1_Pooling", "type": "sentence_transformers.models.Pooling"},
 ]
+_TECH_ALIASES: dict[str, list[str]] = {
+    "kubernetes": ["k8s"],
+    "k8s": ["kubernetes"],
+    "react": ["reactjs", "react.js"],
+    "reactjs": ["react", "react.js"],
+    "golang": ["go"],
+    "go": ["golang"],
+    "postgresql": ["postgres", "pg"],
+    "postgres": ["postgresql", "pg"],
+    "javascript": ["js"],
+    "js": ["javascript"],
+    "typescript": ["ts"],
+    "ts": ["typescript"],
+    "elasticsearch": ["es", "elastic"],
+    "mongodb": ["mongo"],
+    "mongo": ["mongodb"],
+    "python": ["py"],
+    "node.js": ["node", "nodejs"],
+    "nodejs": ["node", "node.js"],
+    "dotnet": [".net", "asp.net"],
+    ".net": ["dotnet", "asp.net"],
+}
 _SAFETY = {"automatically_supported": False, "candidate_rejected": False, "requires_manual_review": True}
+# Only these codes escalate status to REVIEW_REQUIRED — informational codes (EXACT_KEYWORD_MATCH,
+# LEXICAL_ABSENT_PENALTY) must not trigger escalation as the score is already adjusted.
+_REVIEW_TRIGGER_CODES = frozenset({"EXPLICIT_NEGATION_CUE"})
 
 
 class M1InputError(ValueError):
@@ -108,6 +133,34 @@ def _negation_cue(requirement, passage):
     return bool(re.search(prefix + re.escape(requirement) + r"(?![\w+#])", passage))
 
 
+def _is_short_skill_query(text: str) -> bool:
+    """Nhận diện Short Skill Query: tên công nghệ/kỹ năng ngắn gọn."""
+    trimmed = text.strip()
+    if not trimmed:
+        return False
+    words = trimmed.split()
+    # Tối đa 4 từ, không chứa dấu câu mô tả phức hợp
+    return len(words) <= 4 and len(trimmed) <= 50 and not re.search(r'[.;]|\b(và|and|or|hoặc|with|using|để|for)\b', trimmed, re.IGNORECASE)
+
+
+def _lexical_present(requirement_text: str, passage_text: str) -> bool:
+    """Kiểm tra từ khóa yêu cầu có xuất hiện trong đoạn CV không (kể cả alias)."""
+    req = requirement_text.strip().lower()
+    passage = passage_text.lower()
+    # Exact word boundary match
+    if re.search(r'\b' + re.escape(req) + r'\b', passage):
+        return True
+    # Alias lookup
+    for alias in _TECH_ALIASES.get(req, []):
+        if re.search(r'\b' + re.escape(alias) + r'\b', passage):
+            return True
+    # Token overlap: nếu query 2+ từ, kiểm tra từng token quan trọng (>= 2 ký tự)
+    tokens = [w for w in req.split() if len(w) >= 2]
+    if tokens and all(re.search(r'\b' + re.escape(t) + r'\b', passage) for t in tokens):
+        return True
+    return False
+
+
 class LocalM1Runtime:
     def __init__(self, model, manifest):
         _validate_reference(manifest)
@@ -124,7 +177,7 @@ class LocalM1Runtime:
         model = SentenceTransformer(
             str(directory), device="cpu", trust_remote_code=False, local_files_only=True,
             model_kwargs={"use_safetensors": True, "local_files_only": True},
-            tokenizer_kwargs={"local_files_only": True}, config_kwargs={"local_files_only": True},
+            processor_kwargs={"local_files_only": True}, config_kwargs={"local_files_only": True},
         )
         model.eval()
         if model.max_seq_length != 256 or model.get_sentence_embedding_dimension() != 384:
@@ -177,10 +230,21 @@ class LocalM1Runtime:
                 if not math.isfinite(cosine) or not -1.000001 <= cosine <= 1.000001:
                     raise ValueError("Invalid encoder output")
                 signal = (max(-1., min(1., cosine)) + 1) * 50
+                reason_codes_hit: list[str] = []
+                if _is_short_skill_query(requirement["text"]):
+                    text_to_check = item.original_text or item.text
+                    if _lexical_present(requirement["text"], text_to_check):
+                        reason_codes_hit = ["EXACT_KEYWORD_MATCH"]
+                    else:
+                        signal = signal * 0.45
+                        reason_codes_hit = ["LEXICAL_ABSENT_PENALTY"]
+                # Always check negation cue independently of lexical gating
+                if _negation_cue(requirement["text"], text):
+                    reason_codes_hit.append("EXPLICIT_NEGATION_CUE")
                 hits.append({"id": item.id, "text": text, "source": item.source,
                              "comparison_score": signal,
                              "above_pair_reference": round(signal, 2) >= self.manifest["pair_reference_threshold"],
-                             "reason_codes": ("EXPLICIT_NEGATION_CUE",) if _negation_cue(requirement["text"], text) else ()})
+                             "reason_codes": tuple(reason_codes_hit)})
             if missing:
                 reasons.append("INCOMPLETE_SEMANTIC_SCORING")
             hits.sort(key=lambda h: (-h["comparison_score"], h["id"]))
@@ -188,7 +252,7 @@ class LocalM1Runtime:
                 status = "NO_EVIDENCE"
             elif not hits:
                 status = "SCORER_UNAVAILABLE"
-            elif missing or hits[0]["reason_codes"] or fallback:
+            elif missing or any(c in _REVIEW_TRIGGER_CODES for c in hits[0]["reason_codes"]) or fallback:
                 status = "REVIEW_REQUIRED"
             else:
                 status = "CANDIDATE_EVIDENCE" if hits[0]["above_pair_reference"] else "INSUFFICIENT_SIGNAL"

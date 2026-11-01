@@ -1,11 +1,11 @@
 """Opt-in experimental retrieval, never verified entailment or hiring fit."""
 
 from dataclasses import dataclass
-from html.parser import HTMLParser
 import math
 import re
 from typing import Protocol
 
+from app.matching.m1_runtime import _is_short_skill_query, _lexical_present, _REVIEW_TRIGGER_CODES
 from app.matching.normalizer import normalize_semantic_text
 from app.matching.requirement_matcher import Evidence, RequirementMatcher
 from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
@@ -67,29 +67,6 @@ class ShadowMatch:
     requires_manual_review: bool = True
 
 
-class _RequirementBlocks(HTMLParser):
-    def __init__(self):
-        super().__init__(convert_charrefs=True)
-        self.parts = []
-        self.hidden_depth = 0
-
-    def handle_starttag(self, tag, attrs):
-        if tag in {"script", "style"}:
-            self.hidden_depth += 1
-        if tag in {"br", "li", "p", "div", "ul", "ol"}:
-            self.parts.append("\n")
-
-    def handle_endtag(self, tag):
-        if tag in {"script", "style"}:
-            self.hidden_depth = max(0, self.hidden_depth - 1)
-        if tag in {"li", "p", "div", "ul", "ol"}:
-            self.parts.append("\n")
-
-    def handle_data(self, data):
-        if not self.hidden_depth:
-            self.parts.append(data)
-
-
 def requirement_blocks(text: str) -> list[str]:
     from app.schemas.jd_plan import source_blocks
     return source_blocks(text)
@@ -102,8 +79,8 @@ def explicit_negation_cue(requirement: str, passage: str) -> bool:
         return False
     prefix = (r"(?:\bno (?:prior |professional )?experience (?:with|in)|"
               r"\bnot (?:proficient|experienced) (?:with|in)|"
-              r"kh\u00f4ng c\u00f3 kinh nghi\u1ec7m (?:v\u1edbi|v\u1ec1)|"
-              r"ch\u01b0a t\u1eebng d\u00f9ng)\s+")
+              r"không có kinh nghiệm (?:với|về)|"
+              r"chưa từng dùng)\s+")
     return bool(re.search(prefix + re.escape(requirement) + r"(?![\w+#])", passage))
 
 
@@ -157,7 +134,16 @@ class ShadowRequirementMatcher:
                 continue
             if isinstance(signal, bool) or not isinstance(signal, (int, float)) or not math.isfinite(signal) or not 0 <= signal <= 100:
                 raise ValueError("Semantic scorer must provide a finite 0..100 cosine-derived score")
-            codes = ("EXPLICIT_NEGATION_CUE",) if explicit_negation_cue(requirement.text, text) else ()
+            codes_list: list[str] = []
+            if _is_short_skill_query(requirement.text):
+                if _lexical_present(requirement.text, text):
+                    codes_list = ["EXACT_KEYWORD_MATCH"]
+                else:
+                    signal = signal * 0.45
+                    codes_list = ["LEXICAL_ABSENT_PENALTY"]
+            if explicit_negation_cue(requirement.text, text):
+                codes_list.append("EXPLICIT_NEGATION_CUE")
+            codes = tuple(codes_list)
             hits.append(EvidenceHit(item.id, text, item.source, float(signal),
                                     round(signal, 2) >= self.policy.pair_reference_threshold, codes))
         if missing:
@@ -165,7 +151,7 @@ class ShadowRequirementMatcher:
         hits.sort(key=lambda hit: (-hit.comparison_score, hit.id))
         if not hits:
             status = "SCORER_UNAVAILABLE"
-        elif missing or hits[0].reason_codes or requirement.source == "unreviewed_description":
+        elif missing or any(c in _REVIEW_TRIGGER_CODES for c in hits[0].reason_codes) or requirement.source == "unreviewed_description":
             status = "REVIEW_REQUIRED"
         else:
             status = "CANDIDATE_EVIDENCE" if hits[0].above_pair_reference else "INSUFFICIENT_SIGNAL"

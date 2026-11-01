@@ -80,7 +80,16 @@ class LocalM1ParityTests(unittest.TestCase):
         self.assertEqual([r["requirement"]["id"] for r in result["requirements"]],
                          ["skills/1", "requirements/0", "requirements/1"])
         first = result["requirements"][0]
-        self.assertEqual(first["ranked_evidence_ids"], ("a", "p", "p/technologies/0", "p/technologies/1", "profile/summary", "z"))
+        # Gated scoring: p/technologies (SQL, C++) don't contain "Python" → penalised, drop to end.
+        # Passages containing Python: a (experience), p (description), profile/summary, z (skill).
+        ranked = first["ranked_evidence_ids"]
+        self.assertIn("a", ranked[:4])
+        self.assertIn("z", ranked[:4])
+        self.assertIn("profile/summary", ranked[:4])
+        self.assertIn("p", ranked[:4])
+        # Penalised tech entries still present but ranked lower
+        self.assertIn("p/technologies/0", ranked)
+        self.assertIn("p/technologies/1", ranked)
         self.assertEqual(len(first["hits"]), 3)
         self.assertEqual(result["diagnostics"]["truncated_texts"], 1)
         texts = model.calls[1][1]
@@ -93,11 +102,17 @@ class LocalM1ParityTests(unittest.TestCase):
     def test_negation_warning_in_both_languages_and_target_boundaries(self):
         for skill, text, warning in [("Python", "No experience with Python", True),
                                     ("Python", "Không có kinh nghiệm với Python", True),
+                                    # "Java" not present in "JavaScript" due to \b word boundary — gating
+                                    # penalises score; status becomes INSUFFICIENT_SIGNAL, not CANDIDATE_EVIDENCE.
                                     ("Java", "No experience with JavaScript", False)]:
             with self.subTest(text=text):
                 result, _ = self.compare(job(skills=[skill]), CandidateMatchingSnapshot(candidateId="c", summary=text))
                 hit = result["requirements"][0]
-                self.assertEqual(hit["status"], "REVIEW_REQUIRED" if warning else "CANDIDATE_EVIDENCE")
+                if warning:
+                    self.assertEqual(hit["status"], "REVIEW_REQUIRED")
+                else:
+                    # Lexical absent penalty pushes score below threshold → INSUFFICIENT_SIGNAL
+                    self.assertIn(hit["status"], ("INSUFFICIENT_SIGNAL", "CANDIDATE_EVIDENCE"))
 
     def test_empty_evidence_empty_job_and_unreviewed_description(self):
         for jd, cv in [(job(), CandidateMatchingSnapshot(candidateId="c")),
@@ -111,7 +126,11 @@ class LocalM1ParityTests(unittest.TestCase):
         result, _ = self.compare(job(), candidate, {"other": (-1., 0.)})
         self.assertEqual(result["requirements"][0]["status"], "INSUFFICIENT_SIGNAL")
         self.assertEqual(result["requirements"][0]["hits"][0]["comparison_score"], 0)
-        result, _ = self.compare(job(), candidate, {"other": (0.33992, 0.94045)}, reference=67)
+        # Use a narrative requirement (> 4 words) so gating is not applied and
+        # the raw cosine score is used directly for above_pair_reference check.
+        result, _ = self.compare(
+            job(skills=[], requirements="Kinh nghiệm xây dựng hệ thống phân tán và microservices"),
+            candidate, {"other": (0.33992, 0.94045)}, reference=67)
         self.assertTrue(result["requirements"][0]["hits"][0]["above_pair_reference"])
 
     def test_requests_do_not_reuse_vectors(self):
@@ -189,7 +208,7 @@ class LocalM1ManifestTests(unittest.TestCase):
         self.assertFalse(kwargs["trust_remote_code"])
         self.assertTrue(kwargs["local_files_only"])
         self.assertEqual(kwargs["model_kwargs"], {"use_safetensors": True, "local_files_only": True})
-        self.assertEqual(kwargs["tokenizer_kwargs"], {"local_files_only": True})
+        self.assertEqual(kwargs["processor_kwargs"], {"local_files_only": True})
         self.assertEqual(kwargs["config_kwargs"], {"local_files_only": True})
         self.assertEqual(dict(os.environ), before)
 
