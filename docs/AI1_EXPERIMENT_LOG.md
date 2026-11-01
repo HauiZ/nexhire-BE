@@ -440,11 +440,13 @@ Artifact: [AI1_ANNOTATION_PROTOCOL.md](AI1_ANNOTATION_PROTOCOL.md).
   * *Triển khai dứt điểm (Native HTML5 PDF.js Live Highlighting & Auto-Scroll - 100% Tự động)*:
     - Thay thế thẻ `<iframe>` bị sandbox bằng component chuyên biệt `PdfCvViewer` sử dụng `pdfjs-dist` v4.
     - Render tài liệu PDF trực tiếp thành các trang liên tục gồm lớp Canvas (vector nét căng) và lớp DOM Text Layer (`.textLayer`).
-    - **Tự động quét và bôi vàng (Automated Live Highlight)**: Khi HR click vào bất kỳ yêu cầu, chip kỹ năng hay thẻ bằng chứng nào, hệ thống tự động bôi vàng từ khóa bằng `<mark className="pdf-cv-highlight">` với hiệu ứng viền phát sáng (pulsing glow) ngay trên mặt chữ của PDF.
-    - **Tự động cuộn trang (Smooth Auto-Scroll)**: Gọi `scrollIntoView({ behavior: 'smooth', block: 'center' })` đưa vị trí bằng chứng vào chính giữa tầm mắt của HR ngay lập tức.
+    - **Tự động quét và bôi vàng mặc định (Automated Multi-Skill Highlighting)**: Khi HR vừa mở Tab 1 (CV Preview), hệ thống tự động truyền toàn bộ danh sách kỹ năng đã đối chiếu thành công (`searchTerms={matchedSkills}`) và quét bôi vàng tất cả các từ khóa cùng các biến thể bí danh công nghệ (ví dụ: `FastAPI`, `React 19`, `TypeScript`, `Node.js`, `WebSocket`, `Socket.IO`, `Docker`, `PostgreSQL`) trên toàn bộ các trang PDF mà không cần HR phải bấm hay tìm kiếm thủ công.
+    - **Thanh chip kỹ năng tương tác nhanh (Quick Skills Highlight Chips Bar)**: Cung cấp thanh chip trực quan ngay trên đầu tài liệu: `[Tất cả (N)] [✓ Skill 1] [✓ Skill 2]...`. Khi click vào chip kỹ năng cụ thể, hệ thống tự động kích hoạt chế độ *"Đang soi: X (N vị trí bôi vàng)"*, cuộn mượt (`scrollIntoView({ behavior: 'smooth', block: 'center' })`) và làm nhấp nháy phát sáng (pulsing glow) đúng vị trí từ khóa trên trang CV.
+    - **Xử lý triệt để vòng đời React 18 Strict Mode**: Bổ sung cơ chế quản lý hủy tác vụ render bất đồng bộ `renderTask.cancel()` và bắt ngoại lệ `RenderingCancelledException` của PDF.js, loại bỏ triệt để lỗi xung đột re-mount kép khiến canvas PDF bị treo đen hoặc không hiển thị nội dung trang.
+    - **Tự động cuộn trang (Smooth Auto-Scroll)**: Khi click từ thẻ trích dẫn hoặc nút "Soi PDF" ở Tab Tiêu chí, hệ thống tự động chuyển tab và cuộn trang đưa vị trí bằng chứng vào chính giữa tầm mắt của HR ngay lập tức.
     - **Không cần thao tác thủ công**: Tuyệt đối không cần bấm copy hay nhấn phím `Ctrl + F`, `Ctrl + V`.
     - Cung cấp sẵn cơ chế fallback về Iframe truyền thống và nút mở tab mới khi cần.
-  * Kiểm thử: Frontend đạt **40/40 tests pass**, build Vite thành công trong 2.4s với đầy đủ worker asset.
+  * Kiểm thử: Frontend đạt **40/40 tests pass**, build Vite thành công trong 1.5s với đầy đủ worker asset. Đã kiểm thử trực tiếp trên ứng dụng thật bằng Playwright xác nhận trích xuất và bôi vàng chính xác 50 điểm xuất hiện trên CV của ứng viên Do Bao Truong.
 
 ---
 
