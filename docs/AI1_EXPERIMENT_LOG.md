@@ -429,22 +429,22 @@ Artifact: [AI1_ANNOTATION_PROTOCOL.md](AI1_ANNOTATION_PROTOCOL.md).
   * **Badge thanh Tab navigation**: Hiển thị rõ `{matchedCount}/{totalRequired} Khớp ({percent}%)`.
   * **Dọn dẹp Ma trận đối chiếu**: Thay các chuỗi báo đỏ thành văn bản chuyên nghiệp: `Xem chi tiết trong CV`, `Thỏa thuận theo năng lực`.
 
-## E28 — Giải pháp Soi chiếu PDF (PDF Navigation & Smart Clipboard, 2026-11-01)
+## E28 — Giải pháp Soi chiếu PDF: Tự động Bôi vàng & Cuộn trang bằng HTML5 PDF.js (2026-11-01)
 
-- **Vấn đề thực tế**: Khi click "Soi trên PDF", trình duyệt Chrome/Edge không phản hồi và không bôi vàng chữ trên PDF (Ảnh 14).
+- **Vấn đề thực tế ban đầu**: Khi click "Soi trên PDF", trình duyệt Chrome/Edge không phản hồi và không bôi vàng chữ trên PDF (Ảnh 14).
 - **Phân tích nguyên nhân kỹ thuật**:
   * Google Chrome và Chromium sử dụng engine PDFium nội bộ, **không hỗ trợ tham số `#search="keyword"`** (vốn là chuẩn cũ của Adobe Acrobat). Chromium chỉ hỗ trợ `#page=N` và `#zoom=N`.
   * Thẻ `<iframe>` nhúng PDF nằm trong plugin sandbox của Chrome, JavaScript bên ngoài bị chặn hoàn toàn bởi chính sách bảo mật Cross-Origin, không thể can thiệp DOM PDF.
-- **So sánh các phương án giải quyết**:
-  * *Cách 1 (Mozilla PDF.js Canvas + TextLayer)*: Can thiệp sâu DOM PDF, bôi vàng trực tiếp trên canvas. Nhược điểm: Phức tạp, bundle nặng thêm ~500KB.
-  * *Cách 2 (Smart Clipboard & Assist Guidance + Live Evidence Highlight)*:
-    - Khi click bất kỳ kỹ năng hay bằng chứng nào, tự động copy từ khóa vào clipboard (`navigator.clipboard.writeText`).
-    - Tại Tab CV bên trái: Hiển thị ngay **Khung bằng chứng trích xuất trực tiếp** (Live Evidence Callout Box) bôi vàng từ khóa bằng `<mark>` kèm chỉ dẫn: *Bấm vào PDF, nhấn Ctrl + F rồi Ctrl + V để định vị trên trang gốc*.
-  * *Cách 3 (Chế độ xem kép PDF / CV số hóa)*.
-- **Quyết định & Kết quả triển khai**:
-  * Lựa chọn **Cách 2**: Vừa đảm bảo HR đọc được ngay câu bằng chứng bôi vàng trên giao diện web (không cần tìm kiếm), vừa hỗ trợ tìm kiếm trên PDF gốc nhanh chóng bằng tổ hợp phím quen thuộc.
-  * Kết nối luồng dữ liệu 2 chiều giữa `Ai1EvidencePanel` (cột phải) và `ApplicationReviewWorkspace` (cột trái).
-  * Kiểm thử: Frontend đạt **40/40 tests pass**, build Vite hoàn thành sạch sẽ không lỗi.
+- **Tiến hóa giải pháp**:
+  * *Thử nghiệm ban đầu (Smart Clipboard)*: Hỗ trợ tự động copy vào clipboard và hướng dẫn HR bấm `Ctrl + F` rồi `Ctrl + V`. Tuy nhiên phương án này vẫn mang tính thủ công, HR vẫn phải thao tác phím nhiều lần và làm gián đoạn mạch đánh giá hồ sơ.
+  * *Triển khai dứt điểm (Native HTML5 PDF.js Live Highlighting & Auto-Scroll - 100% Tự động)*:
+    - Thay thế thẻ `<iframe>` bị sandbox bằng component chuyên biệt `PdfCvViewer` sử dụng `pdfjs-dist` v4.
+    - Render tài liệu PDF trực tiếp thành các trang liên tục gồm lớp Canvas (vector nét căng) và lớp DOM Text Layer (`.textLayer`).
+    - **Tự động quét và bôi vàng (Automated Live Highlight)**: Khi HR click vào bất kỳ yêu cầu, chip kỹ năng hay thẻ bằng chứng nào, hệ thống tự động bôi vàng từ khóa bằng `<mark className="pdf-cv-highlight">` với hiệu ứng viền phát sáng (pulsing glow) ngay trên mặt chữ của PDF.
+    - **Tự động cuộn trang (Smooth Auto-Scroll)**: Gọi `scrollIntoView({ behavior: 'smooth', block: 'center' })` đưa vị trí bằng chứng vào chính giữa tầm mắt của HR ngay lập tức.
+    - **Không cần thao tác thủ công**: Tuyệt đối không cần bấm copy hay nhấn phím `Ctrl + F`, `Ctrl + V`.
+    - Cung cấp sẵn cơ chế fallback về Iframe truyền thống và nút mở tab mới khi cần.
+  * Kiểm thử: Frontend đạt **40/40 tests pass**, build Vite thành công trong 2.4s với đầy đủ worker asset.
 
 ---
 
@@ -457,7 +457,7 @@ Artifact: [AI1_ANNOTATION_PROTOCOL.md](AI1_ANNOTATION_PROTOCOL.md).
 5. [x] **Viết báo cáo ablation và tích hợp**: Hoàn thành phân tích ablation chi tiết.
 6. [x] **Xử lý Semantic Dilution & OOV Hubness**: Triển khai Adaptive Gated Lexical Scoring + Tech Aliases trong `m1_runtime.py`.
 7. [x] **Trích xuất câu trọng tâm (Sentence Spans)**: Triển khai Phương pháp 3 in-batch scoring và highlight `<mark>`.
-8. [x] **UX Đối soát Tuyển dụng & Smart PDF Search**: Hoàn thiện Match Score Card %, dọn dẹp ma trận đối chiếu, triển khai Smart Clipboard & Live Evidence Callout.
+8. [x] **UX Đối soát Tuyển dụng & Tự động Bôi vàng PDF**: Hoàn thiện Match Score Card %, dọn dẹp ma trận đối chiếu, triển khai HTML5 PDF.js Viewer tự động bôi vàng và cuộn tới bằng chứng trên PDF gốc.
 
 ## Những việc ĐÃ hoàn thành và sẵn sàng Production
 

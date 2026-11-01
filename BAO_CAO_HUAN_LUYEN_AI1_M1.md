@@ -710,10 +710,10 @@ Hướng đã đề xuất tiếp là **retrieve rồi rerank** với một th�
    - *Vấn đề*: HR quá tải khi phải đọc toàn bộ khối văn bản dài để tìm câu chứng minh cho yêu cầu dài.
    - *Triển khai*: Tách câu trong cùng batch encoding của SentenceTransformer (`_split_sentences`), tính toán độ tương đồng cosine giữa từng câu với requirement vector trong cùng lượt ma trận trên CPU (không tăng lượt inference). Trả về `relevant_span` để frontend bọc thẻ `<mark className="ai1-evidence__span-highlight">`.
 
-4. **Nâng cấp UX Đối soát Tuyển dụng & Smart PDF Search (E27 & E28)**:
+4. **Nâng cấp UX Đối soát Tuyển dụng & Tự động Bôi vàng PDF (E27 & E28)**:
    - *Match Score Card*: Đặt thẻ điểm số với đồng hồ đo % (ví dụ: 88% Độ khớp) và thanh tiến trình `X/Y Kỹ năng đạt` ngay đầu Tab 2.
    - *Dọn dẹp ma trận*: Thay thế 3 dòng báo đỏ báo động thành văn bản chuẩn nghiệp vụ (`Xem chi tiết trong CV`, `Thỏa thuận theo năng lực`).
-   - *Smart Clipboard & Live Evidence Callout (Cách 2)*: Do Chromium sandbox không hỗ trợ tham số `#search` trên PDF nhúng, hệ thống tự động copy từ khóa vào clipboard khi HR click vào bất kỳ kỹ năng/bằng chứng nào, đồng thời hiển thị Khung bằng chứng trích dẫn bôi vàng trực tiếp trên tab CV cùng hướng dẫn bấm `Ctrl + F` rồi `Ctrl + V` để định vị tức thì trên trang PDF gốc.
+   - *Tự động bôi vàng & cuộn trang bằng HTML5 PDF.js (100% Tự động)*: Thay thế `<iframe>` sandbox bằng trình đọc `PdfCvViewer` chuyên biệt tích hợp `pdfjs-dist` v4. Khi HR click vào bất kỳ kỹ năng hay bằng chứng nào, hệ thống tự động bôi vàng từ khóa bằng `<mark className="pdf-cv-highlight">` kèm viền phát sáng (pulsing glow) ngay trên mặt chữ của PDF và tự động cuộn mượt (`scrollIntoView`) đưa đúng dòng bằng chứng vào giữa màn hình. Tuyệt đối không cần bấm copy hay nhấn `Ctrl + F`, `Ctrl + V` thủ công. Có sẵn cơ chế fallback về iframe và mở tab mới khi cần.
 
 ## 17. Cách trình bày với hội đồng và trả lời câu hỏi
 
