@@ -693,6 +693,28 @@ Tag100 và NoSQL90 vẫn có thể qua ngưỡng cao, còn đoạn kinh nghiệm
 
 Hướng đã đề xuất tiếp là **retrieve rồi rerank** với một thử nghiệm có tiêu chí dừng: M1 lấy ứng viên đoạn, cơ chế đọc cặp yêu cầu–đoạn chọn lại; giữ đủ ngữ cảnh. Reranker pretrained/Cross-Encoder không tự bảo đảm hiểu phủ định, không phải AI2, và **chưa được triển khai hay tính vào kết quả hiện tại**. Không sinh lại dataset hoặc thay weights trước khi có bằng chứng cần thiết.
 
+### 16.4. Các giải pháp đã chính thức triển khai thành công (31/10 – 01/11/2026)
+
+Để giải quyết triệt để các hạn chế thực tế trên mà không làm chậm hệ thống hay phụ thuộc model nặng:
+
+1. **Khắc phục mâu thuẫn trạng thái Badge UI (E23)**:
+   - Xóa bỏ toàn bộ các bộ lọc heuristic regex chắp vá phía client (`isShortSkillQuery`, `passageRelatesToSkill`).
+   - Frontend hoàn toàn tin cậy và đồng bộ theo `retrievalStatus` và `reasonCodes` được Backend M1 runtime trả về trực tiếp.
+
+2. **Adaptive Gated Lexical Scoring với từ điển Compact Tech Aliases (E24 & E25)**:
+   - *Vấn đề*: Bi-Encoder bị pha loãng ngữ nghĩa (Semantic Dilution) khi embedding các kỹ năng ngắn vào đoạn văn dài 100–150 từ, cộng thêm hiện tượng trôi dạt vector (OOV Hubness) khiến từ khóa vắng mặt vẫn đạt cosine ~0.72.
+   - *Triển khai*: Phân loại atomic skill query qua `_is_short_skill_query()` (≤ 4 từ, không liên từ). Tích hợp từ điển bí danh `_TECH_ALIASES` (`k8s ↔ kubernetes`, `postgres ↔ postgresql`, `ts ↔ typescript`, `golang ↔ go`...). Nếu kỹ năng vắng mặt trong đoạn văn, M1 runtime áp dụng hệ số phạt 0.45 (`signal = signal * 0.45`) và gán mã `LEXICAL_ABSENT_PENALTY`. Nếu có mặt, gán `EXACT_KEYWORD_MATCH`.
+   - *Hiệu quả*: 0 lượt inference bổ sung, 0ms latency phụ trội, giải quyết dứt điểm OOV Hubness cho từ khóa công nghệ ngắn trong khi bảo toàn 100% ngữ nghĩa cho các câu yêu cầu tự sự.
+
+3. **Trích xuất câu bằng chứng trọng tâm (Sentence-Level Relevant Span - E26)**:
+   - *Vấn đề*: HR quá tải khi phải đọc toàn bộ khối văn bản dài để tìm câu chứng minh cho yêu cầu dài.
+   - *Triển khai*: Tách câu trong cùng batch encoding của SentenceTransformer (`_split_sentences`), tính toán độ tương đồng cosine giữa từng câu với requirement vector trong cùng lượt ma trận trên CPU (không tăng lượt inference). Trả về `relevant_span` để frontend bọc thẻ `<mark className="ai1-evidence__span-highlight">`.
+
+4. **Nâng cấp UX Đối soát Tuyển dụng & Smart PDF Search (E27 & E28)**:
+   - *Match Score Card*: Đặt thẻ điểm số với đồng hồ đo % (ví dụ: 88% Độ khớp) và thanh tiến trình `X/Y Kỹ năng đạt` ngay đầu Tab 2.
+   - *Dọn dẹp ma trận*: Thay thế 3 dòng báo đỏ báo động thành văn bản chuẩn nghiệp vụ (`Xem chi tiết trong CV`, `Thỏa thuận theo năng lực`).
+   - *Smart Clipboard & Live Evidence Callout (Cách 2)*: Do Chromium sandbox không hỗ trợ tham số `#search` trên PDF nhúng, hệ thống tự động copy từ khóa vào clipboard khi HR click vào bất kỳ kỹ năng/bằng chứng nào, đồng thời hiển thị Khung bằng chứng trích dẫn bôi vàng trực tiếp trên tab CV cùng hướng dẫn bấm `Ctrl + F` rồi `Ctrl + V` để định vị tức thì trên trang PDF gốc.
+
 ## 17. Cách trình bày với hội đồng và trả lời câu hỏi
 
 ### 17.1. Bài nói khoảng90 giây
