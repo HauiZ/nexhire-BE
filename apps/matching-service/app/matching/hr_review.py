@@ -16,7 +16,8 @@ def _evidence(values):
     if not isinstance(values, list):
         raise ValueError('Stored evidence must be an array')
     return tuple(ReviewEvidence(evidenceId=h['id'], source=h['source'], text=h['text'],
-        similarityScore=h['comparison_score'], reasonCodes=h.get('reason_codes', ())) for h in values)
+        similarityScore=h['comparison_score'], reasonCodes=h.get('reason_codes', ()),
+        relevantSpan=h.get('relevant_span')) for h in values)
 
 
 def _proposal(value):
@@ -95,7 +96,9 @@ def _ai1_projection(raw, result, explanation, values):
                 raise ValueError('Bounded unique Top3 required')
             if any(sections.get(h.evidenceId) != (h.source, h.text) for h in hits):
                 raise ValueError('AI1 quote differs from supplied CV')
-            return tuple(ReviewEvidence(**h.model_dump(mode='json')) for h in hits)
+            return tuple(ReviewEvidence(evidenceId=h.evidenceId, source=h.source, text=h.text,
+                similarityScore=h.similarityScore, reasonCodes=h.reasonCodes,
+                scoreMeaning=h.scoreMeaning, relevantSpan=h.relevant_span) for h in hits)
 
         requirements = []
         for item in assessment.requirements:

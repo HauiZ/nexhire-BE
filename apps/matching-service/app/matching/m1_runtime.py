@@ -161,6 +161,27 @@ def _lexical_present(requirement_text: str, passage_text: str) -> bool:
     return False
 
 
+def _split_sentences(text: str) -> list[str]:
+    """Split passage into sentences for relevant span extraction."""
+    # Split on sentence-ending punctuation followed by whitespace + uppercase/digit
+    parts = re.split(r'(?<=[.!?…])\s+(?=[A-ZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖÙÚÛÜÝA-Z0-9\(\"])', text)
+    # Also split on newlines
+    sentences: list[str] = []
+    for part in parts:
+        sub = [s.strip() for s in part.split('\n') if s.strip()]
+        sentences.extend(sub if sub else [part.strip()])
+    # Merge fragments shorter than 15 chars into preceding sentence
+    result: list[str] = []
+    for s in sentences:
+        if not s:
+            continue
+        if result and len(s) < 15:
+            result[-1] = result[-1] + ' ' + s
+        else:
+            result.append(s)
+    return result if result else [text]
+
+
 class LocalM1Runtime:
     def __init__(self, model, manifest):
         _validate_reference(manifest)
@@ -195,7 +216,24 @@ class LocalM1Runtime:
         evidence = RequirementMatcher(None)._build_evidence(candidate)
         if len(requirements) > 64 or len(evidence) > 256:
             raise M1InputError("Shadow request exceeds requirement/evidence limits")
-        texts = sorted({norm(r["text"]) for r in requirements} | {norm(e.original_text or e.text) for e in evidence})
+        # Collect sentence-level texts for narrative span extraction.
+        # Only for long passages (> 100 chars) paired with narrative requirements.
+        span_sentences: dict[str, list[str]] = {}
+        for item in evidence:
+            raw = item.original_text or item.text
+            if len(raw) > 100:
+                sents = _split_sentences(raw)
+                if len(sents) > 1:
+                    span_sentences[norm(raw)] = sents
+
+        texts_set = {norm(r["text"]) for r in requirements} | {norm(e.original_text or e.text) for e in evidence}
+        # Add normalised sentence texts so they get encoded in the same batch.
+        for sents in span_sentences.values():
+            for s in sents:
+                sn = norm(s)
+                if sn:
+                    texts_set.add(sn)
+        texts = sorted(texts_set)
         if any(len(t) > 5000 for t in texts):
             raise M1InputError("Shadow passage exceeds 5000 characters")
         truncated, vectors = 0, {}
@@ -241,10 +279,26 @@ class LocalM1Runtime:
                 # Always check negation cue independently of lexical gating
                 if _negation_cue(requirement["text"], text):
                     reason_codes_hit.append("EXPLICIT_NEGATION_CUE")
+                # Relevant span: find best sentence for narrative queries on long passages
+                relevant_span = None
+                if not _is_short_skill_query(requirement["text"]) and len(text) > 100:
+                    sents = span_sentences.get(norm(text))
+                    if sents and len(sents) > 1:
+                        req_vec = vectors[norm(requirement["text"])]
+                        best_cos, best_sent = -2.0, None
+                        for sent in sents:
+                            sn = norm(sent)
+                            if sn and sn in vectors:
+                                sc = float(np.dot(req_vec, vectors[sn]))
+                                if sc > best_cos:
+                                    best_cos, best_sent = sc, sent
+                        if best_sent and best_sent.strip() != text.strip():
+                            relevant_span = best_sent
                 hits.append({"id": item.id, "text": text, "source": item.source,
                              "comparison_score": signal,
                              "above_pair_reference": round(signal, 2) >= self.manifest["pair_reference_threshold"],
-                             "reason_codes": tuple(reason_codes_hit)})
+                             "reason_codes": tuple(reason_codes_hit),
+                             "relevant_span": relevant_span})
             if missing:
                 reasons.append("INCOMPLETE_SEMANTIC_SCORING")
             hits.sort(key=lambda h: (-h["comparison_score"], h["id"]))

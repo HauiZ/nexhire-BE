@@ -52,6 +52,7 @@ class EvidenceHit:
     comparison_score: float
     above_pair_reference: bool
     reason_codes: tuple[str, ...] = ()
+    relevant_span: str | None = None
 
 
 @dataclass(frozen=True)

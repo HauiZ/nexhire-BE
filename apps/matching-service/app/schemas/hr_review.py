@@ -16,6 +16,7 @@ class ReviewEvidence(ReviewModel):
     similarityScore: float = Field(ge=0, le=100)
     reasonCodes: tuple[str, ...] = ()
     scoreMeaning: Literal['COSINE_RETRIEVAL_SIMILARITY_NOT_SUPPORT_PROBABILITY'] = 'COSINE_RETRIEVAL_SIMILARITY_NOT_SUPPORT_PROBABILITY'
+    relevantSpan: str | None = None
 
 
 class ReviewComponent(ReviewModel):

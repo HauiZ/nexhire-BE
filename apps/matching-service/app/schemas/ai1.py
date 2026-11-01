@@ -22,6 +22,7 @@ class Ai1Hit(EvidenceModel):
     similarityScore: float = Field(ge=0, le=100)
     reasonCodes: tuple[str, ...] = ()
     scoreMeaning: Literal['COSINE_RETRIEVAL_SIMILARITY_NOT_SUPPORT_PROBABILITY'] = 'COSINE_RETRIEVAL_SIMILARITY_NOT_SUPPORT_PROBABILITY'
+    relevant_span: str | None = None
 
 
 class Ai1Component(EvidenceModel):
