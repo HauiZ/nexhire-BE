@@ -16,6 +16,11 @@ worker = MatchRequestWorker()
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
+    # Opt-in model must load before HTTP readiness, not inside the first HR request.
+    import asyncio
+    from app.config import get_settings
+    from app.ranking.demo_loader import get_demo_predictor
+    await asyncio.to_thread(get_demo_predictor, get_settings())
     await worker.start()
     yield
     await worker.stop()
