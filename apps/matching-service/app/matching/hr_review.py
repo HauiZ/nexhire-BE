@@ -5,6 +5,7 @@ from pydantic import ValidationError
 from app.schemas.jd_plan import JobRequirementPlan, content_digest
 from app.schemas.jd_plan import digest, snapshot_digest, source_requirements, validate_plan
 from app.schemas.ai1 import Ai1Assessment
+from app.matching.evidence_content import content_warnings
 from app.schemas.match_result import MatchingInputSnapshots
 from app.matching.requirement_matcher import RequirementMatcher
 from app.schemas.hr_review import (
@@ -109,12 +110,14 @@ def _ai1_projection(raw, result, explanation, values):
                     raise ValueError('AI1 fixed component structure changed')
                 components = tuple(ReviewComponent(componentId=c.componentId, text=c.text,
                     importance=c.importance, modelSuggestion=None, retrievalStatus=c.retrievalStatus,
-                    reasonCodes=c.reasonCodes, evidence=evidence(c.evidence)) for c in item.components)
+                    reasonCodes=tuple(dict.fromkeys((*c.reasonCodes, *content_warnings(c.text, c.evidence)))),
+                    evidence=evidence(c.evidence)) for c in item.components)
             elif item.components is not None or item.allOf is not None or item.jointContextRequired is not None:
                 raise ValueError('Unconfirmed AI1 plan cannot drive components')
             requirements.append(ReviewRequirement(requirementId=item.requirementId, text=item.text,
                 modelSuggestion=None, retrievalStatus=item.retrievalStatus, evidence=evidence(item.evidence),
-                reasonCodes=item.reasonCodes, jointContextRequired=item.jointContextRequired,
+                reasonCodes=tuple(dict.fromkeys((*item.reasonCodes, *content_warnings(item.text, item.evidence)))),
+                jointContextRequired=item.jointContextRequired,
                 componentAnalysis='FIXED_PLAN_RETRIEVAL' if plan else 'NOT_PERFORMED',
                 allOf=item.allOf, components=components))
         return HrReviewSnapshot(**dict(values, assessmentStatus='PENDING_REVIEW',
