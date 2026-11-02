@@ -1,5 +1,37 @@
 # Matching Service API Docs
 
+## Experimental AI2 read contracts (2026-11-02)
+
+Default-off development/test demo: `MATCHING_AI2_DEMO_ENABLED=false`; opt-in
+requires an explicit `MATCHING_AI2_DEMO_ARTIFACT_PATH` and the separately supplied
+hash-pinned artifact. Weights/datasets are not included in Git. Production is not
+approved. Disabled mode does not load the optional model.
+
+Internal-service-protected matching reads:
+
+- `GET /api/v1/matching/applications/:applicationId/latest-ai2-demo`: latest stored
+  result only; 404 if absent, 503 on unavailable optional scoring. Envelope
+  `success/data`, schema `ai2-demo-score-v1`, status DISABLED/UNAVAILABLE/READY.
+  Non-READY score is null. READY finite scores are relative, not fit percentages;
+  model/snapshot hashes/reference date bind the observation. No automatic reject,
+  hiring decision or verified model attribution.
+- `GET /api/v1/matching/jobs/:jobId/ai2-demo-pool?applicationIds=...`: 1–50 unique
+  UUIDs; all results must bind the requested application/job, same compatible
+  model/date/snapshot and current job. Partial/incompatible pools return no items.
+  The current content-quality gate converts otherwise READY pools to UNAVAILABLE
+  with reason `CONTENT_QUALITY_NOT_VALIDATED`, empty items and comparedCount=0.
+
+Recruiter application-service reads under its existing company-application route
+prefix: `GET :id/ai2-demo` and `GET :id/ai2-pool`. Role/company ownership is checked
+before downstream access. The pool selects the complete owned job's active
+SUBMITTED/OFFERED applications, not just a paginated UI subset, rejecting pools
+outside 1–50. Responses are allowlisted and identity/metadata validated. These
+routes do not trigger matching, modify decisions or approve ranking quality.
+
+HR-review reason codes additionally expose source-content warnings; literal tool
+mentions and negation cues remain unverified observations, not support labels.
+
+
 ## HR display deduplication (2026-10-26)
 
 Evidence-quality diagnostic `AI1_CLOSEOUT_013` found a separate limitation:

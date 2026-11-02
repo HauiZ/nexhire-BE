@@ -223,6 +223,24 @@ export class ApplicationInternalClientService {
     );
   }
 
+  async getLatestApplicationAi2Demo(applicationId: string): Promise<import('./ai2-demo.types').Ai2DemoScore | null> {
+    try {
+      return await this.getFromService<import('./ai2-demo.types').Ai2DemoScore>(
+        'matchingService',
+        `/api/v1/matching/applications/${applicationId}/latest-ai2-demo`,
+      );
+    } catch (error) {
+      if (error instanceof HttpException && error.getStatus() === 404) return null;
+      throw error;
+    }
+  }
+
+  async getApplicationAi2Pool(jobId: string, applicationIds: string[]): Promise<unknown> {
+    const query = applicationIds.map(id => `applicationIds=${encodeURIComponent(id)}`).join('&');
+    return this.getFromService<unknown>('matchingService',
+      `/api/v1/matching/jobs/${encodeURIComponent(jobId)}/ai2-demo-pool?${query}`);
+  }
+
   async getLatestApplicationHrReview(applicationId: string): Promise<MatchHrReview | null> {
     try {
       return await this.getFromService<MatchHrReview>(

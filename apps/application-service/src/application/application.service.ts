@@ -60,6 +60,7 @@ import {
   ApplicationProgressEvent,
 } from './entities/application-progress-event.entity';
 import { ApplicationEventPublisher } from './events/application-event.publisher';
+import { validateAi2Pool } from './ai2-pool';
 
 interface RecruiterCandidateRawRow {
   candidateId: string;
@@ -462,6 +463,63 @@ export class ApplicationService {
       status: result.status,
       createdAt: result.createdAt,
       scoringStatus: 'NOT_AVAILABLE' as const,
+    };
+  }
+
+  async getCompanyApplicationAi2Pool(user: AuthUser, id: string) {
+    const application = await this.findCompanyApplication(user, id);
+    const applications = await this.applicationRepo.find({
+      where: { jobId: application.jobId, companyId: user.companyId, status: In(this.activeStatuses) },
+      order: { id: 'ASC' }, take: 51,
+    });
+    if (!applications.length || applications.length > 50) {
+      throw new BadRequestException('AI2 demo requires 1–50 active applications for this job');
+    }
+    const payload = await this.internalClient.getApplicationAi2Pool(application.jobId, applications.map(row => row.id));
+    return validateAi2Pool(payload, applications);
+  }
+
+  async getCompanyApplicationAi2Demo(
+    user: AuthUser,
+    id: string,
+  ): Promise<import('./ai2-demo.types').Ai2DemoScore | null> {
+    const application = await this.findCompanyApplication(user, id);
+    const score = await this.internalClient.getLatestApplicationAi2Demo(application.id);
+    if (!score) return null;
+    if (
+      score.schemaVersion !== 'ai2-demo-score-v1' ||
+      score.applicationId !== application.id || score.jobId !== application.jobId ||
+      score.candidateId !== application.candidateId || score.candidateCvId !== application.candidateCvId ||
+      !['DISABLED', 'UNAVAILABLE', 'READY'].includes(score.status) ||
+      score.experimental !== true || score.scoreMeaning !== 'RELATIVE_RANKING_SCORE' ||
+      score.rankingPosition !== null || score.automaticallyReject !== false ||
+      score.hiringDecision !== null || score.attributionStatus !== 'UNAVAILABLE' ||
+      typeof score.resultId !== 'string' || !score.resultId ||
+      (score.status === 'READY' ? typeof score.score !== 'number' || !Number.isFinite(score.score) ||
+        score.modelVersion !== 'ai2-demo-xgb-observed-v1:5c0c5e3d4e81' ||
+        !/^[a-f0-9]{64}$/.test(score.jobSnapshotSha256 ?? '') ||
+        !/^[a-f0-9]{64}$/.test(score.candidateSnapshotSha256 ?? '') ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(score.referenceDate ?? '') ||
+        !Number.isFinite(Date.parse(`${score.referenceDate}T00:00:00Z`)) ||
+        new Date(`${score.referenceDate}T00:00:00Z`).toISOString().slice(0, 10) !== score.referenceDate
+        : score.score !== null)
+    ) {
+      throw new ServiceUnavailableException('AI2 demo identity or score contract mismatch');
+    }
+    return {
+      schemaVersion: score.schemaVersion,
+      applicationId: score.applicationId, jobId: score.jobId,
+      candidateId: score.candidateId, candidateCvId: score.candidateCvId,
+      resultId: score.resultId, status: score.status, score: score.score,
+      scoreMeaning: score.scoreMeaning, experimental: true,
+      rankingPosition: null, automaticallyReject: false,
+      hiringDecision: null, attributionStatus: 'UNAVAILABLE',
+      ...(score.status === 'READY' ? {
+        modelVersion: score.modelVersion,
+        jobSnapshotSha256: score.jobSnapshotSha256,
+        candidateSnapshotSha256: score.candidateSnapshotSha256,
+        referenceDate: score.referenceDate,
+      } : {}),
     };
   }
 

@@ -87,6 +87,7 @@ describe('ApplicationService', () => {
     getLatestCvParseResult: jest.Mock;
     getLatestApplicationMatchResult: jest.Mock;
     getLatestApplicationHrReview: jest.Mock;
+    getLatestApplicationAi2Demo: jest.Mock;
     getCandidateMatchingSnapshot: jest.Mock;
     createApplicationMatchRequest: jest.Mock;
     requestCandidateCvParse: jest.Mock;
@@ -156,6 +157,7 @@ describe('ApplicationService', () => {
       }),
       getLatestApplicationMatchResult: jest.fn().mockResolvedValue(null),
       getLatestApplicationHrReview: jest.fn().mockResolvedValue(null),
+      getLatestApplicationAi2Demo: jest.fn().mockResolvedValue(null),
       getCandidateMatchingSnapshot: jest.fn().mockResolvedValue({
         candidateId: application.candidateId,
         candidateUserId: application.candidateUserId,
@@ -997,6 +999,65 @@ describe('ApplicationService', () => {
         candidateAvatarDocumentId: '99999999-9999-9999-9999-999999999999',
       },
     );
+  });
+
+  it('checks company ownership before reading the AI2 pool', async () => {
+    repo.findOne.mockResolvedValueOnce(null);
+    await expect(service.getCompanyApplicationAi2Pool(recruiterUser, application.id)).rejects.toThrow();
+    expect(repo.find).not.toHaveBeenCalled();
+  });
+
+  it('rejects candidate access to the AI2 pool', async () => {
+    await expect(service.getCompanyApplicationAi2Pool(candidateUser, application.id)).rejects.toThrow();
+    expect(repo.find).not.toHaveBeenCalled();
+  });
+
+  it('checks ownership before reading experimental AI2 scores', async () => {
+    repo.findOne.mockResolvedValueOnce(null);
+    await expect(service.getCompanyApplicationAi2Demo(recruiterUser, application.id)).rejects.toThrow();
+    expect(internalClient.getLatestApplicationAi2Demo).not.toHaveBeenCalled();
+  });
+
+  it('rejects candidate access to experimental AI2 scores', async () => {
+    await expect(service.getCompanyApplicationAi2Demo(candidateUser, application.id)).rejects.toThrow();
+    expect(internalClient.getLatestApplicationAi2Demo).not.toHaveBeenCalled();
+  });
+
+  it('rejects an AI2 response for a different application', async () => {
+    repo.findOne.mockResolvedValueOnce(application);
+    internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({
+      schemaVersion: 'ai2-demo-score-v1', applicationId: 'foreign',
+    });
+    await expect(service.getCompanyApplicationAi2Demo(recruiterUser, application.id)).rejects.toThrow();
+  });
+
+  const ai2Ready = () => ({
+    schemaVersion: 'ai2-demo-score-v1', applicationId: application.id,
+    jobId: application.jobId, candidateId: application.candidateId,
+    candidateCvId: application.candidateCvId, resultId: 'saved-result',
+    status: 'READY', score: -1.2, scoreMeaning: 'RELATIVE_RANKING_SCORE',
+    experimental: true, rankingPosition: null, automaticallyReject: false,
+    hiringDecision: null, attributionStatus: 'UNAVAILABLE',
+    modelVersion: 'ai2-demo-xgb-observed-v1:5c0c5e3d4e81',
+    jobSnapshotSha256: 'a'.repeat(64), candidateSnapshotSha256: 'b'.repeat(64),
+    referenceDate: '2026-10-18',
+  });
+
+  it('returns only allowlisted AI2 score fields', async () => {
+    repo.findOne.mockResolvedValueOnce(application);
+    internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({ ...ai2Ready(), privateSource: 'secret' });
+    const result = await service.getCompanyApplicationAi2Demo(recruiterUser, application.id);
+    expect(result?.score).toBe(-1.2);
+    expect(result).not.toHaveProperty('privateSource');
+  });
+
+  it.each([
+    { modelVersion: 'other' }, { referenceDate: '2026-02-30' },
+    { jobSnapshotSha256: '' }, { score: Infinity }, { resultId: '' },
+  ])('rejects malformed AI2 READY metadata %j', async (mutation) => {
+    repo.findOne.mockResolvedValueOnce(application);
+    internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({ ...ai2Ready(), ...mutation });
+    await expect(service.getCompanyApplicationAi2Demo(recruiterUser, application.id)).rejects.toThrow();
   });
 
   it('checks company ownership before reading HR evidence', async () => {

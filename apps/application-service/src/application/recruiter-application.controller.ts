@@ -81,6 +81,22 @@ export class RecruiterApplicationController {
     return this.applicationService.getCompanyCvDownload(user, id);
   }
 
+  @Get(':id/ai2-demo')
+  @ApiOperation({ summary: 'Read opt-in experimental relative ranking score; not percent fit' })
+  @ApiErrorResponses({ statuses: [401, 403, 404, 503] })
+  getCompanyAi2Demo(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<import('./ai2-demo.types').Ai2DemoScore | null> {
+    return this.applicationService.getCompanyApplicationAi2Demo(user, id);
+  }
+
+  @Get(':id/ai2-pool')
+  @ApiOperation({ summary: 'Compare all active applications for the owned job; all-or-none experimental order' })
+  getCompanyAi2Pool(@CurrentUser() user: AuthUser, @Param('id', ParseUUIDPipe) id: string) {
+    return this.applicationService.getCompanyApplicationAi2Pool(user, id);
+  }
+
   @Get(':id/hr-review')
   @ApiOperation({
     summary: 'Read unverified evidence proposals separately from legacy matching scores',
