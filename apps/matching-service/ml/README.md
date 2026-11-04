@@ -1,5 +1,36 @@
 # Matching model preparation
 
+## Current layout (2026-11-04)
+
+This section supersedes historical runtime descriptions below. Main matching is
+ evidence-only: aggregate scores are unavailable; there is no lexical/weighted
+runtime fallback. AI1 M1 retrieval is not verified support. AI2 is a separately
+opt-in dev/test demo, not production ranking approval. See
+[service README](../README.md) and [matching API](../../../api-docs/matching-service.md).
+
+- `ai1/`: canonical offline AI1 trainers, ranking/retention objective and semantic
+  evaluation. Ranking here means **CV-passage ordering**, not candidate ranking.
+- `ai2/`: AI2 offline tools plus existing pure helpers shared with `app/ranking`.
+  These shared imports are intentionally retained in this refactor.
+- `datasets.py`: shared dataset validation, not a model implementation.
+- Root `train_semantic.py`, `train_ranking.py`, `ranking_objective.py` and
+  `semantic_evaluation.py`: thin compatibility entry points, not duplicate implementations.
+- Runtime AI1 remains in `app/matching/ai1.py` and `m1_runtime.py`; runtime AI2
+  remains in `app/ranking/`. Neither runtime nor artifact locations were moved.
+
+Preferred commands: `python -m ml.ai1.train_semantic --help` and
+`python -m ml.ai1.train_ranking --help`, with service directory on PYTHONPATH.
+Old module imports and direct script commands remain compatible for existing
+notebooks/bundles. New trainer source hashes refer to the relocated implementation;
+old frozen bundles/receipts remain historical and are not rewritten. Newly built
+bundles must include the `ml/ai1` package, not only the compatibility files.
+
+Training/artifact history remains under repository-root `trainning/ai1/` and
+`trainning/ai2/`; weights, canonical data, manifests and pinned runtime paths are
+unchanged. This refactor does not train or promote a model.
+
+## Historical preparation notes (not the current runtime contract)
+
 Current update (2026-10-23): both AI1 ranking-objective arms have completed Kaggle
 training, local replay and isolated HTTP regression. They are not AI2 rankers and
 are not production-approved. Experimental runtime modules now live separately in

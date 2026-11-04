@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class ModuleLayoutTests(unittest.TestCase):
     def test_production_and_train_modules_do_not_import_experiments(self):
-        paths = list((ROOT / "app").rglob("*.py")) + list((ROOT / "ml").glob("*.py"))
+        paths = list((ROOT / "app").rglob("*.py")) + list((ROOT / "ml").rglob("*.py"))
         for path in paths:
             if path.is_relative_to(ROOT / "app/experimental"):
                 continue
