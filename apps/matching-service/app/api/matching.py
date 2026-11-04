@@ -115,14 +115,22 @@ async def get_ai2_demo_pool(
             requestedCount=len(applicationIds), comparedCount=0, items=[], reason='RESULTS_NOT_READY')}
     try:
         predictor = await asyncio.to_thread(get_demo_predictor, get_settings())
-        scores = await asyncio.to_thread(lambda: [score_stored_result(result, predictor) for result in results])
+        from datetime import datetime, timezone
+        pool_reference = datetime.now(timezone.utc).date().isoformat()
+        scores = await asyncio.to_thread(lambda: [score_stored_result(
+            result, predictor, pool_reference_date=pool_reference) for result in results])
         current_job = await InternalClient().get_job_matching_snapshot(str(job_id)) if predictor else None
         data = rank_stored_pool(scores, current_job)
         if data['status'] == 'READY':
-            # Frozen model fails content probes (negation and exact DB alternatives).
-            # Transport compatibility is not approval to recommend review priority.
-            data.update(status='UNAVAILABLE', reason='CONTENT_QUALITY_NOT_VALIDATED',
-                        items=[], comparedCount=0)
+            settings = get_settings()
+            demo_order = (getattr(settings, 'ai2_demo_order_enabled', False)
+                          and settings.node_env in {'development', 'test'})
+            if demo_order:
+                # Explicit local inspection, never production quality approval.
+                data.update(evaluationMode='LOCAL_DEMO_ONLY', contentQualityValidated=False)
+            else:
+                data.update(status='UNAVAILABLE', reason='CONTENT_QUALITY_NOT_VALIDATED',
+                            items=[], comparedCount=0)
     except Exception:
         raise HTTPException(status_code=503, detail='AI2 pool unavailable') from None
     return {'success': True, 'data': data}

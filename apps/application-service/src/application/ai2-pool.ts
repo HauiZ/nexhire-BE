@@ -43,5 +43,7 @@ export function validateAi2Pool(payload: unknown, applications: PoolApplication[
       resultId: item.resultId as string, rankingPosition: item.rankingPosition as number };
   });
   return { ...common, status: 'READY' as const, comparedCount: applications.length, items,
-    jobId: value.jobId as string, referenceDate: value.referenceDate as string };
+    jobId: value.jobId as string, referenceDate: value.referenceDate as string,
+    ...(value.evaluationMode === 'LOCAL_DEMO_ONLY' && value.contentQualityValidated === false
+      ? { evaluationMode: 'LOCAL_DEMO_ONLY' as const, contentQualityValidated: false as const } : {}) };
 }

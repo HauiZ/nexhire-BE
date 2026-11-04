@@ -1,8 +1,27 @@
 # AI2 experimental helpers
 
-Not a trained ranker or an enabled application feature. Feature schema remains
-unfrozen pending source representability review. Do not train on the legacy
-lexical-fallback ranking columns or call silver labels expert gold.
+These modules are experimental research helpers, not production ranking approval.
+The working tree also has a separate opt-in stored-result demo under `app/ranking`
+(`MATCHING_AI2_DEMO_ENABLED`, default false), with artifact provenance checks and
+content-quality withholding. See `api-docs/matching-service.md` from repository
+root for that API contract. Do not train on legacy lexical-fallback ranking columns
+or call silver labels expert gold.
+
+## AI1 / FE integration boundary (2026-11-04)
+
+Optional AI1 `relevantSpan` is reading assistance bound to the original evidence
+text, not a feature, label or support verdict. It must not change the five observed
+features, model/artifact pins, retrieval scores or ranking gate. Full source text
+remains authoritative. The FE must preserve unavailable/withheld states and must
+not convert cosine, a highlighted sentence or raw ranker output into percent fit.
+
+Lexical penalties and future hybrid scores cannot silently replace the shifted
+cosine expected by the current artifact. Such a change needs its own policy/version,
+shared-protocol evaluation, feature compatibility review and, if justified, a new
+trained/calibrated artifact. No AI2 retraining or promotion is part of this additive
+span integration. Future support-aware features require valid online extraction,
+OOF predictions for stacking, reviewed whole-JD targets and demonstrated incremental
+value; gold annotations/rationales must never become inference features.
 
 ## Bounded verification
 
@@ -43,4 +62,5 @@ behaviors covered by their fixtures. No runtime fallback, candidate fit percenta
 automatic rejection/selection, or production approval is provided.
 
 Heavy training is reserved for the user-run Kaggle bundle after feature/data gates.
-No upload, trained model, safe artifact loader or UI is included here.
+No upload or production activation is provided by these helpers. The separate demo
+implementation and its FE panel do not establish production model quality.

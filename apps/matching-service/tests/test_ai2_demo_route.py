@@ -72,7 +72,7 @@ def test_pool_content_gate_withholds_otherwise_ready_order(monkeypatch):
     saved.application_id = APPLICATION
     lookup.return_value = saved
     monkeypatch.setattr(demo_loader, 'get_demo_predictor', lambda settings: object())
-    monkeypatch.setattr(stored_score, 'score_stored_result', lambda *args: {})
+    monkeypatch.setattr(stored_score, 'score_stored_result', lambda *args, **kwargs: {})
     monkeypatch.setattr(InternalClient, 'get_job_matching_snapshot', AsyncMock(return_value=object()))
     monkeypatch.setattr(stored_pool, 'rank_stored_pool', lambda *args: dict(status='READY', items=[{'rankingPosition': 1}], comparedCount=2))
     response = api.get(f'/api/v1/matching/jobs/{job_id}/ai2-demo-pool?applicationIds={APPLICATION}', headers={'x-internal-service-token': 'test-internal'})
@@ -80,6 +80,33 @@ def test_pool_content_gate_withholds_otherwise_ready_order(monkeypatch):
     assert data['status'] == 'UNAVAILABLE'
     assert data['reason'] == 'CONTENT_QUALITY_NOT_VALIDATED'
     assert data['items'] == [] and data['comparedCount'] == 0
+
+
+def test_explicit_local_demo_order_does_not_approve_production(monkeypatch):
+    from app.ranking import demo_loader, stored_score, stored_pool
+    from app.clients.internal import InternalClient
+    api, lookup = client(monkeypatch)
+    job_id = '55555555-5555-4555-8555-555555555555'
+    saved = result()
+    saved.job_id = job_id
+    saved.application_id = APPLICATION
+    lookup.return_value = saved
+    monkeypatch.setattr(demo_loader, 'get_demo_predictor', lambda settings: object())
+    monkeypatch.setattr(stored_score, 'score_stored_result', lambda *args, **kwargs: {})
+    monkeypatch.setattr(InternalClient, 'get_job_matching_snapshot', AsyncMock(return_value=object()))
+    monkeypatch.setattr(stored_pool, 'rank_stored_pool', lambda *args: dict(status='READY', items=[{'rankingPosition': 1}], comparedCount=2))
+    for environment, expected in [('development', 'READY'), ('test', 'READY'), ('production', 'UNAVAILABLE')]:
+        monkeypatch.setattr(matching, 'get_settings', lambda: SimpleNamespace(
+            internal_service_token='test-internal', ai2_demo_order_enabled=True, node_env=environment))
+        response = api.get(f'/api/v1/matching/jobs/{job_id}/ai2-demo-pool?applicationIds={APPLICATION}',
+                           headers={'x-internal-service-token': 'test-internal'})
+        data = response.json()['data']
+        assert data['status'] == expected
+        if expected == 'READY':
+            assert data['evaluationMode'] == 'LOCAL_DEMO_ONLY'
+            assert data['contentQualityValidated'] is False
+        else:
+            assert data['items'] == []
 
 
 def test_pool_duplicate_ids_rejected(monkeypatch):

@@ -17,6 +17,9 @@ def rank_stored_pool(scores, current_job):
         return unavailable('RESULTS_NOT_READY')
     if len({s['applicationId'] for s in scores}) != len(scores) or len({s['candidateId'] for s in scores}) != len(scores):
         return unavailable('DUPLICATE_APPLICATION_OR_CANDIDATE')
+    policies = {s.get('chronologyPolicy') for s in scores}
+    if len(policies) != 1 or not policies <= {None, 'FROZEN_SNAPSHOT_CHRONOLOGY_V1'}:
+        return unavailable('INCOMPATIBLE_SNAPSHOTS_OR_DATES')
     bindings = {(s['jobId'], s['jobSnapshotSha256'], s['referenceDate'], s['modelVersion']) for s in scores}
     if len(bindings) != 1:
         return unavailable('INCOMPATIBLE_SNAPSHOTS_OR_DATES')

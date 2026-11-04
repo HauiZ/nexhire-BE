@@ -18,6 +18,12 @@ describe('AI2 pool boundary', () => {
     expect(validateAi2Pool(value, apps).items.map(x => x.rankingPosition)).toEqual([1, 1]);
     expect(validateAi2Pool({ ...value, privateSource: 'secret' }, apps)).not.toHaveProperty('privateSource');
   });
+  it('preserves explicit unvalidated local demo markers', () => {
+    const output = validateAi2Pool({ ...ready(), evaluationMode: 'LOCAL_DEMO_ONLY',
+      contentQualityValidated: false }, apps);
+    expect(output).toMatchObject({ evaluationMode: 'LOCAL_DEMO_ONLY', contentQualityValidated: false });
+    expect(output.items).toHaveLength(2);
+  });
   it.each(['candidateId', 'candidateCvId', 'applicationId'])('rejects foreign %s', field => {
     const value = ready(); (value.items[0] as any)[field] = 'foreign';
     expect(() => validateAi2Pool(value, apps)).toThrow();

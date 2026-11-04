@@ -1,5 +1,20 @@
 # Matching / Dataset Data Contract
 
+## Additive sentence reading assistance (2026-11-04)
+
+AI1 hits and HR-review evidence may include optional `relevantSpan: string | null`.
+It is an exact nonblank substring of that hit's full original `text`, not a new
+source record, verified support, probability, feature or training label. Missing
+or invalid optional archived spans must not hide valid parent evidence. Full text,
+evidence IDs, snapshot hashes, cosine scores, ranking and support flags remain
+authoritative and unchanged. FE highlights only validated exact spans and otherwise
+renders the full text normally; no PDF navigation behavior is implied by the field.
+
+AI2 remains a separate opt-in/default-off demo with provenance and content-quality
+gates. Span metadata must not change its five observed features or artifact pins.
+See [matching API](matching-service.md) for response details. No migrations or
+historical-result rewrites are required by this additive metadata.
+
 ## Current runtime contract: baseline removal (2026-10-25)
 
 This section supersedes earlier runtime baseline score descriptions below;

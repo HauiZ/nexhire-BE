@@ -34,5 +34,15 @@ def test_missing_mixed_stale_and_single_fail_closed():
     assert rank_stored_pool(scores, job.model_copy(update={'title': 'Changed'}))['reason'] == 'STALE_JOB_SNAPSHOT'
 
 
+def test_frozen_snapshot_policy_allows_different_observation_dates():
+    job, scores = pool()
+    for score, observed in zip(scores, ('2026-10-29', '2026-10-30')):
+        score.update(chronologyPolicy='FROZEN_SNAPSHOT_CHRONOLOGY_V1',
+                     snapshotReferenceDate=observed)
+    assert rank_stored_pool(scores, job)['status'] == 'READY'
+    scores[1].pop('chronologyPolicy')
+    assert rank_stored_pool(scores, job)['reason'] == 'INCOMPATIBLE_SNAPSHOTS_OR_DATES'
+
+
 def test_disabled_no_current_job_needed():
     assert rank_stored_pool([dict(status='DISABLED')], None)['status'] == 'DISABLED'

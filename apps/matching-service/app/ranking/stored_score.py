@@ -4,7 +4,7 @@ from app.schemas.ai1 import Ai1Assessment
 from app.schemas.match_result import MatchingInputSnapshots
 
 
-def score_stored_result(result, predictor):
+def score_stored_result(result, predictor, *, pool_reference_date=None):
     """Revalidate persisted identities and immutable sources; never fetch current CV.
 
     Caller must authorize application before reading this internal projection.
@@ -32,11 +32,22 @@ def score_stored_result(result, predictor):
                 or snapshots.candidate.candidateCvId != identity['candidateCvId']):
             raise ValueError('stored application identity mismatch')
         reference = explanation['scoreReferenceDate']
+        if pool_reference_date is not None:
+            from datetime import date
+            if (date.fromisoformat(pool_reference_date).isoformat() != pool_reference_date
+                    or date.fromisoformat(reference) > date.fromisoformat(pool_reference_date)):
+                raise ValueError('invalid pool assessment date')
+        # Recompute every score from immutable inputs. Chronology stays anchored
+        # to the saved observation: Present is not proof of continued employment.
         score = predictor.score(assessment, snapshots.job, snapshots.candidate, reference_date=reference)
-        return dict(common, status='READY', score=score.score, modelVersion=score.model_version,
-                    jobSnapshotSha256=score.job_snapshot_sha256,
-                    candidateSnapshotSha256=score.candidate_snapshot_sha256,
-                    referenceDate=score.reference_date)
+        output = dict(common, status='READY', score=score.score, modelVersion=score.model_version,
+                      jobSnapshotSha256=score.job_snapshot_sha256,
+                      candidateSnapshotSha256=score.candidate_snapshot_sha256,
+                      referenceDate=score.reference_date)
+        if pool_reference_date is not None:
+            output.update(referenceDate=pool_reference_date, snapshotReferenceDate=reference,
+                          chronologyPolicy='FROZEN_SNAPSHOT_CHRONOLOGY_V1')
+        return output
     except (KeyError, ValueError, TypeError):
         return dict(common, status='UNAVAILABLE', score=None,
                     reason='STORED_INPUT_OR_ASSESSMENT_INCOMPATIBLE')

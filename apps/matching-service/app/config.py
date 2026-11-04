@@ -42,6 +42,7 @@ class Settings(BaseSettings):
     semantic_min_signal: float = Field(default=0.35, alias="MATCHING_SEMANTIC_MIN_SIGNAL")
     ranking_artifact_path: str | None = Field(default=None, alias="MATCHING_RANKING_ARTIFACT_PATH")
     ai2_demo_enabled: bool = Field(default=False, alias='MATCHING_AI2_DEMO_ENABLED')
+    ai2_demo_order_enabled: bool = Field(default=False, alias='MATCHING_AI2_DEMO_ORDER_ENABLED')
     ai2_demo_artifact_path: str | None = Field(default=None, alias='MATCHING_AI2_DEMO_ARTIFACT_PATH')
     ai1_backend: Literal['disabled', 'local_m1'] = Field(default='disabled', alias='MATCHING_AI1_BACKEND')
     ai1_manifest_path: str | None = Field(default=None, alias='MATCHING_AI1_MANIFEST_PATH')

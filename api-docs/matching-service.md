@@ -7,6 +7,16 @@ requires an explicit `MATCHING_AI2_DEMO_ARTIFACT_PATH` and the separately suppli
 hash-pinned artifact. Weights/datasets are not included in Git. Production is not
 approved. Disabled mode does not load the optional model.
 
+Explicit local inspection can additionally set `MATCHING_AI2_DEMO_ORDER_ENABLED=true`.
+Only development/test may expose an otherwise compatible READY order with
+`evaluationMode: LOCAL_DEMO_ONLY` and `contentQualityValidated: false`; application
+projection preserves these markers. This user-authorized inspection mode does not
+approve quality or change persisted operational ordering/decisions. The dev-only FE
+may explicitly apply this order to its displayed table and restore normal ordering;
+this is local presentation, not a saved priority or hiring action. Default-off
+and production behavior still withhold unvalidated ranks. Ownership, snapshot,
+artifact and pool checks are never skipped.
+
 Internal-service-protected matching reads:
 
 - `GET /api/v1/matching/applications/:applicationId/latest-ai2-demo`: latest stored
@@ -17,7 +27,13 @@ Internal-service-protected matching reads:
   hiring decision or verified model attribution.
 - `GET /api/v1/matching/jobs/:jobId/ai2-demo-pool?applicationIds=...`: 1–50 unique
   UUIDs; all results must bind the requested application/job, same compatible
-  model/date/snapshot and current job. Partial/incompatible pools return no items.
+  model/date/snapshot and current job. Pool reads recompute scores using a single
+  UTC assessment date for the request and the `FROZEN_SNAPSHOT_CHRONOLOGY_V1`
+  policy: each immutable CV's chronology remains capped at its saved
+  `scoreReferenceDate`, so an old Present record never accrues unobserved months.
+  Individual score reads retain their original historical referenceDate. Different
+  observation dates alone no longer block a pool; different JD/model bindings still
+  do. No stored results or CVs are rewritten. Partial/incompatible pools return no items.
   The current content-quality gate converts otherwise READY pools to UNAVAILABLE
   with reason `CONTENT_QUALITY_NOT_VALIDATED`, empty items and comparedCount=0.
 
@@ -153,6 +169,38 @@ See [the current contract](matching-data-contract.md#independent-ai1-backend-in-
 for configuration, rollback, failure handling and the ten-request worker test.
 Earlier shadow integration notes below remain historical; the new adapter is
 application code, but production rollout/full AI1 acceptance are still pending.
+
+### Optional source-bound display span
+
+`ai1-evidence-v1` evidence and the existing `hr-review-v1` requirement/component
+`evidence[]` can now include `relevantSpan: string | null`. `text` always remains
+the complete original parent passage, with the same evidence ID/source and score.
+A non-null span is at most 600 characters and must be a nonblank **exact substring**
+of `text` (case, Unicode and whitespace preserved); no generated/normalised quote
+is accepted. New invalid spans fail schema validation. On historical reads, absent
+or null spans are supported; invalid optional hints are suppressed to null without
+changing otherwise valid evidence. The historical snake-case `relevant_span` hint
+is read compatibly and projected only as `relevantSpan`; no stored rows are rewritten.
+All existing source/snapshot/plan validation still applies.
+
+The local M1 runtime annotates only already returned Top3 narrative passages for
+non-skill queries longer than four words, **after** ranking/status calculation.
+It does not segment JD requirements, apply lexical penalties, alter retrieval
+scores/order/status/reasons/model version, or feed span hints into AI2 features.
+It reuses existing query/passage vectors and uses at most one additional local
+sentence encode per retrieval call: up to 24 distinct returned passages,
+12 sentences per passage, 96 new unique sentence texts / 24,000 normalized
+characters total, with parent passages limited to 5,000 raw characters and each
+sentence to 600 characters. Passage limits cause omission, not truncation or
+replacement of the parent text. Confirmed-plan component retrieval is a separate
+call subject to the same limits. No model download, external provider or training
+is involved. Annotation encoding failure omits hints but preserves successful
+retrieval; retrieval errors retain the existing explicit unavailable behavior.
+
+The span is a display hint selected by local sentence similarity, not verified
+requirement support, candidate fit, probability, a training label or a hiring
+recommendation. Sentence splitting is deliberately conservative and may omit or
+misidentify a useful excerpt; HR must retain access to the full parent context.
 
 ## Organization And Integration Status (2026-10-23)
 
