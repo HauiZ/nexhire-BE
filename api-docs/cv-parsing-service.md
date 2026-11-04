@@ -1,5 +1,17 @@
 # CV Parsing Service API Docs
 
+## Estimated usage pricing (2026-11-04)
+
+Configured compatibility-provider tariff for `OPENAI/gpt-6-luna`: USD2 per million
+input tokens, USD12 per million output tokens, multiplier0.9 (project-owner supplied
+provider tariff, not an OpenAI official price). Costs are estimates rounded to six
+decimals, not provider invoice amounts. Existing non-null recorded costs remain
+unchanged. Historical null log costs with both token counts are estimated on read
+using the current configured tariff; summary adds these reconstructable missing
+costs to recorded amounts without repricing already recorded rows. Missing tariff
+or token counts can still yield null; aggregate sums may be partial. No DB backfill,
+provider call or migration is performed. Schema unchanged.
+
 ## Runtime Model Configuration And Recovery (2026-10-25)
 
 Persisted `ai_system_configs` values take priority over environment defaults.

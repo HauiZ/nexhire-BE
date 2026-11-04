@@ -143,6 +143,28 @@ describe('AiManagementService', () => {
     );
   });
 
+  it('reconstructs missing historical log costs without changing stored costs', () => {
+    const base = { provider: CvParseProvider.OPENAI, model: 'gpt-6-luna',
+      inputTokens: 7656, outputTokens: 883, estimatedCostUsd: null };
+    const map = (value: unknown) => service['mapUsageLog'](value as Parameters<typeof service['mapUsageLog']>[0]);
+    expect(map(base).estimatedCostUsd).toBe('0.023317');
+    expect(map({ ...base, inputTokens: 12041, outputTokens: 1137 }).estimatedCostUsd).toBe('0.033953');
+    expect(map({ ...base, estimatedCostUsd: '0.023318' }).estimatedCostUsd).toBe('0.023318');
+    expect(map({ ...base, model: 'unknown' }).estimatedCostUsd).toBeNull();
+    expect(map({ ...base, outputTokens: null }).estimatedCostUsd).toBeNull();
+    expect(base.estimatedCostUsd).toBeNull();
+  });
+
+  it('adds only reconstructable missing costs to the recorded summary', () => {
+    const calculate = (value: Parameters<typeof service['summaryCostUsd']>[0]) => service['summaryCostUsd'](value);
+    const row = { provider: CvParseProvider.OPENAI, model: 'gpt-6-luna',
+      estimatedCostUsd: '0.100000', unpricedRequests: '2',
+      unpricedInputTokens: '19697', unpricedOutputTokens: '2020' };
+    expect(calculate(row)).toBe('0.157271');
+    expect(calculate({ ...row, estimatedCostUsd: null })).toBe('0.057271');
+    expect(calculate({ ...row, model: 'unknown', estimatedCostUsd: null })).toBeNull();
+  });
+
   it('returns pricing breakdown in usage summary', async () => {
     const queryBuilder = {
       select: jest.fn().mockReturnThis(),
@@ -256,7 +278,7 @@ describe('AiManagementService', () => {
     expect(configRepo.upsert).not.toHaveBeenCalled();
   });
 
-  it('lists and permits only the configured compatibility alias with unknown pricing', async () => {
+  it('lists and permits only the configured compatibility alias with configured pricing', async () => {
     const original = configService.get.getMockImplementation()!;
     configService.get.mockImplementation((key: string, fallback?: unknown) =>
       key === 'cvParsingService.openai.model' ? ' gpt-6-luna ' : original(key, fallback),
@@ -289,7 +311,7 @@ describe('AiManagementService', () => {
       tokens: { inputTokens: 10, outputTokens: 10 },
     });
     expect(usageRepo.save).toHaveBeenCalledWith(
-      expect.objectContaining({ estimatedCostUsd: null }),
+      expect.objectContaining({ estimatedCostUsd: '0.000126' }),
     );
   });
 });
