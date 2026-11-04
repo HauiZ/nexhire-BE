@@ -58,6 +58,68 @@ class Ai1PipelineTests(unittest.TestCase):
                 'inputSnapshots': {'job': self.job.model_dump(mode='json'), 'candidate': self.candidate.model_dump(mode='json')},
                 'decision': 'SHORTLIST', 'recommendation': 'STRONG_FIT'})
 
+    def test_runtime_span_maps_through_ai1_to_hr_with_full_parent_quote(self):
+        self.job = self.job.model_copy(update={'requirements': 'Design reliable distributed services using Python'})
+        sentence = 'Designed reliable distributed services using Python for customer workloads.'
+        parent = sentence + '\r\n  Managed communications across several unrelated community events.'
+        self.candidate = self.candidate.model_copy(update={'projects': [
+            self.candidate.projects[0].model_copy(update={'description': parent})]})
+        assessment = self.assess()
+        self.assertEqual(assessment.status, 'READY')
+        hit = assessment.requirements[0].evidence[0]
+        self.assertEqual(hit.relevantSpan, sentence)
+        self.assertEqual(hit.text, parent)
+        stored = self.stored(assessment)
+        before = copy.deepcopy(stored.explanation)
+        projected = hr_review_snapshot(stored)['requirements'][0]['evidence'][0]
+        self.assertEqual(projected, hit.model_dump(mode='json'))
+        self.assertEqual(stored.explanation, before)
+
+    def test_schema_rejects_nonexact_empty_or_overlong_span(self):
+        from pydantic import ValidationError
+        from app.schemas.ai1 import Ai1Hit
+        from app.schemas.hr_review import ReviewEvidence
+
+        values = dict(evidenceId='p', source='project', text='Built Python.\r\n  Led a team. ' + 'x' * 601,
+                      similarityScore=73)
+        for schema in (Ai1Hit, ReviewEvidence):
+            for span in ('built Python.', 'Python. Led', '', ' ', 'x' * 601, 12):
+                with self.subTest(schema=schema.__name__, span=span), self.assertRaises(ValidationError):
+                    schema(**values, relevantSpan=span)
+            self.assertEqual(schema(**values, relevantSpan='Python.\r\n  Led').relevantSpan, 'Python.\r\n  Led')
+            self.assertIsNone(schema(**values).relevantSpan)
+            self.assertIsNone(schema(**values, relevantSpan=None).relevantSpan)
+
+    def test_old_results_and_invalid_optional_hints_keep_valid_evidence(self):
+        valid = self.stored(self.assess(self.confirmed()))
+        for field, span in [('absent', None), ('relevantSpan', None), ('relevant_span', 'Python'),
+                            ('relevantSpan', 'Invented quote'), ('relevant_span', 'built python'),
+                            ('relevantSpan', ' '), ('relevantSpan', 12), ('relevantSpan', 'x' * 601)]:
+            value = copy.deepcopy(valid)
+            requirement = value.explanation['ai1Assessment']['requirements'][0]
+            for item in (requirement, *requirement['components']):
+                hit = item['evidence'][0]
+                hit.pop('relevantSpan', None)
+                if field != 'absent':
+                    hit[field] = span
+            before = copy.deepcopy(value.explanation)
+            view = hr_review_snapshot(value)
+            self.assertEqual(view['assessmentStatus'], 'PENDING_REVIEW')
+            projected = view['requirements'][0]
+            for item in (projected, *projected['components']):
+                self.assertEqual(item['evidence'][0]['text'], 'Built Python services.')
+                self.assertEqual(item['evidence'][0]['relevantSpan'], 'Python' if span == 'Python' else None)
+            self.assertEqual(value.explanation, before)
+
+    def test_invalid_runtime_span_fails_validation_without_fabricating_ready_evidence(self):
+        score = self.runtime.score
+        def corrupt(job, candidate):
+            result = score(job, candidate)
+            result['requirements'][0]['hits'][0]['relevant_span'] = 'Invented quote'
+            return result
+        with patch.object(self.runtime, 'score', side_effect=corrupt):
+            self.assertEqual(self.assess().status, 'UNAVAILABLE')
+
     def test_disabled_never_loads_model(self):
         self.settings.ai1_backend = 'disabled'
         with patch('app.matching.ai1.load_backend') as loader:

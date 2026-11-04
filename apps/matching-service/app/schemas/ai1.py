@@ -20,8 +20,15 @@ class Ai1Hit(EvidenceModel):
     source: str = Field(min_length=1)
     text: str = Field(min_length=1)
     similarityScore: float = Field(ge=0, le=100)
+    relevantSpan: str | None = Field(default=None, min_length=1, max_length=600)
     reasonCodes: tuple[str, ...] = ()
     scoreMeaning: Literal['COSINE_RETRIEVAL_SIMILARITY_NOT_SUPPORT_PROBABILITY'] = 'COSINE_RETRIEVAL_SIMILARITY_NOT_SUPPORT_PROBABILITY'
+
+    @model_validator(mode='after')
+    def validate_relevant_span(self):
+        if self.relevantSpan is not None and (not self.relevantSpan.strip() or self.relevantSpan not in self.text):
+            raise ValueError('Relevant span must be an exact nonblank substring of the full evidence text')
+        return self
 
 
 class Ai1Component(EvidenceModel):

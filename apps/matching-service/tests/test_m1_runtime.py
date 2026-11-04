@@ -114,6 +114,106 @@ class LocalM1ParityTests(unittest.TestCase):
         result, _ = self.compare(job(), candidate, {"other": (0.33992, 0.94045)}, reference=67)
         self.assertTrue(result["requirements"][0]["hits"][0]["above_pair_reference"])
 
+    def test_spans_preserve_retrieval_scores_order_status_and_original_batch(self):
+        query = 'Design reliable distributed services using Python'
+        first = 'Designed reliable distributed services using Python for customer workloads.'
+        second = 'Organised community events and managed communications across several teams.'
+        passage = first + '\r\n  ' + second
+        cv = CandidateMatchingSnapshot(candidateId='c', projects=[{'id': f'p{i}', 'description': passage + f' {i}'}
+            for i in range(5)])
+        jd = job(skills=['Python'], requirements=query)
+        vectors = {normalize_semantic_text(query): (1., 0.), normalize_semantic_text(first): (1., 0.),
+                   normalize_semantic_text(second): (0., 1.)}
+        model = FakeModel(vectors)
+        actual = LocalM1Runtime(model, manifest()).score(jd, cv)
+        baseline_model = FakeModel(vectors)
+        expected = ShadowEncoder(baseline_model, manifest()).score(jd, cv)
+        self.assertEqual(model.calls[:2], baseline_model.calls)
+        self.assertEqual(len(model.calls), 3)  # Only one bounded extra encode; no tokenization/model reload.
+        self.assertNotIn(normalize_semantic_text(query), model.calls[-1][1])
+        self.assertTrue(all('relevant_span' not in h for h in actual['requirements'][0]['hits']))
+        for hit in actual['requirements'][1]['hits']:
+            self.assertEqual(hit.pop('relevant_span'), first)
+            self.assertIn('\r\n  ', hit['text'])
+        for value in (actual, expected):
+            value['diagnostics'].pop('inference_seconds')
+        self.assertEqual(actual, expected)
+
+    def test_span_work_is_bounded_to_top_three_narrative_passages(self):
+        from app.matching.m1_runtime import _SPAN_MAX_CHARACTERS, _SPAN_MAX_TEXTS
+
+        query = 'Design reliable distributed services using Python'
+        descriptions = [' '.join(f'Sentence {i} item {j} contains narrative detail.' for j in range(5)) for i in range(20)]
+        cv = CandidateMatchingSnapshot(candidateId='c', projects=[{'id': f'p{i:02}', 'description': text}
+            for i, text in enumerate(descriptions)])
+        model = FakeModel()
+        result = LocalM1Runtime(model, manifest()).score(job(skills=[], requirements=query), cv)
+        extra = model.calls[-1][1]
+        self.assertLessEqual(len(extra), _SPAN_MAX_TEXTS)
+        self.assertLessEqual(sum(map(len, extra)), _SPAN_MAX_CHARACTERS)
+        self.assertEqual(len(extra), 15)  # Five sentences from each returned passage only.
+        self.assertFalse(any('item 0 contains' in t and 'sentence 3 ' in t for t in extra))
+        self.assertEqual(len(result['requirements'][0]['hits']), 3)
+        # Many narrative queries still share the same bounded annotation encode.
+        model = FakeModel()
+        LocalM1Runtime(model, manifest()).score(job(skills=[], requirements='\n'.join(
+            f'{query} number {i}' for i in range(64))), cv)
+        self.assertEqual(len(model.calls), 3)
+        self.assertLessEqual(len(model.calls[-1][1]), _SPAN_MAX_TEXTS)
+
+    def test_span_selects_best_sentence_without_reencoding_existing_vectors(self):
+        query = 'Design reliable distributed services using Python'
+        unrelated = 'Organised community events and managed communications across several teams.'
+        relevant = 'Designed reliable distributed services using Python for customer workloads.'
+        cv = CandidateMatchingSnapshot(candidateId='c', summary=unrelated + '\n\n  ' + relevant,
+            experiences=[{'description': relevant}])
+        vectors = {normalize_semantic_text(unrelated): (0., 1.), normalize_semantic_text(relevant): (1., 0.)}
+        model = FakeModel(vectors)
+        result = LocalM1Runtime(model, manifest()).score(job(skills=[], requirements=query), cv)
+        summary = next(h for h in result['requirements'][0]['hits'] if h['id'] == 'profile/summary')
+        self.assertEqual(summary['relevant_span'], relevant)
+        self.assertEqual(model.calls[-1][1], [normalize_semantic_text(unrelated)])
+
+    def test_span_helper_hard_caps_distinct_passages_and_new_text_budget(self):
+        from app.matching.m1_runtime import _annotate_spans, _SPAN_MAX_CHARACTERS, _SPAN_MAX_TEXTS, _SPAN_MAX_PASSAGES
+
+        query = 'Design reliable distributed services using Python'
+        vector = np.zeros(384, dtype=np.float32)
+        vector[0] = 1
+        for sentence_size in (40, 560):
+            matches = []
+            for i in range(40):
+                text = ' '.join(f'Passage {i} sentence {j} ' + 'x' * sentence_size + '.' for j in range(3))
+                matches.append({'requirement': {'source': 'requirements', 'text': query},
+                                'hits': [{'text': text, 'source': 'project'}]})
+            model = FakeModel()
+            _annotate_spans(model, matches, {normalize_semantic_text(query): vector})
+            self.assertEqual(len(model.calls), 1)
+            encoded = model.calls[0][1]
+            self.assertLessEqual(len(encoded), _SPAN_MAX_TEXTS)
+            self.assertLessEqual(sum(map(len, encoded)), _SPAN_MAX_CHARACTERS)
+            annotated = [m for m in matches if 'relevant_span' in m['hits'][0]]
+            self.assertLessEqual(len(annotated), _SPAN_MAX_PASSAGES)
+            self.assertGreater(len(annotated), 0)
+
+    def test_optional_span_failure_and_oversized_passage_do_not_change_retrieval(self):
+        query = 'Design reliable distributed services using Python'
+        cv = CandidateMatchingSnapshot(candidateId='c', summary='First sentence describes technical work. ' * 5)
+        model = FakeModel()
+        original = model.encode
+        def encode(texts, **kwargs):
+            if any(call[0] == 'encode' for call in model.calls):
+                raise RuntimeError('annotation failed')
+            return original(texts, **kwargs)
+        with patch.object(model, 'encode', side_effect=encode):
+            result = LocalM1Runtime(model, manifest()).score(job(skills=[], requirements=query), cv)
+        self.assertNotIn('relevant_span', result['requirements'][0]['hits'][0])
+        model = FakeModel()
+        cv = cv.model_copy(update={'summary': 'Sentence with narrative detail. ' * 20})
+        result = LocalM1Runtime(model, manifest()).score(job(skills=[], requirements=query), cv)
+        self.assertEqual(len(model.calls), 2)
+        self.assertNotIn('relevant_span', result['requirements'][0]['hits'][0])
+
     def test_requests_do_not_reuse_vectors(self):
         model = FakeModel()
         runtime = LocalM1Runtime(model, manifest())

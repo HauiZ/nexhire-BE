@@ -44,6 +44,20 @@ def test_order_formula_and_deterministic_transport_parity():
     assert result.content_sha256() == extract(restored).content_sha256()
 
 
+def test_reading_span_keeps_feature_values_and_content_hash():
+    values = bundle()
+    baseline = extract(values)
+    assessment, job, candidate = values
+    raw = assessment.model_dump(mode='json')
+    hit = raw['requirements'][0]['evidence'][0]
+    hit['relevantSpan'] = hit['text']
+    restored = Ai1Assessment.model_validate(raw)
+    updated = extract((restored, job, candidate))
+    assert updated.values == baseline.values
+    assert updated.content_sha256() == baseline.content_sha256()
+    assert asdict(updated) == asdict(baseline)
+
+
 def test_missing_chronology_is_not_zero_lifetime_experience():
     assessment, job, candidate = bundle()
     candidate = candidate.model_copy(update={'experiences': []})

@@ -2,7 +2,7 @@
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class ReviewModel(BaseModel):
@@ -14,8 +14,15 @@ class ReviewEvidence(ReviewModel):
     source: str
     text: str
     similarityScore: float = Field(ge=0, le=100)
+    relevantSpan: str | None = Field(default=None, min_length=1, max_length=600)
     reasonCodes: tuple[str, ...] = ()
     scoreMeaning: Literal['COSINE_RETRIEVAL_SIMILARITY_NOT_SUPPORT_PROBABILITY'] = 'COSINE_RETRIEVAL_SIMILARITY_NOT_SUPPORT_PROBABILITY'
+
+    @model_validator(mode='after')
+    def validate_relevant_span(self):
+        if self.relevantSpan is not None and (not self.relevantSpan.strip() or self.relevantSpan not in self.text):
+            raise ValueError('Relevant span must be an exact nonblank substring of the full evidence text')
+        return self
 
 
 class ReviewComponent(ReviewModel):

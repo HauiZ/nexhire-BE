@@ -56,6 +56,19 @@ def test_observed_shifted_cosine_and_frozen_result(bundle):
         result.mean_top1 = 0
 
 
+def test_reading_span_metadata_does_not_change_ai2_features(bundle):
+    baseline = summarize(bundle)
+    assessment, job, candidate = bundle
+    requirements = tuple(item.model_copy(update={
+        'evidence': tuple(hit.model_copy(update={'relevantSpan': hit.text})
+                          for hit in item.evidence)
+    }) for item in assessment.requirements)
+    updated = assessment.model_copy(update={'requirements': requirements})
+    updated = Ai1Assessment.model_validate(updated.model_dump(mode='json'))
+    assert updated.requirements[0].evidence[0].relevantSpan == 'Python'
+    assert summarize_semantics(updated, job, candidate, **PIN) == baseline
+
+
 def test_partial_missing_uses_only_observed_values(bundle):
     result = summarize(bundle, requirements=replace_first(bundle,
         retrievalStatus='NO_EVIDENCE', evidence=()))

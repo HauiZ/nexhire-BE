@@ -47,7 +47,8 @@ def _matches(runtime, job, candidate):
 
 def _hits(match):
     return tuple(Ai1Hit(evidenceId=h['id'], source=h['source'], text=h['text'],
-        similarityScore=h['comparison_score'], reasonCodes=h.get('reason_codes', ())) for h in match['hits'])
+        similarityScore=h['comparison_score'], reasonCodes=h.get('reason_codes', ()),
+        relevantSpan=h.get('relevant_span')) for h in match['hits'])
 
 
 def assess_local(runtime, settings, job, candidate, context):

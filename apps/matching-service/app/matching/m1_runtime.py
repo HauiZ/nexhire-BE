@@ -108,6 +108,79 @@ def _negation_cue(requirement, passage):
     return bool(re.search(prefix + re.escape(requirement) + r"(?![\w+#])", passage))
 
 
+# Optional display-only work, bounded independently from the retrieval batch.
+_SPAN_MAX_PASSAGES = 24
+_SPAN_MAX_SENTENCES = 12
+_SPAN_MAX_TEXTS = 96
+_SPAN_MAX_CHARACTERS = 24000
+_SPAN_MAX_LENGTH = 600
+
+
+def _span_sentences(text):
+    if not 100 < len(text) <= 5000:
+        return ()
+    # Split only CV display text; never reconstruct/merge a quote or split the JD.
+    parts = tuple(part.strip() for part in re.split(r'(?<=[.!?…])\s+|[\r\n]+', text) if part.strip())
+    if not 2 <= len(parts) <= _SPAN_MAX_SENTENCES or any(len(s) > _SPAN_MAX_LENGTH for s in parts):
+        return ()
+    return parts
+
+
+def _annotate_spans(model, matches, vectors):
+    """Best local sentence is a display hint, not support or a new ranking signal."""
+    import numpy as np
+
+    passages, pending, characters = {}, set(), 0
+    for match in matches:
+        requirement = match['requirement']
+        if requirement['source'] == 'skill' or len(requirement['text'].split()) <= 4:
+            continue
+        for hit in match['hits']:
+            if hit['source'] not in {'experience', 'project', 'profile', 'education', 'certification'}:
+                continue
+            text = hit['text']
+            if text in passages or len(passages) >= _SPAN_MAX_PASSAGES:
+                continue
+            sentences = _span_sentences(text)
+            if not sentences:
+                continue
+            extra = {norm(s) for s in sentences if norm(s) and norm(s) not in vectors} - pending
+            if len(pending | extra) > _SPAN_MAX_TEXTS or characters + sum(map(len, extra)) > _SPAN_MAX_CHARACTERS:
+                continue
+            passages[text] = sentences
+            pending.update(extra)
+            characters += sum(map(len, extra))
+    span_vectors = dict(vectors)
+    if pending:
+        texts = sorted(pending)
+        try:
+            encoded = np.asarray(model.encode(texts, normalize_embeddings=True, batch_size=16, show_progress_bar=False))
+            if encoded.shape != (len(texts), 384) or not np.isfinite(encoded).all():
+                return
+            span_vectors.update(zip(texts, encoded))
+        except Exception:
+            # A display annotation must not make otherwise valid retrieval unavailable.
+            return
+    for match in matches:
+        requirement = match['requirement']
+        if requirement['source'] == 'skill' or len(requirement['text'].split()) <= 4:
+            continue
+        if not match['hits']:
+            continue
+        query = vectors[norm(requirement['text'])]
+        for hit in match['hits']:
+            if hit['source'] not in {'experience', 'project', 'profile', 'education', 'certification'}:
+                continue
+            sentences = passages.get(hit['text'], ())
+            candidates = [(float(np.dot(query, span_vectors[norm(s)])), s)
+                          for s in sentences if norm(s) in span_vectors]
+            if candidates and all(math.isfinite(score) for score, _ in candidates):
+                # First sentence wins a tie; scores never escape this display helper.
+                span = max(candidates, key=lambda pair: pair[0])[1]
+                if span in hit['text'] and span != hit['text']:
+                    hit['relevant_span'] = span
+
+
 class LocalM1Runtime:
     def __init__(self, model, manifest):
         _validate_reference(manifest)
@@ -195,6 +268,7 @@ class LocalM1Runtime:
             matches.append({"requirement": requirement, "status": status, "hits": tuple(hits[:3]),
                             "ranked_evidence_ids": tuple(h["id"] for h in hits), "reason_codes": tuple(reasons),
                             "policy_version": "requirement-retrieval-shadow-v1", **_SAFETY})
+        _annotate_spans(self.model, matches, vectors)
         return {"mode": "shadow", "model_version": self.model_version,
                 "weights_sha256": self.manifest["weights_sha256"], "requirements": matches,
                 "diagnostics": {"unique_texts": len(texts), "truncated_texts": truncated,

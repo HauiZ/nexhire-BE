@@ -13,11 +13,45 @@ from app.schemas.hr_review import (
 )
 
 
+def _stored_span(hit):
+    # Archived annotations are optional: suppress bad hints, never alter the quote.
+    span = hit.get('relevantSpan', hit.get('relevant_span'))
+    text = hit.get('text')
+    return span if (isinstance(span, str) and 0 < len(span) <= 600 and span.strip()
+                    and isinstance(text, str) and span in text) else None
+
+
+def _compatible_ai1(raw):
+    if not isinstance(raw, dict):
+        return raw
+
+    def item(value, *, components=False):
+        if not isinstance(value, dict):
+            return value
+        result = dict(value)
+        if isinstance(value.get('evidence'), (list, tuple)):
+            result['evidence'] = []
+            for hit in value['evidence']:
+                if isinstance(hit, dict):
+                    hit = dict(hit, relevantSpan=_stored_span(hit))
+                    hit.pop('relevant_span', None)
+                result['evidence'].append(hit)
+        if components and isinstance(value.get('components'), (list, tuple)):
+            result['components'] = [item(component) for component in value['components']]
+        return result
+
+    result = dict(raw)
+    if isinstance(raw.get('requirements'), (list, tuple)):
+        result['requirements'] = [item(requirement, components=True) for requirement in raw['requirements']]
+    return result
+
+
 def _evidence(values):
     if not isinstance(values, list):
         raise ValueError('Stored evidence must be an array')
     return tuple(ReviewEvidence(evidenceId=h['id'], source=h['source'], text=h['text'],
-        similarityScore=h['comparison_score'], reasonCodes=h.get('reason_codes', ())) for h in values)
+        similarityScore=h['comparison_score'], reasonCodes=h.get('reason_codes', ()),
+        relevantSpan=_stored_span(h)) for h in values)
 
 
 def _proposal(value):
@@ -62,7 +96,7 @@ def _fixed_requirements(fixed, inference, job_id, plan_hash):
 
 def _ai1_projection(raw, result, explanation, values):
     try:
-        assessment = Ai1Assessment.model_validate(raw)
+        assessment = Ai1Assessment.model_validate(_compatible_ai1(raw))
         if (assessment.jobId != values['jobId'] or assessment.candidateId != values['candidateId']
                 or assessment.candidateCvId != values['candidateCvId']):
             raise ValueError('AI1 identity changed')
