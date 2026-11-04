@@ -39,5 +39,10 @@ coverage/
 .vscode/
 *.swp
 
+# local Claude Code files
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+
 # misc
 *.tsbuildinfo

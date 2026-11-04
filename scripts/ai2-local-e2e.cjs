@@ -10,7 +10,9 @@ const env = { ...process.env, ...require('dotenv').parse(fs.readFileSync(path.jo
 const children = [];
 const checks = [];
 const delay = ms => new Promise(r => setTimeout(r, ms));
-const output = path.join(root, 'trainning/_maintenance/ai2-e2e');
+const output = path.join(root, 'trainning/_maintenance', `ai2-e2e-${Date.now()}`);
+const apiOnly = process.env.AI2_E2E_API_ONLY === 'true';
+// API-only coverage deliberately excludes the historical browser harness.
 fs.mkdirSync(output, { recursive: true });
 function start(command, args, extra = {}) {
   const child = spawn(command, args, { cwd: root, env: { ...env, ...extra }, stdio: 'ignore', windowsHide: true });
@@ -38,7 +40,7 @@ async function db(prefix, query, params = []) {
 }
 async function main() {
   // Refuse occupied ports rather than driving or stopping someone else's server.
-  for (const port of [13000, 13005, 13007, 15173]) {
+  for (const port of [13000, 13004, 13005, 13007, 15173]) {
     const occupied = await new Promise(resolve => {
       const socket = require('node:net').connect(port, '127.0.0.1');
       socket.setTimeout(1000);
@@ -57,6 +59,7 @@ async function main() {
   const candidate = jwt.sign({ sub: fixture.candidate_user_id, role: 'CANDIDATE' }, { expiresIn: '10m' });
   // Queue names are isolated so startup cannot consume historical application events.
   const suffix = `ai2-e2e-${Date.now()}`;
+  start(process.execPath, ['dist/apps/job-service/main.js'], { JOB_SERVICE_PORT: '13004' });
   start(process.execPath, ['dist/apps/application-service/main.js'], {
     APPLICATION_SERVICE_PORT: '13005', MATCHING_SERVICE_URL: 'http://127.0.0.1:13007',
     APPLICATION_SERVICE_JOB_LIFECYCLE_QUEUE: `${suffix}-job`,
@@ -67,10 +70,10 @@ async function main() {
     GATEWAY_PORT: '13000', APPLICATION_SERVICE_URL: 'http://127.0.0.1:13005',
     FRONTEND_URL: 'http://127.0.0.1:15173',
   });
-  const matchingEnv = { PYTHONPATH: `${path.join(root, 'apps/matching-service')}${path.delimiter}${path.join(root, 'scripts')}`, NODE_ENV: 'development', MATCHING_AI2_DEMO_ENABLED: 'false' };
+  const matchingEnv = { PYTHONPATH: `${path.join(root, 'apps/matching-service')}${path.delimiter}${path.join(root, 'scripts')}`, NODE_ENV: 'development', JOB_SERVICE_URL: 'http://127.0.0.1:13004', MATCHING_AI2_DEMO_ENABLED: 'false' };
   const python = path.join(root, 'apps/matching-service/.venv/Scripts/python.exe');
   let matching = start(python, ['-m', 'uvicorn', 'ai2-e2e-matching:app', '--host', '127.0.0.1', '--port', '13007', '--no-access-log'], matchingEnv);
-  await Promise.all([ready(13000), ready(13005), ready(13007)]);
+  await Promise.all([ready(13000), ready(13004), ready(13005), ready(13007)]);
   const endpoint = `http://127.0.0.1:13000/api/v1/recruiter/applications/${fixture.id}/ai2-demo`;
   async function request(token) {
     const response = await fetch(endpoint, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
@@ -85,7 +88,7 @@ async function main() {
   const disabled = await request(recruiter);
   assert.equal(disabled.status, 200);
   assert.equal(disabled.body.data.status, 'DISABLED');
-  assert.equal(disabled.body.data.score, null); checks.push('authorized default-off response through real gateway');
+  assert.equal(disabled.body.data.score, null); checks.push(`authorized default-off response through real gateway: ${disabled.body.data.status}`);
   await stop(matching);
   matching = start(python, ['-m', 'uvicorn', 'ai2-e2e-matching:app', '--host', '127.0.0.1', '--port', '13007', '--no-access-log'], {
     ...matchingEnv, MATCHING_AI2_DEMO_ENABLED: 'true', MATCHING_AI2_DEMO_ARTIFACT_PATH: path.join(root, 'trainning/ai2/demo-artifact-v1'),
@@ -103,23 +106,24 @@ async function main() {
   checks.push(`opt-in stored fixture response ${enabled.body.data.status}`);
   if (enabled.body.data.status === 'READY') assert.ok(Number.isFinite(enabled.body.data.score));
   // Browser runner receives ephemeral JWT over stdin, never a file or CLI argument.
-  for (const frontendEnabled of [false, true]) {
-  const browser = spawn(process.execPath, [path.join(root, '../Nexthire-FE/tests/ai2/ai2-live-browser.mjs')], {
+  for (const frontendEnabled of (apiOnly ? [] : [false, true])) {
+  const browser = spawn(process.execPath, [path.join(root, 'scripts/ai2-live-panel-browser.cjs')], {
     cwd: path.join(root, '../Nexthire-FE'), env: { ...process.env }, stdio: ['pipe', 'pipe', 'pipe'], windowsHide: true,
   });
   children.push(browser);
   browser.stdin.end(JSON.stringify({ token: recruiter, applicationId: fixture.id, jobId: fixture.job_id, expectedStatus: enabled.body.data.status, frontendEnabled, output }));
   let text = '';
   browser.stdout.on('data', d => { text += d; });
-  browser.stderr.on('data', () => {});
+  browser.stderr.on('data', d => { text += d; });
   const code = await new Promise(r => browser.on('exit', r));
+  if (code !== 0) console.error(text.replaceAll(recruiter, '[REDACTED]'));
   assert.equal(code, 0, 'Browser runner failed (no credentials logged)');
   checks.push(frontendEnabled ? 'real Chrome panel + live gateway requests' : 'default-off Chrome: panel absent, zero AI2 API requests');
   }
   const after = await db('MATCHING_SERVICE', "select id,md5(row_to_json(m)::text) digest from match_results m order by id");
   assert.deepEqual(after, before); checks.push('all persisted matching results unchanged');
-  const receipt = { date: '2026-10-29', success: true, checks, coldRequestMs, storedFixtureStatus: enabled.body.data.status,
-    limitations: ['JWT local test identity, not login UI', 'HTTP-only production matching router, no worker', 'No new synthetic READY result inserted; existing saved fixture used', 'Dedicated frontend panel harness, not full recruiter page'] };
+  const receipt = { date: new Date().toISOString(), success: true, apiOnly, checks, coldRequestMs, storedFixtureStatus: enabled.body.data.status,
+    limitations: ['JWT local test identity, not login UI', 'HTTP-only production matching router, no worker', 'No new synthetic READY result inserted; existing saved fixture used', apiOnly ? 'Browser/UI not run: API-only coverage' : 'Dedicated frontend panel harness, not full recruiter page'] };
   fs.writeFileSync(path.join(output, 'receipt.json'), JSON.stringify(receipt, null, 2));
   console.log(JSON.stringify(receipt, null, 2));
 }
