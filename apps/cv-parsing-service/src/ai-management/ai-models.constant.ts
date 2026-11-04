@@ -51,6 +51,12 @@ export const SUPPORTED_AI_MODELS = {
 
 export const AI_MODEL_PRICING: Partial<Record<CvParseProvider, Record<string, AiModelPricing>>> = {
   [CvParseProvider.OPENAI]: {
+    // Compatibility-provider tariff supplied by the project owner; not OpenAI list pricing.
+    'gpt-6-luna': {
+      inputUsdPerMillionTokens: 2,
+      outputUsdPerMillionTokens: 12,
+      multiplier: 0.9,
+    },
     'gpt-5.5': {
       inputUsdPerMillionTokens: 5,
       outputUsdPerMillionTokens: 30,

@@ -8,6 +8,8 @@
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"packages/**/*.ts\"",
     "lint": "eslint \"{apps,packages}/**/*.ts\" --fix",
+    "start:local": "node scripts/start-local.js",
+    "start:local:check": "node scripts/start-local.js --check",
     "start:gateway": "nest start gateway --watch",
     "start:auth-service": "nest start auth-service --watch",
     "start:candidate-service": "nest start candidate-service --watch",

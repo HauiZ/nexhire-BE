@@ -79,7 +79,7 @@ export class AiManagementService {
       currentConfig: await this.getCurrentConfig(),
       supportedModels: {
         GEMINI: [...SUPPORTED_AI_MODELS.GEMINI],
-        OPENAI: [...SUPPORTED_AI_MODELS.OPENAI],
+        OPENAI: this.getAllowedOpenAiModels(),
       },
     };
   }
@@ -166,6 +166,9 @@ export class AiManagementService {
       .addSelect('COALESCE(SUM(usage.outputTokens), 0)', 'outputTokens')
       .addSelect('COALESCE(SUM(usage.totalTokens), 0)', 'totalTokens')
       .addSelect('SUM(usage.estimatedCostUsd)', 'estimatedCostUsd')
+      .addSelect('SUM(CASE WHEN usage.estimatedCostUsd IS NULL AND usage.inputTokens IS NOT NULL AND usage.outputTokens IS NOT NULL THEN usage.inputTokens ELSE 0 END)', 'unpricedInputTokens')
+      .addSelect('SUM(CASE WHEN usage.estimatedCostUsd IS NULL AND usage.inputTokens IS NOT NULL AND usage.outputTokens IS NOT NULL THEN usage.outputTokens ELSE 0 END)', 'unpricedOutputTokens')
+      .addSelect('COUNT(*) FILTER (WHERE usage.estimatedCostUsd IS NULL AND usage.inputTokens IS NOT NULL AND usage.outputTokens IS NOT NULL)', 'unpricedRequests')
       .where('usage.createdAt >= :since', { since })
       .groupBy('usage.provider')
       .addGroupBy('usage.model')
@@ -181,6 +184,9 @@ export class AiManagementService {
         outputTokens: string;
         totalTokens: string;
         estimatedCostUsd: string | null;
+        unpricedInputTokens?: string;
+        unpricedOutputTokens?: string;
+        unpricedRequests?: string;
       }>();
 
     return rows.map((row) => ({
@@ -192,7 +198,7 @@ export class AiManagementService {
       inputTokens: Number(row.inputTokens),
       outputTokens: Number(row.outputTokens),
       totalTokens: Number(row.totalTokens),
-      estimatedCostUsd: row.estimatedCostUsd,
+      estimatedCostUsd: this.summaryCostUsd(row),
       pricing: this.pricingFor(row.provider, row.model),
     }));
   }
@@ -262,12 +268,27 @@ export class AiManagementService {
       inputTokens: log.inputTokens,
       outputTokens: log.outputTokens,
       totalTokens: log.totalTokens,
-      estimatedCostUsd: log.estimatedCostUsd,
+      estimatedCostUsd: log.estimatedCostUsd ?? this.estimateCostUsd(log.provider, log.model, {
+        inputTokens: log.inputTokens,
+        outputTokens: log.outputTokens,
+      }),
       errorCode: log.errorCode,
       errorMessage: log.errorMessage,
       metadata: log.metadata,
       createdAt: log.createdAt,
     };
+  }
+
+  private summaryCostUsd(row: {
+    provider: CvParseProvider; model: string; estimatedCostUsd: string | null;
+    unpricedRequests?: string; unpricedInputTokens?: string; unpricedOutputTokens?: string;
+  }): string | null {
+    if (!Number(row.unpricedRequests)) return row.estimatedCostUsd;
+    const additional = this.estimateCostUsd(row.provider, row.model, {
+      inputTokens: Number(row.unpricedInputTokens), outputTokens: Number(row.unpricedOutputTokens),
+    });
+    if (additional === null) return row.estimatedCostUsd;
+    return (Number(row.estimatedCostUsd ?? 0) + Number(additional)).toFixed(6);
   }
 
   private estimateCostUsd(
@@ -351,7 +372,7 @@ export class AiManagementService {
       });
     }
 
-    const supportedOpenAiModel = SUPPORTED_AI_MODELS.OPENAI.some(
+    const supportedOpenAiModel = this.getAllowedOpenAiModels().some(
       (model) => model.id === config.openAiModel,
     );
     if (!supportedOpenAiModel) {
@@ -360,5 +381,20 @@ export class AiManagementService {
         message: 'Unsupported OpenAI model',
       });
     }
+  }
+
+  private getAllowedOpenAiModels(): Array<{ id: string; name: string; isDefault: boolean }> {
+    const models: Array<{ id: string; name: string; isDefault: boolean }> = [
+      ...SUPPORTED_AI_MODELS.OPENAI,
+    ];
+    const configured = this.configService.get<string>('cvParsingService.openai.model')?.trim();
+    if (configured && !models.some((model) => model.id === configured)) {
+      models.push({
+        id: configured,
+        name: `${configured} (configured compatibility alias; availability unverified)`,
+        isDefault: false,
+      });
+    }
+    return models;
   }
 }

@@ -1,5 +1,177 @@
 # Job Service API Docs
 
+## Optional JD Requirement Plans (2026-10-24)
+
+Plan review is independent of job moderation/publication. Existing admin approval,
+posting and application rules do not change. No plan, a draft, or a stale plan
+must NOT add a posting/application gate. Plan endpoints never call an LLM.
+
+All routes below use gateway JWT authentication, recruiter role and company-owned
+job checks. Like existing job APIs, job-service trusts gateway-injected identity
+headers; keep it private, not directly accessible with caller-forged headers.
+The gateway already forwards `recruiter/jobs/*`; no new public proxy is required.
+
+Base: `/api/v1/recruiter/jobs/:id/requirement-plan`.
+
+| Method | Suffix | Purpose / body |
+|---|---|---|
+| GET | none | Inspect latest structure and current source status; no write |
+| POST | `/drafts` | `{ "expectedLatestRevision": 0 }` for first draft; latest revision otherwise |
+| PATCH | none | `{ "expectedContentSha256": "<latest hash>", "requirements": [...] }`; creates a NEW unconfirmed revision |
+| POST | `/confirm` | `{ "expectedContentSha256": "<latest hash>" }`; confirms current structure, not any candidate |
+| GET | `/history` | Latest 50 revisions and 100 audit events, company-private |
+
+Responses use the existing `{ success, data }` envelope. Inspection data includes
+`status`, `current_job_snapshot_sha256`, `content_sha256`, `plan`,
+`publishing_blocked=false`, `candidate_support_verified=false`, and `matching_mode`.
+
+States: `UNPREPARED` (plan=null), `DRAFT`, `HR_CONFIRMED`, `STALE`.
+`ASSISTANT_REVIEWED` is understood by the validator but cannot be submitted as
+HR approval through these endpoints. Revision starts at1. Draft generation
+preserves source blocks/skills without guessing AND/OR; HR can refine them.
+
+Each `requirements` item preserves `requirement_id` and `original_text` from the
+draft, in source order, with `components`, `all_of`, `joint_context_required`:
+
+```json
+{
+  "requirement_id": "requirements/0",
+  "original_text": "Use SQL and deploy on AWS.",
+  "components": [
+    { "id": "sql", "query": "Use SQL.", "source_quote": "SQL", "importance": "core" },
+    { "id": "aws", "query": "Deploy on AWS.", "source_quote": "deploy on AWS", "importance": "core" }
+  ],
+  "all_of": [["sql"], ["aws"]],
+  "joint_context_required": false
+}
+```
+
+Groups are AND; alternatives INSIDE one group are OR. `[["sql","aws"]]` means
+SQL OR AWS, not both. Importance is `core|supplementary|preferred|unknown`.
+Every original source requirement must remain; quotes must occur exactly in
+that source. Structure validity does not prove that HR chose correct semantics.
+
+HR editor presentation (2026-10-26, revised after UX review): a compact table
+shows original requirements and importance. Each row opens its own modal; opening,
+Cancel, Escape and backdrop dismissal never modify the plan. Apply updates only
+the local editor; Save revision and Confirm remain separate authenticated actions.
+Unsaved modal edits participate in navigation protection and block parent
+save/confirmation. Single-component criteria have no AND/OR controls. For
+partitioned criteria, each subsequent item selects AND (also required) or OR
+(alternative) relative to the previous row; the preview explicitly brackets OR
+choices, e.g. SQL AND (AWS OR Azure). Existing overlapping compound clauses remain
+unchanged when viewed or text-edited; replacing them with all/any is explicit.
+Literal source excerpts remain inspectable and editable. An explicit query edit
+autofills its excerpt only when the query is an exact slice of that original JD.
+Empty groups cannot be added through the UI. Existing limits, source validation,
+hash/revision checks and confirmation rules still apply. These presentation
+changes do not alter the API schema, retrain M1 or approve candidate competence.
+
+Local verification `AI1_CLOSEOUT_013` used a separate unpublished DRAFT job:
+normal HR UI created, saved and confirmed SQL AND (AWS OR Azure), including the
+same-project flag. Updating that test JD made revision2 STALE; a normal
+authenticated stale-confirm request returned409 without altering its approval.
+A fresh draft revision3 bound the new JD snapshot, retained no approval and kept
+the prior approved revision in history. This verifies plan persistence/lifecycle,
+not candidate competence or automatic AND/OR fulfillment. The supplied real
+JD/CV and existing matching results were unchanged.
+
+Server generates reviewer identity, approval timestamp and authorization event
+ID; client-supplied approval/reviewer fields are rejected. Editing creates a new
+revision with approval=null; old revisions/events remain. Repeated confirmation
+of the same current plan is idempotent. A changed matching snapshot returns
+STALE lazily on inspection and prevents confirmation (409); no auto-deletion of
+historical approval. The snapshot normalizes nullable strings to empty strings,
+nullable salaries/benefits to null and missing skills to an empty list before
+the shared Python contract hashes it. Company/job metadata outside this snapshot
+does not independently change this fingerprint.
+
+Plan writes lock the job row and use a transaction for plan plus audit event.
+Missing/foreign job=404, wrong role/missing company=403, stale hash/revision=409,
+invalid plan=400 (Python validation422 mapped), validator unavailable=503.
+Do not treat503 as permission to reuse a stale confirmation. Publication never
+calls this validator and remains independent when it is unavailable.
+
+Deployment requires job-service migration
+`1792800000000-CreateJobRequirementPlans` and matching-service's model-free
+`/api/v1/internal/jd-plans/{draft,inspect,validate}` endpoints protected by
+`x-internal-service-token`. Set `MATCHING_SERVICE_URL` (default localhost:3007)
+and the existing shared `INTERNAL_SERVICE_TOKEN`; no new credential type.
+On 2026-10-25, the migration was also applied to the existing local
+`job_service_db` using verified loopback targets and explicitly inherited
+`.env.local` configuration. Both `job_requirement_plans` and
+`job_requirement_plan_events` changed from absent to present, initially empty;
+their foreign keys, primary keys, revision uniqueness/check, action check and
+audit index were verified from PostgreSQL metadata. `npm run db:all:run` exited
+0 twice: the first run also applied the reviewed additive CV-parser
+`MATCHING_APPLICATION` enum migration, and the second found no pending migrations
+across all nine services. Existing business-table row counts were unchanged;
+only job/CV migration-history counts increased. No deploy DB was accessed.
+These are BE migration self-checks; independent Tester verification and full
+gateway/UI integration are separate.
+
+Earlier, the migration was applied successfully in throwaway local PostgreSQL
+databases using validated loopback credentials from `.env.local`.
+Seven opt-in integration scenarios passed
+twice: persistence/audit, concurrent drafts, concurrent edits, idempotent concurrent
+confirmation, audit-failure rollback, JD-update/confirmation race, and access denial.
+The test bootstraps the existing jobs table from its entity in a fresh database,
+then runs this actual additive migration; it does not replay all historical job
+migrations. Actual gateway JWT login and full ATS E2E remain outside this test.
+
+Internal matching consumers may GET
+`/api/v1/internal/jobs/:id/requirement-plan` with `x-internal-service-token` and
+the existing internal identity headers. This read locks a consistent current JD
+snapshot but never changes plan/audit/publication state. It returns the same
+inspection envelope as the recruiter read. No public gateway route is added.
+
+`InternalClient.get_job_requirement_plan(job)` validates the response against the
+already-fetched matching snapshot and content hash. Only a current HR_CONFIRMED
+plan is available as `confirmed_plan`. DRAFT/ASSISTANT_REVIEWED never count as HR
+confirmation; STALE drops the old plan for consumption. A snapshot/plan read race
+also becomes STALE. Invalid payload becomes INVALID; HTTP failure/missing endpoint
+becomes UNAVAILABLE, not a confirmed fallback or a posting gate.
+
+Reproduce the opt-in local integration test from repository root in PowerShell:
+
+```powershell
+$env:RUN_JD_PLAN_POSTGRES_TEST = '1'
+node node_modules/jest/bin/jest.js --runInBand --runTestsByPath apps/job-service/src/job/requirement-plan/requirement-plan.postgres.spec.ts
+```
+
+Requires Docker container `nexhire-postgres`, the local Python venv and loopback
+DB settings. The suite creates a random `nexhire_plan_it_*` DB, never uses the
+configured application DB name as its write target, and removes only its own DB.
+No existing containers/volumes or env files are modified. Receipt from the full
+job-service run: `training/_maintenance/jd-plan-postgres-2026-10-24.json` (local).
+
+The original 2026-10-24 diagnostic did not include an HR frontend. Subsequent
+local integration added the recruiter plan editor and confirmed-plan consumption
+by the enabled, pinned M1 worker. On 2026-10-26, authenticated UI confirmation and
+one new matching request passed for an existing published JD/application; the
+plan had ten whole-component requirements, so that case did not verify complex
+AND/OR semantics. See the current verification note in
+[matching-service.md](matching-service.md). Production rollout remains separate.
+A confirmed JD structure NEVER makes candidate evidence/status automatically
+verified or enables automatic hiring/rejection.
+
+The subsequent local-only model diagnostic additionally exercises API enqueue,
+the real worker and frozen M1/verifier on six synthetic requests. To reproduce
+that optional case, also set `$env:RUN_JD_PLAN_MODEL_FLOW = '1'` before the same
+opt-in Jest command. It requires local frozen model/training assets. Candidate
+transport is allowlisted loopback/test-mode only, disabled by default; no
+production activation or arbitrary configurable sidecar URL is provided.
+See [matching contract diagnostic](matching-data-contract.md#local-synthetic-api-worker-model-diagnostic-2026-10-24)
+for legacy-score contradictions and the PDF/JWT/broker test boundaries.
+
+## Matching Contract Note (2026-10-08)
+
+Job create/update and internal matching-snapshot shapes remain unchanged. Matching
+stores the validated JD snapshot/hash in each result and derives requirement IDs
+scoped to that snapshot. Deterministic extraction no longer truncates the first
+16 requirements or splits technical names at every dot. This is not a structured
+JD parser. See [the current data contract](matching-data-contract.md).
+
 Base path through gateway:
 
 - Public: `/api/v1/jobs`

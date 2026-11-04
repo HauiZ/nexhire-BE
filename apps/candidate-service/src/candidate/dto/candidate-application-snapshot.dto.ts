@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CandidateCvParseStatus } from '../entities/candidate.enum';
+import { CandidateMatchingSnapshot } from '@nexhire/shared';
 
 export class CandidateApplicationSnapshotDto {
   @ApiProperty()
@@ -34,6 +35,8 @@ export class CandidateApplicationSnapshotDto {
 }
 
 export class CandidateMatchingSkillSnapshotDto {
+  @ApiPropertyOptional({ nullable: true })
+  id?: string | null;
   @ApiProperty()
   name: string;
 
@@ -45,6 +48,11 @@ export class CandidateMatchingSkillSnapshotDto {
 }
 
 export class CandidateMatchingExperienceSnapshotDto {
+  @ApiPropertyOptional({ nullable: true })
+  id?: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  description: string | null;
   @ApiPropertyOptional({ nullable: true })
   title: string | null;
 
@@ -69,6 +77,11 @@ export class CandidateMatchingExperienceSnapshotDto {
 
 export class CandidateMatchingEducationSnapshotDto {
   @ApiPropertyOptional({ nullable: true })
+  id?: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  description: string | null;
+  @ApiPropertyOptional({ nullable: true })
   degree: string | null;
 
   @ApiPropertyOptional({ nullable: true })
@@ -78,7 +91,43 @@ export class CandidateMatchingEducationSnapshotDto {
   fieldOfStudy: string | null;
 }
 
-export class CandidateMatchingSnapshotDto {
+export class CandidateMatchingCertificationSnapshotDto {
+  @ApiPropertyOptional({ nullable: true })
+  id?: string | null;
+
+  @ApiProperty()
+  name: string;
+
+  @ApiPropertyOptional({ nullable: true })
+  issuer: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  description: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  issuedYear: number | null;
+}
+
+export class CandidateMatchingProjectSnapshotDto {
+  @ApiPropertyOptional({ nullable: true })
+  id?: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  name: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  description: string | null;
+
+  @ApiProperty({ type: [String] })
+  technologies: string[];
+}
+
+export class CandidateMatchingSnapshotDto implements CandidateMatchingSnapshot {
+  @ApiProperty({ enum: ['candidate-matching-v2'] })
+  snapshotSchemaVersion: 'candidate-matching-v2';
+
+  @ApiProperty({ enum: ['PROFILE'] })
+  dataOrigin: 'PROFILE';
   @ApiProperty()
   candidateId: string;
 
@@ -109,9 +158,9 @@ export class CandidateMatchingSnapshotDto {
   @ApiProperty({ type: [CandidateMatchingEducationSnapshotDto] })
   educations: CandidateMatchingEducationSnapshotDto[];
 
-  @ApiProperty({ type: [String] })
-  certifications: string[];
+  @ApiProperty({ type: [CandidateMatchingCertificationSnapshotDto] })
+  certifications: CandidateMatchingCertificationSnapshotDto[];
 
-  @ApiProperty({ type: [String] })
-  projects: string[];
+  @ApiProperty({ type: [CandidateMatchingProjectSnapshotDto] })
+  projects: CandidateMatchingProjectSnapshotDto[];
 }

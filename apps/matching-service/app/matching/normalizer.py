@@ -2,6 +2,15 @@ import re
 import unicodedata
 
 
+PREPROCESSING_VERSION = "matching-text-v2"
+
+
+def normalize_semantic_text(value: str | None) -> str:
+    if not value:
+        return ""
+    return re.sub(r"\s+", " ", unicodedata.normalize("NFKC", value)).strip().lower()
+
+
 def normalize_text(value: str | None) -> str:
     if not value:
         return ""

@@ -1,5 +1,129 @@
 # Application Service API Docs
 
+## Evidence-only runtime (2026-10-25)
+
+Baseline runtime scoring is retired. All public application projections return
+`scoringStatus: "NOT_AVAILABLE"`, `matchScore: null`, `matchLevel: null` and null
+heuristic recommendation/decision/priority/summary/skill/risk/requirement/ranking
+fields, including for historical scored rows. Historical DB values are retained.
+Candidate `bestMatchScore`, `bestMatchLevel` and all `bestMatched*` fields are null;
+no best application is selected from historical scores. `matchLevel`,
+`minMatchScore` (including zero), `sortBy=matchScore` and
+`sortBy=bestMatchScore` return 400. Date/name/count sorting and status/count
+dashboard statistics remain available. No score-derived hiring action occurs.
+The separate AI1 `hr-review` endpoint and JD plan flow retain their schemas.
+
+### `GET /api/v1/recruiter/applications/:id/matching-status`
+
+Requires recruiter authentication through the gateway and application ownership
+by the recruiter's company. Returns the standard envelope with `data:null` when
+no matching result exists; otherwise only:
+
+```json
+{
+  "success": true,
+  "data": {
+    "schemaVersion": "matching-status-v1",
+    "applicationId": "11111111-1111-4111-8111-111111111111",
+    "jobId": "22222222-2222-4222-8222-222222222222",
+    "candidateId": "33333333-3333-4333-8333-333333333333",
+    "candidateCvId": "44444444-4444-4444-8444-444444444444",
+    "resultId": "55555555-5555-4555-8555-555555555555",
+    "matchRequestId": "66666666-6666-4666-8666-666666666666",
+    "status": "SUCCEEDED",
+    "createdAt": "2026-10-25T00:00:00Z",
+    "scoringStatus": "NOT_AVAILABLE"
+  }
+}
+```
+
+`status` is `SUCCEEDED|FAILED`; `createdAt` is a non-null valid timestamp string.
+`candidateCvId` and `matchRequestId` may be null. All application/job/candidate/CV
+identities are checked against the owned application. Invalid identity, timestamp,
+execution status or explicit no-score contract returns 503, with no raw payload.
+No scores, explanation, snapshots, evidence or personal profile data are exposed.
+Wrong role=403, absent authentication=401, foreign/absent application=404.
+
+After `POST .../:id/match`, completion requires a non-null returned request `id`
+equal to `matching-status.matchRequestId`. An older result never completes a new
+request. POST can return existing `PENDING`/`PROCESSING` requests on deduplication;
+continue bounded polling for that request ID. If POST returns `id:null` while CV
+parsing is needed, show waiting for CV, use bounded polling/fallback, and do not
+claim matching is complete from a prior result or a score sentinel. Exhausting a
+poll bound is not success. HR review remains a separate evidence read.
+
+`matching.completed` requires explicit `scoringStatus:NOT_AVAILABLE`,
+`totalScore:null`, `matchLevel:null` and known execution status. The consumer
+acknowledges valid legacy numeric events with a deprecation warning, without DB
+writes or retry. Legacy requires absent scoringStatus, finite numeric score
+0..100, known status/level and valid application identity shape. Malformed null
+contracts cannot enter this branch; they follow bounded retry/DLQ handling.
+
+Internal `PATCH .../:id/match-snapshot` now accepts only
+`{"scoringStatus":"NOT_AVAILABLE","matchScore":null,"matchLevel":null}`.
+It validates and returns the masked application without writes. Numeric requests
+return 400; no level derivation or historical-row updates occur.
+
+Older dated score examples below are historical reference, superseded by this
+runtime contract. Offline baseline benchmarks remain separate from runtime APIs.
+
+## AI1 Retrieval On The Existing HR Route (2026-10-24)
+
+The same recruiter `hr-review` route now accepts matching-service's separate
+in-process M1 projection. `assessmentSource=M1_RETRIEVAL` means requirements and
+components have `modelSuggestion=null`, `verifiedSupport=false`, an explicit
+retrievalStatus and original evidence. FIXED_PLAN_RETRIEVAL is an additional
+componentAnalysis value. Preserve reasonCodes, jointContextRequired and
+retrievalWarnings such as M1_CONTEXT_TRUNCATED when rendering; never display a
+retrieval status as confirmed matched/partial/not-found. Existing diagnostic
+verifier projections remain identifiable and backward compatible.
+
+Ownership/application/job/CV checks and stripping of baselineDiagnostics are
+unchanged. AI1 UNAVAILABLE remains unavailable; disabled future matching requests
+have NOT_PERFORMED evidence. Changing backend configuration does not invalidate
+or rewrite historical results. No stage/decision writes or UI changes were made.
+
+## Separate HR Evidence Review (2026-10-24)
+
+GET `/api/v1/recruiter/applications/:id/hr-review` returns a separate evidence
+projection, not the legacy match-score detail. Recruiter/company ownership is
+checked before the matching call; application/job/candidate/submitted-CV IDs and
+safe HR-review flags must match the upstream response. No record yet returns
+`data:null`. No separate HR inference on a historical result yields
+`assessmentStatus=NOT_PERFORMED`, not conversion of old MATCHED labels into truth.
+
+The response uses shared `MatchHrReview` (`schemaVersion=hr-review-v1`):
+requirements, fixed AND/OR if available, unverified `modelSuggestion`, original
+evidence text/ID and `similarityScore`. Score meaning is retrieval similarity,
+NOT support probability. All candidate support remains unverified; hiringDecision,
+overallFitScore and rankingPosition are null. Plan state is AT_MATCHING_TIME;
+currentPlanRevalidated=false. Snapshot hashes identify the historical source,
+not a fresh check that the current JD/plan is unchanged. Re-match after JD edits.
+
+This recruiter endpoint always strips `baselineDiagnostics`; it accepts no option
+to expose old aggregate labels. Only internal matching diagnostics can explicitly
+request them. The service token remains server-side; frontend uses the existing
+gateway JWT/role path. Wrong role=403, foreign application=404, upstream identity
+or safety mismatch=503. This read does not change application stage or HR decisions.
+
+Existing list/detail/dashboard fields, latest-result endpoint and completion
+events remain backward-compatible LEGACY outputs. They may still show old
+EXCELLENT/SHORTLIST labels and have NOT been globally corrected or removed. The
+new HR view must be used deliberately; it does not make old screens safe by itself.
+Actual M1/verifier HR inference remains the allowlisted local synthetic diagnostic,
+not production rollout. Application-service ownership/proxy tests are unit tests;
+real matching API/DB/worker projection is integrated locally, not full gateway
+JWT + application DB + PDF + broker E2E.
+
+## Matching Data v2 Change Note (2026-10-08)
+
+Application detail responses now expose `matchRequirementMatches`,
+`matchRankingFeatures` and `matchModelMetadata`. Missing/historical matching details
+and list projections that do not fetch matching results return null for these
+fields. The metadata includes processing/model versions, date, origin, input hashes
+and feature limitations. Full input snapshots remain internal to matching-service.
+See [field definitions and compatibility notes](matching-data-contract.md).
+
 Base path through gateway:
 
 - Candidate: `/api/v1/applications`
@@ -23,7 +147,7 @@ Responsibility: job application submission, candidate application history, recru
 - `CLOSED` jobs cancel active applications with status `CANCELLED`.
 - CV content is not embedded in the application response. FE calls the CV download endpoint to get a short-lived URL.
 - Candidate avatar URL is resolved dynamically from `candidateAvatarDocumentId` when available.
-- New applications do not trigger CV parsing by default. If the create request sends `parse=true`, matching is requested only after the applied CV is parsed; for an unparsed CV, application-service triggers parsing and waits for `cv.parsed` before creating a match request. Later `cv.parsed`/`cv.parse-failed` events only affect applications that opted in with `parse=true`. If parsing fails, application-service marks waiting application matching as `FAILED` through the application CV parse snapshot.
+- New applications request automatic matching regardless of `parse`. Matching reuses an already-parsed CV or requests parsing and waits for `cv.parsed`. `parse=true` asks the parsing request to apply parsed CV information to the candidate profile; it does not opt into matching. An already-parsed CV is reused without applying it again. Later parse events affect applications waiting for automatic matching. Parsing failures mark waiting matching as `FAILED` through the application CV parse snapshot.
 - Candidate application responses include progress timeline data for candidate UI. Recruiter can ignore
   progress in phase one.
 
@@ -197,7 +321,7 @@ Request body:
 | `jobId`         | uuid    | Yes      | Published and applyable job id                                                           |
 | `candidateCvId` | uuid    | Yes      | CV id from candidate-service `candidate_cvs`                                             |
 | `coverLetter`   | string  | No       | Max 5000 chars                                                                           |
-| `parse`         | boolean | No       | Defaults to `false`; when true, trigger CV parsing and automatic matching after applying |
+| `parse`         | boolean | No       | Defaults to `false`; when parsing is requested, apply parsed information to profile. Automatic matching is requested regardless of this flag; parsed CVs are reused. |
 
 ```json
 {
@@ -622,6 +746,15 @@ Errors:
 | 409    | Application cannot move to requested status |
 
 ## Events
+
+### Local startup and null-only matching snapshots
+
+Swagger generation during local startup requires explicit primitive metadata for
+the null-only `UpdateApplicationMatchSnapshotDto.matchScore` and `matchLevel`
+fields. Their documented `number`/`string` types support nullable OpenAPI schemas;
+the request contract remains `scoringStatus: "NOT_AVAILABLE"` with both fields
+explicitly `null`. Numeric scores, string levels, and omitted fields are rejected
+by the existing validation. Swagger stays enabled; no scoring behavior changes.
 
 Application-service publishes:
 

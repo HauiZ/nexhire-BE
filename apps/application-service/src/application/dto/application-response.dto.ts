@@ -1,7 +1,45 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ApplicationProgressStep, ApplicationStage } from '@nexhire/shared';
+import {
+  ApplicationProgressStep,
+  ApplicationStage,
+  MatchModelMetadata,
+  MatchRankingFeatures,
+  MatchRequirementEvidence,
+} from '@nexhire/shared';
 import { ApplicationMatchLevel } from '../entities/application.entity';
 import { ApplicationProgressActorType } from '../entities/application-progress-event.entity';
+
+export class MatchRequirementEvidenceDto implements MatchRequirementEvidence {
+  @ApiProperty()
+  requirementId: string;
+
+  @ApiProperty()
+  requirement: string;
+
+  @ApiProperty()
+  requirementSource: string;
+
+  @ApiPropertyOptional({ nullable: true })
+  evidence: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  evidenceSource: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  evidenceId: string | null;
+
+  @ApiPropertyOptional({ nullable: true, minimum: 0, maximum: 100 })
+  comparisonScore: number | null;
+
+  @ApiPropertyOptional({ nullable: true, enum: ['EXACT', 'CONTAINMENT', 'SEMANTIC', 'LEXICAL'] })
+  comparisonMethod: MatchRequirementEvidence['comparisonMethod'];
+
+  @ApiProperty({ minimum: 0, maximum: 100 })
+  score: number;
+
+  @ApiProperty({ enum: ['MATCHED', 'PARTIAL', 'NOT_FOUND'] })
+  status: MatchRequirementEvidence['status'];
+}
 
 export class ApplicationProgressEventDto {
   @ApiProperty()
@@ -43,7 +81,42 @@ export class ApplicationProgressDto {
   events: ApplicationProgressEventDto[];
 }
 
+export class ApplicationMatchingStatusDto {
+  @ApiProperty({ enum: ['matching-status-v1'] })
+  schemaVersion: 'matching-status-v1';
+
+  @ApiProperty()
+  applicationId: string;
+
+  @ApiProperty()
+  jobId: string;
+
+  @ApiProperty()
+  candidateId: string;
+
+  @ApiPropertyOptional({ nullable: true })
+  candidateCvId: string | null;
+
+  @ApiProperty()
+  resultId: string;
+
+  @ApiPropertyOptional({ nullable: true })
+  matchRequestId: string | null;
+
+  @ApiProperty({ enum: ['SUCCEEDED', 'FAILED'] })
+  status: 'SUCCEEDED' | 'FAILED';
+
+  @ApiProperty({ format: 'date-time' })
+  createdAt: string;
+
+  @ApiProperty({ enum: ['NOT_AVAILABLE'] })
+  scoringStatus: 'NOT_AVAILABLE';
+}
+
 export class ApplicationResponseDto {
+  @ApiProperty({ enum: ['NOT_AVAILABLE'] })
+  scoringStatus: 'NOT_AVAILABLE';
+
   @ApiProperty()
   id: string;
 
@@ -151,6 +224,25 @@ export class ApplicationResponseDto {
 
   @ApiPropertyOptional({ type: [String], nullable: true })
   matchRiskFlags: string[] | null;
+
+  @ApiPropertyOptional({ type: [MatchRequirementEvidenceDto], nullable: true })
+  matchRequirementMatches: MatchRequirementEvidenceDto[] | null;
+
+  @ApiPropertyOptional({
+    type: Object,
+    nullable: true,
+    description:
+      'Eight full-precision ranking features in the range 0..100. See api-docs/matching-data-contract.md.',
+  })
+  matchRankingFeatures: MatchRankingFeatures | null;
+
+  @ApiPropertyOptional({
+    type: Object,
+    nullable: true,
+    description:
+      'Versions, reference date, input hashes, data origin and feature limitations. See api-docs/matching-data-contract.md.',
+  })
+  matchModelMetadata: MatchModelMetadata | null;
 
   @ApiProperty()
   submittedAt: Date;

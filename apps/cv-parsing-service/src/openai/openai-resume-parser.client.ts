@@ -9,6 +9,7 @@ import { ERROR_CODES, ParsedResume } from '@nexhire/shared';
 import { AiManagementService, AiUsageTokens } from '../ai-management/ai-management.service';
 import { buildResumeParsePrompt } from '../cv-parsing/prompts/resume-parse.prompt';
 import { OPENAI_PARSED_RESUME_SCHEMA } from './openai-resume.schema';
+import { ProviderConfigurationException } from './provider-configuration.exception';
 
 interface DocumentBuffer {
   data: Buffer;
@@ -63,10 +64,7 @@ export class OpenAiResumeParserClient {
   ): Promise<{ rawPayload: Record<string, unknown>; usage?: AiUsageTokens }> {
     const apiKey = this.configService.get<string>('cvParsingService.openai.apiKey');
     if (!apiKey) {
-      throw new ServiceUnavailableException({
-        code: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
-        message: 'OpenAI API key is not configured',
-      });
+      throw new ProviderConfigurationException('missing_api_key');
     }
 
     const baseUrl = this.configService.get<string>(
@@ -135,6 +133,22 @@ export class OpenAiResumeParserClient {
           fileBytes: document.data.byteLength,
         })}`,
       );
+      if (error instanceof AxiosError) {
+        const code = this.providerErrorCode(error.response?.data);
+        const terminalCode = [
+          'model_not_found',
+          'invalid_api_key',
+          'authentication_error',
+          'permission_denied',
+          'invalid_api_key_error',
+          'insufficient_permissions',
+        ].includes(code);
+        if (terminalCode || [401, 403].includes(error.response?.status ?? 0)) {
+          throw new ProviderConfigurationException(
+            terminalCode ? code : `http_${error.response?.status}`,
+          );
+        }
+      }
       throw new ServiceUnavailableException({
         code: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
         message: 'OpenAI resume parser is temporarily unavailable',
@@ -160,7 +174,10 @@ export class OpenAiResumeParserClient {
             : 'application/pdf',
       };
     } catch (error) {
-      const detail = error instanceof AxiosError ? error.message : String(error);
+      const detail =
+        error instanceof AxiosError
+          ? `status=${error.response?.status ?? 'n/a'}`
+          : 'transport error';
       this.logger.error(`Failed to fetch CV document for OpenAI parsing: ${detail}`);
       throw new ServiceUnavailableException({
         code: ERROR_CODES.AI.SERVICE_UNAVAILABLE,
@@ -209,16 +226,13 @@ export class OpenAiResumeParserClient {
   ): string {
     const base = `endpoint=${request.endpoint} model=${request.model} mimeType=${request.mimeType} fileBytes=${request.fileBytes}`;
     if (!(error instanceof AxiosError)) {
-      return `${base} error=${String(error)}`;
+      return `${base} error=invalid_provider_response`;
     }
 
     return [
       base,
       `status=${error.response?.status ?? 'n/a'}`,
-      `statusText=${error.response?.statusText ?? 'n/a'}`,
-      `message=${error.message}`,
       `providerErrorCode=${this.providerErrorCode(error.response?.data)}`,
-      `providerErrorMessage=${this.providerErrorMessage(error.response?.data)}`,
       this.shouldLogProviderErrorBody()
         ? `responseBody=${this.stringifyForLog(error.response?.data)}`
         : undefined,
@@ -229,16 +243,10 @@ export class OpenAiResumeParserClient {
 
   private providerErrorCode(value: unknown): string {
     if (this.isProviderErrorEnvelope(value)) {
-      return String(value.error.code ?? 'n/a');
+      const code = value.error.code;
+      return typeof code === 'string' && /^[a-zA-Z0-9_]{1,64}$/.test(code) ? code : 'n/a';
     }
     return 'n/a';
-  }
-
-  private providerErrorMessage(value: unknown): string {
-    if (this.isProviderErrorEnvelope(value)) {
-      return this.truncateForLog(String(value.error.message ?? 'n/a'));
-    }
-    return typeof value === 'string' ? this.truncateForLog(value) : 'n/a';
   }
 
   private isProviderErrorEnvelope(value: unknown): value is {

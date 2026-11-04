@@ -1,5 +1,11 @@
 # NexHire API Docs
 
+Kiểm tra mức sẵn sàng trước khi lấy dataset và training ngày 14/10/2026:
+[PRETRAIN_READINESS.md](PRETRAIN_READINESS.md).
+
+Để nắm toàn bộ thay đổi chuẩn bị dataset/model so với develop, đọc
+[bản đồ ngữ cảnh matching](MATCHING_CONTEXT_MAP.md) trước rồi tra hợp đồng API chi tiết.
+
 Folder này là API contract thủ công để FE dễ gắn API mà không cần đọc toàn bộ Swagger hoặc backend code.
 
 ## Quy tắc cập nhật
@@ -63,6 +69,7 @@ Error:
 | Application Service      | [application-service.md](application-service.md)             |
 | CV Parsing Service       | [cv-parsing-service.md](cv-parsing-service.md)               |
 | Matching Service         | [matching-service.md](matching-service.md)                   |
+| Matching / Dataset Contract | [matching-data-contract.md](matching-data-contract.md) |
 | Notification Service     | [notification-service.md](notification-service.md)           |
 | Document Storage Service | [document-storage-service.md](document-storage-service.md)   |
 | Manual Auth APIs         | [manual/auth-service.md](manual/auth-service.md)             |

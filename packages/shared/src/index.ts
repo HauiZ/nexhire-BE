@@ -17,6 +17,7 @@ export * from './constants/error-codes';
 export * from './interfaces/auth-user.interface';
 export * from './interfaces/parsed-resume.interface';
 export * from './interfaces/match-result-payload.interface';
+export * from './interfaces/matching-snapshot.interface';
 export * from './interfaces/event-envelope.interface';
 
 // ── dto ──

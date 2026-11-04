@@ -1,9 +1,11 @@
+"""Legacy pretrained/lexical scoring for offline experiments, not the main runtime."""
+
 import logging
 import math
 from functools import lru_cache
 
 from app.config import get_settings
-from app.matching.normalizer import normalize_text
+from app.matching.normalizer import normalize_semantic_text
 from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
 
 logger = logging.getLogger(__name__)
@@ -24,11 +26,11 @@ def build_job_text(job: JobMatchingSnapshot) -> str:
 
 def build_candidate_text(candidate: CandidateMatchingSnapshot) -> str:
     experience_text = [
-        " ".join(part for part in [item.title, item.company] if part)
+        " ".join(part for part in [item.title, item.company, item.description] if part)
         for item in candidate.experiences
     ]
     education_text = [
-        " ".join(part for part in [item.degree, item.fieldOfStudy, item.school] if part)
+        " ".join(part for part in [item.degree, item.fieldOfStudy, item.school, item.description] if part)
         for item in candidate.educations
     ]
     project_text = [
@@ -49,7 +51,8 @@ def build_candidate_text(candidate: CandidateMatchingSnapshot) -> str:
         " ".join(skill.name for skill in candidate.skills),
         " ".join(experience_text),
         " ".join(education_text),
-        " ".join(candidate.certifications),
+        " ".join(" ".join(part for part in [item.name, item.issuer, item.description] if part)
+                 for item in candidate.certifications),
         " ".join(project_text),
     ]
     return " ".join(part for part in parts if part).strip()
@@ -78,16 +81,16 @@ class SemanticScorer:
         if not self.enabled:
             return None
 
-        job_text = normalize_text(build_job_text(job))
-        candidate_text = normalize_text(build_candidate_text(candidate))
+        job_text = normalize_semantic_text(build_job_text(job))
+        candidate_text = normalize_semantic_text(build_candidate_text(candidate))
         return self.score_text_pair(job_text, candidate_text)
 
     def score_text_pair(self, left: str, right: str) -> float | None:
         if not self.enabled:
             return None
 
-        job_text = normalize_text(left)
-        candidate_text = normalize_text(right)
+        job_text = normalize_semantic_text(left)
+        candidate_text = normalize_semantic_text(right)
         if not job_text or not candidate_text:
             return None
 

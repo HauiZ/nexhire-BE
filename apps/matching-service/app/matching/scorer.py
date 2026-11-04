@@ -1,30 +1,16 @@
-from datetime import date
-from app.matching.normalizer import normalize_skill, normalize_text
+"""Offline legacy feature/scoring reproduction; never called by the runtime worker."""
+
+from datetime import date, datetime, timezone
+import json
+from hashlib import sha256
+from app.config import get_settings
+from app.matching.ranking import FEATURE_EXTRACTOR_VERSION, FEATURE_SCHEMA_VERSION, LogisticRanker, Ranker, RankingFeatures, load_ranker
+from app.matching.normalizer import PREPROCESSING_VERSION, normalize_semantic_text, normalize_skill, normalize_text
 from app.matching.requirement_matcher import RequirementMatcher
 from app.matching.semantic import SemanticScorer
-from app.schemas.match_result import MatchExplanation, MatchScores
+from app.schemas.match_result import MatchExplanation, MatchScores, MatchingInputSnapshots, RequirementEvidence
 from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
 
-
-DEFAULT_WEIGHTS = {
-    "skill": 0.30,
-    "experience": 0.20,
-    "project": 0.10,
-    "education": 0.1,
-    "location": 0.05,
-    "level": 0.05,
-    "semantic": 0.20,
-}
-
-NO_PROJECT_WEIGHTS = {
-    "skill": 0.30,
-    "experience": 0.25,
-    "project": 0.0,
-    "education": 0.1,
-    "location": 0.075,
-    "level": 0.075,
-    "semantic": 0.20,
-}
 
 LEVEL_YEARS = {
     "INTERN": 0,
@@ -49,35 +35,36 @@ EDUCATION_LEVELS = {
 
 
 class MatchingScorer:
-    def __init__(self) -> None:
-        self.semantic_scorer = SemanticScorer()
+    def __init__(self, *, semantic_scorer: SemanticScorer | None = None, ranker: Ranker | None = None) -> None:
+        self.semantic_scorer = semantic_scorer if semantic_scorer is not None else SemanticScorer()
         self.requirement_matcher = RequirementMatcher(self.semantic_scorer)
+        self.ranker = ranker if ranker is not None else load_ranker(get_settings().ranking_artifact_path)
 
     @property
     def model_version(self) -> str:
-        return f"hybrid-v1+{self.semantic_scorer.model_version}"
+        version = f"{self.ranker.model_version}+{self.semantic_scorer.model_version}+{PREPROCESSING_VERSION}+{FEATURE_EXTRACTOR_VERSION}"
+        return version if len(version) <= 80 else f"matching-v2:{sha256(version.encode()).hexdigest()}"
 
-    def score(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot) -> MatchScores:
-        skill_score, matched_skills, missing_skills = self._score_requirements(job, candidate)
+    def score(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot, *, reference_date: date | None = None) -> MatchScores:
+        reference_date = reference_date or datetime.now(timezone.utc).date()
+        requirements = self.requirement_matcher.score(job, candidate)
+        skill_score, matched_skills, missing_skills = requirements.score, requirements.matched, requirements.missing
         project_score = self._score_projects(job, candidate)
-        experience_score = self._score_experience(job, candidate, project_score)
+        experience_score = self._score_experience(job, candidate, project_score, reference_date)
         education_score = self._score_education(candidate)
         location_score = self._score_location(job, candidate)
-        level_score = self._score_level(job, candidate)
+        level_score = self._score_level(job, candidate, reference_date)
         semantic_score = self.semantic_scorer.score(job, candidate)
         effective_semantic_score = semantic_score if semantic_score is not None else skill_score
-        weights = DEFAULT_WEIGHTS if candidate.projects else NO_PROJECT_WEIGHTS
-
-        total = (
-            weights["skill"] * skill_score
-            + weights["experience"] * experience_score
-            + weights["project"] * project_score
-            + weights["education"] * education_score
-            + weights["location"] * location_score
-            + weights["level"] * level_score
-            + weights["semantic"] * effective_semantic_score
+        features = RankingFeatures(
+            semantic_score=effective_semantic_score, skill_score=skill_score,
+            experience_score=experience_score, project_score=project_score,
+            education_score=education_score, certification_score=0,
+            location_score=location_score, level_score=level_score,
         )
-        total = round(max(0, min(100, total)), 2)
+        if isinstance(self.ranker, LogisticRanker) and self.ranker.artifact.semantic_model_version != self.semantic_scorer.model_version:
+            raise ValueError("Ranking artifact semantic model version differs from the active semantic scorer")
+        total = self.ranker.score(features, has_projects=bool(candidate.projects))
         explanation = self._explain(
             total,
             matched_skills,
@@ -89,6 +76,30 @@ class MatchingScorer:
             location_score,
             effective_semantic_score,
         )
+        explanation.requirementMatches = [
+            RequirementEvidence(
+                requirementId=match.requirement_id,
+                requirement=match.original_requirement or match.requirement, requirementSource=match.requirement_source,
+                evidence=match.original_evidence, evidenceSource=match.source, evidenceId=match.evidence_id,
+                comparisonScore=match.comparison_score, comparisonMethod=match.comparison_method,
+                score=round(match.score * 100, 2),
+                status="MATCHED" if match.matched else "PARTIAL" if match.score > 0 else "NOT_FOUND",
+            ) for match in requirements.matches
+        ]
+        explanation.rankingFeatures = features
+        explanation.featureSchemaVersion = FEATURE_SCHEMA_VERSION
+        explanation.semanticModelVersion = self.semantic_scorer.model_version
+        explanation.rankingModelVersion = self.ranker.model_version
+        explanation.preprocessingVersion = PREPROCESSING_VERSION
+        explanation.featureExtractorVersion = FEATURE_EXTRACTOR_VERSION
+        explanation.scoreReferenceDate = reference_date
+        explanation.dataOrigin = candidate.dataOrigin
+        explanation.candidateSnapshotHash = self._snapshot_hash(candidate)
+        explanation.jobSnapshotHash = self._snapshot_hash(job)
+        explanation.inputSnapshots = MatchingInputSnapshots(job=job, candidate=candidate)
+        explanation.featureLimitations = ["CERTIFICATION_NOT_SCORED", "EDUCATION_NOT_JD_SPECIFIC", "EXPERIENCE_NOT_SKILL_SPECIFIC"]
+        if semantic_score is None:
+            explanation.featureLimitations.append("SEMANTIC_REPLACED_BY_REQUIREMENT_SCORE")
         return MatchScores(
             totalScore=total,
             skillScore=round(skill_score, 2),
@@ -100,6 +111,11 @@ class MatchingScorer:
             semanticScore=round(effective_semantic_score, 2),
             explanation=explanation,
         )
+
+    @staticmethod
+    def _snapshot_hash(snapshot) -> str:
+        payload = json.dumps(snapshot.model_dump(mode="json"), sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        return sha256(payload.encode("utf-8")).hexdigest()
 
     def _score_requirements(
         self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot
@@ -171,11 +187,12 @@ class MatchingScorer:
         job: JobMatchingSnapshot,
         candidate: CandidateMatchingSnapshot,
         project_score: float,
+        reference_date: date | None = None,
     ) -> float:
         required_years = LEVEL_YEARS.get(job.experienceLevel.upper(), 1)
         if required_years <= 0:
             return 100
-        candidate_years = self._estimate_years(candidate)
+        candidate_years = self._estimate_years(candidate, reference_date)
         base_score = min(100, (candidate_years / required_years) * 100)
         level = job.experienceLevel.upper()
         if level in {"FRESHER", "JUNIOR"}:
@@ -189,7 +206,7 @@ class MatchingScorer:
     def _score_projects(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot) -> float:
         if not candidate.projects:
             return 0
-        job_text = normalize_text(
+        job_text = normalize_semantic_text(
             " ".join(
                 part
                 for part in [
@@ -206,7 +223,7 @@ class MatchingScorer:
 
         best_score = 0.0
         for project in candidate.projects:
-            project_text = normalize_text(
+            project_text = normalize_semantic_text(
                 " ".join(
                     part
                     for part in [
@@ -225,16 +242,28 @@ class MatchingScorer:
             best_score = max(best_score, score)
         return min(100, best_score)
 
-    def _estimate_years(self, candidate: CandidateMatchingSnapshot) -> float:
-        total_months = 0
-        today = date.today()
+    def _estimate_years(self, candidate: CandidateMatchingSnapshot, reference_date: date | None = None) -> float:
+        intervals = []
+        today = reference_date or datetime.now(timezone.utc).date()
+        current_month = today.year * 12 + today.month - 1
         for exp in candidate.experiences:
             if not exp.startYear:
                 continue
             start_month = exp.startMonth or 1
-            end_year = today.year if exp.isCurrent or not exp.endYear else exp.endYear
-            end_month = today.month if exp.isCurrent or not exp.endMonth else exp.endMonth
-            total_months += max(0, (end_year - exp.startYear) * 12 + end_month - start_month)
+            if not exp.isCurrent and not exp.endYear:
+                continue
+            end_year = today.year if exp.isCurrent else exp.endYear
+            end_month = today.month if exp.isCurrent else (exp.endMonth or 12)
+            start = exp.startYear * 12 + start_month - 1
+            end = min(current_month, end_year * 12 + end_month - 1)
+            if end > start:
+                intervals.append((start, end))
+        # Merge half-open month intervals so overlapping jobs count only once.
+        total_months = 0
+        merged_end = -1
+        for start, end in sorted(intervals):
+            total_months += max(0, end - max(start, merged_end))
+            merged_end = max(merged_end, end)
         return total_months / 12
 
     def _score_education(self, candidate: CandidateMatchingSnapshot) -> float:
@@ -258,9 +287,9 @@ class MatchingScorer:
             return 60
         return 100 if job_location in candidate_location or candidate_location in job_location else 30
 
-    def _score_level(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot) -> float:
+    def _score_level(self, job: JobMatchingSnapshot, candidate: CandidateMatchingSnapshot, reference_date: date | None = None) -> float:
         required_years = LEVEL_YEARS.get(job.experienceLevel.upper(), 1)
-        candidate_years = self._estimate_years(candidate)
+        candidate_years = self._estimate_years(candidate, reference_date)
         if candidate_years >= required_years:
             return 100 if candidate_years <= required_years + 3 else 85
         return min(100, (candidate_years / max(1, required_years)) * 100)

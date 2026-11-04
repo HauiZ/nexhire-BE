@@ -1,5 +1,15 @@
 # Candidate Service API Docs
 
+## Matching Snapshot v2 Change Note (2026-10-08)
+
+Internal matching snapshots now emit `snapshotSchemaVersion=candidate-matching-v2`
+and `dataOrigin=PROFILE`, with evidence item IDs, experience/education descriptions,
+structured certification objects and project objects including technologies.
+`certifications` and `projects` changed from `string[]` to object arrays for internal
+consumers. Public profile and CV parsing response shapes are unchanged. Optional
+`candidateCvId` checks ownership; it does not turn a profile snapshot into a parsed
+CV snapshot. See [the full data contract](matching-data-contract.md#candidate-snapshot).
+
 Base path through gateway:
 
 - `/api/v1/candidates`

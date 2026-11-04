@@ -3,16 +3,13 @@ import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsEnum,
-  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
-  Max,
   MaxLength,
-  Min,
+  Equals,
 } from 'class-validator';
 import { ApplicationStage } from '@nexhire/shared';
-import { ApplicationMatchLevel } from '../entities/application.entity';
 
 function toOptionalBoolean(value: unknown): boolean | undefined {
   if (value === undefined || value === null || value === '') {
@@ -41,7 +38,8 @@ export class CreateApplicationDto {
 
   @ApiPropertyOptional({
     example: false,
-    description: 'When true, trigger CV parsing and automatic matching after applying.',
+    description:
+      'Apply parsed CV to the candidate profile when parsing is requested. Automatic matching is requested regardless of this flag.',
   })
   @IsOptional()
   @Transform(({ value }) => toOptionalBoolean(value))
@@ -62,14 +60,25 @@ export class UpdateApplicationStageDto {
 }
 
 export class UpdateApplicationMatchSnapshotDto {
-  @ApiProperty({ example: 82 })
-  @IsNumber()
-  @Min(0)
-  @Max(100)
-  matchScore: number;
+  @ApiProperty({ enum: ['NOT_AVAILABLE'] })
+  @Equals('NOT_AVAILABLE')
+  scoringStatus: 'NOT_AVAILABLE';
 
-  @ApiPropertyOptional({ enum: ApplicationMatchLevel })
-  @IsOptional()
-  @IsEnum(ApplicationMatchLevel)
-  matchLevel?: ApplicationMatchLevel;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: null,
+    description: 'Must be null while scoringStatus is NOT_AVAILABLE; numeric values are rejected.',
+  })
+  @Equals(null)
+  matchScore: null;
+
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    example: null,
+    description: 'Must be null while scoringStatus is NOT_AVAILABLE; string values are rejected.',
+  })
+  @Equals(null)
+  matchLevel: null;
 }

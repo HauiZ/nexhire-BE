@@ -1,10 +1,11 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { retryOrDeadLetter, setupReliableQueue } from '@nexhire/infra';
+import { deadLetterExchangeName, retryOrDeadLetter, setupReliableQueue } from '@nexhire/infra';
 import { EVENTS, QUEUES, unwrapEventData } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
 import { CvParsingService, CvUploadedEventPayload } from '../../cv-parsing.service';
+import { ProviderConfigurationException } from '../../../openai/provider-configuration.exception';
 
 @Injectable()
 export class CvUploadedEventsConsumer implements OnModuleInit, OnModuleDestroy {
@@ -68,12 +69,32 @@ export class CvUploadedEventsConsumer implements OnModuleInit, OnModuleDestroy {
       this.channel.ack(message);
     } catch (error) {
       this.logger.error('Failed to process CV uploaded event', error as Error);
-      await this.retryOrRequeue(message);
+      await this.retryOrRequeue(message, error);
     }
   }
 
-  private async retryOrRequeue(message: ConsumeMessage): Promise<void> {
+  private async retryOrRequeue(message: ConsumeMessage, failure: unknown): Promise<void> {
     try {
+      if (failure instanceof ProviderConfigurationException) {
+        // Confirm the durable copy before acknowledging; keep original payload and history.
+        await this.channel!.publish(
+          deadLetterExchangeName(this.exchange!),
+          message.fields.routingKey,
+          message.content,
+          {
+            ...message.properties,
+            persistent: true,
+            headers: {
+              ...message.properties.headers,
+              'x-original-queue': this.queueName!,
+              'x-dead-letter-reason': 'provider-configuration-error',
+              'x-provider-error-code': failure.providerErrorCode,
+            },
+          },
+        );
+        this.channel!.ack(message);
+        return;
+      }
       await retryOrDeadLetter(this.channel!, message, this.exchange!, this.queueName!);
     } catch (error) {
       this.logger.error('Failed to move CV uploaded event to retry/DLQ', error as Error);

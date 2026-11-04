@@ -42,7 +42,11 @@ if (command === 'test') {
 }
 
 if (command === 'start') {
-  run(uvicorn, ['app.main:app', '--app-dir', serviceDir, '--reload', '--host', '0.0.0.0', '--port', '3007']);
+  // --app-dir affects imports, not reload scope. Keep training/data changes
+  // outside the live API watcher while retaining the repository-root cwd/env.
+  run(uvicorn, ['app.main:app', '--app-dir', serviceDir, '--reload',
+    '--reload-dir', path.join(serviceDir, 'app'),
+    '--host', '0.0.0.0', '--port', '3007']);
 }
 
 console.error('Usage: node scripts/matching-service.js <venv|install|migrate|test|start>');
