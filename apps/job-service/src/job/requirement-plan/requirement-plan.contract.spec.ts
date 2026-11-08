@@ -30,7 +30,9 @@ suite('JD plan real Node-to-Python HTTP contract (in-memory storage, not Postgre
       'from fastapi import FastAPI',
       'from types import SimpleNamespace',
       'import app.api.jd_plans as plans',
-      "plans.get_settings = lambda: SimpleNamespace(internal_service_token='local-contract-fixture')",
+      'import app.schemas.query_budget as budgets',
+      "budgets._tokenizer = lambda *args: (lambda texts, **kw: {'input_ids': [[0] * (257 if 'overlong_test' in t.lower() else 5) for t in texts]})",
+      "plans.get_settings = lambda: SimpleNamespace(internal_service_token='local-contract-fixture', ai1_manifest_path='fixture', ai1_manifest_sha256='fixture')",
       'sock = socket.socket()',
       "sock.bind(('127.0.0.1', 0))",
       'sock.listen(128)',
@@ -81,6 +83,101 @@ suite('JD plan real Node-to-Python HTTP contract (in-memory storage, not Postgre
   afterAll(async () => {
     if (child && child.exitCode === null) child.kill();
     if (closed) await closed;
+  });
+
+  it('roundtrips opt-in v2 selection, HR confirmation and stale inspection', async () => {
+    const job = Object.assign(new Job(), {
+      id: 'job-v2',
+      companyId: 'company-contract',
+      title: 'Backend',
+      skills: [],
+      requirements: 'Requirements: Node.js\nPreferred: Docker',
+      description: 'Build APIs.',
+      benefits: 'Insurance',
+    });
+    const plans: JobRequirementPlan[] = [];
+    const manager = {
+      findOne: async (entity: unknown) => (entity === Job ? job : (plans.at(-1) ?? null)),
+      create: (_entity: unknown, value: unknown) => value,
+      save: async (entity: unknown, value: JobRequirementPlan) => {
+        if (entity === JobRequirementPlan) {
+          const index = plans.findIndex((p) => p.id === value.id);
+          if (index < 0) plans.push(value);
+          else plans[index] = value;
+        }
+        return value;
+      },
+    };
+    const service = new RequirementPlanService(
+      {
+        transaction: async (fn: (m: unknown) => Promise<unknown>) => fn(manager),
+      } as unknown as DataSource,
+      client,
+    );
+    const user: AuthUser = {
+      id: 'hr-contract',
+      companyId: 'company-contract',
+      role: UserRole.RECRUITER,
+    };
+    const draft = await service.createDraft(user, job.id, {
+      expectedLatestRevision: 0,
+      schemaVersion: 'jd-source-query-v2',
+    });
+    expect(draft.plan!.schema_version).toBe('jd-source-query-v2');
+    expect(draft.plan!.sources!.flatMap((s) => s.components.map((c) => c.query))).toEqual([
+      'Node.js',
+      'Docker',
+    ]);
+    await expect(
+      service.edit(user, job.id, {
+        expectedContentSha256: draft.content_sha256!,
+        requirements: [],
+      }),
+    ).rejects.toThrow('stored plan schema');
+    const edited = await service.edit(user, job.id, {
+      expectedContentSha256: draft.content_sha256!,
+      sources: draft.plan!.sources!,
+    });
+    const confirmed = await service.confirm(user, job.id, {
+      expectedContentSha256: edited.content_sha256!,
+    });
+    expect(confirmed.status).toBe('HR_CONFIRMED');
+    expect((await service.getInternal(job.id)).status).toBe('HR_CONFIRMED');
+    job.requirements = 'Requirements: OVERLONG_TEST SQL';
+    const longDraft = await service.createDraft(user, job.id, {
+      expectedLatestRevision: 2,
+      schemaVersion: 'jd-source-query-v2',
+    });
+    expect(longDraft.query_budget?.status).toBe('TOO_LONG');
+    await expect(
+      service.confirm(user, job.id, {
+        expectedContentSha256: longDraft.content_sha256!,
+      }),
+    ).rejects.toThrow('Split the indicated source quotes');
+    const repaired = longDraft.plan!.sources!.map((s) =>
+      s.selected
+        ? {
+            ...s,
+            components: [
+              { id: 'short', query: 'SQL', source_quote: 'SQL', importance: 'unknown' as const },
+            ],
+          }
+        : s,
+    );
+    const shortDraft = await service.edit(user, job.id, {
+      expectedContentSha256: longDraft.content_sha256!,
+      sources: repaired,
+    });
+    expect(shortDraft.query_budget?.status).toBe('READY');
+    expect(
+      (
+        await service.confirm(user, job.id, {
+          expectedContentSha256: shortDraft.content_sha256!,
+        })
+      ).status,
+    ).toBe('HR_CONFIRMED');
+    job.benefits = 'Changed benefits';
+    expect((await service.get(user, job.id)).status).toBe('STALE');
   });
 
   it('drafts, edits, confirms and invalidates the exact snapshot without verifying candidate support', async () => {
@@ -147,7 +244,7 @@ suite('JD plan real Node-to-Python HTTP contract (in-memory storage, not Postgre
     });
     expect(confirmed.status).toBe('HR_CONFIRMED');
     expect(confirmed.candidate_support_verified).toBe(false);
-    expect(confirmed.plan!.requirements[0].all_of).toEqual([['sql'], ['aws']]);
+    expect(confirmed.plan!.requirements![0].all_of).toEqual([['sql'], ['aws']]);
     expect(events.map((event) => event.action)).toEqual(['CREATED', 'REVISED', 'CONFIRMED']);
     await service.confirm(user, job.id, { expectedContentSha256: edited.content_sha256! });
     expect(events).toHaveLength(3);

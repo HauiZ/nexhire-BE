@@ -6,6 +6,7 @@ import {
   IsBoolean,
   IsIn,
   IsInt,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -41,27 +42,56 @@ export class PlannedRequirementDto {
   joint_context_required: boolean;
 }
 
+export class SourceSelectionDto {
+  @IsString() @MinLength(1) @MaxLength(120) source_id: string;
+  @IsIn(['skills', 'requirements', 'description', 'benefits']) source_field:
+    | 'skills'
+    | 'requirements'
+    | 'description'
+    | 'benefits';
+  @IsString() @MinLength(1) @MaxLength(50000) original_text: string;
+  @IsIn(['heading', 'query', 'review']) suggested_role: 'heading' | 'query' | 'review';
+  @Transform(({ obj, key }) => obj[key]) @IsBoolean() selected: boolean;
+  @IsArray()
+  @ArrayMaxSize(8)
+  @ValidateNested({ each: true })
+  @Type(() => PlanComponentDto)
+  components: PlanComponentDto[];
+}
+
 export class CreatePlanDraftDto {
   @IsInt() @Min(0) expectedLatestRevision: number;
+  @IsOptional()
+  @IsIn(['jd-fixed-requirements-v1', 'jd-source-query-v2'])
+  schemaVersion?: 'jd-fixed-requirements-v1' | 'jd-source-query-v2';
 }
 export class PlanBindingDto {
   @Matches(/^[a-f0-9]{64}$/) expectedContentSha256: string;
 }
 export class EditRequirementPlanDto extends PlanBindingDto {
+  @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(64)
   @ValidateNested({ each: true })
   @Type(() => PlannedRequirementDto)
-  requirements: PlannedRequirementDto[];
+  requirements?: PlannedRequirementDto[];
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(256)
+  @ValidateNested({ each: true })
+  @Type(() => SourceSelectionDto)
+  sources?: SourceSelectionDto[];
 }
 
 export interface PlanDocument {
-  schema_version: 'jd-fixed-requirements-v1';
+  schema_version: 'jd-fixed-requirements-v1' | 'jd-source-query-v2';
   job_id: string;
   job_snapshot_sha256: string;
   revision: number;
-  requirements: PlannedRequirementDto[];
+  requirements?: PlannedRequirementDto[];
+  sources?: SourceSelectionDto[];
   approval: null | {
     origin: 'authenticated_hr';
     reviewer_id: string;
@@ -72,6 +102,11 @@ export interface PlanDocument {
   };
 }
 export interface PlanInspection {
+  query_budget?: {
+    status: 'READY' | 'TOO_LONG' | 'UNAVAILABLE' | 'NOT_APPLICABLE';
+    limit: number;
+    issues: { source_id: string; component_id: string; tokens: number; code: string }[];
+  };
   status: 'UNPREPARED' | 'DRAFT' | 'STALE' | 'HR_CONFIRMED' | 'ASSISTANT_REVIEWED';
   current_job_snapshot_sha256: string;
   content_sha256: string | null;

@@ -1,5 +1,24 @@
 # Job Service API Docs
 
+## Opt-in source/query plan v2 (2026-11-05)
+
+Existing requirement-plan routes/ownership/revision checks remain. `POST .../requirement-plan/drafts` accepts optional `schemaVersion: "jd-source-query-v2"` alongside `expectedLatestRevision`; omission keeps v1 default. v2 retains all HR job fields as sources and selects queries separately. Existing saved v1 plans/approvals are not migrated or reinterpreted.
+
+For v2, `PATCH .../requirement-plan` accepts `{expectedContentSha256, sources}` instead of `requirements`. Supplying the wrong field or both fields is rejected. Each source uses `source_id`, `source_field`, `original_text`, `suggested_role`, `selected`, `components`; all source identities/text/roles/order must be retained. HR can change selection and exact-quote components (query=source_quote, substring of original text). Unselected sources have no components; selected sources have1–8. Total queries1–64. New edits remove approval and create a revision. Confirmation/inspection route to the matching v2 validator based on stored schema, preserving ownership/event/hash/snapshot binding. Benefits remain visible but unselected by default. See matching API v2 section for full document.
+
+V2 inspect/draft/save responses additionally expose `query_budget` (see matching API). Confirmation requires READY; TOO_LONG returns400 with code QUERY_TOKEN_LIMIT_EXCEEDED and source/component/token issues, while missing tokenizer returns QUERY_TOKEN_CHECK_UNAVAILABLE. Drafts remain editable/saveable; FE highlights the affected quotes and blocks confirmation, not publication. Split exact source quotes, save, and confirm again. No window/keyword fallback is activated.
+
+The updated FE explicitly requests v2 for newly prepared drafts and provides source selection/exact-quote editing; existing v1 plans retain the v1 editor. Older FE builds remain v1-only and must not edit v2 plans. Verification includes real Node/Python HTTP, disposable local PostgreSQL revision/confirmation/isolation tests and a synthetic API/DB/worker/pinned-M1 flow. Test DBs are created/dropped by the suite; no business DB migration is performed. Invalidating a changed benefits field is intentional because approval binds the whole snapshot.
+
+### Verified feature scope — 2026-11-08
+
+- Improvement is structural/safety: recognized EN/VI headings are retained without becoming default retrieval queries; HR fields remain separate; selected exact quotes are approval-bound. Overlong queries are reported before confirmation while drafts remain editable.
+- Final checks: Python610passed/2skipped, targeted job-plan Jest14passed, FE66tests/build passed, BE TypeScript check passed. Mounted synthetic browser24checks passed; disposable PostgreSQL/API/worker/pinned-M1/live-browser suite9tests passed in the local verification environment.
+- Live-browser verification edited/saved/confirmed a query through real backend storage, enqueued a synthetic CV, awaited the worker result, and compared the displayed direct-experience quote with returned evidence. Identity was injected by a loopback test proxy, not a real JWT login; job creation/admin moderation/PDF/provider were not exercised.
+- Long-query refusal and repair-to-confirm were tested with mocked tokenizer counts through Node/Python HTTP; real tokenizer was used in normal live E2E. Do not describe this as full browser long-query-repair acceptance.
+- No encoder-weight/AI2 changes or demonstrated M1 ranking uplift. Window/coverage experiments were not promoted. Production model gates remain unchanged.
+- Model bundles and historical worker-flow harness under ignored local research paths are not supplied by this source commit. Optional worker/browser acceptance requires that local harness and the separate FE checkout; ordinary unit/HTTP bridge tests do not require it. No business DB migrations were executed.
+
 ## Optional JD Requirement Plans (2026-10-24)
 
 Plan review is independent of job moderation/publication. Existing admin approval,

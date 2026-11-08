@@ -110,19 +110,28 @@ def _ai1_projection(raw, result, explanation, values):
         if assessment.status != 'READY':
             return HrReviewSnapshot(**dict(values,
                 assessmentStatus='NOT_PERFORMED' if assessment.status == 'DISABLED' else 'UNAVAILABLE',
-                reason='AI1_BACKEND_DISABLED' if assessment.status == 'DISABLED' else 'AI1_BACKEND_UNAVAILABLE',
+                reason=('AI1_BACKEND_DISABLED' if assessment.status == 'DISABLED' else
+                        'QUERY_TOKEN_LIMIT_EXCEEDED_SPLIT_SOURCE_QUOTES' if assessment.reason == 'QUERY_TOKEN_LIMIT_EXCEEDED_SPLIT_SOURCE_QUOTES'
+                        else 'AI1_BACKEND_UNAVAILABLE'),
                 assessmentSource='M1_RETRIEVAL')).model_dump(mode='json')
-        if [(r.requirementId, r.text) for r in assessment.requirements] != [(r.id, r.text) for r in source_requirements(job)]:
-            raise ValueError('AI1 original requirements changed')
         plan = assessment.fixedPlan
+        v2 = plan is not None and plan.schema_version == 'jd-source-query-v2'
+        expected_sources = ([(f'{s.source_id}/{c.id}', c.query) for s in plan.sources if s.selected
+                             for c in s.components] if v2 else [(r.id, r.text) for r in source_requirements(job)])
+        if [(r.requirementId, r.text) for r in assessment.requirements] != expected_sources:
+            raise ValueError('AI1 original requirements changed')
         if plan:
-            validate_plan(plan, job)
+            if v2:
+                from app.schemas.jd_plan_v2 import validate_query_plan
+                validate_query_plan(plan, job)
+            else:
+                validate_plan(plan, job)
             if (assessment.planStatus != 'HR_CONFIRMED' or not plan.approval
                     or plan.approval.origin != 'authenticated_hr'):
                 raise ValueError('AI1 plan is not a trusted HR confirmation')
         elif assessment.planStatus == 'HR_CONFIRMED':
             raise ValueError('Confirmed AI1 plan missing')
-        planned = {r.requirement_id: r for r in plan.requirements} if plan else {}
+        planned = {r.requirement_id: r for r in plan.requirements} if plan and not v2 else {}
         sections = {e.id: (e.source, e.original_text or e.text) for e in RequirementMatcher(None)._build_evidence(candidate)}
 
         def evidence(hits):
@@ -135,7 +144,7 @@ def _ai1_projection(raw, result, explanation, values):
         requirements = []
         for item in assessment.requirements:
             components = None
-            if plan:
+            if plan and not v2:
                 expected = planned[item.requirementId]
                 if (item.allOf != expected.all_of or item.jointContextRequired != expected.joint_context_required
                         or item.components is None

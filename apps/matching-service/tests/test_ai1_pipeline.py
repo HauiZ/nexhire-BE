@@ -58,6 +58,43 @@ class Ai1PipelineTests(unittest.TestCase):
                 'inputSnapshots': {'job': self.job.model_dump(mode='json'), 'candidate': self.candidate.model_dump(mode='json')},
                 'decision': 'SHORTLIST', 'recommendation': 'STRONG_FIT'})
 
+    def test_long_query_reason_survives_unavailable_hr_projection(self):
+        from app.matching.query_plan import QueryTokenLimitError
+        with patch('app.matching.ai1.assess_local', side_effect=QueryTokenLimitError()):
+            assessment = self.assess()
+        self.assertEqual(assessment.reason, 'QUERY_TOKEN_LIMIT_EXCEEDED_SPLIT_SOURCE_QUOTES')
+        view = hr_review_snapshot(self.stored(assessment))
+        self.assertEqual(view['reason'], assessment.reason)
+        self.assertEqual(view['assessmentStatus'], 'UNAVAILABLE')
+
+    def test_v2_confirmed_selected_queries_survive_stored_hr_projection(self):
+        from app.schemas.jd_plan_v2 import draft_query_plan
+        from app.schemas.jd_plan_context import inspect_trusted_plan
+        self.job = self.job.model_copy(update={
+            'requirements': 'Requirements:\nPython\nPreferred: AWS', 'benefits': 'Insurance'})
+        plan = draft_query_plan(self.job)
+        approval = Approval(origin='authenticated_hr', reviewer_id='test-hr',
+            authorization_event_id='synthetic-v2-unit-event', job_id=self.job.id,
+            content_sha256=content_digest(plan), approved_at=datetime(2026, 11, 5, tzinfo=timezone.utc))
+        plan = plan.model_copy(update={'approval': approval})
+        context = inspect_trusted_plan({'status': 'HR_CONFIRMED',
+            'current_job_snapshot_sha256': plan.job_snapshot_sha256,
+            'content_sha256': content_digest(plan), 'plan': plan.model_dump(mode='json'),
+            'publishing_blocked': False, 'candidate_support_verified': False}, self.job)
+        self.assertEqual(context.status, 'HR_CONFIRMED')
+        assessment = self.assess(context)
+        self.assertEqual(assessment.status, 'READY')
+        self.assertEqual([r.text for r in assessment.requirements], ['Python', 'AWS'])
+        stored = self.stored(assessment)
+        before = copy.deepcopy(stored.explanation)
+        view = hr_review_snapshot(stored)
+        self.assertEqual(view['assessmentStatus'], 'PENDING_REVIEW')
+        self.assertEqual([r['text'] for r in view['requirements']], ['Python', 'AWS'])
+        self.assertEqual(view['planContentSha256'], content_digest(plan))
+        self.assertEqual(stored.explanation, before)
+        stored.explanation['ai1Assessment']['fixedPlan']['sources'][1]['selected'] = False
+        self.assertEqual(hr_review_snapshot(stored)['assessmentStatus'], 'UNAVAILABLE')
+
     def test_runtime_span_maps_through_ai1_to_hr_with_full_parent_quote(self):
         self.job = self.job.model_copy(update={'requirements': 'Design reliable distributed services using Python'})
         sentence = 'Designed reliable distributed services using Python for customer workloads.'

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -111,6 +112,7 @@ export class RequirementPlanService {
       const result = await this.contract.call('draft', {
         job: this.snapshot(job),
         revision: (previous?.revision ?? 0) + 1,
+        ...(dto.schemaVersion ? { schema_version: dto.schemaVersion } : {}),
       });
       await this.saveRevision(manager, job, user, result, 'CREATED');
       return result;
@@ -121,13 +123,21 @@ export class RequirementPlanService {
     return this.owned(user, id, async (manager, job) => {
       const previous = await this.latest(manager, job);
       this.assertExpected(previous, dto.expectedContentSha256);
+      const v2 = previous.document.schema_version === 'jd-source-query-v2';
+      if (
+        v2
+          ? !dto.sources || dto.requirements !== undefined
+          : !dto.requirements || dto.sources !== undefined
+      )
+        throw new BadRequestException('Edit fields must match the stored plan schema');
       const draft = await this.contract.call('draft', {
         job: this.snapshot(job),
         revision: previous.revision + 1,
+        ...(v2 ? { schema_version: 'jd-source-query-v2' } : {}),
       });
       const document: PlanDocument = {
         ...draft.plan!,
-        requirements: dto.requirements,
+        ...(v2 ? { sources: dto.sources } : { requirements: dto.requirements }),
         approval: null,
       };
       const result = await this.contract.call('validate', {
@@ -152,6 +162,21 @@ export class RequirementPlanService {
       if (inspected.status === 'HR_CONFIRMED') return inspected;
       if (inspected.status !== 'DRAFT')
         throw new ConflictException('Only an unconfirmed draft can be confirmed');
+      if (
+        row.document.schema_version === 'jd-source-query-v2' &&
+        inspected.query_budget?.status !== 'READY'
+      )
+        throw new BadRequestException({
+          message:
+            inspected.query_budget?.status === 'TOO_LONG'
+              ? 'Split the indicated source quotes before confirming; selected queries exceed the M1 token limit'
+              : 'Query token validation unavailable; retry when the pinned tokenizer is configured',
+          code:
+            inspected.query_budget?.status === 'TOO_LONG'
+              ? 'QUERY_TOKEN_LIMIT_EXCEEDED'
+              : 'QUERY_TOKEN_CHECK_UNAVAILABLE',
+          queryBudget: inspected.query_budget,
+        });
       const eventId = randomUUID();
       const document: PlanDocument = {
         ...row.document,

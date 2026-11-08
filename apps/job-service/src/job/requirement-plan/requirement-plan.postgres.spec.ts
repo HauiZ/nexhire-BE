@@ -220,7 +220,9 @@ suite('Local-only JD plan PostgreSQL and trusted read integration', () => {
       'from types import SimpleNamespace',
       'from fastapi import FastAPI',
       'import app.api.jd_plans as plans',
-      "plans.get_settings=lambda: SimpleNamespace(internal_service_token=os.environ['PLAN_TEST_TOKEN'])",
+      'from pathlib import Path',
+      'settings=SimpleNamespace(internal_service_token=os.environ["PLAN_TEST_TOKEN"],ai1_manifest_path=str(Path("../../trainning/ai1/exports/kaggle-ranking-v1/shadow-ranking-retention.json").resolve()),ai1_manifest_sha256="bdfc4c0aef381cc73de2447251a27d4f1381f3787606833f79657931190620d4")',
+      'plans.get_settings=lambda: settings',
       'sock=socket.socket()',
       "sock.bind(('127.0.0.1',0))",
       'sock.listen(128)',
@@ -271,11 +273,20 @@ suite('Local-only JD plan PostgreSQL and trusted read integration', () => {
     } as ConfigService;
     service = new RequirementPlanService(source, new PlanContractClient(new HttpService(), config));
     const module = await Test.createTestingModule({
-      controllers: [RequirementPlanController, InternalRequirementPlanController, JobInternalController],
+      controllers: [
+        RequirementPlanController,
+        InternalRequirementPlanController,
+        JobInternalController,
+      ],
       providers: [
         { provide: RequirementPlanService, useValue: service },
         // Uses the real snapshot method and repository; unrelated job workflows are not booted.
-        { provide: JobService, useValue: Object.assign(Object.create(JobService.prototype), { jobRepo: source.getRepository(Job) }) },
+        {
+          provide: JobService,
+          useValue: Object.assign(Object.create(JobService.prototype), {
+            jobRepo: source.getRepository(Job),
+          }),
+        },
         { provide: ConfigService, useValue: config },
         { provide: APP_GUARD, useClass: InternalAuthGuard },
         { provide: APP_GUARD, useClass: RolesGuard },
@@ -360,6 +371,38 @@ suite('Local-only JD plan PostgreSQL and trusted read integration', () => {
       .send({ expectedContentSha256: edited.body.data.content_sha256 })
       .expect(409);
     expect(updated.status).toBe('PUBLISHED');
+  }, 30000);
+
+  it('persists opt-in v2 source selection and matching reads exact HR confirmation', async () => {
+    const job = await fixture();
+    job.requirements = 'Requirements: Node.js\nPreferred: Docker';
+    job.benefits = 'Insurance';
+    await source.getRepository(Job).save(job);
+    const draft = await service.createDraft(hr, job.id, {
+      expectedLatestRevision: 0,
+      schemaVersion: 'jd-source-query-v2',
+    });
+    expect(draft.plan!.schema_version).toBe('jd-source-query-v2');
+    const edited = await service.edit(hr, job.id, {
+      expectedContentSha256: draft.content_sha256!,
+      sources: draft.plan!.sources!,
+    });
+    await service.confirm(hr, job.id, { expectedContentSha256: edited.content_sha256! });
+    expect(await matchingRead(job)).toMatchObject({ status: 'HR_CONFIRMED', confirmed: true });
+    const saved = await source
+      .getRepository(JobRequirementPlan)
+      .findOneByOrFail({ jobId: job.id, revision: 2 });
+    expect(
+      saved.document
+        .sources!.filter((s) => s.selected)
+        .flatMap((s) => s.components.map((c) => c.query)),
+    ).toEqual(['Node.js', 'Docker']);
+    expect(saved.document.sources!.some((s) => s.source_field === 'benefits' && !s.selected)).toBe(
+      true,
+    );
+    job.benefits = 'Changed';
+    await source.getRepository(Job).save(job);
+    expect(await matchingRead(job)).toMatchObject({ status: 'STALE', confirmed: false });
   }, 30000);
 
   it('serializes two HR draft creations; one wins and the other receives a conflict', async () => {
@@ -480,41 +523,74 @@ suite('Local-only JD plan PostgreSQL and trusted read integration', () => {
   });
 
   const modelFlow = process.env.RUN_JD_PLAN_MODEL_FLOW === '1' ? it : it.skip;
-  modelFlow('runs real API enqueue/worker/model/result flow on synthetic CVs with fixed plans', async () => {
-    const job = await fixture();
-    await source.getRepository(Job).update(job.id, {
-      title: 'Backend platform engineer',
-      requirements: 'Administer PostgreSQL databases and deploy services on AWS.',
-      workingType: 'REMOTE' as Job['workingType'], experienceLevel: 'JUNIOR' as Job['experienceLevel'], location: 'Ha Noi',
-    });
-    const result = await new Promise<string>((resolve, reject) => {
-      const child = spawn(python, ['-B', path.resolve('training/ai1/run_local_worker_flow.py')], {
-        cwd: path.resolve('apps/matching-service'), windowsHide: true,
-        env: { ...process.env, NODE_ENV: 'test', DB_HOST: settings.DB_HOST, DB_PORT: settings.DB_PORT,
-          DB_SSL: 'false', MATCHING_SERVICE_DB_NAME: database,
-          MATCHING_SERVICE_DB_USER: settings.JOB_SERVICE_DB_USER, MATCHING_SERVICE_DB_PASS: settings.JOB_SERVICE_DB_PASS,
-          INTERNAL_SERVICE_TOKEN: settings.INTERNAL_SERVICE_TOKEN, JOB_SERVICE_URL: appUrl },
-        stdio: ['pipe', 'pipe', 'pipe'],
+  modelFlow(
+    'runs real API enqueue/worker/model/result flow on synthetic CVs with fixed plans',
+    async () => {
+      const job = await fixture();
+      await source.getRepository(Job).update(job.id, {
+        title: 'Backend platform engineer',
+        requirements: 'Administer PostgreSQL databases and deploy services on AWS.',
+        workingType: 'REMOTE' as Job['workingType'],
+        experienceLevel: 'JUNIOR' as Job['experienceLevel'],
+        location: 'Ha Noi',
       });
-      let output = '', error = '';
-      const timer = setTimeout(() => { child.kill(); reject(new Error('Local model flow timed out')); }, 220000);
-      child.stdout.on('data', (chunk) => { output += chunk.toString(); });
-      child.stderr.on('data', (chunk) => { error += chunk.toString(); });
-      child.once('error', () => { clearTimeout(timer); reject(new Error('Local model flow could not start')); });
-      child.once('close', (code) => {
-        clearTimeout(timer);
-        if (code !== 0) {
-          for (const key of ['INTERNAL_SERVICE_TOKEN', 'JOB_SERVICE_DB_PASS']) error = error.split(settings[key]).join('[redacted]');
-          reject(new Error('Local model flow failed: ' + error.slice(-5000)));
-        } else resolve(output);
+      const result = await new Promise<string>((resolve, reject) => {
+        const child = spawn(
+          python,
+          ['-B', path.resolve('trainning/ai1/run_local_worker_flow.py')],
+          {
+            cwd: path.resolve('apps/matching-service'),
+            windowsHide: true,
+            env: {
+              ...process.env,
+              NODE_ENV: 'test',
+              DB_HOST: settings.DB_HOST,
+              DB_PORT: settings.DB_PORT,
+              DB_SSL: 'false',
+              MATCHING_SERVICE_DB_NAME: database,
+              MATCHING_SERVICE_DB_USER: settings.JOB_SERVICE_DB_USER,
+              MATCHING_SERVICE_DB_PASS: settings.JOB_SERVICE_DB_PASS,
+              INTERNAL_SERVICE_TOKEN: settings.INTERNAL_SERVICE_TOKEN,
+              JOB_SERVICE_URL: appUrl,
+            },
+            stdio: ['pipe', 'pipe', 'pipe'],
+          },
+        );
+        let output = '',
+          error = '';
+        const timer = setTimeout(() => {
+          child.kill();
+          reject(new Error('Local model flow timed out'));
+        }, 220000);
+        child.stdout.on('data', (chunk) => {
+          output += chunk.toString();
+        });
+        child.stderr.on('data', (chunk) => {
+          error += chunk.toString();
+        });
+        child.once('error', () => {
+          clearTimeout(timer);
+          reject(new Error('Local model flow could not start'));
+        });
+        child.once('close', (code) => {
+          clearTimeout(timer);
+          if (code !== 0) {
+            for (const key of ['INTERNAL_SERVICE_TOKEN', 'JOB_SERVICE_DB_PASS'])
+              error = error.split(settings[key]).join('[redacted]');
+            reject(new Error('Local model flow failed: ' + error.slice(-5000)));
+          } else resolve(output);
+        });
+        child.stdin.end(JSON.stringify({ job_id: job.id, hr_id: hr.id, company_id: hr.companyId }));
       });
-      child.stdin.end(JSON.stringify({ job_id: job.id, hr_id: hr.id, company_id: hr.companyId }));
-    });
-    const summary = JSON.parse(result.trim().split(/\r?\n/).pop()!);
-    const independentM1 = process.env.AI1_WORKER_TEST_BACKEND === 'local_m1';
-    expect(summary.requests_succeeded).toBe(independentM1 ? 10 : 6);
-    expect(summary.all_pending_hr_review).toBe(!independentM1);
-    expect(summary.all_candidates_unverified).toBe(true);
-    expect(summary.paid_api_calls).toBe(0);
-  }, 240000);
+      const summary = JSON.parse(result.trim().split(/\r?\n/).pop()!);
+      const independentM1 = process.env.AI1_WORKER_TEST_BACKEND === 'local_m1';
+      expect(summary.requests_succeeded).toBe(
+        independentM1 ? (process.env.AI1_WORKER_BURST_TEST === '1' ? 18 : 11) : 6,
+      );
+      expect(summary.all_pending_hr_review).toBe(!independentM1);
+      expect(summary.all_candidates_unverified).toBe(true);
+      expect(summary.paid_api_calls).toBe(0);
+    },
+    240000,
+  );
 });

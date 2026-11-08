@@ -18,12 +18,17 @@ export class PlanContractClient {
     if (!base || !token)
       throw new ServiceUnavailableException('JD plan validator is not configured');
     try {
+      const payload = body as { schema_version?: string; plan?: { schema_version?: string } };
+      const v2 = (payload.plan?.schema_version ?? payload.schema_version) === 'jd-source-query-v2';
       const response = await firstValueFrom(
         this.http.post<{ success: boolean; data: PlanInspection }>(
-          `${base}/api/v1/internal/jd-plans/${operation}`,
+          `${base}/api/v1/internal/jd-plans/${v2 ? 'v2/' : ''}${operation}`,
           body,
           {
-            timeout: this.config.get<number>('jobService.http.timeoutMs', 5000),
+            // First v2 preflight imports and verifies the pinned local tokenizer.
+            timeout: v2
+              ? Math.max(this.config.get<number>('jobService.http.timeoutMs', 5000), 30000)
+              : this.config.get<number>('jobService.http.timeoutMs', 5000),
             headers: { [HEADERS.INTERNAL_SERVICE_TOKEN]: token },
           },
         ),

@@ -30,6 +30,22 @@ class JdPlanApiTests(unittest.TestCase):
     def post(self, operation, body):
         return self.client.post('/api/v1/internal/jd-plans/' + operation, json=body, headers=self.headers)
 
+    def test_v2_draft_validate_and_token_boundary(self):
+        body = {'job': {**self.job, 'requirements': 'Requirements: SQL\nPreferred: Docker',
+                        'benefits': 'Insurance'}, 'revision': 1}
+        url = '/api/v1/internal/jd-plans/v2/draft'
+        self.assertEqual(self.client.post(url, json=body).status_code, 403)
+        response = self.post('v2/draft', body)
+        self.assertEqual(response.status_code, 200)
+        data = response.json()['data']
+        self.assertTrue(data['runtime_compatible'])
+        self.assertEqual([c['query'] for s in data['plan']['sources'] for c in s['components']], ['SQL', 'Docker'])
+        self.assertEqual(self.post('v2/validate', {'job': body['job'], 'plan': data['plan']}).status_code, 200)
+        data['plan']['sources'].reverse()
+        self.assertEqual(self.post('v2/validate', {'job': body['job'], 'plan': data['plan']}).status_code, 422)
+        self.assertEqual(self.client.post('/api/v1/internal/jd-plans/v2/validate',
+            json={'job': body['job'], 'plan': data['plan']}).status_code, 403)
+
     def test_all_operations_require_internal_token(self):
         for operation in ('draft', 'inspect', 'validate'):
             self.assertEqual(self.client.post('/api/v1/internal/jd-plans/' + operation,

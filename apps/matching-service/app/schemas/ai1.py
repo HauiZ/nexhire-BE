@@ -5,6 +5,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.schemas.jd_plan import JobRequirementPlan
+from app.schemas.jd_plan_v2 import JobQueryPlan
 
 
 RetrievalStatus = Literal['NO_EVIDENCE', 'SCORER_UNAVAILABLE', 'REVIEW_REQUIRED',
@@ -69,7 +70,7 @@ class Ai1Assessment(EvidenceModel):
     weightsSha256: str | None = Field(default=None, pattern=r'^[a-f0-9]{64}$')
     manifestSha256: str | None = Field(default=None, pattern=r'^[a-f0-9]{64}$')
     planStatus: Literal['UNPREPARED', 'DRAFT', 'HR_CONFIRMED', 'ASSISTANT_REVIEWED', 'STALE', 'UNAVAILABLE', 'INVALID']
-    fixedPlan: JobRequirementPlan | None = None
+    fixedPlan: JobRequirementPlan | JobQueryPlan | None = None
     requirements: tuple[Ai1Requirement, ...] = ()
     truncatedTexts: int = Field(default=0, ge=0)
     candidateSupportVerified: Literal[False] = False

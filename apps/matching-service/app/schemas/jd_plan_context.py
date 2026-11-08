@@ -5,12 +5,19 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict
 
 from app.schemas.jd_plan import JobRequirementPlan, content_digest, snapshot_digest, validate_plan
+from app.schemas.jd_plan_v2 import JobQueryPlan, validate_query_plan
+
+
+def parse_bound_plan(value, job):
+    if isinstance(value, dict) and value.get('schema_version') == 'jd-source-query-v2':
+        return validate_query_plan(JobQueryPlan.model_validate(value), job)
+    return validate_plan(JobRequirementPlan.model_validate(value), job)
 
 
 class JobPlanContext(BaseModel):
     model_config = ConfigDict(frozen=True, extra='forbid')
     status: Literal['UNPREPARED', 'DRAFT', 'HR_CONFIRMED', 'ASSISTANT_REVIEWED', 'STALE', 'UNAVAILABLE', 'INVALID']
-    plan: JobRequirementPlan | None = None
+    plan: JobRequirementPlan | JobQueryPlan | None = None
     reason: str
     candidate_support_verified: Literal[False] = False
     publishing_blocked: Literal[False] = False
@@ -35,8 +42,7 @@ def inspect_trusted_plan(value, job):
     if state not in {'DRAFT', 'HR_CONFIRMED', 'ASSISTANT_REVIEWED'}:
         return JobPlanContext(status='INVALID', reason='UNEXPECTED_PLAN_STATE')
     try:
-        plan = JobRequirementPlan.model_validate(value.get('plan'))
-        validate_plan(plan, job)
+        plan = parse_bound_plan(value.get('plan'), job)
         if value.get('content_sha256') != content_digest(plan):
             raise ValueError('Content binding mismatch')
         expected = ('HR_CONFIRMED' if plan.approval and plan.approval.origin == 'authenticated_hr'

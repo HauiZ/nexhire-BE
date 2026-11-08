@@ -54,9 +54,27 @@ def _hits(match):
 def assess_local(runtime, settings, job, candidate, context):
     plan = context.confirmed_plan
     if plan:
-        validate_plan(plan, job)
+        if plan.schema_version == 'jd-source-query-v2':
+            from app.schemas.jd_plan_v2 import validate_query_plan
+            validate_query_plan(plan, job)
+        else:
+            validate_plan(plan, job)
         if plan.approval is None or plan.approval.origin != 'authenticated_hr':
             raise ValueError('Only the trusted current HR-confirmed plan may drive components')
+    if plan and plan.schema_version == 'jd-source-query-v2':
+        from app.matching.query_plan import retrieve_query_plan
+        result = retrieve_query_plan(runtime, job, candidate, plan)
+        requirements = tuple(Ai1Requirement(
+            requirementId=f"{q['source_id']}/{q['component_id']}", text=q['query'],
+            retrievalStatus=q['retrieval_status'], evidence=tuple(Ai1Hit(
+                evidenceId=h['id'], source=h['source'], text=h['text'],
+                similarityScore=h['comparison_score'], reasonCodes=h.get('reason_codes', ()),
+                relevantSpan=h.get('relevant_span')) for h in q['evidence']))
+            for q in result['queries'])
+        return Ai1Assessment(**_common(job, candidate, context), status='READY', backend='local_m1',
+            reason='RETRIEVED_EVIDENCE_REQUIRES_HR_REVIEW', modelVersion=runtime.model_version,
+            weightsSha256=runtime.manifest['weights_sha256'], manifestSha256=settings.ai1_manifest_sha256,
+            fixedPlan=plan, requirements=requirements, truncatedTexts=result['truncated_texts'])
     result = _matches(runtime, job, candidate)
     components, truncated = {}, result['diagnostics']['truncated_texts']
     if plan:
@@ -95,6 +113,7 @@ async def assess_ai1(settings, job, candidate, context):
     if settings.node_env not in {'development', 'test'}:
         return Ai1Assessment(**common, status='UNAVAILABLE', backend='local_m1',
             reason='SHADOW_MANIFEST_NOT_APPROVED_FOR_PRODUCTION')
+    from app.matching.query_plan import QueryTokenLimitError
     try:
         if backend != 'local_m1' or not settings.ai1_manifest_path or not settings.ai1_manifest_sha256:
             raise ValueError('Explicit AI1 backend and pinned manifest required')
@@ -102,6 +121,9 @@ async def assess_ai1(settings, job, candidate, context):
             runtime = load_backend(settings.ai1_manifest_path, settings.ai1_manifest_sha256)
             return assess_local(runtime, settings, job, candidate, context)
         return await asyncio.to_thread(infer)
+    except QueryTokenLimitError:
+        return Ai1Assessment(**common, status='UNAVAILABLE', backend='local_m1',
+            reason='QUERY_TOKEN_LIMIT_EXCEEDED_SPLIT_SOURCE_QUOTES')
     except Exception:
         # Optional inference failure is explicit; no lexical or verifier fallback,
         # no exception text/paths/private input in persisted errors, no queue retry.
