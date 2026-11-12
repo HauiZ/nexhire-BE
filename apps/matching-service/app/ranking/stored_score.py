@@ -31,6 +31,11 @@ def score_stored_result(result, predictor, *, pool_reference_date=None):
                 or snapshots.candidate.candidateId != identity['candidateId']
                 or snapshots.candidate.candidateCvId != identity['candidateCvId']):
             raise ValueError('stored application identity mismatch')
+        # This frozen artifact was trained on whole-source v1 aggregates. Do
+        # not reinterpret selected v2 queries as equivalent observations.
+        if assessment.fixedPlan is not None and assessment.fixedPlan.schema_version == 'jd-source-query-v2':
+            return dict(common, status='UNAVAILABLE', score=None,
+                        reason='SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED')
         reference = explanation['scoreReferenceDate']
         if pool_reference_date is not None:
             from datetime import date

@@ -2,6 +2,8 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DocumentClientModule } from '../document-client/document-client.module';
+import { PreparationController } from './preparation.controller';
+import { PreparationService } from './preparation.service';
 import { AuthClientService } from './auth-client.service';
 import { CandidateController } from './candidate.controller';
 import { CandidateInternalController } from './candidate-internal.controller';
@@ -30,8 +32,14 @@ import { CandidateEventPublisher } from './events/candidate-event.publisher';
       CandidateCv,
     ]),
   ],
-  controllers: [CandidateController, CandidateInternalController],
-  providers: [CandidateService, AuthClientService, CandidateEventPublisher, CvParseEventsConsumer],
+  controllers: [CandidateController, CandidateInternalController, PreparationController],
+  providers: [
+    CandidateService,
+    PreparationService,
+    AuthClientService,
+    CandidateEventPublisher,
+    CvParseEventsConsumer,
+  ],
   exports: [CandidateService],
 })
 export class CandidateModule {}

@@ -22,6 +22,20 @@ class QueryPlanTests(unittest.TestCase):
                           'Docker', 'Build APIs.', 'Insurance'])
         self.assertTrue(all(s.source_id.startswith('v2/') for s in plan.sources))
 
+    def test_pasted_heading_markers_do_not_become_queries(self):
+        job = self.job().model_copy(update={
+            'skills': [], 'requirements': '▪ Required qualifications\nNo payroll experience required.\n'
+                                        '▪ Preferred: Excel',
+        })
+        plan = draft_query_plan(job)
+        self.assertEqual([c.query for s in plan.sources for c in s.components],
+                         ['No payroll experience required.', 'Excel'])
+        self.assertEqual([c.importance for s in plan.sources for c in s.components],
+                         ['core', 'preferred'])
+        self.assertEqual(plan.sources[0].original_text, '▪ Required qualifications')
+        self.assertEqual(plan.sources[2].original_text, '▪ Preferred:')
+        validate_query_plan(plan, job)
+
     def test_saved_v2_document_roundtrip(self):
         from app.schemas.jd_plan_v2 import JobQueryPlan
         job = self.job(); plan = draft_query_plan(job)

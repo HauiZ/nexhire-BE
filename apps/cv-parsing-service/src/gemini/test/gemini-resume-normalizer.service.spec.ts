@@ -7,6 +7,62 @@ describe('GeminiResumeNormalizerService', () => {
     service = new GeminiResumeNormalizerService();
   });
 
+  it('omits unnamed skills instead of inventing retrieval evidence', () => {
+    const result = service.normalize({
+      skills: [
+        null,
+        {},
+        { level: 'advanced' },
+        '',
+        '  ',
+        42,
+        { name: ' ' },
+        ' SQL ',
+        { name: 'sql' },
+        { name: 'Python', yearsOfExperience: '2' },
+      ],
+    });
+
+    expect(result.skills).toEqual([
+      { name: 'SQL' },
+      { name: 'Python', level: undefined, yearsOfExperience: 2 },
+    ]);
+  });
+
+  it('does not let malformed skill entries consume the valid-skill limit', () => {
+    const result = service.normalize({
+      skills: [
+        ...Array.from({ length: 40 }, () => ({})),
+        ...Array.from({ length: 41 }, (_, i) => `Skill ${i}`),
+      ],
+    });
+
+    expect(result.skills).toHaveLength(40);
+    expect(result.skills[0].name).toBe('Skill 0');
+    expect(result.skills[39].name).toBe('Skill 39');
+  });
+
+  it('preserves descriptions, negation and employment associations', () => {
+    const description = 'No payroll ownership.\n• Assisted reconciliation only.';
+    const result = service.normalize({
+      experiences: [
+        { companyName: 'Company A', position: 'Assistant', description },
+        { companyName: 'Company B', position: 'Analyst', description: 'Owned reporting.' },
+      ],
+    });
+
+    expect(result.experiences[0]).toMatchObject({
+      companyName: 'Company A',
+      position: 'Assistant',
+      description,
+    });
+    expect(result.experiences[1]).toMatchObject({
+      companyName: 'Company B',
+      position: 'Analyst',
+      description: 'Owned reporting.',
+    });
+  });
+
   it('normalizes Gemini JSON into the shared ParsedResume shape', () => {
     const result = service.normalize({
       profile: {

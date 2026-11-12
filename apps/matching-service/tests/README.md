@@ -1,5 +1,17 @@
 # Matching-service regression tests
 
+## Private candidate preparation (2026-11-09)
+
+`test_candidate_preparation.py` covers public requirement selection, source-only output, internal token rejection, oversized/malformed parse input, query-token limits, disabled AI and busy-inference rejection. Full Python regression receipt: 617 passed, 2 skipped.
+
+The opt-in cross-repository browser integration is launched from BE root:
+
+```sh
+RUN_CANDIDATE_BROWSER_TEST=1 npx jest --runInBand --runTestsByPath apps/candidate-service/src/candidate/test/preparation.browser.spec.ts
+```
+
+Requires the existing matching venv, pinned local M1 bundle, sibling Nexthire-FE dependencies and installed Chrome. It runs actual Nest preparation controller/service and FastAPI/M1, with synthetic ownership/public-job/parse-storage dependencies and internal identity headers (not real JWT/DB/upload/parser E2E). It checks identity/role/UUID rejection, private source display, recheck and mobile overflow. No provider calls, DB migration or application persistence. Screenshot is temporary under FE node_modules/.tmp.
+
 The 13 test modules here protect the current API/worker, M1 evidence retrieval,
 HR projection, JD plans, snapshot boundaries and the original model-readiness
 contracts. Offline scorer/ranking preparation tests remain for reproducibility;

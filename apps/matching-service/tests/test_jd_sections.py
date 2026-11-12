@@ -74,6 +74,23 @@ class JdSectionTests(unittest.TestCase):
                                   '<li>.NET 8.</li></ul></li></ul>')
         self.assertEqual([b.text for b in blocks], ['Build services using:', 'Node.js 22.', '.NET 8.'])
 
+    def test_word_pdf_bullets_preserve_heading_context(self):
+        for bullet in ('▪', '◦', '●', '‣', '–', '—'):
+            with self.subTest(bullet=bullet):
+                blocks = suggest_sections(f'{bullet} Required qualifications\n'
+                                          f'{bullet} No prior payroll experience required.\n'
+                                          f'{bullet} Preferred: Excel')
+                self.assertEqual([(b.text, b.importance) for b in blocks if b.role == 'query'],
+                                 [(f'{bullet} No prior payroll experience required.', 'core'),
+                                  ('Excel', 'preferred')])
+                self.assertEqual(blocks[0].text, f'{bullet} Required qualifications')
+                self.assertEqual(blocks[2].text, f'{bullet} Preferred:')
+                self.assertEqual(blocks[-1].heading_index, 2)
+
+    def test_dashes_inside_task_text_are_not_removed(self):
+        text = 'Manage month-end close — including reconciliation.'
+        self.assertEqual(suggest_sections(text)[0].text, text)
+
     def test_v1_extractor_unchanged(self):
         self.assertEqual(source_blocks('Requirements:\nNode.js\nPreferred:\nDocker'),
                          ['Requirements:', 'Node.js', 'Preferred:', 'Docker'])

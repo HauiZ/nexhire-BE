@@ -46,7 +46,14 @@ export class ProxyService {
           params: req.query,
           maxBodyLength: Infinity,
           maxContentLength: Infinity,
-          timeout: service === 'cvParsingService' || service === 'matchingService' ? 30_000 : 5_000,
+          timeout:
+            service === 'candidateService' &&
+            req.method === 'POST' &&
+            /^\/api\/v1\/candidates\/me\/cvs\/[^/]+\/jobs\/[^/]+\/preparation$/.test(req.path)
+              ? 85_000
+              : service === 'cvParsingService' || service === 'matchingService'
+                ? 30_000
+                : 5_000,
           headers: {
             'content-type': contentType,
             [HEADERS.REQUEST_ID]: (req.headers[HEADERS.REQUEST_ID] as string) ?? '',

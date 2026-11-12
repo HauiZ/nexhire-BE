@@ -38,6 +38,21 @@ def test_pool_common_date_preserves_frozen_chronology_and_saved_inputs():
         assert score_stored_result(second, Predictor(), pool_reference_date=invalid)['status'] == 'UNAVAILABLE'
 
 
+def test_v2_feature_incompatibility_is_explicit_and_never_calls_predictor():
+    from unittest.mock import Mock
+    from app.schemas.jd_plan_v2 import draft_query_plan
+    value = result()
+    _, job, _ = bundle()
+    value.explanation['ai1Assessment']['fixedPlan'] = draft_query_plan(job).model_dump(mode='json')
+    predictor = Mock()
+    output = score_stored_result(value, predictor)
+    assert output['status'] == 'UNAVAILABLE'
+    assert output['reason'] == 'SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED'
+    assert output['score'] is None
+    assert output['rankingPosition'] is None
+    predictor.score.assert_not_called()
+
+
 def test_disabled_does_not_read_explanation():
     value = result()
     value.explanation = None

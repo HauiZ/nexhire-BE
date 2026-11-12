@@ -137,6 +137,36 @@ describe('CandidateService', () => {
     );
   });
 
+  it('reads preparation ownership without creating profiles or resolving contact data', async () => {
+    profileRepo.findOne.mockResolvedValue(createProfile());
+    cvRepo.findOne.mockResolvedValue({ documentId: 'doc', parseStatus: 'PARSED' });
+    await expect(service.getPreparationSource('user-1', 'cv-1')).resolves.toEqual({
+      candidateId: 'candidate-1',
+      cvDocumentId: 'doc',
+    });
+    expect(cvRepo.findOne.mock.calls[0][0].where).toMatchObject({
+      id: 'cv-1',
+      candidateId: 'candidate-1',
+    });
+    expect(profileRepo.save).not.toHaveBeenCalled();
+    expect(cvRepo.update).not.toHaveBeenCalled();
+    expect(authClientService.getUserEmail).not.toHaveBeenCalled();
+  });
+
+  it('rejects missing ownership and non-parsed CVs without writes', async () => {
+    profileRepo.findOne.mockResolvedValue(null);
+    await expect(service.getPreparationSource('foreign', 'cv')).rejects.toThrow(
+      'Candidate CV not found',
+    );
+    expect(cvRepo.findOne).not.toHaveBeenCalled();
+    profileRepo.findOne.mockResolvedValue(createProfile());
+    cvRepo.findOne.mockResolvedValue({ parseStatus: 'PROCESSING' });
+    await expect(service.getPreparationSource('user-1', 'cv')).rejects.toThrow(
+      'Parse your selected CV',
+    );
+    expect(profileRepo.save).not.toHaveBeenCalled();
+  });
+
   it('preserves matching evidence and source IDs in the v2 profile snapshot', async () => {
     profileRepo.findOne.mockResolvedValue(createProfile());
     skillRepo.find.mockResolvedValue([

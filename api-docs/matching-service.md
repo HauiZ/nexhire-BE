@@ -1,5 +1,11 @@
 # Matching Service API Docs
 
+## Internal candidate preparation (2026-11-09)
+
+`POST /api/v1/internal/candidate-preparation` requires internal service token, not public gateway exposure. Body: job(JobMatchingSnapshot public fields only),candidate_id(UUID),candidate_cv_id(UUID),parsed_resume(existing normalized payload). Candidate-service must enforce ownership/public visibility and parse/document binding before calling; this internal API does not itself establish end-user ownership. Does not read HR plans, persist matching/application data or call a provider.
+
+Returns success/data private candidate-preparation-v1 (see candidate-service docs). Requires configured pinned local M1 and dev/test mode;503if unavailable,422if input/query/workload bounds invalid. Same source-quote validation as M1 evidence runtime, but no scores/fit/support judgments exposed. Max 32 queries, 256 normalized query tokens, 100000 serialized public-JD characters, 150000 serialized CV characters and 100 records per parsed section. One preparation inference per process; concurrent requests receive 503 rather than an unbounded queue. Model runtime evidence bounds also apply. No lexical fallback or automatic long-window handling.
+
 ## Internal source/query plan v2 preparation (2026-11-05)
 
 Separate from existing `/internal/jd-plans/draft|inspect|validate` v1 endpoints:
@@ -16,6 +22,17 @@ Success envelope `success/data`: `status` UNPREPARED/DRAFT/STALE/HR_CONFIRMED/AS
 `plan.schema_version="jd-source-query-v2"`, `job_id`, `job_snapshot_sha256`, `revision`, `sources` (1–256), `approval` (null or existing approval shape). Each source has `source_id` (v2 namespace), `source_field` skills/requirements/description/benefits, `original_text`, immutable `suggested_role` heading/query/review, strict boolean `selected`, and `components` (0–8). Unselected sources have no components; selected sources have at least one. Components use existing id/query/source_quote/importance fields; v2 requires query=source_quote and an exact single-block substring of original_text. Total selected components1–64. All sources/roles/order must match deterministic extraction. HR may override selection without changing provenance; approval binds the complete source/selection document and snapshot. No implicit migration of v1 IDs or approvals.
 
 Structured HR fields take precedence: skills plus requirements supply default queries; description is fallback; benefits are retained but not selected automatically. Known headings/colon prefixes are retained and not selected. No encoder inference or automatic sentence splitting occurs. V2 responses include `query_budget:{status:READY|TOO_LONG|UNAVAILABLE|NOT_APPLICABLE,limit:256,issues:[{source_id,component_id,tokens,code:QUERY_TOKEN_LIMIT_EXCEEDED}]}`. Counts use the manifest/hash-verified local tokenizer and runtime text normalization, with special tokens and no truncation; no download/fallback. Draft/unapproved validation remains saveable when TOO_LONG/UNAVAILABLE; approved validation rejects a non-READY budget. Missing tokenizer is explicit UNAVAILABLE, not an estimated token count. Budget metadata is outside the signed plan and does not change its content hash. A5000-character bound is not a token-fit guarantee. The separate Python retrieval entry point rejects queries above256 pinned-model tokens before inference and requires HR confirmation. Opt-in v2 plans are loaded through trusted job-service context; the local-M1 adapter retrieves only selected components, and stored HR review verifies source/approval binding and projects the selected queries. Existing v1 remains default. Node-to-Python HTTP tests use in-memory storage, not PostgreSQL; Python adapter/archive tests and a pinned-model synthetic smoke are not full live worker/UI acceptance.
+
+## AI2 feature compatibility diagnostics (2026-11-11)
+
+Stored individual AI2 demo reads return `UNAVAILABLE`, null score and reason
+`SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED` when the assessment contains a v2
+source/query plan. The frozen artifact accepts whole-source v1 aggregates only;
+no query reinterpretation, fallback or model call is performed for v2 inputs.
+Recruiter projection forwards only this code and
+`STORED_INPUT_OR_ASSESSMENT_INCOMPATIBLE`; arbitrary downstream reason text is
+not forwarded. Pool reads retain the all-or-none `RESULTS_NOT_READY` behavior.
+No quality gate or default activation changes.
 
 ## Experimental AI2 read contracts (2026-11-02)
 

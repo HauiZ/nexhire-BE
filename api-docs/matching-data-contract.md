@@ -1,5 +1,14 @@
 # Matching / Dataset Data Contract
 
+## Pasted JD heading markers (2026-11-11)
+
+V2 section suggestions recognize known standalone/colon-delimited headings after
+Word/PDF markers `▪ ◦ ● ‣ – —`, using a lookup key only. Source heading text and
+query quotes remain exact; internal dashes and v1 extraction are unchanged.
+Affected stored v2 documents may require a newly reviewed revision because source
+roles are validated; existing approvals are not silently migrated. No model,
+ranking, schema or production-gate change is implied.
+
 ## Additive sentence reading assistance (2026-11-04)
 
 AI1 hits and HR-review evidence may include optional `relevantSpan: string | null`.

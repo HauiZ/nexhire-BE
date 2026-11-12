@@ -26,7 +26,11 @@ export class GeminiResumeNormalizerService {
         portfolioUrl: this.pickString(profile.portfolioUrl),
         linkedinUrl: this.pickString(profile.linkedinUrl),
       },
-      skills: this.uniqueSkills(this.array(root.skills).map((item) => this.normalizeSkill(item))),
+      skills: this.uniqueSkills(
+        this.array(root.skills)
+          .map((item) => this.normalizeSkill(item))
+          .filter((skill): skill is ParsedResumeSkill => skill !== undefined),
+      ),
       experiences: this.array(root.experiences).map((item) => this.normalizeExperience(item)),
       educations: this.array(root.educations).map((item) => this.normalizeEducation(item)),
       certifications: this.array(root.certifications).map((item) =>
@@ -36,13 +40,18 @@ export class GeminiResumeNormalizerService {
     };
   }
 
-  private normalizeSkill(item: unknown): ParsedResumeSkill {
+  private normalizeSkill(item: unknown): ParsedResumeSkill | undefined {
     if (typeof item === 'string') {
-      return { name: item.trim() || 'Unknown skill' };
+      const name = this.pickString(item);
+      return name ? { name } : undefined;
     }
     const record = this.asRecord(item);
+    const name = this.pickString(record.name);
+    if (!name) {
+      return undefined;
+    }
     return {
-      name: this.pickString(record.name) ?? 'Unknown skill',
+      name,
       level: this.pickString(record.level),
       yearsOfExperience: this.pickNumber(record.yearsOfExperience),
     };

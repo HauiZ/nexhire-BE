@@ -514,6 +514,9 @@ export class ApplicationService {
       scoreMeaning: score.scoreMeaning, experimental: true,
       rankingPosition: null, automaticallyReject: false,
       hiringDecision: null, attributionStatus: 'UNAVAILABLE',
+      ...(score.status === 'UNAVAILABLE' &&
+        ['SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED', 'STORED_INPUT_OR_ASSESSMENT_INCOMPATIBLE'].includes(score.reason ?? '')
+        ? { reason: score.reason } : {}),
       ...(score.status === 'READY' ? {
         modelVersion: score.modelVersion,
         jobSnapshotSha256: score.jobSnapshotSha256,

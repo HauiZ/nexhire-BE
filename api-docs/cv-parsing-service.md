@@ -1,5 +1,14 @@
 # CV Parsing Service API Docs
 
+## Source-preserving Gemini skill normalization (2026-11-11)
+
+New Gemini parses omit blank/malformed skill entries without a nonblank name,
+rather than inserting `Unknown skill`. Filtering happens before the existing
+case-insensitive deduplication and 40-skill cap. Named skills and description text
+remain unchanged. No schema change, provider call, automatic reparse or historical
+row update is performed by this normalization change. Other provider paths are
+unchanged.
+
 ## Estimated usage pricing (2026-11-04)
 
 Configured compatibility-provider tariff for `OPENAI/gpt-6-luna`: USD2 per million

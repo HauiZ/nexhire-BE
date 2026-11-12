@@ -87,7 +87,10 @@ def suggest_sections(text: str) -> tuple[SectionBlock, ...]:
         if not line:
             continue
         prefix, separator, rest = line.partition(':')
-        matched = _LOOKUP.get(_key(prefix)) if separator else _LOOKUP.get(_key(line))
+        # Recognize pasted Word/PDF heading markers without rewriting source
+        # text or query quotes. Existing confirmed source bindings stay exact.
+        heading_key = re.sub(r'^[▪◦●‣–—]\s+', '', prefix if separator else line)
+        matched = _LOOKUP.get(_key(heading_key))
         if matched is not None:
             section = matched
             heading_index = len(result)

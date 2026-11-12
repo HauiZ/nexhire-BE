@@ -296,6 +296,29 @@ export class CandidateService {
     });
   }
 
+  /** Read-only ownership lookup for private preparation; never creates/updates a profile. */
+  async getPreparationSource(userId: string, candidateCvId: string) {
+    const profile = await this.profileRepo.findOne({ where: { userId } });
+    const cv = profile
+      ? await this.cvRepo.findOne({
+          where: { id: candidateCvId, candidateId: profile.id, deletedAt: IsNull() },
+        })
+      : null;
+    if (!profile || !cv) {
+      throw new BadRequestException({
+        code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
+        message: 'Candidate CV not found',
+      });
+    }
+    if (cv.parseStatus !== CandidateCvParseStatus.PARSED) {
+      throw new BadRequestException({
+        code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+        message: 'Parse your selected CV before preparation',
+      });
+    }
+    return { candidateId: profile.id, cvDocumentId: cv.documentId };
+  }
+
   async getApplicationSnapshot(
     userId: string,
     candidateCvId: string,

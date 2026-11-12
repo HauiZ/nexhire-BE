@@ -1,5 +1,19 @@
 # Candidate Service API Docs
 
+## Private job/CV preparation (2026-11-09)
+
+`POST /api/v1/candidates/me/cvs/:cvId/jobs/:jobId/preparation` requires candidate JWT via gateway. UUID parameters; selected non-deleted CV must belong to current user. No caller-supplied candidate identity, parsed CV or HR plan is accepted. Existing candidate gateway namespace forwards this route with an 85-second route-specific timeout (other candidate routes retain their existing budget).
+
+Uses public job detail (published/public visibility), latest existing parsed result bound to candidate/CV/document, then internal matching preparation. It does not call the parser/provider, substitute the current profile, create an application/result record, alter CV/profile or expose internal HR plans/notes. Candidate-service config reuses MATCHING_SERVICE_URL. The ownership lookup is read-only and requires CV parseStatus=PARSED. HTTP 200 returns the standard success/data envelope. Missing identity returns 401 (COMMON.UNAUTHENTICATED), non-candidate role 403 (COMMON.FORBIDDEN), invalid UUID/source/public job/parse state 400 (COMMON.VALIDATION_FAILED; missing owned CV uses APPLICATION.CV_NOT_FOUND), unavailable/busy model 503 (COMMON.SERVICE_UNAVAILABLE). Current local M1 dev/test production gate is retained.
+
+The parse-result request forwards the authenticated candidate user ID and CANDIDATE role alongside the internal service token, as required by cv-parsing-service's global identity guard and endpoint token guard. Ownership is checked before this call; returned candidate/CV/document bindings are checked afterwards.
+
+Dependency errors are distinguished without exposing internal URLs or credentials: 503 `CANDIDATE.PREPARATION_JOB_UNAVAILABLE` for public-job retrieval; 400 `CANDIDATE.PREPARATION_PARSE_MISSING` when the parsing service returns 404 for the saved result; 503 `CANDIDATE.PREPARATION_PARSE_UNAVAILABLE` for other parse-result dependency failures. A PARSED library status alone does not guarantee the parsing service can return its persisted result. These failures occur before M1 and must not all instruct users to parse again.
+
+All success fields below are required and non-null; requirements/evidence/warnings are arrays (evidence and warnings may be empty). Success data: schemaVersion=candidate-preparation-v1,status=READY,jobId,candidateCvId,jobSnapshotSha256,cvSnapshotSha256,private=true,applicationCreated=false,candidateSupportVerified=false,requirements[],warnings[]. Each requirement: requirement,importance,status(REVIEW_REFERENCES|NO_REFERENCE_FOUND),evidence[{id,source,text}],prompt. Up to32public queries and3source-exact references each. No fit/ATS score or competence verdict. Returned references require user review; absent references do not establish missing ability. Queries>256tokens or oversized inputs cannot be prepared automatically. CV context truncation is warned.
+
+FE JobDetail displays candidate-only CV selection, parse prerequisite, private evidence review, truthful clarification guidance, link to existing profile/CV editing and recheck. Results stay in component memory and invalidate on job/CV/user change. Existing CV editor/upload/parse operations remain separate; this feature does not rewrite CVs or compare persisted revisions. No paid-provider calls are triggered by checking.
+
 ## Matching Snapshot v2 Change Note (2026-10-08)
 
 Internal matching snapshots now emit `snapshotSchemaVersion=candidate-matching-v2`

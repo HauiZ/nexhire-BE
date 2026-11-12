@@ -1052,6 +1052,21 @@ describe('ApplicationService', () => {
   });
 
   it.each([
+    ['SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED', 'SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED'],
+    ['STORED_INPUT_OR_ASSESSMENT_INCOMPATIBLE', 'STORED_INPUT_OR_ASSESSMENT_INCOMPATIBLE'],
+    ['private/path/or/input', undefined],
+  ])('only forwards safe unavailable AI2 reason %s', async (reason, expected) => {
+    repo.findOne.mockResolvedValueOnce(application);
+    internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({
+      ...ai2Ready(), status: 'UNAVAILABLE', score: null, reason,
+    });
+    const result = await service.getCompanyApplicationAi2Demo(recruiterUser, application.id);
+    expect(result?.reason).toBe(expected);
+    expect(result?.score).toBeNull();
+    expect(result?.rankingPosition).toBeNull();
+  });
+
+  it.each([
     { modelVersion: 'other' }, { referenceDate: '2026-02-30' },
     { jobSnapshotSha256: '' }, { score: Infinity }, { resultId: '' },
   ])('rejects malformed AI2 READY metadata %j', async (mutation) => {

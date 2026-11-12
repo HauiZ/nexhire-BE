@@ -11,7 +11,10 @@ export const validationSchema = Joi.object({
   CANDIDATE_SERVICE_DB_NAME: Joi.string().required(),
   CANDIDATE_SERVICE_DB_USER: Joi.string().required(),
   CANDIDATE_SERVICE_DB_PASS: Joi.string().required(),
-  REDIS_URL: Joi.string().uri({ scheme: ['redis', 'rediss'] }).allow('').optional(),
+  REDIS_URL: Joi.string()
+    .uri({ scheme: ['redis', 'rediss'] })
+    .allow('')
+    .optional(),
   REDIS_HOST: Joi.string().when('REDIS_URL', {
     is: Joi.string().min(1).required(),
     then: Joi.optional(),
@@ -33,6 +36,7 @@ export const validationSchema = Joi.object({
   APPLICATION_SERVICE_URL: Joi.string().uri().default('http://localhost:3005'),
   COMPANY_SERVICE_URL: Joi.string().uri().default('http://localhost:3003'),
   JOB_SERVICE_URL: Joi.string().uri().default('http://localhost:3004'),
+  MATCHING_SERVICE_URL: Joi.string().uri().default('http://localhost:3007'),
   CANDIDATE_SERVICE_HTTP_TIMEOUT_MS: Joi.number().default(30000),
   CV_DOCUMENT_CLEANUP_SWEEP_INTERVAL_MS: Joi.number().min(60000).default(3600000),
   CV_DOCUMENT_CLEANUP_DELETED_GRACE_DAYS: Joi.number().min(1).default(30),

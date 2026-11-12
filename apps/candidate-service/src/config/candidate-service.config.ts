@@ -10,6 +10,7 @@ export const candidateServiceConfig = registerAs('candidateService', () => ({
     applicationService: process.env.APPLICATION_SERVICE_URL ?? 'http://localhost:3005',
     companyService: process.env.COMPANY_SERVICE_URL ?? 'http://localhost:3003',
     jobService: process.env.JOB_SERVICE_URL ?? 'http://localhost:3004',
+    matchingService: process.env.MATCHING_SERVICE_URL ?? 'http://localhost:3007',
   },
   http: {
     timeoutMs: parseInt(process.env.CANDIDATE_SERVICE_HTTP_TIMEOUT_MS ?? '30000', 10),

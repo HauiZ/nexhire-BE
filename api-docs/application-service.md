@@ -1,5 +1,14 @@
 # Application Service API Docs
 
+## AI2 individual-read diagnostics (2026-11-11)
+
+Recruiter `GET :id/ai2-demo` preserves optional safe reason codes
+`SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED` and
+`STORED_INPUT_OR_ASSESSMENT_INCOMPATIBLE` only for `UNAVAILABLE` results.
+The score remains null and no ranking/hiring action is supplied. Unknown reason
+text is omitted to avoid forwarding private downstream details. Ownership checks
+and all existing artifact/snapshot gates remain unchanged.
+
 ## Evidence-only runtime (2026-10-25)
 
 Baseline runtime scoring is retired. All public application projections return
