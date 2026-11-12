@@ -1,0 +1,29 @@
+{
+ "job_id":"IT-J03",
+ "audit_type":"source_acceptance",
+ "source_acceptance":"blocked_pending_repair_or_adjudication",
+ "covered_candidate_ids":["IT-J03-C01","IT-J03-C02","IT-J03-C03","IT-J03-C04","IT-J03-C05","IT-J03-C06","IT-J03-C07","IT-J03-C08"],
+ "blocking_issues":[
+  {"candidate_id":"IT-J03-C04","record_id":"IT-J03-C04-E01","section_ids":["IT-J03-C04-S03"],"field":"skills_used","structured_claim":"PySpark in first employment","quotes":["với Apache Spark Streaming và Apache Kafka", "Viết mã nguồn PySpark để tổng hợp dữ liệu clickstream"],"issue":"PySpark is explicit only for second employment. Spark Streaming does not establish Python binding; shared section cannot transfer skill across employers."},
+  {"candidate_id":"IT-J03-C03","record_id":"IT-J03-C03-P01","section_ids":["IT-J03-C03-S04"],"field":"technologies_or_methods","structured_claim":"SQL","quotes":["Thiết kế kiến trúc Star Schema trên PostgreSQL, tạo báo cáo Power BI tự động."],"issue":"SQL is plausible but not explicit in cited project section. SQL in experience/skills does not establish use in this project. PostgreSQL and SQL are not synonyms."}
+ ],
+ "human_review_cases":[
+  {"candidate_id":"IT-J03-C01","section_ids":["IT-J03-C01-S01","IT-J03-C01-S03"],"quotes":["3 năm 6 tháng kinh nghiệm chuyên trách xây dựng data pipeline quy mô lớn", "từ 2023-03 đến nay"],"issue":"Current role alone about 44 months at reference date; summary says 42 months. Could describe specialized task subset or stale snapshot. Clarify scope."},
+  {"candidate_id":"IT-J03-C03","section_ids":["IT-J03-C03-S01","IT-J03-C03-S03"],"quotes":["3 năm 6 tháng kinh nghiệm chuyên sâu về SQL và thiết kế Data Warehouse", "từ 2023-02 đến nay"],"issue":"Specialist summary shorter than current role chronology; exact specialized task duration not established. Clarify rather than infer all role time as warehouse experience."},
+  {"candidate_id":"IT-J03-C05","section_ids":["IT-J03-C05-S01","IT-J03-C05-S03"],"quotes":["1 năm 2 tháng kinh nghiệm làm việc thực tế", "từ 2025-07 đến nay"],"issue":"Current role alone about 16 months versus 14-month summary, plus internship; clarify stale or task-specific duration."},
+  {"candidate_id":"IT-J03-C07","record_id":"IT-J03-C07-E02","section_ids":["IT-J03-C07-S03"],"quotes":["Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể."],"issue":"Null dates supported; is_current=false not explicit. Do not infer ended status from unstated dates."}
+ ],
+ "warnings":[
+  "All six requirement texts preserve JD wording and required/preferred distinctions. No protected-characteristic requirement found.",
+  "Remaining structured facts compared with associated source sections. Spark/Apache Spark, Airflow/Apache Airflow and AWS S3/Amazon S3 legitimate normalization. C08 project PostgreSQL explicitly supported in project title; not unsupported merely absent from description.",
+  "No candidate personal names, contact data, relevance labels, employer verification claims, hiring outcomes or evaluative unsuitability prose found. Company names plausible fictional declarations, not independently verified identities.",
+  "Source mix covers data engineering, backend transition, BI, junior, data science, independent work and DBA. All use similar section/two-employer/one-project template. Repeated C01 stack-complete, C05 junior, C07 missing-date patterns across inspected jobs warrant human candidate-index leakage audit. No target relevance inferred.",
+  "Basic proficiency qualifiers in C01, C03 and C05 remain in text but absent from presence-only skills arrays; downstream must not treat skill mention as mastery. C05 learning Spark must not be interpreted as production expertise."
+ ],
+ "limitations":[
+  "Source acceptance only; no relevance labeling. Synthetic development corpus, not verified competence or expert gold.",
+  "Coordinator mechanical validations relied upon, not rerun. No prior audits, labels, generator notes or model features read.",
+  "Read limit incorrectly 1000 rather than requested 100; full untruncated input returned through EOF line 888 and inspected. Complete semantic coverage does not erase procedural deviation.",
+  "No corpus-wide duplicate computation or external identity verification. Near-duplicate and candidate-index findings require coordinator adjudication."
+ ]
+}

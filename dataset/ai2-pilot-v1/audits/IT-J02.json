@@ -1,0 +1,29 @@
+{
+  "job_id":"IT-J02",
+  "audit_type":"source_acceptance",
+  "source_acceptance":"blocked_pending_repair_or_adjudication",
+  "covered_candidate_ids":["IT-J02-C01","IT-J02-C02","IT-J02-C03","IT-J02-C04","IT-J02-C05","IT-J02-C06","IT-J02-C07","IT-J02-C08"],
+  "blocking_issues":[
+    {"candidate_id":"IT-J02-C01","record_id":"IT-J02-C01-E01","section_ids":["IT-J02-C01-S03"],"field":"skills_used","structured_claim":"Jest in first employment","quotes":["Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query.","Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn."],"issue":"Jest is explicit only for second employment in shared section, not first. Shared section reference does not authorize transferring skill use between employers."},
+    {"candidate_id":"IT-J02-C04","record_id":"IT-J02-C04-E02","section_ids":["IT-J02-C04-S03"],"field":"skills_used","structured_claim":"ASP.NET Core","quotes":["Xây dựng hệ thống quản lý nhân sự bằng Angular và .NET Core."],"issue":".NET Core is broader than ASP.NET Core. Second employment does not explicitly establish ASP.NET Core; first employment does. Not safe normalization across employers."}
+  ],
+  "human_review_cases":[
+    {"candidate_id":"IT-J02-C01","section_ids":["IT-J02-C01-S03"],"quotes":["tối ưu điểm số Core Web Vitals đạt trên 90 điểm"],"issue":"Core Web Vitals are metrics, not single 90-point score. Could mean Lighthouse performance score; clarify source terminology. No external verification claim inferred."},
+    {"candidate_id":"IT-J02-C03","section_ids":["IT-J02-C03-S01","IT-J02-C03-S03"],"quotes":["3 năm kinh nghiệm", "1 dự án triển khai Next.js trong 10 tháng qua", "từ 2024-01 đến nay"],"issue":"Summary duration and Next.js project scope need clarification. Employment spans about 34 months but task need not occupy entire employment; do not equate role dates with Next.js duration or silently resolve apparent mismatch."},
+    {"candidate_id":"IT-J02-C04","section_ids":["IT-J02-C04-S01","IT-J02-C04-S03"],"quotes":["nhóm trưởng phụ trách 3 lập trình viên trong 2 năm qua", "từ 2022-06 đến nay"],"issue":"Team-lead role dates exceed four years at reference date. Two-year summary may refer to current team size, not total leadership tenure; clarify."},
+    {"candidate_id":"IT-J02-C08","record_id":"IT-J02-C08-E02","section_ids":["IT-J02-C08-S03"],"quotes":["Thời gian: không nêu rõ ngày tháng bắt đầu và kết thúc."],"issue":"Null dates supported. is_current=false not explicitly supported; missing dates do not establish ended employment."}
+  ],
+  "warnings":[
+    "All six requirement texts and importance values preserve JD; leadership remains required despite R06 order. No protected-characteristic requirement found.",
+    "Remaining structured facts checked against associated sections. React.js within Next.js work is also explicit elsewhere in shared experience section; no independent claim of duration inferred. Narrowing .NET Core to ASP.NET Core is not equivalent to React naming normalization.",
+    "No candidate personal names, contact data, target labels, synthetic hiring outcomes, employer verification claims or evaluative unsuitability prose found. Fictional company status declared, not externally verified. Real school and certification references are not competence proxies.",
+    "Role mix includes frontend, fullstack, mobile, freelance; source layout remains near-identical across candidates and IT-J01. Repeated ordinal patterns (C01 lead profile; C03 shorter tenure; late-index missing dates) raise candidate-index leakage risk, not proof of target labels. Exclude candidate ordinal as model feature and request coordinator cross-job pattern review.",
+    "C07 education text reports no degree recorded, not verified absence of degree; empty education array appropriate. Basic Docker qualifier preserved only in source, not skills array."
+  ],
+  "limitations":[
+    "Source acceptance only; no relevance labels. Synthetic development data; no verified competence or generalization claim.",
+    "Coordinator mechanical validation relied upon; semantic audit independent of prior labels, audits and generator notes.",
+    "Read requested 1000 rather than required 100 lines. Full untruncated input returned through EOF line 897 and inspected; coverage complete but tool-size instruction violated. This procedural deviation remains disclosed.",
+    "No external company verification or corpus-wide duplicate computation. Cross-job leakage and near-duplicate checks incomplete."
+  ]
+}

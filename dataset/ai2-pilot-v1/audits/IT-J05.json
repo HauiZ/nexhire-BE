@@ -1,0 +1,27 @@
+{
+ "job_id":"IT-J05",
+ "audit_type":"source_acceptance",
+ "source_acceptance":"blocked_pending_repair_or_adjudication",
+ "covered_candidate_ids":["IT-J05-C01","IT-J05-C02","IT-J05-C03","IT-J05-C04","IT-J05-C05","IT-J05-C06","IT-J05-C07","IT-J05-C08"],
+ "blocking_issues":[{"candidate_id":"IT-J05-C08","record_id":"IT-J05-C08-E02","section_ids":["IT-J05-C08-S03"],"field":"skills_used","structured_claim":"Docker in second employment","quotes":["Viết kịch bản kiểm thử tự động giao diện và API.","Đóng gói môi trường kiểm thử trên Docker"],"issue":"Docker explicitly belongs to first employment, not second. Generic automated testing does not establish Docker use. Shared section reference cannot transfer skill across employers."}],
+ "human_review_cases":[
+ {"candidate_id":"IT-J05-C02","section_ids":["IT-J05-C02-S01","IT-J05-C02-S03"],"quotes":["5 năm kinh nghiệm làm việc với hạ tầng đám mây AWS và cụm Kubernetes production", "từ 2023-01 đến nay", "Vận hành máy chủ Linux, cài đặt cấu hình web server Nginx và hỗ trợ triển khai Docker."],"issue":"Summary explicitly asserts five years AWS/Kubernetes; detailed earlier role does not corroborate cloud/Kubernetes. Not proof of absence or confirmed contradiction. Clarify task-specific tenure before using summary duration."},
+ {"candidate_id":"IT-J05-C04","section_ids":["IT-J05-C04-S01","IT-J05-C04-S03"],"quotes":["Đã mở rộng sang hạ tầng đám mây AWS trong hơn 2 năm qua.", "từ 2022-04 đến nay"],"issue":"AWS task duration need not equal full mixed-role dates. More than two years compatible with longer employment; retain distinction, no source repair automatically required."},
+ {"candidate_id":"IT-J05-C05","section_ids":["IT-J05-C05-S01","IT-J05-C05-S03"],"quotes":["Trong hơn 2 năm gần đây, kiêm nhiệm vận hành hạ tầng đám mây AWS", "từ 2022-02 đến nay"],"issue":"Concurrent backend/cloud responsibilities legitimate diversity, not automatically five years DevOps. More than two years compatible with longer mixed role; actual task start unstated."},
+ {"candidate_id":"IT-J05-C06","section_ids":["IT-J05-C06-S01","IT-J05-C06-S03"],"quotes":["kết hợp làm việc cùng AWS trong hơn 1 năm qua", "từ 2022-06 đến nay"],"issue":"Do not equate mixed-platform role start with AWS task start. More than one year not contradictory to role chronology; exact AWS tenure unstated."},
+ {"candidate_id":"IT-J05-C07","record_id":"IT-J05-C07-E02","section_ids":["IT-J05-C07-S03"],"quotes":["Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể."],"issue":"Null dates supported; is_current=false unsupported as definite ended status. Needs source clarification or schema handling for unknown status."}
+ ],
+ "warnings":[
+ "All six requirement texts preserve required/preferred distinctions and exact JD wording. No protected-characteristic requirement found.",
+ "Remaining structured facts compared against associated source sections; AWS EC2 to AWS, Kubernetes/K8s and named cloud service variants legitimate normalization. Java in C05 second role explicitly supported by job title, not inferred solely from Spring Boot.",
+ "No candidate personal names, contact data, direct evaluative unsuitability, target labels, hiring outcomes or employer verification claims found. Self-reported uptime is ordinary project outcome, not employer verification. Fictional company status declared, not independently verified; VNPayLink resemblance to existing brand warrants coordinator fictional-name collision review without asserting real identity.",
+ "Profiles vary SRE, system administration, backend/cloud overlap, multicloud, freelance and test automation. Most share identical section/two-role/one-project layout; C07 missing dates repeats all earlier inspected jobs. Candidate ordinal likely encodes source-authoring scenario structure; target-label association not tested. Exclude index features and request cross-job human audit.",
+ "C03 basic Kubernetes and C08 basic cloud context preserved only in text; skill arrays do not imply production expertise. No claim of overlapping multiple employers here; concurrent responsibilities within one employer must not be double-counted."
+ ],
+ "limitations":[
+ "Source acceptance only; no relevance labels. Synthetic development corpus, not verified competence or expert gold.",
+ "Coordinator mechanical validation relied upon, not rerun. No prior audit, labels, generator notes, features or external APIs read.",
+ "Read incorrectly requested 1000 rather than required 100 lines. Full untruncated input returned through EOF line 928 and inspected; coverage complete but procedural read-size instruction violated.",
+ "Corpus-wide duplicate computation, fictional-name collision checks and full candidate-index leakage tests remain coordinator work."
+ ]
+}

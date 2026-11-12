@@ -1,0 +1,31 @@
+# AI2 synthetic development pilot v1
+
+Approved scope: 20 JD, 8 unique CV per JD, 160 pairs. IT: 10 JD; Sales: 5; Marketing: 5. Entire pilot is development only; no held-out test or generalization claim. Maximum two agents concurrently. No training, AI1 changes, deployment or external private data. Sources are fictional and labels are silver.
+
+## Source contract
+
+Each generator writes one JSON file: sources/it.json or sources/sales-marketing.json. Root: {"schema_version":"ai2-pilot-source-v1","split":"development","synthetic":true,"generation_model_requested":"ag/gemini-3.8-flash-high","jobs":[...]}. Record the requested model, not a claim of independently verified server-side model identity.
+
+Each job: {"job_id":string,"source_family_id":string,"domain":"it"|"sales"|"marketing","title":string,"level":"junior"|"mid"|"senior","language":"vi","jd_text":string,"requirements":[{"requirement_id":string,"text":string,"importance":"required"|"preferred"}],"candidates":[...]}. Requirement text must occur verbatim in jd_text. JD contains responsibilities, specific required/preferred criteria, employment context and working conditions. No protected-characteristic requirements. Include 4-7 meaningful requirements. IDs IT-J01..10, SA-J01..05, MK-J01..05; source_family_id equals job_id for this pilot.
+
+Each candidate: {"candidate_id":string,"cv_text":string,"sections":[{"section_id":string,"kind":"summary"|"skills"|"experience"|"project"|"education"|"certification","text":string}],"skills":[string],"experiences":[{"experience_id":string,"title":string,"company":string,"start_date":string|null,"end_date":string|null,"is_current":boolean|null,"description":string,"skills_used":[string],"section_id":string}],"projects":[{"project_id":string,"name":string,"description":string,"technologies_or_methods":[string],"section_id":string}],"education":[{"degree":string,"field":string,"section_id":string}],"certifications":[{"name":string,"section_id":string}]}. IDs <job_id>-C01..08. Section IDs candidate-scoped and unique. cv_text is exactly section texts joined by two newlines. Every structured fact must be explicitly supported in its section text; no inferred experience durations. Dates YYYY-MM; reference date 2026-11-10. Null indicates unstated dates, not zero. Current employment uses null end date. is_current is null when source does not establish whether employment is current or ended; explicit prior/ended wording supports false even when dates are unstated. Do not infer status from missing dates alone. This pilot-only amendment follows human decision HR-SOURCE-005. No names, contact data, age, gender, photos or marital status needed. Fictional companies only. 200-450 Vietnamese words per CV preferred; do not truncate records to meet response limits. Write files, return summary only.
+
+Create plausible varied profiles: nearby roles, transferable skills, different relevant versus total tenure, evidence in projects, missing information and some overlapping employment. Do not make every job have a fixed quota of four label levels. No target relevance labels, ranking, scenario tags, numerical matching features, AI1 scores, or evaluative 'this candidate is unsuitable' prose. A weaker CV should describe its own work naturally, not repeat JD requirements as a list of denials. Vary source style/length independently of presumed fit. Balance junior/mid/senior across domains. Synthetic hiring outcomes and employer verification claims are prohibited.
+
+## Annotation rubric
+
+Label only demonstrated job-related fit for prioritizing human review, not hiring decisions or actual verified competence.
+- 0: no meaningful evidence of the central job tasks/skills; largely unrelated background.
+- 1: some relevant or transferable evidence, but major gaps in central requirements.
+- 2: substantive relevant evidence; one significant gap or several partial/uncertain requirements prevent a strong documented fit.
+- 3: clear evidence for most important explicit requirements and central tasks, without a clearly documented critical shortfall. Not perfection or guaranteed hire.
+
+Missing evidence is unknown, not confirmed absence. If missing/ambiguous facts could materially change the label, give a provisional label and flag human review. Do not invent hidden requirements, treat preferred criteria as mandatory, reward school prestige, or equate total tenure with relevant tenure. No arithmetic sum of AI1/features as ground truth.
+
+Each labeling/review output is JSON: {"schema_version":"ai2-pilot-label-v1","role":"initial"|"blind_review","review_model_requested":"cx/gpt-6.1-sol","label_type":"silver","records":[{"job_id":string,"candidate_id":string,"relevance":0|1|2|3,"rationale":string,"evidence":[{"requirement_id":string,"section_id":string,"quote":string,"assessment":"supported"|"partial"|"unknown"|"contradicted"}],"missing_information":[string],"needs_human_review":boolean,"review_reasons":[string]}]}. Quotes must be exact substrings of cited candidate sections. Every central required criterion must be considered; unknown criteria may be documented in missing_information without a fabricated quote.
+
+Initial and blind review use separate fresh agents, supplied only this protocol and source file. Blind review cannot read initial labels or generator discussion. Preserve both outputs. Coordinator checks references/quotes, compares labels, queues every disagreement plus flagged cases, and samples agreements for human audit. Unreviewed automatic agreements remain silver, never expert gold. Do not resolve disagreements by changing sources to fit labels.
+
+## Acceptance and limitations
+
+Validate JSON, counts, IDs, allowed values, source references, dates and exact text joins before annotation; reject malformed or unsupported records for repair. Check exact duplicate source documents and report near-duplicate limitations. Pilot artifacts must retain generation and review limitations. The source authoring process is not a production parser; later feature experiments must demonstrate offline/online extraction consistency. Larger dataset design, contamination checks against AI1 training data and untouched test construction require a separate approved phase.

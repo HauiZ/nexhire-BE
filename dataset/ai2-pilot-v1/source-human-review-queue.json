@@ -1,0 +1,3553 @@
+{
+  "status": "source_acceptance_blocked",
+  "labels_created": false,
+  "source_sha256": {
+    "it.json": "917a0759ad0fbc7ecaec98dded9241872c0ef7c1d59d964705845e9e6decf44c",
+    "sales-marketing.json": "98e1760e5979a8cec714df8510e778eed20af4a50c770602d6b3911f802fd0f5"
+  },
+  "audited_jobs": 20,
+  "audit_reported_candidate_coverage": 160,
+  "job_statuses": {
+    "IT-J01": "human_review_required",
+    "IT-J02": "blocked_pending_repair_or_adjudication",
+    "IT-J03": "blocked_pending_repair_or_adjudication",
+    "IT-J04": "blocked_pending_repair_or_adjudication",
+    "IT-J05": "blocked_pending_repair_or_adjudication",
+    "IT-J06": "human_review_required",
+    "IT-J07": "blocked_pending_repair_or_adjudication",
+    "IT-J08": "human_review_required",
+    "IT-J09": "blocked_pending_repair_or_adjudication",
+    "IT-J10": "blocked_pending_repair_or_adjudication",
+    "MK-J01": "blocked_pending_repair_or_adjudication",
+    "MK-J02": "blocked_pending_repair_or_adjudication",
+    "MK-J03": "blocked_pending_repair_or_adjudication",
+    "MK-J04": "blocked_pending_repair_or_adjudication",
+    "MK-J05": "blocked_pending_repair_or_adjudication",
+    "SA-J01": "blocked_pending_source_repair_and_human_adjudication",
+    "SA-J02": "blocked_pending_repair_or_adjudication",
+    "SA-J03": "blocked_pending_repair_or_adjudication",
+    "SA-J04": "blocked_pending_repair_or_adjudication",
+    "SA-J05": "blocked_pending_repair_or_adjudication"
+  },
+  "commercial_audit_status": "complete_source_inspection_blocked_pending_adjudication",
+  "cases": [
+    {
+      "job_id": "IT-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J01-C01",
+        "section_ids": [
+          "IT-J01-C01-S01",
+          "IT-J01-C01-S03"
+        ],
+        "quotes": [
+          "3 năm 6 tháng kinh nghiệm",
+          "từ 2023-04 đến nay",
+          "từ 2021-06 đến 2023-03"
+        ],
+        "issue": "Summary duration is ambiguous: current position alone exceeds 3 years 6 months at 2026-11-10; prior Node.js employment adds further tenure. Clarify whether summary refers only to specialized TypeScript/NestJS work, or stale total."
+      }
+    },
+    {
+      "job_id": "IT-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J01-C04",
+        "section_ids": [
+          "IT-J01-C04-S01",
+          "IT-J01-C04-S03"
+        ],
+        "quotes": [
+          "3 năm kinh nghiệm thực tế với Node.js, TypeScript và NestJS",
+          "từ 2023-10 đến nay",
+          "từ 2022-03 đến 2023-09"
+        ],
+        "issue": "Three-year summary may describe specialized stack rather than all backend employment. Dates show longer overall Node.js/NestJS work; clarify before tenure interpretation."
+      }
+    },
+    {
+      "job_id": "IT-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J01-C05",
+        "section_ids": [
+          "IT-J01-C05-S01",
+          "IT-J01-C05-S03"
+        ],
+        "quotes": [
+          "1 năm 4 tháng kinh nghiệm",
+          "từ 2025-06 đến nay",
+          "từ 2025-01 đến 2025-05"
+        ],
+        "issue": "Summary appears stale at reference date; current role alone spans about 17 months, plus internship. Clarify duration scope."
+      }
+    },
+    {
+      "job_id": "IT-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J01-C07",
+        "section_ids": [
+          "IT-J01-C07-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu ngày tháng cụ thể."
+        ],
+        "issue": "Null dates faithfully preserve missing dates. is_current=false for freelance role is not explicitly established; tense is not reliable confirmation that work ended. Human clarification needed."
+      }
+    },
+    {
+      "job_id": "IT-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J01-C08",
+        "section_ids": [
+          "IT-J01-C08-S01",
+          "IT-J01-C08-S03"
+        ],
+        "quotes": [
+          "3 năm kinh nghiệm trong kiểm thử API và giao diện web",
+          "từ 2023-11 đến nay",
+          "từ 2022-05 đến 2023-10"
+        ],
+        "issue": "Summary may exclude earlier manual/API testing; chronological testing work exceeds three years. Clarify intended scope, not inferred relevant tenure."
+      }
+    },
+    {
+      "job_id": "IT-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J02-C01",
+        "record_id": "IT-J02-C01-E01",
+        "section_ids": [
+          "IT-J02-C01-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "Jest in first employment",
+        "quotes": [
+          "Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query.",
+          "Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn."
+        ],
+        "issue": "Jest is explicit only for second employment in shared section, not first. Shared section reference does not authorize transferring skill use between employers."
+      }
+    },
+    {
+      "job_id": "IT-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J02-C04",
+        "record_id": "IT-J02-C04-E02",
+        "section_ids": [
+          "IT-J02-C04-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "ASP.NET Core",
+        "quotes": [
+          "Xây dựng hệ thống quản lý nhân sự bằng Angular và .NET Core."
+        ],
+        "issue": ".NET Core is broader than ASP.NET Core. Second employment does not explicitly establish ASP.NET Core; first employment does. Not safe normalization across employers."
+      }
+    },
+    {
+      "job_id": "IT-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J02-C01",
+        "section_ids": [
+          "IT-J02-C01-S03"
+        ],
+        "quotes": [
+          "tối ưu điểm số Core Web Vitals đạt trên 90 điểm"
+        ],
+        "issue": "Core Web Vitals are metrics, not single 90-point score. Could mean Lighthouse performance score; clarify source terminology. No external verification claim inferred."
+      }
+    },
+    {
+      "job_id": "IT-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J02-C03",
+        "section_ids": [
+          "IT-J02-C03-S01",
+          "IT-J02-C03-S03"
+        ],
+        "quotes": [
+          "3 năm kinh nghiệm",
+          "1 dự án triển khai Next.js trong 10 tháng qua",
+          "từ 2024-01 đến nay"
+        ],
+        "issue": "Summary duration and Next.js project scope need clarification. Employment spans about 34 months but task need not occupy entire employment; do not equate role dates with Next.js duration or silently resolve apparent mismatch."
+      }
+    },
+    {
+      "job_id": "IT-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J02-C04",
+        "section_ids": [
+          "IT-J02-C04-S01",
+          "IT-J02-C04-S03"
+        ],
+        "quotes": [
+          "nhóm trưởng phụ trách 3 lập trình viên trong 2 năm qua",
+          "từ 2022-06 đến nay"
+        ],
+        "issue": "Team-lead role dates exceed four years at reference date. Two-year summary may refer to current team size, not total leadership tenure; clarify."
+      }
+    },
+    {
+      "job_id": "IT-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J02-C08",
+        "record_id": "IT-J02-C08-E02",
+        "section_ids": [
+          "IT-J02-C08-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu rõ ngày tháng bắt đầu và kết thúc."
+        ],
+        "issue": "Null dates supported. is_current=false not explicitly supported; missing dates do not establish ended employment."
+      }
+    },
+    {
+      "job_id": "IT-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J03-C04",
+        "record_id": "IT-J03-C04-E01",
+        "section_ids": [
+          "IT-J03-C04-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "PySpark in first employment",
+        "quotes": [
+          "với Apache Spark Streaming và Apache Kafka",
+          "Viết mã nguồn PySpark để tổng hợp dữ liệu clickstream"
+        ],
+        "issue": "PySpark is explicit only for second employment. Spark Streaming does not establish Python binding; shared section cannot transfer skill across employers."
+      }
+    },
+    {
+      "job_id": "IT-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J03-C03",
+        "record_id": "IT-J03-C03-P01",
+        "section_ids": [
+          "IT-J03-C03-S04"
+        ],
+        "field": "technologies_or_methods",
+        "structured_claim": "SQL",
+        "quotes": [
+          "Thiết kế kiến trúc Star Schema trên PostgreSQL, tạo báo cáo Power BI tự động."
+        ],
+        "issue": "SQL is plausible but not explicit in cited project section. SQL in experience/skills does not establish use in this project. PostgreSQL and SQL are not synonyms."
+      }
+    },
+    {
+      "job_id": "IT-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J03-C01",
+        "section_ids": [
+          "IT-J03-C01-S01",
+          "IT-J03-C01-S03"
+        ],
+        "quotes": [
+          "3 năm 6 tháng kinh nghiệm chuyên trách xây dựng data pipeline quy mô lớn",
+          "từ 2023-03 đến nay"
+        ],
+        "issue": "Current role alone about 44 months at reference date; summary says 42 months. Could describe specialized task subset or stale snapshot. Clarify scope."
+      }
+    },
+    {
+      "job_id": "IT-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J03-C03",
+        "section_ids": [
+          "IT-J03-C03-S01",
+          "IT-J03-C03-S03"
+        ],
+        "quotes": [
+          "3 năm 6 tháng kinh nghiệm chuyên sâu về SQL và thiết kế Data Warehouse",
+          "từ 2023-02 đến nay"
+        ],
+        "issue": "Specialist summary shorter than current role chronology; exact specialized task duration not established. Clarify rather than infer all role time as warehouse experience."
+      }
+    },
+    {
+      "job_id": "IT-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J03-C05",
+        "section_ids": [
+          "IT-J03-C05-S01",
+          "IT-J03-C05-S03"
+        ],
+        "quotes": [
+          "1 năm 2 tháng kinh nghiệm làm việc thực tế",
+          "từ 2025-07 đến nay"
+        ],
+        "issue": "Current role alone about 16 months versus 14-month summary, plus internship; clarify stale or task-specific duration."
+      }
+    },
+    {
+      "job_id": "IT-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J03-C07",
+        "record_id": "IT-J03-C07-E02",
+        "section_ids": [
+          "IT-J03-C07-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể."
+        ],
+        "issue": "Null dates supported; is_current=false not explicit. Do not infer ended status from unstated dates."
+      }
+    },
+    {
+      "job_id": "IT-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J04-C01",
+        "record_id": "IT-J04-C01-E02",
+        "section_ids": [
+          "IT-J04-C01-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "Dart in internship",
+        "quotes": [
+          "Làm quen dự án, cắt giao diện từ Figma sang widget Flutter và gọi API cơ bản."
+        ],
+        "issue": "Dart use plausible from Flutter but not explicit for internship; Dart explicitly belongs to first employment. Contract requires explicit support, not technology inference."
+      }
+    },
+    {
+      "job_id": "IT-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J04-C02",
+        "section_ids": [
+          "IT-J04-C02-S01",
+          "IT-J04-C02-S03"
+        ],
+        "quotes": [
+          "1 năm 4 tháng làm việc với Flutter và Dart",
+          "từ 2025-07 đến nay",
+          "từ 2025-02 đến 2025-06"
+        ],
+        "issue": "Summary equals current role duration approximately, excludes earlier Flutter probation; clarify total versus scoped tenure."
+      }
+    },
+    {
+      "job_id": "IT-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J04-C04",
+        "section_ids": [
+          "IT-J04-C04-S01",
+          "IT-J04-C04-S03"
+        ],
+        "quotes": [
+          "1 năm 6 tháng kinh nghiệm",
+          "từ 2025-05 đến nay",
+          "từ 2024-11 đến 2025-04",
+          "đưa bản thử nghiệm lên Google Play Console"
+        ],
+        "issue": "Summary excludes probation tenure. Store-release summary versus test upload not necessarily contradiction, but scope needs clarification; do not infer public production release."
+      }
+    },
+    {
+      "job_id": "IT-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J04-C05",
+        "section_ids": [
+          "IT-J04-C05-S01",
+          "IT-J04-C05-S03"
+        ],
+        "quotes": [
+          "1 năm 6 tháng kinh nghiệm",
+          "từ 2025-05 đến nay",
+          "từ 2024-11 đến 2025-04"
+        ],
+        "issue": "Summary may exclude internship; scope ambiguous, not confirmed contradiction."
+      }
+    },
+    {
+      "job_id": "IT-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J04-C06",
+        "section_ids": [
+          "IT-J04-C06-S01",
+          "IT-J04-C06-S03"
+        ],
+        "quotes": [
+          "1 năm 2 tháng kinh nghiệm làm việc thực tế",
+          "từ 2025-08 đến nay"
+        ],
+        "issue": "Current role about 15 months at reference date, summary 14 months, plus internship; clarify snapshot/scope."
+      }
+    },
+    {
+      "job_id": "IT-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J04-C07",
+        "section_ids": [
+          "IT-J04-C07-S01",
+          "IT-J04-C07-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể.",
+          "Chưa có nhiều cơ hội làm việc trong môi trường doanh nghiệp lớn."
+        ],
+        "issue": "Null dates faithful, is_current=false not explicit. Summary limitation describes work context naturally, not direct evaluative unsuitability or JD-denial list; retain unless coordinator deems artificial cue."
+      }
+    },
+    {
+      "job_id": "IT-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J04-C08",
+        "section_ids": [
+          "IT-J04-C08-S01",
+          "IT-J04-C08-S03"
+        ],
+        "quotes": [
+          "Đã tự học lập trình Flutter và Dart trong 8 tháng qua",
+          "từ 2025-01 đến nay"
+        ],
+        "issue": "Eight-month self-study and roughly 22-month mixed role do not establish 22 months Flutter use. Clarify when role gained Flutter tasks; do not silently infer start date of skill."
+      }
+    },
+    {
+      "job_id": "IT-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J05-C08",
+        "record_id": "IT-J05-C08-E02",
+        "section_ids": [
+          "IT-J05-C08-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "Docker in second employment",
+        "quotes": [
+          "Viết kịch bản kiểm thử tự động giao diện và API.",
+          "Đóng gói môi trường kiểm thử trên Docker"
+        ],
+        "issue": "Docker explicitly belongs to first employment, not second. Generic automated testing does not establish Docker use. Shared section reference cannot transfer skill across employers."
+      }
+    },
+    {
+      "job_id": "IT-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J05-C02",
+        "section_ids": [
+          "IT-J05-C02-S01",
+          "IT-J05-C02-S03"
+        ],
+        "quotes": [
+          "5 năm kinh nghiệm làm việc với hạ tầng đám mây AWS và cụm Kubernetes production",
+          "từ 2023-01 đến nay",
+          "Vận hành máy chủ Linux, cài đặt cấu hình web server Nginx và hỗ trợ triển khai Docker."
+        ],
+        "issue": "Summary explicitly asserts five years AWS/Kubernetes; detailed earlier role does not corroborate cloud/Kubernetes. Not proof of absence or confirmed contradiction. Clarify task-specific tenure before using summary duration."
+      }
+    },
+    {
+      "job_id": "IT-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J05-C04",
+        "section_ids": [
+          "IT-J05-C04-S01",
+          "IT-J05-C04-S03"
+        ],
+        "quotes": [
+          "Đã mở rộng sang hạ tầng đám mây AWS trong hơn 2 năm qua.",
+          "từ 2022-04 đến nay"
+        ],
+        "issue": "AWS task duration need not equal full mixed-role dates. More than two years compatible with longer employment; retain distinction, no source repair automatically required."
+      }
+    },
+    {
+      "job_id": "IT-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J05-C05",
+        "section_ids": [
+          "IT-J05-C05-S01",
+          "IT-J05-C05-S03"
+        ],
+        "quotes": [
+          "Trong hơn 2 năm gần đây, kiêm nhiệm vận hành hạ tầng đám mây AWS",
+          "từ 2022-02 đến nay"
+        ],
+        "issue": "Concurrent backend/cloud responsibilities legitimate diversity, not automatically five years DevOps. More than two years compatible with longer mixed role; actual task start unstated."
+      }
+    },
+    {
+      "job_id": "IT-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J05-C06",
+        "section_ids": [
+          "IT-J05-C06-S01",
+          "IT-J05-C06-S03"
+        ],
+        "quotes": [
+          "kết hợp làm việc cùng AWS trong hơn 1 năm qua",
+          "từ 2022-06 đến nay"
+        ],
+        "issue": "Do not equate mixed-platform role start with AWS task start. More than one year not contradictory to role chronology; exact AWS tenure unstated."
+      }
+    },
+    {
+      "job_id": "IT-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J05-C07",
+        "record_id": "IT-J05-C07-E02",
+        "section_ids": [
+          "IT-J05-C07-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể."
+        ],
+        "issue": "Null dates supported; is_current=false unsupported as definite ended status. Needs source clarification or schema handling for unknown status."
+      }
+    },
+    {
+      "job_id": "IT-J06",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J06.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J06-C01",
+        "section_ids": [
+          "IT-J06-C01-S01",
+          "IT-J06-C01-S03"
+        ],
+        "quotes": [
+          "3 năm 6 tháng kinh nghiệm trong ngành phần mềm",
+          "từ 2022-03 đến 2023-04",
+          "từ 2023-05 đến nay"
+        ],
+        "issue": "Total summary 42 months versus continuous employment since 2022-03, about 56 months. Clarify stale total. More than 2 years 6 months automation claim itself compatible with dates."
+      }
+    },
+    {
+      "job_id": "IT-J06",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J06.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J06-C02",
+        "section_ids": [
+          "IT-J06-C02-S01",
+          "IT-J06-C02-S03"
+        ],
+        "quotes": [
+          "4 năm kinh nghiệm tổng cộng",
+          "từ 2021-08 đến 2023-07",
+          "từ 2023-08 đến nay"
+        ],
+        "issue": "Explicit total four years conflicts with continuous employment about five years three months at reference date; source clarification needed."
+      }
+    },
+    {
+      "job_id": "IT-J06",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J06.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J06-C03",
+        "section_ids": [
+          "IT-J06-C03-S01",
+          "IT-J06-C03-S03"
+        ],
+        "quotes": [
+          "3 năm 6 tháng kinh nghiệm kiểm thử chức năng ứng dụng web và di động",
+          "Trong 1 năm gần đây",
+          "từ 2021-11 đến 2023-03",
+          "từ 2023-04 đến nay"
+        ],
+        "issue": "Functional-testing duration shorter than total role chronology; specialized scope may explain. One-year automation must not be replaced with full mixed-role duration."
+      }
+    },
+    {
+      "job_id": "IT-J06",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J06.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J06-C06",
+        "section_ids": [
+          "IT-J06-C06-S01",
+          "IT-J06-C06-S03"
+        ],
+        "quotes": [
+          "3 năm kinh nghiệm phát triển phần mềm Node.js và TypeScript",
+          "từ 2022-07 đến 2023-08",
+          "từ 2023-09 đến nay"
+        ],
+        "issue": "Mixed-role/backend total longer than summary; specialized TypeScript scope may explain. Clarify without treating all development tenure as QA tenure."
+      }
+    },
+    {
+      "job_id": "IT-J06",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J06.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J06-C07",
+        "record_id": "IT-J06-C07-E02",
+        "section_ids": [
+          "IT-J06-C07-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể."
+        ],
+        "issue": "Null dates faithful; is_current=false does not have explicit support. Unknown dates do not prove ended engagement."
+      }
+    },
+    {
+      "job_id": "IT-J06",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J06.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J06-C08",
+        "section_ids": [
+          "IT-J06-C08-S01",
+          "IT-J06-C08-S03"
+        ],
+        "quotes": [
+          "3 năm 6 tháng kinh nghiệm trong đo lường tải",
+          "từ 2023-03 đến nay"
+        ],
+        "issue": "Performance summary about two months shorter than current role chronology; task duration may differ from role duration. Clarify if exact tenure used."
+      }
+    },
+    {
+      "job_id": "IT-J07",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J07.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J07-C04",
+        "record_id": "IT-J07-C04-E01",
+        "section_ids": [
+          "IT-J07-C04-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "C# in first employment",
+        "quotes": [
+          "Phụ trách bảo trì hệ thống thanh toán .NET và tham gia chuyển đổi một số microservices sang Java Spring Boot."
+        ],
+        "issue": ".NET does not explicitly establish C#; other .NET languages possible. C# appears for second employer, not first. Shared section must not transfer language across employers."
+      }
+    },
+    {
+      "job_id": "IT-J07",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J07.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J07-C07",
+        "record_id": "IT-J07-C07-E02",
+        "section_ids": [
+          "IT-J07-C07-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể."
+        ],
+        "issue": "Null dates supported; is_current=false not explicitly established. Clarify ended versus unknown status."
+      }
+    },
+    {
+      "job_id": "IT-J07",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J07.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J07-C04",
+        "section_ids": [
+          "IT-J07-C04-S01",
+          "IT-J07-C04-S03"
+        ],
+        "quotes": [
+          "Trong 1 năm qua, đã học và tham gia phát triển một phân hệ dịch vụ mới bằng Java Spring Boot",
+          "từ 2022-03 đến nay"
+        ],
+        "issue": "One-year Java task subset compatible with longer mixed role; do not assign all employment time to Java. Clarify task start if needed."
+      }
+    },
+    {
+      "job_id": "IT-J08",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J08.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J08-C01",
+        "section_ids": [
+          "IT-J08-C01-S01",
+          "IT-J08-C01-S03"
+        ],
+        "quotes": [
+          "1 năm 6 tháng kinh nghiệm chuyên trách",
+          "từ 2025-04 đến nay"
+        ],
+        "issue": "Current role about 19 months versus 18-month summary plus internship; specialized scope or snapshot may explain. Clarify exact tenure."
+      }
+    },
+    {
+      "job_id": "IT-J08",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J08.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J08-C02",
+        "section_ids": [
+          "IT-J08-C02-S01",
+          "IT-J08-C02-S03"
+        ],
+        "quotes": [
+          "2 năm kinh nghiệm lập trình web",
+          "1 năm kinh nghiệm với Golang",
+          "từ 2025-08 đến nay"
+        ],
+        "issue": "Current Go role about 15 months, total since 2024-08 about 27 months; likely rounded/stale summary. Clarify rather than infer exact task duration."
+      }
+    },
+    {
+      "job_id": "IT-J08",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J08.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J08-C03",
+        "section_ids": [
+          "IT-J08-C03-S01",
+          "IT-J08-C03-S03"
+        ],
+        "quotes": [
+          "1 năm 8 tháng kinh nghiệm phát triển phần mềm",
+          "Python trong 1 năm 2 tháng",
+          "Golang trong 6 tháng qua",
+          "từ 2025-05 đến nay",
+          "từ 2024-07 đến 2025-04"
+        ],
+        "issue": "Summary total 20 months versus continuous role dates about 28 months. Python 14 months not corroborated by listed 10-month Python role; Go six-month subset may be recent task change. Clarify material date/claim inconsistency; missing corroboration does not prove no additional work."
+      }
+    },
+    {
+      "job_id": "IT-J08",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J08.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J08-C04",
+        "section_ids": [
+          "IT-J08-C04-S01",
+          "IT-J08-C04-S03"
+        ],
+        "quotes": [
+          "1 năm 3 tháng kinh nghiệm làm việc chuyên sâu",
+          "từ 2025-07 đến nay"
+        ],
+        "issue": "15-month specialized summary versus about 16 months current role; task start need not equal role start. Clarify only if exact tenure required."
+      }
+    },
+    {
+      "job_id": "IT-J08",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J08.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J08-C06",
+        "section_ids": [
+          "IT-J08-C06-S01",
+          "IT-J08-C06-S03"
+        ],
+        "quotes": [
+          "Đã chủ động học thêm Golang trong 8 tháng qua",
+          "từ 2025-03 đến nay"
+        ],
+        "issue": "Eight-month Go learning subset within longer mixed C++/Go role; no confirmed contradiction, but Go task start not established by role dates."
+      }
+    },
+    {
+      "job_id": "IT-J08",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J08.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J08-C07",
+        "record_id": "IT-J08-C07-E02",
+        "section_ids": [
+          "IT-J08-C07-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể."
+        ],
+        "issue": "Null dates supported; is_current=false not explicit. Human clarification needed."
+      }
+    },
+    {
+      "job_id": "IT-J08",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J08.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J08-C08",
+        "section_ids": [
+          "IT-J08-C08-S01",
+          "IT-J08-C08-S03"
+        ],
+        "quotes": [
+          "1 năm 6 tháng kinh nghiệm trong ngành phần mềm",
+          "từ 2024-11 đến 2025-04",
+          "từ 2025-05 đến nay"
+        ],
+        "issue": "Industry total 18 months versus continuous testing jobs about 24 months. Clarify stale total versus scoped automation tenure."
+      }
+    },
+    {
+      "job_id": "IT-J09",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J09.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J09-C02",
+        "record_id": "IT-J09-C02-E01",
+        "section_ids": [
+          "IT-J09-C02-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "C# in first employment",
+        "quotes": [
+          "Thiết kế các dịch vụ backend bằng ASP.NET Core và Entity Framework Core kết nối Microsoft SQL Server."
+        ],
+        "issue": "ASP.NET Core does not explicitly establish C# rather than another supported language. C# explicit only in second employment; no cross-employer transfer."
+      }
+    },
+    {
+      "job_id": "IT-J09",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J09.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J09-C04",
+        "record_id": "IT-J09-C04-E01",
+        "section_ids": [
+          "IT-J09-C04-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "C# in first employment",
+        "quotes": [
+          "Viết API bằng ASP.NET Core 7 và Entity Framework Core kết nối PostgreSQL."
+        ],
+        "issue": "C# not explicit for first employer. C# in second role title does not support first-employer language use."
+      }
+    },
+    {
+      "job_id": "IT-J09",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J09.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J09-C07",
+        "record_id": "IT-J09-C07-E02",
+        "section_ids": [
+          "IT-J09-C07-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "C# in freelance engagement",
+        "quotes": [
+          "Xây dựng các trang web quản trị sử dụng ASP.NET Core và giao diện React."
+        ],
+        "issue": "ASP.NET Core not synonymous with C#. First-employer C# mention cannot establish freelance language use."
+      }
+    },
+    {
+      "job_id": "IT-J09",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J09.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J09-C01",
+        "section_ids": [
+          "IT-J09-C01-S03"
+        ],
+        "quotes": [
+          "từ 2023-04 đến nay",
+          "Viết backend RESTful API bằng ASP.NET Core 8"
+        ],
+        "issue": ".NET 8 released after role began; task could have occurred later, not contradiction. Do not infer version-specific tenure from whole role dates."
+      }
+    },
+    {
+      "job_id": "IT-J09",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J09.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J09-C02",
+        "section_ids": [
+          "IT-J09-C02-S01",
+          "IT-J09-C02-S03"
+        ],
+        "quotes": [
+          "4 năm kinh nghiệm với C# ASP.NET Core và SQL Server",
+          "Có hơn 1 năm mở rộng lập trình frontend với React.js",
+          "từ 2021-08 đến 2023-07",
+          "từ 2023-08 đến nay"
+        ],
+        "issue": "Backend summary shorter than about five-year overall chronology; specialized subset or stale duration possible. More than one year frontend compatible with longer mixed role; cannot infer three years React automatically."
+      }
+    },
+    {
+      "job_id": "IT-J09",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J09.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J09-C03",
+        "section_ids": [
+          "IT-J09-C03-S01",
+          "IT-J09-C03-S03"
+        ],
+        "quotes": [
+          "3 năm kinh nghiệm lập trình giao diện người dùng",
+          "từ 2022-04 đến 2023-04",
+          "từ 2023-05 đến nay"
+        ],
+        "issue": "Frontend summary shorter than detailed continuous frontend roles, about four years seven months. Clarify stale/specialized summary."
+      }
+    },
+    {
+      "job_id": "IT-J09",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J09.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J09-C05",
+        "section_ids": [
+          "IT-J09-C05-S01",
+          "IT-J09-C05-S03"
+        ],
+        "quotes": [
+          "1 năm 4 tháng kinh nghiệm",
+          "từ 2025-06 đến nay"
+        ],
+        "issue": "Current role about 17 months versus 16-month summary; clarify exact reference/scope."
+      }
+    },
+    {
+      "job_id": "IT-J09",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J09.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J09-C07",
+        "record_id": "IT-J09-C07-E02",
+        "section_ids": [
+          "IT-J09-C07-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể."
+        ],
+        "issue": "Null dates supported, is_current=false not explicitly supported."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C02",
+        "record_id": "IT-J10-C02-E02",
+        "section_ids": [
+          "IT-J10-C02-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "OpenCV in internship",
+        "quotes": [
+          "Thu thập tập dữ liệu ảnh và gán nhãn cho bài toán phân loại ảnh."
+        ],
+        "issue": "Image collection/annotation does not explicitly establish OpenCV. OpenCV mentioned for first employment only; cross-employer transfer unsupported."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C04",
+        "record_id": "IT-J10-C04-E02",
+        "section_ids": [
+          "IT-J10-C04-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "PyTorch in research assistant engagement",
+        "quotes": [
+          "Thực hiện tiền xử lý dữ liệu và chạy thực nghiệm các mô hình học sâu."
+        ],
+        "issue": "Deep learning does not explicitly establish PyTorch; first-employer PyTorch cannot be assigned to research role."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C07",
+        "record_id": "IT-J10-C07-E02",
+        "section_ids": [
+          "IT-J10-C07-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "PyTorch in freelance engagement",
+        "quotes": [
+          "Huấn luyện mô hình thị giác máy tính cơ bản bằng Python."
+        ],
+        "issue": "Python computer vision does not explicitly establish PyTorch. PyTorch explicit only for first employer; shared section cannot transfer framework."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C04",
+        "record_id": "IT-J10-C04-E02",
+        "section_ids": [
+          "IT-J10-C04-S03"
+        ],
+        "field": "company",
+        "structured_claim": "Phòng Thí nghiệm Đại học Bách Khoa",
+        "quotes": [
+          "Trợ lý Nghiên cứu AI tại Phòng Thí nghiệm Đại học Bách Khoa."
+        ],
+        "issue": "Extraction faithful, but employer names apparent real university rather than unambiguously fictional organization. Fictional-employer-only contract needs coordinator adjudication; generic lab not verified fictional merely because root synthetic=true."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C07",
+        "record_id": "IT-J10-C07-E01",
+        "section_ids": [
+          "IT-J10-C07-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "Python in first employment",
+        "quotes": [
+          "Huấn luyện mô hình nhận diện khuôn mặt và phát hiện khẩu trang bằng PyTorch và OpenCV."
+        ],
+        "issue": "Python not explicitly stated for first employment; PyTorch/OpenCV also offer non-Python interfaces. Python explicit in freelance role only. Needs explicit first-role support."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C08",
+        "record_id": "IT-J10-C08-E01",
+        "section_ids": [
+          "IT-J10-C08-S03"
+        ],
+        "field": "skills_used",
+        "structured_claim": "Python in first employment",
+        "quotes": [
+          "Xây dựng hệ thống RESTful API kết nối và phục vụ dự đoán từ các mô hình học máy sử dụng FastAPI và đóng gói qua Docker."
+        ],
+        "issue": "Python is technically natural from FastAPI, but not explicit in first-role cited text or title; explicit Python belongs to second employment and other sections. Strict explicit-support contract requires adjudication, not silent framework-to-language inference."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C01",
+        "section_ids": [
+          "IT-J10-C01-S01",
+          "IT-J10-C01-S03"
+        ],
+        "quotes": [
+          "1 năm 8 tháng kinh nghiệm nghiên cứu và phát triển",
+          "từ 2024-09 đến 2025-02",
+          "từ 2025-03 đến nay"
+        ],
+        "issue": "Summary equals current role approximately but excludes explicit prior model-training internship. Clarify total versus post-internship tenure."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C04",
+        "section_ids": [
+          "IT-J10-C04-S01",
+          "IT-J10-C04-S03"
+        ],
+        "quotes": [
+          "1 năm 2 tháng kinh nghiệm huấn luyện",
+          "từ 2025-07 đến nay"
+        ],
+        "issue": "14-month summary versus about 16-month current role plus research; specialized task subset possible. Clarify reference/scope."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C05",
+        "section_ids": [
+          "IT-J10-C05-S01",
+          "IT-J10-C05-S03"
+        ],
+        "quotes": [
+          "1 năm kinh nghiệm làm việc với Scikit-learn và Flask",
+          "từ 2025-08 đến nay"
+        ],
+        "issue": "Rounded one-year summary versus about 15-month role; not automatic contradiction, clarify exact task duration if needed."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C06",
+        "section_ids": [
+          "IT-J10-C06-S04"
+        ],
+        "quotes": [
+          "Tự Động Trích Xuất Từ Khóa NewsKeyword",
+          "Xây dựng API trích xuất thực thể"
+        ],
+        "issue": "Project title keyword extraction versus description entity extraction: related but distinct NLP tasks. Could include both; clarify scope, no unsupported extraction since structured title/description faithfully copy source."
+      }
+    },
+    {
+      "job_id": "IT-J10",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/IT-J10.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "IT-J10-C07",
+        "record_id": "IT-J10-C07-E02",
+        "section_ids": [
+          "IT-J10-C07-S03"
+        ],
+        "quotes": [
+          "Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể."
+        ],
+        "issue": "Null dates supported; is_current=false not explicitly established."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C02",
+        "record_id": "MK-J01-C02-EXP-01",
+        "section_ids": [
+          "MK-J01-C02-SEC-EXP"
+        ],
+        "quotes": [
+          "Triển khai chiến dịch Meta Catalog Ads và TikTok Spark Ads"
+        ],
+        "field": "description",
+        "issue": "Structured description adds Google Shopping to current employment; only other profile sections establish it, not employer prose."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C03",
+        "record_id": "MK-J01-C03-EXP-01",
+        "section_ids": [
+          "MK-J01-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "Phụ trách quan hệ báo chí cho 8 nhãn hàng"
+        ],
+        "field": "skills_used/description",
+        "issue": "Quản lý KOL KOC not stated for role. Description upgrades product/brand launch event to press conference and over 50 PR articles to exactly 50; preserve source scope/quantifiers."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C04",
+        "record_id": "MK-J01-C04-EXP-01",
+        "section_ids": [
+          "MK-J01-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "Thử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa"
+        ],
+        "field": "skills_used/description",
+        "issue": "Canva and specific CTR/CPC monitoring on Ads Manager assigned to employer without section evidence. General skills do not support employer attribution."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C05",
+        "record_id": "MK-J01-C05-EXP-01",
+        "section_ids": [
+          "MK-J01-C05-SEC-EXP"
+        ],
+        "quotes": [
+          "các chiến dịch quảng cáo ngày hội siêu sale",
+          "Đào tạo đội ngũ về phương pháp sáng tạo nội dung video ngắn chuyển đổi cao theo chuẩn Meta Best Practices"
+        ],
+        "field": "skills_used/description",
+        "issue": "Current employer does not explicitly state Google/TikTok campaign execution or CAC optimization. Description imports channel list from summary; compound Tối ưu ROAS và CAC includes unsupported CAC."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C06",
+        "record_id": "MK-J01-C06-EXP-01",
+        "section_ids": [
+          "MK-J01-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Trực tiếp sản xuất hơn 60 ấn phẩm visual và 20 video ngắn mỗi tháng"
+        ],
+        "field": "skills_used/description",
+        "issue": "CapCut/Premiere/Photoshop/Illustrator not named for specific employer. Description changes over 60 visual to exactly 60."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C07",
+        "record_id": "MK-J01-C07-EXP-01",
+        "section_ids": [
+          "MK-J01-C07-SEC-EXP"
+        ],
+        "quotes": [
+          "trên Facebook và TikTok",
+          "Kết nối nguồn dữ liệu đơn hàng website từ nền tảng Haravan sang Looker Studio"
+        ],
+        "field": "skills_used",
+        "issue": "Compound Meta TikTok Google adds Google use; GA4 also absent from employer source. Haravan/Looker integration does not prove GA4."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C08",
+        "record_id": "MK-J01-C08-EXP-01",
+        "section_ids": [
+          "MK-J01-C08-SEC-EXP"
+        ],
+        "quotes": [
+          "Thiết lập hệ thống thẻ đo lường GTM",
+          "từ lượt nhấp quảng cáo TikTok, Meta"
+        ],
+        "field": "skills_used/description",
+        "issue": "GA4 and Google ad measurement not explicit for this employer; GTM does not imply GA4. Coordinating budget allocation is strengthened to phối hợp chạy quảng cáo, which can imply execution beyond source."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C08",
+        "record_id": "MK-J01-C08-EXP-02",
+        "section_ids": [
+          "MK-J01-C08-SEC-EXP"
+        ],
+        "quotes": [
+          "Phân tích dữ liệu web và lưu lượng tìm kiếm từ khóa"
+        ],
+        "field": "skills_used",
+        "issue": "Generic web analytics does not establish GA4 product/version for second employer."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C04",
+        "section_ids": [
+          "MK-J01-C04-SEC-SUM",
+          "MK-J01-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "trẻ tuổi",
+          "Chưa có kinh nghiệm chạy Google Ads, TikTok Ads chuyển đổi hay sử dụng Looker Studio"
+        ],
+        "issue": "Unnecessary age descriptor and requirement-shaped negative list."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C06",
+        "section_ids": [
+          "MK-J01-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "không trực tiếp phân bổ ngân sách tiền tệ, không cài đặt tài khoản quảng cáo hay cấu hình mã theo dõi GA4/GTM"
+        ],
+        "issue": "Repeated denial list mirrors JD and can encode intended fit."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J01-C01",
+        "section_ids": [
+          "MK-J01-C01-SEC-EXP"
+        ],
+        "quotes": [
+          "tăng lượt thích trang Facebook"
+        ],
+        "issue": "Meta Ads for second role plausible from advertising context but exact platform use should remain bounded by source, not treated as all Meta products."
+      }
+    },
+    {
+      "job_id": "MK-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": null,
+        "section_ids": [],
+        "quotes": [
+          "Có từ 2 đến 4 năm kinh nghiệm"
+        ],
+        "issue": "Upper tenure bound explicit but not automatically a reason to penalize older/more experienced people; adjudicate role-scope fit without age inference."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C03",
+        "record_id": "MK-J02-C03-EXP-01",
+        "section_ids": [
+          "MK-J02-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp"
+        ],
+        "field": "description",
+        "issue": "WordPress added in structured description, but source identifies no CMS. General skills section does not establish employer-specific CMS."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C03",
+        "record_id": "MK-J02-C03-EXP-02",
+        "section_ids": [
+          "MK-J02-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "Dịch các bài phân tích công nghệ từ các trang tin quốc tế."
+        ],
+        "field": "skills_used",
+        "issue": "Specific English source language not explicit for second role; international articles can use other languages. General English skill does not establish this role's language."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C06",
+        "record_id": "MK-J02-C06-EXP-01",
+        "section_ids": [
+          "MK-J02-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Trực hộp thư tin nhắn và trả lời hơn 200 lượt hỏi giá"
+        ],
+        "field": "description/skills_used",
+        "issue": "Pancake/Harasocial products absent from employment prose, imported from general skills. Description also converts over 200 queries into exactly 200."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C08",
+        "record_id": "MK-J02-C08-PRJ-01",
+        "section_ids": [
+          "MK-J02-C08-SEC-PRJ"
+        ],
+        "quotes": [
+          "Sản xuất loạt 10 tập video ngắn giới thiệu các quán ăn lâu đời trong hẻm nhỏ"
+        ],
+        "field": "technologies_or_methods",
+        "issue": "Project does not state self filming, Premiere/CapCut or trend adaptation. These methods assigned from general/employment sections without project-specific support."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C01",
+        "section_ids": [
+          "MK-J02-C01-SEC-EXP"
+        ],
+        "quotes": [
+          "hơn 150.000 người theo dõi",
+          "Viết bài cập nhật tin tức xu hướng giải trí"
+        ],
+        "issue": "Description drops over qualifier; Gen Z-specific trend expertise assigned to internship without audience cohort evidence. Preserve bounded claims."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C02",
+        "section_ids": [
+          "MK-J02-C02-SEC-EXP"
+        ],
+        "quotes": [
+          "Tự cắt ghép, chỉnh màu và chèn hiệu ứng chuyển cảnh"
+        ],
+        "issue": "Music-trend adaptation not explicit for employer, although general skills support it. Avoid transferring all general skills into role."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C03",
+        "section_ids": [
+          "MK-J02-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "chưa từng tự quay video, đứng trước ống kính hay sử dụng ứng dụng dựng phim CapCut, Premiere"
+        ],
+        "issue": "Requirement-shaped multi-item denial rather than natural account of own work."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C04",
+        "section_ids": [
+          "MK-J02-C04-SEC-SUM",
+          "MK-J02-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "trẻ tuổi",
+          "chưa dùng phần mềm dựng Premiere chuyên nghiệp",
+          "giúp 2 video đạt trên 300.000 lượt xem"
+        ],
+        "issue": "Age descriptor unnecessary. Premiere denial can imply a gap despite JD allowing CapCut OR Premiere. Description loses over qualifier; acting before camera not explicit in employer prose."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C05",
+        "section_ids": [
+          "MK-J02-C05-SEC-EXP"
+        ],
+        "quotes": [
+          "hơn 45 triệu lượt xem"
+        ],
+        "issue": "Description loses over qualifier. Storytelling plausible from creative leadership but actual current-role storytelling use not explicit; review narrow attribution."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C06",
+        "section_ids": [
+          "MK-J02-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Không trực tiếp làm nhiệm vụ viết kịch bản, quay phim hay biên tập video ngắn bằng CapCut, Premiere."
+        ],
+        "issue": "JD-shaped denial list risks source leakage."
+      }
+    },
+    {
+      "job_id": "MK-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J02-C08",
+        "section_ids": [
+          "MK-J02-C08-SEC-EXP"
+        ],
+        "quotes": [
+          "hơn 70.000 người theo dõi"
+        ],
+        "issue": "Description loses over qualifier. Bắt trend du lịch ẩm thực is not explicit as role activity, although stated as general skill."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": null,
+        "section_ids": [],
+        "field": "requirements/MK-J03-R05",
+        "quotes": [
+          "tại các trường uy tín"
+        ],
+        "issue": "School prestige criterion conflicts with protocol prohibition on rewarding school prestige. Human decision needed to repair criterion before labeling; do not operationalize prestige."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C01",
+        "record_id": "MK-J03-C01-EXP-02",
+        "section_ids": [
+          "MK-J03-C01-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Quản lý nhãn hàng bánh kẹo nhập khẩu, triển khai các hoạt động tài trợ chương trình truyền hình và activation tại rạp chiếu phim."
+        ],
+        "issue": "Brand management and campaign execution do not explicitly establish positioning strategy for second employer."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C02",
+        "record_id": "MK-J03-C02-EXP-01",
+        "section_ids": [
+          "MK-J03-C02-SEC-EXP"
+        ],
+        "field": "description",
+        "quotes": [
+          "quy mô 3 thành phố lớn",
+          "thu hút hơn 3.000 khách hàng"
+        ],
+        "issue": "Description adds 28-store scope and Digital KOLs from other sections; current employer prose does not establish them. Over 3,000 converted to exactly 3,000."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C02",
+        "record_id": "MK-J03-C02-EXP-02",
+        "section_ids": [
+          "MK-J03-C02-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "các chương trình tài trợ sắc đẹp và hợp tác với 50 beauty blogger"
+        ],
+        "issue": "Single/limited sponsorship activity does not establish integrated IMC campaign or retail scope assigned by compound skill."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C03",
+        "record_id": "MK-J03-C03-EXP-01",
+        "section_ids": [
+          "MK-J03-C03-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình"
+        ],
+        "issue": "Creative AND Media Agency compound adds distinct media-agency relationship not explicitly established. Checking TV schedule does not identify counterparty."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C04",
+        "record_id": "MK-J03-C04-EXP-01",
+        "section_ids": [
+          "MK-J03-C04-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "kênh siêu thị WinMart, Big C/Go! và Lotte Mart"
+        ],
+        "issue": "MT AND CVS compound adds convenience-store channel not established for current role."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C04",
+        "record_id": "MK-J03-C04-EXP-02",
+        "section_ids": [
+          "MK-J03-C04-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Thiết kế chương trình quà tặng đính kèm và kiểm tra nhân viên PG phát quà tại quầy."
+        ],
+        "issue": "Shopper Activation AND POSM compound adds POSM-specific work not explicit for second employer."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C05",
+        "record_id": "MK-J03-C05-EXP-01",
+        "section_ids": [
+          "MK-J03-C05-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Chỉ đạo các chiến dịch IMC cấp quốc gia"
+        ],
+        "issue": "Hợp tác WPP Omnicom not stated for current employer. General skills cannot establish particular corporate relationships."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C06",
+        "record_id": "MK-J03-C06-EXP-01",
+        "section_ids": [
+          "MK-J03-C06-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "duy trì ROAS trung bình 3.5"
+        ],
+        "issue": "ROAS AND CPA compound adds CPA metric not explicit in employer prose."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C06",
+        "record_id": "MK-J03-C06-EXP-02",
+        "section_ids": [
+          "MK-J03-C06-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Thiết lập chiến dịch quảng cáo Meta Ads cho các cửa hàng thời trang bán lẻ."
+        ],
+        "issue": "E-commerce sales channel not established by retail store advertising; may concern offline stores."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C08",
+        "record_id": "MK-J03-C08-EXP-02",
+        "section_ids": [
+          "MK-J03-C08-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Nghiên cứu hành vi người tiêu dùng (Consumer Insights) và viết bản định hướng sáng tạo (Creative Brief)."
+        ],
+        "issue": "Brand positioning not explicitly established by consumer research/creative brief; these tasks do not necessarily include positioning."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C01",
+        "section_ids": [
+          "MK-J03-C01-SEC-EXP"
+        ],
+        "quotes": [
+          "Ogilvy, Dentsu"
+        ],
+        "issue": "Synthetic relationship claims name real agencies. Review fictional framing and distinguish general agency skill from verified real partnerships; PR/media subtype breadth not explicit in role prose."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C03",
+        "section_ids": [
+          "MK-J03-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "chưa chính thức quản lý đội ngũ nhân viên chính thức"
+        ],
+        "issue": "Requirement-shaped denial following factual intern supervision; retain factual scope without embedding intended label."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C04",
+        "section_ids": [
+          "MK-J03-C04-SEC-SUM",
+          "MK-J03-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "Không chuyên về định vị thương hiệu dài hạn hay chiến dịch truyền thông đa phương tiện ATL/TVC.",
+          "Không tham gia xây dựng chiến lược thương hiệu dài hạn hay chỉ đạo sản xuất TVC quảng cáo truyền hình."
+        ],
+        "issue": "Repeated requirement-shaped negative prose."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C05",
+        "section_ids": [
+          "MK-J03-C05-SEC-EXP"
+        ],
+        "quotes": [
+          "Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunGroup"
+        ],
+        "issue": "Employer name includes recognizable real corporate brand; cannot call unambiguously fictional without adjudication. Second-role portfolio strategy claim also stronger than simply managing three brands."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C06",
+        "section_ids": [
+          "MK-J03-C06-SEC-SUM",
+          "MK-J03-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa từng tham gia xây dựng chiến lược định vị thương hiệu tổng thể",
+          "Không phụ trách mảng định vị thương hiệu, không làm việc với các agency sáng tạo TVC hay quản trị ngân sách thương hiệu trên 5 tỷ đồng."
+        ],
+        "issue": "Negative list mirrors requirements. 500 million monthly ad budget annualizes above 5 billion, but not same as brand budget; do not silently call contradiction or infer budget ownership."
+      }
+    },
+    {
+      "job_id": "MK-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J03-C08",
+        "section_ids": [
+          "MK-J03-C08-SEC-EXP"
+        ],
+        "quotes": [
+          "tổng ngân sách thực thi trên 20 tỷ đồng"
+        ],
+        "issue": "Aggregate project budget not annual owned brand budget; preserve scope and do not infer requirement satisfaction mechanically."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C02",
+        "record_id": "MK-J04-C02-EXP-01",
+        "section_ids": [
+          "MK-J04-C02-SEC-EXP"
+        ],
+        "field": "skills_used/description",
+        "quotes": [
+          "Sử dụng Ahrefs kiểm tra đối thủ cạnh tranh và Screaming Frog để tìm kiếm các liên kết gãy nội bộ."
+        ],
+        "issue": "Google Search Console use not explicit for employer. Description upgrades detecting broken links to repairing them; also drops over qualifier on traffic."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C03",
+        "record_id": "MK-J04-C03-EXP-01",
+        "section_ids": [
+          "MK-J04-C03-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Sử dụng Google Search Console để xem xét các từ khóa"
+        ],
+        "issue": "Keyword Planner is another product, not established in employer source. General skills cannot identify role tool."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C05",
+        "record_id": "MK-J04-C05-EXP-01",
+        "section_ids": [
+          "MK-J04-C05-SEC-EXP"
+        ],
+        "field": "description/skills_used",
+        "quotes": [
+          "hơn 4 triệu lượt organic traffic mỗi tháng",
+          "Screaming Frog chạy qua máy chủ đám mây"
+        ],
+        "issue": "Description adds 8-person team and million-URL scale from other sections, changes over 4 million traffic into exactly 4 million. Employer text does not establish Ahrefs/BigQuery or specific Enterprise edition; software deployment topology not proof of edition."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C06",
+        "record_id": "MK-J04-C06-EXP-01",
+        "section_ids": [
+          "MK-J04-C06-SEC-EXP"
+        ],
+        "field": "description/skills_used",
+        "quotes": [
+          "Tự đăng bài lên hệ thống WordPress"
+        ],
+        "issue": "Yoast SEO/Rank Math use added to employer description and skills without role-specific evidence. WordPress does not imply these plugins."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C07",
+        "record_id": "MK-J04-C07-EXP-01",
+        "section_ids": [
+          "MK-J04-C07-SEC-EXP"
+        ],
+        "field": "description/skills_used",
+        "quotes": [
+          "Thường xuyên dùng Google Search Console"
+        ],
+        "issue": "Ahrefs Content Gap and WordPress use not stated for employer; added from general sections. Description also converts over 120 product pages into exactly 120."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C08",
+        "record_id": "MK-J04-C08-EXP-01",
+        "section_ids": [
+          "MK-J04-C08-SEC-EXP"
+        ],
+        "field": "description/skills_used",
+        "quotes": [
+          "Tối ưu hóa mã nguồn JavaScript",
+          "xuống dưới 1,8 giây"
+        ],
+        "issue": "Schema, Search Console/Ahrefs and HTML/CSS use not explicit for current role. Description invents indexing through Search Console and changes below 1.8 seconds into exactly 1.8."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C08",
+        "record_id": "MK-J04-C08-EXP-02",
+        "section_ids": [
+          "MK-J04-C08-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "bằng HTML5, CSS3, JavaScript và WordPress CMS"
+        ],
+        "issue": "WordPress CMS use and front-end programming do not explicitly establish custom-theme development."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C01",
+        "section_ids": [
+          "MK-J04-C01-SEC-EXP"
+        ],
+        "quotes": [
+          "kiểm soát hồ sơ backlink",
+          "hơn 1.500 từ khóa"
+        ],
+        "issue": "Backlink monitoring does not necessarily establish building off-page links assigned as skill; description drops over qualifier on keyword count."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C03",
+        "section_ids": [
+          "MK-J04-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa có kinh nghiệm thực hiện kiểm toán Technical SEO toàn diện, không sử dụng Screaming Frog quét mã lỗi hay triển khai chiến dịch đi backlink Off-page."
+        ],
+        "issue": "Requirement-shaped negative list; second-role Google Ads vendor not explicit in generic search-ad prose."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C04",
+        "section_ids": [
+          "MK-J04-C04-SEC-SUM",
+          "MK-J04-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "trẻ tuổi",
+          "Chưa có kinh nghiệm sử dụng Screaming Frog quét lỗi kỹ thuật hay xây dựng mạng lưới backlink Off-page chuyên sâu."
+        ],
+        "issue": "Unnecessary age descriptor and JD-shaped denials. Prior forum linking not identical to advanced backlink strategy; do not infer contradiction."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C06",
+        "section_ids": [
+          "MK-J04-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa từng thực hiện phân tích backlink, không sử dụng các phần mềm quét kỹ thuật như Screaming Frog hay phân tích đối thủ trên Ahrefs/SEMrush."
+        ],
+        "issue": "Multi-requirement negative list likely source-style leakage."
+      }
+    },
+    {
+      "job_id": "MK-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J04-C08",
+        "section_ids": [
+          "MK-J04-C08-SEC-SUM",
+          "MK-J04-C08-SEC-EXP"
+        ],
+        "quotes": [
+          "hơn 3 năm làm lập trình viên Front-end",
+          "Từ 2023-04 đến 2025-05"
+        ],
+        "issue": "Listed front-end role spans about 2 years 1 month, shorter than summary. Could reflect omitted earlier work; do not infer full skill tenure from total career."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C01",
+        "record_id": "MK-J05-C01-EXP-01",
+        "section_ids": [
+          "MK-J05-C01-SEC-EXP"
+        ],
+        "field": "skills_used/description",
+        "quotes": [
+          "Retention Rate sau 3 tháng đạt 42%",
+          "CAC giảm 15%",
+          "hơn 250.000 người dùng kích hoạt"
+        ],
+        "issue": "Compound CAC LTV Retention Activation adds LTV not established in role section. Description drops over qualifier on activated-user count. Product Director mapped to Product Manager may be functional paraphrase but should preserve original seniority/title."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C02",
+        "record_id": "MK-J05-C02-EXP-01",
+        "section_ids": [
+          "MK-J05-C02-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "phối hợp tập huấn sản phẩm cho hơn 30 nhân viên Sales doanh nghiệp",
+          "Giám đốc Sản phẩm quốc tế"
+        ],
+        "issue": "Product Sales CS coordination adds CS team not explicit for employer; TOEIC 860 attached as role skill though score cited only certification section. Description changes over 30 to exactly 30 and Director to Manager."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C02",
+        "record_id": "MK-J05-C02-EXP-02",
+        "section_ids": [
+          "MK-J05-C02-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "giải pháp hóa đơn số"
+        ],
+        "issue": "Product Marketing Fintech thanh toán adds payment-product scope not established by digital invoicing alone."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C03",
+        "record_id": "MK-J05-C03-EXP-02",
+        "section_ids": [
+          "MK-J05-C03-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Thực hiện kiểm thử tính năng trên ứng dụng di động iOS và Android."
+        ],
+        "issue": "Scrum Agile not established for testing employer; appears only in other role/general skills."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C04",
+        "record_id": "MK-J05-C04-EXP-01",
+        "section_ids": [
+          "MK-J05-C04-SEC-EXP"
+        ],
+        "field": "skills_used/description",
+        "quotes": [
+          "Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt",
+          "Viết 18 bài blog hướng dẫn các bước thao tác"
+        ],
+        "issue": "Webinar slides and release notes specifically not established by launch communication/blog instructions. Description removes explicit support-to-senior scope, potentially overstating ownership."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C05",
+        "record_id": "MK-J05-C05-EXP-01",
+        "section_ids": [
+          "MK-J05-C05-SEC-EXP"
+        ],
+        "field": "description/skills_used",
+        "quotes": [
+          "ứng dụng chuyển tiền quốc tế",
+          "Ban Giám đốc Công nghệ và Sản phẩm toàn cầu"
+        ],
+        "issue": "English work added to structured employer description without section evidence. International remittance app does not explicitly establish multi-country e-wallet ecosystem assigned as skill."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C06",
+        "record_id": "MK-J05-C06-EXP-01",
+        "section_ids": [
+          "MK-J05-C06-SEC-EXP"
+        ],
+        "field": "skills_used/description",
+        "quotes": [
+          "chương trình hoàn tiền 10%",
+          "hơn 40 chuỗi nhà hàng và rạp chiếu phim"
+        ],
+        "issue": "Compound points AND cashback adds loyalty-point program not stated for employer. Description changes over 40 partners to exactly 40."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C08",
+        "record_id": "MK-J05-C08-EXP-01",
+        "section_ids": [
+          "MK-J05-C08-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Phân tích dữ liệu hành vi người dùng qua Amplitude",
+          "tỷ lệ Activation Rate tăng thêm 14%"
+        ],
+        "issue": "Amplitude Mixpanel compound adds Mixpanel, and Activation Retention compound adds retention tracking not explicit for this employer. General skills/summary not employer evidence."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C03",
+        "section_ids": [
+          "MK-J05-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa có nhiều kinh nghiệm trực tiếp thiết kế chiến dịch tiếp thị Go-to-Market ra công chúng hay tối ưu các chỉ số chi phí thu hút khách hàng CAC, LTV."
+        ],
+        "issue": "JD-shaped negative list; LTV is lifetime value, not acquisition cost. Preserve domain semantics and natural task description."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C04",
+        "section_ids": [
+          "MK-J05-C04-SEC-SUM",
+          "MK-J05-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "trẻ tuổi",
+          "Chưa trực tiếp chủ trì chiến lược GTM độc lập hay phân tích sâu các chỉ số vòng đời tài chính như CAC, LTV."
+        ],
+        "issue": "Unneeded age descriptor and requirement-shaped denial."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C06",
+        "section_ids": [
+          "MK-J05-C06-SEC-SUM",
+          "MK-J05-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa có kinh nghiệm thực tế về ứng dụng công nghệ tài chính số Fintech",
+          "không đo lường các chỉ số phễu chuyển đổi kỹ thuật số như Activation hay Retention"
+        ],
+        "issue": "Repeated requirement-shaped negative prose rather than natural work account."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C07",
+        "section_ids": [
+          "MK-J05-C07-SEC-EXP"
+        ],
+        "quotes": [
+          "hơn 180.000 người dùng nạp tiền trải nghiệm",
+          "25 nhân viên tư vấn kinh doanh và đội ngũ CSKH"
+        ],
+        "issue": "Description loses over qualifier and may ambiguously apply 25 headcount to both Sales/CS when only Sales count specified. Claims of PMM experience beyond dated current role remain self-report with prior dates unknown."
+      }
+    },
+    {
+      "job_id": "MK-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/MK-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "MK-J05-C08",
+        "section_ids": [
+          "MK-J05-C08-SEC-EXP"
+        ],
+        "quotes": [
+          "tăng thêm 14%"
+        ],
+        "issue": "Relative percent versus percentage-point change unspecified; do not invent absolute baseline or convert to points."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "issue_id": "SA-J01-B01",
+        "record_ids": [
+          "SA-J01"
+        ],
+        "field": "requirements",
+        "exact_quotes": [
+          {
+            "location": "jd_text",
+            "quote": "Yêu cầu công việc (Bắt buộc):"
+          },
+          {
+            "location": "jd_text",
+            "quote": "Tác phong làm việc chuyên nghiệp, tư duy hướng đến giải pháp và khả năng chịu áp lực doanh số tốt."
+          }
+        ],
+        "finding": "Explicit mandatory JD criterion omitted from structured requirements. Existing three required and two preferred entries preserve their own JD wording and importance, but do not cover this mandatory line.",
+        "protocol_basis": "Source contract requires specific required/preferred criteria; annotation requires every central required criterion considered.",
+        "required_action": "Human decides how to represent and assess omitted criterion without inventing observable evidence or silently weakening mandatory wording. Repair structured requirements through authorized source workflow before annotation."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "issue_id": "SA-J01-B02",
+        "record_ids": [
+          "SA-J01-C04",
+          "SA-J01-C04-EXP-01",
+          "SA-J01-C04-EXP-02",
+          "SA-J01-C04-SEC-EXP"
+        ],
+        "field": "experiences.description; experiences.skills_used",
+        "exact_quotes": [
+          {
+            "location": "SA-J01-C04-EXP-01.description",
+            "quote": "Gọi điện thoại sàng lọc nhu cầu phần mềm quản lý dự án SaaS, tham gia demo giải pháp cùng chuyên viên chính, quản lý phễu trên HubSpot."
+          },
+          {
+            "location": "SA-J01-C04-SEC-EXP",
+            "quote": "Đồng hành cùng chuyên viên bán hàng cao cấp trong các buổi thuyết trình demo giải pháp cho khách hàng tiềm năng."
+          },
+          {
+            "location": "SA-J01-C04-EXP-01.skills_used",
+            "quote": "Thuyết trình demo cơ bản"
+          },
+          {
+            "location": "SA-J01-C04-EXP-02.description",
+            "quote": "Chuẩn bị tài liệu giới thiệu phần mềm kế toán đám mây, liên hệ hướng dẫn dùng thử cho hộ kinh doanh."
+          },
+          {
+            "location": "SA-J01-C04-SEC-EXP",
+            "quote": "Thực hiện liên hệ chăm sóc khách hàng dùng thử sau buổi hướng dẫn cài đặt."
+          }
+        ],
+        "finding": "Cited employment section does not explicitly identify project-management software as SaaS; SaaS occurs in summary only. Accompanying senior presenter does not establish candidate personally presented demos; basic demo presentation appears in separate skills section. Internship description changes follow-up after installation guidance into personally providing trial guidance.",
+        "protocol_basis": "Every structured fact must be explicitly supported in its section text.",
+        "required_action": "Align structured employment claims with cited employment evidence; adjudicate personal demo ownership and trial-guidance scope. Do not use summary/skills claims as proof of duties at specific employer."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "issue_id": "SA-J01-B03",
+        "record_ids": [
+          "SA-J01-C06",
+          "SA-J01-C06-EXP-01",
+          "SA-J01-C06-EXP-02",
+          "SA-J01-C06-SEC-EXP"
+        ],
+        "field": "experiences.skills_used",
+        "exact_quotes": [
+          {
+            "location": "SA-J01-C06-EXP-01.skills_used",
+            "quote": "Đàm phán hợp đồng đặt cọc"
+          },
+          {
+            "location": "SA-J01-C06-SEC-EXP",
+            "quote": "Tổ chức các buổi tham quan nhà mẫu, tư vấn gói tài chính ngân hàng hỗ trợ vay vốn và chốt giao dịch hợp đồng mua bán."
+          },
+          {
+            "location": "SA-J01-C06-EXP-02.skills_used",
+            "quote": "Kỹ năng tạo dựng quan hệ"
+          },
+          {
+            "location": "SA-J01-C06-SEC-EXP",
+            "quote": "Tư vấn tuyển sinh các khóa học kỹ năng mềm và tiếng Anh giao tiếp cho học sinh, sinh viên và người đi làm."
+          }
+        ],
+        "finding": "Deposit-contract negotiation and relationship-building are global skills claims, not explicit duties in cited employment section. Purchase/sale closing does not establish deposit-contract negotiation. Course-enrollment consulting does not explicitly establish relationship-building skill used at that employer.",
+        "protocol_basis": "Every structured fact must be explicitly supported in its section text.",
+        "required_action": "Remove unsupported role attribution or obtain explicit source support through authorized repair; missing role-level evidence does not prove skill absent."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "issue_id": "SA-J01-B04",
+        "record_ids": [
+          "SA-J01-C07",
+          "SA-J01-C07-EXP-02",
+          "SA-J01-C07-SEC-EXP"
+        ],
+        "field": "experiences[1].is_current",
+        "exact_quotes": [
+          {
+            "location": "SA-J01-C07-SEC-EXP",
+            "quote": "Thời gian: (thời gian làm việc linh hoạt theo dự án, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)"
+          },
+          {
+            "location": "SA-J01-C07-EXP-02",
+            "quote": "\"is_current\": false"
+          }
+        ],
+        "finding": "Null start/end dates correctly preserve unstated dates, but false current-employment status is unsupported. Source does not say freelance engagement ended. Required boolean schema cannot directly express unknown current status.",
+        "protocol_basis": "Every structured fact must be explicitly supported; null indicates unstated dates, not zero.",
+        "required_action": "Human adjudicates source/schema ambiguity. Do not infer ended employment from absent dates or force unknown status into false."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "record_ids": [
+          "SA-J01"
+        ],
+        "issue_ids": [
+          "SA-J01-B01"
+        ],
+        "reason": "Mandatory criterion omitted; behavioral wording also lacks clear evidence threshold."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "record_ids": [
+          "SA-J01-C04"
+        ],
+        "issue_ids": [
+          "SA-J01-B02"
+        ],
+        "reason": "Distinguish assisting demos from personally presenting, SaaS summary from employer-specific evidence, and follow-up from giving guidance."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "record_ids": [
+          "SA-J01-C06"
+        ],
+        "issue_ids": [
+          "SA-J01-B03"
+        ],
+        "reason": "Adjudicate skills imported from global skills section into specific employers."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "record_ids": [
+          "SA-J01-C07"
+        ],
+        "issue_ids": [
+          "SA-J01-B04"
+        ],
+        "reason": "Unknown freelance current status conflicts with mandatory boolean representation."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "record_ids": [
+          "SA-J01-C08-EXP-02",
+          "SA-J01-C08-SEC-EXP"
+        ],
+        "exact_quotes": [
+          {
+            "location": "SA-J01-C08-EXP-02.skills_used",
+            "quote": "Tư vấn giải pháp Pre-sales"
+          },
+          {
+            "location": "SA-J01-C08-SEC-EXP",
+            "quote": "Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước."
+          }
+        ],
+        "reason": "Freelance consulting explicitly supported; sales-side presales status ambiguous. Do not transfer main-employer role classification to freelance work."
+      }
+    },
+    {
+      "job_id": "SA-J01",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J01.json",
+      "status": "pending_human_review",
+      "finding": {
+        "record_ids": [
+          "SA-J01-C03-SEC-EXP"
+        ],
+        "exact_quotes": [
+          {
+            "location": "SA-J01-C03-SEC-EXP",
+            "quote": "Chưa sử dụng Salesforce hay HubSpot chuyên sâu, chủ yếu quản lý khách hàng bằng bảng tính Excel kết hợp Zalo."
+          }
+        ],
+        "reason": "Sentence mirrors named JD tools as negative evidence. Single sentence not enough to prove prohibited denial-list design; inspect source-style risk without treating non-expert use as zero exposure."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": null,
+        "section_ids": [],
+        "field": "requirements",
+        "quotes": [
+          "Giao tiếp nhanh nhẹn, trung thực, có sức khỏe tốt và chịu được áp lực doanh số ngành hàng tiêu dùng nhanh."
+        ],
+        "issue": "JD places this additional criterion under mandatory heading but requirements omit it. Health criterion also needs human review for job-related necessity and disability-proxy risk; do not use as unapproved ranking criterion."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C03",
+        "record_id": "SA-J02-C03-EXP-02",
+        "section_ids": [
+          "SA-J02-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "Trả lời tin nhắn trên trang Facebook, đóng gói bưu phẩm và giao hàng nội quận khi có đơn gấp."
+        ],
+        "field": "description/skills_used",
+        "issue": "Specific second role does not state motorcycle transport or personally owned motorcycle. Structured description adds 'bằng xe máy' and skills_used adds 'Xe máy cá nhân'. General skills section does not establish use/ownership in this role."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C04",
+        "record_id": "SA-J02-C04-EXP-01",
+        "section_ids": [
+          "SA-J02-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "hỏi thăm tình hình bán hàng và kiểm tra date bánh kẹo",
+          "Dán áp phích thông báo tặng chén dĩa"
+        ],
+        "field": "skills_used",
+        "issue": "Trưng bày kệ bánh kẹo and quantitative inventory checking are not explicit in this employment. Expiry checks and posters do not establish shelf arrangement or stock counts. Candidate skills section supports general claims, not this role attribution."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C04",
+        "record_id": "SA-J02-C04-EXP-02",
+        "section_ids": [
+          "SA-J02-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "Giao nguyên vật liệu trà và siro tới các chi nhánh cửa hàng nhượng quyền trong thành phố."
+        ],
+        "field": "skills_used",
+        "issue": "Đi tuyến bằng xe máy not established for second employer; motorcycle appears only in first role/general profile."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C05",
+        "record_id": "SA-J02-C05-EXP-01",
+        "section_ids": [
+          "SA-J02-C05-SEC-EXP"
+        ],
+        "quotes": [
+          "phụ trách 2 nhà phân phối và đội ngũ 7 nhân viên bán hàng thị trường",
+          "Kiểm tra đột xuất việc thực thi trưng bày POSM"
+        ],
+        "field": "description/skills_used",
+        "issue": "Structured description adds inventory supervision and tier-1 distributor classification; role prose states neither. MCP route planning is also assigned to this role without explicit role evidence. General skills cannot supply missing role-specific facts."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C06",
+        "record_id": "SA-J02-C06-EXP-01",
+        "section_ids": [
+          "SA-J02-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Trực tiếp nhận hàng từ xe tải trung chuyển, đối chiếu phiếu giao nhận",
+          "Báo cáo sản phẩm sắp hết hạn để dán tem giảm giá kích cầu tiêu thụ."
+        ],
+        "field": "description/skills_used",
+        "issue": "Structured description asserts inventory stocktake and personally applying discount stickers; prose describes receipt reconciliation and reporting expiry for stickers. Đảo date hàng hóa also not established as role task. Do not strengthen reporting into direct execution or goods receipt into inventory stocktake."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C07",
+        "record_id": "SA-J02-C07-EXP-01",
+        "section_ids": [
+          "SA-J02-C07-SEC-EXP"
+        ],
+        "quotes": [
+          "thương lượng chỗ đặt kệ giới thiệu sản phẩm nổi bật ở mặt tiền tiệm"
+        ],
+        "field": "skills_used",
+        "issue": "Mở rộng điểm bán hóa mỹ phẩm and Treo hanger quảng cáo are assigned to role, but prose does not state new outlet acquisition or hanger installation. General skills list is not role-specific evidence."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C07",
+        "record_id": "SA-J02-C07-EXP-02",
+        "section_ids": [
+          "SA-J02-C07-SEC-EXP"
+        ],
+        "quotes": [
+          "Chở hàng giao cho các quán ăn và tiệm tạp hóa lẻ theo đơn hàng có sẵn."
+        ],
+        "field": "skills_used",
+        "issue": "Xe máy di chuyển thị trường is not explicit for this engagement; vehicle unspecified."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C08",
+        "record_id": "SA-J02-C08-EXP-01",
+        "section_ids": [
+          "SA-J02-C08-SEC-EXP"
+        ],
+        "quotes": [
+          "giao cho 90 cửa hàng tạp hóa theo tuyến phân công"
+        ],
+        "field": "description/skills_used",
+        "issue": "Specific employer section does not name Gò Vấp/Bình Thạnh or personal motorcycle use; structured description adds districts and skills_used adds district expertise/personal motorcycle from other sections. Record must cite section supporting all assigned facts."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C03",
+        "section_ids": [
+          "SA-J02-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "chưa phụ trách tuyến đường thực địa hay đi kiểm tra tạp hóa bao giờ"
+        ],
+        "issue": "Requirement-shaped denial in weaker profile; review against source contract's natural-work-description rule."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C06",
+        "section_ids": [
+          "SA-J02-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa có kinh nghiệm đi ra ngoài chào bán cho các tiệm tạp hóa hay đại lý bên ngoài."
+        ],
+        "issue": "Explicit JD-shaped negative prose; source style may encode intended fit. Rewrite only through approved source repair, not based on labels."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C04",
+        "section_ids": [
+          "SA-J02-C04-SEC-SUM"
+        ],
+        "quotes": [
+          "trẻ tuổi"
+        ],
+        "issue": "Age-related descriptor unnecessary for synthetic job-fit dataset; remove or adjudicate before annotation."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C05",
+        "section_ids": [
+          "SA-J02-C05-SEC-SKILL",
+          "SA-J02-C05-SEC-EXP"
+        ],
+        "quotes": [
+          "đội ngũ 8 nhân viên sales",
+          "đội ngũ 7 nhân viên bán hàng thị trường"
+        ],
+        "issue": "Team sizes differ between general skills and current role; could reflect different scope/time, not automatically contradiction. Clarify rather than invent chronology."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C07",
+        "section_ids": [
+          "SA-J02-C07-SEC-EDU"
+        ],
+        "quotes": [
+          "Cử nhân Cao đẳng"
+        ],
+        "issue": "Degree terminology ambiguous; structured Cao đẳng resolves wording without explicit clarification."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C01",
+        "section_ids": [
+          "SA-J02-C01-SEC-EXP"
+        ],
+        "quotes": [
+          "hướng dẫn chủ tiệm dán poster khuyến mại tháng"
+        ],
+        "issue": "Trưng bày sản phẩm attribution could overstate poster guidance as product shelf display; review narrower supported wording."
+      }
+    },
+    {
+      "job_id": "SA-J02",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J02.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J02-C02",
+        "section_ids": [
+          "SA-J02-C02-SEC-EXP"
+        ],
+        "quotes": [
+          "Trực tiếp đi giao bánh kẹo cho các sạp chợ truyền thống và thu đơn đặt hàng bổ sung"
+        ],
+        "issue": "Phát triển thị trường thực phẩm for second role is broad; delivery/order collection supports sales assistance, not necessarily market development."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C02",
+        "record_id": "SA-J03-C02-EXP-02",
+        "section_ids": [
+          "SA-J03-C02-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Chuẩn bị năng lực hồ sơ thầu, bảng chào giá và giấy ủy quyền hãng sản xuất cho các gói thầu trang thiết bị nội soi và phẫu thuật."
+        ],
+        "issue": "Tiếng Anh đọc tài liệu kỹ thuật assigned to second role without explicit role evidence. General skills and TOEIC do not establish use at this employer."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C05",
+        "record_id": "SA-J03-C05-EXP-01",
+        "section_ids": [
+          "SA-J03-C05-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Trực tiếp làm việc với lãnh đạo các bệnh viện trung ương tuyến cuối tại Hà Nội",
+          "Đàm phán các hợp đồng nhập khẩu chính hãng với các tập đoàn y tế hàng đầu tại Hoa Kỳ và Nhật Bản."
+        ],
+        "issue": "Mối quan hệ viện trưởng và sở y tế adds specific authorities not established by employer prose. Tiếng Anh cấp độ chuyên gia is also not explicit in this section; foreign counterpart location alone is not language evidence."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C08",
+        "record_id": "SA-J03-C08-EXP-01",
+        "section_ids": [
+          "SA-J03-C08-SEC-EXP"
+        ],
+        "field": "skills_used/description",
+        "quotes": [
+          "bằng tiếng Anh",
+          "cho hơn 40 bác sĩ và kỹ thuật viên hình ảnh"
+        ],
+        "issue": "skills_used attaches IELTS 7.5 to employment although score occurs only in certification section, not evidence of score/time at role. Structured description also changes mixed group of over 40 doctors AND technicians to over 40 doctors, strengthening participant count."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C01",
+        "section_ids": [
+          "SA-J03-C01-SEC-EXP"
+        ],
+        "quotes": [
+          "Trực tiếp chỉ đạo tham gia và trúng 14 gói thầu"
+        ],
+        "issue": "Role skills add relationships with hospital leadership; winning hospital tenders does not identify counterpart seniority. Narrow to role-supported wording or adjudicate."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C02",
+        "section_ids": [
+          "SA-J03-C02-SEC-EXP"
+        ],
+        "quotes": [
+          "Tham gia cùng ban giám đốc đàm phán hợp đồng thầu trị giá 42 tỷ đồng"
+        ],
+        "issue": "Structured description omits co-participation qualifier, potentially overstating ownership. Quan hệ phòng vật tư bệnh viện in role skills is not explicit here."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C03",
+        "section_ids": [
+          "SA-J03-C03-SEC-SUM",
+          "SA-J03-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa từng giữ chức danh quản lý đội nhóm",
+          "chưa tham gia quản lý hay phân chia chỉ tiêu cho nhân viên khác"
+        ],
+        "issue": "Repeated requirement-shaped negative prose risks encoding target fit rather than natural work account. General self-evaluation xuất sắc also unnecessary."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C04",
+        "section_ids": [
+          "SA-J03-C04-SEC-SUM",
+          "SA-J03-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa có kinh nghiệm thực tế về thiết bị lâm sàng bệnh viện.",
+          "Không phụ trách mảng thiết bị y tế bệnh viện hay vật tư tiêu hao lâm sàng."
+        ],
+        "issue": "Repeated JD-shaped denials in adjacent-domain profile; review source style independently of eventual relevance."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C06",
+        "section_ids": [
+          "SA-J03-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa có kinh nghiệm bán máy móc, thiết bị y tế hay xây dựng hồ sơ thầu mua sắm máy móc kỹ thuật."
+        ],
+        "issue": "JD-shaped negative list; Quan hệ khoa Dược in role skills is supported generally but not explicit in employer-specific tasks."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C05",
+        "section_ids": [
+          "SA-J03-C05-SEC-SKILL",
+          "SA-J03-C05-SEC-EXP"
+        ],
+        "quotes": [
+          "quy mô trên 25 người",
+          "tổng số 24 cán bộ nhân viên"
+        ],
+        "issue": "Different team sizes/scopes and summary claim of nationwide executive role not represented in listed timeline; possible omitted work, not automatically false. Preserve as unknown until clarified."
+      }
+    },
+    {
+      "job_id": "SA-J03",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J03.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J03-C08",
+        "section_ids": [
+          "SA-J03-C08-SEC-EXP"
+        ],
+        "quotes": [
+          "Bệnh viện Bạch Mai, Bệnh viện Việt Đức và Bệnh viện Đa khoa Thái Nguyên"
+        ],
+        "issue": "Real institutional names used in synthetic work/achievement narrative could imply actual relationships. Employers are declared fictional, but institutional association claims need human decision and explicit fictional framing."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C03",
+        "record_id": "SA-J04-C03-EXP-01",
+        "section_ids": [
+          "SA-J04-C03-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Trực sảnh trưng bày, mở cửa chào đón khách hàng và phát catalogue sản phẩm mới."
+        ],
+        "issue": "Giọng nói chuẩn not explicit in role section. General skills say rõ ràng dễ nghe, not defined accent standard; do not silently equate these concepts."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C04",
+        "record_id": "SA-J04-C04-EXP-02",
+        "section_ids": [
+          "SA-J04-C04-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Tư vấn dòng sản phẩm chăm sóc da chống lão hóa cho khách hàng nữ."
+        ],
+        "issue": "Tư vấn hàng cao cấp not established for second employer. Imported cosmetics not necessarily luxury products."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C06",
+        "record_id": "SA-J04-C06-EXP-01",
+        "section_ids": [
+          "SA-J04-C06-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Thực hiện trung bình 60 đến 80 cuộc gọi mỗi ngày"
+        ],
+        "issue": "Giọng nói chuẩn assigned from general skills/summary, not role-specific section."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C07",
+        "record_id": "SA-J04-C07-EXP-01",
+        "section_ids": [
+          "SA-J04-C07-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Đón tiếp khách hàng tới xem các mẫu giường ngủ bọc nỉ, tủ áo cánh kính và bàn trang điểm thông minh."
+        ],
+        "issue": "Industrial wood composition and Giọng nói hòa nhã not stated in employer-specific prose; assigned from other sections."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C08",
+        "record_id": "SA-J04-C08-EXP-01",
+        "section_ids": [
+          "SA-J04-C08-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Lên dự toán chi phí chi tiết, ký hợp đồng đóng đồ nội thất theo số đo căn hộ chung cư."
+        ],
+        "issue": "Thiết kế 3D SketchUp not established in this employment section, only general skills."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C08",
+        "record_id": "SA-J04-C08-PRJ-01",
+        "section_ids": [
+          "SA-J04-C08-SEC-PRJ"
+        ],
+        "field": "technologies_or_methods",
+        "quotes": [
+          "Tư vấn trọn gói bộ bàn ăn thông minh kéo dài và hệ tủ tivi treo tường"
+        ],
+        "issue": "Neither Phối màu sắc và công năng nor Thiết kế 3D SketchUp explicitly stated in project source. General skills cannot establish actual project methods."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": null,
+        "section_ids": [],
+        "quotes": [
+          "giọng nói chuẩn"
+        ],
+        "issue": "Undefined mandatory voice/accent norm may encode regional/disability bias. Replace with concrete job-related communication requirement only after human adjudication; do not rank accents."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C03",
+        "section_ids": [
+          "SA-J04-C03-SEC-SUM",
+          "SA-J04-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "Ứng viên trẻ trung",
+          "Chưa có nhiều cơ hội tư vấn chọn đồ gỗ nội thất phòng ngủ hay phòng khách."
+        ],
+        "issue": "Unneeded age proxy and JD-shaped denial; review natural source style."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C04",
+        "section_ids": [
+          "SA-J04-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa có kiến thức chuyên môn về vật liệu gỗ, kích thước sofa hay dịch vụ vận chuyển nội thất cồng kềnh."
+        ],
+        "issue": "Explicit multi-requirement denial rather than natural work history."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C06",
+        "section_ids": [
+          "SA-J04-C06-SEC-EXP",
+          "SA-J04-C06-SEC-SKILL"
+        ],
+        "quotes": [
+          "Chưa có kinh nghiệm tiếp khách trực tiếp tại quầy showroom hay tư vấn phối màu đồ đạc nội thất.",
+          "Giọng nói chuẩn miền Nam"
+        ],
+        "issue": "Requirement-shaped negative prose plus region-specific voice norm; do not use regional accent as ability proxy."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C01",
+        "section_ids": [
+          "SA-J04-C01-SEC-EXP"
+        ],
+        "quotes": [
+          "kiểm tra lịch xuất kho và liên hệ thông báo giờ giao hàng"
+        ],
+        "issue": "Structured description broadens shipment scheduling to coordination with installation crew; that is explicit in skills but not role prose. Natural wood material also not specific in employer text."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C05",
+        "section_ids": [
+          "SA-J04-C05-SEC-EXP"
+        ],
+        "quotes": [
+          "Tư vấn bán các gói nội thất hoàn thiện căn hộ"
+        ],
+        "issue": "Second-role skill Tư vấn nội thất cao cấp adds luxury segment not stated for that employer. Current-role detailed color/function consultation also only explicit in general skills."
+      }
+    },
+    {
+      "job_id": "SA-J04",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J04.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J04-C08",
+        "section_ids": [
+          "SA-J04-C08-SEC-PRJ"
+        ],
+        "quotes": [
+          "Sunrise Riverside"
+        ],
+        "issue": "Real-estate project name can imply real synthetic engagement; confirm fictional framing."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C01",
+        "record_id": "SA-J05-C01-EXP-01",
+        "section_ids": [
+          "SA-J05-C01-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "1.200 TEU đường biển và 150 tấn hàng không mỗi năm",
+          "bằng tiếng Anh"
+        ],
+        "issue": "Role does not explicitly establish LCL, customs declaration service or TOEIC 890. Compound FCL LCL and certification score attach facts from general/certification sections to specific employment."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C01",
+        "record_id": "SA-J05-C01-EXP-02",
+        "section_ids": [
+          "SA-J05-C01-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Chào bán cước đường biển FCL tuyến Đông Nam Á"
+        ],
+        "issue": "Compound FCL LCL adds LCL not stated for second role."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C02",
+        "record_id": "SA-J05-C02-EXP-02",
+        "section_ids": [
+          "SA-J05-C02-SEC-EXP"
+        ],
+        "field": "skills_used/description",
+        "quotes": [
+          "khách hàng xuất nhập khẩu nông sản, tư vấn cước hàng lẻ LCL"
+        ],
+        "issue": "Compound FCL LCL adds FCL; description narrows import/export customer search to export without explicit basis."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C04",
+        "record_id": "SA-J05-C04-EXP-01",
+        "section_ids": [
+          "SA-J05-C04-SEC-EXP"
+        ],
+        "field": "description/skills_used",
+        "quotes": [
+          "bàn giao lệnh giao hàng (D/O) cho khách"
+        ],
+        "issue": "Description changes handover to issuing D/O. English email use and LCL assigned to employer without explicit role evidence; general skills cannot establish role-specific use."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C05",
+        "record_id": "SA-J05-C05-EXP-01",
+        "section_ids": [
+          "SA-J05-C05-SEC-EXP"
+        ],
+        "field": "description/skills_used",
+        "quotes": [
+          "Điều phối mạng lưới văn phòng đại diện tại Singapore, Hồng Kông và Nhật Bản"
+        ],
+        "issue": "Description adds English work; skills_used adds FCL/Charter transport and English proficiency not explicit in employer section. International counterpart locations do not establish language or transport mode."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C06",
+        "record_id": "SA-J05-C06-EXP-01",
+        "section_ids": [
+          "SA-J05-C06-SEC-EXP"
+        ],
+        "field": "description/skills_used",
+        "quotes": [
+          "12 nhà máy sản xuất thiết bị gia dụng và may mặc xuất khẩu tại Bình Dương",
+          "giá trị hợp đồng hơn 16 tỷ đồng/năm"
+        ],
+        "issue": "Description adds FDI status from other sections and changes more than 16 billion into exactly 16 billion. OTIF assigned to role although employer prose has no on-time-delivery metric."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C07",
+        "record_id": "SA-J05-C07-EXP-01",
+        "section_ids": [
+          "SA-J05-C07-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "cước tàu biển FCL từ Nhật về Việt Nam"
+        ],
+        "issue": "Compound FCL LCL adds LCL not stated for current employer."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C07",
+        "record_id": "SA-J05-C07-EXP-02",
+        "section_ids": [
+          "SA-J05-C07-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "gửi báo giá cước tàu feeder"
+        ],
+        "issue": "Feeder carrier/service does not establish either FCL or LCL; compound skill unsupported for this engagement."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C08",
+        "record_id": "SA-J05-C08-EXP-01",
+        "section_ids": [
+          "SA-J05-C08-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "Lập tờ khai nhập khẩu nguyên phụ liệu gia công",
+          "gói cước tàu biển FCL trọn gói"
+        ],
+        "issue": "VNACCS software, HS Code work and LCL not explicit in current role source. These occur in other sections or are inferred from customs work."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "blocking_issues",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C08",
+        "record_id": "SA-J05-C08-EXP-02",
+        "section_ids": [
+          "SA-J05-C08-SEC-EXP"
+        ],
+        "field": "skills_used",
+        "quotes": [
+          "đi mở tờ khai, lấy mẫu kiểm nghiệm và bấm seal container"
+        ],
+        "issue": "Specific VNACCS use not explicit for second employer; opening declarations does not identify software."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C03",
+        "section_ids": [
+          "SA-J05-C03-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa có kinh nghiệm xử lý tờ khai hải quan, cước tàu biển quốc tế hay dịch vụ chuyển phát hàng không."
+        ],
+        "issue": "Requirement-shaped negative list rather than natural account of own work."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C04",
+        "section_ids": [
+          "SA-J05-C04-SEC-SUM",
+          "SA-J05-C04-SEC-EXP"
+        ],
+        "quotes": [
+          "trẻ tuổi",
+          "Chưa có nhiều cơ hội trực tiếp ký kết hợp đồng khung thường niên hay giải pháp chuỗi cung ứng phức tạp"
+        ],
+        "issue": "Unneeded age proxy and multi-requirement denial; human source repair decision needed."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C06",
+        "section_ids": [
+          "SA-J05-C06-SEC-EXP"
+        ],
+        "quotes": [
+          "Chưa từng đảm nhiệm nghiệp vụ cước tàu biển container, booking đường bay hay thủ tục hải quan xuất nhập khẩu."
+        ],
+        "issue": "JD-shaped denial list risks intended-fit leakage."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": "SA-J05-C02",
+        "section_ids": [
+          "SA-J05-C02-SEC-EXP"
+        ],
+        "quotes": [
+          "18 khách hàng xuất khẩu gỗ và nội thất kim loại"
+        ],
+        "issue": "Structured description says 18 wood exporters only; preserves total while omitting metal-furniture category, potentially misrepresenting customer composition. Current-role FCL/LCL granularity also not explicit."
+      }
+    },
+    {
+      "job_id": "SA-J05",
+      "category": "human_review_cases",
+      "audit_path": "dataset/ai2-pilot-v1/audits/SA-J05.json",
+      "status": "pending_human_review",
+      "finding": {
+        "candidate_id": null,
+        "section_ids": [],
+        "quotes": [
+          "Duy trì tỷ lệ giữ chân khách hàng (retention rate) trên 90%"
+        ],
+        "issue": "Clarify performance target versus historical qualification; do not treat unknown historical retention as confirmed failure or use unequal employer metrics as verified competence."
+      }
+    }
+  ],
+  "limitations": [
+    "Model source findings require human adjudication; not expert gold.",
+    "IT and SA-J01 fresh reviewer contexts; remaining 9 commercial jobs audited in coordinator session exposed to generation discussion, not blind.",
+    "No initial or blind relevance labels created.",
+    "Candidate-index scenario patterns identified qualitatively; no quantitative label-leakage conclusion without labels.",
+    "Original incomplete IT audit retained for provenance; per-JD audits supersede coverage only."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "documents": 180,
+  "exact_duplicate_pairs": [],
+  "near_duplicate_threshold": 0.5,
+  "near_duplicate_pairs": [],
+  "limitations": [
+    "Whitespace/word-token five-gram Jaccard is lexical only, not semantic duplicate detection.",
+    "Below-threshold scenarios may still share templates or intended-fit leakage.",
+    "No AI1 contamination check performed; separately approved phase required."
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "ai2-pilot-human-source-decisions-v1",
+  "scope": "source acceptance only; no relevance labels approved",
+  "decisions": [
+    {
+      "decision_id": "HR-SOURCE-001",
+      "status": "approved_pending_application",
+      "job_id": "MK-J03",
+      "requirement_id": "MK-J03-R05",
+      "issue": "school prestige criterion",
+      "user_choice": "Bỏ uy tín trường",
+      "action": "Remove 'tại các trường uy tín' from JD and requirement; retain study fields and master's preference. Do not change CVs or use school prestige in labeling.",
+      "approved_requirement_text": "Tốt nghiệp đại học chuyên ngành Marketing, Truyền thông hoặc Kinh tế, có bằng Thạc sĩ là lợi thế.",
+      "similar_case_rule": "Remove school-prestige qualification; preserve explicit job-related study fields and degree preferences. Do not remove all education criteria.",
+      "authorization": "User selected recommended option in source review dialog."
+    },
+    {
+      "decision_id": "HR-SOURCE-002",
+      "status": "approved_pending_application",
+      "job_id": "SA-J04",
+      "requirement_id": "SA-J04-R03",
+      "issue": "regional accent and discriminatory criteria",
+      "user_choice": "Các vấn đề liên quan đến vùng miền hay phân biệt sẽ không tính vào.",
+      "action": "Exclude regional accent and discriminatory attributes from relevance assessment and ranking features. Remove undefined 'giọng nói chuẩn' from JD/requirement rather than inventing a replacement skill in CVs. Retain concrete job-related communication and product consultation criteria.",
+      "approved_requirement_text": "Kỹ năng giao tiếp lịch thiệp, tư vấn phối màu sắc và chất liệu sản phẩm phù hợp không gian sống.",
+      "similar_case_rule": "Do not reward or penalize regional accent, age descriptors or other protected/discriminatory proxies. Preserve genuinely job-related task evidence. Escalate ambiguous health/job-necessity criteria separately.",
+      "authorization": "User explicitly excluded regional and discriminatory criteria. No specific statute or legal-compliance conclusion independently verified."
+    },
+    {
+      "decision_id": "HR-SOURCE-003",
+      "status": "approved_pending_application",
+      "issue": "unsupported employment/project skill attribution",
+      "user_choice": "Bỏ gán sai vai trò",
+      "action": "Retain supported general CV skills; remove unsupported role/project-specific skill assignments from skills_used or technologies_or_methods. Do not add source prose to justify structured claims.",
+      "similar_case_rule": "Apply to skills found only in summary, general skills, certification or another employment/project. Preserve supported role-specific skills; unresolved semantic equivalences remain human-review cases.",
+      "authorization": "User selected recommended option in source review dialog."
+    },
+    {
+      "decision_id": "HR-SOURCE-004",
+      "status": "approved_pending_application",
+      "issue": "structured description changes source meaning or scope",
+      "user_choice": "Sửa cấu trúc sát nguồn",
+      "action": "Repair structured descriptions to preserve source actors, operations, quantifiers, responsibility scope and qualifiers. Keep original CV prose. Do not turn support into ownership, handover into issuance, mixed participant count into doctor-only count or bounded quantities into exact quantities.",
+      "similar_case_rule": "Apply only where faithful correction is unambiguous from cited section. Escalate genuinely ambiguous mappings rather than inventing facts.",
+      "authorization": "User selected recommended option in source review dialog."
+    },
+    {
+      "decision_id": "HR-SOURCE-005",
+      "status": "approved_pending_application",
+      "issue": "unknown employment current status",
+      "user_choice": "Cho phép null",
+      "action": "Amend pilot protocol and validator to permit is_current boolean or null. Use null only when source does not establish current or ended employment; preserve dates and source prose.",
+      "similar_case_rule": "Explicit current wording supports true; explicit prior/ended wording supports false. Missing dates alone do not imply unknown current status, and past-tense inference alone must not imply ended employment.",
+      "authorization": "User approved pilot schema change in source review dialog; no changes authorized to old AI1/AI2."
+    },
+    {
+      "decision_id": "HR-SOURCE-006",
+      "status": "approved_pending_application",
+      "issue": "JD-shaped negative lists in synthetic CV prose",
+      "user_choice": "Bỏ danh sách phủ định",
+      "action": "Remove requirement-shaped negative-list sentences before annotation, preserving concrete task facts and positive scope qualifiers. Log removed text and update section joins. Do not add capabilities or interpret newly missing evidence as absence.",
+      "similar_case_rule": "Apply to templated denials of JD skills/tasks. Preserve specific observed duties, support responsibilities and limited supervisory scope; ambiguous sentences require separate review.",
+      "authorization": "User approved controlled source repair in source review dialog."
+    },
+    {
+      "decision_id": "HR-SOURCE-007",
+      "status": "approved_pending_application",
+      "issue": "real or colliding organization names in synthetic work narratives",
+      "user_choice": "Đổi tên hư cấu",
+      "action": "Consistently fictionalize employer, customer and partner organization names in work narratives and structured records, preserving task/date/metric scope; retain mapping and change history.",
+      "similar_case_rule": "Do not rename technology/product/platform names, certification titles or educational institutions under this rule. Do not use school prestige for labels. No claim of exhaustive external identity verification.",
+      "authorization": "User approved organization-name source repair in source review dialog."
+    },
+    {
+      "decision_id": "HR-SOURCE-008",
+      "status": "approved_pending_application",
+      "issue": "ambiguous summary tenure versus employment timeline",
+      "user_choice": "Giữ nguồn, gắn cờ",
+      "action": "Preserve summary and dates; flag ambiguous duration scope. Derive only job-related tenure supported by explicit tasks/dates, merge overlaps and retain unknown periods. Escalate label-material ambiguity to human review.",
+      "similar_case_rule": "Do not rewrite years to match total chronology or assign every skill all career tenure. Rounded/narrower summary is not automatically a false statement.",
+      "authorization": "User approved ambiguity-handling rule in source review dialog."
+    },
+    {
+      "decision_id": "HR-SOURCE-009",
+      "status": "approved_pending_application",
+      "issue": "recurring candidate-index source scenarios",
+      "user_choice": "Giữ pilot có giới hạn",
+      "action": "Retain pilot for development only; explicitly document recurring scenario/template limitation. Exclude IDs and candidate ordering from model features and label inference. No generalization or untouched-test claim.",
+      "similar_case_rule": "Do not infer relevance from index, title seniority or template. Re-generation/diversity redesign requires a separately approved phase; order shuffling alone does not remove semantic template leakage.",
+      "authorization": "User approved retaining limited development pilot in source review dialog."
+    },
+    {
+      "decision_id": "HR-SOURCE-010",
+      "status": "approved_pending_application",
+      "issue": "ambiguous degree terminology",
+      "user_choice": "Giữ nguyên, gắn cờ",
+      "action": "Preserve ambiguous degree wording such as Cử nhân Cao đẳng in source and faithful structured degree; do not map to university or college level. Flag unresolved level and escalate if label-material.",
+      "similar_case_rule": "Do not infer degree equivalence, school quality or qualification level from institution name. Clearly stated degrees remain unchanged.",
+      "authorization": "User approved degree ambiguity rule in source review dialog."
+    },
+    {
+      "decision_id": "HR-SOURCE-011",
+      "status": "approved_pending_application",
+      "issue": "JD criteria omitted from structured requirements",
+      "user_choice": "Đồng bộ có kiểm soát",
+      "action": "Synchronize explicit job-related criteria already present verbatim in JD with requirements, preserving required/preferred status and 4-7 criteria. Remove vague health/personality or discriminatory criteria under approved exclusions; do not invent replacement requirements or infer personality/health from CV.",
+      "similar_case_rule": "Escalate any needed merging, meaning changes or requirement-count overflow. Duties do not automatically become additional mandatory qualifications.",
+      "authorization": "User approved controlled JD/requirement synchronization in source review dialog."
+    }
+  ]
+}

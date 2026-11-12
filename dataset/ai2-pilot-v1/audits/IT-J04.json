@@ -1,0 +1,28 @@
+{
+ "job_id":"IT-J04",
+ "audit_type":"source_acceptance",
+ "source_acceptance":"blocked_pending_repair_or_adjudication",
+ "covered_candidate_ids":["IT-J04-C01","IT-J04-C02","IT-J04-C03","IT-J04-C04","IT-J04-C05","IT-J04-C06","IT-J04-C07","IT-J04-C08"],
+ "blocking_issues":[{"candidate_id":"IT-J04-C01","record_id":"IT-J04-C01-E02","section_ids":["IT-J04-C01-S03"],"field":"skills_used","structured_claim":"Dart in internship","quotes":["Làm quen dự án, cắt giao diện từ Figma sang widget Flutter và gọi API cơ bản."],"issue":"Dart use plausible from Flutter but not explicit for internship; Dart explicitly belongs to first employment. Contract requires explicit support, not technology inference."}],
+ "human_review_cases":[
+ {"candidate_id":"IT-J04-C02","section_ids":["IT-J04-C02-S01","IT-J04-C02-S03"],"quotes":["1 năm 4 tháng làm việc với Flutter và Dart", "từ 2025-07 đến nay", "từ 2025-02 đến 2025-06"],"issue":"Summary equals current role duration approximately, excludes earlier Flutter probation; clarify total versus scoped tenure."},
+ {"candidate_id":"IT-J04-C04","section_ids":["IT-J04-C04-S01","IT-J04-C04-S03"],"quotes":["1 năm 6 tháng kinh nghiệm", "từ 2025-05 đến nay", "từ 2024-11 đến 2025-04", "đưa bản thử nghiệm lên Google Play Console"],"issue":"Summary excludes probation tenure. Store-release summary versus test upload not necessarily contradiction, but scope needs clarification; do not infer public production release."},
+ {"candidate_id":"IT-J04-C05","section_ids":["IT-J04-C05-S01","IT-J04-C05-S03"],"quotes":["1 năm 6 tháng kinh nghiệm", "từ 2025-05 đến nay", "từ 2024-11 đến 2025-04"],"issue":"Summary may exclude internship; scope ambiguous, not confirmed contradiction."},
+ {"candidate_id":"IT-J04-C06","section_ids":["IT-J04-C06-S01","IT-J04-C06-S03"],"quotes":["1 năm 2 tháng kinh nghiệm làm việc thực tế", "từ 2025-08 đến nay"],"issue":"Current role about 15 months at reference date, summary 14 months, plus internship; clarify snapshot/scope."},
+ {"candidate_id":"IT-J04-C07","section_ids":["IT-J04-C07-S01","IT-J04-C07-S03"],"quotes":["Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể.", "Chưa có nhiều cơ hội làm việc trong môi trường doanh nghiệp lớn."],"issue":"Null dates faithful, is_current=false not explicit. Summary limitation describes work context naturally, not direct evaluative unsuitability or JD-denial list; retain unless coordinator deems artificial cue."},
+ {"candidate_id":"IT-J04-C08","section_ids":["IT-J04-C08-S01","IT-J04-C08-S03"],"quotes":["Đã tự học lập trình Flutter và Dart trong 8 tháng qua", "từ 2025-01 đến nay"],"issue":"Eight-month self-study and roughly 22-month mixed role do not establish 22 months Flutter use. Clarify when role gained Flutter tasks; do not silently infer start date of skill."}
+ ],
+ "warnings":[
+ "All six requirement texts preserve required/preferred fidelity. R01 wording 'Có từ 1 đến 2 năm' ambiguous upper bound versus target level; human must not invent automatic exclusion for longer tenure. No protected-characteristic requirement found.",
+ "Remaining structured facts supported by sections, including Flutter explicitly in probation/intern titles for C02/C04/C06. C06 Cao đẳng preserves education level; not upgraded to university bachelor's degree. Bloc/flutter_bloc and Flutter SDK/Flutter legitimate normalization.",
+ "No candidate personal names, contact data, relevance labels, hiring outcomes, verification claims or direct evaluative unsuitability prose found. Fictional company status declared, not independently verified. School prestige not evaluated.",
+ "Role diversity includes native Android, React Native, freelance, college education and UI/UX transition. Templates remain similar and missing-date C07 repeats earlier jobs: candidate-index leakage risk needs cross-job human audit. No actual target labels inferred.",
+ "Basic/new-to qualifiers for Java, JavaScript, Dart, Flutter, C++ and RESTful API remain source-only. Structured skill presence must not imply proficiency."
+ ],
+ "limitations":[
+ "Source acceptance only; no relevance labels. Synthetic development sources, no verified competence or expert-gold claim.",
+ "Coordinator mechanical validation relied on. No labels, prior audits, generator notes or external verification read.",
+ "Read incorrectly requested 1000 lines rather than required 100. Full untruncated input returned through EOF line 849 and inspected; coverage complete but read-size instruction violated.",
+ "Cross-corpus duplicate computation and full candidate-index leakage assessment remain incomplete."
+ ]
+}

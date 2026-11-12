@@ -1,0 +1,86 @@
+{
+  "audit_type": "source_acceptance_only",
+  "source_path": "dataset/ai2-pilot-v1/sources/it.json",
+  "protocol_path": "dataset/ai2-pilot-v1/PROTOCOL.md",
+  "status": "blocked_incomplete_coverage",
+  "source_acceptance": false,
+  "acceptance_decision_reason": "Acceptance withheld: requested exhaustive inspection was not completed. This is not a completed rejection audit and must not be used as clearance for annotation.",
+  "checked_counts": {
+    "expected_jobs": 10,
+    "expected_candidates": 80,
+    "job_documents_inspected": 2,
+    "candidate_records_fully_inspected": 9,
+    "candidate_records_partially_inspected": 1,
+    "job_candidate_sets_fully_inspected": 1,
+    "whole_file_json_validation_completed": false,
+    "whole_file_exact_join_validation_completed": false,
+    "whole_file_duplicate_comparison_completed": false
+  },
+  "coverage": {
+    "fully_read_candidate_ids": ["IT-J01-C01", "IT-J01-C02", "IT-J01-C03", "IT-J01-C04", "IT-J01-C05", "IT-J01-C06", "IT-J01-C07", "IT-J01-C08", "IT-J02-C01"],
+    "partially_read_candidate_ids": ["IT-J02-C02"],
+    "read_source_line_ranges_zero_based": [[0, 619], [620, 1199]],
+    "uninspected_source": "IT-J02-C02 remainder, IT-J02-C03 through IT-J02-C08, and IT-J03 through IT-J10. Truncated tool output does not count as inspected."
+  },
+  "blocking_issues": [
+    {
+      "issue_id": "IT-AUDIT-B01",
+      "type": "audit_coverage_incomplete",
+      "job_ids": ["IT-J02", "IT-J03", "IT-J04", "IT-J05", "IT-J06", "IT-J07", "IT-J08", "IT-J09", "IT-J10"],
+      "candidate_id": null,
+      "section_id": null,
+      "protocol_quote": "Validate JSON, counts, IDs, allowed values, source references, dates and exact text joins before annotation; reject malformed or unsupported records for repair.",
+      "source_quote": null,
+      "details": "Only one full eight-candidate job set and one additional full candidate record inspected. Remaining records and whole-file mechanical checks not completed. No exhaustive source-fault inventory can be claimed.",
+      "required_action": "Complete clean source-only audit covering every remaining record and whole-file checks before acceptance."
+    }
+  ],
+  "nonblocking_warnings": [
+    {
+      "issue_id": "IT-AUDIT-W01",
+      "type": "fictional_entity_status_unverified",
+      "job_id": "IT-J01",
+      "candidate_id": "IT-J01-C04",
+      "section_id": "IT-J01-C04-S03",
+      "quote": "Công ty Cổ phần Công nghệ SmartLog",
+      "details": "Root synthetic declaration does not independently establish that every employer name is fictional or distinct from existing businesses. This name requires human confirmation; no external entity lookup performed. No claim that this employer is real is made."
+    },
+    {
+      "issue_id": "IT-AUDIT-W02",
+      "type": "date_claim_scope_ambiguity",
+      "job_id": "IT-J01",
+      "candidate_id": "IT-J01-C01",
+      "section_id": "IT-J01-C01-S01",
+      "quote": "có 3 năm 6 tháng kinh nghiệm làm việc chuyên sâu với Node.js, TypeScript và hệ sinh thái NestJS",
+      "related_section_id": "IT-J01-C01-S03",
+      "related_quote": "Thời gian: từ 2023-04 đến nay.",
+      "details": "At protocol reference date 2026-11-10, current role spans approximately 3 years 7 months; earlier Node.js role is also listed. Summary may describe a narrower specialized scope or a stale rounded duration. Do not equate total tenure with specialized tenure or silently repair dates."
+    }
+  ],
+  "human_review_cases": [
+    {
+      "job_id": "IT-J01",
+      "candidate_id": "IT-J01-C04",
+      "section_ids": ["IT-J01-C04-S03"],
+      "reason": "Confirm fictional employer identity and potential real-name collision."
+    },
+    {
+      "job_id": "IT-J01",
+      "candidate_id": "IT-J01-C01",
+      "section_ids": ["IT-J01-C01-S01", "IT-J01-C01-S03"],
+      "reason": "Clarify specialized-tenure statement against stated employment dates without inferring duration as a structured fact."
+    }
+  ],
+  "limitations": [
+    "Audit incomplete; checked subset cannot establish adherence of all 10 JD and 80 CV.",
+    "Read requests exceeding tool output capacity failed; another large response was truncated. Only explicitly covered contiguous source lines counted.",
+    "No exhaustive per-field support inventory, allowed-value check, exact text-join check, duplicate-key parse or complete date check was executed.",
+    "No complete required/preferred fidelity assessment across all jobs was completed.",
+    "No corpus-wide candidate-index ordering leakage or profile-variety conclusion is warranted from inspected subset.",
+    "Exact duplicates and near-duplicates were not exhaustively compared; uniqueness is not established.",
+    "Synthetic declaration and requested generation model are metadata, not independent verification of fictional entities or server-side model identity.",
+    "Model mapping sonnet=cx/gpt-6.1-sol supplied as verified by requester; no independent settings or environment access performed.",
+    "No relevance labels, rankings, matching features, generator discussions, repair notes or label files read or produced. No source edits, external APIs, agents, training, deployment or git operations performed.",
+    "Pilot remains synthetic development-only material; no held-out generalization, real competence, hiring-outcome or employer-verification claim supported."
+  ]
+}

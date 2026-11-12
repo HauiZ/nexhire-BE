@@ -1,0 +1,4298 @@
+{
+  "source_sha256": {
+    "sales-marketing.json": "fd4da5ed2878c84bd6b297c4858954151756c6627b180c17780c293ab5665e58",
+    ".test.json": "80f65706d935d3b928d95207937dd81bad43ab56cd4d3b7ed41772318e734168",
+    "it.json": "b8795770d52214690c9acbe8cb1d62127d9ac8bef111b79967c07b2e2da05abd"
+  },
+  "jobs": 20,
+  "pairs": 160,
+  "errors": [],
+  "warnings": [
+    {
+      "id": "IT-J04-C07",
+      "issue": "preferred whitespace-token length",
+      "value": 196
+    },
+    {
+      "id": "IT-J06-C05",
+      "issue": "preferred whitespace-token length",
+      "value": 191
+    },
+    {
+      "id": "IT-J10-C07",
+      "issue": "preferred whitespace-token length",
+      "value": 199
+    },
+    {
+      "id": "SA-J01-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn chuỗi bán lẻ"
+    },
+    {
+      "id": "SA-J01-C01",
+      "section_id": "SA-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp tìm kiếm khách hàng tiềm năng là các doanh nghiệp vừa và lớn, thực hiện hơn 120 buổi thuyết trình demo giải pháp phần mềm quản lý kho và bán hàng đa kênh.\nĐàm phán và chốt thành công 28 hợp đồng thương mại với các đối tác chuỗi bán lẻ thời trang và điện máy.\nVận hành phần mềm HubSpot để quản lý toàn bộ pipeline bán hàng, theo dõi tỷ lệ chuyển đổi và dự báo doanh số hàng tháng đạt độ chuẩn xác 92%.\nSoạn thảo hợp đồng kinh tế và trao đổi công việc thường xuyên với đối tác nước ngoài bằng tiếng Anh."
+    },
+    {
+      "id": "SA-J01-C01",
+      "section_id": "SA-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kinh doanh phần mềm B2B"
+    },
+    {
+      "id": "SA-J01-C01",
+      "section_id": "SA-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giải pháp SaaS doanh nghiệp"
+    },
+    {
+      "id": "SA-J01-C01",
+      "section_id": "SA-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán hợp đồng thương mại"
+    },
+    {
+      "id": "SA-J01-C01",
+      "section_id": "SA-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh thương mại"
+    },
+    {
+      "id": "SA-J01-C01",
+      "section_id": "SA-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chịu trách nhiệm mở rộng thị trường giải pháp hóa đơn điện tử và chữ ký số B2B.\nSử dụng phần mềm Salesforce để cập nhật dữ liệu khách hàng và lịch sử tương tác.\nĐạt 115% chỉ tiêu doanh số năm 2023 được ban giám đốc giao phó."
+    },
+    {
+      "id": "SA-J01-C01",
+      "section_id": "SA-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kinh doanh phần mềm B2B"
+    },
+    {
+      "id": "SA-J01-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Bán hàng phần mềm B2B"
+    },
+    {
+      "id": "SA-J01-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Đàm phán hợp đồng thương mại"
+    },
+    {
+      "id": "SA-J01-C02",
+      "section_id": "SA-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tìm kiếm và tiếp cận các doanh nghiệp sản xuất và thương mại có nhu cầu số hóa quy trình quản trị doanh nghiệp.\nChủ trì chuẩn bị tài liệu kỹ thuật và trực tiếp thực hiện thuyết trình demo giải pháp phần mềm quản trị cho các giám đốc tài chính và giám đốc điều hành.\nĐàm phán các hợp đồng thương mại với doanh số trung bình mỗi gói từ 300 triệu đến 1,2 tỷ đồng.\nSử dụng Salesforce để theo dõi trạng thái các đầu mối liên hệ và cập nhật dự báo doanh thu hàng tháng."
+    },
+    {
+      "id": "SA-J01-C02",
+      "section_id": "SA-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán hàng phần mềm ERP"
+    },
+    {
+      "id": "SA-J01-C02",
+      "section_id": "SA-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thuyết trình demo sản phẩm công nghệ"
+    },
+    {
+      "id": "SA-J01-C02",
+      "section_id": "SA-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán hợp đồng thương mại"
+    },
+    {
+      "id": "SA-J01-C02",
+      "section_id": "SA-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Salesforce CRM"
+    },
+    {
+      "id": "SA-J01-C02",
+      "section_id": "SA-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chịu trách nhiệm tư vấn và triển khai bán phần mềm chấm công, tính lương trực tuyến cho hơn 50 doanh nghiệp vừa và nhỏ.\nTham gia cùng kỹ sư giải pháp hỗ trợ giải đáp thắc mắc chuyên môn trước bán hàng."
+    },
+    {
+      "id": "SA-J01-C02",
+      "section_id": "SA-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán hàng phần mềm B2B"
+    },
+    {
+      "id": "SA-J01-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Bán hàng thiết bị hạ tầng CNTT"
+    },
+    {
+      "id": "SA-J01-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Bán hàng B2B"
+    },
+    {
+      "id": "SA-J01-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Đàm phán hợp đồng thương mại"
+    },
+    {
+      "id": "SA-J01-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý danh bạ khách hàng qua Excel"
+    },
+    {
+      "id": "SA-J01-C03",
+      "section_id": "SA-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\nTư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\nThực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\nChưa sử dụng Salesforce hay HubSpot chuyên sâu, chủ yếu quản lý khách hàng bằng bảng tính Excel kết hợp Zalo."
+    },
+    {
+      "id": "SA-J01-C03",
+      "section_id": "SA-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán hàng thiết bị hạ tầng CNTT"
+    },
+    {
+      "id": "SA-J01-C03",
+      "section_id": "SA-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán hàng B2B"
+    },
+    {
+      "id": "SA-J01-C03",
+      "section_id": "SA-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán hợp đồng thương mại"
+    },
+    {
+      "id": "SA-J01-C03",
+      "section_id": "SA-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\nHoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý."
+    },
+    {
+      "id": "SA-J01-C03",
+      "section_id": "SA-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán hàng B2B"
+    },
+    {
+      "id": "SA-J01-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Thuyết trình demo cơ bản"
+    },
+    {
+      "id": "SA-J01-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Giao tiếp khách hàng B2B"
+    },
+    {
+      "id": "SA-J01-C04",
+      "section_id": "SA-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Khai thác nguồn dữ liệu 800 liên hệ doanh nghiệp mới từ các hội thảo trực tuyến và chiến dịch quảng cáo.\nThực hiện trung bình 35 cuộc gọi kết nối mỗi ngày để sàng lọc nhu cầu ứng dụng phần mềm quản lý dự án.\nĐồng hành cùng chuyên viên bán hàng cao cấp trong các buổi thuyết trình demo giải pháp cho khách hàng tiềm năng.\nCập nhật thông tin giao dịch, theo dõi phản hồi và phân loại mức độ tiềm năng trên phần mềm HubSpot."
+    },
+    {
+      "id": "SA-J01-C04",
+      "section_id": "SA-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lead generation"
+    },
+    {
+      "id": "SA-J01-C04",
+      "section_id": "SA-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thuyết trình demo cơ bản"
+    },
+    {
+      "id": "SA-J01-C04",
+      "section_id": "SA-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hỗ trợ chuẩn bị hồ sơ giới thiệu tính năng phần mềm kế toán đám mây cho các hộ kinh doanh cá thể.\nThực hiện liên hệ chăm sóc khách hàng dùng thử sau buổi hướng dẫn cài đặt."
+    },
+    {
+      "id": "SA-J01-C04",
+      "section_id": "SA-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giao tiếp khách hàng B2B"
+    },
+    {
+      "id": "SA-J01-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Khách hàng tài chính ngân hàng"
+    },
+    {
+      "id": "SA-J01-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Đàm phán hợp đồng công nghệ"
+    },
+    {
+      "id": "SA-J01-C05",
+      "section_id": "SA-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phụ trách danh mục khách hàng khối tài chính ngân hàng bao gồm 8 ngân hàng thương mại cổ phần lớn và 4 công ty chứng khoán.\nĐàm phán các hợp đồng cung cấp đường truyền kênh thuê riêng, dịch vụ lưu trữ đám mây và cổng thông báo SMS Brandname với doanh số trên 15 tỷ đồng mỗi năm.\nChủ trì thuyết trình giải pháp trước hội đồng đấu thầu và ban giám đốc phía đối tác, trực tiếp soạn thảo và hiệu chỉnh điều khoản hợp đồng bằng tiếng Anh cho các quỹ đầu tư tài chính quốc tế.\nQuản lý tiến độ bán hàng qua hệ thống CRM nội bộ của công ty (In-house CRM platform)."
+    },
+    {
+      "id": "SA-J01-C05",
+      "section_id": "SA-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Key Account Management"
+    },
+    {
+      "id": "SA-J01-C05",
+      "section_id": "SA-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Khách hàng tài chính ngân hàng"
+    },
+    {
+      "id": "SA-J01-C05",
+      "section_id": "SA-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán hợp đồng công nghệ"
+    },
+    {
+      "id": "SA-J01-C05",
+      "section_id": "SA-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh thương mại cao cấp"
+    },
+    {
+      "id": "SA-J01-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn bán hàng B2C"
+    },
+    {
+      "id": "SA-J01-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Đàm phán hợp đồng đặt cọc"
+    },
+    {
+      "id": "SA-J01-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Chăm sóc khách hàng VIP"
+    },
+    {
+      "id": "SA-J01-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Kỹ năng tạo dựng quan hệ"
+    },
+    {
+      "id": "SA-J01-C06",
+      "section_id": "SA-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Khai thác nguồn khách hàng có thu nhập cao quan tâm tới các dự án căn hộ và biệt thự biển tại khu vực miền Trung.\nTổ chức các buổi tham quan nhà mẫu, tư vấn gói tài chính ngân hàng hỗ trợ vay vốn và chốt giao dịch hợp đồng mua bán.\nHoàn thành giao dịch 18 bất động sản cao cấp trong năm 2024, thuộc top 5 nhân viên kinh doanh xuất sắc của sàn."
+    },
+    {
+      "id": "SA-J01-C06",
+      "section_id": "SA-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn bán hàng B2C"
+    },
+    {
+      "id": "SA-J01-C06",
+      "section_id": "SA-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán hợp đồng đặt cọc"
+    },
+    {
+      "id": "SA-J01-C06",
+      "section_id": "SA-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chăm sóc khách hàng VIP"
+    },
+    {
+      "id": "SA-J01-C06",
+      "section_id": "SA-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kỹ năng tạo dựng quan hệ"
+    },
+    {
+      "id": "SA-J01-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Kinh doanh phần mềm POS SaaS"
+    },
+    {
+      "id": "SA-J01-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Thương thảo hợp đồng thuê bao"
+    },
+    {
+      "id": "SA-J01-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn chuỗi bán lẻ"
+    },
+    {
+      "id": "SA-J01-C07",
+      "section_id": "SA-J01-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phát triển mạng lưới khách hàng là các chuỗi nhà hàng ẩm thực và cửa hàng bán lẻ tiện lợi tại Hà Nội và TP.HCM.\nThực hiện thuyết trình demo giải pháp quản lý tồn kho và thanh toán quét mã QR trên nền tảng đám mây.\nĐàm phán và hoàn tất hợp đồng phần mềm với 35 chuỗi cửa hàng, đạt doanh thu bình quân 180 triệu đồng/tháng.\nThường xuyên cập nhật thông tin tương tác và trạng thái chốt hợp đồng lên hệ thống Salesforce."
+    },
+    {
+      "id": "SA-J01-C07",
+      "section_id": "SA-J01-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kinh doanh phần mềm POS SaaS"
+    },
+    {
+      "id": "SA-J01-C07",
+      "section_id": "SA-J01-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thuyết trình giới thiệu demo"
+    },
+    {
+      "id": "SA-J01-C07",
+      "section_id": "SA-J01-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn chuỗi bán lẻ"
+    },
+    {
+      "id": "SA-J01-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn giải pháp Pre-sales"
+    },
+    {
+      "id": "SA-J01-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Tiếng Anh C1"
+    },
+    {
+      "id": "SA-J01-C08",
+      "section_id": "SA-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\nKhảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\nPhối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\nSử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch."
+    },
+    {
+      "id": "SA-J01-C08",
+      "section_id": "SA-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn giải pháp Pre-sales"
+    },
+    {
+      "id": "SA-J01-C08",
+      "section_id": "SA-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thuyết trình demo giải pháp"
+    },
+    {
+      "id": "SA-J01-C08",
+      "section_id": "SA-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "HubSpot CRM"
+    },
+    {
+      "id": "SA-J01-C08",
+      "section_id": "SA-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp SME."
+    },
+    {
+      "id": "SA-J01-C08",
+      "section_id": "SA-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn giải pháp Pre-sales"
+    },
+    {
+      "id": "SA-J02-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Bán hàng kênh truyền thống GT"
+    },
+    {
+      "id": "SA-J02-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Theo dõi tồn kho"
+    },
+    {
+      "id": "SA-J02-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Ứng dụng DMS"
+    },
+    {
+      "id": "SA-J02-C01",
+      "section_id": "SA-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phụ trách tuyến bán hàng gồm 130 tiệm tạp hóa và đại lý nước giải khát tại khu vực quận Tân Phú và Bình Tân.\nMở mới thành công trung bình 8 điểm bán hàng tháng, đạt mức tăng trưởng sản lượng 14% trong 2 quý gần nhất.\nViếng thăm trung bình 24 điểm bán mỗi ngày, kiểm tra lượng tồn kho thực tế, đặt hàng bổ sung và hướng dẫn chủ tiệm dán poster khuyến mại tháng.\nSử dụng xe máy cá nhân để đi lại suốt tuyến đường, ghi nhận toàn bộ đơn hàng vào phần mềm DMS công ty."
+    },
+    {
+      "id": "SA-J02-C01",
+      "section_id": "SA-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán hàng kênh truyền thống GT"
+    },
+    {
+      "id": "SA-J02-C01",
+      "section_id": "SA-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Mở mới điểm bán"
+    },
+    {
+      "id": "SA-J02-C01",
+      "section_id": "SA-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trưng bày sản phẩm"
+    },
+    {
+      "id": "SA-J02-C01",
+      "section_id": "SA-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Theo dõi tồn kho"
+    },
+    {
+      "id": "SA-J02-C01",
+      "section_id": "SA-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngành hàng nước giải khát"
+    },
+    {
+      "id": "SA-J02-C01",
+      "section_id": "SA-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán hàng kênh truyền thống GT"
+    },
+    {
+      "id": "SA-J02-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Phát triển thị trường thực phẩm"
+    },
+    {
+      "id": "SA-J02-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Kiểm tra tồn kho"
+    },
+    {
+      "id": "SA-J02-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Trưng bày kệ hàng"
+    },
+    {
+      "id": "SA-J02-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Triển khai khuyến mãi tháng"
+    },
+    {
+      "id": "SA-J02-C02",
+      "section_id": "SA-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý tuyến đường gồm 110 tiệm tạp hóa tại địa bàn quận Phú Nhuận và Gò Vấp.\nMỗi ngày di chuyển xe gắn máy viếng thăm từ 22 đến 26 điểm bán, kiểm tra số lượng tồn gói hạt nêm và nước tương.\nTriển khai các gói khuyến mãi tháng của công ty tới từng tiệm, treo vật phẩm quảng cáo (wobbler, hanger) đúng vị trí quy chuẩn.\nThuyết phục thành công 25 quán ăn và tiệm tạp hóa mới nhập hàng phân phối trực tiếp."
+    },
+    {
+      "id": "SA-J02-C02",
+      "section_id": "SA-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phát triển thị trường thực phẩm"
+    },
+    {
+      "id": "SA-J02-C02",
+      "section_id": "SA-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Mở rộng điểm bán mới"
+    },
+    {
+      "id": "SA-J02-C02",
+      "section_id": "SA-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kiểm tra tồn kho"
+    },
+    {
+      "id": "SA-J02-C02",
+      "section_id": "SA-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trưng bày kệ hàng"
+    },
+    {
+      "id": "SA-J02-C02",
+      "section_id": "SA-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Triển khai khuyến mãi tháng"
+    },
+    {
+      "id": "SA-J02-C02",
+      "section_id": "SA-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phát triển thị trường thực phẩm"
+    },
+    {
+      "id": "SA-J02-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Telesales văn phòng"
+    },
+    {
+      "id": "SA-J02-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Chăm sóc khách hàng sỉ"
+    },
+    {
+      "id": "SA-J02-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý đơn hàng"
+    },
+    {
+      "id": "SA-J02-C03",
+      "section_id": "SA-J02-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\nTư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\nCông việc chủ yếu ngồi tại văn phòng công ty, chưa phụ trách tuyến đường thực địa hay đi kiểm tra tạp hóa bao giờ."
+    },
+    {
+      "id": "SA-J02-C03",
+      "section_id": "SA-J02-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Telesales văn phòng"
+    },
+    {
+      "id": "SA-J02-C03",
+      "section_id": "SA-J02-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chăm sóc khách hàng sỉ"
+    },
+    {
+      "id": "SA-J02-C03",
+      "section_id": "SA-J02-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Xe máy cá nhân"
+    },
+    {
+      "id": "SA-J02-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Bán hàng kênh tạp hóa"
+    },
+    {
+      "id": "SA-J02-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Trưng bày kệ bánh kẹo"
+    },
+    {
+      "id": "SA-J02-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Kiểm tra tồn kho date hàng"
+    },
+    {
+      "id": "SA-J02-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Đi tuyến bằng xe máy"
+    },
+    {
+      "id": "SA-J02-C04",
+      "section_id": "SA-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý tuyến bán hàng gồm 65 tiệm tạp hóa nhỏ tại quận Bình Thạnh.\nMỗi ngày di chuyển xe máy tới khoảng 18 tiệm theo lịch phân bổ, hỏi thăm tình hình bán hàng và kiểm tra date bánh kẹo.\nDán áp phích thông báo tặng chén dĩa khi nhập 2 thùng bánh kẹo quy chuẩn.\nĐạt 90% chỉ tiêu doanh số được giám sát tuyến phân công trong quý 3/2026."
+    },
+    {
+      "id": "SA-J02-C04",
+      "section_id": "SA-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán hàng kênh tạp hóa"
+    },
+    {
+      "id": "SA-J02-C04",
+      "section_id": "SA-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trưng bày kệ bánh kẹo"
+    },
+    {
+      "id": "SA-J02-C04",
+      "section_id": "SA-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kiểm tra tồn kho date hàng"
+    },
+    {
+      "id": "SA-J02-C04",
+      "section_id": "SA-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đi tuyến bằng xe máy"
+    },
+    {
+      "id": "SA-J02-C04",
+      "section_id": "SA-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đi tuyến bằng xe máy"
+    },
+    {
+      "id": "SA-J02-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Giám sát bán hàng GT"
+    },
+    {
+      "id": "SA-J02-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý tuyến MCP"
+    },
+    {
+      "id": "SA-J02-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Quy chuẩn trưng bày POSM"
+    },
+    {
+      "id": "SA-J02-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Làm việc nhà phân phối"
+    },
+    {
+      "id": "SA-J02-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Ngành nước giải khát"
+    },
+    {
+      "id": "SA-J02-C05",
+      "section_id": "SA-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý hoạt động kinh doanh kênh GT tại 3 quận trung tâm TP.HCM, phụ trách 2 nhà phân phối và đội ngũ 7 nhân viên bán hàng thị trường.\nKiểm tra đột xuất việc thực thi trưng bày POSM và kiểm soát tỷ lệ hoàn thành đơn hàng của nhân viên tuyến dưới.\nĐạt mức tăng trưởng doanh thu 18% năm 2024 cho toàn cụm khu vực."
+    },
+    {
+      "id": "SA-J02-C05",
+      "section_id": "SA-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giám sát bán hàng GT"
+    },
+    {
+      "id": "SA-J02-C05",
+      "section_id": "SA-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý tuyến MCP"
+    },
+    {
+      "id": "SA-J02-C05",
+      "section_id": "SA-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quy chuẩn trưng bày POSM"
+    },
+    {
+      "id": "SA-J02-C05",
+      "section_id": "SA-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngành nước giải khát"
+    },
+    {
+      "id": "SA-J02-C05",
+      "section_id": "SA-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngành nước giải khát"
+    },
+    {
+      "id": "SA-J02-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Trưng bày kệ siêu thị"
+    },
+    {
+      "id": "SA-J02-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Kiểm kê tồn kho cửa hàng"
+    },
+    {
+      "id": "SA-J02-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Bán lẻ trực tiếp"
+    },
+    {
+      "id": "SA-J02-C06",
+      "section_id": "SA-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giám sát quầy hàng thực phẩm khô, bánh kẹo và gia vị tại chi nhánh quận Phú Nhuận.\nTrực tiếp nhận hàng từ xe tải trung chuyển, đối chiếu phiếu giao nhận và xếp sản phẩm lên các tầng kệ theo đúng hướng dẫn trưng bày của chuỗi.\nBáo cáo sản phẩm sắp hết hạn để dán tem giảm giá kích cầu tiêu thụ."
+    },
+    {
+      "id": "SA-J02-C06",
+      "section_id": "SA-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trưng bày kệ siêu thị"
+    },
+    {
+      "id": "SA-J02-C06",
+      "section_id": "SA-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kiểm kê tồn kho cửa hàng"
+    },
+    {
+      "id": "SA-J02-C06",
+      "section_id": "SA-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đảo date hàng hóa"
+    },
+    {
+      "id": "SA-J02-C06",
+      "section_id": "SA-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán lẻ trực tiếp"
+    },
+    {
+      "id": "SA-J02-C06",
+      "section_id": "SA-J02-C06-SEC-EDU",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tốt nghiệp THPT"
+    },
+    {
+      "id": "SA-J02-C06",
+      "section_id": "SA-J02-C06-SEC-EDU",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phổ thông trung học"
+    },
+    {
+      "id": "SA-J02-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Mở rộng điểm bán hóa mỹ phẩm"
+    },
+    {
+      "id": "SA-J02-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Treo hanger quảng cáo"
+    },
+    {
+      "id": "SA-J02-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Theo dõi hàng tồn quầy"
+    },
+    {
+      "id": "SA-J02-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Xe máy di chuyển thị trường"
+    },
+    {
+      "id": "SA-J02-C07",
+      "section_id": "SA-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Viếng thăm 85 tiệm mỹ phẩm nhỏ và tiệm tạp hóa tổng hợp tại quận Hóc Môn và 12.\nCập nhật số lượng chai dầu gội và nước giặt tồn kho tại quầy, thương lượng chỗ đặt kệ giới thiệu sản phẩm nổi bật ở mặt tiền tiệm.\nGiúp chủ tiệm nắm rõ thể lệ cào thẻ trúng thưởng trong tháng bán hàng cao điểm.\nSử dụng xe máy cá nhân di chuyển liên tục từ sáng đến chiều."
+    },
+    {
+      "id": "SA-J02-C07",
+      "section_id": "SA-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Mở rộng điểm bán hóa mỹ phẩm"
+    },
+    {
+      "id": "SA-J02-C07",
+      "section_id": "SA-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Treo hanger quảng cáo"
+    },
+    {
+      "id": "SA-J02-C07",
+      "section_id": "SA-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Theo dõi hàng tồn quầy"
+    },
+    {
+      "id": "SA-J02-C07",
+      "section_id": "SA-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Xe máy di chuyển thị trường"
+    },
+    {
+      "id": "SA-J02-C07",
+      "section_id": "SA-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Xe máy di chuyển thị trường"
+    },
+    {
+      "id": "SA-J02-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Kiểm đếm hàng FMCG"
+    },
+    {
+      "id": "SA-J02-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Thu tiền và đối chiếu hóa đơn"
+    },
+    {
+      "id": "SA-J02-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Thông thạo đường sá Gò Vấp"
+    },
+    {
+      "id": "SA-J02-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Xe máy cá nhân"
+    },
+    {
+      "id": "SA-J02-C08",
+      "section_id": "SA-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp chở hàng thực phẩm đóng gói (mì ăn liền, dầu ăn, tương ớt) giao cho 90 cửa hàng tạp hóa theo tuyến phân công.\nHỗ trợ chủ tiệm bốc dỡ thùng hàng, kiểm kê hạn sử dụng và đối chiếu số lượng thực tế với hóa đơn bán hàng.\nKhi giao hàng, chủ động quan sát quầy kệ, nếu thấy sản phẩm gần hết sẽ gợi ý chủ tiệm bổ sung đơn vào ngày hôm sau.\nThu tiền mặt hoặc hướng dẫn quét mã VietQR, nộp đủ tiền về kế toán công ty cuối ngày."
+    },
+    {
+      "id": "SA-J02-C08",
+      "section_id": "SA-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kiểm đếm hàng FMCG"
+    },
+    {
+      "id": "SA-J02-C08",
+      "section_id": "SA-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thu tiền và đối chiếu hóa đơn"
+    },
+    {
+      "id": "SA-J02-C08",
+      "section_id": "SA-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thông thạo đường sá Gò Vấp"
+    },
+    {
+      "id": "SA-J02-C08",
+      "section_id": "SA-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Xe máy cá nhân"
+    },
+    {
+      "id": "SA-J02-C08",
+      "section_id": "SA-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kiểm đếm hàng FMCG"
+    },
+    {
+      "id": "SA-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý đội ngũ sales y tế"
+    },
+    {
+      "id": "SA-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Đấu thầu y tế công lập"
+    },
+    {
+      "id": "SA-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết bị chẩn đoán hình ảnh"
+    },
+    {
+      "id": "SA-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Quan hệ lãnh đạo bệnh viện miền Bắc"
+    },
+    {
+      "id": "SA-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Làm việc với hãng sản xuất quốc tế"
+    },
+    {
+      "id": "SA-J03-C01",
+      "section_id": "SA-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo phòng kinh doanh gồm 8 nhân sự, chịu trách nhiệm doanh số khu vực từ Hà Tĩnh trở ra Bắc với chỉ tiêu 85 tỷ đồng/năm.\nTrực tiếp chỉ đạo tham gia và trúng 14 gói thầu mua sắm máy chụp X-quang kỹ thuật số và hệ thống siêu âm màu tại các bệnh viện đa khoa tỉnh Phú Thọ, Quảng Ninh và Hải Phòng.\nThường xuyên trao đổi với đại diện các hãng sản xuất tại Đức và Hàn Quốc bằng tiếng Anh về thông số kỹ thuật và chính sách bảo hành ủy quyền.\nHuấn luyện nội bộ định kỳ hàng quý về kỹ năng bảo vệ kỹ thuật trong hồ sơ thầu cho nhân viên kinh doanh."
+    },
+    {
+      "id": "SA-J03-C01",
+      "section_id": "SA-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý đội ngũ sales y tế"
+    },
+    {
+      "id": "SA-J03-C01",
+      "section_id": "SA-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đấu thầu y tế công lập"
+    },
+    {
+      "id": "SA-J03-C01",
+      "section_id": "SA-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Luật Đấu thầu"
+    },
+    {
+      "id": "SA-J03-C01",
+      "section_id": "SA-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết bị chẩn đoán hình ảnh"
+    },
+    {
+      "id": "SA-J03-C01",
+      "section_id": "SA-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quan hệ lãnh đạo bệnh viện miền Bắc"
+    },
+    {
+      "id": "SA-J03-C01",
+      "section_id": "SA-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Làm việc với hãng sản xuất quốc tế"
+    },
+    {
+      "id": "SA-J03-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Đấu thầu y tế công lập"
+    },
+    {
+      "id": "SA-J03-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Quan hệ phòng vật tư bệnh viện"
+    },
+    {
+      "id": "SA-J03-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Tiếng Anh đọc tài liệu kỹ thuật"
+    },
+    {
+      "id": "SA-J03-C02",
+      "section_id": "SA-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý nhóm 5 chuyên viên phụ trách cung cấp máy đo khí máu và vật tư can thiệp tim mạch cho 18 bệnh viện công lập miền Bắc.\nLên kế hoạch doanh số từng quý, phân công địa bàn phụ trách và giám sát chặt chẽ tiến độ nộp hồ sơ thầu qua mạng.\nTham gia cùng ban giám đốc đàm phán hợp đồng thầu trị giá 42 tỷ đồng tại bệnh viện tuyến trung ương.\nTổ chức các buổi chia sẻ cập nhật thông tư đấu thầu mới cho nhân viên trong phòng."
+    },
+    {
+      "id": "SA-J03-C02",
+      "section_id": "SA-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý đội ngũ kinh doanh"
+    },
+    {
+      "id": "SA-J03-C02",
+      "section_id": "SA-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đấu thầu y tế công lập"
+    },
+    {
+      "id": "SA-J03-C02",
+      "section_id": "SA-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Luật Đấu thầu"
+    },
+    {
+      "id": "SA-J03-C02",
+      "section_id": "SA-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quan hệ phòng vật tư bệnh viện"
+    },
+    {
+      "id": "SA-J03-C02",
+      "section_id": "SA-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đấu thầu y tế công lập"
+    },
+    {
+      "id": "SA-J03-C02",
+      "section_id": "SA-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh đọc tài liệu kỹ thuật"
+    },
+    {
+      "id": "SA-J03-C02",
+      "section_id": "SA-J03-C02-SEC-EDU",
+      "issue": "structured fact requires semantic support check",
+      "value": "Dược sĩ Đại học (Cử nhân)"
+    },
+    {
+      "id": "SA-J03-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Đấu thầu y tế công lập"
+    },
+    {
+      "id": "SA-J03-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Quan hệ khoa chẩn đoán hình ảnh"
+    },
+    {
+      "id": "SA-J03-C03",
+      "section_id": "SA-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\nHoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\nTiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\nTự lập kế hoạch kinh doanh cá nhân, chưa tham gia quản lý hay phân chia chỉ tiêu cho nhân viên khác."
+    },
+    {
+      "id": "SA-J03-C03",
+      "section_id": "SA-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán hàng thiết bị y tế cá nhân"
+    },
+    {
+      "id": "SA-J03-C03",
+      "section_id": "SA-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đấu thầu y tế công lập"
+    },
+    {
+      "id": "SA-J03-C03",
+      "section_id": "SA-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Luật Đấu thầu"
+    },
+    {
+      "id": "SA-J03-C03",
+      "section_id": "SA-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quan hệ khoa chẩn đoán hình ảnh"
+    },
+    {
+      "id": "SA-J03-C03",
+      "section_id": "SA-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kỹ thuật Y sinh"
+    },
+    {
+      "id": "SA-J03-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý đội ngũ sales B2B"
+    },
+    {
+      "id": "SA-J03-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Đấu thầu thiết bị phân tích viện trường"
+    },
+    {
+      "id": "SA-J03-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Phân bổ KPI doanh số"
+    },
+    {
+      "id": "SA-J03-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Tiếng Anh làm việc hãng nước ngoài"
+    },
+    {
+      "id": "SA-J03-C04",
+      "section_id": "SA-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý 6 nhân viên kinh doanh, phân bổ chỉ tiêu 50 tỷ đồng mỗi năm cho thị trường các viện nghiên cứu, trường đại học kỹ thuật và trung tâm quan trắc môi trường phía Bắc.\nLãnh đạo chuẩn bị hồ sơ tham gia đấu thầu các hệ thống sắc ký khí (GC), quang phổ hấp thụ nguyên tử (AAS).\nLàm việc trực tiếp với các chuyên gia kỹ thuật hãng từ Tokyo và Basel bằng tiếng Anh."
+    },
+    {
+      "id": "SA-J03-C04",
+      "section_id": "SA-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý đội ngũ sales B2B"
+    },
+    {
+      "id": "SA-J03-C04",
+      "section_id": "SA-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đấu thầu thiết bị phân tích viện trường"
+    },
+    {
+      "id": "SA-J03-C04",
+      "section_id": "SA-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phân bổ KPI doanh số"
+    },
+    {
+      "id": "SA-J03-C04",
+      "section_id": "SA-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh làm việc hãng nước ngoài"
+    },
+    {
+      "id": "SA-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Lãnh đạo khối kinh doanh y tế"
+    },
+    {
+      "id": "SA-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Mối quan hệ viện trưởng và sở y tế"
+    },
+    {
+      "id": "SA-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Đấu thầu y tế công lập"
+    },
+    {
+      "id": "SA-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Hệ thống MRI và CT Scanner"
+    },
+    {
+      "id": "SA-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Tiếng Anh cấp độ chuyên gia"
+    },
+    {
+      "id": "SA-J03-C05",
+      "section_id": "SA-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Điều hành 3 phòng kinh doanh với tổng số 24 cán bộ nhân viên, chịu trách nhiệm doanh số 220 tỷ đồng/năm cho mảng máy cộng hưởng từ MRI và hệ thống CT Scanner.\nTrực tiếp làm việc với lãnh đạo các bệnh viện trung ương tuyến cuối tại Hà Nội để xây dựng phương án hợp tác lắp đặt thiết bị theo hình thức xã hội hóa y tế và đấu thầu công.\nĐàm phán các hợp đồng nhập khẩu chính hãng với các tập đoàn y tế hàng đầu tại Hoa Kỳ và Nhật Bản."
+    },
+    {
+      "id": "SA-J03-C05",
+      "section_id": "SA-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo khối kinh doanh y tế"
+    },
+    {
+      "id": "SA-J03-C05",
+      "section_id": "SA-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Mối quan hệ viện trưởng và sở y tế"
+    },
+    {
+      "id": "SA-J03-C05",
+      "section_id": "SA-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đấu thầu y tế công lập"
+    },
+    {
+      "id": "SA-J03-C05",
+      "section_id": "SA-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Luật Đấu thầu"
+    },
+    {
+      "id": "SA-J03-C05",
+      "section_id": "SA-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hệ thống MRI và CT Scanner"
+    },
+    {
+      "id": "SA-J03-C05",
+      "section_id": "SA-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh cấp độ chuyên gia"
+    },
+    {
+      "id": "SA-J03-C05",
+      "section_id": "SA-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo khối kinh doanh y tế"
+    },
+    {
+      "id": "SA-J03-C05",
+      "section_id": "SA-J03-C05-SEC-EDU",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bác sĩ Đa khoa (Bác sĩ Y khoa)"
+    },
+    {
+      "id": "SA-J03-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Trình dược kênh bệnh viện ETC"
+    },
+    {
+      "id": "SA-J03-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Theo dõi thầu thuốc sở y tế"
+    },
+    {
+      "id": "SA-J03-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Quan hệ khoa Dược"
+    },
+    {
+      "id": "SA-J03-C06",
+      "section_id": "SA-J03-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phụ trách giới thiệu danh mục thuốc tim mạch và hạ huyết áp tại 6 bệnh viện quận/huyện tại Hà Nội.\nTheo dõi số lượng sử dụng theo kết quả trúng thầu của gói thầu thuốc sở y tế, đôn đốc bệnh viện gửi đơn đặt hàng đúng tiến độ."
+    },
+    {
+      "id": "SA-J03-C06",
+      "section_id": "SA-J03-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trình dược kênh bệnh viện ETC"
+    },
+    {
+      "id": "SA-J03-C06",
+      "section_id": "SA-J03-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Theo dõi thầu thuốc sở y tế"
+    },
+    {
+      "id": "SA-J03-C06",
+      "section_id": "SA-J03-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quan hệ khoa Dược"
+    },
+    {
+      "id": "SA-J03-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý nhóm sales thiết bị y tế"
+    },
+    {
+      "id": "SA-J03-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Đấu thầu y tế theo Luật Đấu thầu"
+    },
+    {
+      "id": "SA-J03-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Chỉ tiêu doanh số vùng"
+    },
+    {
+      "id": "SA-J03-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Tiếng Anh đọc tài liệu thiết bị"
+    },
+    {
+      "id": "SA-J03-C07",
+      "section_id": "SA-J03-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý 4 chuyên viên kinh doanh thiết bị phòng mổ và hồi sức cấp cứu.\nXây dựng chỉ tiêu doanh số năm 35 tỷ đồng cho thị trường Bắc Ninh, Vĩnh Phúc và Hưng Yên.\nTham gia cùng phòng đấu thầu nộp hồ sơ và trúng 5 gói thầu mua sắm đèn mổ và bàn mổ thủy lực tại các bệnh viện huyện.\nThường xuyên hướng dẫn nhân viên mới về thủ tục lập dự toán giá và thu thập cấu hình thiết bị y tế."
+    },
+    {
+      "id": "SA-J03-C07",
+      "section_id": "SA-J03-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý nhóm sales thiết bị y tế"
+    },
+    {
+      "id": "SA-J03-C07",
+      "section_id": "SA-J03-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đấu thầu y tế theo Luật Đấu thầu"
+    },
+    {
+      "id": "SA-J03-C07",
+      "section_id": "SA-J03-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chỉ tiêu doanh số vùng"
+    },
+    {
+      "id": "SA-J03-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết bị CT Scanner"
+    },
+    {
+      "id": "SA-J03-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Làm việc với hãng sản xuất quốc tế"
+    },
+    {
+      "id": "SA-J03-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Hồ sơ thầu kỹ thuật theo Luật Đấu thầu"
+    },
+    {
+      "id": "SA-J03-C08",
+      "section_id": "SA-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp tiếp nhận đào tạo chuyển giao công nghệ mới từ các chuyên gia của hãng tại Nhật Bản bằng tiếng Anh.\nHướng dẫn vận hành hệ thống CT 128 dãy cho hơn 40 bác sĩ và kỹ thuật viên hình ảnh tại Bệnh viện Bạch Mai, Bệnh viện Việt Đức và Bệnh viện Đa khoa Thái Nguyên.\nPhối hợp cùng đội ngũ kinh doanh xây dựng hồ sơ giải trình kỹ thuật đáp ứng các tiêu chí mời thầu y tế công lập.\nHỗ trợ xây dựng tài liệu huấn luyện chuyên môn kỹ thuật cho các nhân viên kinh doanh mới của công ty."
+    },
+    {
+      "id": "SA-J03-C08",
+      "section_id": "SA-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đào tạo ứng dụng lâm sàng"
+    },
+    {
+      "id": "SA-J03-C08",
+      "section_id": "SA-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết bị CT Scanner"
+    },
+    {
+      "id": "SA-J03-C08",
+      "section_id": "SA-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Làm việc với hãng sản xuất quốc tế"
+    },
+    {
+      "id": "SA-J03-C08",
+      "section_id": "SA-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hồ sơ thầu kỹ thuật theo Luật Đấu thầu"
+    },
+    {
+      "id": "SA-J03-C08",
+      "section_id": "SA-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh IELTS 7.5"
+    },
+    {
+      "id": "SA-J03-C08",
+      "section_id": "SA-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kỹ thuật Y sinh"
+    },
+    {
+      "id": "SA-J04-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn phối màu sắc và chất liệu"
+    },
+    {
+      "id": "SA-J04-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Theo dõi đơn hàng giao lắp"
+    },
+    {
+      "id": "SA-J04-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Chăm sóc khách hàng sau bàn giao"
+    },
+    {
+      "id": "SA-J04-C01",
+      "section_id": "SA-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực ca đón tiếp từ 8 đến 15 lượt khách tham quan showroom mỗi ngày tại khu đô thị Phú Mỹ Hưng.\nLắng nghe bản vẽ mặt bằng nhà khách hàng, tư vấn chọn kích thước sofa góc và bộ bàn ăn 6 ghế phù hợp diện tích phòng khách.\nTư vấn phối hợp tông màu tường với màu gỗ veneer và đệm da để tạo cảm giác không gian thoáng đãng.\nSoạn đơn đặt hàng, kiểm tra lịch xuất kho và liên hệ thông báo giờ giao hàng chính xác cho chủ nhà.\nGọi điện thăm hỏi sự hài lòng sau 7 ngày bàn giao và ghi nhận phản hồi bảo hành sản phẩm."
+    },
+    {
+      "id": "SA-J04-C01",
+      "section_id": "SA-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn bán hàng showroom"
+    },
+    {
+      "id": "SA-J04-C01",
+      "section_id": "SA-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Nội thất gỗ tự nhiên và sofa da"
+    },
+    {
+      "id": "SA-J04-C01",
+      "section_id": "SA-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn phối màu sắc và chất liệu"
+    },
+    {
+      "id": "SA-J04-C01",
+      "section_id": "SA-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Theo dõi đơn hàng giao lắp"
+    },
+    {
+      "id": "SA-J04-C01",
+      "section_id": "SA-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chăm sóc khách hàng sau bàn giao"
+    },
+    {
+      "id": "SA-J04-C01",
+      "section_id": "SA-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế nội thất"
+    },
+    {
+      "id": "SA-J04-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn bán hàng showroom"
+    },
+    {
+      "id": "SA-J04-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Đèn trang trí và tủ kệ"
+    },
+    {
+      "id": "SA-J04-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn màu sắc ánh sáng"
+    },
+    {
+      "id": "SA-J04-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Phối hợp lắp đặt"
+    },
+    {
+      "id": "SA-J04-C02",
+      "section_id": "SA-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đón tiếp khách ghé xem showroom tại quận 10, giới thiệu các bộ sưu tập đèn chùm pha lê và đồ gỗ phụ trợ không gian phòng ăn.\nHướng dẫn khách hàng chọn màu ánh sáng (trắng, vàng, trung tính) hài hòa với màu sơn và nội thất gỗ trong nhà.\nLập hóa đơn, nhận tiền đặt cọc và chuyển thông tin địa chỉ cho đội thợ kỹ thuật đi khảo sát lắp ráp.\nBám sát tiến độ đơn hàng và gọi điện chăm sóc khách hàng sau khi hoàn tất thi công lắp đèn."
+    },
+    {
+      "id": "SA-J04-C02",
+      "section_id": "SA-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn bán hàng showroom"
+    },
+    {
+      "id": "SA-J04-C02",
+      "section_id": "SA-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đèn trang trí và tủ kệ"
+    },
+    {
+      "id": "SA-J04-C02",
+      "section_id": "SA-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn màu sắc ánh sáng"
+    },
+    {
+      "id": "SA-J04-C02",
+      "section_id": "SA-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phối hợp lắp đặt"
+    },
+    {
+      "id": "SA-J04-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Chào đón khách showroom"
+    },
+    {
+      "id": "SA-J04-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Giới thiệu mẫu gạch men thiết bị"
+    },
+    {
+      "id": "SA-J04-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Giọng nói chuẩn"
+    },
+    {
+      "id": "SA-J04-C03",
+      "section_id": "SA-J04-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực sảnh trưng bày, mở cửa chào đón khách hàng và phát catalogue sản phẩm mới.\nDẫn khách tham quan các gian trưng bày buồng tắm mẫu, giới thiệu độ bóng và khả năng chống trơn trượt của từng dòng gạch.\nHỗ trợ các anh chị nhân viên chính thức ghi thông tin khách hàng vào sổ theo dõi."
+    },
+    {
+      "id": "SA-J04-C03",
+      "section_id": "SA-J04-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chào đón khách showroom"
+    },
+    {
+      "id": "SA-J04-C03",
+      "section_id": "SA-J04-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giới thiệu mẫu gạch men thiết bị"
+    },
+    {
+      "id": "SA-J04-C03",
+      "section_id": "SA-J04-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giọng nói chuẩn"
+    },
+    {
+      "id": "SA-J04-C03",
+      "section_id": "SA-J04-C03-SEC-EDU",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tốt nghiệp THPT"
+    },
+    {
+      "id": "SA-J04-C03",
+      "section_id": "SA-J04-C03-SEC-EDU",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phổ thông trung học"
+    },
+    {
+      "id": "SA-J04-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn hàng cao cấp"
+    },
+    {
+      "id": "SA-J04-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn phối màu sắc"
+    },
+    {
+      "id": "SA-J04-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Chăm sóc khách VIP"
+    },
+    {
+      "id": "SA-J04-C04",
+      "section_id": "SA-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại Union Square.\nGợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\nNhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng."
+    },
+    {
+      "id": "SA-J04-C04",
+      "section_id": "SA-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn hàng cao cấp"
+    },
+    {
+      "id": "SA-J04-C04",
+      "section_id": "SA-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giao tiếp lịch thiệp"
+    },
+    {
+      "id": "SA-J04-C04",
+      "section_id": "SA-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn phối màu sắc"
+    },
+    {
+      "id": "SA-J04-C04",
+      "section_id": "SA-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chăm sóc khách VIP"
+    },
+    {
+      "id": "SA-J04-C04",
+      "section_id": "SA-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn hàng cao cấp"
+    },
+    {
+      "id": "SA-J04-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý showroom nội thất"
+    },
+    {
+      "id": "SA-J04-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn nội thất cao cấp"
+    },
+    {
+      "id": "SA-J04-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Phối màu và công năng không gian sống"
+    },
+    {
+      "id": "SA-J04-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Điều phối vận chuyển lắp đặt"
+    },
+    {
+      "id": "SA-J04-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Chăm sóc hậu mãi khách VIP"
+    },
+    {
+      "id": "SA-J04-C05",
+      "section_id": "SA-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chịu trách nhiệm doanh số 45 tỷ đồng/năm của 2 showroom nội thất cao cấp tại Sala Quận 2 và Phú Mỹ Hưng Quận 7.\nTrực tiếp hướng dẫn đội ngũ 12 nhân viên bán hàng cách đón tiếp các chủ đầu tư biệt thự và kiến trúc sư nội thất.\nGiám sát toàn bộ tiến trình từ khâu tư vấn thiết kế 3D, ký hợp đồng kinh tế đến bàn giao nghiệm thu tận nhà.\nThiết lập quy trình kiểm tra chất lượng thi công lắp đặt và dịch vụ bảo trì định kỳ 6 tháng/lần cho khách VIP."
+    },
+    {
+      "id": "SA-J04-C05",
+      "section_id": "SA-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý showroom nội thất"
+    },
+    {
+      "id": "SA-J04-C05",
+      "section_id": "SA-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn nội thất cao cấp"
+    },
+    {
+      "id": "SA-J04-C05",
+      "section_id": "SA-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phối màu và công năng không gian sống"
+    },
+    {
+      "id": "SA-J04-C05",
+      "section_id": "SA-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Điều phối vận chuyển lắp đặt"
+    },
+    {
+      "id": "SA-J04-C05",
+      "section_id": "SA-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chăm sóc hậu mãi khách VIP"
+    },
+    {
+      "id": "SA-J04-C05",
+      "section_id": "SA-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn nội thất cao cấp"
+    },
+    {
+      "id": "SA-J04-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Telesales tài chính"
+    },
+    {
+      "id": "SA-J04-C06",
+      "section_id": "SA-J04-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thực hiện trung bình 60 đến 80 cuộc gọi mỗi ngày theo danh sách dữ liệu tiềm năng được cung cấp.\nTư vấn các chương trình hoàn tiền mua sắm và ưu đãi trả góp 0% cho chủ thẻ mới.\nHỗ trợ khách hàng hoàn thiện hồ sơ chứng minh thu nhập để phê duyệt hạn mức thẻ."
+    },
+    {
+      "id": "SA-J04-C06",
+      "section_id": "SA-J04-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Telesales tài chính"
+    },
+    {
+      "id": "SA-J04-C06",
+      "section_id": "SA-J04-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giọng nói chuẩn"
+    },
+    {
+      "id": "SA-J04-C06",
+      "section_id": "SA-J04-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thuyết phục khách hàng"
+    },
+    {
+      "id": "SA-J04-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn nội thất gỗ công nghiệp"
+    },
+    {
+      "id": "SA-J04-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn phối màu sắc không gian"
+    },
+    {
+      "id": "SA-J04-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Theo dõi giao hàng lắp đặt"
+    },
+    {
+      "id": "SA-J04-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Chăm sóc hậu mãi khách hàng"
+    },
+    {
+      "id": "SA-J04-C07",
+      "section_id": "SA-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đón tiếp khách hàng tới xem các mẫu giường ngủ bọc nỉ, tủ áo cánh kính và bàn trang điểm thông minh.\nTư vấn lựa chọn kích thước tủ áo phù hợp với chiều cao trần thạch cao và diện tích phòng ngủ của khách.\nTư vấn khách hàng phối tông màu xám ghi hiện đại hoặc vân gỗ sồi ấm áp cho không gian nhà mới.\nTheo dõi quá trình vận chuyển đơn hàng, liên hệ trước với ban quản lý chung cư để đăng ký thang máy vận chuyển đồ.\nChăm sóc khách hàng sau khi bàn giao để tiếp nhận thông tin bảo dưỡng định kỳ."
+    },
+    {
+      "id": "SA-J04-C07",
+      "section_id": "SA-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn nội thất gỗ công nghiệp"
+    },
+    {
+      "id": "SA-J04-C07",
+      "section_id": "SA-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn phối màu sắc không gian"
+    },
+    {
+      "id": "SA-J04-C07",
+      "section_id": "SA-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Theo dõi giao hàng lắp đặt"
+    },
+    {
+      "id": "SA-J04-C07",
+      "section_id": "SA-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chăm sóc hậu mãi khách hàng"
+    },
+    {
+      "id": "SA-J04-C07",
+      "section_id": "SA-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giọng nói hòa nhã"
+    },
+    {
+      "id": "SA-J04-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Tư vấn vật liệu nội thất"
+    },
+    {
+      "id": "SA-J04-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Phối màu sắc và công năng"
+    },
+    {
+      "id": "SA-J04-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết kế 3D SketchUp"
+    },
+    {
+      "id": "SA-J04-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Phối hợp thợ lắp đặt"
+    },
+    {
+      "id": "SA-J04-C08",
+      "section_id": "SA-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp đón tiếp các khách hàng ghé xưởng xem bảng mẫu ván gỗ Melamine, đá nhân tạo bếp và kính cường lực ốp tường.\nLắng nghe ý muốn phong cách nội thất tối giản (Minimalism) hoặc Bắc Âu (Scandinavian) để gợi ý màu gỗ phối hợp màu đệm sofa.\nLên dự toán chi phí chi tiết, ký hợp đồng đóng đồ nội thất theo số đo căn hộ chung cư.\nCùng thợ lắp đặt tới công trình bàn giao, kiểm tra độ êm của ray trượt và hướng dẫn khách lau chùi bề mặt bảo quản."
+    },
+    {
+      "id": "SA-J04-C08",
+      "section_id": "SA-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn vật liệu nội thất"
+    },
+    {
+      "id": "SA-J04-C08",
+      "section_id": "SA-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phối màu sắc và công năng"
+    },
+    {
+      "id": "SA-J04-C08",
+      "section_id": "SA-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế 3D SketchUp"
+    },
+    {
+      "id": "SA-J04-C08",
+      "section_id": "SA-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phối hợp thợ lắp đặt"
+    },
+    {
+      "id": "SA-J04-C08",
+      "section_id": "SA-J04-C08-SEC-PRJ",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tư vấn trọn gói bộ bàn ăn thông minh và hệ tủ tivi treo tường cho gia chủ trẻ, hoàn thiện bàn giao nghiệm thu."
+    },
+    {
+      "id": "SA-J04-C08",
+      "section_id": "SA-J04-C08-SEC-PRJ",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phối màu sắc và công năng"
+    },
+    {
+      "id": "SA-J04-C08",
+      "section_id": "SA-J04-C08-SEC-PRJ",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế 3D SketchUp"
+    },
+    {
+      "id": "SA-J05-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý khách hàng trọng yếu KAM"
+    },
+    {
+      "id": "SA-J05-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Cước đường biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Đàm phán hợp đồng khung doanh nghiệp FDI"
+    },
+    {
+      "id": "SA-J05-C01",
+      "section_id": "SA-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý 14 tài khoản khách hàng FDI lớn trong ngành linh kiện điện tử và may mặc xuất khẩu sang thị trường Mỹ và EU.\nThương thảo thành công hợp đồng khung thường niên với tổng sản lượng vận chuyển 1.200 TEU đường biển và 150 tấn hàng không mỗi năm.\nĐạt tỷ lệ giữ chân khách hàng (retention rate) 94% qua 3 năm liên tiếp nhờ xử lý sự cố phát sinh nhanh và linh hoạt giờ lấy container rỗng.\nBán gia tăng thành công dịch vụ lưu kho ngoại quan và thủ tục hoàn thuế cho 6 tài khoản hiện hữu, gia tăng doanh số thêm 22%.\nTrực tiếp trao đổi hàng ngày qua email và đàm phán giá cước định kỳ với giám đốc chuỗi cung ứng người Hàn Quốc và Đài Loan bằng tiếng Anh."
+    },
+    {
+      "id": "SA-J05-C01",
+      "section_id": "SA-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý khách hàng trọng yếu KAM"
+    },
+    {
+      "id": "SA-J05-C01",
+      "section_id": "SA-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Cước đường biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C01",
+      "section_id": "SA-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đường hàng không Air Freight"
+    },
+    {
+      "id": "SA-J05-C01",
+      "section_id": "SA-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Khai thuê hải quan"
+    },
+    {
+      "id": "SA-J05-C01",
+      "section_id": "SA-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán hợp đồng khung doanh nghiệp FDI"
+    },
+    {
+      "id": "SA-J05-C01",
+      "section_id": "SA-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh TOEIC 890"
+    },
+    {
+      "id": "SA-J05-C01",
+      "section_id": "SA-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Cước đường biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C01",
+      "section_id": "SA-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Khai thuê hải quan"
+    },
+    {
+      "id": "SA-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý tài khoản logistics"
+    },
+    {
+      "id": "SA-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Cước tàu biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Cước hàng không Air Freight"
+    },
+    {
+      "id": "SA-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Hợp đồng khung thường niên"
+    },
+    {
+      "id": "SA-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Giữ chân khách hàng retention 92%"
+    },
+    {
+      "id": "SA-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Tiếng Anh thương mại"
+    },
+    {
+      "id": "SA-J05-C02",
+      "section_id": "SA-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phụ trách trực tiếp 18 khách hàng xuất khẩu gỗ và nội thất kim loại sang thị trường Bắc Mỹ.\nĐàm phán các hợp đồng cung ứng dịch vụ logistics thường niên với cam kết về số lượng chỗ (space allocation) trong mùa cao điểm.\nĐạt tỷ lệ giữ chân khách hàng 92% trong năm 2025, mở rộng bán thêm dịch vụ vận tải kéo container đường bộ từ nhà máy ra cảng Cái Mép.\nThường xuyên viết thư báo cước, cập nhật phụ phí xăng dầu (BAF) và lịch tàu bằng tiếng Anh cho các đối tác mua hàng nước ngoài."
+    },
+    {
+      "id": "SA-J05-C02",
+      "section_id": "SA-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý tài khoản logistics"
+    },
+    {
+      "id": "SA-J05-C02",
+      "section_id": "SA-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Cước tàu biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C02",
+      "section_id": "SA-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hợp đồng khung thường niên"
+    },
+    {
+      "id": "SA-J05-C02",
+      "section_id": "SA-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Giữ chân khách hàng retention 92%"
+    },
+    {
+      "id": "SA-J05-C02",
+      "section_id": "SA-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh thương mại"
+    },
+    {
+      "id": "SA-J05-C02",
+      "section_id": "SA-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Cước tàu biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Đàm phán cước xe tải"
+    },
+    {
+      "id": "SA-J05-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Điều phối xe đường bộ"
+    },
+    {
+      "id": "SA-J05-C03",
+      "section_id": "SA-J05-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Khai thác khách hàng là các công ty phân phối nước giặt, đồ nhựa gia dụng cần vận chuyển hàng từ TP.HCM đi các tỉnh miền Tây và Tây Nguyên.\nBáo giá cước xe tải theo ki-lô-mét và đàm phán hợp đồng thuê bao xe tháng cho 8 doanh nghiệp vừa và nhỏ."
+    },
+    {
+      "id": "SA-J05-C03",
+      "section_id": "SA-J05-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Vận tải đường bộ nội địa"
+    },
+    {
+      "id": "SA-J05-C03",
+      "section_id": "SA-J05-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán cước xe tải"
+    },
+    {
+      "id": "SA-J05-C03",
+      "section_id": "SA-J05-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Điều phối xe đường bộ"
+    },
+    {
+      "id": "SA-J05-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Cước biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Làm việc với hãng tàu"
+    },
+    {
+      "id": "SA-J05-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Chứng từ vận đơn Bill of Lading"
+    },
+    {
+      "id": "SA-J05-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Tiếng Anh gửi email báo cước"
+    },
+    {
+      "id": "SA-J05-C04",
+      "section_id": "SA-J05-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Khai thác danh sách khách hàng doanh nghiệp vừa và nhỏ nhập khẩu hóa chất và hạt nhựa từ Trung Quốc, Hàn Quốc về cảng Cát Lái.\nLàm việc với các hãng tàu như SITC, Sinokor, Wanhai để cập nhật giá cước tuần và lấy chỗ vận chuyển container rỗng.\nGửi báo giá cước biển, theo dõi ngày tàu cập bến và bàn giao lệnh giao hàng (D/O) cho khách."
+    },
+    {
+      "id": "SA-J05-C04",
+      "section_id": "SA-J05-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Cước biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C04",
+      "section_id": "SA-J05-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Làm việc với hãng tàu"
+    },
+    {
+      "id": "SA-J05-C04",
+      "section_id": "SA-J05-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh gửi email báo cước"
+    },
+    {
+      "id": "SA-J05-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Lãnh đạo khách hàng toàn cầu KAM"
+    },
+    {
+      "id": "SA-J05-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Đàm phán hợp đồng khung FDI"
+    },
+    {
+      "id": "SA-J05-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Cước đường biển FCL và hàng không Charter"
+    },
+    {
+      "id": "SA-J05-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Tiếng Anh cấp độ thành thạo"
+    },
+    {
+      "id": "SA-J05-C05",
+      "section_id": "SA-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp phụ trách danh mục 6 tập đoàn công nghệ đa quốc gia (FDI) có tổ hợp sản xuất tại Bắc Ninh, Thái Nguyên và TP.HCM.\nĐàm phán và ký kết các hợp đồng khung chuỗi cung ứng 2 năm một lần với doanh số thường niên vượt 180 tỷ đồng.\nDuy trì tỷ lệ giữ chân khách hàng 98%, chủ trì xây dựng trung tâm phân phối tích hợp và hệ thống thông quan tự động tại chỗ.\nĐiều phối mạng lưới văn phòng đại diện tại Singapore, Hồng Kông và Nhật Bản để hỗ trợ chuỗi vận chuyển xuyên biên giới."
+    },
+    {
+      "id": "SA-J05-C05",
+      "section_id": "SA-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo khách hàng toàn cầu KAM"
+    },
+    {
+      "id": "SA-J05-C05",
+      "section_id": "SA-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán hợp đồng khung FDI"
+    },
+    {
+      "id": "SA-J05-C05",
+      "section_id": "SA-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Cước đường biển FCL và hàng không Charter"
+    },
+    {
+      "id": "SA-J05-C05",
+      "section_id": "SA-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh cấp độ thành thạo"
+    },
+    {
+      "id": "SA-J05-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý tài khoản B2B"
+    },
+    {
+      "id": "SA-J05-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Đàm phán hợp đồng khung nhà máy FDI"
+    },
+    {
+      "id": "SA-J05-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Chỉ số giao hàng đúng hạn OTIF"
+    },
+    {
+      "id": "SA-J05-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Duy trì quan hệ khách hàng"
+    },
+    {
+      "id": "SA-J05-C06",
+      "section_id": "SA-J05-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phụ trách danh mục 12 nhà máy sản xuất thiết bị gia dụng và may mặc xuất khẩu tại Bình Dương.\nĐàm phán tái ký hợp đồng khung thường niên cung cấp 500.000 thùng carton các loại với giá trị hợp đồng hơn 16 tỷ đồng/năm.\nĐạt tỷ lệ tái ký hợp đồng trên 90% liên tục 2 năm qua."
+    },
+    {
+      "id": "SA-J05-C06",
+      "section_id": "SA-J05-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý tài khoản B2B"
+    },
+    {
+      "id": "SA-J05-C06",
+      "section_id": "SA-J05-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán hợp đồng khung nhà máy FDI"
+    },
+    {
+      "id": "SA-J05-C06",
+      "section_id": "SA-J05-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chỉ số giao hàng đúng hạn OTIF"
+    },
+    {
+      "id": "SA-J05-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý tài khoản logistics KAM"
+    },
+    {
+      "id": "SA-J05-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Cước tàu biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Thủ tục thông quan hải quan"
+    },
+    {
+      "id": "SA-J05-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Hợp đồng khung thường niên FDI"
+    },
+    {
+      "id": "SA-J05-C07",
+      "section_id": "SA-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phụ trách chăm sóc 16 khách hàng doanh nghiệp FDI Nhật Bản và Đài Loan chuyên sản xuất phụ tùng cơ khí chính xác.\nXây dựng báo giá giải pháp chuỗi cung ứng tổng thể kết hợp cước tàu biển FCL từ Nhật về Việt Nam và thủ tục thông quan luồng vàng, luồng đỏ.\nThương thảo ký tiếp hợp đồng khung năm 2025 với mức tăng trưởng sản lượng container 15%.\nĐạt tỷ lệ giữ chân tài khoản 91%, không để xảy ra tranh chấp công nợ lớn."
+    },
+    {
+      "id": "SA-J05-C07",
+      "section_id": "SA-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý tài khoản logistics KAM"
+    },
+    {
+      "id": "SA-J05-C07",
+      "section_id": "SA-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Cước tàu biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C07",
+      "section_id": "SA-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thủ tục thông quan hải quan"
+    },
+    {
+      "id": "SA-J05-C07",
+      "section_id": "SA-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hợp đồng khung thường niên FDI"
+    },
+    {
+      "id": "SA-J05-C07",
+      "section_id": "SA-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Cước tàu biển FCL LCL"
+    },
+    {
+      "id": "SA-J05-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Khai thuê hải quan VNACCS"
+    },
+    {
+      "id": "SA-J05-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý khách hàng FDI logistics"
+    },
+    {
+      "id": "SA-J05-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Báo giá cước FCL LCL"
+    },
+    {
+      "id": "SA-J05-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Bán thêm dịch vụ cước biển"
+    },
+    {
+      "id": "SA-J05-C08",
+      "section_id": "SA-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp phụ trách thủ tục hải quan và điều phối logistics cho 10 nhà máy FDI may mặc và da giày xuất khẩu.\nLập tờ khai nhập khẩu nguyên phụ liệu gia công và tờ khai xuất khẩu sản phẩm hoàn chỉnh trung bình 180 tờ khai/tháng.\nThuyết phục khách hàng sử dụng thêm gói cước tàu biển FCL trọn gói do công ty cung cấp thay vì tự thuê dịch vụ ngoài, giúp tăng doanh thu từ tài khoản cũ thêm 30%.\nHỗ trợ giải trình hồ sơ tham vấn giá và kiểm tra sau thông quan thành công cho 2 đối tác FDI lớn."
+    },
+    {
+      "id": "SA-J05-C08",
+      "section_id": "SA-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Khai thuê hải quan VNACCS"
+    },
+    {
+      "id": "SA-J05-C08",
+      "section_id": "SA-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Mã HS Code"
+    },
+    {
+      "id": "SA-J05-C08",
+      "section_id": "SA-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý khách hàng FDI logistics"
+    },
+    {
+      "id": "SA-J05-C08",
+      "section_id": "SA-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Báo giá cước FCL LCL"
+    },
+    {
+      "id": "SA-J05-C08",
+      "section_id": "SA-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bán thêm dịch vụ cước biển"
+    },
+    {
+      "id": "SA-J05-C08",
+      "section_id": "SA-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Khai thuê hải quan VNACCS"
+    },
+    {
+      "id": "MK-J01-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Digital Marketing đa kênh"
+    },
+    {
+      "id": "MK-J01-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Sản xuất video ngắn và visual"
+    },
+    {
+      "id": "MK-J01-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Ngành giáo dục trực tuyến EdTech"
+    },
+    {
+      "id": "MK-J01-C01",
+      "section_id": "MK-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp chạy quảng cáo chuyển đổi cho các khóa học tiếng Anh trực tuyến và lập trình trẻ em trên Meta Ads, Google Search/Performance Max và TikTok Ads.\nQuản lý ngân sách 350-500 triệu đồng/tháng, duy trì chi phí thu hút học viên mới (CPA) giảm 18% so với cùng kỳ.\nTự cấu hình Google Tag Manager để theo dõi các sự kiện gửi form đăng ký học thử và liên kết tài khoản GA4.\nDựng bảng điều khiển báo cáo Looker Studio tự động cập nhật hàng ngày giúp ban giám đốc theo dõi ROI thời gian thực.\nLên ý tưởng kịch bản video ngắn dạng phỏng vấn giáo viên bản ngữ và phối hợp cùng designer thiết kế bộ banner chạy khuyến mãi tuyển sinh hè."
+    },
+    {
+      "id": "MK-J01-C01",
+      "section_id": "MK-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Digital Marketing đa kênh"
+    },
+    {
+      "id": "MK-J01-C01",
+      "section_id": "MK-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Analytics 4 (GA4)"
+    },
+    {
+      "id": "MK-J01-C01",
+      "section_id": "MK-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Tag Manager (GTM)"
+    },
+    {
+      "id": "MK-J01-C01",
+      "section_id": "MK-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Sản xuất video ngắn và visual"
+    },
+    {
+      "id": "MK-J01-C01",
+      "section_id": "MK-J01-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngành giáo dục trực tuyến EdTech"
+    },
+    {
+      "id": "MK-J01-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Digital Marketing đa kênh"
+    },
+    {
+      "id": "MK-J01-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Google Analytics 4 (GA4)"
+    },
+    {
+      "id": "MK-J01-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Sản xuất visual và video ngắn"
+    },
+    {
+      "id": "MK-J01-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Thương mại điện tử E-commerce"
+    },
+    {
+      "id": "MK-J01-C02",
+      "section_id": "MK-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản trị ngân sách quảng cáo 600 triệu đồng/tháng cho chuỗi 15 cửa hàng và kênh website bán hàng trực tuyến.\nTriển khai chiến dịch Meta Catalog Ads và TikTok Spark Ads kết hợp video review của KOC, giúp chỉ số ROAS đạt mức trung bình 4.2.\nCài đặt hệ thống theo dõi giá trị mua hàng Purchase Event qua GA4 và xây dựng báo cáo phân tích phễu rớt giỏ hàng trên Looker Studio.\nPhối hợp chặt chẽ với đội ngũ designer và quay phim nội bộ để sản xuất 40 mẫu visual và 15 video ngắn mỗi tháng."
+    },
+    {
+      "id": "MK-J01-C02",
+      "section_id": "MK-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Digital Marketing đa kênh"
+    },
+    {
+      "id": "MK-J01-C02",
+      "section_id": "MK-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Meta Ads"
+    },
+    {
+      "id": "MK-J01-C02",
+      "section_id": "MK-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "TikTok Ads"
+    },
+    {
+      "id": "MK-J01-C02",
+      "section_id": "MK-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Analytics 4 (GA4)"
+    },
+    {
+      "id": "MK-J01-C02",
+      "section_id": "MK-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Sản xuất visual và video ngắn"
+    },
+    {
+      "id": "MK-J01-C02",
+      "section_id": "MK-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thương mại điện tử E-commerce"
+    },
+    {
+      "id": "MK-J01-C02",
+      "section_id": "MK-J01-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Meta Ads"
+    },
+    {
+      "id": "MK-J01-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Quan hệ công chúng PR"
+    },
+    {
+      "id": "MK-J01-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Viết bài thông cáo báo chí"
+    },
+    {
+      "id": "MK-J01-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Tổ chức sự kiện hội nghị"
+    },
+    {
+      "id": "MK-J01-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý KOL KOC"
+    },
+    {
+      "id": "MK-J01-C03",
+      "section_id": "MK-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\nViết và phân phối hơn 50 bài PR trên các trang báo điện tử VnExpress, Dân Trí, Tuổi Trẻ.\nĐiều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\nCác chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng."
+    },
+    {
+      "id": "MK-J01-C03",
+      "section_id": "MK-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quan hệ công chúng PR"
+    },
+    {
+      "id": "MK-J01-C03",
+      "section_id": "MK-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Viết bài thông cáo báo chí"
+    },
+    {
+      "id": "MK-J01-C03",
+      "section_id": "MK-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tổ chức sự kiện hội nghị"
+    },
+    {
+      "id": "MK-J01-C03",
+      "section_id": "MK-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý KOL KOC"
+    },
+    {
+      "id": "MK-J01-C03",
+      "section_id": "MK-J01-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tổ chức sự kiện hội nghị"
+    },
+    {
+      "id": "MK-J01-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Quảng cáo Meta Ads"
+    },
+    {
+      "id": "MK-J01-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Copywriting mạng xã hội"
+    },
+    {
+      "id": "MK-J01-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Google Analytics cơ bản"
+    },
+    {
+      "id": "MK-J01-C04",
+      "section_id": "MK-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp thiết lập và theo dõi các chiến dịch quảng cáo Facebook tin nhắn cho khách hàng bán đồ ăn vặt và phụ kiện thú cưng.\nNgân sách quản trị khoảng 30-50 triệu đồng/tháng.\nThử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa để tìm mẫu quảng cáo có chi phí nhắn tin rẻ nhất."
+    },
+    {
+      "id": "MK-J01-C04",
+      "section_id": "MK-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quảng cáo Meta Ads"
+    },
+    {
+      "id": "MK-J01-C04",
+      "section_id": "MK-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Copywriting mạng xã hội"
+    },
+    {
+      "id": "MK-J01-C04",
+      "section_id": "MK-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Canva"
+    },
+    {
+      "id": "MK-J01-C04",
+      "section_id": "MK-J01-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Copywriting mạng xã hội"
+    },
+    {
+      "id": "MK-J01-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Lãnh đạo Performance Marketing"
+    },
+    {
+      "id": "MK-J01-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Ngân sách lớn E-commerce"
+    },
+    {
+      "id": "MK-J01-C05",
+      "issue": "skill requires semantic support check",
+      "value": "GA4 và Looker Studio"
+    },
+    {
+      "id": "MK-J01-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Tối ưu ROAS và CAC"
+    },
+    {
+      "id": "MK-J01-C05",
+      "section_id": "MK-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Dẫn dắt đội ngũ 5 nhân viên thực thi các chiến dịch quảng cáo ngày hội siêu sale (Mega Campaign 11.11, 12.12) với ngân sách 2 tỷ đồng/tháng.\nXây dựng mô hình phân bổ đóng góp (Attribution Modeling) trên Looker Studio kết nối dữ liệu từ GA4 và CRM nội bộ.\nĐạt chỉ số hoàn vốn trên chi phí quảng cáo (Blended ROAS) đạt 5.8 trong năm 2025.\nĐào tạo đội ngũ về phương pháp sáng tạo nội dung video ngắn chuyển đổi cao theo chuẩn Meta Best Practices."
+    },
+    {
+      "id": "MK-J01-C05",
+      "section_id": "MK-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo Performance Marketing"
+    },
+    {
+      "id": "MK-J01-C05",
+      "section_id": "MK-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngân sách lớn E-commerce"
+    },
+    {
+      "id": "MK-J01-C05",
+      "section_id": "MK-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Meta Ads"
+    },
+    {
+      "id": "MK-J01-C05",
+      "section_id": "MK-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Ads"
+    },
+    {
+      "id": "MK-J01-C05",
+      "section_id": "MK-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "TikTok Ads"
+    },
+    {
+      "id": "MK-J01-C05",
+      "section_id": "MK-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "GA4 và Looker Studio"
+    },
+    {
+      "id": "MK-J01-C05",
+      "section_id": "MK-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tối ưu ROAS và CAC"
+    },
+    {
+      "id": "MK-J01-C05",
+      "section_id": "MK-J01-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Ads"
+    },
+    {
+      "id": "MK-J01-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết kế visual quảng cáo"
+    },
+    {
+      "id": "MK-J01-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Biên tập video ngắn CapCut Premiere"
+    },
+    {
+      "id": "MK-J01-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết kế Landing Page"
+    },
+    {
+      "id": "MK-J01-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Adobe Photoshop Illustrator"
+    },
+    {
+      "id": "MK-J01-C06",
+      "section_id": "MK-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp sản xuất hơn 60 ấn phẩm visual và 20 video ngắn mỗi tháng theo yêu cầu của đội ngũ chạy quảng cáo số cho các khách hàng mỹ phẩm, thời trang.\nThiết kế các định dạng ảnh Carousel, Story, Canvas tối ưu theo chuẩn kích thước Meta và TikTok.\nThiết kế giao diện 12 trang Landing Page phục vụ các đợt flash sale sản phẩm."
+    },
+    {
+      "id": "MK-J01-C06",
+      "section_id": "MK-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế visual quảng cáo"
+    },
+    {
+      "id": "MK-J01-C06",
+      "section_id": "MK-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Biên tập video ngắn CapCut Premiere"
+    },
+    {
+      "id": "MK-J01-C06",
+      "section_id": "MK-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế Landing Page"
+    },
+    {
+      "id": "MK-J01-C06",
+      "section_id": "MK-J01-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Adobe Photoshop Illustrator"
+    },
+    {
+      "id": "MK-J01-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Quảng cáo đa kênh Meta TikTok Google"
+    },
+    {
+      "id": "MK-J01-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Kế hoạch nội dung và video"
+    },
+    {
+      "id": "MK-J01-C07",
+      "issue": "skill requires semantic support check",
+      "value": "E-commerce mỹ phẩm"
+    },
+    {
+      "id": "MK-J01-C07",
+      "section_id": "MK-J01-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết lập và quản trị các chiến dịch quảng cáo trả phí cho dòng sản phẩm xà bông thảo mộc và serum dưỡng ẩm trên Facebook và TikTok.\nQuản trị mức ngân sách khoảng 180 triệu đồng/tháng, tối ưu hóa điểm chất lượng quảng cáo và giữ chỉ số ROAS duy trì từ 3.2 đến 3.8.\nKết nối nguồn dữ liệu đơn hàng website từ nền tảng Haravan sang Looker Studio để theo dõi biến động doanh thu theo từng ngày.\nLập kế hoạch nội dung tuần, phối hợp với nhân sự sản xuất video quay thử các video trải nghiệm chất lượng kem thực tế."
+    },
+    {
+      "id": "MK-J01-C07",
+      "section_id": "MK-J01-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quảng cáo đa kênh Meta TikTok Google"
+    },
+    {
+      "id": "MK-J01-C07",
+      "section_id": "MK-J01-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Analytics 4 (GA4)"
+    },
+    {
+      "id": "MK-J01-C07",
+      "section_id": "MK-J01-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kế hoạch nội dung và video"
+    },
+    {
+      "id": "MK-J01-C07",
+      "section_id": "MK-J01-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "E-commerce mỹ phẩm"
+    },
+    {
+      "id": "MK-J01-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Google Tag Manager (GTM)"
+    },
+    {
+      "id": "MK-J01-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Google Analytics 4 (GA4)"
+    },
+    {
+      "id": "MK-J01-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Đo lường quảng cáo Meta TikTok Google"
+    },
+    {
+      "id": "MK-J01-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Ngành giáo dục trực tuyến EdTech"
+    },
+    {
+      "id": "MK-J01-C08",
+      "section_id": "MK-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết lập hệ thống thẻ đo lường GTM theo dõi toàn bộ hành trình người dùng từ lượt nhấp quảng cáo TikTok, Meta đến khi hoàn tất cài app và mua gói cước học tập.\nPhối hợp cùng đội ngũ quảng cáo phân bổ ngân sách 300 triệu đồng/tháng cho các nhóm đối tượng phụ huynh học sinh tiểu học.\nXây dựng hệ thống bảng điều khiển Looker Studio đo lường chỉ số ROI và tỷ lệ giữ chân khách hàng sau 30 ngày.\nĐưa ra khuyến nghị điều chỉnh nội dung video quảng cáo ngắn dựa trên thời lượng xem trung bình (Average Watch Time) của từng tệp người dùng."
+    },
+    {
+      "id": "MK-J01-C08",
+      "section_id": "MK-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Tag Manager (GTM)"
+    },
+    {
+      "id": "MK-J01-C08",
+      "section_id": "MK-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Analytics 4 (GA4)"
+    },
+    {
+      "id": "MK-J01-C08",
+      "section_id": "MK-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đo lường quảng cáo Meta TikTok Google"
+    },
+    {
+      "id": "MK-J01-C08",
+      "section_id": "MK-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngành giáo dục trực tuyến EdTech"
+    },
+    {
+      "id": "MK-J01-C08",
+      "section_id": "MK-J01-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Analytics 4 (GA4)"
+    },
+    {
+      "id": "MK-J02-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Sáng tạo nội dung TikTok và Fanpage"
+    },
+    {
+      "id": "MK-J02-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Viết kịch bản video ngắn"
+    },
+    {
+      "id": "MK-J02-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Tự quay và dựng video CapCut Premiere"
+    },
+    {
+      "id": "MK-J02-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Bắt trend xu hướng Gen Z"
+    },
+    {
+      "id": "MK-J02-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết kế Canva và Photoshop"
+    },
+    {
+      "id": "MK-J02-C01",
+      "section_id": "MK-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản trị kênh TikTok và Facebook Fanpage về đời sống ẩm thực đường phố với hơn 150.000 người theo dõi.\nLên kịch bản chi tiết, tự cầm máy điện thoại quay tại quán và dựng hoàn chỉnh 16 video ngắn mỗi tháng bằng ứng dụng CapCut và Adobe Premiere.\nNghiên cứu các hiệu ứng âm thanh và thử thách mới nhất trên TikTok để áp dụng vào video, có 4 video đạt hơn 1,2 triệu view tự nhiên.\nTự tay thiết kế toàn bộ ảnh bìa video và hình ảnh bài đăng Facebook bằng Canva kết hợp Photoshop.\nTương tác trả lời bình luận của khán giả để tăng tỷ lệ giữ chân người xem."
+    },
+    {
+      "id": "MK-J02-C01",
+      "section_id": "MK-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Sáng tạo nội dung TikTok và Fanpage"
+    },
+    {
+      "id": "MK-J02-C01",
+      "section_id": "MK-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Viết kịch bản video ngắn"
+    },
+    {
+      "id": "MK-J02-C01",
+      "section_id": "MK-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tự quay và dựng video CapCut Premiere"
+    },
+    {
+      "id": "MK-J02-C01",
+      "section_id": "MK-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bắt trend xu hướng Gen Z"
+    },
+    {
+      "id": "MK-J02-C01",
+      "section_id": "MK-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế Canva và Photoshop"
+    },
+    {
+      "id": "MK-J02-C01",
+      "section_id": "MK-J02-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bắt trend xu hướng Gen Z"
+    },
+    {
+      "id": "MK-J02-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Sáng tạo nội dung Instagram và TikTok"
+    },
+    {
+      "id": "MK-J02-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Biên tập video CapCut"
+    },
+    {
+      "id": "MK-J02-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Bắt nhịp xu hướng nhạc trend"
+    },
+    {
+      "id": "MK-J02-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết kế ảnh Canva"
+    },
+    {
+      "id": "MK-J02-C02",
+      "section_id": "MK-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chịu trách nhiệm chính về tuyến nội dung hình ảnh và video ngắn trên TikTok và Instagram của thương hiệu.\nViết kịch bản, trực tiếp phối trang phục và quay 20 video ngắn mỗi tháng hướng dẫn cách mix & match đồ đi học, đi chơi.\nTự cắt ghép, chỉnh màu và chèn hiệu ứng chuyển cảnh bằng ứng dụng CapCut, giúp kênh TikTok tăng từ 20.000 lên 85.000 người theo dõi.\nThiết kế các khung ảnh chương trình khuyến mãi tháng và thông báo hàng mới về bằng công cụ Canva."
+    },
+    {
+      "id": "MK-J02-C02",
+      "section_id": "MK-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Sáng tạo nội dung Instagram và TikTok"
+    },
+    {
+      "id": "MK-J02-C02",
+      "section_id": "MK-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Biên tập video CapCut"
+    },
+    {
+      "id": "MK-J02-C02",
+      "section_id": "MK-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bắt nhịp xu hướng nhạc trend"
+    },
+    {
+      "id": "MK-J02-C02",
+      "section_id": "MK-J02-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế ảnh Canva"
+    },
+    {
+      "id": "MK-J02-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Viết nội dung website chuẩn SEO"
+    },
+    {
+      "id": "MK-J02-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Dịch thuật tiếng Anh"
+    },
+    {
+      "id": "MK-J02-C03",
+      "section_id": "MK-J02-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\nTối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\nCông việc chủ yếu thao tác viết trên máy tính, chưa từng tự quay video, đứng trước ống kính hay sử dụng ứng dụng dựng phim CapCut, Premiere."
+    },
+    {
+      "id": "MK-J02-C03",
+      "section_id": "MK-J02-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Viết nội dung website chuẩn SEO"
+    },
+    {
+      "id": "MK-J02-C03",
+      "section_id": "MK-J02-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Nghiên cứu tài liệu sâu"
+    },
+    {
+      "id": "MK-J02-C03",
+      "section_id": "MK-J02-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Dịch thuật tiếng Anh"
+    },
+    {
+      "id": "MK-J02-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Quay dựng video TikTok CapCut"
+    },
+    {
+      "id": "MK-J02-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Diễn xuất trước ống kính"
+    },
+    {
+      "id": "MK-J02-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Bắt trend âm thanh thịnh hành"
+    },
+    {
+      "id": "MK-J02-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết kế Canva"
+    },
+    {
+      "id": "MK-J02-C04",
+      "section_id": "MK-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp sản xuất 12 video ngắn/tháng quay tại các chi nhánh quán trà sữa, giới thiệu món nước mùa hè và các tình huống hài hước giữa khách hàng và nhân viên pha chế.\nSử dụng CapCut cắt ghép video, lồng tiếng và bắt nhịp nhạc thịnh hành, giúp 2 video đạt trên 300.000 lượt xem.\nThiết kế các thông báo mua 1 tặng 1 bằng ứng dụng Canva để đăng lên Fanpage."
+    },
+    {
+      "id": "MK-J02-C04",
+      "section_id": "MK-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quay dựng video TikTok CapCut"
+    },
+    {
+      "id": "MK-J02-C04",
+      "section_id": "MK-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Diễn xuất trước ống kính"
+    },
+    {
+      "id": "MK-J02-C04",
+      "section_id": "MK-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bắt trend âm thanh thịnh hành"
+    },
+    {
+      "id": "MK-J02-C04",
+      "section_id": "MK-J02-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế Canva"
+    },
+    {
+      "id": "MK-J02-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Lãnh đạo phòng sáng tạo nội dung"
+    },
+    {
+      "id": "MK-J02-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến lược video viral đa nền tảng"
+    },
+    {
+      "id": "MK-J02-C05",
+      "section_id": "MK-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Điều hành đội ngũ 8 nhân viên nội dung và quay dựng phim phục vụ 5 nhãn hàng tiêu dùng lớn.\nĐịnh hướng sản xuất các chuỗi video giải trí đạt tổng cộng hơn 45 triệu lượt xem trên nền tảng TikTok và YouTube Shorts trong năm 2025.\nXây dựng quy chuẩn sản xuất nội dung ngắn giúp rút ngắn thời gian hậu kỳ từ 3 ngày xuống còn 24 giờ.\nPhối hợp cùng giám đốc tiếp thị lên kế hoạch phân bổ kinh phí tài trợ cho các nhà sáng tạo nội dung hàng đầu."
+    },
+    {
+      "id": "MK-J02-C05",
+      "section_id": "MK-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo phòng sáng tạo nội dung"
+    },
+    {
+      "id": "MK-J02-C05",
+      "section_id": "MK-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến lược video viral đa nền tảng"
+    },
+    {
+      "id": "MK-J02-C05",
+      "section_id": "MK-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chỉ đạo sản xuất video ngắn"
+    },
+    {
+      "id": "MK-J02-C05",
+      "section_id": "MK-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Storytelling"
+    },
+    {
+      "id": "MK-J02-C05",
+      "section_id": "MK-J02-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Storytelling"
+    },
+    {
+      "id": "MK-J02-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Trực tin nhắn Fanpage"
+    },
+    {
+      "id": "MK-J02-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Pancake Harasocial"
+    },
+    {
+      "id": "MK-J02-C06",
+      "section_id": "MK-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực hộp thư tin nhắn và trả lời hơn 200 lượt hỏi giá sản phẩm tai nghe, điện thoại, máy tính bảng mỗi ngày.\nHướng dẫn khách đặt hàng online và kiểm tra tình trạng vận chuyển đơn hàng.\nThu thập ý kiến khách hàng phản ánh về thái độ phục vụ tại cửa hàng để báo cáo trưởng ca."
+    },
+    {
+      "id": "MK-J02-C06",
+      "section_id": "MK-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tin nhắn Fanpage"
+    },
+    {
+      "id": "MK-J02-C06",
+      "section_id": "MK-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chăm sóc khách hàng"
+    },
+    {
+      "id": "MK-J02-C06",
+      "section_id": "MK-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Pancake Harasocial"
+    },
+    {
+      "id": "MK-J02-C06",
+      "section_id": "MK-J02-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chăm sóc khách hàng"
+    },
+    {
+      "id": "MK-J02-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Kịch bản video TikTok và Fanpage"
+    },
+    {
+      "id": "MK-J02-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Tự quay và dựng CapCut"
+    },
+    {
+      "id": "MK-J02-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Bắt trend làm đẹp và nhạc nền"
+    },
+    {
+      "id": "MK-J02-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết kế hình ảnh Canva"
+    },
+    {
+      "id": "MK-J02-C07",
+      "section_id": "MK-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lên kế hoạch bài đăng hàng tuần cho Fanpage với hơn 80.000 lượt thích, chủ đề chăm sóc da mụn và quy trình dưỡng sáng an toàn.\nSoạn kịch bản và tự quay các video ngắn dạng mẹo nhỏ làm đẹp, cắt ghép bằng CapCut và đăng tải đều đặn 4 video/tuần.\nBắt kịp các âm thanh đang thịnh hành trên TikTok để lồng vào video clip mẹo chăm sóc da, giúp kênh tăng trưởng 35.000 lượt theo dõi mới.\nTự thiết kế toàn bộ hình ảnh minh họa bằng công cụ Canva, giữ đúng tông màu hồng pastel chủ đạo của thương hiệu."
+    },
+    {
+      "id": "MK-J02-C07",
+      "section_id": "MK-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kịch bản video TikTok và Fanpage"
+    },
+    {
+      "id": "MK-J02-C07",
+      "section_id": "MK-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tự quay và dựng CapCut"
+    },
+    {
+      "id": "MK-J02-C07",
+      "section_id": "MK-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bắt trend làm đẹp và nhạc nền"
+    },
+    {
+      "id": "MK-J02-C07",
+      "section_id": "MK-J02-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế hình ảnh Canva"
+    },
+    {
+      "id": "MK-J02-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Sáng tạo nội dung TikTok Reels"
+    },
+    {
+      "id": "MK-J02-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Tự quay và dựng Premiere CapCut"
+    },
+    {
+      "id": "MK-J02-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Bắt trend du lịch ẩm thực"
+    },
+    {
+      "id": "MK-J02-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Thiết kế thumbnail Photoshop"
+    },
+    {
+      "id": "MK-J02-C08",
+      "section_id": "MK-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tự xây dựng kênh từ con số 0 lên hơn 70.000 người theo dõi trên TikTok và 25.000 người theo dõi trên Instagram Reels.\nViết kịch bản dẫn chuyện truyền cảm, tự cầm gimbal và điện thoại ghi hình hơn 60 địa điểm quán xá và danh lam thắng cảnh.\nSử dụng Adobe Premiere dựng trên máy tính và CapCut trên điện thoại để hoàn thiện 2-3 video mỗi tuần.\nThiết kế ảnh đại diện video bắt mắt bằng Photoshop giúp tỷ lệ nhấp chuột vào trang cá nhân tăng gấp đôi.\nHợp tác sản xuất video trải nghiệm được tài trợ với 10 nhãn hàng đồ uống và phụ kiện du lịch."
+    },
+    {
+      "id": "MK-J02-C08",
+      "section_id": "MK-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Sáng tạo nội dung TikTok Reels"
+    },
+    {
+      "id": "MK-J02-C08",
+      "section_id": "MK-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tự quay và dựng Premiere CapCut"
+    },
+    {
+      "id": "MK-J02-C08",
+      "section_id": "MK-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bắt trend du lịch ẩm thực"
+    },
+    {
+      "id": "MK-J02-C08",
+      "section_id": "MK-J02-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết kế thumbnail Photoshop"
+    },
+    {
+      "id": "MK-J02-C08",
+      "section_id": "MK-J02-C08-SEC-PRJ",
+      "issue": "structured fact requires semantic support check",
+      "value": "Sản xuất 10 video ngắn giới thiệu quán ăn lâu đời hẻm nhỏ, đạt 4,5 triệu view TikTok."
+    },
+    {
+      "id": "MK-J02-C08",
+      "section_id": "MK-J02-C08-SEC-PRJ",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tự quay và dựng Premiere CapCut"
+    },
+    {
+      "id": "MK-J02-C08",
+      "section_id": "MK-J02-C08-SEC-PRJ",
+      "issue": "structured fact requires semantic support check",
+      "value": "Bắt trend du lịch ẩm thực"
+    },
+    {
+      "id": "MK-J03-C01",
+      "issue": "preferred whitespace-token length",
+      "value": 526
+    },
+    {
+      "id": "MK-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý đội ngũ Marketing"
+    },
+    {
+      "id": "MK-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Ngân sách tiếp thị trên 10 tỷ"
+    },
+    {
+      "id": "MK-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến dịch IMC toàn quốc ATL BTL Digital"
+    },
+    {
+      "id": "MK-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý Creative PR Media Agency"
+    },
+    {
+      "id": "MK-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Báo cáo Hội đồng Quản trị tiếng Anh"
+    },
+    {
+      "id": "MK-J03-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Thạc sĩ Marketing"
+    },
+    {
+      "id": "MK-J03-C01",
+      "section_id": "MK-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\nHoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\nChỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình VTV3 (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\nTrực tiếp chủ trì chấm thầu, làm việc với các agency quảng cáo quốc tế Ogilvy, Dentsu để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\nThuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh."
+    },
+    {
+      "id": "MK-J03-C01",
+      "section_id": "MK-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý đội ngũ Marketing"
+    },
+    {
+      "id": "MK-J03-C01",
+      "section_id": "MK-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến lược định vị thương hiệu"
+    },
+    {
+      "id": "MK-J03-C01",
+      "section_id": "MK-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngân sách tiếp thị trên 10 tỷ"
+    },
+    {
+      "id": "MK-J03-C01",
+      "section_id": "MK-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến dịch IMC toàn quốc ATL BTL Digital"
+    },
+    {
+      "id": "MK-J03-C01",
+      "section_id": "MK-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý Creative PR Media Agency"
+    },
+    {
+      "id": "MK-J03-C01",
+      "section_id": "MK-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Báo cáo Hội đồng Quản trị tiếng Anh"
+    },
+    {
+      "id": "MK-J03-C01",
+      "section_id": "MK-J03-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến lược định vị thương hiệu"
+    },
+    {
+      "id": "MK-J03-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý đội ngũ Marketing 5 người"
+    },
+    {
+      "id": "MK-J03-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến dịch IMC bán lẻ mỹ phẩm"
+    },
+    {
+      "id": "MK-J03-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Làm việc với Creative và PR Agency"
+    },
+    {
+      "id": "MK-J03-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Báo cáo CEO bằng tiếng Anh"
+    },
+    {
+      "id": "MK-J03-C02",
+      "section_id": "MK-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý đội ngũ 5 nhân viên gồm chuyên viên thương hiệu, chuyên viên PR và thiết kế đồ họa.\nHoạch định ngân sách tiếp thị 8 tỷ đồng cho năm 2025, tập trung mở rộng thị phần chuỗi cửa hàng tại Hà Nội và Đà Nẵng.\nChủ trì chiến dịch IMC hè 'Rạng Rỡ Tự Nhiên' quy mô 3 thành phố lớn, phối hợp với creative agency lên concept và book vị trí quảng cáo màn hình LED tại ngã sáu trung tâm.\nPhối hợp cùng đơn vị PR tổ chức sự kiện workshop soi da miễn phí thu hút hơn 3.000 khách hàng ghé thăm.\nBáo cáo định kỳ bằng tiếng Anh cho Giám đốc Điều hành về các chỉ số sức khỏe thương hiệu và doanh thu cửa hàng mới."
+    },
+    {
+      "id": "MK-J03-C02",
+      "section_id": "MK-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý đội ngũ Marketing 5 người"
+    },
+    {
+      "id": "MK-J03-C02",
+      "section_id": "MK-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến dịch IMC bán lẻ mỹ phẩm"
+    },
+    {
+      "id": "MK-J03-C02",
+      "section_id": "MK-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Làm việc với Creative và PR Agency"
+    },
+    {
+      "id": "MK-J03-C02",
+      "section_id": "MK-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Báo cáo CEO bằng tiếng Anh"
+    },
+    {
+      "id": "MK-J03-C02",
+      "section_id": "MK-J03-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến dịch IMC bán lẻ mỹ phẩm"
+    },
+    {
+      "id": "MK-J03-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Brand Marketing ABM"
+    },
+    {
+      "id": "MK-J03-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Hỗ trợ chiến dịch IMC"
+    },
+    {
+      "id": "MK-J03-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Làm việc với Creative và Media Agency"
+    },
+    {
+      "id": "MK-J03-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Số liệu thị phần Nielsen Kantar"
+    },
+    {
+      "id": "MK-J03-C03",
+      "section_id": "MK-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\nTheo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\nGiám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\nHướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu, chưa chính thức quản lý đội ngũ nhân viên chính thức."
+    },
+    {
+      "id": "MK-J03-C03",
+      "section_id": "MK-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Brand Marketing ABM"
+    },
+    {
+      "id": "MK-J03-C03",
+      "section_id": "MK-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hỗ trợ chiến dịch IMC"
+    },
+    {
+      "id": "MK-J03-C03",
+      "section_id": "MK-J03-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Làm việc với Creative và Media Agency"
+    },
+    {
+      "id": "MK-J03-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý Trade Marketing"
+    },
+    {
+      "id": "MK-J03-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Kênh siêu thị MT và CVS"
+    },
+    {
+      "id": "MK-J03-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Ngân sách khuyến mãi điểm bán"
+    },
+    {
+      "id": "MK-J03-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Shopper Activation và POSM"
+    },
+    {
+      "id": "MK-J03-C04",
+      "section_id": "MK-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý 6 nhân viên chuyên trách kênh siêu thị WinMart, Big C/Go! và Lotte Mart trên toàn miền Nam.\nQuản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\nĐảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\nPhối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn."
+    },
+    {
+      "id": "MK-J03-C04",
+      "section_id": "MK-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý Trade Marketing"
+    },
+    {
+      "id": "MK-J03-C04",
+      "section_id": "MK-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Kênh siêu thị MT và CVS"
+    },
+    {
+      "id": "MK-J03-C04",
+      "section_id": "MK-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngân sách khuyến mãi điểm bán"
+    },
+    {
+      "id": "MK-J03-C04",
+      "section_id": "MK-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Shopper Activation và POSM"
+    },
+    {
+      "id": "MK-J03-C04",
+      "section_id": "MK-J03-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Shopper Activation và POSM"
+    },
+    {
+      "id": "MK-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Lãnh đạo CMO cấp tập đoàn"
+    },
+    {
+      "id": "MK-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Ngân sách tiếp thị 55 tỷ"
+    },
+    {
+      "id": "MK-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến lược danh mục đa thương hiệu"
+    },
+    {
+      "id": "MK-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến dịch IMC toàn quốc"
+    },
+    {
+      "id": "MK-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Hợp tác WPP Omnicom"
+    },
+    {
+      "id": "MK-J03-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Thạc sĩ MBA"
+    },
+    {
+      "id": "MK-J03-C05",
+      "section_id": "MK-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Điều hành toàn diện 4 phòng ban: Tiếp thị Thương hiệu, Truyền thông Số, Quan hệ Công chúng và Tiếp thị Bán lẻ với tổng số 36 nhân sự.\nPhân bổ và kiểm soát ngân sách tiếp thị năm 55 tỷ đồng cho mạng lưới 120 siêu thị và trung tâm thương mại trên toàn quốc.\nChỉ đạo các chiến dịch IMC cấp quốc gia tạo tiếng vang lớn trong ngành bán lẻ tiêu dùng.\nBáo cáo trực tiếp cho Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh hàng tháng."
+    },
+    {
+      "id": "MK-J03-C05",
+      "section_id": "MK-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo CMO cấp tập đoàn"
+    },
+    {
+      "id": "MK-J03-C05",
+      "section_id": "MK-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngân sách tiếp thị 55 tỷ"
+    },
+    {
+      "id": "MK-J03-C05",
+      "section_id": "MK-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến dịch IMC toàn quốc"
+    },
+    {
+      "id": "MK-J03-C05",
+      "section_id": "MK-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hợp tác WPP Omnicom"
+    },
+    {
+      "id": "MK-J03-C05",
+      "section_id": "MK-J03-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến lược danh mục đa thương hiệu"
+    },
+    {
+      "id": "MK-J03-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý nhóm Digital Performance"
+    },
+    {
+      "id": "MK-J03-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Quảng cáo số E-commerce"
+    },
+    {
+      "id": "MK-J03-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Tối ưu ROAS và CPA"
+    },
+    {
+      "id": "MK-J03-C06",
+      "section_id": "MK-J03-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý nhóm 3 nhân sự phụ trách chạy quảng cáo tìm kiếm và mạng xã hội cho các gian hàng đồ gia dụng thông minh.\nTối ưu chi phí chạy ads trung bình 500 triệu đồng/tháng, duy trì ROAS trung bình 3.5.\nSử dụng các công cụ phân tích để điều chỉnh giá thầu tự động hàng ngày."
+    },
+    {
+      "id": "MK-J03-C06",
+      "section_id": "MK-J03-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý nhóm Digital Performance"
+    },
+    {
+      "id": "MK-J03-C06",
+      "section_id": "MK-J03-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quảng cáo số E-commerce"
+    },
+    {
+      "id": "MK-J03-C06",
+      "section_id": "MK-J03-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tối ưu ROAS và CPA"
+    },
+    {
+      "id": "MK-J03-C06",
+      "section_id": "MK-J03-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quảng cáo số E-commerce"
+    },
+    {
+      "id": "MK-J03-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý đội ngũ Marketing 4 người"
+    },
+    {
+      "id": "MK-J03-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Ngân sách tiếp thị 6,5 tỷ"
+    },
+    {
+      "id": "MK-J03-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến dịch IMC OOH BTL Digital"
+    },
+    {
+      "id": "MK-J03-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Quản lý Creative Agency"
+    },
+    {
+      "id": "MK-J03-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Thạc sĩ Kinh tế"
+    },
+    {
+      "id": "MK-J03-C07",
+      "section_id": "MK-J03-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Điều hành 4 nhân sự chuyên trách mảng nội dung, thiết kế và truyền thông số.\nXây dựng chiến lược phân bổ ngân sách 6,5 tỷ đồng năm 2025 cho chiến dịch ra mắt dòng sản phẩm chăm sóc tóc organic.\nĐiều phối chiến dịch IMC toàn quốc bao gồm tài trợ biển bảng sân bay (OOH), chuỗi minishow âm nhạc tại 10 cửa hàng bán lẻ (BTL) và hợp tác 30 KOCs (Digital).\nTrực tiếp chọn lọc và nghiệm thu sản phẩm quảng cáo từ Creative Agency.\nTham gia báo cáo kết quả doanh thu chiến dịch định kỳ cho Ban Giám đốc."
+    },
+    {
+      "id": "MK-J03-C07",
+      "section_id": "MK-J03-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý đội ngũ Marketing 4 người"
+    },
+    {
+      "id": "MK-J03-C07",
+      "section_id": "MK-J03-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ngân sách tiếp thị 6,5 tỷ"
+    },
+    {
+      "id": "MK-J03-C07",
+      "section_id": "MK-J03-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến dịch IMC OOH BTL Digital"
+    },
+    {
+      "id": "MK-J03-C07",
+      "section_id": "MK-J03-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý Creative Agency"
+    },
+    {
+      "id": "MK-J03-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Hoạch định chiến lược thương hiệu IMC"
+    },
+    {
+      "id": "MK-J03-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Định vị thương hiệu Brand Positioning"
+    },
+    {
+      "id": "MK-J03-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Sản xuất TVC và làm việc Media Agency"
+    },
+    {
+      "id": "MK-J03-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Thuyết trình tiếng Anh chuyên nghiệp"
+    },
+    {
+      "id": "MK-J03-C08",
+      "section_id": "MK-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo nhóm 5 chuyên viên chiến lược, tham gia đấu thầu và trúng 8 dự án chiến dịch thương hiệu cho các khách hàng lớn ngành bán lẻ bánh kẹo và chuỗi cà phê với tổng ngân sách thực thi trên 20 tỷ đồng.\nChủ trì phát triển ý tưởng chủ đạo (Big Idea) và chiến lược truyền thông tích hợp cho chiến dịch hè toàn quốc của nhãn hàng nước ép trái cây.\nLàm việc trực tiếp với Media Agency và Production House để kiểm soát chất lượng cảnh quay TVC và lịch phân bổ ngân sách truyền thông.\nTrực tiếp thuyết trình bảo vệ chiến lược trước Tổng Giám đốc và Giám đốc Tiếp thị của các nhãn hàng bằng tiếng Anh."
+    },
+    {
+      "id": "MK-J03-C08",
+      "section_id": "MK-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hoạch định chiến lược thương hiệu IMC"
+    },
+    {
+      "id": "MK-J03-C08",
+      "section_id": "MK-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Định vị thương hiệu Brand Positioning"
+    },
+    {
+      "id": "MK-J03-C08",
+      "section_id": "MK-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Sản xuất TVC và làm việc Media Agency"
+    },
+    {
+      "id": "MK-J03-C08",
+      "section_id": "MK-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thuyết trình tiếng Anh chuyên nghiệp"
+    },
+    {
+      "id": "MK-J03-C08",
+      "section_id": "MK-J03-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Định vị thương hiệu Brand Positioning"
+    },
+    {
+      "id": "MK-J04-C01",
+      "issue": "skill requires semantic support check",
+      "value": "SEO thực chiến website bán hàng"
+    },
+    {
+      "id": "MK-J04-C01",
+      "issue": "skill requires semantic support check",
+      "value": "SEO On-page và Topic Cluster"
+    },
+    {
+      "id": "MK-J04-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Ahrefs SEMrush Screaming Frog"
+    },
+    {
+      "id": "MK-J04-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Phối hợp Content Writer"
+    },
+    {
+      "id": "MK-J04-C01",
+      "issue": "skill requires semantic support check",
+      "value": "HTML CSS WordPress Technical SEO"
+    },
+    {
+      "id": "MK-J04-C01",
+      "section_id": "MK-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp phụ trách dự án SEO cho 2 website thương mại điện tử mảng thiết bị bếp và đồ gia dụng gia đình.\nNghiên cứu bộ từ khóa gồm hơn 1.500 từ khóa ngách và từ khóa chuyển đổi cao; lên sơ đồ kiến trúc website dạng Topic Cluster.\nSử dụng Screaming Frog quét định kỳ toàn trang, rà soát mã lỗi 404, chuỗi chuyển hướng 301 và thẻ Canonical trùng lặp.\nSử dụng Google Search Console, Ahrefs và SEMrush theo dõi biến động vị trí từ khóa hàng tuần và kiểm soát hồ sơ backlink.\nLập bản yêu cầu chi tiết (Content Brief) và hướng dẫn 4 bạn Content Writer cách rải từ khóa tự nhiên, viết thẻ mở đầu hấp dẫn để tăng tỷ lệ nhấp CTR.\nCan thiệp trực tiếp mã nguồn HTML, CSS và cấu hình plugin trên WordPress để tối ưu chỉ số tải trang Core Web Vitals."
+    },
+    {
+      "id": "MK-J04-C01",
+      "section_id": "MK-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "SEO thực chiến website bán hàng"
+    },
+    {
+      "id": "MK-J04-C01",
+      "section_id": "MK-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "SEO On-page và Topic Cluster"
+    },
+    {
+      "id": "MK-J04-C01",
+      "section_id": "MK-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Xây dựng liên kết Off-page"
+    },
+    {
+      "id": "MK-J04-C01",
+      "section_id": "MK-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ahrefs SEMrush Screaming Frog"
+    },
+    {
+      "id": "MK-J04-C01",
+      "section_id": "MK-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phối hợp Content Writer"
+    },
+    {
+      "id": "MK-J04-C01",
+      "section_id": "MK-J04-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "HTML CSS WordPress Technical SEO"
+    },
+    {
+      "id": "MK-J04-C02",
+      "issue": "skill requires semantic support check",
+      "value": "SEO cổng thông tin doanh nghiệp"
+    },
+    {
+      "id": "MK-J04-C02",
+      "issue": "skill requires semantic support check",
+      "value": "SEO On-page"
+    },
+    {
+      "id": "MK-J04-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Ahrefs và Screaming Frog"
+    },
+    {
+      "id": "MK-J04-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Phối hợp cộng tác viên viết bài"
+    },
+    {
+      "id": "MK-J04-C02",
+      "issue": "skill requires semantic support check",
+      "value": "HTML CSS WordPress"
+    },
+    {
+      "id": "MK-J04-C02",
+      "section_id": "MK-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Triển khai chiến lược SEO tổng thể cho trang tin tức và danh bạ doanh nghiệp với hơn 300.000 lượt truy cập hàng tháng.\nQuản lý bộ 800 từ khóa ngành luật doanh nghiệp và kế toán thuế, đưa 65% từ khóa vào trang nhất kết quả tìm kiếm Google.\nSử dụng Ahrefs kiểm tra đối thủ cạnh tranh và Screaming Frog để tìm kiếm các liên kết gãy nội bộ.\nHướng dẫn đội ngũ 3 cộng tác viên viết bài chuẩn hóa cấu trúc bài viết, chèn lời kêu gọi hành động (CTA) chuyển đổi khách hàng tiềm năng.\nSử dụng kiến thức cơ bản về HTML, CSS để tùy chỉnh giao diện bài viết trên nền tảng WordPress."
+    },
+    {
+      "id": "MK-J04-C02",
+      "section_id": "MK-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "SEO cổng thông tin doanh nghiệp"
+    },
+    {
+      "id": "MK-J04-C02",
+      "section_id": "MK-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "SEO On-page"
+    },
+    {
+      "id": "MK-J04-C02",
+      "section_id": "MK-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Search Console"
+    },
+    {
+      "id": "MK-J04-C02",
+      "section_id": "MK-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ahrefs và Screaming Frog"
+    },
+    {
+      "id": "MK-J04-C02",
+      "section_id": "MK-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phối hợp cộng tác viên viết bài"
+    },
+    {
+      "id": "MK-J04-C02",
+      "section_id": "MK-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "HTML CSS WordPress"
+    },
+    {
+      "id": "MK-J04-C02",
+      "section_id": "MK-J04-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "SEO On-page"
+    },
+    {
+      "id": "MK-J04-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Nghiên cứu từ khóa Keyword Planner"
+    },
+    {
+      "id": "MK-J04-C03",
+      "section_id": "MK-J04-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Thiết lập và quản lý ngân sách 150 triệu đồng/tháng quảng cáo từ khóa cho các website bán hàng điện máy và khóa học nghề.\nTối ưu trang đích để đạt Điểm chất lượng từ 8/10 trở lên nhằm giảm chi phí thầu CPC.\nSử dụng Google Search Console để xem xét các từ khóa có lượt tìm kiếm tăng đột biến để đưa vào danh sách từ khóa quảng cáo."
+    },
+    {
+      "id": "MK-J04-C03",
+      "section_id": "MK-J04-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quảng cáo tìm kiếm Google Ads"
+    },
+    {
+      "id": "MK-J04-C03",
+      "section_id": "MK-J04-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Nghiên cứu từ khóa Keyword Planner"
+    },
+    {
+      "id": "MK-J04-C03",
+      "section_id": "MK-J04-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quảng cáo tìm kiếm Google Ads"
+    },
+    {
+      "id": "MK-J04-C04",
+      "issue": "skill requires semantic support check",
+      "value": "SEO On-page cơ bản"
+    },
+    {
+      "id": "MK-J04-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Ahrefs check rank"
+    },
+    {
+      "id": "MK-J04-C04",
+      "section_id": "MK-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phụ trách theo dõi thứ hạng 200 từ khóa mảng hoa tươi mừng khai trương và hoa sinh nhật.\nHàng ngày kiểm tra và sửa thẻ meta, chèn từ khóa in đậm và đặt liên kết trỏ về danh mục sản phẩm chính trên website WordPress.\nXuất báo cáo vị trí từ khóa từ Ahrefs vào bảng tính Excel vào mỗi chiều thứ Sáu.\nĐọc các thông báo lỗi lập chỉ mục đơn giản trên Google Search Console."
+    },
+    {
+      "id": "MK-J04-C04",
+      "section_id": "MK-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "SEO On-page cơ bản"
+    },
+    {
+      "id": "MK-J04-C04",
+      "section_id": "MK-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Liên kết nội bộ"
+    },
+    {
+      "id": "MK-J04-C04",
+      "section_id": "MK-J04-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ahrefs check rank"
+    },
+    {
+      "id": "MK-J04-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Lãnh đạo bộ phận SEO sàn TMĐT"
+    },
+    {
+      "id": "MK-J04-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Technical SEO triệu trang"
+    },
+    {
+      "id": "MK-J04-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Ahrefs và BigQuery"
+    },
+    {
+      "id": "MK-J04-C05",
+      "section_id": "MK-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Quản lý toàn bộ lưu lượng tìm kiếm tự nhiên của hệ thống website thương mại điện tử với hơn 4 triệu lượt organic traffic mỗi tháng.\nChỉ đạo kiểm toán kỹ thuật định kỳ với Screaming Frog chạy qua máy chủ đám mây, xử lý triệt để vấn đề trùng lặp nội dung do bộ lọc thuộc tính sản phẩm.\nXây dựng quy trình tự động hóa kiểm tra mã thẻ Schema và thẻ Canonical trong pipeline triển khai của đội phát triển web.\nĐào tạo đội ngũ Content Strategist chuẩn hóa quy trình sản xuất nội dung bài viết và trang danh mục ngành hàng."
+    },
+    {
+      "id": "MK-J04-C05",
+      "section_id": "MK-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo bộ phận SEO sàn TMĐT"
+    },
+    {
+      "id": "MK-J04-C05",
+      "section_id": "MK-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Technical SEO triệu trang"
+    },
+    {
+      "id": "MK-J04-C05",
+      "section_id": "MK-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Screaming Frog Enterprise"
+    },
+    {
+      "id": "MK-J04-C05",
+      "section_id": "MK-J04-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Ahrefs và BigQuery"
+    },
+    {
+      "id": "MK-J04-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Yoast SEO Rank Math"
+    },
+    {
+      "id": "MK-J04-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Đăng bài WordPress"
+    },
+    {
+      "id": "MK-J04-C06",
+      "section_id": "MK-J04-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Nhận danh sách từ khóa từ chuyên viên SEO và viết 15 bài/tuần cho website phòng khám nhi khoa.\nĐảm bảo bài viết đáp ứng đầy đủ các tiêu chuẩn về độ dài trên 1.200 từ, cấu trúc rõ ràng và hấp dẫn người đọc.\nTự đăng bài lên hệ thống WordPress, chỉnh sửa định dạng đoạn văn bản và chọn danh mục phù hợp."
+    },
+    {
+      "id": "MK-J04-C06",
+      "section_id": "MK-J04-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Yoast SEO Rank Math"
+    },
+    {
+      "id": "MK-J04-C06",
+      "section_id": "MK-J04-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đăng bài WordPress"
+    },
+    {
+      "id": "MK-J04-C07",
+      "issue": "skill requires semantic support check",
+      "value": "SEO On-page web nội thất"
+    },
+    {
+      "id": "MK-J04-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Nghiên cứu từ khóa Ahrefs Content Gap"
+    },
+    {
+      "id": "MK-J04-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Phối hợp đội viết bài outline"
+    },
+    {
+      "id": "MK-J04-C07",
+      "section_id": "MK-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phụ trách SEO cho website bán bàn ghế làm việc và sofa chung cư.\nTối ưu hóa thẻ tiêu đề, mô tả sản phẩm và đường dẫn nội bộ cho hơn 120 trang sản phẩm chính.\nPhối hợp cùng đội viết bài để lên outline 20 bài blog hướng dẫn bố trí phòng khách mỗi tháng, giúp lượt organic traffic tăng trưởng 40% sau 1 năm.\nThường xuyên dùng Google Search Console để kiểm tra các trang chưa được Google lập chỉ mục và gửi yêu cầu lập chỉ mục lại."
+    },
+    {
+      "id": "MK-J04-C07",
+      "section_id": "MK-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "SEO On-page web nội thất"
+    },
+    {
+      "id": "MK-J04-C07",
+      "section_id": "MK-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Nghiên cứu từ khóa Ahrefs Content Gap"
+    },
+    {
+      "id": "MK-J04-C07",
+      "section_id": "MK-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phối hợp đội viết bài outline"
+    },
+    {
+      "id": "MK-J04-C07",
+      "section_id": "MK-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "WordPress"
+    },
+    {
+      "id": "MK-J04-C07",
+      "section_id": "MK-J04-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "SEO On-page web nội thất"
+    },
+    {
+      "id": "MK-J04-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Technical SEO Screaming Frog"
+    },
+    {
+      "id": "MK-J04-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Core Web Vitals HTML CSS JS"
+    },
+    {
+      "id": "MK-J04-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Cấu trúc dữ liệu Schema"
+    },
+    {
+      "id": "MK-J04-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Google Search Console và Ahrefs"
+    },
+    {
+      "id": "MK-J04-C08",
+      "issue": "skill requires semantic support check",
+      "value": "WordPress Custom Theme"
+    },
+    {
+      "id": "MK-J04-C08",
+      "section_id": "MK-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp rà soát và khắc phục các lỗi kỹ thuật cho 6 website khách hàng bán hàng và dịch vụ trực tuyến.\nSử dụng phần mềm Screaming Frog quét sâu cấu trúc đường dẫn URL, phát hiện và sửa các liên kết chuyển hướng vòng lặp, thẻ meta robot chặn bot tìm kiếm nhầm lẫn.\nTối ưu hóa mã nguồn JavaScript làm nghẽn quá trình dựng hình trang (render-blocking), cải thiện chỉ số LCP từ 4,2 giây xuống dưới 1,8 giây.\nHướng dẫn đội ngũ Content Writer cách gắn liên kết nội bộ theo cấu trúc cụm chủ đề và tối ưu kích thước ảnh WebP chuẩn SEO."
+    },
+    {
+      "id": "MK-J04-C08",
+      "section_id": "MK-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Technical SEO Screaming Frog"
+    },
+    {
+      "id": "MK-J04-C08",
+      "section_id": "MK-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Core Web Vitals HTML CSS JS"
+    },
+    {
+      "id": "MK-J04-C08",
+      "section_id": "MK-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Cấu trúc dữ liệu Schema"
+    },
+    {
+      "id": "MK-J04-C08",
+      "section_id": "MK-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Google Search Console và Ahrefs"
+    },
+    {
+      "id": "MK-J04-C08",
+      "section_id": "MK-J04-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "WordPress Custom Theme"
+    },
+    {
+      "id": "MK-J05-C01",
+      "issue": "preferred whitespace-token length",
+      "value": 489
+    },
+    {
+      "id": "MK-J05-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Product Marketing Fintech"
+    },
+    {
+      "id": "MK-J05-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến lược Go-to-Market GTM"
+    },
+    {
+      "id": "MK-J05-C01",
+      "issue": "skill requires semantic support check",
+      "value": "User Research và Value Proposition"
+    },
+    {
+      "id": "MK-J05-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Đồng bộ Product Sales CS"
+    },
+    {
+      "id": "MK-J05-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Chỉ số CAC LTV Retention Activation"
+    },
+    {
+      "id": "MK-J05-C01",
+      "issue": "skill requires semantic support check",
+      "value": "Làm việc PM nước ngoài bằng tiếng Anh"
+    },
+    {
+      "id": "MK-J05-C01",
+      "section_id": "MK-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp chủ trì chiến lược GTM ra mắt tính năng 'Ví trả sau hạn mức linh hoạt', thu hút hơn 250.000 người dùng kích hoạt tài khoản trong 6 tháng đầu.\nTiến hành 30 cuộc phỏng vấn người dùng chuyên sâu và khảo sát 1.200 khách hàng để làm rõ rào cản tâm lý khi liên kết ngân hàng, từ đó xác lập thông điệp cốt lõi (Value Proposition) tập trung vào yếu tố 'Bảo mật kép và miễn lãi 45 ngày'.\nĐồng bộ quy trình bàn giao với bộ phận Kinh doanh đối tác và dịch vụ khách hàng CS trước mỗi kỳ nâng cấp phiên bản ứng dụng.\nTheo dõi chỉ số giữ chân người dùng (Retention Rate sau 3 tháng đạt 42%) và tối ưu chi phí thu hút người dùng mới (CAC giảm 15%).\nThảo luận hàng ngày với Giám đốc Sản phẩm người Singapore hoàn toàn bằng tiếng Anh về lộ trình tính năng (Product Roadmap)."
+    },
+    {
+      "id": "MK-J05-C01",
+      "section_id": "MK-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Product Marketing Fintech"
+    },
+    {
+      "id": "MK-J05-C01",
+      "section_id": "MK-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến lược Go-to-Market GTM"
+    },
+    {
+      "id": "MK-J05-C01",
+      "section_id": "MK-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "User Research và Value Proposition"
+    },
+    {
+      "id": "MK-J05-C01",
+      "section_id": "MK-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đồng bộ Product Sales CS"
+    },
+    {
+      "id": "MK-J05-C01",
+      "section_id": "MK-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chỉ số CAC LTV Retention Activation"
+    },
+    {
+      "id": "MK-J05-C01",
+      "section_id": "MK-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Làm việc PM nước ngoài bằng tiếng Anh"
+    },
+    {
+      "id": "MK-J05-C01",
+      "section_id": "MK-J05-C01-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Product Marketing Fintech"
+    },
+    {
+      "id": "MK-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Product Marketing Fintech thanh toán"
+    },
+    {
+      "id": "MK-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến lược Go-to-Market GTM"
+    },
+    {
+      "id": "MK-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Nghiên cứu đối thủ Fintech"
+    },
+    {
+      "id": "MK-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Tỷ lệ kích hoạt Activation Rate"
+    },
+    {
+      "id": "MK-J05-C02",
+      "issue": "skill requires semantic support check",
+      "value": "Đồng bộ Product Sales CS"
+    },
+    {
+      "id": "MK-J05-C02",
+      "section_id": "MK-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chủ trì kế hoạch GTM cho gói giải pháp thanh toán QR đa năng dành cho chuỗi bán lẻ, phối hợp tập huấn sản phẩm cho hơn 30 nhân viên Sales doanh nghiệp.\nXây dựng bộ tài liệu so sánh tính năng cạnh tranh (Product Battlecard) giúp bộ phận bán hàng tăng tỷ lệ chốt hợp đồng thêm 20%.\nTheo dõi tỷ lệ kích hoạt mã thanh toán của các điểm bán mới, cải tiến luồng hướng dẫn sử dụng giúp đẩy tỷ lệ kích hoạt giao dịch đầu tiên từ 55% lên 72%.\nThường xuyên làm việc với Giám đốc Sản phẩm quốc tế tại chi nhánh khu vực để hiệu chỉnh tài liệu kỹ thuật bằng tiếng Anh."
+    },
+    {
+      "id": "MK-J05-C02",
+      "section_id": "MK-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Product Marketing Fintech thanh toán"
+    },
+    {
+      "id": "MK-J05-C02",
+      "section_id": "MK-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến lược Go-to-Market GTM"
+    },
+    {
+      "id": "MK-J05-C02",
+      "section_id": "MK-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Nghiên cứu đối thủ Fintech"
+    },
+    {
+      "id": "MK-J05-C02",
+      "section_id": "MK-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tỷ lệ kích hoạt Activation Rate"
+    },
+    {
+      "id": "MK-J05-C02",
+      "section_id": "MK-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đồng bộ Product Sales CS"
+    },
+    {
+      "id": "MK-J05-C02",
+      "section_id": "MK-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếng Anh TOEIC 860"
+    },
+    {
+      "id": "MK-J05-C02",
+      "section_id": "MK-J05-C02-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Product Marketing Fintech thanh toán"
+    },
+    {
+      "id": "MK-J05-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Đặc tả tính năng PRD"
+    },
+    {
+      "id": "MK-J05-C03",
+      "issue": "skill requires semantic support check",
+      "value": "Scrum Agile"
+    },
+    {
+      "id": "MK-J05-C03",
+      "section_id": "MK-J05-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp khảo sát nhu cầu từ 40 kế toán trưởng để xây dựng tài liệu chức năng cho phân hệ 'Đối soát thanh toán tự động'.\nLàm việc chặt chẽ với đội ngũ kỹ sư phần mềm trong các buổi Sprint Planning và Backlog Refinement.\nTham gia viết tài liệu hướng dẫn sử dụng (User Manual) và hỗ trợ giải đáp thắc mắc cho đội ngũ chăm sóc khách hàng sau khi phiên bản mới lên sàn."
+    },
+    {
+      "id": "MK-J05-C03",
+      "section_id": "MK-J05-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Phân tích yêu cầu nghiệp vụ"
+    },
+    {
+      "id": "MK-J05-C03",
+      "section_id": "MK-J05-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đặc tả tính năng PRD"
+    },
+    {
+      "id": "MK-J05-C03",
+      "section_id": "MK-J05-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Scrum Agile"
+    },
+    {
+      "id": "MK-J05-C03",
+      "section_id": "MK-J05-C03-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Scrum Agile"
+    },
+    {
+      "id": "MK-J05-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Tài liệu tính năng Release notes"
+    },
+    {
+      "id": "MK-J05-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Hỗ trợ ra mắt tính năng phần mềm"
+    },
+    {
+      "id": "MK-J05-C04",
+      "issue": "skill requires semantic support check",
+      "value": "Slide hội thảo trực tuyến"
+    },
+    {
+      "id": "MK-J05-C04",
+      "section_id": "MK-J05-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\nViết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\nTổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\nChưa trực tiếp chủ trì chiến lược GTM độc lập hay phân tích sâu các chỉ số vòng đời tài chính như CAC, LTV."
+    },
+    {
+      "id": "MK-J05-C04",
+      "section_id": "MK-J05-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tài liệu tính năng Release notes"
+    },
+    {
+      "id": "MK-J05-C04",
+      "section_id": "MK-J05-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hỗ trợ ra mắt tính năng phần mềm"
+    },
+    {
+      "id": "MK-J05-C04",
+      "section_id": "MK-J05-C04-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Slide hội thảo trực tuyến"
+    },
+    {
+      "id": "MK-J05-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Lãnh đạo VP Product Marketing"
+    },
+    {
+      "id": "MK-J05-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến lược GTM khu vực ASEAN"
+    },
+    {
+      "id": "MK-J05-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Hệ số LTV CAC Fintech"
+    },
+    {
+      "id": "MK-J05-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Hệ sinh thái ví điện tử đa quốc gia"
+    },
+    {
+      "id": "MK-J05-C05",
+      "issue": "skill requires semantic support check",
+      "value": "Thạc sĩ MBA"
+    },
+    {
+      "id": "MK-J05-C05",
+      "section_id": "MK-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo khối Product Marketing gồm 22 nhân sự tại 3 thị trường: Việt Nam, Indonesia và Philippines.\nChỉ đạo chiến lược GTM đưa ứng dụng chuyển tiền quốc tế đạt 5 triệu người dùng đăng ký chỉ sau 18 tháng ra mắt.\nPhối hợp cùng Ban Giám đốc Công nghệ và Sản phẩm toàn cầu để định hình kiến trúc trải nghiệm người dùng thích ứng theo quy định pháp lý từng quốc gia.\nĐạt mức tối ưu hóa chỉ số LTV/CAC đạt ngưỡng 4.5 lần."
+    },
+    {
+      "id": "MK-J05-C05",
+      "section_id": "MK-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Lãnh đạo VP Product Marketing"
+    },
+    {
+      "id": "MK-J05-C05",
+      "section_id": "MK-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến lược GTM khu vực ASEAN"
+    },
+    {
+      "id": "MK-J05-C05",
+      "section_id": "MK-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hệ số LTV CAC Fintech"
+    },
+    {
+      "id": "MK-J05-C05",
+      "section_id": "MK-J05-C05-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Hệ sinh thái ví điện tử đa quốc gia"
+    },
+    {
+      "id": "MK-J05-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Đàm phán đối tác ưu đãi thẻ"
+    },
+    {
+      "id": "MK-J05-C06",
+      "section_id": "MK-J05-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Xây dựng chương trình hoàn tiền 10% khi chi tiêu ăn uống cuối tuần cho dòng thẻ tín dụng Platinum.\nĐàm phán hợp đồng tài trợ ưu đãi với hơn 40 chuỗi nhà hàng và rạp chiếu phim trên toàn quốc.\nSoạn thảo cẩm nang sản phẩm thẻ gửi cho nhân viên giao dịch viên tại 80 chi nhánh ngân hàng."
+    },
+    {
+      "id": "MK-J05-C06",
+      "section_id": "MK-J05-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Tiếp thị sản phẩm thẻ ngân hàng"
+    },
+    {
+      "id": "MK-J05-C06",
+      "section_id": "MK-J05-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chương trình tích điểm hoàn tiền"
+    },
+    {
+      "id": "MK-J05-C06",
+      "section_id": "MK-J05-C06-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đàm phán đối tác ưu đãi thẻ"
+    },
+    {
+      "id": "MK-J05-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Product Marketing Wealth-tech"
+    },
+    {
+      "id": "MK-J05-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Go-to-Market GTM"
+    },
+    {
+      "id": "MK-J05-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Value Proposition khảo sát người dùng"
+    },
+    {
+      "id": "MK-J05-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Đồng bộ Product Sales CS"
+    },
+    {
+      "id": "MK-J05-C07",
+      "issue": "skill requires semantic support check",
+      "value": "Activation Rate eKYC"
+    },
+    {
+      "id": "MK-J05-C07",
+      "section_id": "MK-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chủ trì kế hoạch GTM ra mắt tính năng 'Tích lũy sinh lời hàng ngày' đạt hơn 180.000 người dùng nạp tiền trải nghiệm.\nTiến hành khảo sát 500 người dùng trẻ để làm rõ băn khoăn về tính thanh khoản, từ đó định vị thông điệp sản phẩm là 'Rút tiền linh hoạt 24/7 không mất phí'.\nTổ chức buổi chia sẻ nội bộ đồng bộ tính năng mới cho 25 nhân viên tư vấn kinh doanh và đội ngũ CSKH trực hotline.\nTheo dõi tỷ lệ kích hoạt tài khoản nạp tiền thành công tăng từ 40% lên 58% sau khi tối ưu lại các bước xác thực danh tính eKYC."
+    },
+    {
+      "id": "MK-J05-C07",
+      "section_id": "MK-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Product Marketing Wealth-tech"
+    },
+    {
+      "id": "MK-J05-C07",
+      "section_id": "MK-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Go-to-Market GTM"
+    },
+    {
+      "id": "MK-J05-C07",
+      "section_id": "MK-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Value Proposition khảo sát người dùng"
+    },
+    {
+      "id": "MK-J05-C07",
+      "section_id": "MK-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đồng bộ Product Sales CS"
+    },
+    {
+      "id": "MK-J05-C07",
+      "section_id": "MK-J05-C07-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Activation Rate eKYC"
+    },
+    {
+      "id": "MK-J05-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Chiến lược Go-to-Market GTM"
+    },
+    {
+      "id": "MK-J05-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Amplitude Mixpanel"
+    },
+    {
+      "id": "MK-J05-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Value Proposition và A/B Testing"
+    },
+    {
+      "id": "MK-J05-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Đồng bộ Product Sales CS"
+    },
+    {
+      "id": "MK-J05-C08",
+      "issue": "skill requires semantic support check",
+      "value": "Làm việc PM nước ngoài bằng tiếng Anh"
+    },
+    {
+      "id": "MK-J05-C08",
+      "section_id": "MK-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Trực tiếp xây dựng chiến lược GTM cho tính năng nạp tiền tự động qua quét mã QR động, phối hợp giữa Product, Sales và CS.\nPhân tích dữ liệu hành vi người dùng qua Amplitude, nhận thấy 35% người dùng bỏ dở ở bước xác minh danh tính; thiết kế lại giao diện hướng dẫn giúp tỷ lệ Activation Rate tăng thêm 14%.\nThực hiện kiểm thử A/B cho thông điệp Value Proposition trên trang tải app, giúp tỷ lệ chuyển đổi từ lượt xem sang lượt tải tăng 22%.\nLàm việc trực tiếp với Giám đốc Sản phẩm người Đức trong việc lên kế hoạch tính năng hàng quý bằng tiếng Anh."
+    },
+    {
+      "id": "MK-J05-C08",
+      "section_id": "MK-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Chiến lược Go-to-Market GTM"
+    },
+    {
+      "id": "MK-J05-C08",
+      "section_id": "MK-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Amplitude Mixpanel"
+    },
+    {
+      "id": "MK-J05-C08",
+      "section_id": "MK-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Value Proposition và A/B Testing"
+    },
+    {
+      "id": "MK-J05-C08",
+      "section_id": "MK-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Activation Rate và Retention Rate"
+    },
+    {
+      "id": "MK-J05-C08",
+      "section_id": "MK-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Đồng bộ Product Sales CS"
+    },
+    {
+      "id": "MK-J05-C08",
+      "section_id": "MK-J05-C08-SEC-EXP",
+      "issue": "structured fact requires semantic support check",
+      "value": "Làm việc PM nước ngoài bằng tiếng Anh"
+    }
+  ],
+  "limitations": [
+    "Lexical checks do not establish semantic support or fictional entity identity.",
+    "Near duplicates and natural profile diversity require separate inspection.",
+    "Whitespace token count is not Vietnamese linguistic word segmentation.",
+    "No annotation permitted until source acceptance."
+  ]
+}

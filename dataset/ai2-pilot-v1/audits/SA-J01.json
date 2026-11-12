@@ -1,0 +1,203 @@
+{
+  "job_id": "SA-J01",
+  "source_acceptance": "blocked_pending_source_repair_and_human_adjudication",
+  "audit_type": "source_only_no_relevance_labels",
+  "reference_date": "2026-11-10",
+  "source_file": "dataset/ai2-pilot-v1/audit-inputs/SA-J01.json",
+  "protocol_file": "dataset/ai2-pilot-v1/PROTOCOL.md",
+  "covered_candidate_ids": ["SA-J01-C01", "SA-J01-C02", "SA-J01-C03", "SA-J01-C04", "SA-J01-C05", "SA-J01-C06", "SA-J01-C07", "SA-J01-C08"],
+  "coverage": {
+    "jobs_read": 1,
+    "requirements_read": 5,
+    "candidates_read_completely": 8,
+    "experiences_inspected": 16,
+    "projects_inspected": 0,
+    "education_records_inspected": 8,
+    "certification_records_inspected": 7,
+    "method": "Sequential bounded reads covering entire supplied JSON; manual inspection of structured facts, cited sections, dates, required/preferred wording and protocol compliance."
+  },
+  "blocking_issues": [
+    {
+      "issue_id": "SA-J01-B01",
+      "record_ids": ["SA-J01"],
+      "field": "requirements",
+      "exact_quotes": [
+        {"location": "jd_text", "quote": "Yêu cầu công việc (Bắt buộc):"},
+        {"location": "jd_text", "quote": "Tác phong làm việc chuyên nghiệp, tư duy hướng đến giải pháp và khả năng chịu áp lực doanh số tốt."}
+      ],
+      "finding": "Explicit mandatory JD criterion omitted from structured requirements. Existing three required and two preferred entries preserve their own JD wording and importance, but do not cover this mandatory line.",
+      "protocol_basis": "Source contract requires specific required/preferred criteria; annotation requires every central required criterion considered.",
+      "required_action": "Human decides how to represent and assess omitted criterion without inventing observable evidence or silently weakening mandatory wording. Repair structured requirements through authorized source workflow before annotation."
+    },
+    {
+      "issue_id": "SA-J01-B02",
+      "record_ids": ["SA-J01-C04", "SA-J01-C04-EXP-01", "SA-J01-C04-EXP-02", "SA-J01-C04-SEC-EXP"],
+      "field": "experiences.description; experiences.skills_used",
+      "exact_quotes": [
+        {"location": "SA-J01-C04-EXP-01.description", "quote": "Gọi điện thoại sàng lọc nhu cầu phần mềm quản lý dự án SaaS, tham gia demo giải pháp cùng chuyên viên chính, quản lý phễu trên HubSpot."},
+        {"location": "SA-J01-C04-SEC-EXP", "quote": "Đồng hành cùng chuyên viên bán hàng cao cấp trong các buổi thuyết trình demo giải pháp cho khách hàng tiềm năng."},
+        {"location": "SA-J01-C04-EXP-01.skills_used", "quote": "Thuyết trình demo cơ bản"},
+        {"location": "SA-J01-C04-EXP-02.description", "quote": "Chuẩn bị tài liệu giới thiệu phần mềm kế toán đám mây, liên hệ hướng dẫn dùng thử cho hộ kinh doanh."},
+        {"location": "SA-J01-C04-SEC-EXP", "quote": "Thực hiện liên hệ chăm sóc khách hàng dùng thử sau buổi hướng dẫn cài đặt."}
+      ],
+      "finding": "Cited employment section does not explicitly identify project-management software as SaaS; SaaS occurs in summary only. Accompanying senior presenter does not establish candidate personally presented demos; basic demo presentation appears in separate skills section. Internship description changes follow-up after installation guidance into personally providing trial guidance.",
+      "protocol_basis": "Every structured fact must be explicitly supported in its section text.",
+      "required_action": "Align structured employment claims with cited employment evidence; adjudicate personal demo ownership and trial-guidance scope. Do not use summary/skills claims as proof of duties at specific employer."
+    },
+    {
+      "issue_id": "SA-J01-B03",
+      "record_ids": ["SA-J01-C06", "SA-J01-C06-EXP-01", "SA-J01-C06-EXP-02", "SA-J01-C06-SEC-EXP"],
+      "field": "experiences.skills_used",
+      "exact_quotes": [
+        {"location": "SA-J01-C06-EXP-01.skills_used", "quote": "Đàm phán hợp đồng đặt cọc"},
+        {"location": "SA-J01-C06-SEC-EXP", "quote": "Tổ chức các buổi tham quan nhà mẫu, tư vấn gói tài chính ngân hàng hỗ trợ vay vốn và chốt giao dịch hợp đồng mua bán."},
+        {"location": "SA-J01-C06-EXP-02.skills_used", "quote": "Kỹ năng tạo dựng quan hệ"},
+        {"location": "SA-J01-C06-SEC-EXP", "quote": "Tư vấn tuyển sinh các khóa học kỹ năng mềm và tiếng Anh giao tiếp cho học sinh, sinh viên và người đi làm."}
+      ],
+      "finding": "Deposit-contract negotiation and relationship-building are global skills claims, not explicit duties in cited employment section. Purchase/sale closing does not establish deposit-contract negotiation. Course-enrollment consulting does not explicitly establish relationship-building skill used at that employer.",
+      "protocol_basis": "Every structured fact must be explicitly supported in its section text.",
+      "required_action": "Remove unsupported role attribution or obtain explicit source support through authorized repair; missing role-level evidence does not prove skill absent."
+    },
+    {
+      "issue_id": "SA-J01-B04",
+      "record_ids": ["SA-J01-C07", "SA-J01-C07-EXP-02", "SA-J01-C07-SEC-EXP"],
+      "field": "experiences[1].is_current",
+      "exact_quotes": [
+        {"location": "SA-J01-C07-SEC-EXP", "quote": "Thời gian: (thời gian làm việc linh hoạt theo dự án, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)"},
+        {"location": "SA-J01-C07-EXP-02", "quote": "\"is_current\": false"}
+      ],
+      "finding": "Null start/end dates correctly preserve unstated dates, but false current-employment status is unsupported. Source does not say freelance engagement ended. Required boolean schema cannot directly express unknown current status.",
+      "protocol_basis": "Every structured fact must be explicitly supported; null indicates unstated dates, not zero.",
+      "required_action": "Human adjudicates source/schema ambiguity. Do not infer ended employment from absent dates or force unknown status into false."
+    }
+  ],
+  "candidate_checks": [
+    {
+      "candidate_id": "SA-J01-C01",
+      "record_ids": ["SA-J01-C01-EXP-01", "SA-J01-C01-EXP-02"],
+      "evidence": [
+        {"section_id": "SA-J01-C01-SEC-EXP", "quote": "Chuyên viên Kinh doanh B2B SaaS tại Công ty Cổ phần Giải pháp Phần mềm CloudViet"},
+        {"section_id": "SA-J01-C01-SEC-EXP", "quote": "Thời gian: Từ 2024-01 đến nay (đang làm việc)"},
+        {"section_id": "SA-J01-C01-SEC-EXP", "quote": "Thời gian: Từ 2022-06 đến 2023-12"}
+      ],
+      "result": "Both employers, titles, dates and role-specific software-sales/CRM duties supported. Current end_date null correct. Education and two certifications supported. Nearly three years of SaaS in summary is compatible with current role at reference date; earlier electronic-invoice/signature role must not automatically count as SaaS. No specific blocking defect identified."
+    },
+    {
+      "candidate_id": "SA-J01-C02",
+      "record_ids": ["SA-J01-C02-EXP-01", "SA-J01-C02-EXP-02"],
+      "evidence": [
+        {"section_id": "SA-J01-C02-SEC-EXP", "quote": "Thời gian: Từ 2023-03 đến nay (hiện tại)"},
+        {"section_id": "SA-J01-C02-SEC-EXP", "quote": "Thời gian: Từ 2021-08 đến 2023-02"},
+        {"section_id": "SA-J01-C02-SEC-EXP", "quote": "Sử dụng Salesforce để theo dõi trạng thái các đầu mối liên hệ và cập nhật dự báo doanh thu hàng tháng."}
+      ],
+      "result": "ERP and HRM roles, structured dates, sales/demo/negotiation and Salesforce claims supported by employment. Current end_date null correct. Education supported. More than three years is lower-bound statement, not contradictory to longer chronology. No specific blocking defect identified."
+    },
+    {
+      "candidate_id": "SA-J01-C03",
+      "record_ids": ["SA-J01-C03-EXP-01", "SA-J01-C03-EXP-02"],
+      "evidence": [
+        {"section_id": "SA-J01-C03-SEC-EXP", "quote": "Thời gian: Từ 2023-01 đến nay (đang công tác)"},
+        {"section_id": "SA-J01-C03-SEC-EXP", "quote": "Thời gian: Từ 2021-07 đến 2022-12"},
+        {"section_id": "SA-J01-C03-SEC-EXP", "quote": "Chưa sử dụng Salesforce hay HubSpot chuyên sâu, chủ yếu quản lý khách hàng bằng bảng tính Excel kết hợp Zalo."}
+      ],
+      "result": "Hardware-sales duties, dates, commercial negotiation and Excel use supported. Packaged operating-system licenses support narrower packaged-software paraphrase, not SaaS ownership. Education supported. CRM sentence denies depth, not all exposure. No specific blocking structural defect identified; requirement-shaped prose needs human source-style review."
+    },
+    {
+      "candidate_id": "SA-J01-C04",
+      "record_ids": ["SA-J01-C04-EXP-01", "SA-J01-C04-EXP-02"],
+      "evidence": [
+        {"section_id": "SA-J01-C04-SEC-EXP", "quote": "Thời gian: Từ 2025-09 đến nay (đang làm việc)"},
+        {"section_id": "SA-J01-C04-SEC-EXP", "quote": "Thời gian: Từ 2025-03 đến 2025-08"},
+        {"section_id": "SA-J01-C04-SEC-EXP", "quote": "Cập nhật thông tin giao dịch, theo dõi phản hồi và phân loại mức độ tiềm năng trên phần mềm HubSpot."}
+      ],
+      "result": "Titles, employers, dates, outreach and HubSpot duties supported. Summary one year two months matches current role approximately at reference date, not total chronology including internship. Education/certification supported. Specific duty inflation requires repair under B02."
+    },
+    {
+      "candidate_id": "SA-J01-C05",
+      "record_ids": ["SA-J01-C05-EXP-01", "SA-J01-C05-EXP-02"],
+      "evidence": [
+        {"section_id": "SA-J01-C05-SEC-EXP", "quote": "Thời gian: Từ 2021-01 đến nay (đang giữ vị trí)"},
+        {"section_id": "SA-J01-C05-SEC-EXP", "quote": "Thời gian: Từ 2018-06 đến 2020-12"},
+        {"section_id": "SA-J01-C05-SEC-EXP", "quote": "Quản lý tiến độ bán hàng qua hệ thống CRM nội bộ của công ty (In-house CRM platform)."}
+      ],
+      "result": "Telecom/cloud-service duties, banking portfolio, English contracts and in-house CRM supported. Dates and null current end correct; education and IELTS supported. More than six years is lower bound, not date contradiction. Do not silently equate cloud storage, telecom or virtual switchboard with SaaS software sales. No specific blocking structural defect identified."
+    },
+    {
+      "candidate_id": "SA-J01-C06",
+      "record_ids": ["SA-J01-C06-EXP-01", "SA-J01-C06-EXP-02"],
+      "evidence": [
+        {"section_id": "SA-J01-C06-SEC-EXP", "quote": "Thời gian: Từ 2022-04 đến nay (đang làm việc)"},
+        {"section_id": "SA-J01-C06-SEC-EXP", "quote": "Thời gian: Từ 2021-01 đến 2022-03"}
+      ],
+      "result": "Employers, titles, dates, property and course-sales contexts supported; education supported. Deposit-contract and relationship-building attribution lacks explicit role-level support under B03. Self-reported top-five sales achievement is not verified outcome or independent employer verification."
+    },
+    {
+      "candidate_id": "SA-J01-C07",
+      "record_ids": ["SA-J01-C07-EXP-01", "SA-J01-C07-EXP-02"],
+      "evidence": [
+        {"section_id": "SA-J01-C07-SEC-EXP", "quote": "Thời gian: Từ 2024-03 đến nay (hiện tại)"},
+        {"section_id": "SA-J01-C07-SEC-EXP", "quote": "Hỗ trợ gọi điện và đặt lịch hẹn tư vấn giải pháp SaaS cho khách hàng nhỏ lẻ."}
+      ],
+      "result": "POS SaaS, retail-chain demos, contracts and Salesforce supported. Main role dates supported. Freelance dates correctly null; current-status assertion unsupported under B04. No forecast duty stated; pipeline updates must not be upgraded to forecasting. Education supported."
+    },
+    {
+      "candidate_id": "SA-J01-C08",
+      "record_ids": ["SA-J01-C08-EXP-01", "SA-J01-C08-EXP-02"],
+      "evidence": [
+        {"section_id": "SA-J01-C08-SEC-EXP", "quote": "Thời gian: Từ 2023-05 đến nay (đang làm việc)"},
+        {"section_id": "SA-J01-C08-SEC-EXP", "quote": "Thời gian: Từ 2024-01 đến 2024-11"},
+        {"section_id": "SA-J01-C08-SEC-EXP", "quote": "Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước."}
+      ],
+      "result": "Main-role demo, API, technical-contract and HubSpot duties supported. Dates explicitly support concurrent freelance engagement; do not add overlapping months to tenure. Education and both certifications supported. Freelance skills_used presales attribution requires human clarification; package-selection advice alone does not explicitly identify sales-side role."
+    }
+  ],
+  "human_review_cases": [
+    {"record_ids": ["SA-J01"], "issue_ids": ["SA-J01-B01"], "reason": "Mandatory criterion omitted; behavioral wording also lacks clear evidence threshold."},
+    {"record_ids": ["SA-J01-C04"], "issue_ids": ["SA-J01-B02"], "reason": "Distinguish assisting demos from personally presenting, SaaS summary from employer-specific evidence, and follow-up from giving guidance."},
+    {"record_ids": ["SA-J01-C06"], "issue_ids": ["SA-J01-B03"], "reason": "Adjudicate skills imported from global skills section into specific employers."},
+    {"record_ids": ["SA-J01-C07"], "issue_ids": ["SA-J01-B04"], "reason": "Unknown freelance current status conflicts with mandatory boolean representation."},
+    {
+      "record_ids": ["SA-J01-C08-EXP-02", "SA-J01-C08-SEC-EXP"],
+      "exact_quotes": [
+        {"location": "SA-J01-C08-EXP-02.skills_used", "quote": "Tư vấn giải pháp Pre-sales"},
+        {"location": "SA-J01-C08-SEC-EXP", "quote": "Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước."}
+      ],
+      "reason": "Freelance consulting explicitly supported; sales-side presales status ambiguous. Do not transfer main-employer role classification to freelance work."
+    },
+    {
+      "record_ids": ["SA-J01-C03-SEC-EXP"],
+      "exact_quotes": [{"location": "SA-J01-C03-SEC-EXP", "quote": "Chưa sử dụng Salesforce hay HubSpot chuyên sâu, chủ yếu quản lý khách hàng bằng bảng tính Excel kết hợp Zalo."}],
+      "reason": "Sentence mirrors named JD tools as negative evidence. Single sentence not enough to prove prohibited denial-list design; inspect source-style risk without treating non-expert use as zero exposure."
+    }
+  ],
+  "warnings": [
+    {
+      "record_ids": ["SA-J01-C04-SEC-SUM"],
+      "exact_quotes": [{"location": "SA-J01-C04-SEC-SUM", "quote": "Nhân viên kinh doanh phần mềm trẻ tuổi"}],
+      "finding": "Unneeded qualitative age cue. Do not use age as competence proxy. Protocol says age data not needed; no explicit numeric age or protected-characteristic job requirement observed."
+    },
+    {
+      "record_ids": ["SA-J01-C01", "SA-J01-C02", "SA-J01-C03", "SA-J01-C04", "SA-J01-C05", "SA-J01-C06", "SA-J01-C07", "SA-J01-C08"],
+      "finding": "All CV use similar summary/skills/employment/education layout and two employment records. No exact duplicate complete CV observed within eight; template similarity and cross-job near-duplicate risk remain."
+    },
+    {
+      "record_ids": ["SA-J01"],
+      "finding": "All five structured requirement texts occur verbatim in JD; R01-R03 required and R04-R05 preferred match headings. Salesforce/HubSpot introduced as examples by 'như', not clearly exclusive allowed tools. Preferred sector and English criteria must not become mandatory."
+    },
+    {
+      "record_ids": ["SA-J01"],
+      "finding": "Manual inspection found expected candidate IDs C01-C08, candidate-scoped unique section IDs, resolvable section references, allowed visible enum values, YYYY-MM dates, no future starts, chronological stated intervals and null end dates for explicitly current roles. CV texts appear to preserve section texts joined by two newlines. No labels, rankings, scenario tags, AI1 scores, numerical matching features, evaluative unsuitability prose, synthetic hiring outcomes or employer-verification claims observed."
+    }
+  ],
+  "limitations": [
+    "Source audit only; no relevance labels, competence verification, hiring judgment or source edits.",
+    "Read only supplied protocol and assigned source JSON. Generator notes, labels, model predictions and other audits not read.",
+    "Schema and protocol supplied as approved audit basis. Protocol defines source and label formats but no formal source-audit schema; requested audit fields used without generating label records.",
+    "Model mapping sonnet=cx/gpt-6.1-sol accepted from coordinator verification in assignment; no independent routing/configuration inspection performed.",
+    "Checks manual, not executed JSON parser/schema/date/exact-join validator. No automated byte-for-byte duplicate comparison or word count. Machine validation still required before annotation.",
+    "Coverage limited to one JD and eight complete CV. No pilot-wide counts, cross-job duplicates, train contamination or generalization checks possible from assigned records.",
+    "Fictional-company status cannot be independently verified from names alone; no external lookup performed. Schools not used as competence proxies.",
+    "Synthetic development-only sources and model audit remain non-expert artifacts. Numerical sales achievements and certificates are source assertions, not verified employer outcomes.",
+    "Missing dates or duties mean unknown, not zero tenure or absent skill. No inferred durations added to structured records. Human must decide source/schema repairs; auditor did not silently resolve ambiguities."
+  ]
+}

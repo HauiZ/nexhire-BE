@@ -1,0 +1,27 @@
+{
+  "job_id": "IT-J01",
+  "audit_type": "source_acceptance",
+  "source_acceptance": "human_review_required",
+  "covered_candidate_ids": ["IT-J01-C01", "IT-J01-C02", "IT-J01-C03", "IT-J01-C04", "IT-J01-C05", "IT-J01-C06", "IT-J01-C07", "IT-J01-C08"],
+  "blocking_issues": [],
+  "human_review_cases": [
+    {"candidate_id":"IT-J01-C01","section_ids":["IT-J01-C01-S01","IT-J01-C01-S03"],"quotes":["3 năm 6 tháng kinh nghiệm", "từ 2023-04 đến nay", "từ 2021-06 đến 2023-03"],"issue":"Summary duration is ambiguous: current position alone exceeds 3 years 6 months at 2026-11-10; prior Node.js employment adds further tenure. Clarify whether summary refers only to specialized TypeScript/NestJS work, or stale total."},
+    {"candidate_id":"IT-J01-C04","section_ids":["IT-J01-C04-S01","IT-J01-C04-S03"],"quotes":["3 năm kinh nghiệm thực tế với Node.js, TypeScript và NestJS", "từ 2023-10 đến nay", "từ 2022-03 đến 2023-09"],"issue":"Three-year summary may describe specialized stack rather than all backend employment. Dates show longer overall Node.js/NestJS work; clarify before tenure interpretation."},
+    {"candidate_id":"IT-J01-C05","section_ids":["IT-J01-C05-S01","IT-J01-C05-S03"],"quotes":["1 năm 4 tháng kinh nghiệm", "từ 2025-06 đến nay", "từ 2025-01 đến 2025-05"],"issue":"Summary appears stale at reference date; current role alone spans about 17 months, plus internship. Clarify duration scope."},
+    {"candidate_id":"IT-J01-C07","section_ids":["IT-J01-C07-S03"],"quotes":["Thời gian: không nêu ngày tháng cụ thể."],"issue":"Null dates faithfully preserve missing dates. is_current=false for freelance role is not explicitly established; tense is not reliable confirmation that work ended. Human clarification needed."},
+    {"candidate_id":"IT-J01-C08","section_ids":["IT-J01-C08-S01","IT-J01-C08-S03"],"quotes":["3 năm kinh nghiệm trong kiểm thử API và giao diện web", "từ 2023-11 đến nay", "từ 2022-05 đến 2023-10"],"issue":"Summary may exclude earlier manual/API testing; chronological testing work exceeds three years. Clarify intended scope, not inferred relevant tenure."}
+  ],
+  "warnings": [
+    "All six requirements preserve required/preferred status and verbatim JD wording. No protected-characteristic requirement found.",
+    "All candidate structured skill, experience, project, education and certification facts checked against sections; no unsupported substantive claim found beyond unresolved freelance current-status assertion. React/ReactJS, Django/Django REST Framework and Kafka/Apache Kafka are legitimate naming normalization, not fabricated skills.",
+    "Skills arrays omit basic-level qualifiers present in source for C03, C05, C06, C08. Presence-only schema is acceptable; downstream use must retain source proficiency/context, not infer mastery.",
+    "No candidate personal names, contact data, hiring outcomes, verification claims, explicit relevance labels or evaluative unsuitability prose found. Company names are plausible synthetic names; fictional status is declared, not independently verified. Existing school and certification names do not imply school prestige or competence.",
+    "Profiles vary stack, role, seniority, projects and date completeness. Most share six-section/two-job/one-project template. Candidate-index leakage cannot be ruled out from single job; preserve IDs but exclude ordinal index as predictive feature. No target labels inferred."
+  ],
+  "limitations": [
+    "Source audit only; no relevance labels or verified competence claims. Synthetic development artifacts, not expert gold.",
+    "Coordinator reports whole-file syntax, counts, joins, references and date syntax passed; these mechanical checks not rerun.",
+    "Protocol and IT-J01 were accidentally requested with limits larger than requested 100-line cap. Tool returned full untruncated contents through EOF (protocol line 31, input line 936); inspected coverage is complete, but read-size instruction was violated. Subsequent reads must use 100-line calls.",
+    "No external identity verification, cross-corpus duplicate computation, generator notes or prior labels read. Broader contamination and near-duplicate checks remain coordinator work."
+  ]
+}
