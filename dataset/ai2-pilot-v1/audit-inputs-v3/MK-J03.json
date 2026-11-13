@@ -1,0 +1,663 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "MK-J03",
+      "source_family_id": "MK-J03",
+      "domain": "marketing",
+      "title": "Trưởng phòng Marketing / Brand Marketing Manager (Ngành Tiêu dùng & Bán lẻ)",
+      "level": "senior",
+      "language": "vi",
+      "jd_text": "Vị trí: Trưởng phòng Marketing / Brand Marketing Manager (Ngành Tiêu dùng & Bán lẻ)\nĐịa điểm làm việc: Quận 1, TP. Hồ Chí Minh.\nThời gian làm việc: Thứ Hai đến Thứ Sáu (8h30 - 17h30).\n\nMô tả công việc:\n- Chịu trách nhiệm toàn diện về chiến lược định vị thương hiệu, gia tăng mức độ nhận biết và thị phần cho chuỗi sản phẩm tiêu dùng và hệ thống cửa hàng bán lẻ trên phạm vi toàn quốc.\n- Năng lực hoạch định chiến lược thương hiệu dài hạn, định vị sản phẩm và phân bổ ngân sách tiếp thị năm trên 5 tỷ đồng.\n- Kinh nghiệm chỉ đạo và thực thi các chiến dịch truyền thông tích hợp (IMC Campaign) quy mô toàn quốc, kết hợp kênh ATL, BTL và Digital.\n- Quản lý và làm việc hiệu quả với các agency quảng cáo, creative agency, PR và media buying.\n- Tuyển dụng, đào tạo, giao chỉ tiêu KPI và truyền cảm hứng cho đội ngũ nhân sự phòng Marketing gồm các bộ phận: Brand, Content, Design và Trade Marketing.\n- Đo lường sức khỏe thương hiệu (Brand Health Metrics) định kỳ và phân tích hiệu quả chi tiêu tiếp thị so với doanh thu bán lẻ.\n\nYêu cầu công việc (Bắt buộc):\n- Tối thiểu 5 năm kinh nghiệm trong ngành tiếp thị xây dựng thương hiệu, trong đó có ít nhất 2 năm ở vị trí quản lý đội ngũ từ 4 nhân sự trở lên.\n- Năng lực hoạch định chiến lược thương hiệu dài hạn, định vị sản phẩm và phân bổ ngân sách tiếp thị năm trên 5 tỷ đồng.\n- Kinh nghiệm chỉ đạo và thực thi các chiến dịch truyền thông tích hợp (IMC Campaign) quy mô toàn quốc, kết hợp kênh ATL, BTL và Digital.\n- Quản lý và làm việc hiệu quả với các agency quảng cáo, creative agency, PR và media buying.\n\nTiêu chí ưu tiên (Ưu tiên):\n- Tốt nghiệp đại học chuyên ngành Marketing, Truyền thông hoặc Kinh tế, có bằng Thạc sĩ là lợi thế.\n- Khả năng giao tiếp, thuyết trình kế hoạch kinh doanh và báo cáo trực tiếp với Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh.\n\nChế độ đãi ngộ:\n- Mức lương cạnh tranh từ 35.000.000 đến 55.000.000 VNĐ cùng thưởng năm theo kết quả tăng trưởng doanh thu và lợi nhuận toàn công ty.\n- Bảo hiểm sức khỏe quốc tế cao cấp cho bản thân và gia đình; du lịch nghỉ dưỡng chuẩn 5 sao định kỳ hàng năm.",
+      "requirements": [
+        {
+          "requirement_id": "MK-J03-R01",
+          "text": "Tối thiểu 5 năm kinh nghiệm trong ngành tiếp thị xây dựng thương hiệu, trong đó có ít nhất 2 năm ở vị trí quản lý đội ngũ từ 4 nhân sự trở lên.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J03-R02",
+          "text": "Năng lực hoạch định chiến lược thương hiệu dài hạn, định vị sản phẩm và phân bổ ngân sách tiếp thị năm trên 5 tỷ đồng.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J03-R03",
+          "text": "Kinh nghiệm chỉ đạo và thực thi các chiến dịch truyền thông tích hợp (IMC Campaign) quy mô toàn quốc, kết hợp kênh ATL, BTL và Digital.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J03-R04",
+          "text": "Quản lý và làm việc hiệu quả với các agency quảng cáo, creative agency, PR và media buying.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J03-R05",
+          "text": "Tốt nghiệp đại học chuyên ngành Marketing, Truyền thông hoặc Kinh tế, có bằng Thạc sĩ là lợi thế.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "MK-J03-R06",
+          "text": "Khả năng giao tiếp, thuyết trình kế hoạch kinh doanh và báo cáo trực tiếp với Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "MK-J03-C01",
+          "cv_text": "Tóm tắt năng lực quản lý:\nNhà quản lý tiếp thị thương hiệu cấp cao với hơn 7 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh (FMCG) và chuỗi bán lẻ thực phẩm, trong đó có hơn 3 năm giữ chức vụ Trưởng phòng Tiếp thị Thương hiệu (Brand Marketing Manager). Sở hữu bằng Thạc sĩ Quản trị Marketing, có năng lực hoạch định chiến lược thương hiệu 3 năm, quản trị ngân sách năm trên 12 tỷ đồng và điều hành các chiến dịch IMC toàn quốc kết hợp truyền hình ATL, kích hoạt điểm bán BTL và truyền thông số Digital. Thuyết trình lưu loát trước Hội đồng Quản trị bằng tiếng Anh.\n\nKỹ năng điều hành và chuyên môn:\n- Hoạch định chiến lược định vị thương hiệu và kiến trúc danh mục sản phẩm\n- Phân bổ và tối ưu hóa ngân sách tiếp thị năm từ 10 đến 15 tỷ đồng\n- Lãnh đạo thực thi chiến dịch truyền thông tích hợp (IMC Campaign) quy mô quốc gia\n- Đấu thầu, chọn lọc và quản lý mạng lưới Creative Agency, PR Agency và Media Buying Agency\n- Quản lý, đào tạo và phát triển đội ngũ 6 nhân sự chuyên trách thương hiệu\n- Tiếng Anh điều hành doanh nghiệp và báo cáo cấp HĐQT\n\nKinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương hiệu tại Tập Đoàn Hàng Tiêu Dùng Thực Phẩm Hương Việt\nThời gian: Từ 2023-01 đến nay (đang giữ vị trí)\n- Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\n- Hoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\n- Chỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình quốc gia (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\n- Trực tiếp chủ trì chấm thầu, làm việc với các các agency sáng tạo quốc tế để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\n- Thuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh.\n\nChuyên viên Quản lý Nhãn hàng Cấp cao tại Công ty Cổ phần Thực Phẩm Quốc Tế Nam Á\nThời gian: Từ 2019-06 đến 2022-12\n- Quản lý nhãn hàng bánh kẹo nhập khẩu, triển khai các hoạt động tài trợ chương trình truyền hình và activation tại rạp chiếu phim.\n\nTrình độ học vấn:\n- Thạc sĩ Quản trị Marketing (Master in Marketing Management), Trường Đại học Kinh tế TP. Hồ Chí Minh\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế TP. Hồ Chí Minh\n\nChứng chỉ:\n- Chứng chỉ Strategic Brand Management do Viện Tiếp Thị Quốc Tế cấp\n- Chứng chỉ Tiếng Anh IELTS 8.0",
+          "sections": [
+            {
+              "section_id": "MK-J03-C01-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt năng lực quản lý:\nNhà quản lý tiếp thị thương hiệu cấp cao với hơn 7 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh (FMCG) và chuỗi bán lẻ thực phẩm, trong đó có hơn 3 năm giữ chức vụ Trưởng phòng Tiếp thị Thương hiệu (Brand Marketing Manager). Sở hữu bằng Thạc sĩ Quản trị Marketing, có năng lực hoạch định chiến lược thương hiệu 3 năm, quản trị ngân sách năm trên 12 tỷ đồng và điều hành các chiến dịch IMC toàn quốc kết hợp truyền hình ATL, kích hoạt điểm bán BTL và truyền thông số Digital. Thuyết trình lưu loát trước Hội đồng Quản trị bằng tiếng Anh."
+            },
+            {
+              "section_id": "MK-J03-C01-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng điều hành và chuyên môn:\n- Hoạch định chiến lược định vị thương hiệu và kiến trúc danh mục sản phẩm\n- Phân bổ và tối ưu hóa ngân sách tiếp thị năm từ 10 đến 15 tỷ đồng\n- Lãnh đạo thực thi chiến dịch truyền thông tích hợp (IMC Campaign) quy mô quốc gia\n- Đấu thầu, chọn lọc và quản lý mạng lưới Creative Agency, PR Agency và Media Buying Agency\n- Quản lý, đào tạo và phát triển đội ngũ 6 nhân sự chuyên trách thương hiệu\n- Tiếng Anh điều hành doanh nghiệp và báo cáo cấp HĐQT"
+            },
+            {
+              "section_id": "MK-J03-C01-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương hiệu tại Tập Đoàn Hàng Tiêu Dùng Thực Phẩm Hương Việt\nThời gian: Từ 2023-01 đến nay (đang giữ vị trí)\n- Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\n- Hoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\n- Chỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình quốc gia (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\n- Trực tiếp chủ trì chấm thầu, làm việc với các các agency sáng tạo quốc tế để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\n- Thuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh.\n\nChuyên viên Quản lý Nhãn hàng Cấp cao tại Công ty Cổ phần Thực Phẩm Quốc Tế Nam Á\nThời gian: Từ 2019-06 đến 2022-12\n- Quản lý nhãn hàng bánh kẹo nhập khẩu, triển khai các hoạt động tài trợ chương trình truyền hình và activation tại rạp chiếu phim."
+            },
+            {
+              "section_id": "MK-J03-C01-SEC-EDU",
+              "kind": "education",
+              "text": "Trình độ học vấn:\n- Thạc sĩ Quản trị Marketing (Master in Marketing Management), Trường Đại học Kinh tế TP. Hồ Chí Minh\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế TP. Hồ Chí Minh"
+            },
+            {
+              "section_id": "MK-J03-C01-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Chứng chỉ Strategic Brand Management do Viện Tiếp Thị Quốc Tế cấp\n- Chứng chỉ Tiếng Anh IELTS 8.0"
+            }
+          ],
+          "skills": [
+            "Quản lý đội ngũ Marketing",
+            "Chiến lược định vị thương hiệu",
+            "Ngân sách tiếp thị trên 10 tỷ",
+            "Chiến dịch IMC toàn quốc ATL BTL Digital",
+            "Quản lý Creative PR Media Agency",
+            "Báo cáo Hội đồng Quản trị tiếng Anh",
+            "Thạc sĩ Marketing"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J03-C01-EXP-01",
+              "title": "Trưởng phòng Tiếp thị Thương hiệu",
+              "company": "Tập Đoàn Hàng Tiêu Dùng Thực Phẩm Hương Việt",
+              "start_date": "2023-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\nHoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\nChỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình quốc gia (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\nTrực tiếp chủ trì chấm thầu, làm việc với các các agency sáng tạo quốc tế để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\nThuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh.",
+              "skills_used": [
+                "Quản lý đội ngũ Marketing",
+                "Chiến lược định vị thương hiệu",
+                "Ngân sách tiếp thị trên 10 tỷ",
+                "Chiến dịch IMC toàn quốc ATL BTL Digital",
+                "Quản lý Creative Agency",
+                "Báo cáo Hội đồng Quản trị tiếng Anh"
+              ],
+              "section_id": "MK-J03-C01-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J03-C01-EXP-02",
+              "title": "Chuyên viên Quản lý Nhãn hàng Cấp cao",
+              "company": "Công ty Cổ phần Thực Phẩm Quốc Tế Nam Á",
+              "start_date": "2019-06",
+              "end_date": "2022-12",
+              "is_current": false,
+              "description": "Quản lý nhãn hàng bánh kẹo nhập khẩu, triển khai các hoạt động tài trợ chương trình truyền hình và activation tại rạp chiếu phim.",
+              "skills_used": [],
+              "section_id": "MK-J03-C01-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Thạc sĩ",
+              "field": "Quản trị Marketing",
+              "section_id": "MK-J03-C01-SEC-EDU"
+            },
+            {
+              "degree": "Cử nhân",
+              "field": "Marketing",
+              "section_id": "MK-J03-C01-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Strategic Brand Management do Viện Tiếp Thị Quốc Tế cấp",
+              "section_id": "MK-J03-C01-SEC-CERT"
+            },
+            {
+              "name": "Tiếng Anh IELTS 8.0",
+              "section_id": "MK-J03-C01-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "MK-J03-C02",
+          "cv_text": "Tóm lược chuyên môn:\nTrưởng phòng Marketing với 6 năm kinh nghiệm trong ngành bán lẻ mỹ phẩm và chăm sóc sắc đẹp, trong đó có 2 năm 6 tháng trực tiếp lãnh đạo phòng Marketing 5 nhân sự tại chuỗi 28 cửa hàng bán lẻ. Kinh nghiệm hoạch định ngân sách 8 tỷ đồng/năm, triển khai đồng bộ các chiến dịch truyền thông tích hợp IMC kết hợp bảng biển ngoài trời OOH (ATL), sự kiện ra mắt tại trung tâm thương mại (BTL) và chiến dịch tiếp thị người ảnh hưởng (Digital). Kỹ năng làm việc chuyên nghiệp với các creative agency và PR agency.\n\nKỹ năng quản trị và chuyên môn:\n- Hoạch định chiến lược tiếp thị chuỗi bán lẻ mỹ phẩm\n- Phân bổ ngân sách tiếp thị năm và kiểm soát chi phí từng quý\n- Chỉ đạo chiến dịch IMC: Outdoor Billboard, Sự kiện Mall Activation, Digital KOLs\n- Quản lý đối tác Agency sản xuất TVC, Creative và Booking báo chí\n- Lãnh đạo, phân chia KPI và đào tạo nhân viên phòng Marketing\n- Tiếng Anh giao tiếp thương mại và soạn thảo tài liệu chiến lược\n\nKinh nghiệm làm việc:\nTrưởng phòng Marketing tại Chuỗi Bán Lẻ Mỹ Phẩm Bella Flora\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Quản lý đội ngũ 5 nhân viên gồm chuyên viên thương hiệu, chuyên viên PR và thiết kế đồ họa.\n- Hoạch định ngân sách tiếp thị 8 tỷ đồng cho năm 2025, tập trung mở rộng thị phần chuỗi cửa hàng tại Hà Nội và Đà Nẵng.\n- Chủ trì chiến dịch IMC hè 'Rạng Rỡ Tự Nhiên' quy mô 3 thành phố lớn, phối hợp với creative agency lên concept và book vị trí quảng cáo màn hình LED tại ngã sáu trung tâm.\n- Phối hợp cùng đơn vị PR tổ chức sự kiện workshop soi da miễn phí thu hút hơn 3.000 khách hàng ghé thăm.\n- Báo cáo định kỳ bằng tiếng Anh cho Giám đốc Điều hành về các chỉ số sức khỏe thương hiệu và doanh thu cửa hàng mới.\n\nTrưởng nhóm Truyền thông Nhãn hàng tại Công ty TNHH Dược Mỹ Phẩm Á Châu\nThời gian: Từ 2020-08 đến 2024-02\n- Lên ý tưởng và thực thi các chương trình tài trợ sắc đẹp và hợp tác với 50 beauty blogger.\n\nHọc vấn:\n- Cử nhân ngành Marketing, Trường Đại học Thương Mại\n\nChứng chỉ:\n- Chứng chỉ Tiếng Anh TOEIC 820",
+          "sections": [
+            {
+              "section_id": "MK-J03-C02-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược chuyên môn:\nTrưởng phòng Marketing với 6 năm kinh nghiệm trong ngành bán lẻ mỹ phẩm và chăm sóc sắc đẹp, trong đó có 2 năm 6 tháng trực tiếp lãnh đạo phòng Marketing 5 nhân sự tại chuỗi 28 cửa hàng bán lẻ. Kinh nghiệm hoạch định ngân sách 8 tỷ đồng/năm, triển khai đồng bộ các chiến dịch truyền thông tích hợp IMC kết hợp bảng biển ngoài trời OOH (ATL), sự kiện ra mắt tại trung tâm thương mại (BTL) và chiến dịch tiếp thị người ảnh hưởng (Digital). Kỹ năng làm việc chuyên nghiệp với các creative agency và PR agency."
+            },
+            {
+              "section_id": "MK-J03-C02-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng quản trị và chuyên môn:\n- Hoạch định chiến lược tiếp thị chuỗi bán lẻ mỹ phẩm\n- Phân bổ ngân sách tiếp thị năm và kiểm soát chi phí từng quý\n- Chỉ đạo chiến dịch IMC: Outdoor Billboard, Sự kiện Mall Activation, Digital KOLs\n- Quản lý đối tác Agency sản xuất TVC, Creative và Booking báo chí\n- Lãnh đạo, phân chia KPI và đào tạo nhân viên phòng Marketing\n- Tiếng Anh giao tiếp thương mại và soạn thảo tài liệu chiến lược"
+            },
+            {
+              "section_id": "MK-J03-C02-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nTrưởng phòng Marketing tại Chuỗi Bán Lẻ Mỹ Phẩm Bella Flora\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Quản lý đội ngũ 5 nhân viên gồm chuyên viên thương hiệu, chuyên viên PR và thiết kế đồ họa.\n- Hoạch định ngân sách tiếp thị 8 tỷ đồng cho năm 2025, tập trung mở rộng thị phần chuỗi cửa hàng tại Hà Nội và Đà Nẵng.\n- Chủ trì chiến dịch IMC hè 'Rạng Rỡ Tự Nhiên' quy mô 3 thành phố lớn, phối hợp với creative agency lên concept và book vị trí quảng cáo màn hình LED tại ngã sáu trung tâm.\n- Phối hợp cùng đơn vị PR tổ chức sự kiện workshop soi da miễn phí thu hút hơn 3.000 khách hàng ghé thăm.\n- Báo cáo định kỳ bằng tiếng Anh cho Giám đốc Điều hành về các chỉ số sức khỏe thương hiệu và doanh thu cửa hàng mới.\n\nTrưởng nhóm Truyền thông Nhãn hàng tại Công ty TNHH Dược Mỹ Phẩm Á Châu\nThời gian: Từ 2020-08 đến 2024-02\n- Lên ý tưởng và thực thi các chương trình tài trợ sắc đẹp và hợp tác với 50 beauty blogger."
+            },
+            {
+              "section_id": "MK-J03-C02-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Marketing, Trường Đại học Thương Mại"
+            },
+            {
+              "section_id": "MK-J03-C02-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Chứng chỉ Tiếng Anh TOEIC 820"
+            }
+          ],
+          "skills": [
+            "Quản lý đội ngũ Marketing 5 người",
+            "Ngân sách tiếp thị 8 tỷ",
+            "Chiến dịch IMC bán lẻ mỹ phẩm",
+            "Làm việc với Creative và PR Agency",
+            "Báo cáo CEO bằng tiếng Anh",
+            "Marketing"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J03-C02-EXP-01",
+              "title": "Trưởng phòng Marketing",
+              "company": "Chuỗi Bán Lẻ Mỹ Phẩm Bella Flora",
+              "start_date": "2024-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Quản lý đội ngũ 5 nhân viên gồm chuyên viên thương hiệu, chuyên viên PR và thiết kế đồ họa.\nHoạch định ngân sách tiếp thị 8 tỷ đồng cho năm 2025, tập trung mở rộng thị phần chuỗi cửa hàng tại Hà Nội và Đà Nẵng.\nChủ trì chiến dịch IMC hè 'Rạng Rỡ Tự Nhiên' quy mô 3 thành phố lớn, phối hợp với creative agency lên concept và book vị trí quảng cáo màn hình LED tại ngã sáu trung tâm.\nPhối hợp cùng đơn vị PR tổ chức sự kiện workshop soi da miễn phí thu hút hơn 3.000 khách hàng ghé thăm.\nBáo cáo định kỳ bằng tiếng Anh cho Giám đốc Điều hành về các chỉ số sức khỏe thương hiệu và doanh thu cửa hàng mới.",
+              "skills_used": [
+                "Quản lý đội ngũ Marketing 5 người",
+                "Ngân sách tiếp thị 8 tỷ",
+                "Chiến dịch IMC bán lẻ mỹ phẩm",
+                "Làm việc với Creative và PR Agency",
+                "Báo cáo CEO bằng tiếng Anh"
+              ],
+              "section_id": "MK-J03-C02-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J03-C02-EXP-02",
+              "title": "Trưởng nhóm Truyền thông Nhãn hàng",
+              "company": "Công ty TNHH Dược Mỹ Phẩm Á Châu",
+              "start_date": "2020-08",
+              "end_date": "2024-02",
+              "is_current": false,
+              "description": "Lên ý tưởng và thực thi các chương trình tài trợ sắc đẹp và hợp tác với 50 beauty blogger.",
+              "skills_used": [],
+              "section_id": "MK-J03-C02-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Marketing",
+              "section_id": "MK-J03-C02-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Tiếng Anh TOEIC 820",
+              "section_id": "MK-J03-C02-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "MK-J03-C03",
+          "cv_text": "Tóm lược hồ sơ:\nTrợ lý Quản lý Nhãn hàng (Assistant Brand Manager) với 4 năm kinh nghiệm trong ngành hàng nước giải khát đóng chai và trà pha sẵn. Có kinh nghiệm hỗ trợ Giám đốc Thương hiệu lập kế hoạch tung sản phẩm mới, phối hợp cùng các phòng ban vận hành chiến dịch truyền thông tích hợp và theo dõi tiến độ công việc với các agency quảng cáo. Đang tìm kiếm cơ hội thăng tiến lên vị trí Trưởng phòng Thương hiệu.\n\nKỹ năng chuyên môn:\n- Hỗ trợ xây dựng kế hoạch tiếp thị nhãn hàng (Brand Marketing Plan)\n- Điều phối triển khai các hạng mục của chiến dịch IMC theo ngân sách được duyệt\n- Làm việc hàng ngày với Creative Agency và Media Agency để giám sát sản xuất ấn phẩm\n- Phân tích số liệu thị phần bán lẻ của Nielsen và Kantar Worldpanel\n- Tiếng Anh giao tiếp thương mại tốt\n\nKinh nghiệm làm việc:\nTrợ lý Quản lý Nhãn hàng (ABM) tại Công ty Cổ phần Nước Giải Khát Nam Dương\nThời gian: Từ 2022-09 đến nay (đang làm việc)\n- Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\n- Theo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\n- Giám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\n- Hướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu.\n\nChuyên viên Thực thi Thương hiệu tại Công ty TNHH Thực Phẩm Xanh Việt Nam\nThời gian: Từ 2021-03 đến 2022-08\n- Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại các hệ thống siêu thị tiêu dùng.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Quốc tế - ĐHQG TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J03-C03-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nTrợ lý Quản lý Nhãn hàng (Assistant Brand Manager) với 4 năm kinh nghiệm trong ngành hàng nước giải khát đóng chai và trà pha sẵn. Có kinh nghiệm hỗ trợ Giám đốc Thương hiệu lập kế hoạch tung sản phẩm mới, phối hợp cùng các phòng ban vận hành chiến dịch truyền thông tích hợp và theo dõi tiến độ công việc với các agency quảng cáo. Đang tìm kiếm cơ hội thăng tiến lên vị trí Trưởng phòng Thương hiệu."
+            },
+            {
+              "section_id": "MK-J03-C03-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Hỗ trợ xây dựng kế hoạch tiếp thị nhãn hàng (Brand Marketing Plan)\n- Điều phối triển khai các hạng mục của chiến dịch IMC theo ngân sách được duyệt\n- Làm việc hàng ngày với Creative Agency và Media Agency để giám sát sản xuất ấn phẩm\n- Phân tích số liệu thị phần bán lẻ của Nielsen và Kantar Worldpanel\n- Tiếng Anh giao tiếp thương mại tốt"
+            },
+            {
+              "section_id": "MK-J03-C03-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nTrợ lý Quản lý Nhãn hàng (ABM) tại Công ty Cổ phần Nước Giải Khát Nam Dương\nThời gian: Từ 2022-09 đến nay (đang làm việc)\n- Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\n- Theo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\n- Giám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\n- Hướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu.\n\nChuyên viên Thực thi Thương hiệu tại Công ty TNHH Thực Phẩm Xanh Việt Nam\nThời gian: Từ 2021-03 đến 2022-08\n- Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại các hệ thống siêu thị tiêu dùng."
+            },
+            {
+              "section_id": "MK-J03-C03-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Quốc tế - ĐHQG TP.HCM"
+            }
+          ],
+          "skills": [
+            "Brand Marketing ABM",
+            "Hỗ trợ chiến dịch IMC",
+            "Làm việc với Creative và Media Agency",
+            "Số liệu thị phần Nielsen Kantar",
+            "Quản trị kinh doanh"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J03-C03-EXP-01",
+              "title": "Trợ lý Quản lý Nhãn hàng (ABM)",
+              "company": "Công ty Cổ phần Nước Giải Khát Nam Dương",
+              "start_date": "2022-09",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\nTheo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\nGiám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\nHướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu.",
+              "skills_used": [
+                "Brand Marketing ABM",
+                "Hỗ trợ chiến dịch IMC",
+                "Làm việc với Creative Agency"
+              ],
+              "section_id": "MK-J03-C03-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J03-C03-EXP-02",
+              "title": "Chuyên viên Thực thi Thương hiệu",
+              "company": "Công ty TNHH Thực Phẩm Xanh Việt Nam",
+              "start_date": "2021-03",
+              "end_date": "2022-08",
+              "is_current": false,
+              "description": "Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại các hệ thống siêu thị tiêu dùng.",
+              "skills_used": [],
+              "section_id": "MK-J03-C03-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Quản trị Kinh doanh",
+              "section_id": "MK-J03-C03-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J03-C04",
+          "cv_text": "Tóm lược hồ sơ:\nTrưởng bộ phận Tiếp thị Thương mại (Trade Marketing Manager) với hơn 6 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh kênh siêu thị (MT) và cửa hàng tiện lợi (CVS). Quản lý đội ngũ 6 giám sát kích hoạt thương mại, chuyên trách thiết kế ụ kệ trưng bày nổi bật, tổ chức các chương trình khuyến mãi giảm giá kích cầu tại điểm bán và đàm phán vị trí thuê kệ đẹp với các chuỗi bán lẻ lớn.\n\nKỹ năng quản trị và chuyên môn:\n- Hoạch định kế hoạch tiếp thị tại điểm bán (Trade Marketing Plan)\n- Quản trị ngân sách khuyến mãi và thuê vị trí trưng bày siêu thị\n- Tổ chức hoạt động kích hoạt thương mại tại chỗ (Shopper Activation)\n- Đàm phán chính sách trưng bày với đại diện thu mua (Merchandiser) các chuỗi MT\n- Lãnh đạo và phân chia mục tiêu cho đội ngũ giám sát thương mại hiện trường\n\nKinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương mại tại Công ty Cổ phần Hàng Tiêu Dùng Đất Phương Nam\nThời gian: Từ 2023-05 đến nay (đang công tác)\n- Quản lý 6 nhân viên chuyên trách các hệ thống siêu thị bán lẻ lớn trên toàn miền Nam.\n- Quản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\n- Đảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\n- Phối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn.\n\nChuyên viên Trade Marketing Kênh Siêu Thị tại Công ty TNHH Thực Phẩm Đông Hải\nThời gian: Từ 2019-11 đến 2023-04\n- Thiết kế chương trình quà tặng đính kèm và kiểm tra nhân viên PG phát quà tại quầy.\n\nHọc vấn:\n- Cử nhân ngành Kinh tế Phát triển, Trường Đại học Kinh tế TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J03-C04-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nTrưởng bộ phận Tiếp thị Thương mại (Trade Marketing Manager) với hơn 6 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh kênh siêu thị (MT) và cửa hàng tiện lợi (CVS). Quản lý đội ngũ 6 giám sát kích hoạt thương mại, chuyên trách thiết kế ụ kệ trưng bày nổi bật, tổ chức các chương trình khuyến mãi giảm giá kích cầu tại điểm bán và đàm phán vị trí thuê kệ đẹp với các chuỗi bán lẻ lớn."
+            },
+            {
+              "section_id": "MK-J03-C04-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng quản trị và chuyên môn:\n- Hoạch định kế hoạch tiếp thị tại điểm bán (Trade Marketing Plan)\n- Quản trị ngân sách khuyến mãi và thuê vị trí trưng bày siêu thị\n- Tổ chức hoạt động kích hoạt thương mại tại chỗ (Shopper Activation)\n- Đàm phán chính sách trưng bày với đại diện thu mua (Merchandiser) các chuỗi MT\n- Lãnh đạo và phân chia mục tiêu cho đội ngũ giám sát thương mại hiện trường"
+            },
+            {
+              "section_id": "MK-J03-C04-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương mại tại Công ty Cổ phần Hàng Tiêu Dùng Đất Phương Nam\nThời gian: Từ 2023-05 đến nay (đang công tác)\n- Quản lý 6 nhân viên chuyên trách các hệ thống siêu thị bán lẻ lớn trên toàn miền Nam.\n- Quản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\n- Đảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\n- Phối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn.\n\nChuyên viên Trade Marketing Kênh Siêu Thị tại Công ty TNHH Thực Phẩm Đông Hải\nThời gian: Từ 2019-11 đến 2023-04\n- Thiết kế chương trình quà tặng đính kèm và kiểm tra nhân viên PG phát quà tại quầy."
+            },
+            {
+              "section_id": "MK-J03-C04-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Kinh tế Phát triển, Trường Đại học Kinh tế TP.HCM"
+            }
+          ],
+          "skills": [
+            "Quản lý Trade Marketing",
+            "Kênh siêu thị MT và CVS",
+            "Ngân sách khuyến mãi điểm bán",
+            "Shopper Activation và POSM",
+            "Kinh tế"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J03-C04-EXP-01",
+              "title": "Trưởng phòng Tiếp thị Thương mại",
+              "company": "Công ty Cổ phần Hàng Tiêu Dùng Đất Phương Nam",
+              "start_date": "2023-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Quản lý 6 nhân viên chuyên trách các hệ thống siêu thị bán lẻ lớn trên toàn miền Nam.\nQuản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\nĐảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\nPhối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn.",
+              "skills_used": [
+                "Quản lý Trade Marketing",
+                "Kênh siêu thị MT",
+                "Ngân sách khuyến mãi điểm bán",
+                "Shopper Activation và POSM"
+              ],
+              "section_id": "MK-J03-C04-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J03-C04-EXP-02",
+              "title": "Chuyên viên Trade Marketing Kênh Siêu Thị",
+              "company": "Công ty TNHH Thực Phẩm Đông Hải",
+              "start_date": "2019-11",
+              "end_date": "2023-04",
+              "is_current": false,
+              "description": "Thiết kế chương trình quà tặng đính kèm và kiểm tra nhân viên PG phát quà tại quầy.",
+              "skills_used": [],
+              "section_id": "MK-J03-C04-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kinh tế Phát triển",
+              "section_id": "MK-J03-C04-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J03-C05",
+          "cv_text": "Tóm tắt kinh nghiệm cấp điều hành:\nGiám đốc Tiếp thị Cấp cao (Chief Marketing Officer - CMO) với hơn 11 năm kinh nghiệm hoạch định chiến lược kinh doanh và tiếp thị cho các tập đoàn bán lẻ tiêu dùng và thương mại điện tử đa quốc gia. Lãnh đạo khối tiếp thị quy mô trên 35 cán bộ nhân viên gồm 4 phòng ban chuyên biệt. Quản trị ngân sách tiếp thị trên 50 tỷ đồng mỗi năm, chịu trách nhiệm trực tiếp trước Hội đồng Quản trị về chỉ số tăng trưởng doanh thu thuần và giá trị tài sản thương hiệu (Brand Equity). Sử dụng tiếng Anh ở cấp độ điều hành quốc tế.\n\nNăng lực lãnh đạo cấp cao:\n- Hoạch định chiến lược tăng trưởng tổng thể và định vị thương hiệu tập đoàn\n- Quản trị ngân sách quy mô lớn trên 50 tỷ đồng/năm\n- Chỉ đạo chiến lược danh mục thương hiệu đa ngành (Multi-brand portfolio)\n- Thỏa thuận hợp tác chiến lược với các các tập đoàn truyền thông toàn cầu\n- Thuyết trình bằng tiếng Anh trước ban điều hành khu vực châu Á - Thái Bình Dương\n\nKinh nghiệm làm việc:\nGiám đốc Tiếp thị Tập đoàn (CMO) tại Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunRetail\nThời gian: Từ 2021-01 đến nay (đang đảm nhiệm)\n- Điều hành toàn diện 4 phòng ban: Tiếp thị Thương hiệu, Truyền thông Số, Quan hệ Công chúng và Tiếp thị Bán lẻ với tổng số 36 nhân sự.\n- Phân bổ và kiểm soát ngân sách tiếp thị năm 55 tỷ đồng cho mạng lưới 120 siêu thị và trung tâm thương mại trên toàn quốc.\n- Chỉ đạo các chiến dịch IMC cấp quốc gia tạo tiếng vang lớn trong ngành bán lẻ tiêu dùng.\n- Báo cáo trực tiếp cho Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh hàng tháng.\n\nGiám đốc Thương hiệu Ngành Hàng tại Tập Đoàn FMCG Đông Dương\nThời gian: Từ 2016-04 đến 2020-12\n- Quản lý danh mục 3 nhãn hàng đồ uống dinh dưỡng trẻ em.\n\nHọc vấn:\n- Thạc sĩ Quản trị Kinh doanh (MBA), University of Hawaii at Manoa\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế Quốc dân",
+          "sections": [
+            {
+              "section_id": "MK-J03-C05-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm cấp điều hành:\nGiám đốc Tiếp thị Cấp cao (Chief Marketing Officer - CMO) với hơn 11 năm kinh nghiệm hoạch định chiến lược kinh doanh và tiếp thị cho các tập đoàn bán lẻ tiêu dùng và thương mại điện tử đa quốc gia. Lãnh đạo khối tiếp thị quy mô trên 35 cán bộ nhân viên gồm 4 phòng ban chuyên biệt. Quản trị ngân sách tiếp thị trên 50 tỷ đồng mỗi năm, chịu trách nhiệm trực tiếp trước Hội đồng Quản trị về chỉ số tăng trưởng doanh thu thuần và giá trị tài sản thương hiệu (Brand Equity). Sử dụng tiếng Anh ở cấp độ điều hành quốc tế."
+            },
+            {
+              "section_id": "MK-J03-C05-SEC-SKILL",
+              "kind": "skills",
+              "text": "Năng lực lãnh đạo cấp cao:\n- Hoạch định chiến lược tăng trưởng tổng thể và định vị thương hiệu tập đoàn\n- Quản trị ngân sách quy mô lớn trên 50 tỷ đồng/năm\n- Chỉ đạo chiến lược danh mục thương hiệu đa ngành (Multi-brand portfolio)\n- Thỏa thuận hợp tác chiến lược với các các tập đoàn truyền thông toàn cầu\n- Thuyết trình bằng tiếng Anh trước ban điều hành khu vực châu Á - Thái Bình Dương"
+            },
+            {
+              "section_id": "MK-J03-C05-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nGiám đốc Tiếp thị Tập đoàn (CMO) tại Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunRetail\nThời gian: Từ 2021-01 đến nay (đang đảm nhiệm)\n- Điều hành toàn diện 4 phòng ban: Tiếp thị Thương hiệu, Truyền thông Số, Quan hệ Công chúng và Tiếp thị Bán lẻ với tổng số 36 nhân sự.\n- Phân bổ và kiểm soát ngân sách tiếp thị năm 55 tỷ đồng cho mạng lưới 120 siêu thị và trung tâm thương mại trên toàn quốc.\n- Chỉ đạo các chiến dịch IMC cấp quốc gia tạo tiếng vang lớn trong ngành bán lẻ tiêu dùng.\n- Báo cáo trực tiếp cho Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh hàng tháng.\n\nGiám đốc Thương hiệu Ngành Hàng tại Tập Đoàn FMCG Đông Dương\nThời gian: Từ 2016-04 đến 2020-12\n- Quản lý danh mục 3 nhãn hàng đồ uống dinh dưỡng trẻ em."
+            },
+            {
+              "section_id": "MK-J03-C05-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Thạc sĩ Quản trị Kinh doanh (MBA), University of Hawaii at Manoa\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế Quốc dân"
+            }
+          ],
+          "skills": [
+            "Lãnh đạo CMO cấp tập đoàn",
+            "Ngân sách tiếp thị 55 tỷ",
+            "Chiến lược danh mục đa thương hiệu",
+            "Chiến dịch IMC toàn quốc",
+            "Hợp tác tập đoàn truyền thông toàn cầu",
+            "Thạc sĩ MBA"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J03-C05-EXP-01",
+              "title": "Giám đốc Tiếp thị Tập đoàn (CMO)",
+              "company": "Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunRetail",
+              "start_date": "2021-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Điều hành toàn diện 4 phòng ban: Tiếp thị Thương hiệu, Truyền thông Số, Quan hệ Công chúng và Tiếp thị Bán lẻ với tổng số 36 nhân sự.\nPhân bổ và kiểm soát ngân sách tiếp thị năm 55 tỷ đồng cho mạng lưới 120 siêu thị và trung tâm thương mại trên toàn quốc.\nChỉ đạo các chiến dịch IMC cấp quốc gia tạo tiếng vang lớn trong ngành bán lẻ tiêu dùng.\nBáo cáo trực tiếp cho Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh hàng tháng.",
+              "skills_used": [
+                "Lãnh đạo CMO cấp tập đoàn",
+                "Ngân sách tiếp thị 55 tỷ",
+                "Chiến dịch IMC toàn quốc"
+              ],
+              "section_id": "MK-J03-C05-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J03-C05-EXP-02",
+              "title": "Giám đốc Thương hiệu Ngành Hàng",
+              "company": "Tập Đoàn FMCG Đông Dương",
+              "start_date": "2016-04",
+              "end_date": "2020-12",
+              "is_current": false,
+              "description": "Quản lý danh mục 3 nhãn hàng đồ uống dinh dưỡng trẻ em.",
+              "skills_used": [],
+              "section_id": "MK-J03-C05-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Thạc sĩ",
+              "field": "Quản trị Kinh doanh",
+              "section_id": "MK-J03-C05-SEC-EDU"
+            },
+            {
+              "degree": "Cử nhân",
+              "field": "Marketing",
+              "section_id": "MK-J03-C05-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J03-C06",
+          "cv_text": "Tóm lược bản thân:\nTrưởng nhóm Quảng cáo Số (Digital Performance Lead) với hơn 3 năm kinh nghiệm tập trung vào tối ưu hóa chiến dịch chuyển đổi bán hàng trực tuyến cho nền tảng thương mại điện tử. Quản lý nhóm 3 chuyên viên chạy quảng cáo trên Meta Ads, Google Ads và sàn thương mại điện tử Shopee, Lazada. Nắm vững kỹ thuật đo lường ROI và chi phí thu hút khách hàng.\n\nKỹ năng làm việc:\n- Tối ưu hóa quảng cáo chuyển đổi Performance Marketing\n- Quản trị ngân sách quảng cáo số hàng tháng cho các gian hàng trực tuyến\n- Phân tích phễu chuyển đổi thương mại điện tử và chỉ số ROAS\n- Lãnh đạo nhóm 3 chuyên viên chạy quảng cáo số\n- Tiếng Anh giao tiếp cơ bản\n\nKinh nghiệm làm việc:\nTrưởng nhóm Quảng cáo Hiệu quả tại Công ty Cổ phần Thương Mại Điện Tử FastBuy\nThời gian: Từ 2023-06 đến nay (đang làm việc)\n- Quản lý nhóm 3 nhân sự phụ trách chạy quảng cáo tìm kiếm và mạng xã hội cho các gian hàng đồ gia dụng thông minh.\n- Tối ưu chi phí chạy ads trung bình 500 triệu đồng/tháng, duy trì ROAS trung bình 3.5.\n- Sử dụng các công cụ phân tích để điều chỉnh giá thầu tự động hàng ngày.\n\nNhân viên Digital Marketing tại Công ty TNHH Tiếp Thị Quảng Cáo NetMedia\nThời gian: Từ 2022-03 đến 2023-05\n- Thiết lập chiến dịch quảng cáo Meta Ads cho các cửa hàng thời trang bán lẻ.\n\nHọc vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Công Thương TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J03-C06-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược bản thân:\nTrưởng nhóm Quảng cáo Số (Digital Performance Lead) với hơn 3 năm kinh nghiệm tập trung vào tối ưu hóa chiến dịch chuyển đổi bán hàng trực tuyến cho nền tảng thương mại điện tử. Quản lý nhóm 3 chuyên viên chạy quảng cáo trên Meta Ads, Google Ads và sàn thương mại điện tử Shopee, Lazada. Nắm vững kỹ thuật đo lường ROI và chi phí thu hút khách hàng."
+            },
+            {
+              "section_id": "MK-J03-C06-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Tối ưu hóa quảng cáo chuyển đổi Performance Marketing\n- Quản trị ngân sách quảng cáo số hàng tháng cho các gian hàng trực tuyến\n- Phân tích phễu chuyển đổi thương mại điện tử và chỉ số ROAS\n- Lãnh đạo nhóm 3 chuyên viên chạy quảng cáo số\n- Tiếng Anh giao tiếp cơ bản"
+            },
+            {
+              "section_id": "MK-J03-C06-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nTrưởng nhóm Quảng cáo Hiệu quả tại Công ty Cổ phần Thương Mại Điện Tử FastBuy\nThời gian: Từ 2023-06 đến nay (đang làm việc)\n- Quản lý nhóm 3 nhân sự phụ trách chạy quảng cáo tìm kiếm và mạng xã hội cho các gian hàng đồ gia dụng thông minh.\n- Tối ưu chi phí chạy ads trung bình 500 triệu đồng/tháng, duy trì ROAS trung bình 3.5.\n- Sử dụng các công cụ phân tích để điều chỉnh giá thầu tự động hàng ngày.\n\nNhân viên Digital Marketing tại Công ty TNHH Tiếp Thị Quảng Cáo NetMedia\nThời gian: Từ 2022-03 đến 2023-05\n- Thiết lập chiến dịch quảng cáo Meta Ads cho các cửa hàng thời trang bán lẻ."
+            },
+            {
+              "section_id": "MK-J03-C06-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Công Thương TP.HCM"
+            }
+          ],
+          "skills": [
+            "Quản lý nhóm Digital Performance",
+            "Quảng cáo số E-commerce",
+            "Tối ưu ROAS và CPA",
+            "Thương mại điện tử"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J03-C06-EXP-01",
+              "title": "Trưởng nhóm Quảng cáo Hiệu quả",
+              "company": "Công ty Cổ phần Thương Mại Điện Tử FastBuy",
+              "start_date": "2023-06",
+              "end_date": null,
+              "is_current": true,
+              "description": "Quản lý nhóm 3 nhân sự phụ trách chạy quảng cáo tìm kiếm và mạng xã hội cho các gian hàng đồ gia dụng thông minh.\nTối ưu chi phí chạy ads trung bình 500 triệu đồng/tháng, duy trì ROAS trung bình 3.5.\nSử dụng các công cụ phân tích để điều chỉnh giá thầu tự động hàng ngày.",
+              "skills_used": [
+                "Quản lý nhóm Digital Performance",
+                "Quảng cáo số E-commerce",
+                "Tối ưu ROAS"
+              ],
+              "section_id": "MK-J03-C06-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J03-C06-EXP-02",
+              "title": "Nhân viên Digital Marketing",
+              "company": "Công ty TNHH Tiếp Thị Quảng Cáo NetMedia",
+              "start_date": "2022-03",
+              "end_date": "2023-05",
+              "is_current": false,
+              "description": "Thiết lập chiến dịch quảng cáo Meta Ads cho các cửa hàng thời trang bán lẻ.",
+              "skills_used": [],
+              "section_id": "MK-J03-C06-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Thương mại Điện tử",
+              "section_id": "MK-J03-C06-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J03-C07",
+          "cv_text": "Tóm lược kỹ năng:\nNhà quản lý thương hiệu với hơn 5 năm kinh nghiệm trong ngành hàng mỹ phẩm chăm sóc cá nhân thiên nhiên và chuỗi cửa hàng spa bán lẻ. Có 2 năm giữ vị trí Trưởng phòng Marketing lãnh đạo 4 nhân viên, chịu trách nhiệm quản trị ngân sách năm 6 tỷ đồng. Kinh nghiệm điều phối chiến dịch truyền thông tích hợp (IMC) đa kênh và quản lý các đơn vị agency đối tác.\n\nKỹ năng làm việc:\n- Hoạch định chiến lược định vị và nhận diện thương hiệu tiêu dùng\n- Phân bổ ngân sách tiếp thị năm trên 6 tỷ đồng cho chuỗi bán lẻ\n- Triển khai chiến dịch IMC kết hợp OOH, activation tại cửa hàng và social media\n- Quản lý tiến độ sản xuất ấn phẩm với Creative Agency và Media Agency\n- Quản lý và đào tạo nhân viên phòng Marketing\n- Tiếng Anh giao tiếp và đọc hiểu tài liệu chuyên ngành\n\nKinh nghiệm làm việc:\nTrưởng phòng Marketing tại Công ty Cổ phần Mỹ Phẩm Thiên Nhiên Hoa Sen\nThời gian: Từ 2024-05 đến nay (hiện tại)\n- Điều hành 4 nhân sự chuyên trách mảng nội dung, thiết kế và truyền thông số.\n- Xây dựng chiến lược phân bổ ngân sách 6,5 tỷ đồng năm 2025 cho chiến dịch ra mắt dòng sản phẩm chăm sóc tóc organic.\n- Điều phối chiến dịch IMC toàn quốc bao gồm tài trợ biển bảng sân bay (OOH), chuỗi minishow âm nhạc tại 10 cửa hàng bán lẻ (BTL) và hợp tác 30 KOCs (Digital).\n- Trực tiếp chọn lọc và nghiệm thu sản phẩm quảng cáo từ Creative Agency.\n- Tham gia báo cáo kết quả doanh thu chiến dịch định kỳ cho Ban Giám đốc.\n\nChuyên viên Quản trị Thương hiệu tại Công ty TNHH Hóa Mỹ Phẩm Sài Gòn Mới\nThời gian: (thời gian làm việc trước đây, không có ngày tháng bắt đầu kết thúc cụ thể)\n- Quản lý hoạt động quảng cáo báo chí và tham gia tổ chức sự kiện khai trương đại lý.\n\nHọc vấn:\n- Thạc sĩ ngành Kinh tế Phát triển, Trường Đại học Kinh tế TP.HCM\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J03-C07-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược kỹ năng:\nNhà quản lý thương hiệu với hơn 5 năm kinh nghiệm trong ngành hàng mỹ phẩm chăm sóc cá nhân thiên nhiên và chuỗi cửa hàng spa bán lẻ. Có 2 năm giữ vị trí Trưởng phòng Marketing lãnh đạo 4 nhân viên, chịu trách nhiệm quản trị ngân sách năm 6 tỷ đồng. Kinh nghiệm điều phối chiến dịch truyền thông tích hợp (IMC) đa kênh và quản lý các đơn vị agency đối tác."
+            },
+            {
+              "section_id": "MK-J03-C07-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Hoạch định chiến lược định vị và nhận diện thương hiệu tiêu dùng\n- Phân bổ ngân sách tiếp thị năm trên 6 tỷ đồng cho chuỗi bán lẻ\n- Triển khai chiến dịch IMC kết hợp OOH, activation tại cửa hàng và social media\n- Quản lý tiến độ sản xuất ấn phẩm với Creative Agency và Media Agency\n- Quản lý và đào tạo nhân viên phòng Marketing\n- Tiếng Anh giao tiếp và đọc hiểu tài liệu chuyên ngành"
+            },
+            {
+              "section_id": "MK-J03-C07-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nTrưởng phòng Marketing tại Công ty Cổ phần Mỹ Phẩm Thiên Nhiên Hoa Sen\nThời gian: Từ 2024-05 đến nay (hiện tại)\n- Điều hành 4 nhân sự chuyên trách mảng nội dung, thiết kế và truyền thông số.\n- Xây dựng chiến lược phân bổ ngân sách 6,5 tỷ đồng năm 2025 cho chiến dịch ra mắt dòng sản phẩm chăm sóc tóc organic.\n- Điều phối chiến dịch IMC toàn quốc bao gồm tài trợ biển bảng sân bay (OOH), chuỗi minishow âm nhạc tại 10 cửa hàng bán lẻ (BTL) và hợp tác 30 KOCs (Digital).\n- Trực tiếp chọn lọc và nghiệm thu sản phẩm quảng cáo từ Creative Agency.\n- Tham gia báo cáo kết quả doanh thu chiến dịch định kỳ cho Ban Giám đốc.\n\nChuyên viên Quản trị Thương hiệu tại Công ty TNHH Hóa Mỹ Phẩm Sài Gòn Mới\nThời gian: (thời gian làm việc trước đây, không có ngày tháng bắt đầu kết thúc cụ thể)\n- Quản lý hoạt động quảng cáo báo chí và tham gia tổ chức sự kiện khai trương đại lý."
+            },
+            {
+              "section_id": "MK-J03-C07-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Thạc sĩ ngành Kinh tế Phát triển, Trường Đại học Kinh tế TP.HCM\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế TP.HCM"
+            }
+          ],
+          "skills": [
+            "Quản lý đội ngũ Marketing 4 người",
+            "Ngân sách tiếp thị 6,5 tỷ",
+            "Chiến dịch IMC OOH BTL Digital",
+            "Quản lý Creative Agency",
+            "Thạc sĩ Kinh tế",
+            "Marketing"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J03-C07-EXP-01",
+              "title": "Trưởng phòng Marketing",
+              "company": "Công ty Cổ phần Mỹ Phẩm Thiên Nhiên Hoa Sen",
+              "start_date": "2024-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Điều hành 4 nhân sự chuyên trách mảng nội dung, thiết kế và truyền thông số.\nXây dựng chiến lược phân bổ ngân sách 6,5 tỷ đồng năm 2025 cho chiến dịch ra mắt dòng sản phẩm chăm sóc tóc organic.\nĐiều phối chiến dịch IMC toàn quốc bao gồm tài trợ biển bảng sân bay (OOH), chuỗi minishow âm nhạc tại 10 cửa hàng bán lẻ (BTL) và hợp tác 30 KOCs (Digital).\nTrực tiếp chọn lọc và nghiệm thu sản phẩm quảng cáo từ Creative Agency.\nTham gia báo cáo kết quả doanh thu chiến dịch định kỳ cho Ban Giám đốc.",
+              "skills_used": [
+                "Quản lý đội ngũ Marketing 4 người",
+                "Ngân sách tiếp thị 6,5 tỷ",
+                "Chiến dịch IMC OOH BTL Digital",
+                "Quản lý Creative Agency"
+              ],
+              "section_id": "MK-J03-C07-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J03-C07-EXP-02",
+              "title": "Chuyên viên Quản trị Thương hiệu",
+              "company": "Công ty TNHH Hóa Mỹ Phẩm Sài Gòn Mới",
+              "start_date": null,
+              "end_date": null,
+              "is_current": false,
+              "description": "Quản lý hoạt động quảng cáo báo chí và tham gia tổ chức sự kiện khai trương đại lý.",
+              "skills_used": [],
+              "section_id": "MK-J03-C07-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Thạc sĩ",
+              "field": "Kinh tế Phát triển",
+              "section_id": "MK-J03-C07-SEC-EDU"
+            },
+            {
+              "degree": "Cử nhân",
+              "field": "Marketing",
+              "section_id": "MK-J03-C07-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J03-C08",
+          "cv_text": "Tóm tắt kinh nghiệm:\nGiám đốc Hoạch định Chiến lược Truyền thông (Strategic Planning Director) với hơn 6 năm làm việc tại agency quảng cáo sáng tạo hàng đầu, trực tiếp tư vấn chiến lược thương hiệu và dẫn dắt các chiến dịch truyền thông tích hợp (IMC) quy mô lớn cho các tập đoàn bán lẻ và FMCG tiêu biểu. Lãnh đạo nhóm 5 chuyên viên chiến lược và sáng tạo, am hiểu sâu sắc về văn hóa người tiêu dùng Việt Nam, định vị sản phẩm và phối hợp sản xuất TVC, Digital, BTL. Thuyết trình dự án lưu loát bằng tiếng Anh.\n\nKỹ năng chuyên môn:\n- Nghiên cứu thị trường và hoạch định chiến lược định vị thương hiệu (Brand Positioning)\n- Xây dựng bản đề xuất chiến dịch IMC toàn diện: Big Idea, Key Message, Kênh truyền thông\n- Chỉ đạo và giám sát chất lượng sản xuất phim quảng cáo TVC, Viral Clip với đạo diễn\n- Quản lý đội ngũ chuyên viên hoạch định chiến lược (Planners)\n- Thuyết trình kế hoạch truyền thông trước hội đồng giám đốc thương hiệu quốc tế bằng tiếng Anh\n\nKinh nghiệm làm việc:\nGiám đốc Hoạch định Chiến lược tại Công ty Cổ phần Sáng Tạo Vàng Agency\nThời gian: Từ 2023-02 đến nay (đang giữ vị trí)\n- Lãnh đạo nhóm 5 chuyên viên chiến lược, tham gia đấu thầu và trúng 8 dự án chiến dịch thương hiệu cho các khách hàng lớn ngành bán lẻ bánh kẹo và chuỗi cà phê với tổng ngân sách thực thi trên 20 tỷ đồng.\n- Chủ trì phát triển ý tưởng chủ đạo (Big Idea) và chiến lược truyền thông tích hợp cho chiến dịch hè toàn quốc của nhãn hàng nước ép trái cây.\n- Làm việc trực tiếp với Media Agency và Production House để kiểm soát chất lượng cảnh quay TVC và lịch phân bổ ngân sách truyền thông.\n- Trực tiếp thuyết trình bảo vệ chiến lược trước Tổng Giám đốc và Giám đốc Tiếp thị của các nhãn hàng bằng tiếng Anh.\n\nChuyên viên Hoạch định Chiến lược Cấp cao tại Công ty TNHH Truyền Thông Quảng Cáo Sao Mai\nThời gian: Từ 2020-04 đến 2023-01\n- Nghiên cứu hành vi người tiêu dùng (Consumer Insights) và viết bản định hướng sáng tạo (Creative Brief).\n\nHọc vấn:\n- Cử nhân ngành Truyền thông Đa phương tiện, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J03-C08-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm:\nGiám đốc Hoạch định Chiến lược Truyền thông (Strategic Planning Director) với hơn 6 năm làm việc tại agency quảng cáo sáng tạo hàng đầu, trực tiếp tư vấn chiến lược thương hiệu và dẫn dắt các chiến dịch truyền thông tích hợp (IMC) quy mô lớn cho các tập đoàn bán lẻ và FMCG tiêu biểu. Lãnh đạo nhóm 5 chuyên viên chiến lược và sáng tạo, am hiểu sâu sắc về văn hóa người tiêu dùng Việt Nam, định vị sản phẩm và phối hợp sản xuất TVC, Digital, BTL. Thuyết trình dự án lưu loát bằng tiếng Anh."
+            },
+            {
+              "section_id": "MK-J03-C08-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Nghiên cứu thị trường và hoạch định chiến lược định vị thương hiệu (Brand Positioning)\n- Xây dựng bản đề xuất chiến dịch IMC toàn diện: Big Idea, Key Message, Kênh truyền thông\n- Chỉ đạo và giám sát chất lượng sản xuất phim quảng cáo TVC, Viral Clip với đạo diễn\n- Quản lý đội ngũ chuyên viên hoạch định chiến lược (Planners)\n- Thuyết trình kế hoạch truyền thông trước hội đồng giám đốc thương hiệu quốc tế bằng tiếng Anh"
+            },
+            {
+              "section_id": "MK-J03-C08-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nGiám đốc Hoạch định Chiến lược tại Công ty Cổ phần Sáng Tạo Vàng Agency\nThời gian: Từ 2023-02 đến nay (đang giữ vị trí)\n- Lãnh đạo nhóm 5 chuyên viên chiến lược, tham gia đấu thầu và trúng 8 dự án chiến dịch thương hiệu cho các khách hàng lớn ngành bán lẻ bánh kẹo và chuỗi cà phê với tổng ngân sách thực thi trên 20 tỷ đồng.\n- Chủ trì phát triển ý tưởng chủ đạo (Big Idea) và chiến lược truyền thông tích hợp cho chiến dịch hè toàn quốc của nhãn hàng nước ép trái cây.\n- Làm việc trực tiếp với Media Agency và Production House để kiểm soát chất lượng cảnh quay TVC và lịch phân bổ ngân sách truyền thông.\n- Trực tiếp thuyết trình bảo vệ chiến lược trước Tổng Giám đốc và Giám đốc Tiếp thị của các nhãn hàng bằng tiếng Anh.\n\nChuyên viên Hoạch định Chiến lược Cấp cao tại Công ty TNHH Truyền Thông Quảng Cáo Sao Mai\nThời gian: Từ 2020-04 đến 2023-01\n- Nghiên cứu hành vi người tiêu dùng (Consumer Insights) và viết bản định hướng sáng tạo (Creative Brief)."
+            },
+            {
+              "section_id": "MK-J03-C08-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Truyền thông Đa phương tiện, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM"
+            }
+          ],
+          "skills": [
+            "Hoạch định chiến lược thương hiệu IMC",
+            "Định vị thương hiệu Brand Positioning",
+            "Lãnh đạo nhóm 5 chuyên viên chiến lược",
+            "Sản xuất TVC và làm việc Media Agency",
+            "Thuyết trình tiếng Anh chuyên nghiệp",
+            "Truyền thông đa phương tiện"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J03-C08-EXP-01",
+              "title": "Giám đốc Hoạch định Chiến lược",
+              "company": "Công ty Cổ phần Sáng Tạo Vàng Agency",
+              "start_date": "2023-02",
+              "end_date": null,
+              "is_current": true,
+              "description": "Lãnh đạo nhóm 5 chuyên viên chiến lược, tham gia đấu thầu và trúng 8 dự án chiến dịch thương hiệu cho các khách hàng lớn ngành bán lẻ bánh kẹo và chuỗi cà phê với tổng ngân sách thực thi trên 20 tỷ đồng.\nChủ trì phát triển ý tưởng chủ đạo (Big Idea) và chiến lược truyền thông tích hợp cho chiến dịch hè toàn quốc của nhãn hàng nước ép trái cây.\nLàm việc trực tiếp với Media Agency và Production House để kiểm soát chất lượng cảnh quay TVC và lịch phân bổ ngân sách truyền thông.\nTrực tiếp thuyết trình bảo vệ chiến lược trước Tổng Giám đốc và Giám đốc Tiếp thị của các nhãn hàng bằng tiếng Anh.",
+              "skills_used": [
+                "Hoạch định chiến lược thương hiệu IMC",
+                "Lãnh đạo nhóm 5 chuyên viên chiến lược",
+                "Sản xuất TVC và làm việc Media Agency",
+                "Thuyết trình tiếng Anh chuyên nghiệp"
+              ],
+              "section_id": "MK-J03-C08-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J03-C08-EXP-02",
+              "title": "Chuyên viên Hoạch định Chiến lược Cấp cao",
+              "company": "Công ty TNHH Truyền Thông Quảng Cáo Sao Mai",
+              "start_date": "2020-04",
+              "end_date": "2023-01",
+              "is_current": false,
+              "description": "Nghiên cứu hành vi người tiêu dùng (Consumer Insights) và viết bản định hướng sáng tạo (Creative Brief).",
+              "skills_used": [],
+              "section_id": "MK-J03-C08-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Truyền thông Đa phương tiện",
+              "section_id": "MK-J03-C08-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        }
+      ]
+    }
+  ]
+}

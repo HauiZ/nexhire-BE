@@ -5,7 +5,7 @@
   "near_duplicate_pairs": [],
   "limitations": [
     "Whitespace/word-token five-gram Jaccard is lexical only, not semantic duplicate detection.",
-    "Below-threshold scenarios may still share templates or intended-fit leakage.",
+    "Near-duplicate analysis does not exclude shared prompt templates or candidate-index scenarios.",
     "No AI1 contamination check performed; separately approved phase required."
   ]
 }

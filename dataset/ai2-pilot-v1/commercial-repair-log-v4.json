@@ -1,0 +1,702 @@
+{
+  "schema_version": "ai2-pilot-commercial-repair-log-v4",
+  "changes_count": 51,
+  "after_sha256": "1498de274befa000ea6020c0e46363903231b48f43dcae6a2432075ec04848ea",
+  "changes": [
+    {
+      "id": "SA-J01-C03-EXP-01",
+      "field": "description",
+      "before": "Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\nTư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\nThực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\nChưa sử dụng Salesforce hay HubSpot chuyên sâu, chủ yếu quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.",
+      "after": "Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\nTư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\nThực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\nQuản lý khách hàng bằng bảng tính Excel kết hợp Zalo.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "SA-J02-C02-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Phát triển thị trường thực phẩm",
+        "Mở rộng điểm bán mới",
+        "Kiểm tra tồn kho",
+        "Trưng bày kệ hàng",
+        "Triển khai khuyến mãi tháng"
+      ],
+      "after": [
+        "Phát triển thị trường thực phẩm",
+        "Mở rộng điểm bán mới",
+        "Kiểm tra tồn kho",
+        "Triển khai khuyến mãi tháng"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J02-C03-EXP-01",
+      "field": "description",
+      "before": "Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\nTư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\nCông việc chủ yếu ngồi tại văn phòng công ty, chưa phụ trách tuyến đường thực địa hay đi kiểm tra tạp hóa bao giờ.",
+      "after": "Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\nTư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\nCông việc chủ yếu ngồi tại văn phòng công ty.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "SA-J03-C01-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý đội ngũ sales y tế",
+        "Đấu thầu y tế công lập",
+        "Luật Đấu thầu",
+        "Thiết bị chẩn đoán hình ảnh",
+        "Quan hệ lãnh đạo bệnh viện miền Bắc",
+        "Làm việc với hãng sản xuất quốc tế"
+      ],
+      "after": [
+        "Quản lý đội ngũ sales y tế",
+        "Đấu thầu y tế công lập",
+        "Thiết bị chẩn đoán hình ảnh",
+        "Làm việc với hãng sản xuất quốc tế"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J03-C02-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý đội ngũ kinh doanh",
+        "Đấu thầu y tế công lập",
+        "Luật Đấu thầu",
+        "Quan hệ phòng vật tư bệnh viện"
+      ],
+      "after": [
+        "Quản lý đội ngũ kinh doanh",
+        "Đấu thầu y tế công lập"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J03-C03-EXP-01",
+      "field": "description",
+      "before": "Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\nHoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\nTiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\nTự lập kế hoạch kinh doanh cá nhân, chưa tham gia quản lý hay phân chia chỉ tiêu cho nhân viên khác.",
+      "after": "Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\nHoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\nTiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\nTự lập kế hoạch kinh doanh cá nhân.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "SA-J03-C03-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Bán hàng thiết bị y tế cá nhân",
+        "Đấu thầu y tế công lập",
+        "Luật Đấu thầu",
+        "Quan hệ khoa chẩn đoán hình ảnh"
+      ],
+      "after": [
+        "Bán hàng thiết bị y tế cá nhân",
+        "Đấu thầu y tế công lập"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J03-C03-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Kỹ thuật Y sinh"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J03-C06-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Trình dược kênh bệnh viện ETC",
+        "Theo dõi thầu thuốc sở y tế",
+        "Quan hệ khoa Dược"
+      ],
+      "after": [
+        "Trình dược kênh bệnh viện ETC",
+        "Theo dõi thầu thuốc sở y tế"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J03-C08-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Đào tạo ứng dụng lâm sàng",
+        "Thiết bị CT Scanner",
+        "Làm việc với hãng sản xuất quốc tế",
+        "Hồ sơ thầu kỹ thuật theo Luật Đấu thầu"
+      ],
+      "after": [
+        "Đào tạo ứng dụng lâm sàng",
+        "Thiết bị CT Scanner",
+        "Làm việc với hãng sản xuất quốc tế"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J03-C08-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Kỹ thuật Y sinh"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C01-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Tư vấn bán hàng showroom",
+        "Nội thất gỗ tự nhiên và sofa da",
+        "Tư vấn phối màu sắc và chất liệu",
+        "Theo dõi đơn hàng giao lắp",
+        "Chăm sóc khách hàng sau bàn giao"
+      ],
+      "after": [
+        "Tư vấn bán hàng showroom",
+        "Tư vấn phối màu sắc và chất liệu",
+        "Chăm sóc khách hàng sau bàn giao"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C01-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Thiết kế nội thất"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C02-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Tư vấn bán hàng showroom",
+        "Đèn trang trí và tủ kệ",
+        "Tư vấn màu sắc ánh sáng",
+        "Phối hợp lắp đặt"
+      ],
+      "after": [
+        "Tư vấn bán hàng showroom",
+        "Tư vấn màu sắc ánh sáng",
+        "Phối hợp lắp đặt"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C03-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Chào đón khách showroom",
+        "Giới thiệu mẫu gạch men thiết bị"
+      ],
+      "after": [
+        "Chào đón khách showroom"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C04-EXP-01",
+      "field": "description",
+      "before": "Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại Union Square.\nGợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\nNhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng.",
+      "after": "Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại lớn ở trung tâm thành phố.\nGợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\nNhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "SA-J04-C04-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Tư vấn hàng cao cấp",
+        "Giao tiếp lịch thiệp",
+        "Tư vấn phối màu sắc",
+        "Chăm sóc khách VIP"
+      ],
+      "after": [
+        "Tư vấn hàng cao cấp",
+        "Tư vấn phối màu sắc",
+        "Chăm sóc khách VIP"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C05-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý showroom nội thất",
+        "Tư vấn nội thất cao cấp",
+        "Phối màu và công năng không gian sống",
+        "Điều phối vận chuyển lắp đặt",
+        "Chăm sóc hậu mãi khách VIP"
+      ],
+      "after": [
+        "Quản lý showroom nội thất",
+        "Chăm sóc hậu mãi khách VIP"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C05-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Tư vấn nội thất cao cấp"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C06-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Telesales tài chính",
+        "Thuyết phục khách hàng"
+      ],
+      "after": [
+        "Telesales tài chính"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C07-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Tư vấn phối màu sắc không gian",
+        "Theo dõi giao hàng lắp đặt",
+        "Chăm sóc hậu mãi khách hàng"
+      ],
+      "after": [
+        "Tư vấn phối màu sắc không gian",
+        "Chăm sóc hậu mãi khách hàng"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J04-C08-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Tư vấn vật liệu nội thất",
+        "Phối màu sắc và công năng",
+        "Phối hợp thợ lắp đặt"
+      ],
+      "after": [
+        "Tư vấn vật liệu nội thất",
+        "Phối hợp thợ lắp đặt"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J05-C02",
+      "field": "skills",
+      "before": [
+        "Quản lý tài khoản logistics",
+        "Cước tàu biển FCL LCL",
+        "Cước hàng không Air Freight",
+        "Hợp đồng khung thường niên",
+        "Giữ chân khách hàng retention 92%",
+        "Tiếng Anh thương mại"
+      ],
+      "after": [
+        "Quản lý tài khoản logistics",
+        "Cước tàu biển FCL LCL",
+        "Cước hàng không Air Freight",
+        "Đàm phán giá cước thường niên",
+        "Giữ chân khách hàng retention 92%",
+        "Tiếng Anh thương mại"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Harmonize top skills to exact summary text"
+    },
+    {
+      "id": "SA-J05-C02-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý tài khoản logistics",
+        "Cước tàu biển FCL LCL",
+        "Hợp đồng khung thường niên",
+        "Giữ chân khách hàng retention 92%",
+        "Tiếng Anh thương mại"
+      ],
+      "after": [
+        "Quản lý tài khoản logistics",
+        "Giữ chân khách hàng retention 92%",
+        "Tiếng Anh thương mại"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J05-C04-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Cước biển FCL",
+        "Làm việc với hãng tàu"
+      ],
+      "after": [
+        "Cước biển",
+        "Làm việc với hãng tàu"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "SA-J05-C08-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý khách hàng FDI logistics",
+        "Báo giá cước FCL LCL",
+        "Bán thêm dịch vụ cước biển"
+      ],
+      "after": [
+        "Quản lý khách hàng FDI logistics",
+        "Cước tàu biển FCL",
+        "Bán thêm dịch vụ cước biển"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J01-C03-EXP-01",
+      "field": "description",
+      "before": "Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\nViết và phân phối hơn 50 bài PR trên các trang báo điện tử VnExpress, Dân Trí, Tuổi Trẻ.\nĐiều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\nCác chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.",
+      "after": "Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\nViết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\nĐiều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\nCác chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "MK-J01-C05-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Lãnh đạo Performance Marketing",
+        "Ngân sách lớn E-commerce",
+        "Meta Ads",
+        "Google Ads",
+        "TikTok Ads",
+        "GA4 và Looker Studio",
+        "Tối ưu ROAS"
+      ],
+      "after": [
+        "Lãnh đạo Performance Marketing",
+        "Ngân sách lớn E-commerce",
+        "Meta Ads",
+        "GA4 và Looker Studio",
+        "Tối ưu ROAS"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J02-C01-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Bắt trend xu hướng Gen Z"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J02-C02-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Sáng tạo nội dung Instagram và TikTok",
+        "Biên tập video CapCut",
+        "Bắt nhịp xu hướng nhạc trend",
+        "Thiết kế ảnh Canva"
+      ],
+      "after": [
+        "Sáng tạo nội dung Instagram và TikTok",
+        "Biên tập video CapCut",
+        "Thiết kế ảnh Canva"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J02-C03-EXP-01",
+      "field": "description",
+      "before": "Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\nTối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\nCông việc chủ yếu thao tác viết trên máy tính, chưa từng tự quay video, đứng trước ống kính hay sử dụng ứng dụng dựng phim CapCut, Premiere.",
+      "after": "Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\nTối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\nCông việc chủ yếu thao tác viết trên máy tính.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "MK-J02-C04-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quay dựng video TikTok CapCut",
+        "Diễn xuất trước ống kính",
+        "Bắt trend âm thanh thịnh hành",
+        "Thiết kế Canva"
+      ],
+      "after": [
+        "Quay dựng video TikTok CapCut",
+        "Bắt trend âm thanh thịnh hành",
+        "Thiết kế Canva"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J02-C05-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Lãnh đạo phòng sáng tạo nội dung",
+        "Chiến lược video viral đa nền tảng",
+        "Chỉ đạo sản xuất video ngắn",
+        "Storytelling"
+      ],
+      "after": [
+        "Lãnh đạo phòng sáng tạo nội dung",
+        "Chiến lược video viral đa nền tảng",
+        "Chỉ đạo sản xuất video ngắn"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J02-C05-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Storytelling"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J02-C08-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Sáng tạo nội dung TikTok Reels",
+        "Tự quay và dựng Premiere CapCut",
+        "Bắt trend du lịch ẩm thực",
+        "Thiết kế thumbnail Photoshop"
+      ],
+      "after": [
+        "Sáng tạo nội dung TikTok Reels",
+        "Tự quay và dựng Premiere CapCut",
+        "Thiết kế thumbnail Photoshop"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J03-C01-EXP-01",
+      "field": "description",
+      "before": "Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\nHoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\nChỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình VTV3 (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\nTrực tiếp chủ trì chấm thầu, làm việc với các agency quảng cáo quốc tế Ogilvy, Dentsu để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\nThuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh.",
+      "after": "Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\nHoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\nChỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình quốc gia (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\nTrực tiếp chủ trì chấm thầu, làm việc với các các agency sáng tạo quốc tế để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\nThuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "MK-J03-C01-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý đội ngũ Marketing",
+        "Chiến lược định vị thương hiệu",
+        "Ngân sách tiếp thị trên 10 tỷ",
+        "Chiến dịch IMC toàn quốc ATL BTL Digital",
+        "Quản lý Creative PR Media Agency",
+        "Báo cáo Hội đồng Quản trị tiếng Anh"
+      ],
+      "after": [
+        "Quản lý đội ngũ Marketing",
+        "Chiến lược định vị thương hiệu",
+        "Ngân sách tiếp thị trên 10 tỷ",
+        "Chiến dịch IMC toàn quốc ATL BTL Digital",
+        "Quản lý Creative Agency",
+        "Báo cáo Hội đồng Quản trị tiếng Anh"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J03-C03-EXP-01",
+      "field": "description",
+      "before": "Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\nTheo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\nGiám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\nHướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu, chưa chính thức quản lý đội ngũ nhân viên chính thức.",
+      "after": "Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\nTheo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\nGiám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\nHướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "MK-J03-C03-EXP-02",
+      "field": "description",
+      "before": "Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại hệ thống siêu thị Co.opmart.",
+      "after": "Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại các hệ thống siêu thị tiêu dùng.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "MK-J03-C04-EXP-01",
+      "field": "description",
+      "before": "Quản lý 6 nhân viên chuyên trách kênh siêu thị WinMart, Big C/Go! và Lotte Mart trên toàn miền Nam.\nQuản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\nĐảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\nPhối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn.",
+      "after": "Quản lý 6 nhân viên chuyên trách các hệ thống siêu thị bán lẻ lớn trên toàn miền Nam.\nQuản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\nĐảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\nPhối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "MK-J03-C05",
+      "field": "skills",
+      "before": [
+        "Lãnh đạo CMO cấp tập đoàn",
+        "Ngân sách tiếp thị 55 tỷ",
+        "Chiến lược danh mục đa thương hiệu",
+        "Chiến dịch IMC toàn quốc",
+        "Hợp tác WPP Omnicom",
+        "Thạc sĩ MBA"
+      ],
+      "after": [
+        "Lãnh đạo CMO cấp tập đoàn",
+        "Ngân sách tiếp thị 55 tỷ",
+        "Chiến lược danh mục đa thương hiệu",
+        "Chiến dịch IMC toàn quốc",
+        "Hợp tác tập đoàn truyền thông toàn cầu",
+        "Thạc sĩ MBA"
+      ],
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize WPP Omnicom in top skills"
+    },
+    {
+      "id": "MK-J03-C05-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Chiến lược danh mục đa thương hiệu"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J03-C08-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Hoạch định chiến lược thương hiệu IMC",
+        "Định vị thương hiệu Brand Positioning",
+        "Lãnh đạo nhóm 5 chuyên viên chiến lược",
+        "Sản xuất TVC và làm việc Media Agency",
+        "Thuyết trình tiếng Anh chuyên nghiệp"
+      ],
+      "after": [
+        "Hoạch định chiến lược thương hiệu IMC",
+        "Lãnh đạo nhóm 5 chuyên viên chiến lược",
+        "Sản xuất TVC và làm việc Media Agency",
+        "Thuyết trình tiếng Anh chuyên nghiệp"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J04-C01-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "SEO thực chiến website bán hàng",
+        "SEO On-page và Topic Cluster",
+        "Xây dựng liên kết Off-page",
+        "Google Search Console",
+        "Ahrefs SEMrush Screaming Frog",
+        "Phối hợp Content Writer",
+        "HTML CSS WordPress Technical SEO"
+      ],
+      "after": [
+        "SEO thực chiến website bán hàng",
+        "SEO On-page và Topic Cluster",
+        "Google Search Console",
+        "Ahrefs SEMrush Screaming Frog",
+        "Phối hợp Content Writer",
+        "HTML CSS WordPress Technical SEO"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J04-C03-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Quảng cáo tìm kiếm Google Ads"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J04-C05-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Lãnh đạo bộ phận SEO sàn TMĐT",
+        "Screaming Frog Enterprise"
+      ],
+      "after": [
+        "Lãnh đạo bộ phận SEO sàn TMĐT",
+        "Screaming Frog"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J04-C07-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "SEO On-page web nội thất"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    },
+    {
+      "id": "MK-J05-C04-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n- Chưa trực tiếp chủ trì chiến lược GTM độc lập hay phân tích sâu các chỉ số vòng đời tài chính như CAC, LTV.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.",
+      "after": "Kinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.",
+      "decision": "HR-SOURCE-006",
+      "reason": "Remove templated negative denial bullet"
+    },
+    {
+      "id": "MK-J05-C04",
+      "field": "cv_text",
+      "before": "Tóm lược hồ sơ:\nNhân viên Tiếp thị Sản phẩm với 2 năm kinh nghiệm trong công ty cung cấp phần mềm kế toán và hóa đơn điện tử SaaS. Nhanh nhẹn, có khả năng viết bài cập nhật tính năng mới (Release notes), hỗ trợ tổ chức các buổi hội thảo trực tuyến (Webinar) hướng dẫn khách hàng sử dụng tính năng và phối hợp cùng đội kinh doanh làm tài liệu bán hàng. Mong muốn được thử sức với vai trò chuyên viên Product Marketing cấp cao trong môi trường Fintech năng động.\n\nKỹ năng làm việc:\n- Soạn thảo tài liệu giới thiệu tính năng và bản tin phát hành (Release notes)\n- Hỗ trợ xây dựng nội dung slide thuyết trình cho hội thảo trực tuyến sản phẩm\n- Phối hợp với đội ngũ Sales gửi tài liệu hướng dẫn dùng thử cho khách hàng\n- Thu thập ý kiến phản hồi về lỗi tính năng từ người dùng gửi cho ban sản phẩm\n- Tiếng Anh giao tiếp cơ bản\n\nKinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n- Chưa trực tiếp chủ trì chiến lược GTM độc lập hay phân tích sâu các chỉ số vòng đời tài chính như CAC, LTV.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Tài chính - Marketing",
+      "after": "Tóm lược hồ sơ:\nNhân viên Tiếp thị Sản phẩm với 2 năm kinh nghiệm trong công ty cung cấp phần mềm kế toán và hóa đơn điện tử SaaS. Nhanh nhẹn, có khả năng viết bài cập nhật tính năng mới (Release notes), hỗ trợ tổ chức các buổi hội thảo trực tuyến (Webinar) hướng dẫn khách hàng sử dụng tính năng và phối hợp cùng đội kinh doanh làm tài liệu bán hàng. Mong muốn được thử sức với vai trò chuyên viên Product Marketing cấp cao trong môi trường Fintech năng động.\n\nKỹ năng làm việc:\n- Soạn thảo tài liệu giới thiệu tính năng và bản tin phát hành (Release notes)\n- Hỗ trợ xây dựng nội dung slide thuyết trình cho hội thảo trực tuyến sản phẩm\n- Phối hợp với đội ngũ Sales gửi tài liệu hướng dẫn dùng thử cho khách hàng\n- Thu thập ý kiến phản hồi về lỗi tính năng từ người dùng gửi cho ban sản phẩm\n- Tiếng Anh giao tiếp cơ bản\n\nKinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Tài chính - Marketing",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J05-C04-EXP-01",
+      "field": "description",
+      "before": "Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\nViết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\nTổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\nChưa trực tiếp chủ trì chiến lược GTM độc lập hay phân tích sâu các chỉ số vòng đời tài chính như CAC, LTV.",
+      "after": "Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\nViết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\nTổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.",
+      "decision": "HR-SOURCE-004/006/007",
+      "reason": "Synchronize experience description with repaired section text"
+    },
+    {
+      "id": "MK-J05-C04-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Tài liệu tính năng Release notes",
+        "Hỗ trợ ra mắt tính năng phần mềm"
+      ],
+      "after": [
+        "Hỗ trợ ra mắt tính năng phần mềm"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skills_used local grounding alignment"
+    }
+  ]
+}

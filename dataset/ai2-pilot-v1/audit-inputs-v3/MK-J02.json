@@ -1,0 +1,610 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "MK-J02",
+      "source_family_id": "MK-J02",
+      "domain": "marketing",
+      "title": "Nhân viên Sáng tạo Nội dung / Content Creator (Social Media & Video)",
+      "level": "junior",
+      "language": "vi",
+      "jd_text": "Vị trí: Nhân viên Sáng tạo Nội dung / Content Creator (Social Media & Video)\nĐịa điểm làm việc: Quận Bình Thạnh, TP. Hồ Chí Minh.\nThời gian làm việc: Thứ Hai đến Thứ Sáu (8h30 - 17h30).\n\nMô tả công việc:\n- Quản lý và phát triển nội dung hàng ngày trên các kênh mạng xã hội của công ty: TikTok, Facebook Fanpage và Instagram Reels.\n- Năng lực viết kịch bản, tự quay và biên tập video ngắn bằng CapCut hoặc Premiere phục vụ truyền thông xã hội.\n- Bắt kịp xu hướng (trend), nhạy bén với thị hiếu người dùng trẻ và chủ động đề xuất ý tưởng nội dung viral.\n- Trực tiếp xuất hiện trước ống kính (khi cần) hoặc hướng dẫn các bạn cộng tác viên diễn xuất theo đúng tinh thần thương hiệu.\n- Khả năng tự thiết kế hình ảnh cơ bản bằng Canva hoặc Photoshop hỗ trợ đăng bài hàng ngày.\n- Theo dõi lượng tương tác (view, like, share, comment) để đánh giá chất lượng và cải tiến nội dung liên tục.\n\nYêu cầu công việc (Bắt buộc):\n- Có từ 1 năm kinh nghiệm sáng tạo nội dung cho các kênh mạng xã hội như Facebook Fanpage, TikTok hoặc Instagram.\n- Năng lực viết kịch bản, tự quay và biên tập video ngắn bằng CapCut hoặc Premiere phục vụ truyền thông xã hội.\n- Bắt kịp xu hướng (trend), nhạy bén với thị hiếu người dùng trẻ và chủ động đề xuất ý tưởng nội dung viral.\n- Tốt nghiệp đại học hoặc cao đẳng chuyên ngành Báo chí, Truyền thông, Marketing, Quan hệ công chúng hoặc Ngôn ngữ.\n\nTiêu chí ưu tiên (Ưu tiên):\n- Khả năng tự thiết kế hình ảnh cơ bản bằng Canva hoặc Photoshop hỗ trợ đăng bài hàng ngày.\n\nChế độ quyền lợi:\n- Mức lương cơ bản từ 9.000.000 đến 13.000.000 VNĐ cùng thưởng nóng khi có video đạt mốc triệu view trên TikTok.\n- Cung cấp studio mini với đầy đủ đèn livestream, micro thu âm không dây và thiết bị quay chụp hiện đại.",
+      "requirements": [
+        {
+          "requirement_id": "MK-J02-R01",
+          "text": "Có từ 1 năm kinh nghiệm sáng tạo nội dung cho các kênh mạng xã hội như Facebook Fanpage, TikTok hoặc Instagram.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J02-R02",
+          "text": "Năng lực viết kịch bản, tự quay và biên tập video ngắn bằng CapCut hoặc Premiere phục vụ truyền thông xã hội.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J02-R03",
+          "text": "Bắt kịp xu hướng (trend), nhạy bén với thị hiếu người dùng trẻ và chủ động đề xuất ý tưởng nội dung viral.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J02-R04",
+          "text": "Tốt nghiệp đại học hoặc cao đẳng chuyên ngành Báo chí, Truyền thông, Marketing, Quan hệ công chúng hoặc Ngôn ngữ.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J02-R05",
+          "text": "Khả năng tự thiết kế hình ảnh cơ bản bằng Canva hoặc Photoshop hỗ trợ đăng bài hàng ngày.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "MK-J02-C01",
+          "cv_text": "Tóm tắt hồ sơ:\nNhân viên sáng tạo nội dung đa phương tiện với hơn 1 năm 5 tháng kinh nghiệm chuyên sâu về video ngắn trên TikTok và Facebook Fanpage. Khả năng viết kịch bản dí dỏm, tự tin dẫn chuyện trước máy quay, thành thạo tự quay phim bằng điện thoại và cắt dựng video bằng CapCut, Adobe Premiere. Nhạy bén với các bài nhạc và xu hướng thịnh hành của Gen Z, từng sáng tạo 6 video đạt trên 1 triệu lượt xem.\n\nKỹ năng chính:\n- Sáng tạo kịch bản video ngắn cho TikTok và Reels\n- Tự quay phim, set up ánh sáng cơ bản và biên tập video bằng CapCut, Premiere\n- Nắm bắt trào lưu và xu hướng mạng xã hội (Trend catching)\n- Thiết kế ảnh bìa, infographic bài đăng bằng phần mềm Canva và Photoshop\n- Phân tích tương tác kênh qua TikTok Analytics và Meta Business Suite\n\nKinh nghiệm làm việc:\nNhân viên Sáng tạo Nội dung Video tại Công ty Cổ phần Sáng Tạo Nội Dung ViralStudio\nThời gian: Từ 2025-05 đến nay (đang làm việc)\n- Quản trị kênh TikTok và Facebook Fanpage về đời sống ẩm thực đường phố với hơn 150.000 người theo dõi.\n- Lên kịch bản chi tiết, tự cầm máy điện thoại quay tại quán và dựng hoàn chỉnh 16 video ngắn mỗi tháng bằng ứng dụng CapCut và Adobe Premiere.\n- Nghiên cứu các hiệu ứng âm thanh và thử thách mới nhất trên TikTok để áp dụng vào video, có 4 video đạt hơn 1,2 triệu view tự nhiên.\n- Tự tay thiết kế toàn bộ ảnh bìa video và hình ảnh bài đăng Facebook bằng Canva kết hợp Photoshop.\n- Tương tác trả lời bình luận của khán giả để tăng tỷ lệ giữ chân người xem.\n\nThực tập sinh Sáng tạo Nội dung tại Kênh Truyền Thông Giới Trẻ BeatVina\nThời gian: Từ 2024-11 đến 2025-04\n- Viết bài cập nhật tin tức xu hướng giải trí và hỗ trợ chuẩn bị đạo cụ quay phim.\n\nTrình độ học vấn:\n- Cử nhân ngành Quan hệ Công chúng, Trường Đại học Văn Lang",
+          "sections": [
+            {
+              "section_id": "MK-J02-C01-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt hồ sơ:\nNhân viên sáng tạo nội dung đa phương tiện với hơn 1 năm 5 tháng kinh nghiệm chuyên sâu về video ngắn trên TikTok và Facebook Fanpage. Khả năng viết kịch bản dí dỏm, tự tin dẫn chuyện trước máy quay, thành thạo tự quay phim bằng điện thoại và cắt dựng video bằng CapCut, Adobe Premiere. Nhạy bén với các bài nhạc và xu hướng thịnh hành của Gen Z, từng sáng tạo 6 video đạt trên 1 triệu lượt xem."
+            },
+            {
+              "section_id": "MK-J02-C01-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chính:\n- Sáng tạo kịch bản video ngắn cho TikTok và Reels\n- Tự quay phim, set up ánh sáng cơ bản và biên tập video bằng CapCut, Premiere\n- Nắm bắt trào lưu và xu hướng mạng xã hội (Trend catching)\n- Thiết kế ảnh bìa, infographic bài đăng bằng phần mềm Canva và Photoshop\n- Phân tích tương tác kênh qua TikTok Analytics và Meta Business Suite"
+            },
+            {
+              "section_id": "MK-J02-C01-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Sáng tạo Nội dung Video tại Công ty Cổ phần Sáng Tạo Nội Dung ViralStudio\nThời gian: Từ 2025-05 đến nay (đang làm việc)\n- Quản trị kênh TikTok và Facebook Fanpage về đời sống ẩm thực đường phố với hơn 150.000 người theo dõi.\n- Lên kịch bản chi tiết, tự cầm máy điện thoại quay tại quán và dựng hoàn chỉnh 16 video ngắn mỗi tháng bằng ứng dụng CapCut và Adobe Premiere.\n- Nghiên cứu các hiệu ứng âm thanh và thử thách mới nhất trên TikTok để áp dụng vào video, có 4 video đạt hơn 1,2 triệu view tự nhiên.\n- Tự tay thiết kế toàn bộ ảnh bìa video và hình ảnh bài đăng Facebook bằng Canva kết hợp Photoshop.\n- Tương tác trả lời bình luận của khán giả để tăng tỷ lệ giữ chân người xem.\n\nThực tập sinh Sáng tạo Nội dung tại Kênh Truyền Thông Giới Trẻ BeatVina\nThời gian: Từ 2024-11 đến 2025-04\n- Viết bài cập nhật tin tức xu hướng giải trí và hỗ trợ chuẩn bị đạo cụ quay phim."
+            },
+            {
+              "section_id": "MK-J02-C01-SEC-EDU",
+              "kind": "education",
+              "text": "Trình độ học vấn:\n- Cử nhân ngành Quan hệ Công chúng, Trường Đại học Văn Lang"
+            }
+          ],
+          "skills": [
+            "Sáng tạo nội dung TikTok và Fanpage",
+            "Viết kịch bản video ngắn",
+            "Tự quay và dựng video CapCut Premiere",
+            "Bắt trend xu hướng Gen Z",
+            "Thiết kế Canva và Photoshop",
+            "Quan hệ công chúng"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J02-C01-EXP-01",
+              "title": "Nhân viên Sáng tạo Nội dung Video",
+              "company": "Công ty Cổ phần Sáng Tạo Nội Dung ViralStudio",
+              "start_date": "2025-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Quản trị kênh TikTok và Facebook Fanpage về đời sống ẩm thực đường phố với hơn 150.000 người theo dõi.\nLên kịch bản chi tiết, tự cầm máy điện thoại quay tại quán và dựng hoàn chỉnh 16 video ngắn mỗi tháng bằng ứng dụng CapCut và Adobe Premiere.\nNghiên cứu các hiệu ứng âm thanh và thử thách mới nhất trên TikTok để áp dụng vào video, có 4 video đạt hơn 1,2 triệu view tự nhiên.\nTự tay thiết kế toàn bộ ảnh bìa video và hình ảnh bài đăng Facebook bằng Canva kết hợp Photoshop.\nTương tác trả lời bình luận của khán giả để tăng tỷ lệ giữ chân người xem.",
+              "skills_used": [
+                "Sáng tạo nội dung TikTok và Fanpage",
+                "Viết kịch bản video ngắn",
+                "Tự quay và dựng video CapCut Premiere",
+                "Bắt trend xu hướng Gen Z",
+                "Thiết kế Canva và Photoshop"
+              ],
+              "section_id": "MK-J02-C01-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J02-C01-EXP-02",
+              "title": "Thực tập sinh Sáng tạo Nội dung",
+              "company": "Kênh Truyền Thông Giới Trẻ BeatVina",
+              "start_date": "2024-11",
+              "end_date": "2025-04",
+              "is_current": false,
+              "description": "Viết bài cập nhật tin tức xu hướng giải trí và hỗ trợ chuẩn bị đạo cụ quay phim.",
+              "skills_used": [],
+              "section_id": "MK-J02-C01-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Quan hệ Công chúng",
+              "section_id": "MK-J02-C01-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J02-C02",
+          "cv_text": "Tóm lược bản thân:\nNhân viên sáng tạo nội dung mạng xã hội với 1 năm 2 tháng kinh nghiệm trong ngành hàng thời trang giới trẻ (Local Brand). Có thế mạnh đặc biệt về xây dựng hình ảnh phong cách trên Instagram và sản xuất các video biến hình (OOTD) theo nhịp nhạc sôi động trên TikTok. Tốt nghiệp Cử nhân Marketing, am hiểu tâm lý mua sắm của thế hệ trẻ và có kỹ năng tự thiết kế hình ảnh bài viết bằng Canva.\n\nKỹ năng làm việc:\n- Lên kịch bản nội dung mạng xã hội cho Instagram Reels và TikTok\n- Phối đồ (Styling), tự quay và biên tập video ngắn bằng ứng dụng CapCut\n- Cập nhật nhanh các bản tin âm nhạc, vũ đạo và meme thịnh hành trên mạng\n- Thiết kế bộ ảnh bài đăng mạng xã hội (Carousel post) bằng Canva\n- Đo lường mức độ tương tác và tỷ lệ nhấp vào liên kết giỏ hàng\n\nKinh nghiệm làm việc:\nNhân viên Nội dung Mạng Xã Hội tại Công ty TNHH Thời Trang Trẻ GenZ Style\nThời gian: Từ 2025-08 đến nay (đang công tác)\n- Chịu trách nhiệm chính về tuyến nội dung hình ảnh và video ngắn trên TikTok và Instagram của thương hiệu.\n- Viết kịch bản, trực tiếp phối trang phục và quay 20 video ngắn mỗi tháng hướng dẫn cách mix & match đồ đi học, đi chơi.\n- Tự cắt ghép, chỉnh màu và chèn hiệu ứng chuyển cảnh bằng ứng dụng CapCut, giúp kênh TikTok tăng từ 20.000 lên 85.000 người theo dõi.\n- Thiết kế các khung ảnh chương trình khuyến mãi tháng và thông báo hàng mới về bằng công cụ Canva.\n\nCộng tác viên Viết Bài Fanpage tại Cửa Hàng Phụ Kiện Nữ Xinh Xắn\nThời gian: Từ 2025-02 đến 2025-07\n- Viết bài mô tả sản phẩm vòng tay, kẹp tóc và đăng bài hàng ngày lên Facebook Fanpage.\n\nHọc vấn:\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế - Tài chính TP.HCM (UEF)",
+          "sections": [
+            {
+              "section_id": "MK-J02-C02-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược bản thân:\nNhân viên sáng tạo nội dung mạng xã hội với 1 năm 2 tháng kinh nghiệm trong ngành hàng thời trang giới trẻ (Local Brand). Có thế mạnh đặc biệt về xây dựng hình ảnh phong cách trên Instagram và sản xuất các video biến hình (OOTD) theo nhịp nhạc sôi động trên TikTok. Tốt nghiệp Cử nhân Marketing, am hiểu tâm lý mua sắm của thế hệ trẻ và có kỹ năng tự thiết kế hình ảnh bài viết bằng Canva."
+            },
+            {
+              "section_id": "MK-J02-C02-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Lên kịch bản nội dung mạng xã hội cho Instagram Reels và TikTok\n- Phối đồ (Styling), tự quay và biên tập video ngắn bằng ứng dụng CapCut\n- Cập nhật nhanh các bản tin âm nhạc, vũ đạo và meme thịnh hành trên mạng\n- Thiết kế bộ ảnh bài đăng mạng xã hội (Carousel post) bằng Canva\n- Đo lường mức độ tương tác và tỷ lệ nhấp vào liên kết giỏ hàng"
+            },
+            {
+              "section_id": "MK-J02-C02-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Nội dung Mạng Xã Hội tại Công ty TNHH Thời Trang Trẻ GenZ Style\nThời gian: Từ 2025-08 đến nay (đang công tác)\n- Chịu trách nhiệm chính về tuyến nội dung hình ảnh và video ngắn trên TikTok và Instagram của thương hiệu.\n- Viết kịch bản, trực tiếp phối trang phục và quay 20 video ngắn mỗi tháng hướng dẫn cách mix & match đồ đi học, đi chơi.\n- Tự cắt ghép, chỉnh màu và chèn hiệu ứng chuyển cảnh bằng ứng dụng CapCut, giúp kênh TikTok tăng từ 20.000 lên 85.000 người theo dõi.\n- Thiết kế các khung ảnh chương trình khuyến mãi tháng và thông báo hàng mới về bằng công cụ Canva.\n\nCộng tác viên Viết Bài Fanpage tại Cửa Hàng Phụ Kiện Nữ Xinh Xắn\nThời gian: Từ 2025-02 đến 2025-07\n- Viết bài mô tả sản phẩm vòng tay, kẹp tóc và đăng bài hàng ngày lên Facebook Fanpage."
+            },
+            {
+              "section_id": "MK-J02-C02-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế - Tài chính TP.HCM (UEF)"
+            }
+          ],
+          "skills": [
+            "Sáng tạo nội dung Instagram và TikTok",
+            "Biên tập video CapCut",
+            "Bắt nhịp xu hướng nhạc trend",
+            "Thiết kế ảnh Canva",
+            "Marketing"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J02-C02-EXP-01",
+              "title": "Nhân viên Nội dung Mạng Xã Hội",
+              "company": "Công ty TNHH Thời Trang Trẻ GenZ Style",
+              "start_date": "2025-08",
+              "end_date": null,
+              "is_current": true,
+              "description": "Chịu trách nhiệm chính về tuyến nội dung hình ảnh và video ngắn trên TikTok và Instagram của thương hiệu.\nViết kịch bản, trực tiếp phối trang phục và quay 20 video ngắn mỗi tháng hướng dẫn cách mix & match đồ đi học, đi chơi.\nTự cắt ghép, chỉnh màu và chèn hiệu ứng chuyển cảnh bằng ứng dụng CapCut, giúp kênh TikTok tăng từ 20.000 lên 85.000 người theo dõi.\nThiết kế các khung ảnh chương trình khuyến mãi tháng và thông báo hàng mới về bằng công cụ Canva.",
+              "skills_used": [
+                "Sáng tạo nội dung Instagram và TikTok",
+                "Biên tập video CapCut",
+                "Thiết kế ảnh Canva"
+              ],
+              "section_id": "MK-J02-C02-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J02-C02-EXP-02",
+              "title": "Cộng tác viên Viết Bài Fanpage",
+              "company": "Cửa Hàng Phụ Kiện Nữ Xinh Xắn",
+              "start_date": "2025-02",
+              "end_date": "2025-07",
+              "is_current": false,
+              "description": "Viết bài mô tả sản phẩm vòng tay, kẹp tóc và đăng bài hàng ngày lên Facebook Fanpage.",
+              "skills_used": [],
+              "section_id": "MK-J02-C02-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Marketing",
+              "section_id": "MK-J02-C02-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J02-C03",
+          "cv_text": "Tóm lược hồ sơ:\nCử nhân ngành Ngôn ngữ học với 1 năm làm nhân viên viết bài nội dung học thuật và tin tức bài viết website chuẩn SEO. Tư duy diễn đạt câu từ trau chuốt, logic, kỹ năng nghiên cứu tài liệu sâu và dịch thuật bài viết công nghệ từ tiếng Anh sang tiếng Việt. Hiện muốn thử sức trong mảng sáng tạo nội dung mạng xã hội và học hỏi thêm về kịch bản video ngắn.\n\nKỹ năng làm việc:\n- Viết bài chuyên sâu chuẩn SEO trên website (Long-form Content)\n- Nghiên cứu từ khóa và biên tập nội dung bài viết kỹ thuật\n- Biên dịch tài liệu tiếng Anh sang tiếng Việt mượt mà\n- Sử dụng công cụ soạn thảo WordPress và Google Docs\n- Kỹ năng tư duy logic và kiểm tra lỗi chính tả nghiêm ngặt\n\nKinh nghiệm làm việc:\nNhân viên Biên tập Nội dung Website tại Công ty TNHH Công Nghệ Tri Thức Mới\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\n- Tối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\n- Công việc chủ yếu thao tác viết trên máy tính.\n\nCộng tác viên Dịch thuật tại Tạp Chí Tri Thức Số\nThời gian: Từ 2025-04 đến 2025-09\n- Dịch các bài phân tích công nghệ từ các trang tin quốc tế.\n\nHọc vấn:\n- Cử nhân ngành Ngôn ngữ học, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J02-C03-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nCử nhân ngành Ngôn ngữ học với 1 năm làm nhân viên viết bài nội dung học thuật và tin tức bài viết website chuẩn SEO. Tư duy diễn đạt câu từ trau chuốt, logic, kỹ năng nghiên cứu tài liệu sâu và dịch thuật bài viết công nghệ từ tiếng Anh sang tiếng Việt. Hiện muốn thử sức trong mảng sáng tạo nội dung mạng xã hội và học hỏi thêm về kịch bản video ngắn."
+            },
+            {
+              "section_id": "MK-J02-C03-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Viết bài chuyên sâu chuẩn SEO trên website (Long-form Content)\n- Nghiên cứu từ khóa và biên tập nội dung bài viết kỹ thuật\n- Biên dịch tài liệu tiếng Anh sang tiếng Việt mượt mà\n- Sử dụng công cụ soạn thảo WordPress và Google Docs\n- Kỹ năng tư duy logic và kiểm tra lỗi chính tả nghiêm ngặt"
+            },
+            {
+              "section_id": "MK-J02-C03-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Biên tập Nội dung Website tại Công ty TNHH Công Nghệ Tri Thức Mới\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\n- Tối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\n- Công việc chủ yếu thao tác viết trên máy tính.\n\nCộng tác viên Dịch thuật tại Tạp Chí Tri Thức Số\nThời gian: Từ 2025-04 đến 2025-09\n- Dịch các bài phân tích công nghệ từ các trang tin quốc tế."
+            },
+            {
+              "section_id": "MK-J02-C03-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Ngôn ngữ học, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM"
+            }
+          ],
+          "skills": [
+            "Viết nội dung website chuẩn SEO",
+            "Nghiên cứu tài liệu sâu",
+            "Dịch thuật tiếng Anh",
+            "Ngôn ngữ học"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J02-C03-EXP-01",
+              "title": "Nhân viên Biên tập Nội dung Website",
+              "company": "Công ty TNHH Công Nghệ Tri Thức Mới",
+              "start_date": "2025-10",
+              "end_date": null,
+              "is_current": true,
+              "description": "Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\nTối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\nCông việc chủ yếu thao tác viết trên máy tính.",
+              "skills_used": [
+                "Viết nội dung website chuẩn SEO",
+                "Nghiên cứu tài liệu sâu"
+              ],
+              "section_id": "MK-J02-C03-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J02-C03-EXP-02",
+              "title": "Cộng tác viên Dịch thuật",
+              "company": "Tạp Chí Tri Thức Số",
+              "start_date": "2025-04",
+              "end_date": "2025-09",
+              "is_current": false,
+              "description": "Dịch các bài phân tích công nghệ từ các trang tin quốc tế.",
+              "skills_used": [],
+              "section_id": "MK-J02-C03-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Ngôn ngữ học",
+              "section_id": "MK-J02-C03-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J02-C04",
+          "cv_text": "Tóm lược ứng viên:\nSáng tạo nội dung với 6 tháng kinh nghiệm phụ trách kênh TikTok và Facebook cho chuỗi đồ uống trà sữa. Tác phong năng động, nói chuyện cuốn hút trước ống kính, nắm bắt nhanh các trào lưu nhảy múa và câu nói thịnh hành trên mạng. Có khả năng tự viết lời bình, tự quay bằng điện thoại và ghép nhạc video trên CapCut.\n\nKỹ năng làm việc:\n- Lên ý tưởng nội dung hài hước ngắn (Skits) cho TikTok\n- Tự tin diễn xuất và giới thiệu món nước trước ống kính\n- Dựng video trên CapCut điện thoại và chèn phụ đề tự động\n- Bắt trend âm thanh và bộ lọc thịnh hành trên TikTok\n- Sử dụng Canva thiết kế menu khuyến mãi ngày lễ\n\nKinh nghiệm làm việc:\nNhân viên Sáng tạo Nội dung TikTok tại Chuỗi Trà Sữa Đô Thị Trendy\nThời gian: Từ 2026-04 đến nay (đang làm việc)\n- Trực tiếp sản xuất 12 video ngắn/tháng quay tại các chi nhánh quán trà sữa, giới thiệu món nước mùa hè và các tình huống hài hước giữa khách hàng và nhân viên pha chế.\n- Sử dụng CapCut cắt ghép video, lồng tiếng và bắt nhịp nhạc thịnh hành, giúp 2 video đạt trên 300.000 lượt xem.\n- Thiết kế các thông báo mua 1 tặng 1 bằng ứng dụng Canva để đăng lên Fanpage.\n\nThực tập sinh Truyền thông tại Nhóm Tình Nguyện Xanh\nThời gian: Từ 2025-10 đến 2026-03\n- Chụp ảnh sự kiện và đăng tin hoạt động lên trang mạng xã hội.\n\nHọc vấn:\n- Cử nhân ngành Ngôn ngữ Anh, Trường Đại học Sư phạm TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J02-C04-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược ứng viên:\nSáng tạo nội dung với 6 tháng kinh nghiệm phụ trách kênh TikTok và Facebook cho chuỗi đồ uống trà sữa. Tác phong năng động, nói chuyện cuốn hút trước ống kính, nắm bắt nhanh các trào lưu nhảy múa và câu nói thịnh hành trên mạng. Có khả năng tự viết lời bình, tự quay bằng điện thoại và ghép nhạc video trên CapCut."
+            },
+            {
+              "section_id": "MK-J02-C04-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Lên ý tưởng nội dung hài hước ngắn (Skits) cho TikTok\n- Tự tin diễn xuất và giới thiệu món nước trước ống kính\n- Dựng video trên CapCut điện thoại và chèn phụ đề tự động\n- Bắt trend âm thanh và bộ lọc thịnh hành trên TikTok\n- Sử dụng Canva thiết kế menu khuyến mãi ngày lễ"
+            },
+            {
+              "section_id": "MK-J02-C04-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Sáng tạo Nội dung TikTok tại Chuỗi Trà Sữa Đô Thị Trendy\nThời gian: Từ 2026-04 đến nay (đang làm việc)\n- Trực tiếp sản xuất 12 video ngắn/tháng quay tại các chi nhánh quán trà sữa, giới thiệu món nước mùa hè và các tình huống hài hước giữa khách hàng và nhân viên pha chế.\n- Sử dụng CapCut cắt ghép video, lồng tiếng và bắt nhịp nhạc thịnh hành, giúp 2 video đạt trên 300.000 lượt xem.\n- Thiết kế các thông báo mua 1 tặng 1 bằng ứng dụng Canva để đăng lên Fanpage.\n\nThực tập sinh Truyền thông tại Nhóm Tình Nguyện Xanh\nThời gian: Từ 2025-10 đến 2026-03\n- Chụp ảnh sự kiện và đăng tin hoạt động lên trang mạng xã hội."
+            },
+            {
+              "section_id": "MK-J02-C04-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Ngôn ngữ Anh, Trường Đại học Sư phạm TP.HCM"
+            }
+          ],
+          "skills": [
+            "Quay dựng video TikTok CapCut",
+            "Diễn xuất trước ống kính",
+            "Bắt trend âm thanh thịnh hành",
+            "Thiết kế Canva",
+            "Ngôn ngữ Anh"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J02-C04-EXP-01",
+              "title": "Nhân viên Sáng tạo Nội dung TikTok",
+              "company": "Chuỗi Trà Sữa Đô Thị Trendy",
+              "start_date": "2026-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp sản xuất 12 video ngắn/tháng quay tại các chi nhánh quán trà sữa, giới thiệu món nước mùa hè và các tình huống hài hước giữa khách hàng và nhân viên pha chế.\nSử dụng CapCut cắt ghép video, lồng tiếng và bắt nhịp nhạc thịnh hành, giúp 2 video đạt trên 300.000 lượt xem.\nThiết kế các thông báo mua 1 tặng 1 bằng ứng dụng Canva để đăng lên Fanpage.",
+              "skills_used": [
+                "Quay dựng video TikTok CapCut",
+                "Bắt trend âm thanh thịnh hành",
+                "Thiết kế Canva"
+              ],
+              "section_id": "MK-J02-C04-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J02-C04-EXP-02",
+              "title": "Thực tập sinh Truyền thông",
+              "company": "Nhóm Tình Nguyện Xanh",
+              "start_date": "2025-10",
+              "end_date": "2026-03",
+              "is_current": false,
+              "description": "Chụp ảnh sự kiện và đăng tin hoạt động lên trang mạng xã hội.",
+              "skills_used": [],
+              "section_id": "MK-J02-C04-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Ngôn ngữ Anh",
+              "section_id": "MK-J02-C04-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J02-C05",
+          "cv_text": "Tóm tắt kinh nghiệm quản lý sáng tạo:\nTrưởng bộ phận Nội dung & Sáng tạo (Head of Content & Creative) với hơn 5 năm kinh nghiệm quản lý phòng nội dung truyền thông cho các tập đoàn giải trí và thương mại điện tử lớn. Lãnh đạo đội ngũ gồm 8 biên kịch, đạo diễn hình ảnh và chuyên viên dựng phim. Định hướng chiến lược nội dung viral toàn diện, xây dựng các chiến dịch truyền thông đa kênh thu hút hàng chục triệu lượt tiếp cận.\n\nKỹ năng điều hành và định hướng:\n- Hoạch định chiến lược nội dung đa nền tảng: YouTube, TikTok, Facebook, Instagram\n- Chỉ đạo sản xuất video ngắn, viral video và web drama\n- Đào tạo đội ngũ biên kịch về kỹ thuật kể chuyện (Storytelling) và nghệ thuật giật tít\n- Thẩm định kịch bản và phê duyệt chất lượng hình ảnh trước khi công chiếu\n- Đàm phán và quản lý hợp đồng sản xuất với các công ty sản xuất phim và KOLs\n\nKinh nghiệm làm việc:\nTrưởng phòng Sáng tạo Nội dung tại Tập Đoàn Truyền Thông Sao Việt\nThời gian: Từ 2022-04 đến nay (đang giữ vị trí)\n- Điều hành đội ngũ 8 nhân viên nội dung và quay dựng phim phục vụ 5 nhãn hàng tiêu dùng lớn.\n- Định hướng sản xuất các chuỗi video giải trí đạt tổng cộng hơn 45 triệu lượt xem trên nền tảng TikTok và YouTube Shorts trong năm 2025.\n- Xây dựng quy chuẩn sản xuất nội dung ngắn giúp rút ngắn thời gian hậu kỳ từ 3 ngày xuống còn 24 giờ.\n- Phối hợp cùng giám đốc tiếp thị lên kế hoạch phân bổ kinh phí tài trợ cho các nhà sáng tạo nội dung hàng đầu.\n\nTrưởng nhóm Biên kịch Video tại Công ty Cổ phần Giải Trí Trẻ Vina\nThời gian: Từ 2020-01 đến 2022-03\n- Viết kịch bản sitcom và video phỏng vấn đường phố hài hước.\n\nHọc vấn:\n- Cử nhân ngành Báo chí, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQGHN",
+          "sections": [
+            {
+              "section_id": "MK-J02-C05-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm quản lý sáng tạo:\nTrưởng bộ phận Nội dung & Sáng tạo (Head of Content & Creative) với hơn 5 năm kinh nghiệm quản lý phòng nội dung truyền thông cho các tập đoàn giải trí và thương mại điện tử lớn. Lãnh đạo đội ngũ gồm 8 biên kịch, đạo diễn hình ảnh và chuyên viên dựng phim. Định hướng chiến lược nội dung viral toàn diện, xây dựng các chiến dịch truyền thông đa kênh thu hút hàng chục triệu lượt tiếp cận."
+            },
+            {
+              "section_id": "MK-J02-C05-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng điều hành và định hướng:\n- Hoạch định chiến lược nội dung đa nền tảng: YouTube, TikTok, Facebook, Instagram\n- Chỉ đạo sản xuất video ngắn, viral video và web drama\n- Đào tạo đội ngũ biên kịch về kỹ thuật kể chuyện (Storytelling) và nghệ thuật giật tít\n- Thẩm định kịch bản và phê duyệt chất lượng hình ảnh trước khi công chiếu\n- Đàm phán và quản lý hợp đồng sản xuất với các công ty sản xuất phim và KOLs"
+            },
+            {
+              "section_id": "MK-J02-C05-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nTrưởng phòng Sáng tạo Nội dung tại Tập Đoàn Truyền Thông Sao Việt\nThời gian: Từ 2022-04 đến nay (đang giữ vị trí)\n- Điều hành đội ngũ 8 nhân viên nội dung và quay dựng phim phục vụ 5 nhãn hàng tiêu dùng lớn.\n- Định hướng sản xuất các chuỗi video giải trí đạt tổng cộng hơn 45 triệu lượt xem trên nền tảng TikTok và YouTube Shorts trong năm 2025.\n- Xây dựng quy chuẩn sản xuất nội dung ngắn giúp rút ngắn thời gian hậu kỳ từ 3 ngày xuống còn 24 giờ.\n- Phối hợp cùng giám đốc tiếp thị lên kế hoạch phân bổ kinh phí tài trợ cho các nhà sáng tạo nội dung hàng đầu.\n\nTrưởng nhóm Biên kịch Video tại Công ty Cổ phần Giải Trí Trẻ Vina\nThời gian: Từ 2020-01 đến 2022-03\n- Viết kịch bản sitcom và video phỏng vấn đường phố hài hước."
+            },
+            {
+              "section_id": "MK-J02-C05-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Báo chí, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQGHN"
+            }
+          ],
+          "skills": [
+            "Lãnh đạo phòng sáng tạo nội dung",
+            "Chiến lược video viral đa nền tảng",
+            "Chỉ đạo sản xuất video ngắn",
+            "Storytelling",
+            "Báo chí"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J02-C05-EXP-01",
+              "title": "Trưởng phòng Sáng tạo Nội dung",
+              "company": "Tập Đoàn Truyền Thông Sao Việt",
+              "start_date": "2022-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Điều hành đội ngũ 8 nhân viên nội dung và quay dựng phim phục vụ 5 nhãn hàng tiêu dùng lớn.\nĐịnh hướng sản xuất các chuỗi video giải trí đạt tổng cộng hơn 45 triệu lượt xem trên nền tảng TikTok và YouTube Shorts trong năm 2025.\nXây dựng quy chuẩn sản xuất nội dung ngắn giúp rút ngắn thời gian hậu kỳ từ 3 ngày xuống còn 24 giờ.\nPhối hợp cùng giám đốc tiếp thị lên kế hoạch phân bổ kinh phí tài trợ cho các nhà sáng tạo nội dung hàng đầu.",
+              "skills_used": [
+                "Lãnh đạo phòng sáng tạo nội dung",
+                "Chiến lược video viral đa nền tảng",
+                "Chỉ đạo sản xuất video ngắn"
+              ],
+              "section_id": "MK-J02-C05-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J02-C05-EXP-02",
+              "title": "Trưởng nhóm Biên kịch Video",
+              "company": "Công ty Cổ phần Giải Trí Trẻ Vina",
+              "start_date": "2020-01",
+              "end_date": "2022-03",
+              "is_current": false,
+              "description": "Viết kịch bản sitcom và video phỏng vấn đường phố hài hước.",
+              "skills_used": [],
+              "section_id": "MK-J02-C05-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Báo chí",
+              "section_id": "MK-J02-C05-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J02-C06",
+          "cv_text": "Tóm lược bản thân:\nNhân viên Chăm sóc Khách hàng và Trực hộp thư mạng xã hội với hơn 2 năm kinh nghiệm trong ngành bán lẻ điện máy và thiết bị công nghệ. Tốc độ đánh máy nhanh, giải đáp thắc mắc về chính sách bảo hành chu đáo và xử lý khiếu nại của khách hàng hòa nhã. Có mong muốn chuyển đổi sang bộ phận sáng tạo nội dung truyền thông để phát huy khả năng diễn đạt ngôn từ.\n\nKỹ năng làm việc:\n- Trực hộp thư và phản hồi bình luận khách hàng trên Facebook Fanpage\n- Tiếp nhận thông tin khiếu nại và phối hợp kỹ thuật bảo hành\n- Sử dụng phần mềm quản lý chat đa kênh Pancake, Harasocial\n- Tác phong kiên nhẫn, giao tiếp nhỏ nhẹ, hiểu tâm lý khách mua sắm\n- Kỹ năng tổng hợp báo cáo câu hỏi thường gặp hàng tuần\n\nKinh nghiệm làm việc:\nNhân viên Trực Fanpage kiêm CSKH tại Công ty Cổ phần Bán Lẻ Công Nghệ Hoàng Phát\nThời gian: Từ 2024-07 đến nay (đang làm việc)\n- Trực hộp thư tin nhắn và trả lời hơn 200 lượt hỏi giá sản phẩm tai nghe, điện thoại, máy tính bảng mỗi ngày.\n- Hướng dẫn khách đặt hàng online và kiểm tra tình trạng vận chuyển đơn hàng.\n- Thu thập ý kiến khách hàng phản ánh về thái độ phục vụ tại cửa hàng để báo cáo trưởng ca.\n\nNhân viên Tư vấn Điện thoại Tổng đài tại Trung tâm Dịch vụ Khách hàng Nam Phương\nThời gian: Từ 2023-09 đến 2024-06\n- Trực tổng đài 1900 giải đáp thắc mắc về cước viễn thông cho người dùng mạng.\n\nHọc vấn:\n- Cử nhân Cao đẳng ngành Quản trị Văn phòng, Trường Cao đẳng Bách Việt TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J02-C06-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược bản thân:\nNhân viên Chăm sóc Khách hàng và Trực hộp thư mạng xã hội với hơn 2 năm kinh nghiệm trong ngành bán lẻ điện máy và thiết bị công nghệ. Tốc độ đánh máy nhanh, giải đáp thắc mắc về chính sách bảo hành chu đáo và xử lý khiếu nại của khách hàng hòa nhã. Có mong muốn chuyển đổi sang bộ phận sáng tạo nội dung truyền thông để phát huy khả năng diễn đạt ngôn từ."
+            },
+            {
+              "section_id": "MK-J02-C06-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Trực hộp thư và phản hồi bình luận khách hàng trên Facebook Fanpage\n- Tiếp nhận thông tin khiếu nại và phối hợp kỹ thuật bảo hành\n- Sử dụng phần mềm quản lý chat đa kênh Pancake, Harasocial\n- Tác phong kiên nhẫn, giao tiếp nhỏ nhẹ, hiểu tâm lý khách mua sắm\n- Kỹ năng tổng hợp báo cáo câu hỏi thường gặp hàng tuần"
+            },
+            {
+              "section_id": "MK-J02-C06-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Trực Fanpage kiêm CSKH tại Công ty Cổ phần Bán Lẻ Công Nghệ Hoàng Phát\nThời gian: Từ 2024-07 đến nay (đang làm việc)\n- Trực hộp thư tin nhắn và trả lời hơn 200 lượt hỏi giá sản phẩm tai nghe, điện thoại, máy tính bảng mỗi ngày.\n- Hướng dẫn khách đặt hàng online và kiểm tra tình trạng vận chuyển đơn hàng.\n- Thu thập ý kiến khách hàng phản ánh về thái độ phục vụ tại cửa hàng để báo cáo trưởng ca.\n\nNhân viên Tư vấn Điện thoại Tổng đài tại Trung tâm Dịch vụ Khách hàng Nam Phương\nThời gian: Từ 2023-09 đến 2024-06\n- Trực tổng đài 1900 giải đáp thắc mắc về cước viễn thông cho người dùng mạng."
+            },
+            {
+              "section_id": "MK-J02-C06-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Cao đẳng ngành Quản trị Văn phòng, Trường Cao đẳng Bách Việt TP.HCM"
+            }
+          ],
+          "skills": [
+            "Trực tin nhắn Fanpage",
+            "Chăm sóc khách hàng",
+            "Pancake Harasocial",
+            "Quản trị văn phòng"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J02-C06-EXP-01",
+              "title": "Nhân viên Trực Fanpage kiêm CSKH",
+              "company": "Công ty Cổ phần Bán Lẻ Công Nghệ Hoàng Phát",
+              "start_date": "2024-07",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực hộp thư tin nhắn và trả lời hơn 200 lượt hỏi giá sản phẩm tai nghe, điện thoại, máy tính bảng mỗi ngày.\nHướng dẫn khách đặt hàng online và kiểm tra tình trạng vận chuyển đơn hàng.\nThu thập ý kiến khách hàng phản ánh về thái độ phục vụ tại cửa hàng để báo cáo trưởng ca.",
+              "skills_used": [
+                "Trực tin nhắn Fanpage",
+                "Chăm sóc khách hàng"
+              ],
+              "section_id": "MK-J02-C06-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J02-C06-EXP-02",
+              "title": "Nhân viên Tư vấn Điện thoại Tổng đài",
+              "company": "Trung tâm Dịch vụ Khách hàng Nam Phương",
+              "start_date": "2023-09",
+              "end_date": "2024-06",
+              "is_current": false,
+              "description": "Trực tổng đài 1900 giải đáp thắc mắc về cước viễn thông cho người dùng mạng.",
+              "skills_used": [
+                "Chăm sóc khách hàng"
+              ],
+              "section_id": "MK-J02-C06-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân Cao đẳng",
+              "field": "Quản trị Văn phòng",
+              "section_id": "MK-J02-C06-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J02-C07",
+          "cv_text": "Tóm lược kỹ năng:\nNhân viên sáng tạo nội dung mạng xã hội với hơn 1 năm kinh nghiệm phát triển kênh Facebook và TikTok cho các thương hiệu mỹ phẩm dưỡng da và spa làm đẹp. Sở trường viết kịch bản dạng tình huống đời thường gần gũi, nắm bắt nhanh các chủ đề nóng về phong cách sống của phụ nữ trẻ và tự biên tập video ngắn bằng CapCut. Có khả năng thiết kế đồ họa cơ bản bằng Canva.\n\nKỹ năng làm việc:\n- Viết kịch bản video TikTok và bài đăng chia sẻ kinh nghiệm trên Facebook\n- Tự quay và biên tập video bằng ứng dụng CapCut\n- Đón đầu các xu hướng làm đẹp và nhạc nền thịnh hành\n- Thiết kế banner, ảnh trích dẫn truyền cảm hứng bằng Canva\n- Theo dõi chỉ số tương tác bài viết trên mạng xã hội\n\nKinh nghiệm làm việc:\nNhân viên Nội dung Mạng Xã Hội tại Công ty TNHH Mỹ Phẩm Sắc Đẹp Xinh\nThời gian: Từ 2025-07 đến nay (hiện tại)\n- Lên kế hoạch bài đăng hàng tuần cho Fanpage với hơn 80.000 lượt thích, chủ đề chăm sóc da mụn và quy trình dưỡng sáng an toàn.\n- Soạn kịch bản và tự quay các video ngắn dạng mẹo nhỏ làm đẹp, cắt ghép bằng CapCut và đăng tải đều đặn 4 video/tuần.\n- Bắt kịp các âm thanh đang thịnh hành trên TikTok để lồng vào video clip mẹo chăm sóc da, giúp kênh tăng trưởng 35.000 lượt theo dõi mới.\n- Tự thiết kế toàn bộ hình ảnh minh họa bằng công cụ Canva, giữ đúng tông màu hồng pastel chủ đạo của thương hiệu.\n\nCộng tác viên Viết Bài Mỹ Phẩm tại Tạp Chí Phong Cách Nữ\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng cụ thể)\n- Viết bài đánh giá các dòng son môi và kem chống nắng bình dân.\n\nHọc vấn:\n- Cử nhân ngành Truyền thông Đa phương tiện, Trường Đại học Công nghệ TP.HCM (HUTECH)",
+          "sections": [
+            {
+              "section_id": "MK-J02-C07-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược kỹ năng:\nNhân viên sáng tạo nội dung mạng xã hội với hơn 1 năm kinh nghiệm phát triển kênh Facebook và TikTok cho các thương hiệu mỹ phẩm dưỡng da và spa làm đẹp. Sở trường viết kịch bản dạng tình huống đời thường gần gũi, nắm bắt nhanh các chủ đề nóng về phong cách sống của phụ nữ trẻ và tự biên tập video ngắn bằng CapCut. Có khả năng thiết kế đồ họa cơ bản bằng Canva."
+            },
+            {
+              "section_id": "MK-J02-C07-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Viết kịch bản video TikTok và bài đăng chia sẻ kinh nghiệm trên Facebook\n- Tự quay và biên tập video bằng ứng dụng CapCut\n- Đón đầu các xu hướng làm đẹp và nhạc nền thịnh hành\n- Thiết kế banner, ảnh trích dẫn truyền cảm hứng bằng Canva\n- Theo dõi chỉ số tương tác bài viết trên mạng xã hội"
+            },
+            {
+              "section_id": "MK-J02-C07-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Nội dung Mạng Xã Hội tại Công ty TNHH Mỹ Phẩm Sắc Đẹp Xinh\nThời gian: Từ 2025-07 đến nay (hiện tại)\n- Lên kế hoạch bài đăng hàng tuần cho Fanpage với hơn 80.000 lượt thích, chủ đề chăm sóc da mụn và quy trình dưỡng sáng an toàn.\n- Soạn kịch bản và tự quay các video ngắn dạng mẹo nhỏ làm đẹp, cắt ghép bằng CapCut và đăng tải đều đặn 4 video/tuần.\n- Bắt kịp các âm thanh đang thịnh hành trên TikTok để lồng vào video clip mẹo chăm sóc da, giúp kênh tăng trưởng 35.000 lượt theo dõi mới.\n- Tự thiết kế toàn bộ hình ảnh minh họa bằng công cụ Canva, giữ đúng tông màu hồng pastel chủ đạo của thương hiệu.\n\nCộng tác viên Viết Bài Mỹ Phẩm tại Tạp Chí Phong Cách Nữ\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng cụ thể)\n- Viết bài đánh giá các dòng son môi và kem chống nắng bình dân."
+            },
+            {
+              "section_id": "MK-J02-C07-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Truyền thông Đa phương tiện, Trường Đại học Công nghệ TP.HCM (HUTECH)"
+            }
+          ],
+          "skills": [
+            "Kịch bản video TikTok và Fanpage",
+            "Tự quay và dựng CapCut",
+            "Bắt trend làm đẹp và nhạc nền",
+            "Thiết kế hình ảnh Canva",
+            "Truyền thông đa phương tiện"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J02-C07-EXP-01",
+              "title": "Nhân viên Nội dung Mạng Xã Hội",
+              "company": "Công ty TNHH Mỹ Phẩm Sắc Đẹp Xinh",
+              "start_date": "2025-07",
+              "end_date": null,
+              "is_current": true,
+              "description": "Lên kế hoạch bài đăng hàng tuần cho Fanpage với hơn 80.000 lượt thích, chủ đề chăm sóc da mụn và quy trình dưỡng sáng an toàn.\nSoạn kịch bản và tự quay các video ngắn dạng mẹo nhỏ làm đẹp, cắt ghép bằng CapCut và đăng tải đều đặn 4 video/tuần.\nBắt kịp các âm thanh đang thịnh hành trên TikTok để lồng vào video clip mẹo chăm sóc da, giúp kênh tăng trưởng 35.000 lượt theo dõi mới.\nTự thiết kế toàn bộ hình ảnh minh họa bằng công cụ Canva, giữ đúng tông màu hồng pastel chủ đạo của thương hiệu.",
+              "skills_used": [
+                "Kịch bản video TikTok và Fanpage",
+                "Tự quay và dựng CapCut",
+                "Bắt trend làm đẹp và nhạc nền",
+                "Thiết kế hình ảnh Canva"
+              ],
+              "section_id": "MK-J02-C07-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J02-C07-EXP-02",
+              "title": "Cộng tác viên Viết Bài Mỹ Phẩm",
+              "company": "Tạp Chí Phong Cách Nữ",
+              "start_date": null,
+              "end_date": null,
+              "is_current": false,
+              "description": "Viết bài đánh giá các dòng son môi và kem chống nắng bình dân.",
+              "skills_used": [],
+              "section_id": "MK-J02-C07-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Truyền thông Đa phương tiện",
+              "section_id": "MK-J02-C07-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J02-C08",
+          "cv_text": "Tóm tắt kinh nghiệm:\nNhà sáng tạo nội dung tự do (Freelance Video Creator) với hơn 1 năm 6 tháng tự vận hành kênh cá nhân chủ đề du lịch trải nghiệm và ẩm thực vùng miền trên TikTok và Instagram Reels. Trực tiếp thực hiện 100% các công đoạn từ khảo sát địa điểm, viết lời bình thuyết minh, quay phim bằng máy ảnh cơ và điện thoại, đến cắt dựng hoàn chỉnh trên Adobe Premiere và CapCut. Kỹ năng thiết kế ảnh thu nhỏ (thumbnail) bắt mắt bằng Photoshop.\n\nKỹ năng chủ đạo:\n- Sáng tạo nội dung video ngắn du lịch, trải nghiệm đời sống\n- Kỹ thuật quay phim góc rộng, phối âm thanh và dựng bằng Adobe Premiere, CapCut\n- Nhạy bén với thị hiếu người xem và các trào lưu du lịch khám phá\n- Thiết kế ảnh bìa thu hút (Clickable Thumbnail) bằng Adobe Photoshop\n- Khả năng làm việc độc lập và chịu khó di chuyển ghi hình thực tế\n\nKinh nghiệm làm việc:\nNhà Sáng Tạo Nội Dung Độc Lập tại Kênh Cá Nhân Sài Gòn Vi Vu\nThời gian: Từ 2025-04 đến nay (đang hoạt động)\n- Tự xây dựng kênh từ con số 0 lên hơn 70.000 người theo dõi trên TikTok và 25.000 người theo dõi trên Instagram Reels.\n- Viết kịch bản dẫn chuyện truyền cảm, tự cầm gimbal và điện thoại ghi hình hơn 60 địa điểm quán xá và danh lam thắng cảnh.\n- Sử dụng Adobe Premiere dựng trên máy tính và CapCut trên điện thoại để hoàn thiện 2-3 video mỗi tuần.\n- Thiết kế ảnh đại diện video bắt mắt bằng Photoshop giúp tỷ lệ nhấp chuột vào trang cá nhân tăng gấp đôi.\n- Hợp tác sản xuất video trải nghiệm được tài trợ với 10 nhãn hàng đồ uống và phụ kiện du lịch.\n\nDự án tiêu biểu:\nChuỗi Video Khám Phá Hẻm Ẩm Thực Sài Gòn\nThời gian: 2025-09 đến 2025-11\n- Sản xuất loạt 10 tập video ngắn giới thiệu các quán ăn lâu đời trong hẻm nhỏ, đạt tổng cộng 4,5 triệu lượt xem trên nền tảng TikTok.\n\nHọc vấn:\n- Cử nhân ngành Quan hệ Công chúng, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J02-C08-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm:\nNhà sáng tạo nội dung tự do (Freelance Video Creator) với hơn 1 năm 6 tháng tự vận hành kênh cá nhân chủ đề du lịch trải nghiệm và ẩm thực vùng miền trên TikTok và Instagram Reels. Trực tiếp thực hiện 100% các công đoạn từ khảo sát địa điểm, viết lời bình thuyết minh, quay phim bằng máy ảnh cơ và điện thoại, đến cắt dựng hoàn chỉnh trên Adobe Premiere và CapCut. Kỹ năng thiết kế ảnh thu nhỏ (thumbnail) bắt mắt bằng Photoshop."
+            },
+            {
+              "section_id": "MK-J02-C08-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chủ đạo:\n- Sáng tạo nội dung video ngắn du lịch, trải nghiệm đời sống\n- Kỹ thuật quay phim góc rộng, phối âm thanh và dựng bằng Adobe Premiere, CapCut\n- Nhạy bén với thị hiếu người xem và các trào lưu du lịch khám phá\n- Thiết kế ảnh bìa thu hút (Clickable Thumbnail) bằng Adobe Photoshop\n- Khả năng làm việc độc lập và chịu khó di chuyển ghi hình thực tế"
+            },
+            {
+              "section_id": "MK-J02-C08-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhà Sáng Tạo Nội Dung Độc Lập tại Kênh Cá Nhân Sài Gòn Vi Vu\nThời gian: Từ 2025-04 đến nay (đang hoạt động)\n- Tự xây dựng kênh từ con số 0 lên hơn 70.000 người theo dõi trên TikTok và 25.000 người theo dõi trên Instagram Reels.\n- Viết kịch bản dẫn chuyện truyền cảm, tự cầm gimbal và điện thoại ghi hình hơn 60 địa điểm quán xá và danh lam thắng cảnh.\n- Sử dụng Adobe Premiere dựng trên máy tính và CapCut trên điện thoại để hoàn thiện 2-3 video mỗi tuần.\n- Thiết kế ảnh đại diện video bắt mắt bằng Photoshop giúp tỷ lệ nhấp chuột vào trang cá nhân tăng gấp đôi.\n- Hợp tác sản xuất video trải nghiệm được tài trợ với 10 nhãn hàng đồ uống và phụ kiện du lịch."
+            },
+            {
+              "section_id": "MK-J02-C08-SEC-PRJ",
+              "kind": "project",
+              "text": "Dự án tiêu biểu:\nChuỗi Video Khám Phá Hẻm Ẩm Thực Sài Gòn\nThời gian: 2025-09 đến 2025-11\n- Sản xuất loạt 10 tập video ngắn giới thiệu các quán ăn lâu đời trong hẻm nhỏ, đạt tổng cộng 4,5 triệu lượt xem trên nền tảng TikTok."
+            },
+            {
+              "section_id": "MK-J02-C08-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Quan hệ Công chúng, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM"
+            }
+          ],
+          "skills": [
+            "Sáng tạo nội dung TikTok Reels",
+            "Tự quay và dựng Premiere CapCut",
+            "Bắt trend du lịch ẩm thực",
+            "Thiết kế thumbnail Photoshop",
+            "Quan hệ công chúng"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J02-C08-EXP-01",
+              "title": "Nhà Sáng Tạo Nội Dung Độc Lập",
+              "company": "Kênh Cá Nhân Sài Gòn Vi Vu",
+              "start_date": "2025-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Tự xây dựng kênh từ con số 0 lên hơn 70.000 người theo dõi trên TikTok và 25.000 người theo dõi trên Instagram Reels.\nViết kịch bản dẫn chuyện truyền cảm, tự cầm gimbal và điện thoại ghi hình hơn 60 địa điểm quán xá và danh lam thắng cảnh.\nSử dụng Adobe Premiere dựng trên máy tính và CapCut trên điện thoại để hoàn thiện 2-3 video mỗi tuần.\nThiết kế ảnh đại diện video bắt mắt bằng Photoshop giúp tỷ lệ nhấp chuột vào trang cá nhân tăng gấp đôi.\nHợp tác sản xuất video trải nghiệm được tài trợ với 10 nhãn hàng đồ uống và phụ kiện du lịch.",
+              "skills_used": [
+                "Sáng tạo nội dung TikTok Reels",
+                "Tự quay và dựng Premiere CapCut",
+                "Thiết kế thumbnail Photoshop"
+              ],
+              "section_id": "MK-J02-C08-SEC-EXP"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "MK-J02-C08-PRJ-01",
+              "name": "Chuỗi Video Khám Phá Hẻm Ẩm Thực Sài Gòn",
+              "description": "Sản xuất loạt 10 tập video ngắn giới thiệu các quán ăn lâu đời trong hẻm nhỏ, đạt tổng cộng 4,5 triệu lượt xem trên nền tảng TikTok.",
+              "technologies_or_methods": [],
+              "section_id": "MK-J02-C08-SEC-PRJ"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Quan hệ Công chúng",
+              "section_id": "MK-J02-C08-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        }
+      ]
+    }
+  ]
+}

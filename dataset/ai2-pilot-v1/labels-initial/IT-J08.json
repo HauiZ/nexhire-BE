@@ -1,0 +1,264 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "initial",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C01",
+      "relevance": 3,
+      "rationale": "Golang từ 2025-04 khoảng 19 tháng, Gin REST API và PostgreSQL/GORM có nhiệm vụ cụ thể; concurrency, Redis và Docker bổ trợ.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J08-R01",
+          "section_id": "IT-J08-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Viễn Thông Số Sao Mai. Thời gian: từ 2025-04 đến nay. Mô tả: Xây dựng các dịch vụ RESTful API phục vụ ứng dụng ví điện tử bằng Golang và framework Gin. Quản lý truy vấn dữ liệu trên PostgreSQL bằng GORM. Áp dụng goroutine và channel để xử lý đồng thời các tác vụ kiểm tra số dư và ghi log. Cấu hình Redis caching giảm tải cơ sở dữ liệu. Đóng gói mã nguồn qua Docker.\n- Chức danh: Thực tập sinh Backend Golang tại Công ty Cổ phần Giải pháp Phần mềm Hà Thành. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Làm quen cú pháp Go, viết các endpoint CRUD bằng Gin và viết unit test cơ bản.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "section_id": "IT-J08-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Viễn Thông Số Sao Mai. Thời gian: từ 2025-04 đến nay. Mô tả: Xây dựng các dịch vụ RESTful API phục vụ ứng dụng ví điện tử bằng Golang và framework Gin. Quản lý truy vấn dữ liệu trên PostgreSQL bằng GORM. Áp dụng goroutine và channel để xử lý đồng thời các tác vụ kiểm tra số dư và ghi log. Cấu hình Redis caching giảm tải cơ sở dữ liệu. Đóng gói mã nguồn qua Docker.\n- Chức danh: Thực tập sinh Backend Golang tại Công ty Cổ phần Giải pháp Phần mềm Hà Thành. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Làm quen cú pháp Go, viết các endpoint CRUD bằng Gin và viết unit test cơ bản.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "section_id": "IT-J08-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Viễn Thông Số Sao Mai. Thời gian: từ 2025-04 đến nay. Mô tả: Xây dựng các dịch vụ RESTful API phục vụ ứng dụng ví điện tử bằng Golang và framework Gin. Quản lý truy vấn dữ liệu trên PostgreSQL bằng GORM. Áp dụng goroutine và channel để xử lý đồng thời các tác vụ kiểm tra số dư và ghi log. Cấu hình Redis caching giảm tải cơ sở dữ liệu. Đóng gói mã nguồn qua Docker.\n- Chức danh: Thực tập sinh Backend Golang tại Công ty Cổ phần Giải pháp Phần mềm Hà Thành. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Làm quen cú pháp Go, viết các endpoint CRUD bằng Gin và viết unit test cơ bản.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C02",
+      "relevance": 3,
+      "rationale": "Golang/Fiber từ 2025-08 khoảng 15 tháng đủ ngưỡng, MySQL/GORM và Redis thực tế. Không cần cộng năm Node.js để đạt thâm niên Go.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J08-R01",
+          "section_id": "IT-J08-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Giải pháp Số Á Châu. Thời gian: từ 2025-08 đến nay. Mô tả: Phát triển microservices backend bằng Golang và framework Fiber cho nền tảng quản lý đặt chỗ. Truy vấn cơ sở dữ liệu MySQL thông qua GORM và tối ưu tốc độ đọc dữ liệu bằng Redis.\n- Chức danh: Junior Node.js Developer tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2024-08 đến 2025-07. Mô tả: Xây dựng RESTful API quản lý người dùng bằng Node.js, Express và MySQL.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "section_id": "IT-J08-C02-S01",
+          "quote": "Tóm lược: Lập trình viên Backend có 2 năm kinh nghiệm lập trình web, trong đó có 1 năm kinh nghiệm với Node.js và 1 năm kinh nghiệm với Golang (Go). Sử dụng Fiber framework để xây dựng RESTful API tốc độ cao, kết nối cơ sở dữ liệu MySQL và cấu hình Redis cache.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "section_id": "IT-J08-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Giải pháp Số Á Châu. Thời gian: từ 2025-08 đến nay. Mô tả: Phát triển microservices backend bằng Golang và framework Fiber cho nền tảng quản lý đặt chỗ. Truy vấn cơ sở dữ liệu MySQL thông qua GORM và tối ưu tốc độ đọc dữ liệu bằng Redis.\n- Chức danh: Junior Node.js Developer tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2024-08 đến 2025-07. Mô tả: Xây dựng RESTful API quản lý người dùng bằng Node.js, Express và MySQL.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "section_id": "IT-J08-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Giải pháp Số Á Châu. Thời gian: từ 2025-08 đến nay. Mô tả: Phát triển microservices backend bằng Golang và framework Fiber cho nền tảng quản lý đặt chỗ. Truy vấn cơ sở dữ liệu MySQL thông qua GORM và tối ưu tốc độ đọc dữ liệu bằng Redis.\n- Chức danh: Junior Node.js Developer tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2024-08 đến 2025-07. Mô tả: Xây dựng RESTful API quản lý người dùng bằng Node.js, Express và MySQL.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C03",
+      "relevance": 2,
+      "rationale": "Có Gin API, PostgreSQL/database/sql/GORM và dự án chuyển đổi Go. Vai trò từ 2025-05 có nhiệm vụ Go nhưng tóm tắt nói mới 6 tháng; ưu tiên timeline nhiệm vụ song cần xác minh thời điểm chuyển đổi tại ngưỡng 1 năm. Nhãn tạm thời, mức Go vẫn cơ bản.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J08-R01",
+          "section_id": "IT-J08-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend tại Công ty TNHH Giải pháp Phần mềm Trẻ Thăng Long. Thời gian: từ 2025-05 đến nay. Mô tả: Hỗ trợ viết các API kiểm tra thông tin tài khoản bằng Golang và Gin. Kết nối cơ sở dữ liệu PostgreSQL sử dụng thư viện database/sql và GORM.\n- Chức danh: Junior Python Developer tại Công ty Cổ phần Công nghệ Nam Định. Thời gian: từ 2024-07 đến 2025-04. Mô tả: Xây dựng REST API bằng Python FastAPI và quản trị cơ sở dữ liệu PostgreSQL.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "section_id": "IT-J08-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend tại Công ty TNHH Giải pháp Phần mềm Trẻ Thăng Long. Thời gian: từ 2025-05 đến nay. Mô tả: Hỗ trợ viết các API kiểm tra thông tin tài khoản bằng Golang và Gin. Kết nối cơ sở dữ liệu PostgreSQL sử dụng thư viện database/sql và GORM.\n- Chức danh: Junior Python Developer tại Công ty Cổ phần Công nghệ Nam Định. Thời gian: từ 2024-07 đến 2025-04. Mô tả: Xây dựng REST API bằng Python FastAPI và quản trị cơ sở dữ liệu PostgreSQL.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "section_id": "IT-J08-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend tại Công ty TNHH Giải pháp Phần mềm Trẻ Thăng Long. Thời gian: từ 2025-05 đến nay. Mô tả: Hỗ trợ viết các API kiểm tra thông tin tài khoản bằng Golang và Gin. Kết nối cơ sở dữ liệu PostgreSQL sử dụng thư viện database/sql và GORM.\n- Chức danh: Junior Python Developer tại Công ty Cổ phần Công nghệ Nam Định. Thời gian: từ 2024-07 đến 2025-04. Mô tả: Xây dựng REST API bằng Python FastAPI và quản trị cơ sở dữ liệu PostgreSQL.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J08-R01: Cần ngày thực sự bắt đầu Go trong vai trò backend."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Tóm tắt 6 tháng Go và vai trò Go từ 2025-05 không khớp ở ngưỡng 1 năm (HR-SOURCE-008)."
+      ]
+    },
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C04",
+      "relevance": 3,
+      "rationale": "Go từ 2025-07 khoảng 16 tháng, gRPC/Echo trong dự án và PostgreSQL/sqlx có bằng chứng. Docker bổ trợ; không yêu cầu cả REST lẫn gRPC.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J08-R01",
+          "section_id": "IT-J08-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Golang tại Công ty Cổ phần Giải pháp Mạng Trực Tuyến Tốc Độ. Thời gian: từ 2025-07 đến nay. Mô tả: Xây dựng các dịch vụ microservices backend bằng Golang kết nối qua gRPC và Protobuf. Quản lý truy vấn dữ liệu hiệu năng cao với PostgreSQL thông qua sqlx. Đóng gói ứng dụng vào Docker container.\n- Chức danh: Thực tập sinh Lập trình C++ và Go tại Công ty TNHH Phần mềm Công Nghệ Cao. Thời gian: từ 2025-01 đến 2025-06. Mô tả: Tham gia viết mã nguồn kiểm thử và tìm hiểu lập trình phân tán trong Go.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "section_id": "IT-J08-C04-S04",
+          "quote": "Dự án:\n- Dự án Dịch vụ Đơn hàng Phân tán OrderService-Go: Thiết kế dịch vụ gRPC xử lý đặt hàng bằng Golang, Echo và PostgreSQL.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "section_id": "IT-J08-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Golang tại Công ty Cổ phần Giải pháp Mạng Trực Tuyến Tốc Độ. Thời gian: từ 2025-07 đến nay. Mô tả: Xây dựng các dịch vụ microservices backend bằng Golang kết nối qua gRPC và Protobuf. Quản lý truy vấn dữ liệu hiệu năng cao với PostgreSQL thông qua sqlx. Đóng gói ứng dụng vào Docker container.\n- Chức danh: Thực tập sinh Lập trình C++ và Go tại Công ty TNHH Phần mềm Công Nghệ Cao. Thời gian: từ 2025-01 đến 2025-06. Mô tả: Tham gia viết mã nguồn kiểm thử và tìm hiểu lập trình phân tán trong Go.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C05",
+      "relevance": 3,
+      "rationale": "Go/Gin từ 2025-09 khoảng 14 tháng, REST API và MySQL/GORM rõ. Không nêu concurrency, Docker hoặc bằng chính quy chỉ liên quan ưu tiên, không tạo thiếu hụt bắt buộc.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J08-R01",
+          "section_id": "IT-J08-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Giải pháp Đỉnh Cao. Thời gian: từ 2025-09 đến nay. Mô tả: Xây dựng các RESTful API phục vụ tính năng bình luận và đánh giá sản phẩm bằng Golang và Gin. Kết nối cơ sở dữ liệu MySQL qua GORM.\n- Chức danh: Lập trình viên Thử việc tại Công ty Cổ phần Số Khởi Tạo. Thời gian: từ 2025-03 đến 2025-08. Mô tả: Hỗ trợ kiểm thử và sửa lỗi nhỏ trong các API Golang.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "section_id": "IT-J08-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Giải pháp Đỉnh Cao. Thời gian: từ 2025-09 đến nay. Mô tả: Xây dựng các RESTful API phục vụ tính năng bình luận và đánh giá sản phẩm bằng Golang và Gin. Kết nối cơ sở dữ liệu MySQL qua GORM.\n- Chức danh: Lập trình viên Thử việc tại Công ty Cổ phần Số Khởi Tạo. Thời gian: từ 2025-03 đến 2025-08. Mô tả: Hỗ trợ kiểm thử và sửa lỗi nhỏ trong các API Golang.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "section_id": "IT-J08-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Giải pháp Đỉnh Cao. Thời gian: từ 2025-09 đến nay. Mô tả: Xây dựng các RESTful API phục vụ tính năng bình luận và đánh giá sản phẩm bằng Golang và Gin. Kết nối cơ sở dữ liệu MySQL qua GORM.\n- Chức danh: Lập trình viên Thử việc tại Công ty Cổ phần Số Khởi Tạo. Thời gian: từ 2025-03 đến 2025-08. Mô tả: Hỗ trợ kiểm thử và sửa lỗi nhỏ trong các API Golang.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C06",
+      "relevance": 2,
+      "rationale": "Có service Go/goroutine thu thập IoT và PostgreSQL thực tế; Gin mới liệt kê, chưa có REST/gRPC hoặc thư viện DB rõ. Tóm tắt học Go 8 tháng lệch vai trò Go từ 2025-03, cần xác minh ngưỡng 1 năm.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J08-R01",
+          "section_id": "IT-J08-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên C++ & Golang tại Công ty Cổ phần Công nghệ Thiết bị Thông Minh V-Tech. Thời gian: từ 2025-03 đến nay. Mô tả: Phát triển dịch vụ thu thập gói tin thiết bị IoT bằng C++ và Golang. Sử dụng goroutine và channel trong Go để xử lý dữ liệu cảm biến đồng thời trước khi ghi vào cơ sở dữ liệu PostgreSQL.\n- Chức danh: Thực tập sinh Lập trình C tại Công ty TNHH Kỹ thuật Điện tử Miền Bắc. Thời gian: từ 2024-08 đến 2025-02. Mô tả: Lập trình firmware điều khiển vi xử lý bằng ngôn ngữ C.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "section_id": "IT-J08-C06-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: C++, C, Golang, SQL.\n- Mạng & Backend: Socket, Gin, PostgreSQL, Docker cơ bản.\n- Khái niệm: Lập trình đồng thời, goroutine, mutex, channel.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "section_id": "IT-J08-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên C++ & Golang tại Công ty Cổ phần Công nghệ Thiết bị Thông Minh V-Tech. Thời gian: từ 2025-03 đến nay. Mô tả: Phát triển dịch vụ thu thập gói tin thiết bị IoT bằng C++ và Golang. Sử dụng goroutine và channel trong Go để xử lý dữ liệu cảm biến đồng thời trước khi ghi vào cơ sở dữ liệu PostgreSQL.\n- Chức danh: Thực tập sinh Lập trình C tại Công ty TNHH Kỹ thuật Điện tử Miền Bắc. Thời gian: từ 2024-08 đến 2025-02. Mô tả: Lập trình firmware điều khiển vi xử lý bằng ngôn ngữ C.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J08-R01: Cần khoảng thực sự làm Go.",
+        "IT-J08-R02: Chưa nêu REST API/gRPC thực tế với Gin.",
+        "IT-J08-R03: Chưa nêu GORM, sqlx hoặc database/sql."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Thời điểm bắt đầu Go trong vai trò C++/Go mâu thuẫn tóm tắt 8 tháng tại ngưỡng 1 năm (HR-SOURCE-008)."
+      ]
+    },
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C07",
+      "relevance": 3,
+      "rationale": "Vai trò Go/Gin từ 2025-06 khoảng 17 tháng đã đủ ngưỡng dù freelance chưa có ngày; PostgreSQL thực tế và GORM trong kỹ năng phù hợp. Không cần cộng thêm freelance hoặc suy tổng thời gian.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J08-R01",
+          "section_id": "IT-J08-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Golang tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng RESTful API cho ứng dụng khảo sát trực tuyến bằng Golang Gin và cơ sở dữ liệu PostgreSQL. Cấu hình Redis lưu phiên làm việc.\n- Chức danh: Lập trình viên Backend Tự do tại Nhóm Phát triển Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Viết các API và kết nối cơ sở dữ liệu PostgreSQL bằng Golang.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "section_id": "IT-J08-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Golang tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng RESTful API cho ứng dụng khảo sát trực tuyến bằng Golang Gin và cơ sở dữ liệu PostgreSQL. Cấu hình Redis lưu phiên làm việc.\n- Chức danh: Lập trình viên Backend Tự do tại Nhóm Phát triển Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Viết các API và kết nối cơ sở dữ liệu PostgreSQL bằng Golang.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "section_id": "IT-J08-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Golang tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng RESTful API cho ứng dụng khảo sát trực tuyến bằng Golang Gin và cơ sở dữ liệu PostgreSQL. Cấu hình Redis lưu phiên làm việc.\n- Chức danh: Lập trình viên Backend Tự do tại Nhóm Phát triển Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Viết các API và kết nối cơ sở dữ liệu PostgreSQL bằng Golang.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "section_id": "IT-J08-C07-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: Golang, SQL.\n- Công nghệ Backend: Gin, GORM, PostgreSQL, Redis, Git.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C08",
+      "relevance": 2,
+      "rationale": "Go/Gin mock server có khoảng 18 tháng và dự án cụ thể nên có năng lực xây dịch vụ liên quan. Tuy nhiên QA/mock không đồng nhất backend production; PostgreSQL chỉ truy vấn kiểm tra, chưa chứng minh thư viện truy cập DB và luồng nghiệp vụ backend.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J08-R01",
+          "section_id": "IT-J08-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Automation QA & Tool Developer tại Công ty Cổ phần Công nghệ Viễn Thông Số Thần Tốc. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng các mock service bằng Golang và framework Gin để hỗ trợ môi trường kiểm thử tự động. Trực tiếp truy vấn kiểm tra dữ liệu trên PostgreSQL và đóng gói bộ kiểm thử bằng Docker.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Dịch vụ Số Tân An. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Kiểm thử chức năng và kiểm thử API bằng Postman.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "section_id": "IT-J08-C08-S04",
+          "quote": "Dự án:\n- Dự án Công cụ Giả lập Dịch vụ MockGo: Viết mock API server bằng Golang Gin và Docker để phục vụ kiểm thử tích hợp.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "section_id": "IT-J08-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Automation QA & Tool Developer tại Công ty Cổ phần Công nghệ Viễn Thông Số Thần Tốc. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng các mock service bằng Golang và framework Gin để hỗ trợ môi trường kiểm thử tự động. Trực tiếp truy vấn kiểm tra dữ liệu trên PostgreSQL và đóng gói bộ kiểm thử bằng Docker.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Dịch vụ Số Tân An. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Kiểm thử chức năng và kiểm thử API bằng Postman.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J08-R03: Chưa nêu tích hợp GORM, sqlx hoặc database/sql trong dịch vụ Go."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

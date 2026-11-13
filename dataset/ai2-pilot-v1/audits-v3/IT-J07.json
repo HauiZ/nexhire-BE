@@ -1,0 +1,49 @@
+{
+  "limitations_noted": [
+    "Development-only synthetic pilot artifact (ai2-pilot-source-v1); not verified employer competence, expert gold, or proof of production parser consistency.",
+    "Recurring candidate-index scenario templates across pilot jobs remain an accepted limitation under HR-SOURCE-009; candidate IDs and ordering must be excluded from features and label inference.",
+    "Presence-only skills and role skill arrays omit prose proficiency qualifiers such as '(cơ bản)' in IT-J07-C03 (PostgreSQL) and IT-J07-C08 (Java, Spring Boot); downstream annotation must read section prose.",
+    "Retained tenure/scope ambiguities under HR-SOURCE-008 (IT-J07-C04 1-year Java subset within 2022-03-to-present mixed .NET/Java role; IT-J07-C05 fullstack vs pure backend tenure; IT-J07-C03/C05 summary vs role details), IT-J07-C07-E02 unknown dates/status (is_current=null), and IT-J07-R01 Java-version-tenure phrasing ambiguity require careful downstream labeling and human review flagging when label-material.",
+    "Cross-corpus duplicate checks and exhaustive external collision verification for fictionalized organization names (such as VietPayLink, SafeLife, Y-Tech) remain coordinator scope; no external verification performed."
+  ],
+  "job_id": "IT-J07",
+  "verified_candidate_count": 8,
+  "source_acceptance": "accepted",
+  "resolved_historical_issues": [
+    {
+      "issue_summary": "IT-J07-C04-E01 skills_used unsupported 'C#' claim inferred from '.NET' or transferred from second role (IT-J07-C04-E02) — removed 'C#' from IT-J07-C04-E01.skills_used per HR-SOURCE-003; remaining skills ['Java', 'Spring Boot', 'Apache Kafka'] are verbatim in E01 prose.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J07-C07-E02 unstated dates with unsupported is_current=false — updated is_current to null per HR-SOURCE-005 to match unstated start/end dates and unestablished status.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J07-C01 organization/project naming ('VinaPay') resembling possible real brand — fictionalized to VietPayLink and VietPay-Core per HR-SOURCE-007 while preserving task, date, and metric scope.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J07-C04 summary 'Trong 1 năm qua' Java/Spring Boot/Kafka work subset inside 2022-03-to-present mixed .NET/Java employment — preserved summary and dates per HR-SOURCE-008 without assigning full employment duration to Java."
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J07-C03 and IT-J07-C05 summary duration/scope vs role timeline nuances (C03 3-year Spring Boot/MySQL summary vs earlier unstated-MySQL role; C05 fullstack tenure vs pure backend tenure and summary Oracle claim across hospital/school software) — preserved verbatim per HR-SOURCE-008."
+    },
+    {
+      "issue_summary": "IT-J07-R01 ambiguity on whether all 5 years must use Java 11/17/21 and JD leadership duties vs preferred IT-J07-R06 — preserved verbatim JD/requirement alignment per HR-SOURCE-011.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "Presence-only skill arrays omitting '(cơ bản)' qualifiers, benign normalization (Kafka/Apache Kafka, Java versions->Java), and C06 self-promotional summary prose ('năng lực dẫn dắt kỹ thuật xuất sắc') — accepted with full context retained in CV prose.",
+      "disposition": "accepted_limitation"
+    },
+    {
+      "issue_summary": "Recurring candidate-index scenario templates across pilot jobs (C01 lead, C03 shorter tenure, C07 unstated-date freelance) — retained for development-only pilot under HR-SOURCE-009.",
+      "disposition": "accepted_limitation"
+    }
+  ],
+  "blocking_issues": [],
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

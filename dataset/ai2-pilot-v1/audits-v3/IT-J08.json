@@ -1,0 +1,49 @@
+{
+  "limitations_noted": [
+    "Synthetic development pilot only. Silver annotations, not gold truth or real-world hiring benchmark.",
+    "Ambiguous or stale summary tenure versus timeline duration in C01, C02, C03, C04, C06, C08 retained under HR-SOURCE-008. Job-related tenure must derive from explicit role dates and tasks.",
+    "Recurring candidate-index templates (C07 freelance unstated dates, C05 self-taught without formal degree) retained under HR-SOURCE-009; candidate index and ordering excluded from model features.",
+    "Fictional company names declared, not externally verified against business registries (HR-SOURCE-007).",
+    "C07-P01 omits Redis caching from structured technologies_or_methods despite description mention; no unsupported claims introduced."
+  ],
+  "resolved_historical_issues": [
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "C01: Summary 18-month Go tenure versus 19-month current role plus internship. Retained ambiguity under HR-SOURCE-008."
+    },
+    {
+      "issue_summary": "C02: Summary 24-month web / 12-month Go tenure versus 27-month timeline / 15-month current role. Retained ambiguity under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "C03: Summary 20-month software / 14-month Python / 6-month Go tenure versus 28-month continuous timeline and 10-month Python role. Retained ambiguity under HR-SOURCE-008."
+    },
+    {
+      "issue_summary": "C04: Summary 15-month specialized Go tenure versus 16-month current role. Retained ambiguity under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "C06: Summary 8-month Go learning subset within longer mixed C++/Go role. Retained ambiguity under HR-SOURCE-008."
+    },
+    {
+      "issue_summary": "C07: Freelance role E02 with unstated dates previously inferred is_current=false; updated to is_current=null per HR-SOURCE-005.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "C08: Summary 18-month software industry tenure versus 24-month continuous timeline. Retained ambiguity under HR-SOURCE-008."
+    },
+    {
+      "issue_summary": "Candidate-index recurring scenarios across pilot jobs (freelance C07, self-taught C05). Accepted limitation under HR-SOURCE-009.",
+      "disposition": "accepted_limitation"
+    }
+  ],
+  "verified_candidate_count": 8,
+  "job_id": "IT-J08",
+  "blocking_issues": [],
+  "source_acceptance": "accepted",
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

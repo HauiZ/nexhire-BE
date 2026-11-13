@@ -1,0 +1,53 @@
+{
+  "verified_candidate_count": 8,
+  "limitations_noted": [
+    "Development pilot synthetic data: fictional entities only; no external employer verification or expert gold relevance claims.",
+    "Candidate template leakage: recurring 6-section/2-job archetypes retained per HR-SOURCE-009; candidate index/ordering must be excluded from scoring features.",
+    "Summary tenure discrepancies preserved per HR-SOURCE-008: downstream relevance labels must derive job-related tenure from explicit role tasks/dates rather than summary claims.",
+    "Presence-only structured skills schema: basic/introductory qualifiers in prose are omitted in skills array; evaluation must reference source text context.",
+    "Lexical duplicate detection: 5-gram token overlap does not verify semantic independence or test set contamination against AI1."
+  ],
+  "job_id": "IT-J01",
+  "blocking_issues": [],
+  "resolved_historical_issues": [
+    {
+      "issue_summary": "IT-J01-C07-E02 freelance unstated dates status changed from is_current=false to is_current=null per HR-SOURCE-005.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J01-C04 and IT-J01-C07 real/trademark-resembling employer and project names (SmartLog -> LogiSmart Việt Nam, NextTech -> NextGen Việt) fictionalized per HR-SOURCE-007.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J01-C03-E02 structured skill alias harmonized from ReactJS to React to match cited section text verbatim per HR-SOURCE-003."
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J01-C01 summary duration statement (3 năm 6 tháng) preserved despite longer chronological timeline to reference date 2026-11-10; flagged for downstream review per HR-SOURCE-008."
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J01-C04 summary stack-scoped duration statement (3 năm kinh nghiệm thực tế với Node.js, TypeScript và NestJS) preserved and flagged per HR-SOURCE-008."
+    },
+    {
+      "issue_summary": "IT-J01-C05 summary duration statement (1 năm 4 tháng) preserved despite timeline differences; flagged per HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J01-C08 summary duration statement (3 năm) preserved despite longer chronological testing tenure; flagged per HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "Presence-only skills schema omitting narrative basic-level qualifiers for C03, C05, C06, C08 accepted as pilot schema design constraint.",
+      "disposition": "accepted_limitation"
+    },
+    {
+      "disposition": "accepted_limitation",
+      "issue_summary": "Recurring candidate-index archetype patterns across IT profiles accepted as development pilot limitation per HR-SOURCE-009."
+    }
+  ],
+  "source_acceptance": "accepted",
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

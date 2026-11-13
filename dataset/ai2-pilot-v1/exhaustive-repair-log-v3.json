@@ -1,0 +1,1282 @@
+{
+  "schema_version": "ai2-pilot-exhaustive-repair-log-v3",
+  "changes_count": 115,
+  "changes": [
+    {
+      "id": "IT-J01-C03-E02",
+      "field": "skills_used",
+      "before": [
+        "ReactJS",
+        "Redux",
+        "HTML5",
+        "CSS3"
+      ],
+      "after": [
+        "React",
+        "Redux",
+        "HTML5",
+        "CSS3"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Harmonize alias ReactJS -> React"
+    },
+    {
+      "id": "IT-J01-C04-S03",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Công nghệ SmartLog. Thời gian: từ 2023-10 đến nay. Mô tả: Phát triển các mô-đun dịch vụ microservices cho hệ thống theo dõi logistics bằng NestJS và TypeScript. Tối ưu hóa các bảng dữ liệu PostgreSQL có hàng triệu bản ghi, lập chỉ mục và điều chỉnh câu lệnh SQL để duy trì độ trễ dưới 100ms. Ứng dụng Redis để lưu trữ phiên làm việc và caching dữ liệu tra cứu hành trình.\n- Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2022-03 đến 2023-09. Mô tả: Tham gia phát triển hệ thống quản lý học tập trực tuyến (LMS). Viết RESTful API với NestJS, sử dụng TypeORM kết nối PostgreSQL. Triển khai ứng dụng qua Docker container.",
+      "after": "Kinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Công nghệ LogiSmart Việt Nam. Thời gian: từ 2023-10 đến nay. Mô tả: Phát triển các mô-đun dịch vụ microservices cho hệ thống theo dõi logistics bằng NestJS và TypeScript. Tối ưu hóa các bảng dữ liệu PostgreSQL có hàng triệu bản ghi, lập chỉ mục và điều chỉnh câu lệnh SQL để duy trì độ trễ dưới 100ms. Ứng dụng Redis để lưu trữ phiên làm việc và caching dữ liệu tra cứu hành trình.\n- Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2022-03 đến 2023-09. Mô tả: Tham gia phát triển hệ thống quản lý học tập trực tuyến (LMS). Viết RESTful API với NestJS, sử dụng TypeORM kết nối PostgreSQL. Triển khai ứng dụng qua Docker container.",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize trademark org"
+    },
+    {
+      "id": "IT-J01-C04-S04",
+      "field": "text",
+      "before": "Dự án đã thực hiện:\n- Dự án Hệ thống Giám sát Vận tải SmartLogistics: Xây dựng các API xử lý định vị và trạng thái đơn hàng. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và đóng gói toàn bộ dịch vụ qua Docker Compose.",
+      "after": "Dự án đã thực hiện:\n- Dự án Hệ thống Giám sát Vận tải LogiSmart: Xây dựng các API xử lý định vị và trạng thái đơn hàng. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và đóng gói toàn bộ dịch vụ qua Docker Compose.",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize trademark org"
+    },
+    {
+      "id": "IT-J01-C04-E01",
+      "field": "company",
+      "before": "Công ty Cổ phần Công nghệ SmartLog",
+      "after": "Công ty Cổ phần Công nghệ LogiSmart Việt Nam",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize company"
+    },
+    {
+      "id": "IT-J01-C04-P01",
+      "field": "name",
+      "before": "Hệ thống Giám sát Vận tải SmartLogistics",
+      "after": "Hệ thống Giám sát Vận tải LogiSmart",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize project name"
+    },
+    {
+      "id": "IT-J01-C04",
+      "field": "cv_text",
+      "before": "Giới thiệu bản thân: Kỹ sư Backend có 3 năm kinh nghiệm thực tế với Node.js, TypeScript và NestJS. Tập trung vào thiết kế hệ thống API chịu tải tốt, quản trị cơ sở dữ liệu PostgreSQL và cấu hình bộ nhớ đệm Redis. Có thói quen viết mã kiểm thử và tự động hóa quy trình triển khai bằng Docker.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, SQL.\n- Khung phát triển: NestJS, Node.js, TypeORM, Prisma.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Docker Compose, Git, Linux, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Công nghệ SmartLog. Thời gian: từ 2023-10 đến nay. Mô tả: Phát triển các mô-đun dịch vụ microservices cho hệ thống theo dõi logistics bằng NestJS và TypeScript. Tối ưu hóa các bảng dữ liệu PostgreSQL có hàng triệu bản ghi, lập chỉ mục và điều chỉnh câu lệnh SQL để duy trì độ trễ dưới 100ms. Ứng dụng Redis để lưu trữ phiên làm việc và caching dữ liệu tra cứu hành trình.\n- Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2022-03 đến 2023-09. Mô tả: Tham gia phát triển hệ thống quản lý học tập trực tuyến (LMS). Viết RESTful API với NestJS, sử dụng TypeORM kết nối PostgreSQL. Triển khai ứng dụng qua Docker container.\n\nDự án đã thực hiện:\n- Dự án Hệ thống Giám sát Vận tải SmartLogistics: Xây dựng các API xử lý định vị và trạng thái đơn hàng. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và đóng gói toàn bộ dịch vụ qua Docker Compose.\n\nHọc vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM.\n\nChứng chỉ nghề nghiệp:\n- Không có.",
+      "after": "Giới thiệu bản thân: Kỹ sư Backend có 3 năm kinh nghiệm thực tế với Node.js, TypeScript và NestJS. Tập trung vào thiết kế hệ thống API chịu tải tốt, quản trị cơ sở dữ liệu PostgreSQL và cấu hình bộ nhớ đệm Redis. Có thói quen viết mã kiểm thử và tự động hóa quy trình triển khai bằng Docker.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, SQL.\n- Khung phát triển: NestJS, Node.js, TypeORM, Prisma.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Docker Compose, Git, Linux, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Công nghệ LogiSmart Việt Nam. Thời gian: từ 2023-10 đến nay. Mô tả: Phát triển các mô-đun dịch vụ microservices cho hệ thống theo dõi logistics bằng NestJS và TypeScript. Tối ưu hóa các bảng dữ liệu PostgreSQL có hàng triệu bản ghi, lập chỉ mục và điều chỉnh câu lệnh SQL để duy trì độ trễ dưới 100ms. Ứng dụng Redis để lưu trữ phiên làm việc và caching dữ liệu tra cứu hành trình.\n- Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2022-03 đến 2023-09. Mô tả: Tham gia phát triển hệ thống quản lý học tập trực tuyến (LMS). Viết RESTful API với NestJS, sử dụng TypeORM kết nối PostgreSQL. Triển khai ứng dụng qua Docker container.\n\nDự án đã thực hiện:\n- Dự án Hệ thống Giám sát Vận tải LogiSmart: Xây dựng các API xử lý định vị và trạng thái đơn hàng. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và đóng gói toàn bộ dịch vụ qua Docker Compose.\n\nHọc vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM.\n\nChứng chỉ nghề nghiệp:\n- Không có.",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "IT-J01-C07-S03",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Node.js tại Công ty Cổ phần Khởi nghiệp NextTech Việt. Thời gian: từ 2024-02 đến nay. Mô tả: Phát triển các module API backend bằng NestJS và TypeScript cho ứng dụng quản lý cộng đồng. Thiết kế cơ sở dữ liệu PostgreSQL và tích hợp Redis để xử lý lưu cache thông tin phiên làm việc và danh sách bài đăng nổi bật.\n- Chức danh: Lập trình viên Tự do (Freelance Backend Developer) tại Nhóm Dự án Tự do Công nghệ. Thời gian: không nêu ngày tháng cụ thể. Mô tả: Xây dựng RESTful API và quản lý dữ liệu PostgreSQL cho các website bán hàng vừa và nhỏ bằng Node.js và Express.js. Đóng gói mã nguồn qua Docker.",
+      "after": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Node.js tại Công ty Cổ phần Khởi nghiệp NextGen Việt. Thời gian: từ 2024-02 đến nay. Mô tả: Phát triển các module API backend bằng NestJS và TypeScript cho ứng dụng quản lý cộng đồng. Thiết kế cơ sở dữ liệu PostgreSQL và tích hợp Redis để xử lý lưu cache thông tin phiên làm việc và danh sách bài đăng nổi bật.\n- Chức danh: Lập trình viên Tự do (Freelance Backend Developer) tại Nhóm Dự án Tự do Công nghệ. Thời gian: không nêu ngày tháng cụ thể. Mô tả: Xây dựng RESTful API và quản lý dữ liệu PostgreSQL cho các website bán hàng vừa và nhỏ bằng Node.js và Express.js. Đóng gói mã nguồn qua Docker.",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize trademark org"
+    },
+    {
+      "id": "IT-J01-C07-E01",
+      "field": "company",
+      "before": "Công ty Cổ phần Khởi nghiệp NextTech Việt",
+      "after": "Công ty Cổ phần Khởi nghiệp NextGen Việt",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize company"
+    },
+    {
+      "id": "IT-J01-C07",
+      "field": "cv_text",
+      "before": "Giới thiệu: Lập trình viên Backend Node.js có kinh nghiệm triển khai hệ thống API cho các sản phẩm dịch vụ số. Thành thạo TypeScript, cơ sở dữ liệu PostgreSQL và Docker. Từng làm việc trong môi trường dự án tự do và công ty khởi nghiệp.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: JavaScript, TypeScript, SQL.\n- Công nghệ Backend: Node.js, NestJS, Express.js.\n- Cơ sở dữ liệu & Caching: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Git, REST API.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Node.js tại Công ty Cổ phần Khởi nghiệp NextTech Việt. Thời gian: từ 2024-02 đến nay. Mô tả: Phát triển các module API backend bằng NestJS và TypeScript cho ứng dụng quản lý cộng đồng. Thiết kế cơ sở dữ liệu PostgreSQL và tích hợp Redis để xử lý lưu cache thông tin phiên làm việc và danh sách bài đăng nổi bật.\n- Chức danh: Lập trình viên Tự do (Freelance Backend Developer) tại Nhóm Dự án Tự do Công nghệ. Thời gian: không nêu ngày tháng cụ thể. Mô tả: Xây dựng RESTful API và quản lý dữ liệu PostgreSQL cho các website bán hàng vừa và nhỏ bằng Node.js và Express.js. Đóng gói mã nguồn qua Docker.\n\nDự án:\n- Dự án Hệ thống Mạng Xã hội Nội bộ TeamConnect: Thiết kế RESTful API bằng NestJS và TypeScript, lưu trữ dữ liệu với PostgreSQL, ứng dụng Redis caching nhằm tăng tốc độ nạp dữ liệu. Đóng gói container ứng dụng bằng Docker.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+      "after": "Giới thiệu: Lập trình viên Backend Node.js có kinh nghiệm triển khai hệ thống API cho các sản phẩm dịch vụ số. Thành thạo TypeScript, cơ sở dữ liệu PostgreSQL và Docker. Từng làm việc trong môi trường dự án tự do và công ty khởi nghiệp.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: JavaScript, TypeScript, SQL.\n- Công nghệ Backend: Node.js, NestJS, Express.js.\n- Cơ sở dữ liệu & Caching: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Git, REST API.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Node.js tại Công ty Cổ phần Khởi nghiệp NextGen Việt. Thời gian: từ 2024-02 đến nay. Mô tả: Phát triển các module API backend bằng NestJS và TypeScript cho ứng dụng quản lý cộng đồng. Thiết kế cơ sở dữ liệu PostgreSQL và tích hợp Redis để xử lý lưu cache thông tin phiên làm việc và danh sách bài đăng nổi bật.\n- Chức danh: Lập trình viên Tự do (Freelance Backend Developer) tại Nhóm Dự án Tự do Công nghệ. Thời gian: không nêu ngày tháng cụ thể. Mô tả: Xây dựng RESTful API và quản lý dữ liệu PostgreSQL cho các website bán hàng vừa và nhỏ bằng Node.js và Express.js. Đóng gói mã nguồn qua Docker.\n\nDự án:\n- Dự án Hệ thống Mạng Xã hội Nội bộ TeamConnect: Thiết kế RESTful API bằng NestJS và TypeScript, lưu trữ dữ liệu với PostgreSQL, ứng dụng Redis caching nhằm tăng tốc độ nạp dữ liệu. Đóng gói container ứng dụng bằng Docker.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "IT-J02-C01-E01",
+      "field": "skills_used",
+      "before": [
+        "Next.js",
+        "React.js",
+        "Redux Toolkit",
+        "React Query",
+        "Storybook"
+      ],
+      "after": [
+        "Next.js",
+        "Redux Toolkit",
+        "React Query",
+        "Storybook"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "React.js not in role 1 text"
+    },
+    {
+      "id": "IT-J03-C06-S03",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\n- Chức danh: Data Scientist tại Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaAI. Thời gian: từ 2022-09 đến nay. Mô tả: Xây dựng các mô hình dự báo nhu cầu khách hàng bằng Python và Scikit-learn. Viết các truy vấn trích xuất dữ liệu phức tạp từ cơ sở dữ liệu PostgreSQL. Phối hợp với đội Data Engineer để đưa mô hình vào phục vụ thực tế.\n- Chức danh: Chuyên viên Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Thị trường Hoàng Hà. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Phân tích hành vi người tiêu dùng và xây dựng báo cáo phân khúc thị trường bằng Python và SQL trên nền MySQL.",
+      "after": "Kinh nghiệm làm việc:\n- Chức danh: Data Scientist tại Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaSmart AI. Thời gian: từ 2022-09 đến nay. Mô tả: Xây dựng các mô hình dự báo nhu cầu khách hàng bằng Python và Scikit-learn. Viết các truy vấn trích xuất dữ liệu phức tạp từ cơ sở dữ liệu PostgreSQL. Phối hợp với đội Data Engineer để đưa mô hình vào phục vụ thực tế.\n- Chức danh: Chuyên viên Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Thị trường Hoàng Hà. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Phân tích hành vi người tiêu dùng và xây dựng báo cáo phân khúc thị trường bằng Python và SQL trên nền MySQL.",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize trademark org"
+    },
+    {
+      "id": "IT-J03-C06-E01",
+      "field": "company",
+      "before": "Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaAI",
+      "after": "Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaSmart AI",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize company"
+    },
+    {
+      "id": "IT-J03-C06",
+      "field": "cv_text",
+      "before": "Tóm tắt: Nhà khoa học Dữ liệu (Data Scientist) có 4 năm kinh nghiệm phân tích và xây dựng mô hình dự báo học máy. Thành thạo lập trình Python, xử lý dữ liệu với Pandas, Scikit-learn và truy vấn dữ liệu từ PostgreSQL. Có hiểu biết về kiến trúc dữ liệu và mong muốn đóng góp sâu hơn vào khâu kỹ thuật dữ liệu.\n\nKỹ năng:\n- Ngôn ngữ: Python, R, SQL.\n- Phân tích & Học máy: Pandas, NumPy, Scikit-learn, TensorFlow, XGBoost.\n- Cơ sở dữ liệu: PostgreSQL, MySQL.\n- Công cụ: Jupyter Notebook, Git, Docker.\n\nKinh nghiệm làm việc:\n- Chức danh: Data Scientist tại Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaAI. Thời gian: từ 2022-09 đến nay. Mô tả: Xây dựng các mô hình dự báo nhu cầu khách hàng bằng Python và Scikit-learn. Viết các truy vấn trích xuất dữ liệu phức tạp từ cơ sở dữ liệu PostgreSQL. Phối hợp với đội Data Engineer để đưa mô hình vào phục vụ thực tế.\n- Chức danh: Chuyên viên Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Thị trường Hoàng Hà. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Phân tích hành vi người tiêu dùng và xây dựng báo cáo phân khúc thị trường bằng Python và SQL trên nền MySQL.\n\nDự án:\n- Dự án Mô hình Dự báo Nhu cầu Tiêu dùng FMCG: Huấn luyện và kiểm thử mô hình hồi quy và phân loại bằng Python Scikit-learn, trích xuất dữ liệu từ PostgreSQL.\n\nHọc vấn:\n- Cử nhân Toán Tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Không có.",
+      "after": "Tóm tắt: Nhà khoa học Dữ liệu (Data Scientist) có 4 năm kinh nghiệm phân tích và xây dựng mô hình dự báo học máy. Thành thạo lập trình Python, xử lý dữ liệu với Pandas, Scikit-learn và truy vấn dữ liệu từ PostgreSQL. Có hiểu biết về kiến trúc dữ liệu và mong muốn đóng góp sâu hơn vào khâu kỹ thuật dữ liệu.\n\nKỹ năng:\n- Ngôn ngữ: Python, R, SQL.\n- Phân tích & Học máy: Pandas, NumPy, Scikit-learn, TensorFlow, XGBoost.\n- Cơ sở dữ liệu: PostgreSQL, MySQL.\n- Công cụ: Jupyter Notebook, Git, Docker.\n\nKinh nghiệm làm việc:\n- Chức danh: Data Scientist tại Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaSmart AI. Thời gian: từ 2022-09 đến nay. Mô tả: Xây dựng các mô hình dự báo nhu cầu khách hàng bằng Python và Scikit-learn. Viết các truy vấn trích xuất dữ liệu phức tạp từ cơ sở dữ liệu PostgreSQL. Phối hợp với đội Data Engineer để đưa mô hình vào phục vụ thực tế.\n- Chức danh: Chuyên viên Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Thị trường Hoàng Hà. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Phân tích hành vi người tiêu dùng và xây dựng báo cáo phân khúc thị trường bằng Python và SQL trên nền MySQL.\n\nDự án:\n- Dự án Mô hình Dự báo Nhu cầu Tiêu dùng FMCG: Huấn luyện và kiểm thử mô hình hồi quy và phân loại bằng Python Scikit-learn, trích xuất dữ liệu từ PostgreSQL.\n\nHọc vấn:\n- Cử nhân Toán Tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Không có.",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "IT-J06-C08-E02",
+      "field": "skills_used",
+      "before": [
+        "Postman",
+        "Apache JMeter"
+      ],
+      "after": [
+        "Postman",
+        "JMeter"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Harmonize alias Apache JMeter -> JMeter"
+    },
+    {
+      "id": "IT-J08",
+      "field": "jd_text",
+      "before": "Công ty Cổ phần Công nghệ Mạng Đa Điểm Gotech tuyển dụng vị trí Lập trình viên Backend Golang (Golang Backend Developer) cấp độ Junior tại Cầu Giấy, Hà Nội. Hình thức làm việc: Toàn thời gian trực tiếp tại văn phòng. Mức thu nhập khởi điểm từ 14.000.000 đến 20.000.000 VND kèm chế độ ăn trưa miễn phí và tài trợ kinh phí thi chứng chỉ kỹ thuật.\n\nTrách nhiệm công việc:\n- Tham gia xây dựng các dịch vụ microservices backend hiệu năng cao bằng ngôn ngữ Golang.\n- Viết RESTful API và dịch vụ RPC kết nối với các hệ sinh thái ứng dụng khác trong doanh nghiệp.\n- Thiết kế bảng dữ liệu, viết câu lệnh truy vấn và tối ưu cơ sở dữ liệu quan hệ PostgreSQL.\n- Viết unit test, phối hợp cùng đội QA kiểm tra lỗi và tham gia đóng gói triển khai ứng dụng.\n\nYêu cầu bắt buộc:\n- Có từ 1 đến 2 năm kinh nghiệm lập trình backend với ngôn ngữ Golang (Go).\n- Thành thạo xây dựng RESTful API hoặc gRPC services sử dụng Gin, Echo hoặc Fiber.\n- Kinh nghiệm làm việc với cơ sở dữ liệu PostgreSQL hoặc MySQL (sử dụng GORM, sqlx hoặc database/sql).\n\nYêu cầu ưu tiên:\n- Hiểu biết về lập trình đồng thời (goroutine, channel) và xử lý race condition trong Go.\n- Kinh nghiệm sử dụng Redis cho caching và Docker để đóng gói ứng dụng.\n- Tốt nghiệp Đại học hoặc Cao đẳng chuyên ngành Công nghệ thông tin hoặc ngành kỹ thuật liên quan.",
+      "after": "Công ty Cổ phần Công nghệ Mạng Đa Điểm TechNova tuyển dụng vị trí Lập trình viên Backend Golang (Golang Backend Developer) cấp độ Junior tại Cầu Giấy, Hà Nội. Hình thức làm việc: Toàn thời gian trực tiếp tại văn phòng. Mức thu nhập khởi điểm từ 14.000.000 đến 20.000.000 VND kèm chế độ ăn trưa miễn phí và tài trợ kinh phí thi chứng chỉ kỹ thuật.\n\nTrách nhiệm công việc:\n- Tham gia xây dựng các dịch vụ microservices backend hiệu năng cao bằng ngôn ngữ Golang.\n- Viết RESTful API và dịch vụ RPC kết nối với các hệ sinh thái ứng dụng khác trong doanh nghiệp.\n- Thiết kế bảng dữ liệu, viết câu lệnh truy vấn và tối ưu cơ sở dữ liệu quan hệ PostgreSQL.\n- Viết unit test, phối hợp cùng đội QA kiểm tra lỗi và tham gia đóng gói triển khai ứng dụng.\n\nYêu cầu bắt buộc:\n- Có từ 1 đến 2 năm kinh nghiệm lập trình backend với ngôn ngữ Golang (Go).\n- Thành thạo xây dựng RESTful API hoặc gRPC services sử dụng Gin, Echo hoặc Fiber.\n- Kinh nghiệm làm việc với cơ sở dữ liệu PostgreSQL hoặc MySQL (sử dụng GORM, sqlx hoặc database/sql).\n\nYêu cầu ưu tiên:\n- Hiểu biết về lập trình đồng thời (goroutine, channel) và xử lý race condition trong Go.\n- Kinh nghiệm sử dụng Redis cho caching và Docker để đóng gói ứng dụng.\n- Tốt nghiệp Đại học hoặc Cao đẳng chuyên ngành Công nghệ thông tin hoặc ngành kỹ thuật liên quan.",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize Gotech trademark"
+    },
+    {
+      "id": "IT-J08-C04-E02",
+      "field": "skills_used",
+      "before": [
+        "Golang"
+      ],
+      "after": [
+        "Go"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Harmonize alias Golang -> Go"
+    },
+    {
+      "id": "IT-J09-C02-E02",
+      "field": "skills_used",
+      "before": [
+        "C#",
+        "ASP.NET Core",
+        "Microsoft SQL Server"
+      ],
+      "after": [
+        "C#",
+        "ASP.NET Core",
+        "SQL Server"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Harmonize alias Microsoft SQL Server -> SQL Server"
+    },
+    {
+      "id": "IT-J09-C03-E02",
+      "field": "skills_used",
+      "before": [
+        "React.js",
+        "HTML",
+        "CSS"
+      ],
+      "after": [
+        "React",
+        "HTML",
+        "CSS"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Harmonize alias React.js -> React"
+    },
+    {
+      "id": "IT-J09-C07-E02",
+      "field": "skills_used",
+      "before": [
+        "React.js"
+      ],
+      "after": [
+        "React"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Harmonize alias React.js -> React"
+    },
+    {
+      "id": "IT-J09-C08-E02",
+      "field": "skills_used",
+      "before": [
+        "Microsoft SQL Server"
+      ],
+      "after": [
+        "SQL Server"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Harmonize alias Microsoft SQL Server -> SQL Server"
+    },
+    {
+      "id": "SA-J01-C03-SEC-EXP",
+      "field": "text",
+      "before": "Lịch sử công tác:\nNhân viên Kinh doanh Thiết bị CNTT tại Công ty TNHH Thiết Bị Số Nam Long\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\n- Tư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\n- Thực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\n- Chưa sử dụng Salesforce hay HubSpot chuyên sâu, chủ yếu quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.\n\nNhân viên Bán hàng Doanh nghiệp tại Công ty Cổ phần Thương mại Tin học An Phát\nThời gian: Từ 2021-07 đến 2022-12\n- Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\n- Hoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý.",
+      "after": "Lịch sử công tác:\nNhân viên Kinh doanh Thiết bị CNTT tại Công ty TNHH Thiết Bị Số Nam Long\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\n- Tư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\n- Thực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\n- Quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.\n\nNhân viên Bán hàng Doanh nghiệp tại Công ty Cổ phần Thương mại Tin học An Phát\nThời gian: Từ 2021-07 đến 2022-12\n- Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\n- Hoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "SA-J01-C03",
+      "field": "cv_text",
+      "before": "Mục tiêu nghề nghiệp:\nChuyên viên kinh doanh B2B giàu năng lượng, có hơn 3 năm kinh nghiệm bán thiết bị mạng, máy chủ và hạ tầng CNTT doanh nghiệp. Mong muốn chuyển dịch chuyên môn sang lĩnh vực phần mềm SaaS và dịch vụ đám mây B2B để phát huy thế mạnh đàm phán thương mại và kỹ năng tiếp cận khách hàng doanh nghiệp.\n\nKỹ năng làm việc:\n- Bán hàng thiết bị phần cứng và giải pháp hạ tầng CNTT B2B\n- Khảo sát nhu cầu khách hàng và lập báo giá kỹ thuật\n- Đàm phán hợp đồng cung cấp thiết bị và nghiệm thu bàn giao\n- Quản lý danh sách khách hàng bằng Microsoft Excel và Zalo Doanh nghiệp\n- Giao tiếp tiếng Việt lưu loát, tiếng Anh đọc hiểu tài liệu thông số kỹ thuật\n\nLịch sử công tác:\nNhân viên Kinh doanh Thiết bị CNTT tại Công ty TNHH Thiết Bị Số Nam Long\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\n- Tư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\n- Thực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\n- Chưa sử dụng Salesforce hay HubSpot chuyên sâu, chủ yếu quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.\n\nNhân viên Bán hàng Doanh nghiệp tại Công ty Cổ phần Thương mại Tin học An Phát\nThời gian: Từ 2021-07 đến 2022-12\n- Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\n- Hoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý.\n\nHọc vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Tài chính - Marketing",
+      "after": "Mục tiêu nghề nghiệp:\nChuyên viên kinh doanh B2B giàu năng lượng, có hơn 3 năm kinh nghiệm bán thiết bị mạng, máy chủ và hạ tầng CNTT doanh nghiệp. Mong muốn chuyển dịch chuyên môn sang lĩnh vực phần mềm SaaS và dịch vụ đám mây B2B để phát huy thế mạnh đàm phán thương mại và kỹ năng tiếp cận khách hàng doanh nghiệp.\n\nKỹ năng làm việc:\n- Bán hàng thiết bị phần cứng và giải pháp hạ tầng CNTT B2B\n- Khảo sát nhu cầu khách hàng và lập báo giá kỹ thuật\n- Đàm phán hợp đồng cung cấp thiết bị và nghiệm thu bàn giao\n- Quản lý danh sách khách hàng bằng Microsoft Excel và Zalo Doanh nghiệp\n- Giao tiếp tiếng Việt lưu loát, tiếng Anh đọc hiểu tài liệu thông số kỹ thuật\n\nLịch sử công tác:\nNhân viên Kinh doanh Thiết bị CNTT tại Công ty TNHH Thiết Bị Số Nam Long\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\n- Tư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\n- Thực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\n- Quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.\n\nNhân viên Bán hàng Doanh nghiệp tại Công ty Cổ phần Thương mại Tin học An Phát\nThời gian: Từ 2021-07 đến 2022-12\n- Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\n- Hoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý.\n\nHọc vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Tài chính - Marketing",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "SA-J01-C08-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm công tác:\nChuyên viên Tư vấn Giải pháp B2B tại Công ty Cổ phần Công nghệ SmartTech Global\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\n- Khảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\n- Phối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\n- Sử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.\n\nChuyên viên Tư vấn Độc lập (Làm việc song song song/Freelance) tại Nhóm Tư vấn Giải pháp Doanh nghiệp Mở\nThời gian: Từ 2024-01 đến 2024-11\n- Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.",
+      "after": "Kinh nghiệm công tác:\nChuyên viên Tư vấn Giải pháp B2B tại Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\n- Khảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\n- Phối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\n- Sử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.\n\nChuyên viên Tư vấn Độc lập (Làm việc song song/Freelance) tại Nhóm Tư vấn Giải pháp Doanh nghiệp Mở\nThời gian: Từ 2024-01 đến 2024-11\n- Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "SA-J01-C08-EXP-01",
+      "field": "company",
+      "before": "Công ty Cổ phần Công nghệ SmartTech Global",
+      "after": "Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize company"
+    },
+    {
+      "id": "SA-J01-C08-EXP-02",
+      "field": "description",
+      "before": "Tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp SME.",
+      "after": "Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Align description to exact source bullet"
+    },
+    {
+      "id": "SA-J01-C08-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Tư vấn giải pháp Pre-sales"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "SA-J01-C08",
+      "field": "cv_text",
+      "before": "Tóm tắt kinh nghiệm:\nKỹ sư giải pháp trước bán hàng (Pre-sales Solution Consultant) với hơn 3 năm đồng hành cùng đội ngũ kinh doanh B2B SaaS. Trực tiếp làm rõ bài toán nghiệp vụ, xây dựng giải pháp kỹ thuật, điều phối demo chuyên sâu và soạn thảo phụ lục kỹ thuật cho các hợp đồng khách hàng doanh nghiệp. Có khả năng giao tiếp và làm việc với đối tác quốc tế bằng tiếng Anh.\n\nKỹ năng chủ đạo:\n- Tư vấn giải pháp công nghệ B2B (Pre-sales Solution Consulting)\n- Thuyết trình demo giải pháp phần mềm chuyên sâu cho ban kỹ thuật và quản lý\n- Xây dựng tài liệu đề xuất giải pháp kỹ thuật (RFP response)\n- Quản lý tiến trình cơ hội kinh doanh trên HubSpot CRM\n- Tiếng Anh kỹ thuật và thương mại lưu loát\n\nKinh nghiệm công tác:\nChuyên viên Tư vấn Giải pháp B2B tại Công ty Cổ phần Công nghệ SmartTech Global\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\n- Khảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\n- Phối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\n- Sử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.\n\nChuyên viên Tư vấn Độc lập (Làm việc song song song/Freelance) tại Nhóm Tư vấn Giải pháp Doanh nghiệp Mở\nThời gian: Từ 2024-01 đến 2024-11\n- Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.\n\nHọc vấn:\n- Cử nhân ngành Khoa học Máy tính, Trường Đại học Bách Khoa - ĐHQG TP.HCM\n\nChứng chỉ:\n- Chứng chỉ Professional Scrum Master I (PSM I)\n- Chứng chỉ Cambridge English: Advanced (CAE - C1)",
+      "after": "Tóm tắt kinh nghiệm:\nKỹ sư giải pháp trước bán hàng (Pre-sales Solution Consultant) với hơn 3 năm đồng hành cùng đội ngũ kinh doanh B2B SaaS. Trực tiếp làm rõ bài toán nghiệp vụ, xây dựng giải pháp kỹ thuật, điều phối demo chuyên sâu và soạn thảo phụ lục kỹ thuật cho các hợp đồng khách hàng doanh nghiệp. Có khả năng giao tiếp và làm việc với đối tác quốc tế bằng tiếng Anh.\n\nKỹ năng chủ đạo:\n- Tư vấn giải pháp công nghệ B2B (Pre-sales Solution Consulting)\n- Thuyết trình demo giải pháp phần mềm chuyên sâu cho ban kỹ thuật và quản lý\n- Xây dựng tài liệu đề xuất giải pháp kỹ thuật (RFP response)\n- Quản lý tiến trình cơ hội kinh doanh trên HubSpot CRM\n- Tiếng Anh kỹ thuật và thương mại lưu loát\n\nKinh nghiệm công tác:\nChuyên viên Tư vấn Giải pháp B2B tại Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\n- Khảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\n- Phối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\n- Sử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.\n\nChuyên viên Tư vấn Độc lập (Làm việc song song/Freelance) tại Nhóm Tư vấn Giải pháp Doanh nghiệp Mở\nThời gian: Từ 2024-01 đến 2024-11\n- Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.\n\nHọc vấn:\n- Cử nhân ngành Khoa học Máy tính, Trường Đại học Bách Khoa - ĐHQG TP.HCM\n\nChứng chỉ:\n- Chứng chỉ Professional Scrum Master I (PSM I)\n- Chứng chỉ Cambridge English: Advanced (CAE - C1)",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "SA-J02-C03-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Văn phòng phẩm tại Công ty TNHH Giấy & Bao Bì Toàn Phát\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\n- Tư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\n- Công việc chủ yếu ngồi tại văn phòng công ty, chưa phụ trách tuyến đường thực địa hay đi kiểm tra tạp hóa bao giờ.\n\nNhân viên Hỗ trợ Trực page Bán lẻ tại Cửa hàng Dụng cụ Học sinh Hồng Hà\nThời gian: Từ 2024-10 đến 2025-05\n- Trả lời tin nhắn trên trang Facebook, đóng gói bưu phẩm và giao hàng nội quận khi có đơn gấp.",
+      "after": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Văn phòng phẩm tại Công ty TNHH Giấy & Bao Bì Toàn Phát\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\n- Tư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\n- Công việc chủ yếu ngồi tại văn phòng công ty.\n\nNhân viên Hỗ trợ Trực page Bán lẻ tại Cửa hàng Dụng cụ Học sinh Hồng Hà\nThời gian: Từ 2024-10 đến 2025-05\n- Trả lời tin nhắn trên trang Facebook, đóng gói bưu phẩm và giao hàng nội quận khi có đơn gấp.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "SA-J02-C03",
+      "field": "cv_text",
+      "before": "Tóm tắt bản thân:\nNhân viên bán hàng qua điện thoại (Telesales) và chăm sóc khách hàng doanh nghiệp nhỏ với 1 năm kinh nghiệm trong mảng văn phòng phẩm và giấy in. Kỹ năng giao tiếp qua điện thoại khéo léo, xử lý đơn hàng nhanh chóng và quản lý dữ liệu trên máy tính. Mong muốn chuyển hướng sang công việc phát triển thị trường ngoài thực tế để nâng cao khả năng tiếp xúc trực tiếp với khách hàng.\n\nKỹ năng làm việc:\n- Bán hàng qua điện thoại (Telesales) và gửi báo giá qua email\n- Tiếp nhận và theo dõi tiến độ đơn hàng văn phòng phẩm\n- Sử dụng phần mềm quản lý kho và bán hàng nội bộ\n- Kỹ năng thương lượng mức giá sỉ với khách mua buôn\n- Có phương tiện xe máy cá nhân và bằng lái xe hạng A1\n\nKinh nghiệm làm việc:\nNhân viên Bán hàng Văn phòng phẩm tại Công ty TNHH Giấy & Bao Bì Toàn Phát\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\n- Tư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\n- Công việc chủ yếu ngồi tại văn phòng công ty, chưa phụ trách tuyến đường thực địa hay đi kiểm tra tạp hóa bao giờ.\n\nNhân viên Hỗ trợ Trực page Bán lẻ tại Cửa hàng Dụng cụ Học sinh Hồng Hà\nThời gian: Từ 2024-10 đến 2025-05\n- Trả lời tin nhắn trên trang Facebook, đóng gói bưu phẩm và giao hàng nội quận khi có đơn gấp.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Văn phòng, Trường Đại học Văn Hiến",
+      "after": "Tóm tắt bản thân:\nNhân viên bán hàng qua điện thoại (Telesales) và chăm sóc khách hàng doanh nghiệp nhỏ với 1 năm kinh nghiệm trong mảng văn phòng phẩm và giấy in. Kỹ năng giao tiếp qua điện thoại khéo léo, xử lý đơn hàng nhanh chóng và quản lý dữ liệu trên máy tính. Mong muốn chuyển hướng sang công việc phát triển thị trường ngoài thực tế để nâng cao khả năng tiếp xúc trực tiếp với khách hàng.\n\nKỹ năng làm việc:\n- Bán hàng qua điện thoại (Telesales) và gửi báo giá qua email\n- Tiếp nhận và theo dõi tiến độ đơn hàng văn phòng phẩm\n- Sử dụng phần mềm quản lý kho và bán hàng nội bộ\n- Kỹ năng thương lượng mức giá sỉ với khách mua buôn\n- Có phương tiện xe máy cá nhân và bằng lái xe hạng A1\n\nKinh nghiệm làm việc:\nNhân viên Bán hàng Văn phòng phẩm tại Công ty TNHH Giấy & Bao Bì Toàn Phát\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\n- Tư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\n- Công việc chủ yếu ngồi tại văn phòng công ty.\n\nNhân viên Hỗ trợ Trực page Bán lẻ tại Cửa hàng Dụng cụ Học sinh Hồng Hà\nThời gian: Từ 2024-10 đến 2025-05\n- Trả lời tin nhắn trên trang Facebook, đóng gói bưu phẩm và giao hàng nội quận khi có đơn gấp.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Văn phòng, Trường Đại học Văn Hiến",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "SA-J02-C04-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Bán hàng kênh tạp hóa",
+        "Kiểm tra tồn kho date hàng",
+        "Đi tuyến bằng xe máy"
+      ],
+      "after": [
+        "Bán hàng kênh tạp hóa",
+        "Đi tuyến bằng xe máy"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "SA-J02-C06-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm công tác:\nTrưởng ca Bán hàng Siêu thị tại Chuỗi Cửa hàng Tiện lợi V-Mart\nThời gian: Từ 2024-08 đến nay (đang làm việc)\n- Giám sát quầy hàng thực phẩm khô, bánh kẹo và gia vị tại chi nhánh quận Phú Nhuận.\n- Trực tiếp nhận hàng từ xe tải trung chuyển, đối chiếu phiếu giao nhận và xếp sản phẩm lên các tầng kệ theo đúng hướng dẫn trưng bày của chuỗi.\n- Báo cáo sản phẩm sắp hết hạn để dán tem giảm giá kích cầu tiêu thụ.\n\nNhân viên Thu ngân kiêm Trưng bày tại Siêu thị Mini Xanh\nThời gian: Từ 2023-04 đến 2024-07\n- Thu tiền tại quầy thu ngân và hỗ trợ châm hàng lên kệ khi vắng khách.",
+      "after": "Kinh nghiệm công tác:\nTrưởng ca Bán hàng Siêu thị tại Chuỗi Cửa hàng Tiện lợi EcoMart\nThời gian: Từ 2024-08 đến nay (đang làm việc)\n- Giám sát quầy hàng thực phẩm khô, bánh kẹo và gia vị tại chi nhánh quận Phú Nhuận.\n- Trực tiếp nhận hàng từ xe tải trung chuyển, đối chiếu phiếu giao nhận và xếp sản phẩm lên các tầng kệ theo đúng hướng dẫn trưng bày của chuỗi.\n- Báo cáo sản phẩm sắp hết hạn để dán tem giảm giá kích cầu tiêu thụ.\n\nNhân viên Thu ngân kiêm Trưng bày tại Siêu thị Mini Xanh\nThời gian: Từ 2023-04 đến 2024-07\n- Thu tiền tại quầy thu ngân và hỗ trợ châm hàng lên kệ khi vắng khách.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "SA-J02-C06-EXP-01",
+      "field": "company",
+      "before": "Chuỗi Cửa hàng Tiện lợi V-Mart",
+      "after": "Chuỗi Cửa hàng Tiện lợi EcoMart",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize company"
+    },
+    {
+      "id": "SA-J02-C06-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Trưng bày kệ siêu thị",
+        "Kiểm kê tồn kho cửa hàng"
+      ],
+      "after": [
+        "Trưng bày kệ siêu thị"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "SA-J02-C06",
+      "field": "cv_text",
+      "before": "Tóm tắt bản thân:\nNhân viên bán lẻ siêu thị tiện lợi với hơn 2 năm kinh nghiệm làm việc cố định tại quầy hàng thực phẩm và đồ gia dụng. Kỹ năng trưng bày hàng hóa bắt mắt theo sơ đồ mẫu, kiểm kê hàng tồn định kỳ và hỗ trợ thanh toán thu ngân. Có nguyện vọng thử sức ở vai trò nhân viên sales phát triển thị trường ngoài hiện trường.\n\nKỹ năng làm việc:\n- Sắp xếp và đảo date hàng hóa trên quầy kệ siêu thị\n- Kiểm tra số lượng tồn thực tế trong kho cửa hàng\n- Tư vấn trực tiếp cho khách mua sắm tại cửa hàng\n- Kỹ năng kiểm soát thất thoát hàng hóa\n- Có xe máy cá nhân phục vụ đi lại làm việc ca kíp\n\nKinh nghiệm công tác:\nTrưởng ca Bán hàng Siêu thị tại Chuỗi Cửa hàng Tiện lợi V-Mart\nThời gian: Từ 2024-08 đến nay (đang làm việc)\n- Giám sát quầy hàng thực phẩm khô, bánh kẹo và gia vị tại chi nhánh quận Phú Nhuận.\n- Trực tiếp nhận hàng từ xe tải trung chuyển, đối chiếu phiếu giao nhận và xếp sản phẩm lên các tầng kệ theo đúng hướng dẫn trưng bày của chuỗi.\n- Báo cáo sản phẩm sắp hết hạn để dán tem giảm giá kích cầu tiêu thụ.\n\nNhân viên Thu ngân kiêm Trưng bày tại Siêu thị Mini Xanh\nThời gian: Từ 2023-04 đến 2024-07\n- Thu tiền tại quầy thu ngân và hỗ trợ châm hàng lên kệ khi vắng khách.\n\nHọc vấn:\n- Tốt nghiệp Trung học Phổ thông, Trường THPT Nguyễn Trung Trực",
+      "after": "Tóm tắt bản thân:\nNhân viên bán lẻ siêu thị tiện lợi với hơn 2 năm kinh nghiệm làm việc cố định tại quầy hàng thực phẩm và đồ gia dụng. Kỹ năng trưng bày hàng hóa bắt mắt theo sơ đồ mẫu, kiểm kê hàng tồn định kỳ và hỗ trợ thanh toán thu ngân. Có nguyện vọng thử sức ở vai trò nhân viên sales phát triển thị trường ngoài hiện trường.\n\nKỹ năng làm việc:\n- Sắp xếp và đảo date hàng hóa trên quầy kệ siêu thị\n- Kiểm tra số lượng tồn thực tế trong kho cửa hàng\n- Tư vấn trực tiếp cho khách mua sắm tại cửa hàng\n- Kỹ năng kiểm soát thất thoát hàng hóa\n- Có xe máy cá nhân phục vụ đi lại làm việc ca kíp\n\nKinh nghiệm công tác:\nTrưởng ca Bán hàng Siêu thị tại Chuỗi Cửa hàng Tiện lợi EcoMart\nThời gian: Từ 2024-08 đến nay (đang làm việc)\n- Giám sát quầy hàng thực phẩm khô, bánh kẹo và gia vị tại chi nhánh quận Phú Nhuận.\n- Trực tiếp nhận hàng từ xe tải trung chuyển, đối chiếu phiếu giao nhận và xếp sản phẩm lên các tầng kệ theo đúng hướng dẫn trưng bày của chuỗi.\n- Báo cáo sản phẩm sắp hết hạn để dán tem giảm giá kích cầu tiêu thụ.\n\nNhân viên Thu ngân kiêm Trưng bày tại Siêu thị Mini Xanh\nThời gian: Từ 2023-04 đến 2024-07\n- Thu tiền tại quầy thu ngân và hỗ trợ châm hàng lên kệ khi vắng khách.\n\nHọc vấn:\n- Tốt nghiệp Trung học Phổ thông, Trường THPT Nguyễn Trung Trực",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "SA-J03-C03-SEC-SUM",
+      "field": "text",
+      "before": "Tóm tắt năng lực:\nKỹ sư bán hàng thiết bị y tế cá nhân xuất sắc với 4 năm kinh nghiệm trực tiếp phụ trách các gói thầu máy siêu âm và máy nội soi tiêu hóa tại khu vực Hà Nội. Nắm chắc kỹ thuật y sinh, có quan hệ công tác mật thiết với các bác sĩ trưởng khoa chẩn đoán hình ảnh tại các bệnh viện công lập. Chưa từng giữ chức danh quản lý đội nhóm, mong muốn tìm kiếm cơ hội thăng tiến lên cấp quản lý.",
+      "after": "Tóm tắt năng lực:\nKỹ sư bán hàng thiết bị y tế cá nhân xuất sắc với 4 năm kinh nghiệm trực tiếp phụ trách các gói thầu máy siêu âm và máy nội soi tiêu hóa tại khu vực Hà Nội. Nắm chắc kỹ thuật y sinh, có quan hệ công tác mật thiết với các bác sĩ trưởng khoa chẩn đoán hình ảnh tại các bệnh viện công lập. Mong muốn tìm kiếm cơ hội thăng tiến lên cấp quản lý.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "SA-J03-C03-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm công tác:\nChuyên viên Kinh doanh Thiết bị Y tế tại Công ty Cổ phần Thiết Bị Y Khoa Phương Đông\nThời gian: Từ 2022-11 đến nay (đang làm việc)\n- Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\n- Hoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\n- Tiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\n- Tự lập kế hoạch kinh doanh cá nhân, chưa tham gia quản lý hay phân chia chỉ tiêu cho nhân viên khác.\n\nKỹ sư Hỗ trợ Kỹ thuật Thiết bị Y tế tại Công ty TNHH Thiết Bị Nam Cường\nThời gian: Từ 2021-06 đến 2022-10\n- Lắp đặt, chạy thử và bảo trì định kỳ máy đo loãng xương và máy X-quang răng hàm mặt.",
+      "after": "Kinh nghiệm công tác:\nChuyên viên Kinh doanh Thiết bị Y tế tại Công ty Cổ phần Thiết Bị Y Khoa Phương Đông\nThời gian: Từ 2022-11 đến nay (đang làm việc)\n- Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\n- Hoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\n- Tiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\n- Tự lập kế hoạch kinh doanh cá nhân.\n\nKỹ sư Hỗ trợ Kỹ thuật Thiết bị Y tế tại Công ty TNHH Thiết Bị Nam Cường\nThời gian: Từ 2021-06 đến 2022-10\n- Lắp đặt, chạy thử và bảo trì định kỳ máy đo loãng xương và máy X-quang răng hàm mặt.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "SA-J03-C03",
+      "field": "cv_text",
+      "before": "Tóm tắt năng lực:\nKỹ sư bán hàng thiết bị y tế cá nhân xuất sắc với 4 năm kinh nghiệm trực tiếp phụ trách các gói thầu máy siêu âm và máy nội soi tiêu hóa tại khu vực Hà Nội. Nắm chắc kỹ thuật y sinh, có quan hệ công tác mật thiết với các bác sĩ trưởng khoa chẩn đoán hình ảnh tại các bệnh viện công lập. Chưa từng giữ chức danh quản lý đội nhóm, mong muốn tìm kiếm cơ hội thăng tiến lên cấp quản lý.\n\nKỹ năng nghề nghiệp:\n- Bán hàng kỹ thuật thiết bị y tế (Medical Device Sales Specialist)\n- Xây dựng hồ sơ dự thầu và giải trình kỹ thuật thầu theo Luật Đấu thầu\n- Hướng dẫn vận hành thiết bị siêu âm cho y bác sĩ chuyên khoa\n- Mạng lưới liên hệ với các trưởng khoa thăm dò chức năng và chẩn đoán hình ảnh tại Hà Nội\n- Tiếng Anh giao tiếp và đọc hiểu tài liệu sản phẩm hãng\n\nKinh nghiệm công tác:\nChuyên viên Kinh doanh Thiết bị Y tế tại Công ty Cổ phần Thiết Bị Y Khoa Phương Đông\nThời gian: Từ 2022-11 đến nay (đang làm việc)\n- Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\n- Hoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\n- Tiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\n- Tự lập kế hoạch kinh doanh cá nhân, chưa tham gia quản lý hay phân chia chỉ tiêu cho nhân viên khác.\n\nKỹ sư Hỗ trợ Kỹ thuật Thiết bị Y tế tại Công ty TNHH Thiết Bị Nam Cường\nThời gian: Từ 2021-06 đến 2022-10\n- Lắp đặt, chạy thử và bảo trì định kỳ máy đo loãng xương và máy X-quang răng hàm mặt.\n\nHọc vấn:\n- Cử nhân ngành Kỹ thuật Y sinh, Trường Đại học Bách Khoa Hà Nội",
+      "after": "Tóm tắt năng lực:\nKỹ sư bán hàng thiết bị y tế cá nhân xuất sắc với 4 năm kinh nghiệm trực tiếp phụ trách các gói thầu máy siêu âm và máy nội soi tiêu hóa tại khu vực Hà Nội. Nắm chắc kỹ thuật y sinh, có quan hệ công tác mật thiết với các bác sĩ trưởng khoa chẩn đoán hình ảnh tại các bệnh viện công lập. Mong muốn tìm kiếm cơ hội thăng tiến lên cấp quản lý.\n\nKỹ năng nghề nghiệp:\n- Bán hàng kỹ thuật thiết bị y tế (Medical Device Sales Specialist)\n- Xây dựng hồ sơ dự thầu và giải trình kỹ thuật thầu theo Luật Đấu thầu\n- Hướng dẫn vận hành thiết bị siêu âm cho y bác sĩ chuyên khoa\n- Mạng lưới liên hệ với các trưởng khoa thăm dò chức năng và chẩn đoán hình ảnh tại Hà Nội\n- Tiếng Anh giao tiếp và đọc hiểu tài liệu sản phẩm hãng\n\nKinh nghiệm công tác:\nChuyên viên Kinh doanh Thiết bị Y tế tại Công ty Cổ phần Thiết Bị Y Khoa Phương Đông\nThời gian: Từ 2022-11 đến nay (đang làm việc)\n- Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\n- Hoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\n- Tiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\n- Tự lập kế hoạch kinh doanh cá nhân.\n\nKỹ sư Hỗ trợ Kỹ thuật Thiết bị Y tế tại Công ty TNHH Thiết Bị Nam Cường\nThời gian: Từ 2021-06 đến 2022-10\n- Lắp đặt, chạy thử và bảo trì định kỳ máy đo loãng xương và máy X-quang răng hàm mặt.\n\nHọc vấn:\n- Cử nhân ngành Kỹ thuật Y sinh, Trường Đại học Bách Khoa Hà Nội",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "SA-J03-C04-SEC-SUM",
+      "field": "text",
+      "before": "Tóm lược hồ sơ:\nTrưởng phòng kinh doanh với hơn 6 năm kinh nghiệm trong ngành thiết bị thí nghiệm khoa học, máy đo lường công nghiệp và hóa chất phân tích viện nghiên cứu. Có hơn 2 năm lãnh đạo đội ngũ 6 nhân viên kinh doanh B2B, quản lý chỉ tiêu doanh thu và xây dựng hồ sơ đấu thầu nhà nước cho các trường đại học và viện kiểm nghiệm. Chưa có kinh nghiệm thực tế về thiết bị lâm sàng bệnh viện.",
+      "after": "Tóm lược hồ sơ:\nTrưởng phòng kinh doanh với hơn 6 năm kinh nghiệm trong ngành thiết bị thí nghiệm khoa học, máy đo lường công nghiệp và hóa chất phân tích viện nghiên cứu. Có hơn 2 năm lãnh đạo đội ngũ 6 nhân viên kinh doanh B2B, quản lý chỉ tiêu doanh thu và xây dựng hồ sơ đấu thầu nhà nước cho các trường đại học và viện kiểm nghiệm.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "SA-J03-C04",
+      "field": "cv_text",
+      "before": "Tóm lược hồ sơ:\nTrưởng phòng kinh doanh với hơn 6 năm kinh nghiệm trong ngành thiết bị thí nghiệm khoa học, máy đo lường công nghiệp và hóa chất phân tích viện nghiên cứu. Có hơn 2 năm lãnh đạo đội ngũ 6 nhân viên kinh doanh B2B, quản lý chỉ tiêu doanh thu và xây dựng hồ sơ đấu thầu nhà nước cho các trường đại học và viện kiểm nghiệm. Chưa có kinh nghiệm thực tế về thiết bị lâm sàng bệnh viện.\n\nKỹ năng quản trị và chuyên môn:\n- Quản lý đội ngũ kinh doanh thiết bị phòng thí nghiệm B2B\n- Hoạch định kế hoạch kinh doanh và phân chia doanh số hàng năm\n- Soạn thảo hồ sơ đấu thầu mua sắm thiết bị phân tích công lập\n- Đào tạo nghiệp vụ bán hàng thiết bị kỹ thuật cho nhân sự mới\n- Tiếng Anh làm việc với các nhà cung cấp thiết bị từ Nhật Bản và Thụy Sỹ\n\nKinh nghiệm làm việc:\nTrưởng phòng Kinh doanh Thiết bị Thí nghiệm tại Công ty Cổ phần Hóa Chất & Phân Tích Việt Nam\nThời gian: Từ 2024-01 đến nay (đang công tác)\n- Quản lý 6 nhân viên kinh doanh, phân bổ chỉ tiêu 50 tỷ đồng mỗi năm cho thị trường các viện nghiên cứu, trường đại học kỹ thuật và trung tâm quan trắc môi trường phía Bắc.\n- Lãnh đạo chuẩn bị hồ sơ tham gia đấu thầu các hệ thống sắc ký khí (GC), quang phổ hấp thụ nguyên tử (AAS).\n- Làm việc trực tiếp với các chuyên gia kỹ thuật hãng từ Tokyo và Basel bằng tiếng Anh.\n\nChuyên viên Kinh doanh Thiết bị Đo lường tại Công ty TNHH Thiết Bị Đo Chuẩn An Nam\nThời gian: Từ 2020-04 đến 2023-12\n- Chào bán máy đo độ ẩm, kính hiển vi điện tử và cân phân tích cho các nhà máy dược phẩm và phòng R&D thực phẩm.\n\nHọc vấn:\n- Cử nhân ngành Hóa học Phân tích, Trường Đại học Khoa học Tự nhiên - ĐHQGHN",
+      "after": "Tóm lược hồ sơ:\nTrưởng phòng kinh doanh với hơn 6 năm kinh nghiệm trong ngành thiết bị thí nghiệm khoa học, máy đo lường công nghiệp và hóa chất phân tích viện nghiên cứu. Có hơn 2 năm lãnh đạo đội ngũ 6 nhân viên kinh doanh B2B, quản lý chỉ tiêu doanh thu và xây dựng hồ sơ đấu thầu nhà nước cho các trường đại học và viện kiểm nghiệm.\n\nKỹ năng quản trị và chuyên môn:\n- Quản lý đội ngũ kinh doanh thiết bị phòng thí nghiệm B2B\n- Hoạch định kế hoạch kinh doanh và phân chia doanh số hàng năm\n- Soạn thảo hồ sơ đấu thầu mua sắm thiết bị phân tích công lập\n- Đào tạo nghiệp vụ bán hàng thiết bị kỹ thuật cho nhân sự mới\n- Tiếng Anh làm việc với các nhà cung cấp thiết bị từ Nhật Bản và Thụy Sỹ\n\nKinh nghiệm làm việc:\nTrưởng phòng Kinh doanh Thiết bị Thí nghiệm tại Công ty Cổ phần Hóa Chất & Phân Tích Việt Nam\nThời gian: Từ 2024-01 đến nay (đang công tác)\n- Quản lý 6 nhân viên kinh doanh, phân bổ chỉ tiêu 50 tỷ đồng mỗi năm cho thị trường các viện nghiên cứu, trường đại học kỹ thuật và trung tâm quan trắc môi trường phía Bắc.\n- Lãnh đạo chuẩn bị hồ sơ tham gia đấu thầu các hệ thống sắc ký khí (GC), quang phổ hấp thụ nguyên tử (AAS).\n- Làm việc trực tiếp với các chuyên gia kỹ thuật hãng từ Tokyo và Basel bằng tiếng Anh.\n\nChuyên viên Kinh doanh Thiết bị Đo lường tại Công ty TNHH Thiết Bị Đo Chuẩn An Nam\nThời gian: Từ 2020-04 đến 2023-12\n- Chào bán máy đo độ ẩm, kính hiển vi điện tử và cân phân tích cho các nhà máy dược phẩm và phòng R&D thực phẩm.\n\nHọc vấn:\n- Cử nhân ngành Hóa học Phân tích, Trường Đại học Khoa học Tự nhiên - ĐHQGHN",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "SA-J04-C04-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nChuyên viên Tư vấn Bán lẻ Cấp cao tại Cửa hàng Thời Trang Cao Cấp Bellissimo\nThời gian: Từ 2024-05 đến nay (đang làm việc)\n- Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại Union Square.\n- Gợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\n- Nhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng.\n\nNhân viên Bán hàng Mỹ phẩm Nhập khẩu tại Chuỗi Bán Lẻ Glamour Beauty\nThời gian: Từ 2023-01 đến 2024-04\n- Tư vấn dòng sản phẩm chăm sóc da chống lão hóa cho khách hàng nữ.",
+      "after": "Kinh nghiệm làm việc:\nChuyên viên Tư vấn Bán lẻ Cấp cao tại Cửa hàng Thời Trang Cao Cấp Bellissimo\nThời gian: Từ 2024-05 đến nay (đang làm việc)\n- Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại lớn ở trung tâm thành phố.\n- Gợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\n- Nhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng.\n\nNhân viên Bán hàng Mỹ phẩm Nhập khẩu tại Chuỗi Bán Lẻ Glamour Beauty\nThời gian: Từ 2023-01 đến 2024-04\n- Tư vấn dòng sản phẩm chăm sóc da chống lão hóa cho khách hàng nữ.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "SA-J04-C04",
+      "field": "cv_text",
+      "before": "Tóm lược hồ sơ:\nChuyên viên tư vấn bán hàng thời trang xa xỉ (Luxury Boutique Fashion Consultant) với hơn 2 năm làm việc tại các trung tâm thương mại lớn ở trung tâm Sài Gòn. Phong cách phục vụ lịch lãm, giọng nói nhẹ nhàng chuẩn mực, kỹ năng chăm sóc và trò chuyện cùng khách hàng tầng lớp thượng lưu. Mong muốn tìm kiếm môi trường mới trong ngành tư vấn nội thất cao cấp để ứng dụng kỹ năng dịch vụ khách hàng cao cấp.\n\nKỹ năng chuyên môn:\n- Tư vấn bán hàng trực tiếp tại boutique hàng hiệu cao cấp\n- Giao tiếp lịch thiệp, kỹ năng lắng nghe và tư vấn phong cách (Styling)\n- Quản lý danh sách khách hàng thân thiết (VIP Clienteling)\n- Kiểm kê hàng hóa xa xỉ và xử lý thanh toán quẹt thẻ quốc tế\n- Tiếng Anh giao tiếp lưu loát với khách hàng nước ngoài\n\nKinh nghiệm làm việc:\nChuyên viên Tư vấn Bán lẻ Cấp cao tại Cửa hàng Thời Trang Cao Cấp Bellissimo\nThời gian: Từ 2024-05 đến nay (đang làm việc)\n- Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại Union Square.\n- Gợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\n- Nhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng.\n\nNhân viên Bán hàng Mỹ phẩm Nhập khẩu tại Chuỗi Bán Lẻ Glamour Beauty\nThời gian: Từ 2023-01 đến 2024-04\n- Tư vấn dòng sản phẩm chăm sóc da chống lão hóa cho khách hàng nữ.\n\nHọc vấn:\n- Cử nhân ngành Quan hệ Công chúng, Trường Đại học Văn Lang",
+      "after": "Tóm lược hồ sơ:\nChuyên viên tư vấn bán hàng thời trang xa xỉ (Luxury Boutique Fashion Consultant) với hơn 2 năm làm việc tại các trung tâm thương mại lớn ở trung tâm Sài Gòn. Phong cách phục vụ lịch lãm, giọng nói nhẹ nhàng chuẩn mực, kỹ năng chăm sóc và trò chuyện cùng khách hàng tầng lớp thượng lưu. Mong muốn tìm kiếm môi trường mới trong ngành tư vấn nội thất cao cấp để ứng dụng kỹ năng dịch vụ khách hàng cao cấp.\n\nKỹ năng chuyên môn:\n- Tư vấn bán hàng trực tiếp tại boutique hàng hiệu cao cấp\n- Giao tiếp lịch thiệp, kỹ năng lắng nghe và tư vấn phong cách (Styling)\n- Quản lý danh sách khách hàng thân thiết (VIP Clienteling)\n- Kiểm kê hàng hóa xa xỉ và xử lý thanh toán quẹt thẻ quốc tế\n- Tiếng Anh giao tiếp lưu loát với khách hàng nước ngoài\n\nKinh nghiệm làm việc:\nChuyên viên Tư vấn Bán lẻ Cấp cao tại Cửa hàng Thời Trang Cao Cấp Bellissimo\nThời gian: Từ 2024-05 đến nay (đang làm việc)\n- Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại lớn ở trung tâm thành phố.\n- Gợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\n- Nhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng.\n\nNhân viên Bán hàng Mỹ phẩm Nhập khẩu tại Chuỗi Bán Lẻ Glamour Beauty\nThời gian: Từ 2023-01 đến 2024-04\n- Tư vấn dòng sản phẩm chăm sóc da chống lão hóa cho khách hàng nữ.\n\nHọc vấn:\n- Cử nhân ngành Quan hệ Công chúng, Trường Đại học Văn Lang",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "SA-J04-C05-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nQuản lý Cụm Showroom Nội Thất tại Tập Đoàn Nội Thất Châu Âu\nThời gian: Từ 2022-03 đến nay (đang quản lý)\n- Chịu trách nhiệm doanh số 45 tỷ đồng/năm của 2 showroom nội thất cao cấp tại Sala Quận 2 và Phú Mỹ Hưng Quận 7.\n- Trực tiếp hướng dẫn đội ngũ 12 nhân viên bán hàng cách đón tiếp các chủ đầu tư biệt thự và kiến trúc sư nội thất.\n- Giám sát toàn bộ tiến trình từ khâu tư vấn thiết kế 3D, ký hợp đồng kinh tế đến bàn giao nghiệm thu tận nhà.\n- Thiết lập quy trình kiểm tra chất lượng thi công lắp đặt và dịch vụ bảo trì định kỳ 6 tháng/lần cho khách VIP.\n\nTrưởng ca Tư vấn Showroom tại Công ty Cổ phần Nội Thất Nhà Xinh\nThời gian: Từ 2019-09 đến 2022-02\n- Tư vấn bán các gói nội thất hoàn thiện căn hộ và điều phối thợ lắp ráp bàn ghế.",
+      "after": "Kinh nghiệm làm việc:\nQuản lý Cụm Showroom Nội Thất tại Tập Đoàn Nội Thất Châu Âu\nThời gian: Từ 2022-03 đến nay (đang quản lý)\n- Chịu trách nhiệm doanh số 45 tỷ đồng/năm của 2 showroom nội thất cao cấp tại Sala Quận 2 và Phú Mỹ Hưng Quận 7.\n- Trực tiếp hướng dẫn đội ngũ 12 nhân viên bán hàng cách đón tiếp các chủ đầu tư biệt thự và kiến trúc sư nội thất.\n- Giám sát toàn bộ tiến trình từ khâu tư vấn thiết kế 3D, ký hợp đồng kinh tế đến bàn giao nghiệm thu tận nhà.\n- Thiết lập quy trình kiểm tra chất lượng thi công lắp đặt và dịch vụ bảo trì định kỳ 6 tháng/lần cho khách VIP.\n\nTrưởng ca Tư vấn Showroom tại Công ty Cổ phần Nội Thất Không Gian Đẹp\nThời gian: Từ 2019-09 đến 2022-02\n- Tư vấn bán các gói nội thất hoàn thiện căn hộ và điều phối thợ lắp ráp bàn ghế.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "SA-J04-C05-EXP-02",
+      "field": "company",
+      "before": "Công ty Cổ phần Nội Thất Nhà Xinh",
+      "after": "Công ty Cổ phần Nội Thất Không Gian Đẹp",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize company"
+    },
+    {
+      "id": "SA-J04-C05",
+      "field": "cv_text",
+      "before": "Tóm tắt kinh nghiệm quản lý:\nNhà quản lý bán hàng showroom nội thất cao cấp với hơn 5 năm kinh nghiệm dẫn dắt các cụm showroom quy mô từ 800m2 đến 1.500m2. Tốt nghiệp Đại học chuyên ngành Mỹ thuật Công nghiệp, có chuyên môn sâu về kiến trúc không gian sống, vật liệu đá marble nhân tạo và các dòng gỗ quý. Đã từng huấn luyện hơn 40 nhân viên tư vấn showroom về nghệ thuật chốt đơn và chăm sóc hậu mãi khách hàng siêu giàu.\n\nKỹ năng điều hành và tư vấn:\n- Quản lý và vận hành toàn diện hệ thống showroom nội thất cao cấp\n- Tư vấn giải pháp phối màu, công năng nội thất biệt thự và penthouse\n- Đào tạo kỹ năng bán hàng tư vấn và quy chuẩn dịch vụ 5 sao cho nhân viên\n- Điều phối mạng lưới vận chuyển, kho bãi và đội thợ lắp ráp hoàn thiện\n- Xử lý các khiếu nại bảo hành phức tạp về cong vênh, rạn nứt gỗ tự nhiên\n\nKinh nghiệm làm việc:\nQuản lý Cụm Showroom Nội Thất tại Tập Đoàn Nội Thất Châu Âu\nThời gian: Từ 2022-03 đến nay (đang quản lý)\n- Chịu trách nhiệm doanh số 45 tỷ đồng/năm của 2 showroom nội thất cao cấp tại Sala Quận 2 và Phú Mỹ Hưng Quận 7.\n- Trực tiếp hướng dẫn đội ngũ 12 nhân viên bán hàng cách đón tiếp các chủ đầu tư biệt thự và kiến trúc sư nội thất.\n- Giám sát toàn bộ tiến trình từ khâu tư vấn thiết kế 3D, ký hợp đồng kinh tế đến bàn giao nghiệm thu tận nhà.\n- Thiết lập quy trình kiểm tra chất lượng thi công lắp đặt và dịch vụ bảo trì định kỳ 6 tháng/lần cho khách VIP.\n\nTrưởng ca Tư vấn Showroom tại Công ty Cổ phần Nội Thất Nhà Xinh\nThời gian: Từ 2019-09 đến 2022-02\n- Tư vấn bán các gói nội thất hoàn thiện căn hộ và điều phối thợ lắp ráp bàn ghế.\n\nHọc vấn:\n- Cử nhân ngành Mỹ thuật Công nghiệp, Trường Đại học Kiến Trúc TP.HCM",
+      "after": "Tóm tắt kinh nghiệm quản lý:\nNhà quản lý bán hàng showroom nội thất cao cấp với hơn 5 năm kinh nghiệm dẫn dắt các cụm showroom quy mô từ 800m2 đến 1.500m2. Tốt nghiệp Đại học chuyên ngành Mỹ thuật Công nghiệp, có chuyên môn sâu về kiến trúc không gian sống, vật liệu đá marble nhân tạo và các dòng gỗ quý. Đã từng huấn luyện hơn 40 nhân viên tư vấn showroom về nghệ thuật chốt đơn và chăm sóc hậu mãi khách hàng siêu giàu.\n\nKỹ năng điều hành và tư vấn:\n- Quản lý và vận hành toàn diện hệ thống showroom nội thất cao cấp\n- Tư vấn giải pháp phối màu, công năng nội thất biệt thự và penthouse\n- Đào tạo kỹ năng bán hàng tư vấn và quy chuẩn dịch vụ 5 sao cho nhân viên\n- Điều phối mạng lưới vận chuyển, kho bãi và đội thợ lắp ráp hoàn thiện\n- Xử lý các khiếu nại bảo hành phức tạp về cong vênh, rạn nứt gỗ tự nhiên\n\nKinh nghiệm làm việc:\nQuản lý Cụm Showroom Nội Thất tại Tập Đoàn Nội Thất Châu Âu\nThời gian: Từ 2022-03 đến nay (đang quản lý)\n- Chịu trách nhiệm doanh số 45 tỷ đồng/năm của 2 showroom nội thất cao cấp tại Sala Quận 2 và Phú Mỹ Hưng Quận 7.\n- Trực tiếp hướng dẫn đội ngũ 12 nhân viên bán hàng cách đón tiếp các chủ đầu tư biệt thự và kiến trúc sư nội thất.\n- Giám sát toàn bộ tiến trình từ khâu tư vấn thiết kế 3D, ký hợp đồng kinh tế đến bàn giao nghiệm thu tận nhà.\n- Thiết lập quy trình kiểm tra chất lượng thi công lắp đặt và dịch vụ bảo trì định kỳ 6 tháng/lần cho khách VIP.\n\nTrưởng ca Tư vấn Showroom tại Công ty Cổ phần Nội Thất Không Gian Đẹp\nThời gian: Từ 2019-09 đến 2022-02\n- Tư vấn bán các gói nội thất hoàn thiện căn hộ và điều phối thợ lắp ráp bàn ghế.\n\nHọc vấn:\n- Cử nhân ngành Mỹ thuật Công nghiệp, Trường Đại học Kiến Trúc TP.HCM",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "SA-J04-C07-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Tư vấn nội thất gỗ công nghiệp",
+        "Tư vấn phối màu sắc không gian",
+        "Theo dõi giao hàng lắp đặt",
+        "Chăm sóc hậu mãi khách hàng",
+        "Giọng nói hòa nhã"
+      ],
+      "after": [
+        "Tư vấn phối màu sắc không gian",
+        "Theo dõi giao hàng lắp đặt",
+        "Chăm sóc hậu mãi khách hàng"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "SA-J04-C08-PRJ-01",
+      "field": "description",
+      "before": "Tư vấn trọn gói bộ bàn ăn thông minh và hệ tủ tivi treo tường cho gia chủ trẻ, hoàn thiện bàn giao nghiệm thu.",
+      "after": "Tư vấn trọn gói bộ bàn ăn thông minh kéo dài và hệ tủ tivi treo tường cho gia chủ trẻ, nhận được đánh giá rất hài lòng sau bàn giao nghiệm thu.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Align project description to exact source bullet"
+    },
+    {
+      "id": "SA-J05-C07-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý tài khoản logistics KAM",
+        "Cước tàu biển FCL LCL",
+        "Thủ tục thông quan hải quan",
+        "Hợp đồng khung thường niên FDI",
+        "Tỷ lệ giữ chân tài khoản 91%"
+      ],
+      "after": [
+        "Quản lý tài khoản logistics KAM",
+        "Cước tàu biển FCL",
+        "Thủ tục thông quan hải quan",
+        "Hợp đồng khung thường niên FDI",
+        "Tỷ lệ giữ chân tài khoản 91%"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "SA-J05-C07-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Cước tàu biển FCL LCL"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "SA-J05-C08-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Khai thuê hải quan VNACCS",
+        "Mã HS Code",
+        "Quản lý khách hàng FDI logistics",
+        "Báo giá cước FCL LCL",
+        "Bán thêm dịch vụ cước biển"
+      ],
+      "after": [
+        "Quản lý khách hàng FDI logistics",
+        "Báo giá cước FCL LCL",
+        "Bán thêm dịch vụ cước biển"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "SA-J05-C08-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Khai thuê hải quan VNACCS"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J01-C03-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm công tác:\nChuyên viên Truyền thông & Sự kiện tại Công ty Cổ phần Truyền Thông Đất Phương Nam\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\n- Viết và phân phối hơn 50 bài PR trên các trang báo điện tử VnExpress, Dân Trí, Tuổi Trẻ.\n- Điều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\n- Các chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.\n\nNhân viên Hỗ trợ Sự kiện tại Công ty TNHH Sự Kiện & Hội Nghị VinaEvent\nThời gian: Từ 2023-06 đến 2024-02\n- Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường.",
+      "after": "Kinh nghiệm công tác:\nChuyên viên Truyền thông & Sự kiện tại Công ty Cổ phần Truyền Thông Đất Phương Nam\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\n- Viết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\n- Điều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\n- Các chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.\n\nNhân viên Hỗ trợ Sự kiện tại Công ty TNHH Sự Kiện & Hội Nghị VinaEvent\nThời gian: Từ 2023-06 đến 2024-02\n- Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J01-C03-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quan hệ công chúng PR",
+        "Viết bài thông cáo báo chí",
+        "Tổ chức sự kiện hội nghị",
+        "Quản lý KOL KOC"
+      ],
+      "after": [
+        "Quan hệ công chúng PR",
+        "Viết bài thông cáo báo chí",
+        "Tổ chức sự kiện hội nghị"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J01-C03",
+      "field": "cv_text",
+      "before": "Tóm lược bản thân:\nChuyên viên Quan hệ Công chúng (PR) và Tổ chức Sự kiện với 2 năm 6 tháng kinh nghiệm làm việc tại agency truyền thông. Thế mạnh xây dựng thông cáo báo chí, liên hệ đối tác báo chí truyền hình và điều phối các sự kiện họp báo ra mắt sản phẩm mới. Có hiểu biết tổng quan về truyền thông mạng xã hội và mong muốn trau dồi sâu hơn về kỹ thuật quảng cáo trả phí Digital Marketing.\n\nKỹ năng làm việc:\n- Viết thông cáo báo chí và bài viết PR chuyên sâu cho doanh nghiệp\n- Mạng lưới quan hệ với các phóng viên báo kinh tế và đời sống\n- Lập kế hoạch và điều phối sự kiện hội thảo khách hàng ngoại tuyến\n- Quản lý hợp tác người có tầm ảnh hưởng (KOL/KOC)\n- Tiếng Anh giao tiếp và dịch thuật tài liệu truyền thông\n\nKinh nghiệm công tác:\nChuyên viên Truyền thông & Sự kiện tại Công ty Cổ phần Truyền Thông Đất Phương Nam\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\n- Viết và phân phối hơn 50 bài PR trên các trang báo điện tử VnExpress, Dân Trí, Tuổi Trẻ.\n- Điều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\n- Các chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.\n\nNhân viên Hỗ trợ Sự kiện tại Công ty TNHH Sự Kiện & Hội Nghị VinaEvent\nThời gian: Từ 2023-06 đến 2024-02\n- Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường.\n\nHọc vấn:\n- Cử nhân ngành Báo chí và Truyền thông, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM",
+      "after": "Tóm lược bản thân:\nChuyên viên Quan hệ Công chúng (PR) và Tổ chức Sự kiện với 2 năm 6 tháng kinh nghiệm làm việc tại agency truyền thông. Thế mạnh xây dựng thông cáo báo chí, liên hệ đối tác báo chí truyền hình và điều phối các sự kiện họp báo ra mắt sản phẩm mới. Có hiểu biết tổng quan về truyền thông mạng xã hội và mong muốn trau dồi sâu hơn về kỹ thuật quảng cáo trả phí Digital Marketing.\n\nKỹ năng làm việc:\n- Viết thông cáo báo chí và bài viết PR chuyên sâu cho doanh nghiệp\n- Mạng lưới quan hệ với các phóng viên báo kinh tế và đời sống\n- Lập kế hoạch và điều phối sự kiện hội thảo khách hàng ngoại tuyến\n- Quản lý hợp tác người có tầm ảnh hưởng (KOL/KOC)\n- Tiếng Anh giao tiếp và dịch thuật tài liệu truyền thông\n\nKinh nghiệm công tác:\nChuyên viên Truyền thông & Sự kiện tại Công ty Cổ phần Truyền Thông Đất Phương Nam\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\n- Viết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\n- Điều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\n- Các chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.\n\nNhân viên Hỗ trợ Sự kiện tại Công ty TNHH Sự Kiện & Hội Nghị VinaEvent\nThời gian: Từ 2023-06 đến 2024-02\n- Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường.\n\nHọc vấn:\n- Cử nhân ngành Báo chí và Truyền thông, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J01-C04-SEC-SUM",
+      "field": "text",
+      "before": "Tóm lược hồ sơ:\nNhân viên Digital Marketing trẻ tuổi với 1 năm kinh nghiệm thực chiến chạy quảng cáo Facebook và hỗ trợ đăng bài trên các trang mạng xã hội. Nhanh nhẹn, ham học hỏi các công cụ đo lường số liệu mới, có khả năng viết bài quảng cáo bán hàng cơ bản và mong muốn được nâng cao chuyên môn quản lý chiến dịch quảng cáo đa kênh.",
+      "after": "Tóm lược hồ sơ:\nNhân viên Digital Marketing với 1 năm kinh nghiệm thực chiến chạy quảng cáo Facebook và hỗ trợ đăng bài trên các trang mạng xã hội. Nhanh nhẹn, ham học hỏi các công cụ đo lường số liệu mới, có khả năng viết bài quảng cáo bán hàng cơ bản và mong muốn được nâng cao chuyên môn quản lý chiến dịch quảng cáo đa kênh.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J01-C04-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quảng cáo Meta Ads",
+        "Copywriting mạng xã hội",
+        "Canva"
+      ],
+      "after": [
+        "Quảng cáo Meta Ads",
+        "Copywriting mạng xã hội"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J01-C04",
+      "field": "cv_text",
+      "before": "Tóm lược hồ sơ:\nNhân viên Digital Marketing trẻ tuổi với 1 năm kinh nghiệm thực chiến chạy quảng cáo Facebook và hỗ trợ đăng bài trên các trang mạng xã hội. Nhanh nhẹn, ham học hỏi các công cụ đo lường số liệu mới, có khả năng viết bài quảng cáo bán hàng cơ bản và mong muốn được nâng cao chuyên môn quản lý chiến dịch quảng cáo đa kênh.\n\nKỹ năng chính:\n- Cài đặt chiến dịch quảng cáo tin nhắn và tương tác trên Meta Ads\n- Viết bài quảng cáo bán hàng (Copywriting) cho trang Facebook\n- Xem các chỉ số cơ bản trên trình quản lý quảng cáo Ads Manager (CTR, CPC, Reach)\n- Thiết kế ảnh quảng cáo đơn giản bằng ứng dụng Canva\n- Xem báo cáo lượng truy cập cơ bản trên Google Analytics\n\nKinh nghiệm làm việc:\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Số AlphaAds\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Trực tiếp thiết lập và theo dõi các chiến dịch quảng cáo Facebook tin nhắn cho khách hàng bán đồ ăn vặt và phụ kiện thú cưng.\n- Ngân sách quản trị khoảng 30-50 triệu đồng/tháng.\n- Thử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa để tìm mẫu quảng cáo có chi phí nhắn tin rẻ nhất.\n\nThực tập sinh Marketing tại Cửa hàng Thời Trang Đô Thị UrbanFit\nThời gian: Từ 2025-05 đến 2025-09\n- Chụp ảnh sản phẩm quần áo và viết bài giới thiệu mẫu trang phục mới lên Facebook Fanpage.\n\nHọc vấn:\n- Cử nhân Cao đẳng ngành Marketing Thương mại, Trường Cao đẳng Kinh tế TP.HCM",
+      "after": "Tóm lược hồ sơ:\nNhân viên Digital Marketing với 1 năm kinh nghiệm thực chiến chạy quảng cáo Facebook và hỗ trợ đăng bài trên các trang mạng xã hội. Nhanh nhẹn, ham học hỏi các công cụ đo lường số liệu mới, có khả năng viết bài quảng cáo bán hàng cơ bản và mong muốn được nâng cao chuyên môn quản lý chiến dịch quảng cáo đa kênh.\n\nKỹ năng chính:\n- Cài đặt chiến dịch quảng cáo tin nhắn và tương tác trên Meta Ads\n- Viết bài quảng cáo bán hàng (Copywriting) cho trang Facebook\n- Xem các chỉ số cơ bản trên trình quản lý quảng cáo Ads Manager (CTR, CPC, Reach)\n- Thiết kế ảnh quảng cáo đơn giản bằng ứng dụng Canva\n- Xem báo cáo lượng truy cập cơ bản trên Google Analytics\n\nKinh nghiệm làm việc:\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Số AlphaAds\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Trực tiếp thiết lập và theo dõi các chiến dịch quảng cáo Facebook tin nhắn cho khách hàng bán đồ ăn vặt và phụ kiện thú cưng.\n- Ngân sách quản trị khoảng 30-50 triệu đồng/tháng.\n- Thử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa để tìm mẫu quảng cáo có chi phí nhắn tin rẻ nhất.\n\nThực tập sinh Marketing tại Cửa hàng Thời Trang Đô Thị UrbanFit\nThời gian: Từ 2025-05 đến 2025-09\n- Chụp ảnh sản phẩm quần áo và viết bài giới thiệu mẫu trang phục mới lên Facebook Fanpage.\n\nHọc vấn:\n- Cử nhân Cao đẳng ngành Marketing Thương mại, Trường Cao đẳng Kinh tế TP.HCM",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J01-C05-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Lãnh đạo Performance Marketing",
+        "Ngân sách lớn E-commerce",
+        "Meta Ads",
+        "Google Ads",
+        "TikTok Ads",
+        "GA4 và Looker Studio",
+        "Tối ưu ROAS và CAC"
+      ],
+      "after": [
+        "Lãnh đạo Performance Marketing",
+        "Ngân sách lớn E-commerce",
+        "Meta Ads",
+        "Google Ads",
+        "TikTok Ads",
+        "GA4 và Looker Studio",
+        "Tối ưu ROAS"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J01-C06-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Thiết kế visual quảng cáo",
+        "Biên tập video ngắn CapCut Premiere",
+        "Thiết kế Landing Page",
+        "Adobe Photoshop Illustrator"
+      ],
+      "after": [
+        "Thiết kế visual quảng cáo",
+        "Thiết kế Landing Page"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J01-C07-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quảng cáo đa kênh Meta TikTok Google",
+        "Google Analytics 4 (GA4)",
+        "Looker Studio",
+        "Kế hoạch nội dung và video",
+        "E-commerce mỹ phẩm"
+      ],
+      "after": [
+        "Quảng cáo Meta và TikTok",
+        "Looker Studio",
+        "Kế hoạch nội dung và video",
+        "E-commerce mỹ phẩm"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J01-C08-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Google Tag Manager (GTM)",
+        "Google Analytics 4 (GA4)",
+        "Looker Studio",
+        "Đo lường quảng cáo Meta TikTok Google",
+        "Ngành giáo dục trực tuyến EdTech"
+      ],
+      "after": [
+        "Google Tag Manager (GTM)",
+        "Looker Studio",
+        "Ngành giáo dục trực tuyến EdTech"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J01-C08-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Google Analytics 4 (GA4)"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J02-C03-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nNhân viên Biên tập Nội dung Website tại Công ty TNHH Công Nghệ Tri Thức Mới\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\n- Tối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\n- Công việc chủ yếu thao tác viết trên máy tính, chưa từng tự quay video, đứng trước ống kính hay sử dụng ứng dụng dựng phim CapCut, Premiere.\n\nCộng tác viên Dịch thuật tại Tạp Chí Tri Thức Số\nThời gian: Từ 2025-04 đến 2025-09\n- Dịch các bài phân tích công nghệ từ các trang tin quốc tế.",
+      "after": "Kinh nghiệm làm việc:\nNhân viên Biên tập Nội dung Website tại Công ty TNHH Công Nghệ Tri Thức Mới\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\n- Tối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\n- Công việc chủ yếu thao tác viết trên máy tính.\n\nCộng tác viên Dịch thuật tại Tạp Chí Tri Thức Số\nThời gian: Từ 2025-04 đến 2025-09\n- Dịch các bài phân tích công nghệ từ các trang tin quốc tế.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J02-C03-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Dịch thuật tiếng Anh"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J02-C03",
+      "field": "cv_text",
+      "before": "Tóm lược hồ sơ:\nCử nhân ngành Ngôn ngữ học với 1 năm làm nhân viên viết bài nội dung học thuật và tin tức bài viết website chuẩn SEO. Tư duy diễn đạt câu từ trau chuốt, logic, kỹ năng nghiên cứu tài liệu sâu và dịch thuật bài viết công nghệ từ tiếng Anh sang tiếng Việt. Hiện muốn thử sức trong mảng sáng tạo nội dung mạng xã hội và học hỏi thêm về kịch bản video ngắn.\n\nKỹ năng làm việc:\n- Viết bài chuyên sâu chuẩn SEO trên website (Long-form Content)\n- Nghiên cứu từ khóa và biên tập nội dung bài viết kỹ thuật\n- Biên dịch tài liệu tiếng Anh sang tiếng Việt mượt mà\n- Sử dụng công cụ soạn thảo WordPress và Google Docs\n- Kỹ năng tư duy logic và kiểm tra lỗi chính tả nghiêm ngặt\n\nKinh nghiệm làm việc:\nNhân viên Biên tập Nội dung Website tại Công ty TNHH Công Nghệ Tri Thức Mới\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\n- Tối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\n- Công việc chủ yếu thao tác viết trên máy tính, chưa từng tự quay video, đứng trước ống kính hay sử dụng ứng dụng dựng phim CapCut, Premiere.\n\nCộng tác viên Dịch thuật tại Tạp Chí Tri Thức Số\nThời gian: Từ 2025-04 đến 2025-09\n- Dịch các bài phân tích công nghệ từ các trang tin quốc tế.\n\nHọc vấn:\n- Cử nhân ngành Ngôn ngữ học, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM",
+      "after": "Tóm lược hồ sơ:\nCử nhân ngành Ngôn ngữ học với 1 năm làm nhân viên viết bài nội dung học thuật và tin tức bài viết website chuẩn SEO. Tư duy diễn đạt câu từ trau chuốt, logic, kỹ năng nghiên cứu tài liệu sâu và dịch thuật bài viết công nghệ từ tiếng Anh sang tiếng Việt. Hiện muốn thử sức trong mảng sáng tạo nội dung mạng xã hội và học hỏi thêm về kịch bản video ngắn.\n\nKỹ năng làm việc:\n- Viết bài chuyên sâu chuẩn SEO trên website (Long-form Content)\n- Nghiên cứu từ khóa và biên tập nội dung bài viết kỹ thuật\n- Biên dịch tài liệu tiếng Anh sang tiếng Việt mượt mà\n- Sử dụng công cụ soạn thảo WordPress và Google Docs\n- Kỹ năng tư duy logic và kiểm tra lỗi chính tả nghiêm ngặt\n\nKinh nghiệm làm việc:\nNhân viên Biên tập Nội dung Website tại Công ty TNHH Công Nghệ Tri Thức Mới\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\n- Tối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\n- Công việc chủ yếu thao tác viết trên máy tính.\n\nCộng tác viên Dịch thuật tại Tạp Chí Tri Thức Số\nThời gian: Từ 2025-04 đến 2025-09\n- Dịch các bài phân tích công nghệ từ các trang tin quốc tế.\n\nHọc vấn:\n- Cử nhân ngành Ngôn ngữ học, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J02-C04-SEC-SUM",
+      "field": "text",
+      "before": "Tóm lược ứng viên:\nSáng tạo nội dung trẻ tuổi với 6 tháng kinh nghiệm phụ trách kênh TikTok và Facebook cho chuỗi đồ uống trà sữa. Tác phong năng động, nói chuyện cuốn hút trước ống kính, nắm bắt nhanh các trào lưu nhảy múa và câu nói thịnh hành trên mạng. Có khả năng tự viết lời bình, tự quay bằng điện thoại và ghép nhạc video trên CapCut.",
+      "after": "Tóm lược ứng viên:\nSáng tạo nội dung với 6 tháng kinh nghiệm phụ trách kênh TikTok và Facebook cho chuỗi đồ uống trà sữa. Tác phong năng động, nói chuyện cuốn hút trước ống kính, nắm bắt nhanh các trào lưu nhảy múa và câu nói thịnh hành trên mạng. Có khả năng tự viết lời bình, tự quay bằng điện thoại và ghép nhạc video trên CapCut.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J02-C04",
+      "field": "cv_text",
+      "before": "Tóm lược ứng viên:\nSáng tạo nội dung trẻ tuổi với 6 tháng kinh nghiệm phụ trách kênh TikTok và Facebook cho chuỗi đồ uống trà sữa. Tác phong năng động, nói chuyện cuốn hút trước ống kính, nắm bắt nhanh các trào lưu nhảy múa và câu nói thịnh hành trên mạng. Có khả năng tự viết lời bình, tự quay bằng điện thoại và ghép nhạc video trên CapCut.\n\nKỹ năng làm việc:\n- Lên ý tưởng nội dung hài hước ngắn (Skits) cho TikTok\n- Tự tin diễn xuất và giới thiệu món nước trước ống kính\n- Dựng video trên CapCut điện thoại và chèn phụ đề tự động\n- Bắt trend âm thanh và bộ lọc thịnh hành trên TikTok\n- Sử dụng Canva thiết kế menu khuyến mãi ngày lễ\n\nKinh nghiệm làm việc:\nNhân viên Sáng tạo Nội dung TikTok tại Chuỗi Trà Sữa Đô Thị Trendy\nThời gian: Từ 2026-04 đến nay (đang làm việc)\n- Trực tiếp sản xuất 12 video ngắn/tháng quay tại các chi nhánh quán trà sữa, giới thiệu món nước mùa hè và các tình huống hài hước giữa khách hàng và nhân viên pha chế.\n- Sử dụng CapCut cắt ghép video, lồng tiếng và bắt nhịp nhạc thịnh hành, giúp 2 video đạt trên 300.000 lượt xem.\n- Thiết kế các thông báo mua 1 tặng 1 bằng ứng dụng Canva để đăng lên Fanpage.\n\nThực tập sinh Truyền thông tại Nhóm Tình Nguyện Xanh\nThời gian: Từ 2025-10 đến 2026-03\n- Chụp ảnh sự kiện và đăng tin hoạt động lên trang mạng xã hội.\n\nHọc vấn:\n- Cử nhân ngành Ngôn ngữ Anh, Trường Đại học Sư phạm TP.HCM",
+      "after": "Tóm lược ứng viên:\nSáng tạo nội dung với 6 tháng kinh nghiệm phụ trách kênh TikTok và Facebook cho chuỗi đồ uống trà sữa. Tác phong năng động, nói chuyện cuốn hút trước ống kính, nắm bắt nhanh các trào lưu nhảy múa và câu nói thịnh hành trên mạng. Có khả năng tự viết lời bình, tự quay bằng điện thoại và ghép nhạc video trên CapCut.\n\nKỹ năng làm việc:\n- Lên ý tưởng nội dung hài hước ngắn (Skits) cho TikTok\n- Tự tin diễn xuất và giới thiệu món nước trước ống kính\n- Dựng video trên CapCut điện thoại và chèn phụ đề tự động\n- Bắt trend âm thanh và bộ lọc thịnh hành trên TikTok\n- Sử dụng Canva thiết kế menu khuyến mãi ngày lễ\n\nKinh nghiệm làm việc:\nNhân viên Sáng tạo Nội dung TikTok tại Chuỗi Trà Sữa Đô Thị Trendy\nThời gian: Từ 2026-04 đến nay (đang làm việc)\n- Trực tiếp sản xuất 12 video ngắn/tháng quay tại các chi nhánh quán trà sữa, giới thiệu món nước mùa hè và các tình huống hài hước giữa khách hàng và nhân viên pha chế.\n- Sử dụng CapCut cắt ghép video, lồng tiếng và bắt nhịp nhạc thịnh hành, giúp 2 video đạt trên 300.000 lượt xem.\n- Thiết kế các thông báo mua 1 tặng 1 bằng ứng dụng Canva để đăng lên Fanpage.\n\nThực tập sinh Truyền thông tại Nhóm Tình Nguyện Xanh\nThời gian: Từ 2025-10 đến 2026-03\n- Chụp ảnh sự kiện và đăng tin hoạt động lên trang mạng xã hội.\n\nHọc vấn:\n- Cử nhân ngành Ngôn ngữ Anh, Trường Đại học Sư phạm TP.HCM",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J02-C05-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nTrưởng phòng Sáng tạo Nội dung tại Tập Đoàn Truyền Thông Sao Việt\nThời gian: Từ 2022-04 đến nay (đang giữ vị trí)\n- Điều hành đội ngũ 8 nhân viên nội dung và quay dựng phim phục vụ 5 nhãn hàng tiêu dùng lớn.\n- Định hướng sản xuất các chuỗi video giải trí đạt tổng cộng hơn 45 triệu lượt xem trên nền tảng TikTok và YouTube Shorts trong năm 2025.\n- Xây dựng quy chuẩn sản xuất nội dung ngắn giúp rút ngắn thời gian hậu kỳ từ 3 ngày xuống còn 24 giờ.\n- Phối hợp cùng giám đốc tiếp thị lên kế hoạch phân bổ kinh phí tài trợ cho các nhà sáng tạo nội dung hàng đầu.\n\nTrưởng nhóm Biên kịch Video tại Công ty Cổ phần Giải Trí Tuổi Trẻ\nThời gian: Từ 2020-01 đến 2022-03\n- Viết kịch bản sitcom và video phỏng vấn đường phố hài hước.",
+      "after": "Kinh nghiệm làm việc:\nTrưởng phòng Sáng tạo Nội dung tại Tập Đoàn Truyền Thông Sao Việt\nThời gian: Từ 2022-04 đến nay (đang giữ vị trí)\n- Điều hành đội ngũ 8 nhân viên nội dung và quay dựng phim phục vụ 5 nhãn hàng tiêu dùng lớn.\n- Định hướng sản xuất các chuỗi video giải trí đạt tổng cộng hơn 45 triệu lượt xem trên nền tảng TikTok và YouTube Shorts trong năm 2025.\n- Xây dựng quy chuẩn sản xuất nội dung ngắn giúp rút ngắn thời gian hậu kỳ từ 3 ngày xuống còn 24 giờ.\n- Phối hợp cùng giám đốc tiếp thị lên kế hoạch phân bổ kinh phí tài trợ cho các nhà sáng tạo nội dung hàng đầu.\n\nTrưởng nhóm Biên kịch Video tại Công ty Cổ phần Giải Trí Trẻ Vina\nThời gian: Từ 2020-01 đến 2022-03\n- Viết kịch bản sitcom và video phỏng vấn đường phố hài hước.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J02-C05-EXP-02",
+      "field": "company",
+      "before": "Công ty Cổ phần Giải Trí Tuổi Trẻ",
+      "after": "Công ty Cổ phần Giải Trí Trẻ Vina",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize company"
+    },
+    {
+      "id": "MK-J02-C05",
+      "field": "cv_text",
+      "before": "Tóm tắt kinh nghiệm quản lý sáng tạo:\nTrưởng bộ phận Nội dung & Sáng tạo (Head of Content & Creative) với hơn 5 năm kinh nghiệm quản lý phòng nội dung truyền thông cho các tập đoàn giải trí và thương mại điện tử lớn. Lãnh đạo đội ngũ gồm 8 biên kịch, đạo diễn hình ảnh và chuyên viên dựng phim. Định hướng chiến lược nội dung viral toàn diện, xây dựng các chiến dịch truyền thông đa kênh thu hút hàng chục triệu lượt tiếp cận.\n\nKỹ năng điều hành và định hướng:\n- Hoạch định chiến lược nội dung đa nền tảng: YouTube, TikTok, Facebook, Instagram\n- Chỉ đạo sản xuất video ngắn, viral video và web drama\n- Đào tạo đội ngũ biên kịch về kỹ thuật kể chuyện (Storytelling) và nghệ thuật giật tít\n- Thẩm định kịch bản và phê duyệt chất lượng hình ảnh trước khi công chiếu\n- Đàm phán và quản lý hợp đồng sản xuất với các công ty sản xuất phim và KOLs\n\nKinh nghiệm làm việc:\nTrưởng phòng Sáng tạo Nội dung tại Tập Đoàn Truyền Thông Sao Việt\nThời gian: Từ 2022-04 đến nay (đang giữ vị trí)\n- Điều hành đội ngũ 8 nhân viên nội dung và quay dựng phim phục vụ 5 nhãn hàng tiêu dùng lớn.\n- Định hướng sản xuất các chuỗi video giải trí đạt tổng cộng hơn 45 triệu lượt xem trên nền tảng TikTok và YouTube Shorts trong năm 2025.\n- Xây dựng quy chuẩn sản xuất nội dung ngắn giúp rút ngắn thời gian hậu kỳ từ 3 ngày xuống còn 24 giờ.\n- Phối hợp cùng giám đốc tiếp thị lên kế hoạch phân bổ kinh phí tài trợ cho các nhà sáng tạo nội dung hàng đầu.\n\nTrưởng nhóm Biên kịch Video tại Công ty Cổ phần Giải Trí Tuổi Trẻ\nThời gian: Từ 2020-01 đến 2022-03\n- Viết kịch bản sitcom và video phỏng vấn đường phố hài hước.\n\nHọc vấn:\n- Cử nhân ngành Báo chí, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQGHN",
+      "after": "Tóm tắt kinh nghiệm quản lý sáng tạo:\nTrưởng bộ phận Nội dung & Sáng tạo (Head of Content & Creative) với hơn 5 năm kinh nghiệm quản lý phòng nội dung truyền thông cho các tập đoàn giải trí và thương mại điện tử lớn. Lãnh đạo đội ngũ gồm 8 biên kịch, đạo diễn hình ảnh và chuyên viên dựng phim. Định hướng chiến lược nội dung viral toàn diện, xây dựng các chiến dịch truyền thông đa kênh thu hút hàng chục triệu lượt tiếp cận.\n\nKỹ năng điều hành và định hướng:\n- Hoạch định chiến lược nội dung đa nền tảng: YouTube, TikTok, Facebook, Instagram\n- Chỉ đạo sản xuất video ngắn, viral video và web drama\n- Đào tạo đội ngũ biên kịch về kỹ thuật kể chuyện (Storytelling) và nghệ thuật giật tít\n- Thẩm định kịch bản và phê duyệt chất lượng hình ảnh trước khi công chiếu\n- Đàm phán và quản lý hợp đồng sản xuất với các công ty sản xuất phim và KOLs\n\nKinh nghiệm làm việc:\nTrưởng phòng Sáng tạo Nội dung tại Tập Đoàn Truyền Thông Sao Việt\nThời gian: Từ 2022-04 đến nay (đang giữ vị trí)\n- Điều hành đội ngũ 8 nhân viên nội dung và quay dựng phim phục vụ 5 nhãn hàng tiêu dùng lớn.\n- Định hướng sản xuất các chuỗi video giải trí đạt tổng cộng hơn 45 triệu lượt xem trên nền tảng TikTok và YouTube Shorts trong năm 2025.\n- Xây dựng quy chuẩn sản xuất nội dung ngắn giúp rút ngắn thời gian hậu kỳ từ 3 ngày xuống còn 24 giờ.\n- Phối hợp cùng giám đốc tiếp thị lên kế hoạch phân bổ kinh phí tài trợ cho các nhà sáng tạo nội dung hàng đầu.\n\nTrưởng nhóm Biên kịch Video tại Công ty Cổ phần Giải Trí Trẻ Vina\nThời gian: Từ 2020-01 đến 2022-03\n- Viết kịch bản sitcom và video phỏng vấn đường phố hài hước.\n\nHọc vấn:\n- Cử nhân ngành Báo chí, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQGHN",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J02-C06-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Trực tin nhắn Fanpage",
+        "Chăm sóc khách hàng",
+        "Pancake Harasocial"
+      ],
+      "after": [
+        "Trực tin nhắn Fanpage",
+        "Chăm sóc khách hàng"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J02-C08-PRJ-01",
+      "field": "description",
+      "before": "Sản xuất 10 video ngắn giới thiệu quán ăn lâu đời hẻm nhỏ, đạt 4,5 triệu view TikTok.",
+      "after": "Sản xuất loạt 10 tập video ngắn giới thiệu các quán ăn lâu đời trong hẻm nhỏ, đạt tổng cộng 4,5 triệu lượt xem trên nền tảng TikTok.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Align project description to exact source bullet"
+    },
+    {
+      "id": "MK-J02-C08-PRJ-01",
+      "field": "technologies_or_methods",
+      "before": [
+        "Tự quay và dựng Premiere CapCut",
+        "Bắt trend du lịch ẩm thực"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Project methods explicit support alignment"
+    },
+    {
+      "id": "MK-J03-C01-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương hiệu tại Tập Đoàn Hàng Tiêu Dùng Thực Phẩm Hương Việt\nThời gian: Từ 2023-01 đến nay (đang giữ vị trí)\n- Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\n- Hoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\n- Chỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình VTV3 (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\n- Trực tiếp chủ trì chấm thầu, làm việc với các agency quảng cáo quốc tế Ogilvy, Dentsu để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\n- Thuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh.\n\nChuyên viên Quản lý Nhãn hàng Cấp cao tại Công ty Cổ phần Thực Phẩm Quốc Tế Nam Á\nThời gian: Từ 2019-06 đến 2022-12\n- Quản lý nhãn hàng bánh kẹo nhập khẩu, triển khai các hoạt động tài trợ chương trình truyền hình và activation tại rạp chiếu phim.",
+      "after": "Kinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương hiệu tại Tập Đoàn Hàng Tiêu Dùng Thực Phẩm Hương Việt\nThời gian: Từ 2023-01 đến nay (đang giữ vị trí)\n- Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\n- Hoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\n- Chỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình quốc gia (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\n- Trực tiếp chủ trì chấm thầu, làm việc với các các agency sáng tạo quốc tế để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\n- Thuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh.\n\nChuyên viên Quản lý Nhãn hàng Cấp cao tại Công ty Cổ phần Thực Phẩm Quốc Tế Nam Á\nThời gian: Từ 2019-06 đến 2022-12\n- Quản lý nhãn hàng bánh kẹo nhập khẩu, triển khai các hoạt động tài trợ chương trình truyền hình và activation tại rạp chiếu phim.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J03-C01-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Chiến lược định vị thương hiệu"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J03-C01",
+      "field": "cv_text",
+      "before": "Tóm tắt năng lực quản lý:\nNhà quản lý tiếp thị thương hiệu cấp cao với hơn 7 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh (FMCG) và chuỗi bán lẻ thực phẩm, trong đó có hơn 3 năm giữ chức vụ Trưởng phòng Tiếp thị Thương hiệu (Brand Marketing Manager). Sở hữu bằng Thạc sĩ Quản trị Marketing, có năng lực hoạch định chiến lược thương hiệu 3 năm, quản trị ngân sách năm trên 12 tỷ đồng và điều hành các chiến dịch IMC toàn quốc kết hợp truyền hình ATL, kích hoạt điểm bán BTL và truyền thông số Digital. Thuyết trình lưu loát trước Hội đồng Quản trị bằng tiếng Anh.\n\nKỹ năng điều hành và chuyên môn:\n- Hoạch định chiến lược định vị thương hiệu và kiến trúc danh mục sản phẩm\n- Phân bổ và tối ưu hóa ngân sách tiếp thị năm từ 10 đến 15 tỷ đồng\n- Lãnh đạo thực thi chiến dịch truyền thông tích hợp (IMC Campaign) quy mô quốc gia\n- Đấu thầu, chọn lọc và quản lý mạng lưới Creative Agency, PR Agency và Media Buying Agency\n- Quản lý, đào tạo và phát triển đội ngũ 6 nhân sự chuyên trách thương hiệu\n- Tiếng Anh điều hành doanh nghiệp và báo cáo cấp HĐQT\n\nKinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương hiệu tại Tập Đoàn Hàng Tiêu Dùng Thực Phẩm Hương Việt\nThời gian: Từ 2023-01 đến nay (đang giữ vị trí)\n- Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\n- Hoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\n- Chỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình VTV3 (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\n- Trực tiếp chủ trì chấm thầu, làm việc với các agency quảng cáo quốc tế Ogilvy, Dentsu để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\n- Thuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh.\n\nChuyên viên Quản lý Nhãn hàng Cấp cao tại Công ty Cổ phần Thực Phẩm Quốc Tế Nam Á\nThời gian: Từ 2019-06 đến 2022-12\n- Quản lý nhãn hàng bánh kẹo nhập khẩu, triển khai các hoạt động tài trợ chương trình truyền hình và activation tại rạp chiếu phim.\n\nTrình độ học vấn:\n- Thạc sĩ Quản trị Marketing (Master in Marketing Management), Trường Đại học Kinh tế TP. Hồ Chí Minh\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế TP. Hồ Chí Minh\n\nChứng chỉ:\n- Chứng chỉ Strategic Brand Management do Viện Tiếp Thị Quốc Tế cấp\n- Chứng chỉ Tiếng Anh IELTS 8.0",
+      "after": "Tóm tắt năng lực quản lý:\nNhà quản lý tiếp thị thương hiệu cấp cao với hơn 7 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh (FMCG) và chuỗi bán lẻ thực phẩm, trong đó có hơn 3 năm giữ chức vụ Trưởng phòng Tiếp thị Thương hiệu (Brand Marketing Manager). Sở hữu bằng Thạc sĩ Quản trị Marketing, có năng lực hoạch định chiến lược thương hiệu 3 năm, quản trị ngân sách năm trên 12 tỷ đồng và điều hành các chiến dịch IMC toàn quốc kết hợp truyền hình ATL, kích hoạt điểm bán BTL và truyền thông số Digital. Thuyết trình lưu loát trước Hội đồng Quản trị bằng tiếng Anh.\n\nKỹ năng điều hành và chuyên môn:\n- Hoạch định chiến lược định vị thương hiệu và kiến trúc danh mục sản phẩm\n- Phân bổ và tối ưu hóa ngân sách tiếp thị năm từ 10 đến 15 tỷ đồng\n- Lãnh đạo thực thi chiến dịch truyền thông tích hợp (IMC Campaign) quy mô quốc gia\n- Đấu thầu, chọn lọc và quản lý mạng lưới Creative Agency, PR Agency và Media Buying Agency\n- Quản lý, đào tạo và phát triển đội ngũ 6 nhân sự chuyên trách thương hiệu\n- Tiếng Anh điều hành doanh nghiệp và báo cáo cấp HĐQT\n\nKinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương hiệu tại Tập Đoàn Hàng Tiêu Dùng Thực Phẩm Hương Việt\nThời gian: Từ 2023-01 đến nay (đang giữ vị trí)\n- Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\n- Hoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\n- Chỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình quốc gia (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\n- Trực tiếp chủ trì chấm thầu, làm việc với các các agency sáng tạo quốc tế để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\n- Thuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh.\n\nChuyên viên Quản lý Nhãn hàng Cấp cao tại Công ty Cổ phần Thực Phẩm Quốc Tế Nam Á\nThời gian: Từ 2019-06 đến 2022-12\n- Quản lý nhãn hàng bánh kẹo nhập khẩu, triển khai các hoạt động tài trợ chương trình truyền hình và activation tại rạp chiếu phim.\n\nTrình độ học vấn:\n- Thạc sĩ Quản trị Marketing (Master in Marketing Management), Trường Đại học Kinh tế TP. Hồ Chí Minh\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế TP. Hồ Chí Minh\n\nChứng chỉ:\n- Chứng chỉ Strategic Brand Management do Viện Tiếp Thị Quốc Tế cấp\n- Chứng chỉ Tiếng Anh IELTS 8.0",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J03-C02-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Chiến dịch IMC bán lẻ mỹ phẩm"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J03-C03-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nTrợ lý Quản lý Nhãn hàng (ABM) tại Công ty Cổ phần Nước Giải Khát Nam Dương\nThời gian: Từ 2022-09 đến nay (đang làm việc)\n- Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\n- Theo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\n- Giám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\n- Hướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu, chưa chính thức quản lý đội ngũ nhân viên chính thức.\n\nChuyên viên Thực thi Thương hiệu tại Công ty TNHH Thực Phẩm Xanh Việt Nam\nThời gian: Từ 2021-03 đến 2022-08\n- Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại hệ thống siêu thị Co.opmart.",
+      "after": "Kinh nghiệm làm việc:\nTrợ lý Quản lý Nhãn hàng (ABM) tại Công ty Cổ phần Nước Giải Khát Nam Dương\nThời gian: Từ 2022-09 đến nay (đang làm việc)\n- Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\n- Theo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\n- Giám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\n- Hướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu.\n\nChuyên viên Thực thi Thương hiệu tại Công ty TNHH Thực Phẩm Xanh Việt Nam\nThời gian: Từ 2021-03 đến 2022-08\n- Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại các hệ thống siêu thị tiêu dùng.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J03-C03-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Brand Marketing ABM",
+        "Hỗ trợ chiến dịch IMC",
+        "Làm việc với Creative và Media Agency"
+      ],
+      "after": [
+        "Brand Marketing ABM",
+        "Hỗ trợ chiến dịch IMC",
+        "Làm việc với Creative Agency"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J03-C03",
+      "field": "cv_text",
+      "before": "Tóm lược hồ sơ:\nTrợ lý Quản lý Nhãn hàng (Assistant Brand Manager) với 4 năm kinh nghiệm trong ngành hàng nước giải khát đóng chai và trà pha sẵn. Có kinh nghiệm hỗ trợ Giám đốc Thương hiệu lập kế hoạch tung sản phẩm mới, phối hợp cùng các phòng ban vận hành chiến dịch truyền thông tích hợp và theo dõi tiến độ công việc với các agency quảng cáo. Đang tìm kiếm cơ hội thăng tiến lên vị trí Trưởng phòng Thương hiệu.\n\nKỹ năng chuyên môn:\n- Hỗ trợ xây dựng kế hoạch tiếp thị nhãn hàng (Brand Marketing Plan)\n- Điều phối triển khai các hạng mục của chiến dịch IMC theo ngân sách được duyệt\n- Làm việc hàng ngày với Creative Agency và Media Agency để giám sát sản xuất ấn phẩm\n- Phân tích số liệu thị phần bán lẻ của Nielsen và Kantar Worldpanel\n- Tiếng Anh giao tiếp thương mại tốt\n\nKinh nghiệm làm việc:\nTrợ lý Quản lý Nhãn hàng (ABM) tại Công ty Cổ phần Nước Giải Khát Nam Dương\nThời gian: Từ 2022-09 đến nay (đang làm việc)\n- Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\n- Theo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\n- Giám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\n- Hướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu, chưa chính thức quản lý đội ngũ nhân viên chính thức.\n\nChuyên viên Thực thi Thương hiệu tại Công ty TNHH Thực Phẩm Xanh Việt Nam\nThời gian: Từ 2021-03 đến 2022-08\n- Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại hệ thống siêu thị Co.opmart.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Quốc tế - ĐHQG TP.HCM",
+      "after": "Tóm lược hồ sơ:\nTrợ lý Quản lý Nhãn hàng (Assistant Brand Manager) với 4 năm kinh nghiệm trong ngành hàng nước giải khát đóng chai và trà pha sẵn. Có kinh nghiệm hỗ trợ Giám đốc Thương hiệu lập kế hoạch tung sản phẩm mới, phối hợp cùng các phòng ban vận hành chiến dịch truyền thông tích hợp và theo dõi tiến độ công việc với các agency quảng cáo. Đang tìm kiếm cơ hội thăng tiến lên vị trí Trưởng phòng Thương hiệu.\n\nKỹ năng chuyên môn:\n- Hỗ trợ xây dựng kế hoạch tiếp thị nhãn hàng (Brand Marketing Plan)\n- Điều phối triển khai các hạng mục của chiến dịch IMC theo ngân sách được duyệt\n- Làm việc hàng ngày với Creative Agency và Media Agency để giám sát sản xuất ấn phẩm\n- Phân tích số liệu thị phần bán lẻ của Nielsen và Kantar Worldpanel\n- Tiếng Anh giao tiếp thương mại tốt\n\nKinh nghiệm làm việc:\nTrợ lý Quản lý Nhãn hàng (ABM) tại Công ty Cổ phần Nước Giải Khát Nam Dương\nThời gian: Từ 2022-09 đến nay (đang làm việc)\n- Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\n- Theo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\n- Giám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\n- Hướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu.\n\nChuyên viên Thực thi Thương hiệu tại Công ty TNHH Thực Phẩm Xanh Việt Nam\nThời gian: Từ 2021-03 đến 2022-08\n- Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại các hệ thống siêu thị tiêu dùng.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Quốc tế - ĐHQG TP.HCM",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J03-C04-SEC-SUM",
+      "field": "text",
+      "before": "Tóm lược hồ sơ:\nTrưởng bộ phận Tiếp thị Thương mại (Trade Marketing Manager) với hơn 6 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh kênh siêu thị (MT) và cửa hàng tiện lợi (CVS). Quản lý đội ngũ 6 giám sát kích hoạt thương mại, chuyên trách thiết kế ụ kệ trưng bày nổi bật, tổ chức các chương trình khuyến mãi giảm giá kích cầu tại điểm bán và đàm phán vị trí thuê kệ đẹp với các chuỗi bán lẻ lớn. Không chuyên về định vị thương hiệu dài hạn hay chiến dịch truyền thông đa phương tiện ATL/TVC.",
+      "after": "Tóm lược hồ sơ:\nTrưởng bộ phận Tiếp thị Thương mại (Trade Marketing Manager) với hơn 6 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh kênh siêu thị (MT) và cửa hàng tiện lợi (CVS). Quản lý đội ngũ 6 giám sát kích hoạt thương mại, chuyên trách thiết kế ụ kệ trưng bày nổi bật, tổ chức các chương trình khuyến mãi giảm giá kích cầu tại điểm bán và đàm phán vị trí thuê kệ đẹp với các chuỗi bán lẻ lớn.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J03-C04-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương mại tại Công ty Cổ phần Hàng Tiêu Dùng Đất Phương Nam\nThời gian: Từ 2023-05 đến nay (đang công tác)\n- Quản lý 6 nhân viên chuyên trách kênh siêu thị WinMart, Big C/Go! và Lotte Mart trên toàn miền Nam.\n- Quản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\n- Đảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\n- Phối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn.\n\nChuyên viên Trade Marketing Kênh Siêu Thị tại Công ty TNHH Thực Phẩm Đông Hải\nThời gian: Từ 2019-11 đến 2023-04\n- Thiết kế chương trình quà tặng đính kèm và kiểm tra nhân viên PG phát quà tại quầy.",
+      "after": "Kinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương mại tại Công ty Cổ phần Hàng Tiêu Dùng Đất Phương Nam\nThời gian: Từ 2023-05 đến nay (đang công tác)\n- Quản lý 6 nhân viên chuyên trách các hệ thống siêu thị bán lẻ lớn trên toàn miền Nam.\n- Quản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\n- Đảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\n- Phối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn.\n\nChuyên viên Trade Marketing Kênh Siêu Thị tại Công ty TNHH Thực Phẩm Đông Hải\nThời gian: Từ 2019-11 đến 2023-04\n- Thiết kế chương trình quà tặng đính kèm và kiểm tra nhân viên PG phát quà tại quầy.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J03-C04-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý Trade Marketing",
+        "Kênh siêu thị MT và CVS",
+        "Ngân sách khuyến mãi điểm bán",
+        "Shopper Activation và POSM"
+      ],
+      "after": [
+        "Quản lý Trade Marketing",
+        "Kênh siêu thị MT",
+        "Ngân sách khuyến mãi điểm bán",
+        "Shopper Activation và POSM"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J03-C04-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Shopper Activation và POSM"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J03-C04",
+      "field": "cv_text",
+      "before": "Tóm lược hồ sơ:\nTrưởng bộ phận Tiếp thị Thương mại (Trade Marketing Manager) với hơn 6 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh kênh siêu thị (MT) và cửa hàng tiện lợi (CVS). Quản lý đội ngũ 6 giám sát kích hoạt thương mại, chuyên trách thiết kế ụ kệ trưng bày nổi bật, tổ chức các chương trình khuyến mãi giảm giá kích cầu tại điểm bán và đàm phán vị trí thuê kệ đẹp với các chuỗi bán lẻ lớn. Không chuyên về định vị thương hiệu dài hạn hay chiến dịch truyền thông đa phương tiện ATL/TVC.\n\nKỹ năng quản trị và chuyên môn:\n- Hoạch định kế hoạch tiếp thị tại điểm bán (Trade Marketing Plan)\n- Quản trị ngân sách khuyến mãi và thuê vị trí trưng bày siêu thị\n- Tổ chức hoạt động kích hoạt thương mại tại chỗ (Shopper Activation)\n- Đàm phán chính sách trưng bày với đại diện thu mua (Merchandiser) các chuỗi MT\n- Lãnh đạo và phân chia mục tiêu cho đội ngũ giám sát thương mại hiện trường\n\nKinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương mại tại Công ty Cổ phần Hàng Tiêu Dùng Đất Phương Nam\nThời gian: Từ 2023-05 đến nay (đang công tác)\n- Quản lý 6 nhân viên chuyên trách kênh siêu thị WinMart, Big C/Go! và Lotte Mart trên toàn miền Nam.\n- Quản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\n- Đảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\n- Phối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn.\n\nChuyên viên Trade Marketing Kênh Siêu Thị tại Công ty TNHH Thực Phẩm Đông Hải\nThời gian: Từ 2019-11 đến 2023-04\n- Thiết kế chương trình quà tặng đính kèm và kiểm tra nhân viên PG phát quà tại quầy.\n\nHọc vấn:\n- Cử nhân ngành Kinh tế Phát triển, Trường Đại học Kinh tế TP.HCM",
+      "after": "Tóm lược hồ sơ:\nTrưởng bộ phận Tiếp thị Thương mại (Trade Marketing Manager) với hơn 6 năm kinh nghiệm trong ngành hàng tiêu dùng nhanh kênh siêu thị (MT) và cửa hàng tiện lợi (CVS). Quản lý đội ngũ 6 giám sát kích hoạt thương mại, chuyên trách thiết kế ụ kệ trưng bày nổi bật, tổ chức các chương trình khuyến mãi giảm giá kích cầu tại điểm bán và đàm phán vị trí thuê kệ đẹp với các chuỗi bán lẻ lớn.\n\nKỹ năng quản trị và chuyên môn:\n- Hoạch định kế hoạch tiếp thị tại điểm bán (Trade Marketing Plan)\n- Quản trị ngân sách khuyến mãi và thuê vị trí trưng bày siêu thị\n- Tổ chức hoạt động kích hoạt thương mại tại chỗ (Shopper Activation)\n- Đàm phán chính sách trưng bày với đại diện thu mua (Merchandiser) các chuỗi MT\n- Lãnh đạo và phân chia mục tiêu cho đội ngũ giám sát thương mại hiện trường\n\nKinh nghiệm làm việc:\nTrưởng phòng Tiếp thị Thương mại tại Công ty Cổ phần Hàng Tiêu Dùng Đất Phương Nam\nThời gian: Từ 2023-05 đến nay (đang công tác)\n- Quản lý 6 nhân viên chuyên trách các hệ thống siêu thị bán lẻ lớn trên toàn miền Nam.\n- Quản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\n- Đảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\n- Phối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn.\n\nChuyên viên Trade Marketing Kênh Siêu Thị tại Công ty TNHH Thực Phẩm Đông Hải\nThời gian: Từ 2019-11 đến 2023-04\n- Thiết kế chương trình quà tặng đính kèm và kiểm tra nhân viên PG phát quà tại quầy.\n\nHọc vấn:\n- Cử nhân ngành Kinh tế Phát triển, Trường Đại học Kinh tế TP.HCM",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J03-C05-SEC-SKILL",
+      "field": "text",
+      "before": "Năng lực lãnh đạo cấp cao:\n- Hoạch định chiến lược tăng trưởng tổng thể và định vị thương hiệu tập đoàn\n- Quản trị ngân sách quy mô lớn trên 50 tỷ đồng/năm\n- Chỉ đạo chiến lược danh mục thương hiệu đa ngành (Multi-brand portfolio)\n- Thỏa thuận hợp tác chiến lược với các tập đoàn truyền thông toàn cầu (WPP, Omnicom)\n- Thuyết trình bằng tiếng Anh trước ban điều hành khu vực châu Á - Thái Bình Dương",
+      "after": "Năng lực lãnh đạo cấp cao:\n- Hoạch định chiến lược tăng trưởng tổng thể và định vị thương hiệu tập đoàn\n- Quản trị ngân sách quy mô lớn trên 50 tỷ đồng/năm\n- Chỉ đạo chiến lược danh mục thương hiệu đa ngành (Multi-brand portfolio)\n- Thỏa thuận hợp tác chiến lược với các các tập đoàn truyền thông toàn cầu\n- Thuyết trình bằng tiếng Anh trước ban điều hành khu vực châu Á - Thái Bình Dương",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J03-C05-SEC-EXP",
+      "field": "text",
+      "before": "Kinh nghiệm làm việc:\nGiám đốc Tiếp thị Tập đoàn (CMO) tại Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunGroup\nThời gian: Từ 2021-01 đến nay (đang đảm nhiệm)\n- Điều hành toàn diện 4 phòng ban: Tiếp thị Thương hiệu, Truyền thông Số, Quan hệ Công chúng và Tiếp thị Bán lẻ với tổng số 36 nhân sự.\n- Phân bổ và kiểm soát ngân sách tiếp thị năm 55 tỷ đồng cho mạng lưới 120 siêu thị và trung tâm thương mại trên toàn quốc.\n- Chỉ đạo các chiến dịch IMC cấp quốc gia tạo tiếng vang lớn trong ngành bán lẻ tiêu dùng.\n- Báo cáo trực tiếp cho Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh hàng tháng.\n\nGiám đốc Thương hiệu Ngành Hàng tại Tập Đoàn FMCG Đông Dương\nThời gian: Từ 2016-04 đến 2020-12\n- Quản lý danh mục 3 nhãn hàng đồ uống dinh dưỡng trẻ em.",
+      "after": "Kinh nghiệm làm việc:\nGiám đốc Tiếp thị Tập đoàn (CMO) tại Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunRetail\nThời gian: Từ 2021-01 đến nay (đang đảm nhiệm)\n- Điều hành toàn diện 4 phòng ban: Tiếp thị Thương hiệu, Truyền thông Số, Quan hệ Công chúng và Tiếp thị Bán lẻ với tổng số 36 nhân sự.\n- Phân bổ và kiểm soát ngân sách tiếp thị năm 55 tỷ đồng cho mạng lưới 120 siêu thị và trung tâm thương mại trên toàn quốc.\n- Chỉ đạo các chiến dịch IMC cấp quốc gia tạo tiếng vang lớn trong ngành bán lẻ tiêu dùng.\n- Báo cáo trực tiếp cho Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh hàng tháng.\n\nGiám đốc Thương hiệu Ngành Hàng tại Tập Đoàn FMCG Đông Dương\nThời gian: Từ 2016-04 đến 2020-12\n- Quản lý danh mục 3 nhãn hàng đồ uống dinh dưỡng trẻ em.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J03-C05-EXP-01",
+      "field": "company",
+      "before": "Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunGroup",
+      "after": "Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunRetail",
+      "decision": "HR-SOURCE-007",
+      "reason": "Fictionalize company"
+    },
+    {
+      "id": "MK-J03-C05-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Lãnh đạo CMO cấp tập đoàn",
+        "Ngân sách tiếp thị 55 tỷ",
+        "Chiến dịch IMC toàn quốc",
+        "Hợp tác WPP Omnicom"
+      ],
+      "after": [
+        "Lãnh đạo CMO cấp tập đoàn",
+        "Ngân sách tiếp thị 55 tỷ",
+        "Chiến dịch IMC toàn quốc"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J03-C05",
+      "field": "cv_text",
+      "before": "Tóm tắt kinh nghiệm cấp điều hành:\nGiám đốc Tiếp thị Cấp cao (Chief Marketing Officer - CMO) với hơn 11 năm kinh nghiệm hoạch định chiến lược kinh doanh và tiếp thị cho các tập đoàn bán lẻ tiêu dùng và thương mại điện tử đa quốc gia. Lãnh đạo khối tiếp thị quy mô trên 35 cán bộ nhân viên gồm 4 phòng ban chuyên biệt. Quản trị ngân sách tiếp thị trên 50 tỷ đồng mỗi năm, chịu trách nhiệm trực tiếp trước Hội đồng Quản trị về chỉ số tăng trưởng doanh thu thuần và giá trị tài sản thương hiệu (Brand Equity). Sử dụng tiếng Anh ở cấp độ điều hành quốc tế.\n\nNăng lực lãnh đạo cấp cao:\n- Hoạch định chiến lược tăng trưởng tổng thể và định vị thương hiệu tập đoàn\n- Quản trị ngân sách quy mô lớn trên 50 tỷ đồng/năm\n- Chỉ đạo chiến lược danh mục thương hiệu đa ngành (Multi-brand portfolio)\n- Thỏa thuận hợp tác chiến lược với các tập đoàn truyền thông toàn cầu (WPP, Omnicom)\n- Thuyết trình bằng tiếng Anh trước ban điều hành khu vực châu Á - Thái Bình Dương\n\nKinh nghiệm làm việc:\nGiám đốc Tiếp thị Tập đoàn (CMO) tại Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunGroup\nThời gian: Từ 2021-01 đến nay (đang đảm nhiệm)\n- Điều hành toàn diện 4 phòng ban: Tiếp thị Thương hiệu, Truyền thông Số, Quan hệ Công chúng và Tiếp thị Bán lẻ với tổng số 36 nhân sự.\n- Phân bổ và kiểm soát ngân sách tiếp thị năm 55 tỷ đồng cho mạng lưới 120 siêu thị và trung tâm thương mại trên toàn quốc.\n- Chỉ đạo các chiến dịch IMC cấp quốc gia tạo tiếng vang lớn trong ngành bán lẻ tiêu dùng.\n- Báo cáo trực tiếp cho Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh hàng tháng.\n\nGiám đốc Thương hiệu Ngành Hàng tại Tập Đoàn FMCG Đông Dương\nThời gian: Từ 2016-04 đến 2020-12\n- Quản lý danh mục 3 nhãn hàng đồ uống dinh dưỡng trẻ em.\n\nHọc vấn:\n- Thạc sĩ Quản trị Kinh doanh (MBA), University of Hawaii at Manoa\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế Quốc dân",
+      "after": "Tóm tắt kinh nghiệm cấp điều hành:\nGiám đốc Tiếp thị Cấp cao (Chief Marketing Officer - CMO) với hơn 11 năm kinh nghiệm hoạch định chiến lược kinh doanh và tiếp thị cho các tập đoàn bán lẻ tiêu dùng và thương mại điện tử đa quốc gia. Lãnh đạo khối tiếp thị quy mô trên 35 cán bộ nhân viên gồm 4 phòng ban chuyên biệt. Quản trị ngân sách tiếp thị trên 50 tỷ đồng mỗi năm, chịu trách nhiệm trực tiếp trước Hội đồng Quản trị về chỉ số tăng trưởng doanh thu thuần và giá trị tài sản thương hiệu (Brand Equity). Sử dụng tiếng Anh ở cấp độ điều hành quốc tế.\n\nNăng lực lãnh đạo cấp cao:\n- Hoạch định chiến lược tăng trưởng tổng thể và định vị thương hiệu tập đoàn\n- Quản trị ngân sách quy mô lớn trên 50 tỷ đồng/năm\n- Chỉ đạo chiến lược danh mục thương hiệu đa ngành (Multi-brand portfolio)\n- Thỏa thuận hợp tác chiến lược với các các tập đoàn truyền thông toàn cầu\n- Thuyết trình bằng tiếng Anh trước ban điều hành khu vực châu Á - Thái Bình Dương\n\nKinh nghiệm làm việc:\nGiám đốc Tiếp thị Tập đoàn (CMO) tại Tập Đoàn Bán Lẻ Tiêu Dùng Quốc Tế SunRetail\nThời gian: Từ 2021-01 đến nay (đang đảm nhiệm)\n- Điều hành toàn diện 4 phòng ban: Tiếp thị Thương hiệu, Truyền thông Số, Quan hệ Công chúng và Tiếp thị Bán lẻ với tổng số 36 nhân sự.\n- Phân bổ và kiểm soát ngân sách tiếp thị năm 55 tỷ đồng cho mạng lưới 120 siêu thị và trung tâm thương mại trên toàn quốc.\n- Chỉ đạo các chiến dịch IMC cấp quốc gia tạo tiếng vang lớn trong ngành bán lẻ tiêu dùng.\n- Báo cáo trực tiếp cho Tổng Giám đốc và Hội đồng Quản trị bằng tiếng Anh hàng tháng.\n\nGiám đốc Thương hiệu Ngành Hàng tại Tập Đoàn FMCG Đông Dương\nThời gian: Từ 2016-04 đến 2020-12\n- Quản lý danh mục 3 nhãn hàng đồ uống dinh dưỡng trẻ em.\n\nHọc vấn:\n- Thạc sĩ Quản trị Kinh doanh (MBA), University of Hawaii at Manoa\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế Quốc dân",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J03-C06-SEC-SUM",
+      "field": "text",
+      "before": "Tóm lược bản thân:\nTrưởng nhóm Quảng cáo Số (Digital Performance Lead) với hơn 3 năm kinh nghiệm tập trung vào tối ưu hóa chiến dịch chuyển đổi bán hàng trực tuyến cho nền tảng thương mại điện tử. Quản lý nhóm 3 chuyên viên chạy quảng cáo trên Meta Ads, Google Ads và sàn thương mại điện tử Shopee, Lazada. Nắm vững kỹ thuật đo lường ROI và chi phí thu hút khách hàng. Chưa từng tham gia xây dựng chiến lược định vị thương hiệu tổng thể, truyền thông truyền hình ATL hay kích hoạt tại điểm bán BTL.",
+      "after": "Tóm lược bản thân:\nTrưởng nhóm Quảng cáo Số (Digital Performance Lead) với hơn 3 năm kinh nghiệm tập trung vào tối ưu hóa chiến dịch chuyển đổi bán hàng trực tuyến cho nền tảng thương mại điện tử. Quản lý nhóm 3 chuyên viên chạy quảng cáo trên Meta Ads, Google Ads và sàn thương mại điện tử Shopee, Lazada. Nắm vững kỹ thuật đo lường ROI và chi phí thu hút khách hàng.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J03-C06-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý nhóm Digital Performance",
+        "Quảng cáo số E-commerce",
+        "Tối ưu ROAS và CPA"
+      ],
+      "after": [
+        "Quản lý nhóm Digital Performance",
+        "Quảng cáo số E-commerce",
+        "Tối ưu ROAS"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J03-C06-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Quảng cáo số E-commerce"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J03-C06",
+      "field": "cv_text",
+      "before": "Tóm lược bản thân:\nTrưởng nhóm Quảng cáo Số (Digital Performance Lead) với hơn 3 năm kinh nghiệm tập trung vào tối ưu hóa chiến dịch chuyển đổi bán hàng trực tuyến cho nền tảng thương mại điện tử. Quản lý nhóm 3 chuyên viên chạy quảng cáo trên Meta Ads, Google Ads và sàn thương mại điện tử Shopee, Lazada. Nắm vững kỹ thuật đo lường ROI và chi phí thu hút khách hàng. Chưa từng tham gia xây dựng chiến lược định vị thương hiệu tổng thể, truyền thông truyền hình ATL hay kích hoạt tại điểm bán BTL.\n\nKỹ năng làm việc:\n- Tối ưu hóa quảng cáo chuyển đổi Performance Marketing\n- Quản trị ngân sách quảng cáo số hàng tháng cho các gian hàng trực tuyến\n- Phân tích phễu chuyển đổi thương mại điện tử và chỉ số ROAS\n- Lãnh đạo nhóm 3 chuyên viên chạy quảng cáo số\n- Tiếng Anh giao tiếp cơ bản\n\nKinh nghiệm làm việc:\nTrưởng nhóm Quảng cáo Hiệu quả tại Công ty Cổ phần Thương Mại Điện Tử FastBuy\nThời gian: Từ 2023-06 đến nay (đang làm việc)\n- Quản lý nhóm 3 nhân sự phụ trách chạy quảng cáo tìm kiếm và mạng xã hội cho các gian hàng đồ gia dụng thông minh.\n- Tối ưu chi phí chạy ads trung bình 500 triệu đồng/tháng, duy trì ROAS trung bình 3.5.\n- Sử dụng các công cụ phân tích để điều chỉnh giá thầu tự động hàng ngày.\n\nNhân viên Digital Marketing tại Công ty TNHH Tiếp Thị Quảng Cáo NetMedia\nThời gian: Từ 2022-03 đến 2023-05\n- Thiết lập chiến dịch quảng cáo Meta Ads cho các cửa hàng thời trang bán lẻ.\n\nHọc vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Công Thương TP.HCM",
+      "after": "Tóm lược bản thân:\nTrưởng nhóm Quảng cáo Số (Digital Performance Lead) với hơn 3 năm kinh nghiệm tập trung vào tối ưu hóa chiến dịch chuyển đổi bán hàng trực tuyến cho nền tảng thương mại điện tử. Quản lý nhóm 3 chuyên viên chạy quảng cáo trên Meta Ads, Google Ads và sàn thương mại điện tử Shopee, Lazada. Nắm vững kỹ thuật đo lường ROI và chi phí thu hút khách hàng.\n\nKỹ năng làm việc:\n- Tối ưu hóa quảng cáo chuyển đổi Performance Marketing\n- Quản trị ngân sách quảng cáo số hàng tháng cho các gian hàng trực tuyến\n- Phân tích phễu chuyển đổi thương mại điện tử và chỉ số ROAS\n- Lãnh đạo nhóm 3 chuyên viên chạy quảng cáo số\n- Tiếng Anh giao tiếp cơ bản\n\nKinh nghiệm làm việc:\nTrưởng nhóm Quảng cáo Hiệu quả tại Công ty Cổ phần Thương Mại Điện Tử FastBuy\nThời gian: Từ 2023-06 đến nay (đang làm việc)\n- Quản lý nhóm 3 nhân sự phụ trách chạy quảng cáo tìm kiếm và mạng xã hội cho các gian hàng đồ gia dụng thông minh.\n- Tối ưu chi phí chạy ads trung bình 500 triệu đồng/tháng, duy trì ROAS trung bình 3.5.\n- Sử dụng các công cụ phân tích để điều chỉnh giá thầu tự động hàng ngày.\n\nNhân viên Digital Marketing tại Công ty TNHH Tiếp Thị Quảng Cáo NetMedia\nThời gian: Từ 2022-03 đến 2023-05\n- Thiết lập chiến dịch quảng cáo Meta Ads cho các cửa hàng thời trang bán lẻ.\n\nHọc vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Công Thương TP.HCM",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J03-C08-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Định vị thương hiệu Brand Positioning"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J04-C02-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "SEO cổng thông tin doanh nghiệp",
+        "SEO On-page",
+        "Google Search Console",
+        "Ahrefs và Screaming Frog",
+        "Phối hợp cộng tác viên viết bài",
+        "HTML CSS WordPress"
+      ],
+      "after": [
+        "SEO cổng thông tin doanh nghiệp",
+        "SEO On-page",
+        "Ahrefs và Screaming Frog",
+        "Phối hợp cộng tác viên viết bài",
+        "HTML CSS WordPress"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J04-C03-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quảng cáo tìm kiếm Google Ads",
+        "Nghiên cứu từ khóa Keyword Planner",
+        "Google Search Console",
+        "Tối ưu trang đích"
+      ],
+      "after": [
+        "Quảng cáo tìm kiếm Google Ads",
+        "Google Search Console",
+        "Tối ưu trang đích"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J04-C04-SEC-SUM",
+      "field": "text",
+      "before": "Tóm lược hồ sơ:\nNhân viên SEO trẻ tuổi với 1 năm kinh nghiệm hỗ trợ triển khai dự án SEO từ khóa cho các website bán hoa tươi và quà tặng lưu niệm. Chăm chỉ, cẩn thận, nắm bắt được các bước tối ưu On-page cơ bản, cài đặt thẻ title, meta description và sử dụng công cụ Ahrefs để kiểm tra thứ hạng từ khóa hàng tuần.",
+      "after": "Tóm lược hồ sơ:\nNhân viên SEO với 1 năm kinh nghiệm hỗ trợ triển khai dự án SEO từ khóa cho các website bán hoa tươi và quà tặng lưu niệm. Chăm chỉ, cẩn thận, nắm bắt được các bước tối ưu On-page cơ bản, cài đặt thẻ title, meta description và sử dụng công cụ Ahrefs để kiểm tra thứ hạng từ khóa hàng tuần.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J04-C04",
+      "field": "cv_text",
+      "before": "Tóm lược hồ sơ:\nNhân viên SEO trẻ tuổi với 1 năm kinh nghiệm hỗ trợ triển khai dự án SEO từ khóa cho các website bán hoa tươi và quà tặng lưu niệm. Chăm chỉ, cẩn thận, nắm bắt được các bước tối ưu On-page cơ bản, cài đặt thẻ title, meta description và sử dụng công cụ Ahrefs để kiểm tra thứ hạng từ khóa hàng tuần.\n\nKỹ năng làm việc:\n- Tối ưu On-page cơ bản: Title, Heading, Meta description, Alt ảnh\n- Đi liên kết nội bộ (Internal link) kết nối các bài viết cùng danh mục\n- Sử dụng tài khoản Ahrefs kiểm tra vị trí thứ hạng từ khóa\n- Đăng bài và chèn hình ảnh trên trang quản trị WordPress\n- Kiểm tra số lượng nhấp chuột trên Google Search Console\n\nKinh nghiệm làm việc:\nNhân viên SEO Junior tại Công ty TNHH Dịch Vụ SEO Ánh Mai\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Phụ trách theo dõi thứ hạng 200 từ khóa mảng hoa tươi mừng khai trương và hoa sinh nhật.\n- Hàng ngày kiểm tra và sửa thẻ meta, chèn từ khóa in đậm và đặt liên kết trỏ về danh mục sản phẩm chính trên website WordPress.\n- Xuất báo cáo vị trí từ khóa từ Ahrefs vào bảng tính Excel vào mỗi chiều thứ Sáu.\n- Đọc các thông báo lỗi lập chỉ mục đơn giản trên Google Search Console.\n\nThực tập sinh SEO tại Công ty TNHH Giải Pháp Trực Tuyến Sao Băng\nThời gian: Từ 2025-05 đến 2025-09\n- Tìm kiếm diễn đàn và trang web rao vặt để đăng bài giới thiệu đường link website.\n\nHọc vấn:\n- Cử nhân Cao đẳng ngành Thương mại Điện tử, Trường Cao đẳng Kỹ thuật Cao Thắng",
+      "after": "Tóm lược hồ sơ:\nNhân viên SEO với 1 năm kinh nghiệm hỗ trợ triển khai dự án SEO từ khóa cho các website bán hoa tươi và quà tặng lưu niệm. Chăm chỉ, cẩn thận, nắm bắt được các bước tối ưu On-page cơ bản, cài đặt thẻ title, meta description và sử dụng công cụ Ahrefs để kiểm tra thứ hạng từ khóa hàng tuần.\n\nKỹ năng làm việc:\n- Tối ưu On-page cơ bản: Title, Heading, Meta description, Alt ảnh\n- Đi liên kết nội bộ (Internal link) kết nối các bài viết cùng danh mục\n- Sử dụng tài khoản Ahrefs kiểm tra vị trí thứ hạng từ khóa\n- Đăng bài và chèn hình ảnh trên trang quản trị WordPress\n- Kiểm tra số lượng nhấp chuột trên Google Search Console\n\nKinh nghiệm làm việc:\nNhân viên SEO Junior tại Công ty TNHH Dịch Vụ SEO Ánh Mai\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Phụ trách theo dõi thứ hạng 200 từ khóa mảng hoa tươi mừng khai trương và hoa sinh nhật.\n- Hàng ngày kiểm tra và sửa thẻ meta, chèn từ khóa in đậm và đặt liên kết trỏ về danh mục sản phẩm chính trên website WordPress.\n- Xuất báo cáo vị trí từ khóa từ Ahrefs vào bảng tính Excel vào mỗi chiều thứ Sáu.\n- Đọc các thông báo lỗi lập chỉ mục đơn giản trên Google Search Console.\n\nThực tập sinh SEO tại Công ty TNHH Giải Pháp Trực Tuyến Sao Băng\nThời gian: Từ 2025-05 đến 2025-09\n- Tìm kiếm diễn đàn và trang web rao vặt để đăng bài giới thiệu đường link website.\n\nHọc vấn:\n- Cử nhân Cao đẳng ngành Thương mại Điện tử, Trường Cao đẳng Kỹ thuật Cao Thắng",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J04-C05-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Lãnh đạo bộ phận SEO sàn TMĐT",
+        "Technical SEO triệu trang",
+        "Screaming Frog Enterprise",
+        "Ahrefs và BigQuery"
+      ],
+      "after": [
+        "Lãnh đạo bộ phận SEO sàn TMĐT",
+        "Screaming Frog Enterprise"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J04-C06-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Viết bài chuẩn SEO",
+        "Yoast SEO Rank Math",
+        "Đăng bài WordPress"
+      ],
+      "after": [
+        "Viết bài chuẩn SEO",
+        "Đăng bài WordPress"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J04-C07-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "SEO On-page web nội thất",
+        "Nghiên cứu từ khóa Ahrefs Content Gap",
+        "Google Search Console",
+        "Phối hợp đội viết bài outline",
+        "WordPress"
+      ],
+      "after": [
+        "SEO On-page web nội thất",
+        "Google Search Console",
+        "Phối hợp đội viết bài outline"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J04-C08-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Technical SEO Screaming Frog",
+        "Core Web Vitals HTML CSS JS",
+        "Cấu trúc dữ liệu Schema",
+        "Google Search Console và Ahrefs"
+      ],
+      "after": [
+        "Technical SEO Screaming Frog",
+        "Tối ưu hiệu năng JavaScript"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J04-C08-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "WordPress Custom Theme"
+      ],
+      "after": [
+        "Lập trình giao diện Responsive Web"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J05-C01-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Product Marketing Fintech",
+        "Chiến lược Go-to-Market GTM",
+        "User Research và Value Proposition",
+        "Đồng bộ Product Sales CS",
+        "Chỉ số CAC LTV Retention Activation",
+        "Làm việc PM nước ngoài bằng tiếng Anh"
+      ],
+      "after": [
+        "Product Marketing Fintech",
+        "Chiến lược Go-to-Market GTM",
+        "User Research và Value Proposition",
+        "Đồng bộ Product Sales CS",
+        "Chỉ số CAC và Retention Rate",
+        "Làm việc PM nước ngoài bằng tiếng Anh"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J05-C02-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Product Marketing Fintech thanh toán",
+        "Chiến lược Go-to-Market GTM",
+        "Nghiên cứu đối thủ Fintech",
+        "Tỷ lệ kích hoạt Activation Rate",
+        "Đồng bộ Product Sales CS",
+        "Tiếng Anh TOEIC 860"
+      ],
+      "after": [
+        "Product Marketing Fintech thanh toán",
+        "Chiến lược Go-to-Market GTM",
+        "Nghiên cứu đối thủ Fintech",
+        "Tỷ lệ kích hoạt Activation Rate"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J05-C02-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Product Marketing Fintech thanh toán"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J05-C03-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Scrum Agile"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J05-C04-SEC-SUM",
+      "field": "text",
+      "before": "Tóm lược hồ sơ:\nNhân viên Tiếp thị Sản phẩm trẻ tuổi với 2 năm kinh nghiệm trong công ty cung cấp phần mềm kế toán và hóa đơn điện tử SaaS. Nhanh nhẹn, có khả năng viết bài cập nhật tính năng mới (Release notes), hỗ trợ tổ chức các buổi hội thảo trực tuyến (Webinar) hướng dẫn khách hàng sử dụng tính năng và phối hợp cùng đội kinh doanh làm tài liệu bán hàng. Mong muốn được thử sức với vai trò chuyên viên Product Marketing cấp cao trong môi trường Fintech năng động.",
+      "after": "Tóm lược hồ sơ:\nNhân viên Tiếp thị Sản phẩm với 2 năm kinh nghiệm trong công ty cung cấp phần mềm kế toán và hóa đơn điện tử SaaS. Nhanh nhẹn, có khả năng viết bài cập nhật tính năng mới (Release notes), hỗ trợ tổ chức các buổi hội thảo trực tuyến (Webinar) hướng dẫn khách hàng sử dụng tính năng và phối hợp cùng đội kinh doanh làm tài liệu bán hàng. Mong muốn được thử sức với vai trò chuyên viên Product Marketing cấp cao trong môi trường Fintech năng động.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J05-C04-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Tài liệu tính năng Release notes",
+        "Hỗ trợ ra mắt tính năng phần mềm",
+        "Slide hội thảo trực tuyến"
+      ],
+      "after": [
+        "Tài liệu tính năng Release notes",
+        "Hỗ trợ ra mắt tính năng phần mềm"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J05-C04",
+      "field": "cv_text",
+      "before": "Tóm lược hồ sơ:\nNhân viên Tiếp thị Sản phẩm trẻ tuổi với 2 năm kinh nghiệm trong công ty cung cấp phần mềm kế toán và hóa đơn điện tử SaaS. Nhanh nhẹn, có khả năng viết bài cập nhật tính năng mới (Release notes), hỗ trợ tổ chức các buổi hội thảo trực tuyến (Webinar) hướng dẫn khách hàng sử dụng tính năng và phối hợp cùng đội kinh doanh làm tài liệu bán hàng. Mong muốn được thử sức với vai trò chuyên viên Product Marketing cấp cao trong môi trường Fintech năng động.\n\nKỹ năng làm việc:\n- Soạn thảo tài liệu giới thiệu tính năng và bản tin phát hành (Release notes)\n- Hỗ trợ xây dựng nội dung slide thuyết trình cho hội thảo trực tuyến sản phẩm\n- Phối hợp với đội ngũ Sales gửi tài liệu hướng dẫn dùng thử cho khách hàng\n- Thu thập ý kiến phản hồi về lỗi tính năng từ người dùng gửi cho ban sản phẩm\n- Tiếng Anh giao tiếp cơ bản\n\nKinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n- Chưa trực tiếp chủ trì chiến lược GTM độc lập hay phân tích sâu các chỉ số vòng đời tài chính như CAC, LTV.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Tài chính - Marketing",
+      "after": "Tóm lược hồ sơ:\nNhân viên Tiếp thị Sản phẩm với 2 năm kinh nghiệm trong công ty cung cấp phần mềm kế toán và hóa đơn điện tử SaaS. Nhanh nhẹn, có khả năng viết bài cập nhật tính năng mới (Release notes), hỗ trợ tổ chức các buổi hội thảo trực tuyến (Webinar) hướng dẫn khách hàng sử dụng tính năng và phối hợp cùng đội kinh doanh làm tài liệu bán hàng. Mong muốn được thử sức với vai trò chuyên viên Product Marketing cấp cao trong môi trường Fintech năng động.\n\nKỹ năng làm việc:\n- Soạn thảo tài liệu giới thiệu tính năng và bản tin phát hành (Release notes)\n- Hỗ trợ xây dựng nội dung slide thuyết trình cho hội thảo trực tuyến sản phẩm\n- Phối hợp với đội ngũ Sales gửi tài liệu hướng dẫn dùng thử cho khách hàng\n- Thu thập ý kiến phản hồi về lỗi tính năng từ người dùng gửi cho ban sản phẩm\n- Tiếng Anh giao tiếp cơ bản\n\nKinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n- Chưa trực tiếp chủ trì chiến lược GTM độc lập hay phân tích sâu các chỉ số vòng đời tài chính như CAC, LTV.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Tài chính - Marketing",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J05-C05-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Lãnh đạo VP Product Marketing",
+        "Chiến lược GTM khu vực ASEAN",
+        "Hệ số LTV CAC Fintech",
+        "Hệ sinh thái ví điện tử đa quốc gia"
+      ],
+      "after": [
+        "Lãnh đạo VP Product Marketing",
+        "Chiến lược GTM khu vực ASEAN",
+        "Hệ số LTV CAC Fintech"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J05-C06-SEC-SUM",
+      "field": "text",
+      "before": "Tóm lược bản thân:\nChuyên viên Tiếp thị Sản phẩm Thẻ Ngân Hàng truyền thống với 4 năm kinh nghiệm làm việc tại hội sở ngân hàng thương mại cổ phần. Chuyên trách triển khai các chương trình tích điểm hoàn tiền, ưu đãi liên kết đối tác ăn uống mua sắm cho chủ thẻ tín dụng quốc tế và thẻ thanh toán nội địa qua mạng lưới các chi nhánh phòng giao dịch. Nắm vững chính sách phát hành thẻ và thủ tục ngân hàng. Chưa có kinh nghiệm thực tế về ứng dụng công nghệ tài chính số Fintech, phân tích phễu chuyển đổi số hay các chỉ số vòng đời trực tuyến như CAC, LTV, Activation Rate.",
+      "after": "Tóm lược bản thân:\nChuyên viên Tiếp thị Sản phẩm Thẻ Ngân Hàng truyền thống với 4 năm kinh nghiệm làm việc tại hội sở ngân hàng thương mại cổ phần. Chuyên trách triển khai các chương trình tích điểm hoàn tiền, ưu đãi liên kết đối tác ăn uống mua sắm cho chủ thẻ tín dụng quốc tế và thẻ thanh toán nội địa qua mạng lưới các chi nhánh phòng giao dịch. Nắm vững chính sách phát hành thẻ và thủ tục ngân hàng.",
+      "decision": "HR-SOURCE-006/007",
+      "reason": "Apply approved textual repairs"
+    },
+    {
+      "id": "MK-J05-C06-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Tiếp thị sản phẩm thẻ ngân hàng",
+        "Chương trình tích điểm hoàn tiền",
+        "Đàm phán đối tác ưu đãi thẻ"
+      ],
+      "after": [
+        "Tiếp thị sản phẩm thẻ ngân hàng",
+        "Chương trình hoàn tiền",
+        "Đàm phán đối tác ưu đãi thẻ"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    },
+    {
+      "id": "MK-J05-C06",
+      "field": "cv_text",
+      "before": "Tóm lược bản thân:\nChuyên viên Tiếp thị Sản phẩm Thẻ Ngân Hàng truyền thống với 4 năm kinh nghiệm làm việc tại hội sở ngân hàng thương mại cổ phần. Chuyên trách triển khai các chương trình tích điểm hoàn tiền, ưu đãi liên kết đối tác ăn uống mua sắm cho chủ thẻ tín dụng quốc tế và thẻ thanh toán nội địa qua mạng lưới các chi nhánh phòng giao dịch. Nắm vững chính sách phát hành thẻ và thủ tục ngân hàng. Chưa có kinh nghiệm thực tế về ứng dụng công nghệ tài chính số Fintech, phân tích phễu chuyển đổi số hay các chỉ số vòng đời trực tuyến như CAC, LTV, Activation Rate.\n\nKỹ năng làm việc:\n- Quản lý chương trình ưu đãi sản phẩm thẻ tín dụng ngân hàng\n- Đàm phán liên kết đối tác ẩm thực, du lịch và thời trang\n- Xây dựng tài liệu hướng dẫn và tờ rơi tiếp thị tại quầy giao dịch\n- Theo dõi chỉ tiêu phát hành thẻ mới qua mạng lưới chi nhánh\n- Tiếng Anh thương mại trao đổi với các tổ chức thẻ quốc tế Visa, Mastercard\n\nKinh nghiệm làm việc:\nChuyên viên Phát Triển Sản Phẩm Thẻ tại Ngân Hàng TMCP Việt An\nThời gian: Từ 2022-08 đến nay (đang làm việc)\n- Xây dựng chương trình hoàn tiền 10% khi chi tiêu ăn uống cuối tuần cho dòng thẻ tín dụng Platinum.\n- Đàm phán hợp đồng tài trợ ưu đãi với hơn 40 chuỗi nhà hàng và rạp chiếu phim trên toàn quốc.\n- Soạn thảo cẩm nang sản phẩm thẻ gửi cho nhân viên giao dịch viên tại 80 chi nhánh ngân hàng.\n\nNhân viên Chăm sóc Khách hàng Thẻ tại Ngân Hàng TMCP Phát Triển Đông Đô\nThời gian: Từ 2021-02 đến 2022-07\n- Hướng dẫn thủ tục mở thẻ và giải đáp khiếu nại biểu phí thẻ cho khách hàng cá nhân.\n\nHọc vấn:\n- Cử nhân ngành Tài chính - Ngân hàng, Trường Đại học Ngân hàng TP.HCM",
+      "after": "Tóm lược bản thân:\nChuyên viên Tiếp thị Sản phẩm Thẻ Ngân Hàng truyền thống với 4 năm kinh nghiệm làm việc tại hội sở ngân hàng thương mại cổ phần. Chuyên trách triển khai các chương trình tích điểm hoàn tiền, ưu đãi liên kết đối tác ăn uống mua sắm cho chủ thẻ tín dụng quốc tế và thẻ thanh toán nội địa qua mạng lưới các chi nhánh phòng giao dịch. Nắm vững chính sách phát hành thẻ và thủ tục ngân hàng.\n\nKỹ năng làm việc:\n- Quản lý chương trình ưu đãi sản phẩm thẻ tín dụng ngân hàng\n- Đàm phán liên kết đối tác ẩm thực, du lịch và thời trang\n- Xây dựng tài liệu hướng dẫn và tờ rơi tiếp thị tại quầy giao dịch\n- Theo dõi chỉ tiêu phát hành thẻ mới qua mạng lưới chi nhánh\n- Tiếng Anh thương mại trao đổi với các tổ chức thẻ quốc tế Visa, Mastercard\n\nKinh nghiệm làm việc:\nChuyên viên Phát Triển Sản Phẩm Thẻ tại Ngân Hàng TMCP Việt An\nThời gian: Từ 2022-08 đến nay (đang làm việc)\n- Xây dựng chương trình hoàn tiền 10% khi chi tiêu ăn uống cuối tuần cho dòng thẻ tín dụng Platinum.\n- Đàm phán hợp đồng tài trợ ưu đãi với hơn 40 chuỗi nhà hàng và rạp chiếu phim trên toàn quốc.\n- Soạn thảo cẩm nang sản phẩm thẻ gửi cho nhân viên giao dịch viên tại 80 chi nhánh ngân hàng.\n\nNhân viên Chăm sóc Khách hàng Thẻ tại Ngân Hàng TMCP Phát Triển Đông Đô\nThời gian: Từ 2021-02 đến 2022-07\n- Hướng dẫn thủ tục mở thẻ và giải đáp khiếu nại biểu phí thẻ cho khách hàng cá nhân.\n\nHọc vấn:\n- Cử nhân ngành Tài chính - Ngân hàng, Trường Đại học Ngân hàng TP.HCM",
+      "decision": "HR-SOURCE-006",
+      "reason": "Rebuild cv_text join"
+    },
+    {
+      "id": "MK-J05-C08-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Chiến lược Go-to-Market GTM",
+        "Amplitude Mixpanel",
+        "Value Proposition và A/B Testing",
+        "Activation Rate và Retention Rate",
+        "Đồng bộ Product Sales CS",
+        "Làm việc PM nước ngoài bằng tiếng Anh"
+      ],
+      "after": [
+        "Chiến lược Go-to-Market GTM",
+        "Phân tích dữ liệu Amplitude",
+        "Value Proposition và A/B Testing",
+        "Tối ưu Activation Rate",
+        "Đồng bộ Product Sales CS",
+        "Làm việc PM nước ngoài bằng tiếng Anh"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Role skill explicit support alignment"
+    }
+  ],
+  "after_sha256": {
+    "it.json": "f56ac2552a106b0091f0cbfb775a46de6e33d1393344ca5920ba16a15ee62f22",
+    "sales-marketing.json": "08e2579ba979b44750aee078e0644894d2302cc4d9d005186d69d6fbcd8d6caf"
+  }
+}

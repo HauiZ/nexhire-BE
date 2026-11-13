@@ -1,0 +1,671 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "SA-J01",
+      "source_family_id": "SA-J01",
+      "domain": "sales",
+      "title": "Chuyên viên Kinh doanh Phần mềm B2B (B2B SaaS Sales Executive)",
+      "level": "mid",
+      "language": "vi",
+      "jd_text": "Vị trí: Chuyên viên Kinh doanh Phần mềm B2B (B2B SaaS Sales Executive)\nĐịa điểm làm việc: Quận 1, TP. Hồ Chí Minh (mô hình kết hợp linh hoạt Hybrid 4 ngày văn phòng, 1 ngày từ xa).\nThời gian làm việc: Thứ Hai đến Thứ Sáu (8h30 - 17h30).\n\nMô tả công việc:\n- Khai thác danh sách khách hàng doanh nghiệp tiềm năng, chủ động liên hệ qua điện thoại, email và mạng xã hội nghề nghiệp để tạo cơ hội kinh doanh mới.\n- Thành thạo kỹ năng tìm kiếm khách hàng tiềm năng, thuyết trình demo giải pháp và đàm phán hợp đồng thương mại.\n- Phối hợp với bộ phận kỹ thuật (Pre-sales) nhằm làm rõ yêu cầu nghiệp vụ của khách hàng và đề xuất gói dịch vụ SaaS tối ưu.\n- Quản lý toàn bộ chu kỳ bán hàng từ giai đoạn tiếp cận ban đầu, gửi báo giá, bảo vệ giải pháp đến khi ký kết hợp đồng và bàn giao triển khai.\n- Theo dõi chỉ tiêu doanh số cá nhân (quota) hàng tháng và hàng quý; báo cáo tiến độ pipeline cho Trưởng bộ phận kinh doanh.\n\nYêu cầu công việc (Bắt buộc):\n- Tối thiểu 2 năm kinh nghiệm kinh doanh phần mềm B2B hoặc giải pháp SaaS cho khách hàng doanh nghiệp.\n- Thành thạo kỹ năng tìm kiếm khách hàng tiềm năng, thuyết trình demo giải pháp và đàm phán hợp đồng thương mại.\n- Có kỹ năng sử dụng các công cụ CRM như Salesforce hoặc HubSpot để quản lý pipeline và dự báo doanh số.\n\nTiêu chí ưu tiên (Ưu tiên):\n- Có kinh nghiệm phụ trách nhóm khách hàng khối tài chính, ngân hàng hoặc chuỗi bán lẻ.\n- Khả năng giao tiếp và soạn thảo hợp đồng bằng tiếng Anh phục vụ khách hàng đa quốc gia.\n\nChế độ đãi ngộ:\n- Mức lương cứng từ 18.000.000 đến 25.000.000 VNĐ cùng hoa hồng bán hàng hấp dẫn theo từng hợp đồng ký mới.\n- Được trang bị máy tính xách tay cấu hình cao, phụ cấp điện thoại và công tác phí theo quy chế công ty.\n- Bảo hiểm sức khỏe toàn diện PTI và các hoạt động teambuilding định kỳ hàng năm.",
+      "requirements": [
+        {
+          "requirement_id": "SA-J01-R01",
+          "text": "Tối thiểu 2 năm kinh nghiệm kinh doanh phần mềm B2B hoặc giải pháp SaaS cho khách hàng doanh nghiệp.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "SA-J01-R02",
+          "text": "Thành thạo kỹ năng tìm kiếm khách hàng tiềm năng, thuyết trình demo giải pháp và đàm phán hợp đồng thương mại.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "SA-J01-R03",
+          "text": "Có kỹ năng sử dụng các công cụ CRM như Salesforce hoặc HubSpot để quản lý pipeline và dự báo doanh số.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "SA-J01-R04",
+          "text": "Có kinh nghiệm phụ trách nhóm khách hàng khối tài chính, ngân hàng hoặc chuỗi bán lẻ.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "SA-J01-R05",
+          "text": "Khả năng giao tiếp và soạn thảo hợp đồng bằng tiếng Anh phục vụ khách hàng đa quốc gia.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "SA-J01-C01",
+          "cv_text": "Tóm tắt chuyên môn:\nChuyên viên kinh doanh B2B với gần 3 năm kinh nghiệm trong mảng phần mềm quản lý doanh nghiệp dạng SaaS. Thế mạnh về khai thác khách hàng tiềm năng, thuyết trình demo giải pháp trực tiếp và đàm phán hợp đồng giá trị cao. Thường xuyên sử dụng hệ thống CRM để quản lý pipeline và phối hợp cùng đội ngũ kỹ thuật triển khai.\n\nKỹ năng chính:\n- Kinh doanh phần mềm B2B, giải pháp SaaS doanh nghiệp\n- Thuyết trình demo giải pháp và đàm phán hợp đồng thương mại\n- Quản trị quan hệ khách hàng qua Salesforce và HubSpot\n- Kỹ năng tư vấn khối khách hàng chuỗi bán lẻ\n- Tiếng Anh thương mại trong đàm phán và soạn thảo hợp đồng\n\nKinh nghiệm làm việc:\nChuyên viên Kinh doanh B2B SaaS tại Công ty Cổ phần Giải pháp Phần mềm CloudViet\nThời gian: Từ 2024-01 đến nay (đang làm việc)\n- Trực tiếp tìm kiếm khách hàng tiềm năng là các doanh nghiệp vừa và lớn, thực hiện hơn 120 buổi thuyết trình demo giải pháp phần mềm quản lý kho và bán hàng đa kênh.\n- Đàm phán và chốt thành công 28 hợp đồng thương mại với các đối tác chuỗi bán lẻ thời trang và điện máy.\n- Vận hành phần mềm HubSpot để quản lý toàn bộ pipeline bán hàng, theo dõi tỷ lệ chuyển đổi và dự báo doanh số hàng tháng đạt độ chuẩn xác 92%.\n- Soạn thảo hợp đồng kinh tế và trao đổi công việc thường xuyên với đối tác nước ngoài bằng tiếng Anh.\n\nNhân viên Phát triển Kinh doanh Doanh nghiệp tại Công ty TNHH Công nghệ Nam An\nThời gian: Từ 2022-06 đến 2023-12\n- Chịu trách nhiệm mở rộng thị trường giải pháp hóa đơn điện tử và chữ ký số B2B.\n- Sử dụng phần mềm Salesforce để cập nhật dữ liệu khách hàng và lịch sử tương tác.\n- Đạt 115% chỉ tiêu doanh số năm 2023 được ban giám đốc giao phó.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Kinh tế TP. Hồ Chí Minh\n\nChứng chỉ:\n- Chứng chỉ HubSpot Inbound Sales Certification\n- Chứng chỉ Tiếng Anh TOEIC 850",
+          "sections": [
+            {
+              "section_id": "SA-J01-C01-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt chuyên môn:\nChuyên viên kinh doanh B2B với gần 3 năm kinh nghiệm trong mảng phần mềm quản lý doanh nghiệp dạng SaaS. Thế mạnh về khai thác khách hàng tiềm năng, thuyết trình demo giải pháp trực tiếp và đàm phán hợp đồng giá trị cao. Thường xuyên sử dụng hệ thống CRM để quản lý pipeline và phối hợp cùng đội ngũ kỹ thuật triển khai."
+            },
+            {
+              "section_id": "SA-J01-C01-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chính:\n- Kinh doanh phần mềm B2B, giải pháp SaaS doanh nghiệp\n- Thuyết trình demo giải pháp và đàm phán hợp đồng thương mại\n- Quản trị quan hệ khách hàng qua Salesforce và HubSpot\n- Kỹ năng tư vấn khối khách hàng chuỗi bán lẻ\n- Tiếng Anh thương mại trong đàm phán và soạn thảo hợp đồng"
+            },
+            {
+              "section_id": "SA-J01-C01-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Kinh doanh B2B SaaS tại Công ty Cổ phần Giải pháp Phần mềm CloudViet\nThời gian: Từ 2024-01 đến nay (đang làm việc)\n- Trực tiếp tìm kiếm khách hàng tiềm năng là các doanh nghiệp vừa và lớn, thực hiện hơn 120 buổi thuyết trình demo giải pháp phần mềm quản lý kho và bán hàng đa kênh.\n- Đàm phán và chốt thành công 28 hợp đồng thương mại với các đối tác chuỗi bán lẻ thời trang và điện máy.\n- Vận hành phần mềm HubSpot để quản lý toàn bộ pipeline bán hàng, theo dõi tỷ lệ chuyển đổi và dự báo doanh số hàng tháng đạt độ chuẩn xác 92%.\n- Soạn thảo hợp đồng kinh tế và trao đổi công việc thường xuyên với đối tác nước ngoài bằng tiếng Anh.\n\nNhân viên Phát triển Kinh doanh Doanh nghiệp tại Công ty TNHH Công nghệ Nam An\nThời gian: Từ 2022-06 đến 2023-12\n- Chịu trách nhiệm mở rộng thị trường giải pháp hóa đơn điện tử và chữ ký số B2B.\n- Sử dụng phần mềm Salesforce để cập nhật dữ liệu khách hàng và lịch sử tương tác.\n- Đạt 115% chỉ tiêu doanh số năm 2023 được ban giám đốc giao phó."
+            },
+            {
+              "section_id": "SA-J01-C01-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Kinh tế TP. Hồ Chí Minh"
+            },
+            {
+              "section_id": "SA-J01-C01-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Chứng chỉ HubSpot Inbound Sales Certification\n- Chứng chỉ Tiếng Anh TOEIC 850"
+            }
+          ],
+          "skills": [
+            "Kinh doanh phần mềm B2B",
+            "Giải pháp SaaS doanh nghiệp",
+            "Thuyết trình demo giải pháp",
+            "Đàm phán hợp đồng thương mại",
+            "Salesforce",
+            "HubSpot",
+            "Tư vấn chuỗi bán lẻ",
+            "Tiếng Anh thương mại"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J01-C01-EXP-01",
+              "title": "Chuyên viên Kinh doanh B2B SaaS",
+              "company": "Công ty Cổ phần Giải pháp Phần mềm CloudViet",
+              "start_date": "2024-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp tìm kiếm khách hàng tiềm năng là các doanh nghiệp vừa và lớn, thực hiện hơn 120 buổi thuyết trình demo giải pháp phần mềm quản lý kho và bán hàng đa kênh.\nĐàm phán và chốt thành công 28 hợp đồng thương mại với các đối tác chuỗi bán lẻ thời trang và điện máy.\nVận hành phần mềm HubSpot để quản lý toàn bộ pipeline bán hàng, theo dõi tỷ lệ chuyển đổi và dự báo doanh số hàng tháng đạt độ chuẩn xác 92%.\nSoạn thảo hợp đồng kinh tế và trao đổi công việc thường xuyên với đối tác nước ngoài bằng tiếng Anh.",
+              "skills_used": [
+                "Kinh doanh phần mềm B2B",
+                "Giải pháp SaaS doanh nghiệp",
+                "Thuyết trình demo giải pháp",
+                "Đàm phán hợp đồng thương mại",
+                "HubSpot",
+                "Tiếng Anh thương mại"
+              ],
+              "section_id": "SA-J01-C01-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J01-C01-EXP-02",
+              "title": "Nhân viên Phát triển Kinh doanh Doanh nghiệp",
+              "company": "Công ty TNHH Công nghệ Nam An",
+              "start_date": "2022-06",
+              "end_date": "2023-12",
+              "is_current": false,
+              "description": "Chịu trách nhiệm mở rộng thị trường giải pháp hóa đơn điện tử và chữ ký số B2B.\nSử dụng phần mềm Salesforce để cập nhật dữ liệu khách hàng và lịch sử tương tác.\nĐạt 115% chỉ tiêu doanh số năm 2023 được ban giám đốc giao phó.",
+              "skills_used": [
+                "Kinh doanh phần mềm B2B",
+                "Salesforce"
+              ],
+              "section_id": "SA-J01-C01-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Quản trị Kinh doanh",
+              "section_id": "SA-J01-C01-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "HubSpot Inbound Sales Certification",
+              "section_id": "SA-J01-C01-SEC-CERT"
+            },
+            {
+              "name": "Tiếng Anh TOEIC 850",
+              "section_id": "SA-J01-C01-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "SA-J01-C02",
+          "cv_text": "Tóm tắt hồ sơ:\nChuyên viên tư vấn giải pháp và kinh doanh phần mềm B2B với hơn 3 năm làm việc trong lĩnh vực hệ thống hoạch định tài nguyên doanh nghiệp (ERP) và phần mềm quản trị nhân sự HRM. Am hiểu sâu sắc quy trình bán hàng doanh nghiệp từ xây dựng danh sách mục tiêu đến ký kết nghiệm thu.\n\nKỹ năng chuyên môn:\n- Bán hàng phần mềm ERP và phần mềm quản trị B2B\n- Kỹ năng thuyết trình demo sản phẩm công nghệ\n- Đàm phán điều khoản thương mại và xử lý phản đối từ khách hàng\n- Quản lý quy trình bán hàng qua Salesforce CRM\n- Kỹ năng phân tích nhu cầu vận hành doanh nghiệp\n\nQuá trình công tác:\nChuyên viên Kinh doanh Giải pháp ERP tại Công ty Cổ phần Công nghệ TechVina\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Tìm kiếm và tiếp cận các doanh nghiệp sản xuất và thương mại có nhu cầu số hóa quy trình quản trị doanh nghiệp.\n- Chủ trì chuẩn bị tài liệu kỹ thuật và trực tiếp thực hiện thuyết trình demo giải pháp phần mềm quản trị cho các giám đốc tài chính và giám đốc điều hành.\n- Đàm phán các hợp đồng thương mại với doanh số trung bình mỗi gói từ 300 triệu đến 1,2 tỷ đồng.\n- Sử dụng Salesforce để theo dõi trạng thái các đầu mối liên hệ và cập nhật dự báo doanh thu hàng tháng.\n\nNhân viên Kinh doanh Phần mềm HRM tại Công ty TNHH Giải pháp Nhân sự VinaWork\nThời gian: Từ 2021-08 đến 2023-02\n- Chịu trách nhiệm tư vấn và triển khai bán phần mềm chấm công, tính lương trực tuyến cho hơn 50 doanh nghiệp vừa và nhỏ.\n- Tham gia cùng kỹ sư giải pháp hỗ trợ giải đáp thắc mắc chuyên môn trước bán hàng.\n\nHọc vấn và Bằng cấp:\n- Cử nhân ngành Hệ thống Thông tin Quản lý, Trường Đại học Công nghệ Thông tin - ĐHQG TP.HCM",
+          "sections": [
+            {
+              "section_id": "SA-J01-C02-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt hồ sơ:\nChuyên viên tư vấn giải pháp và kinh doanh phần mềm B2B với hơn 3 năm làm việc trong lĩnh vực hệ thống hoạch định tài nguyên doanh nghiệp (ERP) và phần mềm quản trị nhân sự HRM. Am hiểu sâu sắc quy trình bán hàng doanh nghiệp từ xây dựng danh sách mục tiêu đến ký kết nghiệm thu."
+            },
+            {
+              "section_id": "SA-J01-C02-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Bán hàng phần mềm ERP và phần mềm quản trị B2B\n- Kỹ năng thuyết trình demo sản phẩm công nghệ\n- Đàm phán điều khoản thương mại và xử lý phản đối từ khách hàng\n- Quản lý quy trình bán hàng qua Salesforce CRM\n- Kỹ năng phân tích nhu cầu vận hành doanh nghiệp"
+            },
+            {
+              "section_id": "SA-J01-C02-SEC-EXP",
+              "kind": "experience",
+              "text": "Quá trình công tác:\nChuyên viên Kinh doanh Giải pháp ERP tại Công ty Cổ phần Công nghệ TechVina\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Tìm kiếm và tiếp cận các doanh nghiệp sản xuất và thương mại có nhu cầu số hóa quy trình quản trị doanh nghiệp.\n- Chủ trì chuẩn bị tài liệu kỹ thuật và trực tiếp thực hiện thuyết trình demo giải pháp phần mềm quản trị cho các giám đốc tài chính và giám đốc điều hành.\n- Đàm phán các hợp đồng thương mại với doanh số trung bình mỗi gói từ 300 triệu đến 1,2 tỷ đồng.\n- Sử dụng Salesforce để theo dõi trạng thái các đầu mối liên hệ và cập nhật dự báo doanh thu hàng tháng.\n\nNhân viên Kinh doanh Phần mềm HRM tại Công ty TNHH Giải pháp Nhân sự VinaWork\nThời gian: Từ 2021-08 đến 2023-02\n- Chịu trách nhiệm tư vấn và triển khai bán phần mềm chấm công, tính lương trực tuyến cho hơn 50 doanh nghiệp vừa và nhỏ.\n- Tham gia cùng kỹ sư giải pháp hỗ trợ giải đáp thắc mắc chuyên môn trước bán hàng."
+            },
+            {
+              "section_id": "SA-J01-C02-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn và Bằng cấp:\n- Cử nhân ngành Hệ thống Thông tin Quản lý, Trường Đại học Công nghệ Thông tin - ĐHQG TP.HCM"
+            }
+          ],
+          "skills": [
+            "Bán hàng phần mềm ERP",
+            "Bán hàng phần mềm B2B",
+            "Thuyết trình demo sản phẩm công nghệ",
+            "Đàm phán hợp đồng thương mại",
+            "Salesforce CRM",
+            "Phân tích nhu cầu vận hành"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J01-C02-EXP-01",
+              "title": "Chuyên viên Kinh doanh Giải pháp ERP",
+              "company": "Công ty Cổ phần Công nghệ TechVina",
+              "start_date": "2023-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Tìm kiếm và tiếp cận các doanh nghiệp sản xuất và thương mại có nhu cầu số hóa quy trình quản trị doanh nghiệp.\nChủ trì chuẩn bị tài liệu kỹ thuật và trực tiếp thực hiện thuyết trình demo giải pháp phần mềm quản trị cho các giám đốc tài chính và giám đốc điều hành.\nĐàm phán các hợp đồng thương mại với doanh số trung bình mỗi gói từ 300 triệu đến 1,2 tỷ đồng.\nSử dụng Salesforce để theo dõi trạng thái các đầu mối liên hệ và cập nhật dự báo doanh thu hàng tháng.",
+              "skills_used": [
+                "Bán hàng phần mềm ERP",
+                "Thuyết trình demo sản phẩm công nghệ",
+                "Đàm phán hợp đồng thương mại",
+                "Salesforce CRM"
+              ],
+              "section_id": "SA-J01-C02-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J01-C02-EXP-02",
+              "title": "Nhân viên Kinh doanh Phần mềm HRM",
+              "company": "Công ty TNHH Giải pháp Nhân sự VinaWork",
+              "start_date": "2021-08",
+              "end_date": "2023-02",
+              "is_current": false,
+              "description": "Chịu trách nhiệm tư vấn và triển khai bán phần mềm chấm công, tính lương trực tuyến cho hơn 50 doanh nghiệp vừa và nhỏ.\nTham gia cùng kỹ sư giải pháp hỗ trợ giải đáp thắc mắc chuyên môn trước bán hàng.",
+              "skills_used": [
+                "Bán hàng phần mềm B2B"
+              ],
+              "section_id": "SA-J01-C02-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Hệ thống Thông tin Quản lý",
+              "section_id": "SA-J01-C02-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J01-C03",
+          "cv_text": "Mục tiêu nghề nghiệp:\nChuyên viên kinh doanh B2B giàu năng lượng, có hơn 3 năm kinh nghiệm bán thiết bị mạng, máy chủ và hạ tầng CNTT doanh nghiệp. Mong muốn chuyển dịch chuyên môn sang lĩnh vực phần mềm SaaS và dịch vụ đám mây B2B để phát huy thế mạnh đàm phán thương mại và kỹ năng tiếp cận khách hàng doanh nghiệp.\n\nKỹ năng làm việc:\n- Bán hàng thiết bị phần cứng và giải pháp hạ tầng CNTT B2B\n- Khảo sát nhu cầu khách hàng và lập báo giá kỹ thuật\n- Đàm phán hợp đồng cung cấp thiết bị và nghiệm thu bàn giao\n- Quản lý danh sách khách hàng bằng Microsoft Excel và Zalo Doanh nghiệp\n- Giao tiếp tiếng Việt lưu loát, tiếng Anh đọc hiểu tài liệu thông số kỹ thuật\n\nLịch sử công tác:\nNhân viên Kinh doanh Thiết bị CNTT tại Công ty TNHH Thiết Bị Số Nam Long\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\n- Tư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\n- Thực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\n- Quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.\n\nNhân viên Bán hàng Doanh nghiệp tại Công ty Cổ phần Thương mại Tin học An Phát\nThời gian: Từ 2021-07 đến 2022-12\n- Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\n- Hoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý.\n\nHọc vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Tài chính - Marketing",
+          "sections": [
+            {
+              "section_id": "SA-J01-C03-SEC-SUM",
+              "kind": "summary",
+              "text": "Mục tiêu nghề nghiệp:\nChuyên viên kinh doanh B2B giàu năng lượng, có hơn 3 năm kinh nghiệm bán thiết bị mạng, máy chủ và hạ tầng CNTT doanh nghiệp. Mong muốn chuyển dịch chuyên môn sang lĩnh vực phần mềm SaaS và dịch vụ đám mây B2B để phát huy thế mạnh đàm phán thương mại và kỹ năng tiếp cận khách hàng doanh nghiệp."
+            },
+            {
+              "section_id": "SA-J01-C03-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Bán hàng thiết bị phần cứng và giải pháp hạ tầng CNTT B2B\n- Khảo sát nhu cầu khách hàng và lập báo giá kỹ thuật\n- Đàm phán hợp đồng cung cấp thiết bị và nghiệm thu bàn giao\n- Quản lý danh sách khách hàng bằng Microsoft Excel và Zalo Doanh nghiệp\n- Giao tiếp tiếng Việt lưu loát, tiếng Anh đọc hiểu tài liệu thông số kỹ thuật"
+            },
+            {
+              "section_id": "SA-J01-C03-SEC-EXP",
+              "kind": "experience",
+              "text": "Lịch sử công tác:\nNhân viên Kinh doanh Thiết bị CNTT tại Công ty TNHH Thiết Bị Số Nam Long\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\n- Tư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\n- Thực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\n- Quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.\n\nNhân viên Bán hàng Doanh nghiệp tại Công ty Cổ phần Thương mại Tin học An Phát\nThời gian: Từ 2021-07 đến 2022-12\n- Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\n- Hoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý."
+            },
+            {
+              "section_id": "SA-J01-C03-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Tài chính - Marketing"
+            }
+          ],
+          "skills": [
+            "Bán hàng thiết bị hạ tầng CNTT",
+            "Bán hàng B2B",
+            "Lập báo giá kỹ thuật",
+            "Đàm phán hợp đồng thương mại",
+            "Quản lý danh bạ khách hàng qua Excel",
+            "Tiếng Anh đọc hiểu tài liệu"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J01-C03-EXP-01",
+              "title": "Nhân viên Kinh doanh Thiết bị CNTT",
+              "company": "Công ty TNHH Thiết Bị Số Nam Long",
+              "start_date": "2023-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\nTư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\nThực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\nQuản lý khách hàng bằng bảng tính Excel kết hợp Zalo.",
+              "skills_used": [
+                "Bán hàng thiết bị hạ tầng CNTT",
+                "Bán hàng B2B",
+                "Đàm phán hợp đồng thương mại"
+              ],
+              "section_id": "SA-J01-C03-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J01-C03-EXP-02",
+              "title": "Nhân viên Bán hàng Doanh nghiệp",
+              "company": "Công ty Cổ phần Thương mại Tin học An Phát",
+              "start_date": "2021-07",
+              "end_date": "2022-12",
+              "is_current": false,
+              "description": "Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\nHoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý.",
+              "skills_used": [
+                "Bán hàng B2B"
+              ],
+              "section_id": "SA-J01-C03-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Thương mại Điện tử",
+              "section_id": "SA-J01-C03-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J01-C04",
+          "cv_text": "Tóm lược hồ sơ:\nNhân viên kinh doanh phần mềm với 1 năm 2 tháng kinh nghiệm trong môi trường công ty khởi nghiệp công nghệ SaaS. Năng động, cầu tiến, có kỹ năng gọi điện lạnh tìm kiếm khách hàng, hỗ trợ điều phối các buổi thuyết trình giải pháp trực tuyến và vận hành hệ thống HubSpot CRM.\n\nKỹ năng cốt lõi:\n- Gọi điện tìm kiếm cơ hội bán hàng B2B (Cold calling & Lead generation)\n- Trình bày demo tính năng cơ bản phần mềm quản lý công việc\n- Quản lý dữ liệu phễu bán hàng bằng phần mềm HubSpot\n- Kỹ năng giao tiếp và lắng nghe nhu cầu người dùng\n- Tiếng Anh giao tiếp cơ bản\n\nKinh nghiệm làm việc thực tế:\nNhân viên Kinh doanh Phần mềm tại Công ty Cổ phần Phần Mềm Ánh Dương\nThời gian: Từ 2025-09 đến nay (đang làm việc)\n- Khai thác nguồn dữ liệu 800 liên hệ doanh nghiệp mới từ các hội thảo trực tuyến và chiến dịch quảng cáo.\n- Thực hiện trung bình 35 cuộc gọi kết nối mỗi ngày để sàng lọc nhu cầu ứng dụng phần mềm quản lý dự án.\n- Đồng hành cùng chuyên viên bán hàng cao cấp trong các buổi thuyết trình demo giải pháp cho khách hàng tiềm năng.\n- Cập nhật thông tin giao dịch, theo dõi phản hồi và phân loại mức độ tiềm năng trên phần mềm HubSpot.\n\nThực tập sinh Kinh doanh Doanh nghiệp tại Công ty TNHH Phát triển Phần mềm Trí Việt\nThời gian: Từ 2025-03 đến 2025-08\n- Hỗ trợ chuẩn bị hồ sơ giới thiệu tính năng phần mềm kế toán đám mây cho các hộ kinh doanh cá thể.\n- Thực hiện liên hệ chăm sóc khách hàng dùng thử sau buổi hướng dẫn cài đặt.\n\nTrình độ học vấn:\n- Cử nhân ngành Quản trị Kinh doanh Quốc tế, Trường Đại học Ngân hàng TP.HCM\n\nChứng chỉ nghề nghiệp:\n- Chứng chỉ HubSpot Sales Software Certified",
+          "sections": [
+            {
+              "section_id": "SA-J01-C04-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nNhân viên kinh doanh phần mềm với 1 năm 2 tháng kinh nghiệm trong môi trường công ty khởi nghiệp công nghệ SaaS. Năng động, cầu tiến, có kỹ năng gọi điện lạnh tìm kiếm khách hàng, hỗ trợ điều phối các buổi thuyết trình giải pháp trực tuyến và vận hành hệ thống HubSpot CRM."
+            },
+            {
+              "section_id": "SA-J01-C04-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng cốt lõi:\n- Gọi điện tìm kiếm cơ hội bán hàng B2B (Cold calling & Lead generation)\n- Trình bày demo tính năng cơ bản phần mềm quản lý công việc\n- Quản lý dữ liệu phễu bán hàng bằng phần mềm HubSpot\n- Kỹ năng giao tiếp và lắng nghe nhu cầu người dùng\n- Tiếng Anh giao tiếp cơ bản"
+            },
+            {
+              "section_id": "SA-J01-C04-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc thực tế:\nNhân viên Kinh doanh Phần mềm tại Công ty Cổ phần Phần Mềm Ánh Dương\nThời gian: Từ 2025-09 đến nay (đang làm việc)\n- Khai thác nguồn dữ liệu 800 liên hệ doanh nghiệp mới từ các hội thảo trực tuyến và chiến dịch quảng cáo.\n- Thực hiện trung bình 35 cuộc gọi kết nối mỗi ngày để sàng lọc nhu cầu ứng dụng phần mềm quản lý dự án.\n- Đồng hành cùng chuyên viên bán hàng cao cấp trong các buổi thuyết trình demo giải pháp cho khách hàng tiềm năng.\n- Cập nhật thông tin giao dịch, theo dõi phản hồi và phân loại mức độ tiềm năng trên phần mềm HubSpot.\n\nThực tập sinh Kinh doanh Doanh nghiệp tại Công ty TNHH Phát triển Phần mềm Trí Việt\nThời gian: Từ 2025-03 đến 2025-08\n- Hỗ trợ chuẩn bị hồ sơ giới thiệu tính năng phần mềm kế toán đám mây cho các hộ kinh doanh cá thể.\n- Thực hiện liên hệ chăm sóc khách hàng dùng thử sau buổi hướng dẫn cài đặt."
+            },
+            {
+              "section_id": "SA-J01-C04-SEC-EDU",
+              "kind": "education",
+              "text": "Trình độ học vấn:\n- Cử nhân ngành Quản trị Kinh doanh Quốc tế, Trường Đại học Ngân hàng TP.HCM"
+            },
+            {
+              "section_id": "SA-J01-C04-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ nghề nghiệp:\n- Chứng chỉ HubSpot Sales Software Certified"
+            }
+          ],
+          "skills": [
+            "Cold calling",
+            "Lead generation",
+            "Thuyết trình demo cơ bản",
+            "HubSpot",
+            "Giao tiếp khách hàng B2B"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J01-C04-EXP-01",
+              "title": "Nhân viên Kinh doanh Phần mềm",
+              "company": "Công ty Cổ phần Phần Mềm Ánh Dương",
+              "start_date": "2025-09",
+              "end_date": null,
+              "is_current": true,
+              "description": "Khai thác nguồn dữ liệu 800 liên hệ doanh nghiệp mới từ các hội thảo trực tuyến và chiến dịch quảng cáo.\nThực hiện trung bình 35 cuộc gọi kết nối mỗi ngày để sàng lọc nhu cầu ứng dụng phần mềm quản lý dự án.\nĐồng hành cùng chuyên viên bán hàng cao cấp trong các buổi thuyết trình demo giải pháp cho khách hàng tiềm năng.\nCập nhật thông tin giao dịch, theo dõi phản hồi và phân loại mức độ tiềm năng trên phần mềm HubSpot.",
+              "skills_used": [
+                "Lead generation",
+                "HubSpot"
+              ],
+              "section_id": "SA-J01-C04-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J01-C04-EXP-02",
+              "title": "Thực tập sinh Kinh doanh Doanh nghiệp",
+              "company": "Công ty TNHH Phát triển Phần mềm Trí Việt",
+              "start_date": "2025-03",
+              "end_date": "2025-08",
+              "is_current": false,
+              "description": "Hỗ trợ chuẩn bị hồ sơ giới thiệu tính năng phần mềm kế toán đám mây cho các hộ kinh doanh cá thể.\nThực hiện liên hệ chăm sóc khách hàng dùng thử sau buổi hướng dẫn cài đặt.",
+              "skills_used": [
+                "Giao tiếp khách hàng B2B"
+              ],
+              "section_id": "SA-J01-C04-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Quản trị Kinh doanh Quốc tế",
+              "section_id": "SA-J01-C04-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "HubSpot Sales Software Certified",
+              "section_id": "SA-J01-C04-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "SA-J01-C05",
+          "cv_text": "Tóm tắt kinh nghiệm:\nQuản lý khách hàng doanh nghiệp cấp cao (Senior Key Account Manager) với hơn 6 năm kinh nghiệm trong ngành viễn thông và giải pháp công nghệ thông tin tích hợp. Thế mạnh đàm phán hợp đồng quy mô lớn với các tập đoàn đa quốc gia và các định chế tài chính, ngân hàng thương mại tại Việt Nam. Sử dụng tiếng Anh lưu loát trong giao dịch cấp C-level.\n\nKỹ năng chủ chốt:\n- Quản lý khách hàng trọng yếu (Key Account Management) khối tài chính ngân hàng\n- Đàm phán và soạn thảo hợp đồng dịch vụ công nghệ phức tạp\n- Xây dựng giải pháp tích hợp viễn thông và trung tâm dữ liệu đám mây\n- Thuyết trình giải pháp trước ban giám đốc và hội đồng thẩm định\n- Tiếng Anh thương mại cao cấp\n\nKinh nghiệm nghề nghiệp:\nTrưởng nhóm Kinh doanh Khách hàng Doanh nghiệp tại Công ty Cổ phần Viễn Thông Thiên Nam\nThời gian: Từ 2021-01 đến nay (đang giữ vị trí)\n- Phụ trách danh mục khách hàng khối tài chính ngân hàng bao gồm 8 ngân hàng thương mại cổ phần lớn và 4 công ty chứng khoán.\n- Đàm phán các hợp đồng cung cấp đường truyền kênh thuê riêng, dịch vụ lưu trữ đám mây và cổng thông báo SMS Brandname với doanh số trên 15 tỷ đồng mỗi năm.\n- Chủ trì thuyết trình giải pháp trước hội đồng đấu thầu và ban giám đốc phía đối tác, trực tiếp soạn thảo và hiệu chỉnh điều khoản hợp đồng bằng tiếng Anh cho các quỹ đầu tư tài chính quốc tế.\n- Quản lý tiến độ bán hàng qua hệ thống CRM nội bộ của công ty (In-house CRM platform).\n\nChuyên viên Kinh doanh Giải pháp Doanh nghiệp tại Công ty TNHH Truyền thông Số Đông Á\nThời gian: Từ 2018-06 đến 2020-12\n- Chịu trách nhiệm mở rộng thị phần dịch vụ thoại IP và tổng đài ảo cho các chuỗi bán lẻ và trung tâm chăm sóc khách hàng.\n\nHọc vấn:\n- Cử nhân ngành Kinh tế Đối ngoại, Trường Đại học Ngoại thương Cơ sở II TP.HCM\n\nChứng chỉ:\n- Chứng chỉ Tiếng Anh IELTS 7.5",
+          "sections": [
+            {
+              "section_id": "SA-J01-C05-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm:\nQuản lý khách hàng doanh nghiệp cấp cao (Senior Key Account Manager) với hơn 6 năm kinh nghiệm trong ngành viễn thông và giải pháp công nghệ thông tin tích hợp. Thế mạnh đàm phán hợp đồng quy mô lớn với các tập đoàn đa quốc gia và các định chế tài chính, ngân hàng thương mại tại Việt Nam. Sử dụng tiếng Anh lưu loát trong giao dịch cấp C-level."
+            },
+            {
+              "section_id": "SA-J01-C05-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chủ chốt:\n- Quản lý khách hàng trọng yếu (Key Account Management) khối tài chính ngân hàng\n- Đàm phán và soạn thảo hợp đồng dịch vụ công nghệ phức tạp\n- Xây dựng giải pháp tích hợp viễn thông và trung tâm dữ liệu đám mây\n- Thuyết trình giải pháp trước ban giám đốc và hội đồng thẩm định\n- Tiếng Anh thương mại cao cấp"
+            },
+            {
+              "section_id": "SA-J01-C05-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm nghề nghiệp:\nTrưởng nhóm Kinh doanh Khách hàng Doanh nghiệp tại Công ty Cổ phần Viễn Thông Thiên Nam\nThời gian: Từ 2021-01 đến nay (đang giữ vị trí)\n- Phụ trách danh mục khách hàng khối tài chính ngân hàng bao gồm 8 ngân hàng thương mại cổ phần lớn và 4 công ty chứng khoán.\n- Đàm phán các hợp đồng cung cấp đường truyền kênh thuê riêng, dịch vụ lưu trữ đám mây và cổng thông báo SMS Brandname với doanh số trên 15 tỷ đồng mỗi năm.\n- Chủ trì thuyết trình giải pháp trước hội đồng đấu thầu và ban giám đốc phía đối tác, trực tiếp soạn thảo và hiệu chỉnh điều khoản hợp đồng bằng tiếng Anh cho các quỹ đầu tư tài chính quốc tế.\n- Quản lý tiến độ bán hàng qua hệ thống CRM nội bộ của công ty (In-house CRM platform).\n\nChuyên viên Kinh doanh Giải pháp Doanh nghiệp tại Công ty TNHH Truyền thông Số Đông Á\nThời gian: Từ 2018-06 đến 2020-12\n- Chịu trách nhiệm mở rộng thị phần dịch vụ thoại IP và tổng đài ảo cho các chuỗi bán lẻ và trung tâm chăm sóc khách hàng."
+            },
+            {
+              "section_id": "SA-J01-C05-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Kinh tế Đối ngoại, Trường Đại học Ngoại thương Cơ sở II TP.HCM"
+            },
+            {
+              "section_id": "SA-J01-C05-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Chứng chỉ Tiếng Anh IELTS 7.5"
+            }
+          ],
+          "skills": [
+            "Key Account Management",
+            "Khách hàng tài chính ngân hàng",
+            "Đàm phán hợp đồng công nghệ",
+            "Thuyết trình giải pháp",
+            "Tiếng Anh thương mại cao cấp"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J01-C05-EXP-01",
+              "title": "Trưởng nhóm Kinh doanh Khách hàng Doanh nghiệp",
+              "company": "Công ty Cổ phần Viễn Thông Thiên Nam",
+              "start_date": "2021-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phụ trách danh mục khách hàng khối tài chính ngân hàng bao gồm 8 ngân hàng thương mại cổ phần lớn và 4 công ty chứng khoán.\nĐàm phán các hợp đồng cung cấp đường truyền kênh thuê riêng, dịch vụ lưu trữ đám mây và cổng thông báo SMS Brandname với doanh số trên 15 tỷ đồng mỗi năm.\nChủ trì thuyết trình giải pháp trước hội đồng đấu thầu và ban giám đốc phía đối tác, trực tiếp soạn thảo và hiệu chỉnh điều khoản hợp đồng bằng tiếng Anh cho các quỹ đầu tư tài chính quốc tế.\nQuản lý tiến độ bán hàng qua hệ thống CRM nội bộ của công ty (In-house CRM platform).",
+              "skills_used": [
+                "Key Account Management",
+                "Khách hàng tài chính ngân hàng",
+                "Đàm phán hợp đồng công nghệ",
+                "Tiếng Anh thương mại cao cấp"
+              ],
+              "section_id": "SA-J01-C05-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J01-C05-EXP-02",
+              "title": "Chuyên viên Kinh doanh Giải pháp Doanh nghiệp",
+              "company": "Công ty TNHH Truyền thông Số Đông Á",
+              "start_date": "2018-06",
+              "end_date": "2020-12",
+              "is_current": false,
+              "description": "Chịu trách nhiệm mở rộng thị phần dịch vụ thoại IP và tổng đài ảo cho các chuỗi bán lẻ và trung tâm chăm sóc khách hàng.",
+              "skills_used": [],
+              "section_id": "SA-J01-C05-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kinh tế Đối ngoại",
+              "section_id": "SA-J01-C05-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Tiếng Anh IELTS 7.5",
+              "section_id": "SA-J01-C05-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "SA-J01-C06",
+          "cv_text": "Tóm tắt bản thân:\nChuyên viên tư vấn bán hàng với hơn 4 năm kinh nghiệm trong lĩnh vực bất động sản nghỉ dưỡng và dịch vụ khách hàng cá nhân cao cấp. Nổi bật với kỹ năng giao tiếp thuyết phục, chăm sóc khách hàng chu đáo và khả năng mở rộng mạng lưới quan hệ. Hiện mong muốn chuyển sang mảng kinh doanh giải pháp phần mềm B2B.\n\nKỹ năng chuyên môn:\n- Tư vấn bán hàng trực tiếp và qua điện thoại cho khách hàng cá nhân (B2C)\n- Kỹ năng đàm phán giá cả và xử lý hợp đồng đặt cọc bất động sản\n- Chăm sóc và mở rộng mạng lưới khách hàng VIP\n- Sử dụng phần mềm quản lý nội bộ và Zalo OA\n- Kỹ năng tạo dựng lòng tin và quan hệ đối tác bền vững\n\nKinh nghiệm làm việc:\nChuyên viên Tư vấn Bất động sản tại Công ty Cổ phần Địa Ốc Phúc Thịnh\nThời gian: Từ 2022-04 đến nay (đang làm việc)\n- Khai thác nguồn khách hàng có thu nhập cao quan tâm tới các dự án căn hộ và biệt thự biển tại khu vực miền Trung.\n- Tổ chức các buổi tham quan nhà mẫu, tư vấn gói tài chính ngân hàng hỗ trợ vay vốn và chốt giao dịch hợp đồng mua bán.\n- Hoàn thành giao dịch 18 bất động sản cao cấp trong năm 2024, thuộc top 5 nhân viên kinh doanh xuất sắc của sàn.\n\nNhân viên Kinh doanh Khóa học Kỹ năng tại Trung tâm Đào tạo Kỹ Năng Trẻ\nThời gian: Từ 2021-01 đến 2022-03\n- Tư vấn tuyển sinh các khóa học kỹ năng mềm và tiếng Anh giao tiếp cho học sinh, sinh viên và người đi làm.\n\nHọc vấn:\n- Cử nhân ngành Xã hội học, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM",
+          "sections": [
+            {
+              "section_id": "SA-J01-C06-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt bản thân:\nChuyên viên tư vấn bán hàng với hơn 4 năm kinh nghiệm trong lĩnh vực bất động sản nghỉ dưỡng và dịch vụ khách hàng cá nhân cao cấp. Nổi bật với kỹ năng giao tiếp thuyết phục, chăm sóc khách hàng chu đáo và khả năng mở rộng mạng lưới quan hệ. Hiện mong muốn chuyển sang mảng kinh doanh giải pháp phần mềm B2B."
+            },
+            {
+              "section_id": "SA-J01-C06-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Tư vấn bán hàng trực tiếp và qua điện thoại cho khách hàng cá nhân (B2C)\n- Kỹ năng đàm phán giá cả và xử lý hợp đồng đặt cọc bất động sản\n- Chăm sóc và mở rộng mạng lưới khách hàng VIP\n- Sử dụng phần mềm quản lý nội bộ và Zalo OA\n- Kỹ năng tạo dựng lòng tin và quan hệ đối tác bền vững"
+            },
+            {
+              "section_id": "SA-J01-C06-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Tư vấn Bất động sản tại Công ty Cổ phần Địa Ốc Phúc Thịnh\nThời gian: Từ 2022-04 đến nay (đang làm việc)\n- Khai thác nguồn khách hàng có thu nhập cao quan tâm tới các dự án căn hộ và biệt thự biển tại khu vực miền Trung.\n- Tổ chức các buổi tham quan nhà mẫu, tư vấn gói tài chính ngân hàng hỗ trợ vay vốn và chốt giao dịch hợp đồng mua bán.\n- Hoàn thành giao dịch 18 bất động sản cao cấp trong năm 2024, thuộc top 5 nhân viên kinh doanh xuất sắc của sàn.\n\nNhân viên Kinh doanh Khóa học Kỹ năng tại Trung tâm Đào tạo Kỹ Năng Trẻ\nThời gian: Từ 2021-01 đến 2022-03\n- Tư vấn tuyển sinh các khóa học kỹ năng mềm và tiếng Anh giao tiếp cho học sinh, sinh viên và người đi làm."
+            },
+            {
+              "section_id": "SA-J01-C06-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Xã hội học, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM"
+            }
+          ],
+          "skills": [
+            "Tư vấn bán hàng B2C",
+            "Đàm phán hợp đồng đặt cọc",
+            "Chăm sóc khách hàng VIP",
+            "Kỹ năng tạo dựng quan hệ"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J01-C06-EXP-01",
+              "title": "Chuyên viên Tư vấn Bất động sản",
+              "company": "Công ty Cổ phần Địa Ốc Phúc Thịnh",
+              "start_date": "2022-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Khai thác nguồn khách hàng có thu nhập cao quan tâm tới các dự án căn hộ và biệt thự biển tại khu vực miền Trung.\nTổ chức các buổi tham quan nhà mẫu, tư vấn gói tài chính ngân hàng hỗ trợ vay vốn và chốt giao dịch hợp đồng mua bán.\nHoàn thành giao dịch 18 bất động sản cao cấp trong năm 2024, thuộc top 5 nhân viên kinh doanh xuất sắc của sàn.",
+              "skills_used": [
+                "Tư vấn bán hàng B2C",
+                "Chăm sóc khách hàng VIP"
+              ],
+              "section_id": "SA-J01-C06-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J01-C06-EXP-02",
+              "title": "Nhân viên Kinh doanh Khóa học Kỹ năng",
+              "company": "Trung tâm Đào tạo Kỹ Năng Trẻ",
+              "start_date": "2021-01",
+              "end_date": "2022-03",
+              "is_current": false,
+              "description": "Tư vấn tuyển sinh các khóa học kỹ năng mềm và tiếng Anh giao tiếp cho học sinh, sinh viên và người đi làm.",
+              "skills_used": [],
+              "section_id": "SA-J01-C06-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Xã hội học",
+              "section_id": "SA-J01-C06-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J01-C07",
+          "cv_text": "Tóm lược kỹ năng:\nNhân viên kinh doanh giải pháp công nghệ SaaS với trọng tâm là các phần mềm bán hàng POS và quản lý chuỗi bán lẻ. Có kinh nghiệm sử dụng Salesforce trong cập nhật thông tin khách hàng, bám sát hành trình khách hàng từ bước tiếp cận ban đầu tới đàm phán hợp đồng cung cấp phần mềm dịch vụ.\n\nKỹ năng chuyên môn:\n- Kinh doanh phần mềm quản trị bán hàng POS SaaS\n- Thuyết trình giới thiệu demo phần mềm cho chủ chuỗi cửa hàng\n- Quản lý dữ liệu bán hàng qua hệ thống Salesforce\n- Thương thảo giá cước thuê bao phần mềm hàng tháng và hàng năm\n- Kỹ năng xử lý khiếu nại dịch vụ khách hàng\n\nKinh nghiệm làm việc:\nChuyên viên Kinh doanh Phần mềm POS tại Công ty Cổ phần Công nghệ NovaSoft\nThời gian: Từ 2024-03 đến nay (hiện tại)\n- Phát triển mạng lưới khách hàng là các chuỗi nhà hàng ẩm thực và cửa hàng bán lẻ tiện lợi tại Hà Nội và TP.HCM.\n- Thực hiện thuyết trình demo giải pháp quản lý tồn kho và thanh toán quét mã QR trên nền tảng đám mây.\n- Đàm phán và hoàn tất hợp đồng phần mềm với 35 chuỗi cửa hàng, đạt doanh thu bình quân 180 triệu đồng/tháng.\n- Thường xuyên cập nhật thông tin tương tác và trạng thái chốt hợp đồng lên hệ thống Salesforce.\n\nCộng tác viên Bán giải pháp Phần mềm tại Công ty TNHH Giải pháp Đám mây Minh Quang\nThời gian: (thời gian làm việc linh hoạt theo dự án, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Hỗ trợ gọi điện và đặt lịch hẹn tư vấn giải pháp SaaS cho khách hàng nhỏ lẻ.\n\nTrình độ học vấn:\n- Cử nhân ngành Marketing, Trường Đại học Thương Mại",
+          "sections": [
+            {
+              "section_id": "SA-J01-C07-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược kỹ năng:\nNhân viên kinh doanh giải pháp công nghệ SaaS với trọng tâm là các phần mềm bán hàng POS và quản lý chuỗi bán lẻ. Có kinh nghiệm sử dụng Salesforce trong cập nhật thông tin khách hàng, bám sát hành trình khách hàng từ bước tiếp cận ban đầu tới đàm phán hợp đồng cung cấp phần mềm dịch vụ."
+            },
+            {
+              "section_id": "SA-J01-C07-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Kinh doanh phần mềm quản trị bán hàng POS SaaS\n- Thuyết trình giới thiệu demo phần mềm cho chủ chuỗi cửa hàng\n- Quản lý dữ liệu bán hàng qua hệ thống Salesforce\n- Thương thảo giá cước thuê bao phần mềm hàng tháng và hàng năm\n- Kỹ năng xử lý khiếu nại dịch vụ khách hàng"
+            },
+            {
+              "section_id": "SA-J01-C07-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Kinh doanh Phần mềm POS tại Công ty Cổ phần Công nghệ NovaSoft\nThời gian: Từ 2024-03 đến nay (hiện tại)\n- Phát triển mạng lưới khách hàng là các chuỗi nhà hàng ẩm thực và cửa hàng bán lẻ tiện lợi tại Hà Nội và TP.HCM.\n- Thực hiện thuyết trình demo giải pháp quản lý tồn kho và thanh toán quét mã QR trên nền tảng đám mây.\n- Đàm phán và hoàn tất hợp đồng phần mềm với 35 chuỗi cửa hàng, đạt doanh thu bình quân 180 triệu đồng/tháng.\n- Thường xuyên cập nhật thông tin tương tác và trạng thái chốt hợp đồng lên hệ thống Salesforce.\n\nCộng tác viên Bán giải pháp Phần mềm tại Công ty TNHH Giải pháp Đám mây Minh Quang\nThời gian: (thời gian làm việc linh hoạt theo dự án, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Hỗ trợ gọi điện và đặt lịch hẹn tư vấn giải pháp SaaS cho khách hàng nhỏ lẻ."
+            },
+            {
+              "section_id": "SA-J01-C07-SEC-EDU",
+              "kind": "education",
+              "text": "Trình độ học vấn:\n- Cử nhân ngành Marketing, Trường Đại học Thương Mại"
+            }
+          ],
+          "skills": [
+            "Kinh doanh phần mềm POS SaaS",
+            "Thuyết trình giới thiệu demo",
+            "Salesforce",
+            "Thương thảo hợp đồng thuê bao",
+            "Tư vấn chuỗi bán lẻ"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J01-C07-EXP-01",
+              "title": "Chuyên viên Kinh doanh Phần mềm POS",
+              "company": "Công ty Cổ phần Công nghệ NovaSoft",
+              "start_date": "2024-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển mạng lưới khách hàng là các chuỗi nhà hàng ẩm thực và cửa hàng bán lẻ tiện lợi tại Hà Nội và TP.HCM.\nThực hiện thuyết trình demo giải pháp quản lý tồn kho và thanh toán quét mã QR trên nền tảng đám mây.\nĐàm phán và hoàn tất hợp đồng phần mềm với 35 chuỗi cửa hàng, đạt doanh thu bình quân 180 triệu đồng/tháng.\nThường xuyên cập nhật thông tin tương tác và trạng thái chốt hợp đồng lên hệ thống Salesforce.",
+              "skills_used": [
+                "Kinh doanh phần mềm POS SaaS",
+                "Thuyết trình giới thiệu demo",
+                "Salesforce",
+                "Tư vấn chuỗi bán lẻ"
+              ],
+              "section_id": "SA-J01-C07-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J01-C07-EXP-02",
+              "title": "Cộng tác viên Bán giải pháp Phần mềm",
+              "company": "Công ty TNHH Giải pháp Đám mây Minh Quang",
+              "start_date": null,
+              "end_date": null,
+              "is_current": null,
+              "description": "Hỗ trợ gọi điện và đặt lịch hẹn tư vấn giải pháp SaaS cho khách hàng nhỏ lẻ.",
+              "skills_used": [],
+              "section_id": "SA-J01-C07-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Marketing",
+              "section_id": "SA-J01-C07-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J01-C08",
+          "cv_text": "Tóm tắt kinh nghiệm:\nKỹ sư giải pháp trước bán hàng (Pre-sales Solution Consultant) với hơn 3 năm đồng hành cùng đội ngũ kinh doanh B2B SaaS. Trực tiếp làm rõ bài toán nghiệp vụ, xây dựng giải pháp kỹ thuật, điều phối demo chuyên sâu và soạn thảo phụ lục kỹ thuật cho các hợp đồng khách hàng doanh nghiệp. Có khả năng giao tiếp và làm việc với đối tác quốc tế bằng tiếng Anh.\n\nKỹ năng chủ đạo:\n- Tư vấn giải pháp công nghệ B2B (Pre-sales Solution Consulting)\n- Thuyết trình demo giải pháp phần mềm chuyên sâu cho ban kỹ thuật và quản lý\n- Xây dựng tài liệu đề xuất giải pháp kỹ thuật (RFP response)\n- Quản lý tiến trình cơ hội kinh doanh trên HubSpot CRM\n- Tiếng Anh kỹ thuật và thương mại lưu loát\n\nKinh nghiệm công tác:\nChuyên viên Tư vấn Giải pháp B2B tại Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\n- Khảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\n- Phối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\n- Sử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.\n\nChuyên viên Tư vấn Độc lập (Làm việc song song/Freelance) tại Nhóm Tư vấn Giải pháp Doanh nghiệp Mở\nThời gian: Từ 2024-01 đến 2024-11\n- Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.\n\nHọc vấn:\n- Cử nhân ngành Khoa học Máy tính, Trường Đại học Bách Khoa - ĐHQG TP.HCM\n\nChứng chỉ:\n- Chứng chỉ Professional Scrum Master I (PSM I)\n- Chứng chỉ Cambridge English: Advanced (CAE - C1)",
+          "sections": [
+            {
+              "section_id": "SA-J01-C08-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm:\nKỹ sư giải pháp trước bán hàng (Pre-sales Solution Consultant) với hơn 3 năm đồng hành cùng đội ngũ kinh doanh B2B SaaS. Trực tiếp làm rõ bài toán nghiệp vụ, xây dựng giải pháp kỹ thuật, điều phối demo chuyên sâu và soạn thảo phụ lục kỹ thuật cho các hợp đồng khách hàng doanh nghiệp. Có khả năng giao tiếp và làm việc với đối tác quốc tế bằng tiếng Anh."
+            },
+            {
+              "section_id": "SA-J01-C08-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chủ đạo:\n- Tư vấn giải pháp công nghệ B2B (Pre-sales Solution Consulting)\n- Thuyết trình demo giải pháp phần mềm chuyên sâu cho ban kỹ thuật và quản lý\n- Xây dựng tài liệu đề xuất giải pháp kỹ thuật (RFP response)\n- Quản lý tiến trình cơ hội kinh doanh trên HubSpot CRM\n- Tiếng Anh kỹ thuật và thương mại lưu loát"
+            },
+            {
+              "section_id": "SA-J01-C08-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm công tác:\nChuyên viên Tư vấn Giải pháp B2B tại Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\n- Khảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\n- Phối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\n- Sử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.\n\nChuyên viên Tư vấn Độc lập (Làm việc song song/Freelance) tại Nhóm Tư vấn Giải pháp Doanh nghiệp Mở\nThời gian: Từ 2024-01 đến 2024-11\n- Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước."
+            },
+            {
+              "section_id": "SA-J01-C08-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Khoa học Máy tính, Trường Đại học Bách Khoa - ĐHQG TP.HCM"
+            },
+            {
+              "section_id": "SA-J01-C08-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Chứng chỉ Professional Scrum Master I (PSM I)\n- Chứng chỉ Cambridge English: Advanced (CAE - C1)"
+            }
+          ],
+          "skills": [
+            "Tư vấn giải pháp Pre-sales",
+            "Thuyết trình demo giải pháp",
+            "Đề xuất giải pháp kỹ thuật",
+            "HubSpot CRM",
+            "Tiếng Anh C1"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J01-C08-EXP-01",
+              "title": "Chuyên viên Tư vấn Giải pháp B2B",
+              "company": "Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft",
+              "start_date": "2023-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\nKhảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\nPhối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\nSử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.",
+              "skills_used": [
+                "Tư vấn giải pháp Pre-sales",
+                "Thuyết trình demo giải pháp",
+                "HubSpot CRM"
+              ],
+              "section_id": "SA-J01-C08-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J01-C08-EXP-02",
+              "title": "Chuyên viên Tư vấn Độc lập",
+              "company": "Nhóm Tư vấn Giải pháp Doanh nghiệp Mở",
+              "start_date": "2024-01",
+              "end_date": "2024-11",
+              "is_current": false,
+              "description": "Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.",
+              "skills_used": [],
+              "section_id": "SA-J01-C08-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Khoa học Máy tính",
+              "section_id": "SA-J01-C08-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Professional Scrum Master I (PSM I)",
+              "section_id": "SA-J01-C08-SEC-CERT"
+            },
+            {
+              "name": "Cambridge English: Advanced (CAE - C1)",
+              "section_id": "SA-J01-C08-SEC-CERT"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

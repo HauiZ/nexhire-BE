@@ -1,0 +1,653 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "MK-J05",
+      "source_family_id": "MK-J05",
+      "domain": "marketing",
+      "title": "Chuyên viên Tiếp thị Sản phẩm / Product Marketing Specialist (Tech / Fintech)",
+      "level": "senior",
+      "language": "vi",
+      "jd_text": "Vị trí: Chuyên viên Tiếp thị Sản phẩm / Product Marketing Specialist (Tech / Fintech)\nĐịa điểm làm việc: Quận 1, TP. Hồ Chí Minh (chính sách Hybrid 3 ngày văn phòng, 2 ngày làm việc linh hoạt).\nThời gian làm việc: Thứ Hai đến Thứ Sáu (9h00 - 18h00).\n\nMô tả công việc:\n- Đóng vai trò cầu nối chiến lược giữa bộ phận Sản phẩm (Product), Kinh doanh (Sales), Chăm sóc khách hàng (CS) và Tiếp thị (Marketing) để đưa sản phẩm công nghệ tài chính tiếp cận thị trường thành công.\n- Chủ trì xây dựng chiến lược Go-to-Market (GTM) cho các tính năng mới và gói sản phẩm tài chính số, đồng bộ giữa Product, Sales và CS.\n- Năng lực nghiên cứu thị trường, phân tích đối thủ cạnh tranh và khảo sát hành vi người dùng (user research) để định hình thông điệp giá trị sản phẩm (Value Proposition).\n- Phối hợp cùng Product Manager thiết kế luồng trải nghiệm đăng ký tài khoản (Onboarding flow) nhằm nâng cao tỷ lệ kích hoạt tài khoản thành công.\n- Theo dõi các chỉ số vòng đời người dùng như CAC, LTV, Retention Rate, Activation Rate và tối ưu hóa phễu chuyển đổi sản phẩm.\n- Xây dựng tài liệu hướng dẫn bán hàng (Sales Enablement toolkit), kịch bản xử lý phản đối và đào tạo tính năng mới cho bộ phận kinh doanh.\n\nYêu cầu công việc (Bắt buộc):\n- Có từ 4 năm kinh nghiệm trong lĩnh vực Product Marketing, Brand Marketing hoặc Growth Marketing cho các sản phẩm công nghệ hoặc ứng dụng Fintech.\n- Chủ trì xây dựng chiến lược Go-to-Market (GTM) cho các tính năng mới và gói sản phẩm tài chính số, đồng bộ giữa Product, Sales và CS.\n- Năng lực nghiên cứu thị trường, phân tích đối thủ cạnh tranh và khảo sát hành vi người dùng (user research) để định hình thông điệp giá trị sản phẩm (Value Proposition).\n- Theo dõi các chỉ số vòng đời người dùng như CAC, LTV, Retention Rate, Activation Rate và tối ưu hóa phễu chuyển đổi sản phẩm.\n\nTiêu chí ưu tiên (Ưu tiên):\n- Tốt nghiệp đại học chuyên ngành Kinh tế, Tài chính - Ngân hàng, Hệ thống thông tin quản lý hoặc Marketing.\n- Khả năng sử dụng tiếng Anh thành thạo trong môi trường làm việc công nghệ quốc tế và làm việc trực tiếp với Product Manager nước ngoài.\n\nChế độ đãi ngộ:\n- Mức lương cạnh tranh từ 30.000.000 đến 45.000.000 VNĐ cùng chính sách thưởng hiệu quả sản phẩm (Product KPI Bonus) và quyền chọn cổ phiếu ESOP.\n- Máy tính làm việc Macbook Pro cao cấp, gói bảo hiểm sức khỏe VIP và phụ cấp đào tạo chứng chỉ quốc tế hàng năm.",
+      "requirements": [
+        {
+          "requirement_id": "MK-J05-R01",
+          "text": "Có từ 4 năm kinh nghiệm trong lĩnh vực Product Marketing, Brand Marketing hoặc Growth Marketing cho các sản phẩm công nghệ hoặc ứng dụng Fintech.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J05-R02",
+          "text": "Chủ trì xây dựng chiến lược Go-to-Market (GTM) cho các tính năng mới và gói sản phẩm tài chính số, đồng bộ giữa Product, Sales và CS.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "text": "Năng lực nghiên cứu thị trường, phân tích đối thủ cạnh tranh và khảo sát hành vi người dùng (user research) để định hình thông điệp giá trị sản phẩm (Value Proposition).",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J05-R04",
+          "text": "Theo dõi các chỉ số vòng đời người dùng như CAC, LTV, Retention Rate, Activation Rate và tối ưu hóa phễu chuyển đổi sản phẩm.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J05-R05",
+          "text": "Tốt nghiệp đại học chuyên ngành Kinh tế, Tài chính - Ngân hàng, Hệ thống thông tin quản lý hoặc Marketing.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "MK-J05-R06",
+          "text": "Khả năng sử dụng tiếng Anh thành thạo trong môi trường làm việc công nghệ quốc tế và làm việc trực tiếp với Product Manager nước ngoài.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "MK-J05-C01",
+          "cv_text": "Tóm tắt năng lực chuyên môn:\nChuyên viên Tiếp thị Sản phẩm Cấp cao (Senior Product Marketing Specialist) với hơn 5 năm kinh nghiệm chuyên sâu trong lĩnh vực công nghệ tài chính (Fintech), ví điện tử và giải pháp mua trước trả sau (BNPL). Chủ trì thành công hơn 10 chiến dịch Go-to-Market (GTM) cho các tính năng thanh toán số và chấm điểm tín dụng vi mô, đồng bộ chặt chẽ hoạt động giữa đội ngũ Product, Sales và CS. Sở hữu tư duy phân tích phễu người dùng sắc sảo, tối ưu hóa các chỉ số Activation Rate, Retention Rate, CAC và LTV. Tiếng Anh thành thạo làm việc hàng ngày với Product Manager quốc tế.\n\nKỹ năng chuyên môn:\n- Xây dựng chiến lược Go-to-Market (GTM) toàn diện cho sản phẩm công nghệ tài chính Fintech\n- Khảo sát người dùng (User Research), phỏng vấn sâu và định hình Value Proposition\n- Phân tích và tối ưu hóa chỉ số phễu vòng đời: CAC, LTV, Activation Rate, Retention Rate\n- Soạn thảo tài liệu Sales Enablement, Battlecard đối thủ và kịch bản CSKH\n- Phối hợp liên phòng ban Agile: Product Manager, Growth Marketing, Sales, CS\n- Tiếng Anh làm việc công nghệ chuyên nghiệp\n\nKinh nghiệm làm việc:\nChuyên viên Cấp cao Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính FinSmart Việt Nam\nThời gian: Từ 2022-10 đến nay (đang làm việc)\n- Trực tiếp chủ trì chiến lược GTM ra mắt tính năng 'Ví trả sau hạn mức linh hoạt', thu hút hơn 250.000 người dùng kích hoạt tài khoản trong 6 tháng đầu.\n- Tiến hành 30 cuộc phỏng vấn người dùng chuyên sâu và khảo sát 1.200 khách hàng để làm rõ rào cản tâm lý khi liên kết ngân hàng, từ đó xác lập thông điệp cốt lõi (Value Proposition) tập trung vào yếu tố 'Bảo mật kép và miễn lãi 45 ngày'.\n- Đồng bộ quy trình bàn giao với bộ phận Kinh doanh đối tác và dịch vụ khách hàng CS trước mỗi kỳ nâng cấp phiên bản ứng dụng.\n- Theo dõi chỉ số giữ chân người dùng (Retention Rate sau 3 tháng đạt 42%) và tối ưu chi phí thu hút người dùng mới (CAC giảm 15%).\n- Thảo luận hàng ngày với Giám đốc Sản phẩm người Singapore hoàn toàn bằng tiếng Anh về lộ trình tính năng (Product Roadmap).\n\nChuyên viên Product Marketing tại Công ty TNHH Giải Pháp Số MoneyFast\nThời gian: Từ 2021-03 đến 2022-09\n- Lên kế hoạch tiếp thị sản phẩm cho ứng dụng tích lũy tiền gửi trực tuyến và chuyển tiền nhanh liên ngân hàng.\n\nTrình độ học vấn:\n- Cử nhân ngành Tài chính - Ngân hàng, Trường Đại học Kinh tế TP. Hồ Chí Minh\n\nChứng chỉ:\n- Product Marketing Certified (PMMC) - Product Marketing Alliance\n- Tiếng Anh IELTS 7.5",
+          "sections": [
+            {
+              "section_id": "MK-J05-C01-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt năng lực chuyên môn:\nChuyên viên Tiếp thị Sản phẩm Cấp cao (Senior Product Marketing Specialist) với hơn 5 năm kinh nghiệm chuyên sâu trong lĩnh vực công nghệ tài chính (Fintech), ví điện tử và giải pháp mua trước trả sau (BNPL). Chủ trì thành công hơn 10 chiến dịch Go-to-Market (GTM) cho các tính năng thanh toán số và chấm điểm tín dụng vi mô, đồng bộ chặt chẽ hoạt động giữa đội ngũ Product, Sales và CS. Sở hữu tư duy phân tích phễu người dùng sắc sảo, tối ưu hóa các chỉ số Activation Rate, Retention Rate, CAC và LTV. Tiếng Anh thành thạo làm việc hàng ngày với Product Manager quốc tế."
+            },
+            {
+              "section_id": "MK-J05-C01-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Xây dựng chiến lược Go-to-Market (GTM) toàn diện cho sản phẩm công nghệ tài chính Fintech\n- Khảo sát người dùng (User Research), phỏng vấn sâu và định hình Value Proposition\n- Phân tích và tối ưu hóa chỉ số phễu vòng đời: CAC, LTV, Activation Rate, Retention Rate\n- Soạn thảo tài liệu Sales Enablement, Battlecard đối thủ và kịch bản CSKH\n- Phối hợp liên phòng ban Agile: Product Manager, Growth Marketing, Sales, CS\n- Tiếng Anh làm việc công nghệ chuyên nghiệp"
+            },
+            {
+              "section_id": "MK-J05-C01-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Cấp cao Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính FinSmart Việt Nam\nThời gian: Từ 2022-10 đến nay (đang làm việc)\n- Trực tiếp chủ trì chiến lược GTM ra mắt tính năng 'Ví trả sau hạn mức linh hoạt', thu hút hơn 250.000 người dùng kích hoạt tài khoản trong 6 tháng đầu.\n- Tiến hành 30 cuộc phỏng vấn người dùng chuyên sâu và khảo sát 1.200 khách hàng để làm rõ rào cản tâm lý khi liên kết ngân hàng, từ đó xác lập thông điệp cốt lõi (Value Proposition) tập trung vào yếu tố 'Bảo mật kép và miễn lãi 45 ngày'.\n- Đồng bộ quy trình bàn giao với bộ phận Kinh doanh đối tác và dịch vụ khách hàng CS trước mỗi kỳ nâng cấp phiên bản ứng dụng.\n- Theo dõi chỉ số giữ chân người dùng (Retention Rate sau 3 tháng đạt 42%) và tối ưu chi phí thu hút người dùng mới (CAC giảm 15%).\n- Thảo luận hàng ngày với Giám đốc Sản phẩm người Singapore hoàn toàn bằng tiếng Anh về lộ trình tính năng (Product Roadmap).\n\nChuyên viên Product Marketing tại Công ty TNHH Giải Pháp Số MoneyFast\nThời gian: Từ 2021-03 đến 2022-09\n- Lên kế hoạch tiếp thị sản phẩm cho ứng dụng tích lũy tiền gửi trực tuyến và chuyển tiền nhanh liên ngân hàng."
+            },
+            {
+              "section_id": "MK-J05-C01-SEC-EDU",
+              "kind": "education",
+              "text": "Trình độ học vấn:\n- Cử nhân ngành Tài chính - Ngân hàng, Trường Đại học Kinh tế TP. Hồ Chí Minh"
+            },
+            {
+              "section_id": "MK-J05-C01-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Product Marketing Certified (PMMC) - Product Marketing Alliance\n- Tiếng Anh IELTS 7.5"
+            }
+          ],
+          "skills": [
+            "Product Marketing Fintech",
+            "Chiến lược Go-to-Market GTM",
+            "User Research và Value Proposition",
+            "Đồng bộ Product Sales CS",
+            "Chỉ số CAC LTV Retention Activation",
+            "Làm việc PM nước ngoài bằng tiếng Anh",
+            "Tài chính - Ngân hàng"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J05-C01-EXP-01",
+              "title": "Chuyên viên Cấp cao Tiếp thị Sản phẩm",
+              "company": "Công ty Cổ phần Công Nghệ Tài Chính FinSmart Việt Nam",
+              "start_date": "2022-10",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp chủ trì chiến lược GTM ra mắt tính năng 'Ví trả sau hạn mức linh hoạt', thu hút hơn 250.000 người dùng kích hoạt tài khoản trong 6 tháng đầu.\nTiến hành 30 cuộc phỏng vấn người dùng chuyên sâu và khảo sát 1.200 khách hàng để làm rõ rào cản tâm lý khi liên kết ngân hàng, từ đó xác lập thông điệp cốt lõi (Value Proposition) tập trung vào yếu tố 'Bảo mật kép và miễn lãi 45 ngày'.\nĐồng bộ quy trình bàn giao với bộ phận Kinh doanh đối tác và dịch vụ khách hàng CS trước mỗi kỳ nâng cấp phiên bản ứng dụng.\nTheo dõi chỉ số giữ chân người dùng (Retention Rate sau 3 tháng đạt 42%) và tối ưu chi phí thu hút người dùng mới (CAC giảm 15%).\nThảo luận hàng ngày với Giám đốc Sản phẩm người Singapore hoàn toàn bằng tiếng Anh về lộ trình tính năng (Product Roadmap).",
+              "skills_used": [
+                "Product Marketing Fintech",
+                "Chiến lược Go-to-Market GTM",
+                "User Research và Value Proposition",
+                "Đồng bộ Product Sales CS",
+                "Chỉ số CAC và Retention Rate",
+                "Làm việc PM nước ngoài bằng tiếng Anh"
+              ],
+              "section_id": "MK-J05-C01-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J05-C01-EXP-02",
+              "title": "Chuyên viên Product Marketing",
+              "company": "Công ty TNHH Giải Pháp Số MoneyFast",
+              "start_date": "2021-03",
+              "end_date": "2022-09",
+              "is_current": false,
+              "description": "Lên kế hoạch tiếp thị sản phẩm cho ứng dụng tích lũy tiền gửi trực tuyến và chuyển tiền nhanh liên ngân hàng.",
+              "skills_used": [
+                "Product Marketing Fintech"
+              ],
+              "section_id": "MK-J05-C01-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Tài chính - Ngân hàng",
+              "section_id": "MK-J05-C01-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Product Marketing Certified (PMMC) - Product Marketing Alliance",
+              "section_id": "MK-J05-C01-SEC-CERT"
+            },
+            {
+              "name": "Tiếng Anh IELTS 7.5",
+              "section_id": "MK-J05-C01-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "MK-J05-C02",
+          "cv_text": "Tóm lược hồ sơ:\nChuyên viên Tiếp thị Sản phẩm với 4 năm 6 tháng kinh nghiệm trong mảng cổng thanh toán trực tuyến (Payment Gateway) và giải pháp phần mềm quản lý bán hàng tích hợp thanh toán mã QR cho doanh nghiệp vừa và nhỏ. Có năng lực xây dựng chiến lược ra mắt tính năng (GTM), khảo sát phản hồi của khách hàng kinh doanh để cải tiến thông điệp giải pháp. Am hiểu các chỉ số tăng trưởng người dùng số và giao tiếp tiếng Anh thành thạo trong môi trường công nghệ.\n\nKỹ năng chuyên môn:\n- Xây dựng chiến lược Go-to-Market (GTM) cho cổng thanh toán B2B và B2C\n- Nghiên cứu đối thủ cạnh tranh (Competitive Benchmarking) trong ngành Fintech\n- Khảo sát trải nghiệm đối tác merchant để tối ưu thông điệp giá trị\n- Phân tích tỷ lệ kích hoạt tài khoản điểm bán (Activation Rate) và chỉ số CAC\n- Phối hợp giữa Product Manager, bộ phận Bán hàng và Hỗ trợ kỹ thuật\n- Tiếng Anh trao đổi kỹ thuật và kinh doanh tốt\n\nKinh nghiệm làm việc:\nChuyên viên Product Marketing tại Công ty TNHH Giải Pháp Thanh Toán Digipay\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Chủ trì kế hoạch GTM cho gói giải pháp thanh toán QR đa năng dành cho chuỗi bán lẻ, phối hợp tập huấn sản phẩm cho hơn 30 nhân viên Sales doanh nghiệp.\n- Xây dựng bộ tài liệu so sánh tính năng cạnh tranh (Product Battlecard) giúp bộ phận bán hàng tăng tỷ lệ chốt hợp đồng thêm 20%.\n- Theo dõi tỷ lệ kích hoạt mã thanh toán của các điểm bán mới, cải tiến luồng hướng dẫn sử dụng giúp đẩy tỷ lệ kích hoạt giao dịch đầu tiên từ 55% lên 72%.\n- Thường xuyên làm việc với Giám đốc Sản phẩm quốc tế tại chi nhánh khu vực để hiệu chỉnh tài liệu kỹ thuật bằng tiếng Anh.\n\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Công Nghệ Số PayPlus\nThời gian: Từ 2021-08 đến 2022-12\n- Viết tài liệu cập nhật tính năng mới và tổ chức hội thảo giới thiệu giải pháp hóa đơn số.\n\nHọc vấn:\n- Cử nhân ngành Kinh tế Quốc tế, Trường Đại học Ngoại thương Cơ sở II TP.HCM\n\nChứng chỉ:\n- Chứng chỉ Tiếng Anh TOEIC 860",
+          "sections": [
+            {
+              "section_id": "MK-J05-C02-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nChuyên viên Tiếp thị Sản phẩm với 4 năm 6 tháng kinh nghiệm trong mảng cổng thanh toán trực tuyến (Payment Gateway) và giải pháp phần mềm quản lý bán hàng tích hợp thanh toán mã QR cho doanh nghiệp vừa và nhỏ. Có năng lực xây dựng chiến lược ra mắt tính năng (GTM), khảo sát phản hồi của khách hàng kinh doanh để cải tiến thông điệp giải pháp. Am hiểu các chỉ số tăng trưởng người dùng số và giao tiếp tiếng Anh thành thạo trong môi trường công nghệ."
+            },
+            {
+              "section_id": "MK-J05-C02-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Xây dựng chiến lược Go-to-Market (GTM) cho cổng thanh toán B2B và B2C\n- Nghiên cứu đối thủ cạnh tranh (Competitive Benchmarking) trong ngành Fintech\n- Khảo sát trải nghiệm đối tác merchant để tối ưu thông điệp giá trị\n- Phân tích tỷ lệ kích hoạt tài khoản điểm bán (Activation Rate) và chỉ số CAC\n- Phối hợp giữa Product Manager, bộ phận Bán hàng và Hỗ trợ kỹ thuật\n- Tiếng Anh trao đổi kỹ thuật và kinh doanh tốt"
+            },
+            {
+              "section_id": "MK-J05-C02-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Product Marketing tại Công ty TNHH Giải Pháp Thanh Toán Digipay\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Chủ trì kế hoạch GTM cho gói giải pháp thanh toán QR đa năng dành cho chuỗi bán lẻ, phối hợp tập huấn sản phẩm cho hơn 30 nhân viên Sales doanh nghiệp.\n- Xây dựng bộ tài liệu so sánh tính năng cạnh tranh (Product Battlecard) giúp bộ phận bán hàng tăng tỷ lệ chốt hợp đồng thêm 20%.\n- Theo dõi tỷ lệ kích hoạt mã thanh toán của các điểm bán mới, cải tiến luồng hướng dẫn sử dụng giúp đẩy tỷ lệ kích hoạt giao dịch đầu tiên từ 55% lên 72%.\n- Thường xuyên làm việc với Giám đốc Sản phẩm quốc tế tại chi nhánh khu vực để hiệu chỉnh tài liệu kỹ thuật bằng tiếng Anh.\n\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Công Nghệ Số PayPlus\nThời gian: Từ 2021-08 đến 2022-12\n- Viết tài liệu cập nhật tính năng mới và tổ chức hội thảo giới thiệu giải pháp hóa đơn số."
+            },
+            {
+              "section_id": "MK-J05-C02-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Kinh tế Quốc tế, Trường Đại học Ngoại thương Cơ sở II TP.HCM"
+            },
+            {
+              "section_id": "MK-J05-C02-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Chứng chỉ Tiếng Anh TOEIC 860"
+            }
+          ],
+          "skills": [
+            "Product Marketing Fintech thanh toán",
+            "Chiến lược Go-to-Market GTM",
+            "Nghiên cứu đối thủ Fintech",
+            "Tỷ lệ kích hoạt Activation Rate",
+            "Đồng bộ Product Sales CS",
+            "Kinh tế",
+            "Tiếng Anh TOEIC 860"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J05-C02-EXP-01",
+              "title": "Chuyên viên Product Marketing",
+              "company": "Công ty TNHH Giải Pháp Thanh Toán Digipay",
+              "start_date": "2023-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Chủ trì kế hoạch GTM cho gói giải pháp thanh toán QR đa năng dành cho chuỗi bán lẻ, phối hợp tập huấn sản phẩm cho hơn 30 nhân viên Sales doanh nghiệp.\nXây dựng bộ tài liệu so sánh tính năng cạnh tranh (Product Battlecard) giúp bộ phận bán hàng tăng tỷ lệ chốt hợp đồng thêm 20%.\nTheo dõi tỷ lệ kích hoạt mã thanh toán của các điểm bán mới, cải tiến luồng hướng dẫn sử dụng giúp đẩy tỷ lệ kích hoạt giao dịch đầu tiên từ 55% lên 72%.\nThường xuyên làm việc với Giám đốc Sản phẩm quốc tế tại chi nhánh khu vực để hiệu chỉnh tài liệu kỹ thuật bằng tiếng Anh.",
+              "skills_used": [
+                "Product Marketing Fintech thanh toán",
+                "Chiến lược Go-to-Market GTM",
+                "Nghiên cứu đối thủ Fintech",
+                "Tỷ lệ kích hoạt Activation Rate"
+              ],
+              "section_id": "MK-J05-C02-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J05-C02-EXP-02",
+              "title": "Nhân viên Marketing Sản phẩm",
+              "company": "Công ty Cổ phần Công Nghệ Số PayPlus",
+              "start_date": "2021-08",
+              "end_date": "2022-12",
+              "is_current": false,
+              "description": "Viết tài liệu cập nhật tính năng mới và tổ chức hội thảo giới thiệu giải pháp hóa đơn số.",
+              "skills_used": [],
+              "section_id": "MK-J05-C02-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kinh tế Quốc tế",
+              "section_id": "MK-J05-C02-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Tiếng Anh TOEIC 860",
+              "section_id": "MK-J05-C02-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "MK-J05-C03",
+          "cv_text": "Tóm lược hồ sơ:\nChuyên viên Phân tích Nghiệp vụ kiêm Chủ sở hữu Sản phẩm (Product Owner / Business Analyst) với 3 năm kinh nghiệm trong mảng ứng dụng ngân hàng số và phần mềm quản lý tài chính doanh nghiệp. Thế mạnh về khảo sát yêu cầu người dùng, viết tài liệu đặc tả chức năng (PRD) và quản lý danh sách tính năng (Product Backlog) cùng đội ngũ lập trình viên. Mong muốn chuyển hướng chuyên sâu sang lĩnh vực Product Marketing để tập trung vào khâu thương mại hóa tính năng và chiến lược Go-to-Market.\n\nKỹ năng làm việc:\n- Khảo sát và phân tích yêu cầu nghiệp vụ phần mềm (Business Analysis)\n- Viết tài liệu đặc tả tính năng sản phẩm (PRD, User Stories, Use Cases)\n- Quản lý tiến độ phát triển tính năng theo phương pháp Scrum/Agile\n- Phối hợp kiểm thử chấp nhận người dùng (UAT) và bàn giao cho bộ phận vận hành\n- Tiếng Anh giao tiếp và viết tài liệu kỹ thuật tốt\n\nKinh nghiệm làm việc:\nChuyên viên Phân tích Sản phẩm tại Công ty Cổ phần Giải Pháp Công Nghệ TechSolutions\nThời gian: Từ 2023-07 đến nay (đang làm việc)\n- Trực tiếp khảo sát nhu cầu từ 40 kế toán trưởng để xây dựng tài liệu chức năng cho phân hệ 'Đối soát thanh toán tự động'.\n- Làm việc chặt chẽ với đội ngũ kỹ sư phần mềm trong các buổi Sprint Planning và Backlog Refinement.\n- Tham gia viết tài liệu hướng dẫn sử dụng (User Manual) và hỗ trợ giải đáp thắc mắc cho đội ngũ chăm sóc khách hàng sau khi phiên bản mới lên sàn.\n\nNhân viên Kiểm thử Phần mềm tại Công ty TNHH Kiểm Thử Số VinaTest\nThời gian: Từ 2022-09 đến 2023-06\n- Thực hiện kiểm thử tính năng trên ứng dụng di động iOS và Android.\n\nHọc vấn:\n- Cử nhân ngành Hệ thống Thông tin Quản lý, Trường Đại học Kinh tế TP. Hồ Chí Minh",
+          "sections": [
+            {
+              "section_id": "MK-J05-C03-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nChuyên viên Phân tích Nghiệp vụ kiêm Chủ sở hữu Sản phẩm (Product Owner / Business Analyst) với 3 năm kinh nghiệm trong mảng ứng dụng ngân hàng số và phần mềm quản lý tài chính doanh nghiệp. Thế mạnh về khảo sát yêu cầu người dùng, viết tài liệu đặc tả chức năng (PRD) và quản lý danh sách tính năng (Product Backlog) cùng đội ngũ lập trình viên. Mong muốn chuyển hướng chuyên sâu sang lĩnh vực Product Marketing để tập trung vào khâu thương mại hóa tính năng và chiến lược Go-to-Market."
+            },
+            {
+              "section_id": "MK-J05-C03-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Khảo sát và phân tích yêu cầu nghiệp vụ phần mềm (Business Analysis)\n- Viết tài liệu đặc tả tính năng sản phẩm (PRD, User Stories, Use Cases)\n- Quản lý tiến độ phát triển tính năng theo phương pháp Scrum/Agile\n- Phối hợp kiểm thử chấp nhận người dùng (UAT) và bàn giao cho bộ phận vận hành\n- Tiếng Anh giao tiếp và viết tài liệu kỹ thuật tốt"
+            },
+            {
+              "section_id": "MK-J05-C03-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Phân tích Sản phẩm tại Công ty Cổ phần Giải Pháp Công Nghệ TechSolutions\nThời gian: Từ 2023-07 đến nay (đang làm việc)\n- Trực tiếp khảo sát nhu cầu từ 40 kế toán trưởng để xây dựng tài liệu chức năng cho phân hệ 'Đối soát thanh toán tự động'.\n- Làm việc chặt chẽ với đội ngũ kỹ sư phần mềm trong các buổi Sprint Planning và Backlog Refinement.\n- Tham gia viết tài liệu hướng dẫn sử dụng (User Manual) và hỗ trợ giải đáp thắc mắc cho đội ngũ chăm sóc khách hàng sau khi phiên bản mới lên sàn.\n\nNhân viên Kiểm thử Phần mềm tại Công ty TNHH Kiểm Thử Số VinaTest\nThời gian: Từ 2022-09 đến 2023-06\n- Thực hiện kiểm thử tính năng trên ứng dụng di động iOS và Android."
+            },
+            {
+              "section_id": "MK-J05-C03-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Hệ thống Thông tin Quản lý, Trường Đại học Kinh tế TP. Hồ Chí Minh"
+            }
+          ],
+          "skills": [
+            "Phân tích yêu cầu nghiệp vụ",
+            "Đặc tả tính năng PRD",
+            "Scrum Agile",
+            "Hệ thống thông tin quản lý"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J05-C03-EXP-01",
+              "title": "Chuyên viên Phân tích Sản phẩm",
+              "company": "Công ty Cổ phần Giải Pháp Công Nghệ TechSolutions",
+              "start_date": "2023-07",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp khảo sát nhu cầu từ 40 kế toán trưởng để xây dựng tài liệu chức năng cho phân hệ 'Đối soát thanh toán tự động'.\nLàm việc chặt chẽ với đội ngũ kỹ sư phần mềm trong các buổi Sprint Planning và Backlog Refinement.\nTham gia viết tài liệu hướng dẫn sử dụng (User Manual) và hỗ trợ giải đáp thắc mắc cho đội ngũ chăm sóc khách hàng sau khi phiên bản mới lên sàn.",
+              "skills_used": [
+                "Phân tích yêu cầu nghiệp vụ",
+                "Đặc tả tính năng PRD",
+                "Scrum Agile"
+              ],
+              "section_id": "MK-J05-C03-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J05-C03-EXP-02",
+              "title": "Nhân viên Kiểm thử Phần mềm",
+              "company": "Công ty TNHH Kiểm Thử Số VinaTest",
+              "start_date": "2022-09",
+              "end_date": "2023-06",
+              "is_current": false,
+              "description": "Thực hiện kiểm thử tính năng trên ứng dụng di động iOS và Android.",
+              "skills_used": [],
+              "section_id": "MK-J05-C03-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Hệ thống Thông tin Quản lý",
+              "section_id": "MK-J05-C03-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J05-C04",
+          "cv_text": "Tóm lược hồ sơ:\nNhân viên Tiếp thị Sản phẩm với 2 năm kinh nghiệm trong công ty cung cấp phần mềm kế toán và hóa đơn điện tử SaaS. Nhanh nhẹn, có khả năng viết bài cập nhật tính năng mới (Release notes), hỗ trợ tổ chức các buổi hội thảo trực tuyến (Webinar) hướng dẫn khách hàng sử dụng tính năng và phối hợp cùng đội kinh doanh làm tài liệu bán hàng. Mong muốn được thử sức với vai trò chuyên viên Product Marketing cấp cao trong môi trường Fintech năng động.\n\nKỹ năng làm việc:\n- Soạn thảo tài liệu giới thiệu tính năng và bản tin phát hành (Release notes)\n- Hỗ trợ xây dựng nội dung slide thuyết trình cho hội thảo trực tuyến sản phẩm\n- Phối hợp với đội ngũ Sales gửi tài liệu hướng dẫn dùng thử cho khách hàng\n- Thu thập ý kiến phản hồi về lỗi tính năng từ người dùng gửi cho ban sản phẩm\n- Tiếng Anh giao tiếp cơ bản\n\nKinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.\n\nHọc vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Tài chính - Marketing",
+          "sections": [
+            {
+              "section_id": "MK-J05-C04-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nNhân viên Tiếp thị Sản phẩm với 2 năm kinh nghiệm trong công ty cung cấp phần mềm kế toán và hóa đơn điện tử SaaS. Nhanh nhẹn, có khả năng viết bài cập nhật tính năng mới (Release notes), hỗ trợ tổ chức các buổi hội thảo trực tuyến (Webinar) hướng dẫn khách hàng sử dụng tính năng và phối hợp cùng đội kinh doanh làm tài liệu bán hàng. Mong muốn được thử sức với vai trò chuyên viên Product Marketing cấp cao trong môi trường Fintech năng động."
+            },
+            {
+              "section_id": "MK-J05-C04-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Soạn thảo tài liệu giới thiệu tính năng và bản tin phát hành (Release notes)\n- Hỗ trợ xây dựng nội dung slide thuyết trình cho hội thảo trực tuyến sản phẩm\n- Phối hợp với đội ngũ Sales gửi tài liệu hướng dẫn dùng thử cho khách hàng\n- Thu thập ý kiến phản hồi về lỗi tính năng từ người dùng gửi cho ban sản phẩm\n- Tiếng Anh giao tiếp cơ bản"
+            },
+            {
+              "section_id": "MK-J05-C04-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt."
+            },
+            {
+              "section_id": "MK-J05-C04-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Tài chính - Marketing"
+            }
+          ],
+          "skills": [
+            "Tài liệu tính năng Release notes",
+            "Hỗ trợ ra mắt tính năng phần mềm",
+            "Slide hội thảo trực tuyến",
+            "Quản trị kinh doanh"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J05-C04-EXP-01",
+              "title": "Nhân viên Marketing Sản phẩm",
+              "company": "Công ty Cổ phần Phần Mềm Kế Toán CloudLedger",
+              "start_date": "2024-11",
+              "end_date": null,
+              "is_current": true,
+              "description": "Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\nViết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\nTổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.",
+              "skills_used": [
+                "Hỗ trợ ra mắt tính năng phần mềm"
+              ],
+              "section_id": "MK-J05-C04-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J05-C04-EXP-02",
+              "title": "Thực tập sinh Marketing",
+              "company": "Công ty TNHH Giải Pháp Doanh Nghiệp Việt",
+              "start_date": "2024-05",
+              "end_date": "2024-10",
+              "is_current": false,
+              "description": "Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.",
+              "skills_used": [],
+              "section_id": "MK-J05-C04-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Quản trị Kinh doanh",
+              "section_id": "MK-J05-C04-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J05-C05",
+          "cv_text": "Tóm lược lãnh đạo cấp cao:\nPhó Tổng Giám đốc Tăng trưởng & Tiếp thị Sản phẩm (VP of Growth & Product Marketing) với hơn 9 năm kinh nghiệm lãnh đạo khối tăng trưởng sản phẩm tại các kỳ lân công nghệ và tập đoàn tài chính đa quốc gia tại khu vực Đông Nam Á. Điều hành đội ngũ hơn 20 chuyên viên PMM, Growth Hacker và Product Analyst. Dẫn dắt chiến lược Go-to-Market toàn diện cho các nền tảng đầu tư số, ví điện tử xuyên biên giới và giải pháp tín dụng vi mô, tạo mức tăng trưởng 300% lượng người dùng hoạt động hàng tháng (MAU). Đàm phán trực tiếp với ban điều hành và đối tác quốc tế bằng tiếng Anh ở cấp độ bản ngữ.\n\nNăng lực lãnh đạo:\n- Hoạch định chiến lược Go-to-Market đa quốc gia cho hệ sinh thái Fintech\n- Quản trị danh mục sản phẩm và tối ưu hóa hệ số LTV/CAC trên diện rộng\n- Định vị thương hiệu công nghệ tài chính cấp khu vực ASEAN\n- Điều hành đội ngũ chuyên gia Product Marketing quốc tế\n- Tiếng Anh thương thuyết và diễn thuyết công nghệ chuyên nghiệp\n\nKinh nghiệm làm việc:\nPhó Chủ Tịch Tăng Trưởng Sản Phẩm tại Tập Đoàn Fintech Quốc Tế PayAsia\nThời gian: Từ 2021-04 đến nay (đang giữ cương vị)\n- Lãnh đạo khối Product Marketing gồm 22 nhân sự tại 3 thị trường: Việt Nam, Indonesia và Philippines.\n- Chỉ đạo chiến lược GTM đưa ứng dụng chuyển tiền quốc tế đạt 5 triệu người dùng đăng ký chỉ sau 18 tháng ra mắt.\n- Phối hợp cùng Ban Giám đốc Công nghệ và Sản phẩm toàn cầu để định hình kiến trúc trải nghiệm người dùng thích ứng theo quy định pháp lý từng quốc gia.\n- Đạt mức tối ưu hóa chỉ số LTV/CAC đạt ngưỡng 4.5 lần.\n\nTrưởng phòng Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính GlobalFin\nThời gian: Từ 2017-06 đến 2021-03\n- Xây dựng quy trình Go-to-Market chuẩn cho cổng thanh toán doanh nghiệp B2B.\n\nHọc vấn:\n- Thạc sĩ Quản trị Kinh doanh (MBA), National University of Singapore (NUS)\n- Cử nhân ngành Kinh tế Đối ngoại, Trường Đại học Ngoại thương Hà Nội",
+          "sections": [
+            {
+              "section_id": "MK-J05-C05-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược lãnh đạo cấp cao:\nPhó Tổng Giám đốc Tăng trưởng & Tiếp thị Sản phẩm (VP of Growth & Product Marketing) với hơn 9 năm kinh nghiệm lãnh đạo khối tăng trưởng sản phẩm tại các kỳ lân công nghệ và tập đoàn tài chính đa quốc gia tại khu vực Đông Nam Á. Điều hành đội ngũ hơn 20 chuyên viên PMM, Growth Hacker và Product Analyst. Dẫn dắt chiến lược Go-to-Market toàn diện cho các nền tảng đầu tư số, ví điện tử xuyên biên giới và giải pháp tín dụng vi mô, tạo mức tăng trưởng 300% lượng người dùng hoạt động hàng tháng (MAU). Đàm phán trực tiếp với ban điều hành và đối tác quốc tế bằng tiếng Anh ở cấp độ bản ngữ."
+            },
+            {
+              "section_id": "MK-J05-C05-SEC-SKILL",
+              "kind": "skills",
+              "text": "Năng lực lãnh đạo:\n- Hoạch định chiến lược Go-to-Market đa quốc gia cho hệ sinh thái Fintech\n- Quản trị danh mục sản phẩm và tối ưu hóa hệ số LTV/CAC trên diện rộng\n- Định vị thương hiệu công nghệ tài chính cấp khu vực ASEAN\n- Điều hành đội ngũ chuyên gia Product Marketing quốc tế\n- Tiếng Anh thương thuyết và diễn thuyết công nghệ chuyên nghiệp"
+            },
+            {
+              "section_id": "MK-J05-C05-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nPhó Chủ Tịch Tăng Trưởng Sản Phẩm tại Tập Đoàn Fintech Quốc Tế PayAsia\nThời gian: Từ 2021-04 đến nay (đang giữ cương vị)\n- Lãnh đạo khối Product Marketing gồm 22 nhân sự tại 3 thị trường: Việt Nam, Indonesia và Philippines.\n- Chỉ đạo chiến lược GTM đưa ứng dụng chuyển tiền quốc tế đạt 5 triệu người dùng đăng ký chỉ sau 18 tháng ra mắt.\n- Phối hợp cùng Ban Giám đốc Công nghệ và Sản phẩm toàn cầu để định hình kiến trúc trải nghiệm người dùng thích ứng theo quy định pháp lý từng quốc gia.\n- Đạt mức tối ưu hóa chỉ số LTV/CAC đạt ngưỡng 4.5 lần.\n\nTrưởng phòng Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính GlobalFin\nThời gian: Từ 2017-06 đến 2021-03\n- Xây dựng quy trình Go-to-Market chuẩn cho cổng thanh toán doanh nghiệp B2B."
+            },
+            {
+              "section_id": "MK-J05-C05-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Thạc sĩ Quản trị Kinh doanh (MBA), National University of Singapore (NUS)\n- Cử nhân ngành Kinh tế Đối ngoại, Trường Đại học Ngoại thương Hà Nội"
+            }
+          ],
+          "skills": [
+            "Lãnh đạo VP Product Marketing",
+            "Chiến lược GTM khu vực ASEAN",
+            "Hệ số LTV CAC Fintech",
+            "Hệ sinh thái ví điện tử đa quốc gia",
+            "Thạc sĩ MBA"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J05-C05-EXP-01",
+              "title": "Phó Chủ Tịch Tăng Trưởng Sản Phẩm",
+              "company": "Tập Đoàn Fintech Quốc Tế PayAsia",
+              "start_date": "2021-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Lãnh đạo khối Product Marketing gồm 22 nhân sự tại 3 thị trường: Việt Nam, Indonesia và Philippines.\nChỉ đạo chiến lược GTM đưa ứng dụng chuyển tiền quốc tế đạt 5 triệu người dùng đăng ký chỉ sau 18 tháng ra mắt.\nPhối hợp cùng Ban Giám đốc Công nghệ và Sản phẩm toàn cầu để định hình kiến trúc trải nghiệm người dùng thích ứng theo quy định pháp lý từng quốc gia.\nĐạt mức tối ưu hóa chỉ số LTV/CAC đạt ngưỡng 4.5 lần.",
+              "skills_used": [
+                "Lãnh đạo VP Product Marketing",
+                "Chiến lược GTM khu vực ASEAN",
+                "Hệ số LTV CAC Fintech"
+              ],
+              "section_id": "MK-J05-C05-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J05-C05-EXP-02",
+              "title": "Trưởng phòng Tiếp thị Sản phẩm",
+              "company": "Công ty Cổ phần Công Nghệ Tài Chính GlobalFin",
+              "start_date": "2017-06",
+              "end_date": "2021-03",
+              "is_current": false,
+              "description": "Xây dựng quy trình Go-to-Market chuẩn cho cổng thanh toán doanh nghiệp B2B.",
+              "skills_used": [],
+              "section_id": "MK-J05-C05-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Thạc sĩ",
+              "field": "Quản trị Kinh doanh",
+              "section_id": "MK-J05-C05-SEC-EDU"
+            },
+            {
+              "degree": "Cử nhân",
+              "field": "Kinh tế Đối ngoại",
+              "section_id": "MK-J05-C05-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J05-C06",
+          "cv_text": "Tóm lược bản thân:\nChuyên viên Tiếp thị Sản phẩm Thẻ Ngân Hàng truyền thống với 4 năm kinh nghiệm làm việc tại hội sở ngân hàng thương mại cổ phần. Chuyên trách triển khai các chương trình tích điểm hoàn tiền, ưu đãi liên kết đối tác ăn uống mua sắm cho chủ thẻ tín dụng quốc tế và thẻ thanh toán nội địa qua mạng lưới các chi nhánh phòng giao dịch. Nắm vững chính sách phát hành thẻ và thủ tục ngân hàng.\n\nKỹ năng làm việc:\n- Quản lý chương trình ưu đãi sản phẩm thẻ tín dụng ngân hàng\n- Đàm phán liên kết đối tác ẩm thực, du lịch và thời trang\n- Xây dựng tài liệu hướng dẫn và tờ rơi tiếp thị tại quầy giao dịch\n- Theo dõi chỉ tiêu phát hành thẻ mới qua mạng lưới chi nhánh\n- Tiếng Anh thương mại trao đổi với các tổ chức thẻ quốc tế Visa, Mastercard\n\nKinh nghiệm làm việc:\nChuyên viên Phát Triển Sản Phẩm Thẻ tại Ngân Hàng TMCP Việt An\nThời gian: Từ 2022-08 đến nay (đang làm việc)\n- Xây dựng chương trình hoàn tiền 10% khi chi tiêu ăn uống cuối tuần cho dòng thẻ tín dụng Platinum.\n- Đàm phán hợp đồng tài trợ ưu đãi với hơn 40 chuỗi nhà hàng và rạp chiếu phim trên toàn quốc.\n- Soạn thảo cẩm nang sản phẩm thẻ gửi cho nhân viên giao dịch viên tại 80 chi nhánh ngân hàng.\n\nNhân viên Chăm sóc Khách hàng Thẻ tại Ngân Hàng TMCP Phát Triển Đông Đô\nThời gian: Từ 2021-02 đến 2022-07\n- Hướng dẫn thủ tục mở thẻ và giải đáp khiếu nại biểu phí thẻ cho khách hàng cá nhân.\n\nHọc vấn:\n- Cử nhân ngành Tài chính - Ngân hàng, Trường Đại học Ngân hàng TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J05-C06-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược bản thân:\nChuyên viên Tiếp thị Sản phẩm Thẻ Ngân Hàng truyền thống với 4 năm kinh nghiệm làm việc tại hội sở ngân hàng thương mại cổ phần. Chuyên trách triển khai các chương trình tích điểm hoàn tiền, ưu đãi liên kết đối tác ăn uống mua sắm cho chủ thẻ tín dụng quốc tế và thẻ thanh toán nội địa qua mạng lưới các chi nhánh phòng giao dịch. Nắm vững chính sách phát hành thẻ và thủ tục ngân hàng."
+            },
+            {
+              "section_id": "MK-J05-C06-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Quản lý chương trình ưu đãi sản phẩm thẻ tín dụng ngân hàng\n- Đàm phán liên kết đối tác ẩm thực, du lịch và thời trang\n- Xây dựng tài liệu hướng dẫn và tờ rơi tiếp thị tại quầy giao dịch\n- Theo dõi chỉ tiêu phát hành thẻ mới qua mạng lưới chi nhánh\n- Tiếng Anh thương mại trao đổi với các tổ chức thẻ quốc tế Visa, Mastercard"
+            },
+            {
+              "section_id": "MK-J05-C06-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Phát Triển Sản Phẩm Thẻ tại Ngân Hàng TMCP Việt An\nThời gian: Từ 2022-08 đến nay (đang làm việc)\n- Xây dựng chương trình hoàn tiền 10% khi chi tiêu ăn uống cuối tuần cho dòng thẻ tín dụng Platinum.\n- Đàm phán hợp đồng tài trợ ưu đãi với hơn 40 chuỗi nhà hàng và rạp chiếu phim trên toàn quốc.\n- Soạn thảo cẩm nang sản phẩm thẻ gửi cho nhân viên giao dịch viên tại 80 chi nhánh ngân hàng.\n\nNhân viên Chăm sóc Khách hàng Thẻ tại Ngân Hàng TMCP Phát Triển Đông Đô\nThời gian: Từ 2021-02 đến 2022-07\n- Hướng dẫn thủ tục mở thẻ và giải đáp khiếu nại biểu phí thẻ cho khách hàng cá nhân."
+            },
+            {
+              "section_id": "MK-J05-C06-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Tài chính - Ngân hàng, Trường Đại học Ngân hàng TP.HCM"
+            }
+          ],
+          "skills": [
+            "Tiếp thị sản phẩm thẻ ngân hàng",
+            "Chương trình tích điểm hoàn tiền",
+            "Đàm phán đối tác ưu đãi thẻ",
+            "Tài chính - Ngân hàng"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J05-C06-EXP-01",
+              "title": "Chuyên viên Phát Triển Sản Phẩm Thẻ",
+              "company": "Ngân Hàng TMCP Việt An",
+              "start_date": "2022-08",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng chương trình hoàn tiền 10% khi chi tiêu ăn uống cuối tuần cho dòng thẻ tín dụng Platinum.\nĐàm phán hợp đồng tài trợ ưu đãi với hơn 40 chuỗi nhà hàng và rạp chiếu phim trên toàn quốc.\nSoạn thảo cẩm nang sản phẩm thẻ gửi cho nhân viên giao dịch viên tại 80 chi nhánh ngân hàng.",
+              "skills_used": [
+                "Tiếp thị sản phẩm thẻ ngân hàng",
+                "Chương trình hoàn tiền",
+                "Đàm phán đối tác ưu đãi thẻ"
+              ],
+              "section_id": "MK-J05-C06-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J05-C06-EXP-02",
+              "title": "Nhân viên Chăm sóc Khách hàng Thẻ",
+              "company": "Ngân Hàng TMCP Phát Triển Đông Đô",
+              "start_date": "2021-02",
+              "end_date": "2022-07",
+              "is_current": false,
+              "description": "Hướng dẫn thủ tục mở thẻ và giải đáp khiếu nại biểu phí thẻ cho khách hàng cá nhân.",
+              "skills_used": [],
+              "section_id": "MK-J05-C06-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Tài chính - Ngân hàng",
+              "section_id": "MK-J05-C06-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J05-C07",
+          "cv_text": "Tóm lược kỹ năng:\nChuyên viên Tiếp thị Sản phẩm với hơn 4 năm 5 tháng kinh nghiệm trong mảng ứng dụng đầu tư chứng chỉ quỹ và quản lý tài chính cá nhân (Wealth-tech). Trực tiếp chủ trì các chiến dịch ra mắt tính năng đầu tư định kỳ, đồng bộ hóa thông điệp giữa ban Sản phẩm, Kinh doanh và bộ phận Chăm sóc khách hàng. Theo dõi chặt chẽ chỉ số kích hoạt tài khoản định danh (eKYC) và tỷ lệ duy trì số dư của nhà đầu tư mới.\n\nKỹ năng làm việc:\n- Chiến lược Go-to-Market (GTM) cho ứng dụng công nghệ đầu tư tài chính\n- Nghiên cứu tâm lý nhà đầu tư cá nhân và xác lập thông điệp giá trị (Value Proposition)\n- Đo lường và tối ưu hóa chỉ số phễu eKYC: Activation Rate, CAC, 30-day Retention\n- Chuẩn bị tài liệu đào tạo bán hàng và giải đáp thắc mắc cho đội ngũ tư vấn\n- Tiếng Anh giao tiếp và làm việc với các chuyên gia kỹ thuật\n\nKinh nghiệm công tác:\nChuyên viên Tiếp thị Sản phẩm tại Công ty Cổ phần Ứng Dụng Đầu Tư FinCap\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Chủ trì kế hoạch GTM ra mắt tính năng 'Tích lũy sinh lời hàng ngày' đạt hơn 180.000 người dùng nạp tiền trải nghiệm.\n- Tiến hành khảo sát 500 người dùng trẻ để làm rõ băn khoăn về tính thanh khoản, từ đó định vị thông điệp sản phẩm là 'Rút tiền linh hoạt 24/7 không mất phí'.\n- Tổ chức buổi chia sẻ nội bộ đồng bộ tính năng mới cho 25 nhân viên tư vấn kinh doanh và đội ngũ CSKH trực hotline.\n- Theo dõi tỷ lệ kích hoạt tài khoản nạp tiền thành công tăng từ 40% lên 58% sau khi tối ưu lại các bước xác thực danh tính eKYC.\n\nCộng tác viên Truyền thông Sản phẩm tại Cổng Tài Chính Đầu Tư Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng cụ thể)\n- Viết bài giải thích các thuật ngữ tài chính và giới thiệu tính năng tích lũy tiền nhàn rỗi.\n\nHọc vấn:\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế Quốc dân",
+          "sections": [
+            {
+              "section_id": "MK-J05-C07-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược kỹ năng:\nChuyên viên Tiếp thị Sản phẩm với hơn 4 năm 5 tháng kinh nghiệm trong mảng ứng dụng đầu tư chứng chỉ quỹ và quản lý tài chính cá nhân (Wealth-tech). Trực tiếp chủ trì các chiến dịch ra mắt tính năng đầu tư định kỳ, đồng bộ hóa thông điệp giữa ban Sản phẩm, Kinh doanh và bộ phận Chăm sóc khách hàng. Theo dõi chặt chẽ chỉ số kích hoạt tài khoản định danh (eKYC) và tỷ lệ duy trì số dư của nhà đầu tư mới."
+            },
+            {
+              "section_id": "MK-J05-C07-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Chiến lược Go-to-Market (GTM) cho ứng dụng công nghệ đầu tư tài chính\n- Nghiên cứu tâm lý nhà đầu tư cá nhân và xác lập thông điệp giá trị (Value Proposition)\n- Đo lường và tối ưu hóa chỉ số phễu eKYC: Activation Rate, CAC, 30-day Retention\n- Chuẩn bị tài liệu đào tạo bán hàng và giải đáp thắc mắc cho đội ngũ tư vấn\n- Tiếng Anh giao tiếp và làm việc với các chuyên gia kỹ thuật"
+            },
+            {
+              "section_id": "MK-J05-C07-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm công tác:\nChuyên viên Tiếp thị Sản phẩm tại Công ty Cổ phần Ứng Dụng Đầu Tư FinCap\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Chủ trì kế hoạch GTM ra mắt tính năng 'Tích lũy sinh lời hàng ngày' đạt hơn 180.000 người dùng nạp tiền trải nghiệm.\n- Tiến hành khảo sát 500 người dùng trẻ để làm rõ băn khoăn về tính thanh khoản, từ đó định vị thông điệp sản phẩm là 'Rút tiền linh hoạt 24/7 không mất phí'.\n- Tổ chức buổi chia sẻ nội bộ đồng bộ tính năng mới cho 25 nhân viên tư vấn kinh doanh và đội ngũ CSKH trực hotline.\n- Theo dõi tỷ lệ kích hoạt tài khoản nạp tiền thành công tăng từ 40% lên 58% sau khi tối ưu lại các bước xác thực danh tính eKYC.\n\nCộng tác viên Truyền thông Sản phẩm tại Cổng Tài Chính Đầu Tư Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng cụ thể)\n- Viết bài giải thích các thuật ngữ tài chính và giới thiệu tính năng tích lũy tiền nhàn rỗi."
+            },
+            {
+              "section_id": "MK-J05-C07-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế Quốc dân"
+            }
+          ],
+          "skills": [
+            "Product Marketing Wealth-tech",
+            "Go-to-Market GTM",
+            "Value Proposition khảo sát người dùng",
+            "Đồng bộ Product Sales CS",
+            "Activation Rate eKYC",
+            "Marketing"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J05-C07-EXP-01",
+              "title": "Chuyên viên Tiếp thị Sản phẩm",
+              "company": "Công ty Cổ phần Ứng Dụng Đầu Tư FinCap",
+              "start_date": "2023-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Chủ trì kế hoạch GTM ra mắt tính năng 'Tích lũy sinh lời hàng ngày' đạt hơn 180.000 người dùng nạp tiền trải nghiệm.\nTiến hành khảo sát 500 người dùng trẻ để làm rõ băn khoăn về tính thanh khoản, từ đó định vị thông điệp sản phẩm là 'Rút tiền linh hoạt 24/7 không mất phí'.\nTổ chức buổi chia sẻ nội bộ đồng bộ tính năng mới cho 25 nhân viên tư vấn kinh doanh và đội ngũ CSKH trực hotline.\nTheo dõi tỷ lệ kích hoạt tài khoản nạp tiền thành công tăng từ 40% lên 58% sau khi tối ưu lại các bước xác thực danh tính eKYC.",
+              "skills_used": [
+                "Product Marketing Wealth-tech",
+                "Go-to-Market GTM",
+                "Value Proposition khảo sát người dùng",
+                "Đồng bộ Product Sales CS",
+                "Activation Rate eKYC"
+              ],
+              "section_id": "MK-J05-C07-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J05-C07-EXP-02",
+              "title": "Cộng tác viên Truyền thông Sản phẩm",
+              "company": "Cổng Tài Chính Đầu Tư Xanh",
+              "start_date": null,
+              "end_date": null,
+              "is_current": false,
+              "description": "Viết bài giải thích các thuật ngữ tài chính và giới thiệu tính năng tích lũy tiền nhàn rỗi.",
+              "skills_used": [],
+              "section_id": "MK-J05-C07-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Marketing",
+              "section_id": "MK-J05-C07-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J05-C08",
+          "cv_text": "Tóm tắt kinh nghiệm:\nQuản lý Tăng trưởng Sản phẩm (Growth Product Manager) với hơn 4 năm kinh nghiệm làm việc tại sàn giao dịch tài sản số và ứng dụng thanh toán công nghệ cao. Sự kết hợp giữa tư duy thiết kế sản phẩm số và năng lực tiếp thị chuyển đổi, chuyên trách tối ưu hóa hành trình làm quen ứng dụng (Onboarding Flow), kiểm thử A/B Testing liên tục để gia tăng chỉ số Activation Rate và Retention Rate. Thường xuyên cộng tác bằng tiếng Anh với các kỹ sư và Product Manager quốc tế.\n\nKỹ năng chuyên môn:\n- Hoạch định chiến lược Go-to-Market (GTM) cho các tính năng giao dịch tài chính số\n- Nghiên cứu hành vi người dùng bằng công cụ phân tích sự kiện Mixpanel, Amplitude\n- Định hình thông điệp giá trị (Value Proposition) và kiểm thử A/B trang đích\n- Tối ưu hóa các chỉ số phễu: CAC, LTV, Activation Rate, 90-day Retention Rate\n- Đồng bộ luồng vận hành sản phẩm giữa đội ngũ Product, Growth, Sales và CS\n- Tiếng Anh công nghệ lưu loát\n\nKinh nghiệm làm việc:\nQuản lý Tăng trưởng Sản phẩm tại Công ty Cổ phần Sàn Giao Dịch Số FutureFin\nThời gian: Từ 2023-04 đến nay (đang làm việc)\n- Trực tiếp xây dựng chiến lược GTM cho tính năng nạp tiền tự động qua quét mã QR động, phối hợp giữa Product, Sales và CS.\n- Phân tích dữ liệu hành vi người dùng qua Amplitude, nhận thấy 35% người dùng bỏ dở ở bước xác minh danh tính; thiết kế lại giao diện hướng dẫn giúp tỷ lệ Activation Rate tăng thêm 14%.\n- Thực hiện kiểm thử A/B cho thông điệp Value Proposition trên trang tải app, giúp tỷ lệ chuyển đổi từ lượt xem sang lượt tải tăng 22%.\n- Làm việc trực tiếp với Giám đốc Sản phẩm người Đức trong việc lên kế hoạch tính năng hàng quý bằng tiếng Anh.\n\nChuyên viên Phân tích Sản phẩm Số tại Công ty TNHH Giải Pháp Công Nghệ Số Nam Việt\nThời gian: Từ 2021-10 đến 2023-03\n- Thiết lập các phễu theo dõi lượt đăng ký và phân tích tỷ lệ khách hàng rời bỏ (Churn Rate).\n\nHọc vấn:\n- Cử nhân ngành Hệ thống Thông tin Quản lý, Trường Đại học Kinh tế TP. Hồ Chí Minh",
+          "sections": [
+            {
+              "section_id": "MK-J05-C08-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm:\nQuản lý Tăng trưởng Sản phẩm (Growth Product Manager) với hơn 4 năm kinh nghiệm làm việc tại sàn giao dịch tài sản số và ứng dụng thanh toán công nghệ cao. Sự kết hợp giữa tư duy thiết kế sản phẩm số và năng lực tiếp thị chuyển đổi, chuyên trách tối ưu hóa hành trình làm quen ứng dụng (Onboarding Flow), kiểm thử A/B Testing liên tục để gia tăng chỉ số Activation Rate và Retention Rate. Thường xuyên cộng tác bằng tiếng Anh với các kỹ sư và Product Manager quốc tế."
+            },
+            {
+              "section_id": "MK-J05-C08-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Hoạch định chiến lược Go-to-Market (GTM) cho các tính năng giao dịch tài chính số\n- Nghiên cứu hành vi người dùng bằng công cụ phân tích sự kiện Mixpanel, Amplitude\n- Định hình thông điệp giá trị (Value Proposition) và kiểm thử A/B trang đích\n- Tối ưu hóa các chỉ số phễu: CAC, LTV, Activation Rate, 90-day Retention Rate\n- Đồng bộ luồng vận hành sản phẩm giữa đội ngũ Product, Growth, Sales và CS\n- Tiếng Anh công nghệ lưu loát"
+            },
+            {
+              "section_id": "MK-J05-C08-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nQuản lý Tăng trưởng Sản phẩm tại Công ty Cổ phần Sàn Giao Dịch Số FutureFin\nThời gian: Từ 2023-04 đến nay (đang làm việc)\n- Trực tiếp xây dựng chiến lược GTM cho tính năng nạp tiền tự động qua quét mã QR động, phối hợp giữa Product, Sales và CS.\n- Phân tích dữ liệu hành vi người dùng qua Amplitude, nhận thấy 35% người dùng bỏ dở ở bước xác minh danh tính; thiết kế lại giao diện hướng dẫn giúp tỷ lệ Activation Rate tăng thêm 14%.\n- Thực hiện kiểm thử A/B cho thông điệp Value Proposition trên trang tải app, giúp tỷ lệ chuyển đổi từ lượt xem sang lượt tải tăng 22%.\n- Làm việc trực tiếp với Giám đốc Sản phẩm người Đức trong việc lên kế hoạch tính năng hàng quý bằng tiếng Anh.\n\nChuyên viên Phân tích Sản phẩm Số tại Công ty TNHH Giải Pháp Công Nghệ Số Nam Việt\nThời gian: Từ 2021-10 đến 2023-03\n- Thiết lập các phễu theo dõi lượt đăng ký và phân tích tỷ lệ khách hàng rời bỏ (Churn Rate)."
+            },
+            {
+              "section_id": "MK-J05-C08-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Hệ thống Thông tin Quản lý, Trường Đại học Kinh tế TP. Hồ Chí Minh"
+            }
+          ],
+          "skills": [
+            "Chiến lược Go-to-Market GTM",
+            "Amplitude Mixpanel",
+            "Value Proposition và A/B Testing",
+            "Activation Rate và Retention Rate",
+            "Đồng bộ Product Sales CS",
+            "Làm việc PM nước ngoài bằng tiếng Anh",
+            "Hệ thống thông tin quản lý"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J05-C08-EXP-01",
+              "title": "Quản lý Tăng trưởng Sản phẩm",
+              "company": "Công ty Cổ phần Sàn Giao Dịch Số FutureFin",
+              "start_date": "2023-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp xây dựng chiến lược GTM cho tính năng nạp tiền tự động qua quét mã QR động, phối hợp giữa Product, Sales và CS.\nPhân tích dữ liệu hành vi người dùng qua Amplitude, nhận thấy 35% người dùng bỏ dở ở bước xác minh danh tính; thiết kế lại giao diện hướng dẫn giúp tỷ lệ Activation Rate tăng thêm 14%.\nThực hiện kiểm thử A/B cho thông điệp Value Proposition trên trang tải app, giúp tỷ lệ chuyển đổi từ lượt xem sang lượt tải tăng 22%.\nLàm việc trực tiếp với Giám đốc Sản phẩm người Đức trong việc lên kế hoạch tính năng hàng quý bằng tiếng Anh.",
+              "skills_used": [
+                "Chiến lược Go-to-Market GTM",
+                "Phân tích dữ liệu Amplitude",
+                "Value Proposition và A/B Testing",
+                "Tối ưu Activation Rate",
+                "Đồng bộ Product Sales CS",
+                "Làm việc PM nước ngoài bằng tiếng Anh"
+              ],
+              "section_id": "MK-J05-C08-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J05-C08-EXP-02",
+              "title": "Chuyên viên Phân tích Sản phẩm Số",
+              "company": "Công ty TNHH Giải Pháp Công Nghệ Số Nam Việt",
+              "start_date": "2021-10",
+              "end_date": "2023-03",
+              "is_current": false,
+              "description": "Thiết lập các phễu theo dõi lượt đăng ký và phân tích tỷ lệ khách hàng rời bỏ (Churn Rate).",
+              "skills_used": [],
+              "section_id": "MK-J05-C08-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Hệ thống Thông tin Quản lý",
+              "section_id": "MK-J05-C08-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "limitations_noted": [
+    "Summary tenure statements (e.g., C02 'gần 2 năm', C03 '1 năm', C04 '6 tháng', C06 'hơn 2 năm', C07 'hơn 1 năm') are rounded or narrower than dated experience spans, and SA-J02-C07-EXP-02 has null start/end dates with is_current=false supported by explicit 'trước đó' wording (retained under HR-SOURCE-005 and HR-SOURCE-008).",
+    "Retained semantic/scope human-review ambiguities under HR-SOURCE-003 and HR-SOURCE-010: SA-J02-C01-EXP-01 'Trưng bày sản phẩm' vs poster guidance, SA-J02-C02-EXP-02 'Phát triển thị trường thực phẩm' vs delivery/order collection, SA-J02-C05 team size 8 vs 7 staff, and SA-J02-C07 'Cử nhân Cao đẳng' degree wording.",
+    "Candidate self-described health phrases ('sức khỏe tốt' in SA-J02-C02-SEC-SKILL and 'sức khỏe dẻo dai' in SA-J02-C08-SEC-SKILL) remain in CV prose after JD health-criterion removal under HR-SOURCE-011 and must not be rewarded or penalized in annotation.",
+    "Employer and retail store names (including EcoMart replacing V-Mart and generic names such as 'Cửa hàng Dụng cụ Học sinh Hồng Hà') are designated fictional for development pilot use without exhaustive external entity verification (HR-SOURCE-007); recurring candidate-index scenario diversity remains a development-only limitation (HR-SOURCE-009)."
+  ],
+  "verified_candidate_count": 8,
+  "blocking_issues": [],
+  "source_acceptance": "accepted",
+  "resolved_historical_issues": [
+    {
+      "issue_summary": "JD mandatory health/personality criterion omitted from structured requirements and carrying disability-proxy risk.",
+      "evidence_note": "Removed omitted mandatory health/personality sentence ('Giao tiếp nhanh nhẹn, trung thực, có sức khỏe tốt...') from jd_text under HR-SOURCE-011 and HR-SOURCE-002; all 5 remaining criteria in requirements (SA-J02-R01..R05) match jd_text verbatim.",
+      "disposition": "fixed",
+      "candidate_id": "SA-J02"
+    },
+    {
+      "candidate_id": "SA-J02-C03",
+      "evidence_note": "Removed unsupported 'bằng xe máy' from SA-J02-C03-EXP-02.description (matches SA-J02-C03-SEC-EXP verbatim) and cleared SA-J02-C03-EXP-02.skills_used to [] under HR-SOURCE-003 and HR-SOURCE-004.",
+      "issue_summary": "SA-J02-C03-EXP-02 description added 'bằng xe máy' and skills_used added 'Xe máy cá nhân' without role evidence.",
+      "disposition": "fixed"
+    },
+    {
+      "evidence_note": "Removed 'Trưng bày kệ bánh kẹo' and quantitative inventory check from SA-J02-C04-EXP-01.skills_used under HR-SOURCE-003, leaving ['Bán hàng kênh tạp hóa', 'Đi tuyến bằng xe máy'] which are supported in SA-J02-C04-SEC-EXP.",
+      "candidate_id": "SA-J02-C04",
+      "issue_summary": "SA-J02-C04-EXP-01 skills_used attributed unsupported shelf display and quantitative inventory checking.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "fixed",
+      "candidate_id": "SA-J02-C04",
+      "evidence_note": "Cleared SA-J02-C04-EXP-02.skills_used to [] under HR-SOURCE-003, removing unsupported 'Đi tuyến bằng xe máy'.",
+      "issue_summary": "SA-J02-C04-EXP-02 skills_used attributed unsupported 'Đi tuyến bằng xe máy'."
+    },
+    {
+      "evidence_note": "Synchronized SA-J02-C05-EXP-01.description verbatim to SA-J02-C05-SEC-EXP (removing inventory supervision and tier-1 distributor classification) and removed 'Quản lý tuyến MCP' from EXP-01.skills_used under HR-SOURCE-003 and HR-SOURCE-004.",
+      "disposition": "fixed",
+      "candidate_id": "SA-J02-C05",
+      "issue_summary": "SA-J02-C05-EXP-01 added inventory supervision, tier-1 distributor classification, and MCP route planning without role evidence."
+    },
+    {
+      "disposition": "fixed",
+      "candidate_id": "SA-J02-C06",
+      "evidence_note": "Synchronized SA-J02-C06-EXP-01.description verbatim to SA-J02-C06-SEC-EXP (receipt reconciliation and expiry reporting only), reduced EXP-01.skills_used to ['Trưng bày kệ siêu thị'], and fictionalized 'V-Mart' to 'EcoMart' under HR-SOURCE-003/004/007.",
+      "issue_summary": "SA-J02-C06-EXP-01 overstated receipt/reporting as stocktake/sticker execution and assigned unsupported 'Kiểm kê tồn kho cửa hàng' and 'Đảo date hàng hóa'."
+    },
+    {
+      "disposition": "fixed",
+      "evidence_note": "Removed 'Mở rộng điểm bán hóa mỹ phẩm' and 'Treo hanger quảng cáo' from SA-J02-C07-EXP-01.skills_used under HR-SOURCE-003, retaining ['Theo dõi hàng tồn quầy', 'Xe máy di chuyển thị trường'] supported in Role 1 prose.",
+      "issue_summary": "SA-J02-C07-EXP-01 skills_used assigned unsupported outlet expansion and hanger installation.",
+      "candidate_id": "SA-J02-C07"
+    },
+    {
+      "candidate_id": "SA-J02-C07",
+      "disposition": "fixed",
+      "evidence_note": "Cleared SA-J02-C07-EXP-02.skills_used to [] under HR-SOURCE-003, removing unsupported 'Xe máy di chuyển thị trường'.",
+      "issue_summary": "SA-J02-C07-EXP-02 skills_used assigned unsupported motorcycle transport."
+    },
+    {
+      "issue_summary": "SA-J02-C08-EXP-01 added district expertise and personal motorcycle from other sections.",
+      "evidence_note": "Synchronized SA-J02-C08-EXP-01.description verbatim to SA-J02-C08-SEC-EXP (removing Go Vap/Binh Thanh and motorcycle) and removed 'Thông thạo đường sá Gò Vấp' and 'Xe máy cá nhân' from EXP-01.skills_used under HR-SOURCE-003 and HR-SOURCE-004.",
+      "candidate_id": "SA-J02-C08",
+      "disposition": "fixed"
+    },
+    {
+      "evidence_note": "Removed templated negative denial clause ', chưa phụ trách tuyến đường thực địa hay đi kiểm tra tạp hóa bao giờ' from SA-J02-C03-SEC-EXP, cv_text, and SA-J02-C03-EXP-01.description under HR-SOURCE-006.",
+      "candidate_id": "SA-J02-C03",
+      "disposition": "fixed",
+      "issue_summary": "Requirement-shaped negative denial clause in SA-J02-C03-SEC-EXP and EXP-01 description."
+    },
+    {
+      "disposition": "fixed",
+      "candidate_id": "SA-J02-C06",
+      "evidence_note": "Removed templated negative denial bullet 'Chưa có kinh nghiệm đi ra ngoài chào bán cho các tiệm tạp hóa hay đại lý bên ngoài.' from SA-J02-C06-SEC-EXP and cv_text under HR-SOURCE-006.",
+      "issue_summary": "Explicit JD-shaped negative prose bullet in SA-J02-C06-SEC-EXP."
+    },
+    {
+      "disposition": "fixed",
+      "candidate_id": "SA-J02-C04",
+      "issue_summary": "Unnecessary age-related descriptor 'trẻ tuổi' in SA-J02-C04-SEC-SUM.",
+      "evidence_note": "Removed age-related descriptor 'trẻ tuổi' from SA-J02-C04-SEC-SUM and cv_text under HR-SOURCE-002."
+    },
+    {
+      "issue_summary": "Team size discrepancy between general skills (8 staff) and current role (7 staff) in SA-J02-C05.",
+      "evidence_note": "SA-J02-C05-SEC-SKILL retains '8 nhân viên sales' while SA-J02-C05-SEC-EXP retains '7 nhân viên bán hàng thị trường' without fabricated reconciliation, consistent with HR-SOURCE-008/004 ambiguity preservation.",
+      "disposition": "retained_ambiguity",
+      "candidate_id": "SA-J02-C05"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "evidence_note": "Structured education[0].degree updated to exact verbatim 'Cử nhân Cao đẳng' matching SA-J02-C07-SEC-EDU under HR-SOURCE-010, preserving ambiguous degree terminology without mapping to university or college level.",
+      "issue_summary": "Ambiguous 'Cử nhân Cao đẳng' degree wording in SA-J02-C07-SEC-EDU.",
+      "candidate_id": "SA-J02-C07"
+    },
+    {
+      "issue_summary": "Broad 'Trưng bày sản phẩm' skill attribution in SA-J02-C01-EXP-01 relative to poster guidance prose.",
+      "evidence_note": "Preserved 'Trưng bày sản phẩm' in SA-J02-C01-EXP-01.skills_used as a semantic-equivalence human-review nuance under HR-SOURCE-003 ('hướng dẫn chủ tiệm dán poster khuyến mại tháng' in EXP-01; full shelf display in SEC-SKILL).",
+      "disposition": "retained_ambiguity",
+      "candidate_id": "SA-J02-C01"
+    },
+    {
+      "candidate_id": "SA-J02-C02",
+      "issue_summary": "Broad 'Phát triển thị trường thực phẩm' attribution in SA-J02-C02-EXP-02 delivery/order-collection role.",
+      "evidence_note": "Preserved 'Phát triển thị trường thực phẩm' in SA-J02-C02-EXP-02.skills_used as a semantic human-review nuance under HR-SOURCE-003 (role title 'Nhân viên Giao nhận kiêm Bán hàng Thị trường' with delivery and repeat-order collection); additionally fixed EXP-01 unsupported 'Trưng bày kệ hàng' by removing it in v4.",
+      "disposition": "retained_ambiguity"
+    }
+  ],
+  "job_id": "SA-J02",
+  "verification_run_id": "wlj22smze",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

@@ -1,0 +1,283 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "initial",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C01",
+      "relevance": 3,
+      "rationale": "Có hơn 6 năm frontend theo lịch sử từ 2020-10, React/Next.js đủ 3 năm, state phức tạp và Web Vitals; dẫn dắt 6 kỹ sư, review và phân việc rõ. Design System và kiểm thử bổ trợ.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J02-R01",
+          "section_id": "IT-J02-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ thuật Frontend (Frontend Tech Lead) tại Công ty Cổ phần Công nghệ Bán lẻ Á Châu. Thời gian: từ 2023-01 đến nay. Mô tả: Dẫn dắt đội ngũ kỹ thuật gồm 6 kỹ sư frontend phát triển sàn thương mại đa quốc gia. Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query. Thiết kế và phát hành Design System nội bộ gồm 45 component tái sử dụng trên Storybook. Phụ trách review code hàng ngày, phân chia công việc theo sprint và tối ưu điểm số Core Web Vitals đạt trên 90 điểm trên cả thiết bị di động và máy tính.\n- Chức danh: Kỹ sư Lập trình Frontend Cấp cao tại Công ty TNHH Phần mềm Mặt Trời Mới. Thời gian: từ 2020-10 đến 2022-12. Mô tả: Phát triển cổng thông tin du lịch và đặt vé máy bay trực tuyến sử dụng React.js, Next.js và Zustand. Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R02",
+          "section_id": "IT-J02-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ thuật Frontend (Frontend Tech Lead) tại Công ty Cổ phần Công nghệ Bán lẻ Á Châu. Thời gian: từ 2023-01 đến nay. Mô tả: Dẫn dắt đội ngũ kỹ thuật gồm 6 kỹ sư frontend phát triển sàn thương mại đa quốc gia. Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query. Thiết kế và phát hành Design System nội bộ gồm 45 component tái sử dụng trên Storybook. Phụ trách review code hàng ngày, phân chia công việc theo sprint và tối ưu điểm số Core Web Vitals đạt trên 90 điểm trên cả thiết bị di động và máy tính.\n- Chức danh: Kỹ sư Lập trình Frontend Cấp cao tại Công ty TNHH Phần mềm Mặt Trời Mới. Thời gian: từ 2020-10 đến 2022-12. Mô tả: Phát triển cổng thông tin du lịch và đặt vé máy bay trực tuyến sử dụng React.js, Next.js và Zustand. Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R03",
+          "section_id": "IT-J02-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ thuật Frontend (Frontend Tech Lead) tại Công ty Cổ phần Công nghệ Bán lẻ Á Châu. Thời gian: từ 2023-01 đến nay. Mô tả: Dẫn dắt đội ngũ kỹ thuật gồm 6 kỹ sư frontend phát triển sàn thương mại đa quốc gia. Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query. Thiết kế và phát hành Design System nội bộ gồm 45 component tái sử dụng trên Storybook. Phụ trách review code hàng ngày, phân chia công việc theo sprint và tối ưu điểm số Core Web Vitals đạt trên 90 điểm trên cả thiết bị di động và máy tính.\n- Chức danh: Kỹ sư Lập trình Frontend Cấp cao tại Công ty TNHH Phần mềm Mặt Trời Mới. Thời gian: từ 2020-10 đến 2022-12. Mô tả: Phát triển cổng thông tin du lịch và đặt vé máy bay trực tuyến sử dụng React.js, Next.js và Zustand. Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R06",
+          "section_id": "IT-J02-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ thuật Frontend (Frontend Tech Lead) tại Công ty Cổ phần Công nghệ Bán lẻ Á Châu. Thời gian: từ 2023-01 đến nay. Mô tả: Dẫn dắt đội ngũ kỹ thuật gồm 6 kỹ sư frontend phát triển sàn thương mại đa quốc gia. Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query. Thiết kế và phát hành Design System nội bộ gồm 45 component tái sử dụng trên Storybook. Phụ trách review code hàng ngày, phân chia công việc theo sprint và tối ưu điểm số Core Web Vitals đạt trên 90 điểm trên cả thiết bị di động và máy tính.\n- Chức danh: Kỹ sư Lập trình Frontend Cấp cao tại Công ty TNHH Phần mềm Mặt Trời Mới. Thời gian: từ 2020-10 đến 2022-12. Mô tả: Phát triển cổng thông tin du lịch và đặt vé máy bay trực tuyến sử dụng React.js, Next.js và Zustand. Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C02",
+      "relevance": 3,
+      "rationale": "Lịch sử frontend từ 2021-09 hơn 5 năm, Next.js từ 2023-03 hơn 3 năm; Zustand/React Query và cải thiện LCP cụ thể. Review 4 thành viên cùng mô tả phân rã công việc hỗ trợ vai trò kỹ thuật; quy mô người dùng chưa định lượng không tự tạo ngưỡng phụ.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J02-R01",
+          "section_id": "IT-J02-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Giải pháp Tài chính Số FinPro. Thời gian: từ 2023-03 đến nay. Mô tả: Phát triển nền tảng bảng điều khiển quản trị tài chính doanh nghiệp với Next.js và TypeScript. Quản lý trạng thái bất đồng bộ bằng React Query và lưu trữ cục bộ với Zustand. Tối ưu hóa tải trang, giảm LCP từ 3.2s xuống 1.4s. Thực hiện review code cho 4 thành viên mid/junior trong đội.\n- Chức danh: Frontend Developer tại Công ty TNHH Giải pháp Mạng Việt Nam. Thời gian: từ 2021-09 đến 2023-02. Mô tả: Xây dựng giao diện ứng dụng web chăm sóc khách hàng bằng React.js và Redux Toolkit. Viết end-to-end test bằng Cypress.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R02",
+          "section_id": "IT-J02-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Giải pháp Tài chính Số FinPro. Thời gian: từ 2023-03 đến nay. Mô tả: Phát triển nền tảng bảng điều khiển quản trị tài chính doanh nghiệp với Next.js và TypeScript. Quản lý trạng thái bất đồng bộ bằng React Query và lưu trữ cục bộ với Zustand. Tối ưu hóa tải trang, giảm LCP từ 3.2s xuống 1.4s. Thực hiện review code cho 4 thành viên mid/junior trong đội.\n- Chức danh: Frontend Developer tại Công ty TNHH Giải pháp Mạng Việt Nam. Thời gian: từ 2021-09 đến 2023-02. Mô tả: Xây dựng giao diện ứng dụng web chăm sóc khách hàng bằng React.js và Redux Toolkit. Viết end-to-end test bằng Cypress.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R03",
+          "section_id": "IT-J02-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Giải pháp Tài chính Số FinPro. Thời gian: từ 2023-03 đến nay. Mô tả: Phát triển nền tảng bảng điều khiển quản trị tài chính doanh nghiệp với Next.js và TypeScript. Quản lý trạng thái bất đồng bộ bằng React Query và lưu trữ cục bộ với Zustand. Tối ưu hóa tải trang, giảm LCP từ 3.2s xuống 1.4s. Thực hiện review code cho 4 thành viên mid/junior trong đội.\n- Chức danh: Frontend Developer tại Công ty TNHH Giải pháp Mạng Việt Nam. Thời gian: từ 2021-09 đến 2023-02. Mô tả: Xây dựng giao diện ứng dụng web chăm sóc khách hàng bằng React.js và Redux Toolkit. Viết end-to-end test bằng Cypress.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R06",
+          "section_id": "IT-J02-C02-S02",
+          "quote": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: TypeScript, JavaScript, HTML/CSS.\n- Thư viện & Framework: React.js, Next.js, Zustand, React Query, Redux Toolkit.\n- Công cụ & Thử nghiệm: Cypress, Jest, Webpack, Vite, Git, Tailwind CSS.\n- Kỹ năng mềm: Review code, hướng dẫn thành viên mới, phân rã công việc kỹ thuật.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C03",
+      "relevance": 1,
+      "rationale": "Frontend thực tế từ 2023-03 khoảng 3 năm 8 tháng, Next.js từ 2024-01 khoảng 2 năm 10 tháng; đều dưới ngưỡng. Có Redux và dự án thương mại điện tử nhưng thiếu bằng chứng Web Vitals và dẫn dắt. Tóm tắt 10 tháng Next.js lệch lịch sử nhưng cả hai cách vẫn dưới 3 năm.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J02-R01",
+          "section_id": "IT-J02-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty TNHH Phần mềm Đất Việt. Thời gian: từ 2024-01 đến nay. Mô tả: Phát triển giao diện sàn thương mại điện tử bằng Next.js và TypeScript. Sử dụng Redux Toolkit để quản lý giỏ hàng và dữ liệu tài khoản người dùng. Viết test case bằng Jest cho các hàm tiện ích và reducer.\n- Chức danh: Junior Frontend Developer tại Công ty Cổ phần Công nghệ An Nam. Thời gian: từ 2023-03 đến 2023-12. Mô tả: Lập trình các trang giới thiệu và bảng khảo sát trực tuyến bằng React.js và CSS3.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R02",
+          "section_id": "IT-J02-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty TNHH Phần mềm Đất Việt. Thời gian: từ 2024-01 đến nay. Mô tả: Phát triển giao diện sàn thương mại điện tử bằng Next.js và TypeScript. Sử dụng Redux Toolkit để quản lý giỏ hàng và dữ liệu tài khoản người dùng. Viết test case bằng Jest cho các hàm tiện ích và reducer.\n- Chức danh: Junior Frontend Developer tại Công ty Cổ phần Công nghệ An Nam. Thời gian: từ 2023-03 đến 2023-12. Mô tả: Lập trình các trang giới thiệu và bảng khảo sát trực tuyến bằng React.js và CSS3.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R03",
+          "section_id": "IT-J02-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty TNHH Phần mềm Đất Việt. Thời gian: từ 2024-01 đến nay. Mô tả: Phát triển giao diện sàn thương mại điện tử bằng Next.js và TypeScript. Sử dụng Redux Toolkit để quản lý giỏ hàng và dữ liệu tài khoản người dùng. Viết test case bằng Jest cho các hàm tiện ích và reducer.\n- Chức danh: Junior Frontend Developer tại Công ty Cổ phần Công nghệ An Nam. Thời gian: từ 2023-03 đến 2023-12. Mô tả: Lập trình các trang giới thiệu và bảng khảo sát trực tuyến bằng React.js và CSS3.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J02-R06: Chưa có bằng chứng đủ để xác nhận yêu cầu: Kỹ năng dẫn dắt kỹ thuật, review code và phân chia công việc cho thành viên trong nhóm."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C04",
+      "relevance": 2,
+      "rationale": "Có frontend React/Angular và dẫn nhóm, review, phân việc rõ. Không coi toàn bộ 6 năm fullstack là frontend chuyên sâu; chưa có Next.js hoặc tối ưu Web Vitals nên chưa mạnh cho vị trí này.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J02-R01",
+          "section_id": "IT-J02-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Phát triển Phần mềm (Fullstack Team Leader) tại Công ty Cổ phần Giải pháp Doanh nghiệp Tân Tiến. Thời gian: từ 2022-06 đến nay. Mô tả: Dẫn dắt nhóm 3 kỹ sư phát triển phần mềm ERP doanh nghiệp. Thiết kế kiến trúc phân hệ người dùng bằng React.js và Angular, phối hợp backend ASP.NET Core. Phân bổ công việc theo sprint, review mã nguồn và kiểm soát chất lượng kỹ thuật.\n- Chức danh: Kỹ sư Phần mềm tại Công ty TNHH Dịch vụ Công nghệ Quang Minh. Thời gian: từ 2020-04 đến 2022-05. Mô tả: Xây dựng hệ thống quản lý nhân sự bằng Angular và .NET Core.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R02",
+          "section_id": "IT-J02-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Phát triển Phần mềm (Fullstack Team Leader) tại Công ty Cổ phần Giải pháp Doanh nghiệp Tân Tiến. Thời gian: từ 2022-06 đến nay. Mô tả: Dẫn dắt nhóm 3 kỹ sư phát triển phần mềm ERP doanh nghiệp. Thiết kế kiến trúc phân hệ người dùng bằng React.js và Angular, phối hợp backend ASP.NET Core. Phân bổ công việc theo sprint, review mã nguồn và kiểm soát chất lượng kỹ thuật.\n- Chức danh: Kỹ sư Phần mềm tại Công ty TNHH Dịch vụ Công nghệ Quang Minh. Thời gian: từ 2020-04 đến 2022-05. Mô tả: Xây dựng hệ thống quản lý nhân sự bằng Angular và .NET Core.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R06",
+          "section_id": "IT-J02-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Phát triển Phần mềm (Fullstack Team Leader) tại Công ty Cổ phần Giải pháp Doanh nghiệp Tân Tiến. Thời gian: từ 2022-06 đến nay. Mô tả: Dẫn dắt nhóm 3 kỹ sư phát triển phần mềm ERP doanh nghiệp. Thiết kế kiến trúc phân hệ người dùng bằng React.js và Angular, phối hợp backend ASP.NET Core. Phân bổ công việc theo sprint, review mã nguồn và kiểm soát chất lượng kỹ thuật.\n- Chức danh: Kỹ sư Phần mềm tại Công ty TNHH Dịch vụ Công nghệ Quang Minh. Thời gian: từ 2020-04 đến 2022-05. Mô tả: Xây dựng hệ thống quản lý nhân sự bằng Angular và .NET Core.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J02-R03: Chưa có bằng chứng đủ để xác nhận yêu cầu: Thành thạo quản lý state phức tạp (Redux Toolkit, Zustand hoặc React Query) và tối ưu hóa hiệu năng render, Web Vitals."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C05",
+      "relevance": 2,
+      "rationale": "React/TypeScript và Redux Toolkit có lịch sử hơn 5 năm, tối ưu INP/LCP và hướng dẫn review rõ. Next.js chưa được chứng minh, là khoảng trống bắt buộc đáng kể; không phủ nhận năng lực chuyển đổi từ SPA.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J02-R01",
+          "section_id": "IT-J02-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Engineer tại Công ty Cổ phần Công nghệ Truyền thông VinaNet. Thời gian: từ 2022-01 đến nay. Mô tả: Thiết kế kiến trúc SPA cho nền tảng mạng xã hội và phân phối nội dung video bằng React.js và TypeScript. Quản lý trạng thái bằng Redux Toolkit. Tối ưu hóa chu kỳ re-render component, cải thiện chỉ số INP và LCP. Trực tiếp hướng dẫn và review code cho 4 kỹ sư trong nhóm.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Hiện Đại. Thời gian: từ 2021-03 đến 2021-12. Mô tả: Xây dựng giao diện ứng dụng quản lý quan hệ khách hàng bằng React.js và Redux. Viết unit test với Jest và React Testing Library.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R02",
+          "section_id": "IT-J02-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Engineer tại Công ty Cổ phần Công nghệ Truyền thông VinaNet. Thời gian: từ 2022-01 đến nay. Mô tả: Thiết kế kiến trúc SPA cho nền tảng mạng xã hội và phân phối nội dung video bằng React.js và TypeScript. Quản lý trạng thái bằng Redux Toolkit. Tối ưu hóa chu kỳ re-render component, cải thiện chỉ số INP và LCP. Trực tiếp hướng dẫn và review code cho 4 kỹ sư trong nhóm.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Hiện Đại. Thời gian: từ 2021-03 đến 2021-12. Mô tả: Xây dựng giao diện ứng dụng quản lý quan hệ khách hàng bằng React.js và Redux. Viết unit test với Jest và React Testing Library.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R03",
+          "section_id": "IT-J02-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Engineer tại Công ty Cổ phần Công nghệ Truyền thông VinaNet. Thời gian: từ 2022-01 đến nay. Mô tả: Thiết kế kiến trúc SPA cho nền tảng mạng xã hội và phân phối nội dung video bằng React.js và TypeScript. Quản lý trạng thái bằng Redux Toolkit. Tối ưu hóa chu kỳ re-render component, cải thiện chỉ số INP và LCP. Trực tiếp hướng dẫn và review code cho 4 kỹ sư trong nhóm.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Hiện Đại. Thời gian: từ 2021-03 đến 2021-12. Mô tả: Xây dựng giao diện ứng dụng quản lý quan hệ khách hàng bằng React.js và Redux. Viết unit test với Jest và React Testing Library.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R06",
+          "section_id": "IT-J02-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Engineer tại Công ty Cổ phần Công nghệ Truyền thông VinaNet. Thời gian: từ 2022-01 đến nay. Mô tả: Thiết kế kiến trúc SPA cho nền tảng mạng xã hội và phân phối nội dung video bằng React.js và TypeScript. Quản lý trạng thái bằng Redux Toolkit. Tối ưu hóa chu kỳ re-render component, cải thiện chỉ số INP và LCP. Trực tiếp hướng dẫn và review code cho 4 kỹ sư trong nhóm.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Hiện Đại. Thời gian: từ 2021-03 đến 2021-12. Mô tả: Xây dựng giao diện ứng dụng quản lý quan hệ khách hàng bằng React.js và Redux. Viết unit test với Jest và React Testing Library.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J02-R02: Chưa nêu kinh nghiệm Next.js.",
+        "IT-J02-R06: Chưa nêu trực tiếp phân chia công việc."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C06",
+      "relevance": 1,
+      "rationale": "React Native là kinh nghiệm liên quan nhưng không thay cho 5 năm web frontend. Web Next.js từ 2025-05 khoảng 18 tháng; Zustand có bằng chứng mobile, còn Web Vitals và dẫn dắt web chưa rõ. Nhiều khoảng trống trung tâm.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J02-R01",
+          "section_id": "IT-J02-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Mobile & Web tại Công ty Cổ phần Ứng dụng Di động Toàn Cầu. Thời gian: từ 2025-05 đến nay. Mô tả: Phát triển cổng web hỗ trợ khách hàng bằng Next.js và TypeScript, đồng thời duy trì codebase React Native cho ứng dụng di động.\n- Chức danh: Lập trình viên React Native tại Công ty TNHH Phát triển Ứng dụng Thông Minh. Thời gian: từ 2021-11 đến 2025-04. Mô tả: Xây dựng các tính năng ứng dụng di động thương mại điện tử bằng React Native và JavaScript. Quản lý trạng thái ứng dụng bằng Zustand.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R02",
+          "section_id": "IT-J02-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Mobile & Web tại Công ty Cổ phần Ứng dụng Di động Toàn Cầu. Thời gian: từ 2025-05 đến nay. Mô tả: Phát triển cổng web hỗ trợ khách hàng bằng Next.js và TypeScript, đồng thời duy trì codebase React Native cho ứng dụng di động.\n- Chức danh: Lập trình viên React Native tại Công ty TNHH Phát triển Ứng dụng Thông Minh. Thời gian: từ 2021-11 đến 2025-04. Mô tả: Xây dựng các tính năng ứng dụng di động thương mại điện tử bằng React Native và JavaScript. Quản lý trạng thái ứng dụng bằng Zustand.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R03",
+          "section_id": "IT-J02-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Mobile & Web tại Công ty Cổ phần Ứng dụng Di động Toàn Cầu. Thời gian: từ 2025-05 đến nay. Mô tả: Phát triển cổng web hỗ trợ khách hàng bằng Next.js và TypeScript, đồng thời duy trì codebase React Native cho ứng dụng di động.\n- Chức danh: Lập trình viên React Native tại Công ty TNHH Phát triển Ứng dụng Thông Minh. Thời gian: từ 2021-11 đến 2025-04. Mô tả: Xây dựng các tính năng ứng dụng di động thương mại điện tử bằng React Native và JavaScript. Quản lý trạng thái ứng dụng bằng Zustand.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J02-R06: Chưa có bằng chứng đủ để xác nhận yêu cầu: Kỹ năng dẫn dắt kỹ thuật, review code và phân chia công việc cho thành viên trong nhóm."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C07",
+      "relevance": 2,
+      "rationale": "Frontend từ 2021-08 đủ 5 năm, Next.js từ 2022-02 đủ 3 năm; có Component Library, review và chia nhiệm vụ. State chỉ mô tả cục bộ, chưa nêu tối ưu render/Web Vitals nên nhãn 2 tạm thời. Không có yêu cầu bằng đại học trong JD.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J02-R01",
+          "section_id": "IT-J02-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Phần mềm Doanh nghiệp CloudNext. Thời gian: từ 2022-02 đến nay. Mô tả: Xây dựng nền tảng SaaS quản lý dự án sử dụng Next.js và TypeScript. Thiết kế Component Library nội bộ gồm hơn 50 component tuân thủ Design System. Sử dụng Zustand quản lý state cục bộ. Thực hiện review code định kỳ và hỗ trợ phân chia nhiệm vụ cho 3 lập trình viên.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Giải pháp Đồ Họa Số. Thời gian: từ 2021-08 đến 2022-01. Mô tả: Phát triển giao diện web bán vé và sự kiện bằng React.js và Tailwind CSS.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R02",
+          "section_id": "IT-J02-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Phần mềm Doanh nghiệp CloudNext. Thời gian: từ 2022-02 đến nay. Mô tả: Xây dựng nền tảng SaaS quản lý dự án sử dụng Next.js và TypeScript. Thiết kế Component Library nội bộ gồm hơn 50 component tuân thủ Design System. Sử dụng Zustand quản lý state cục bộ. Thực hiện review code định kỳ và hỗ trợ phân chia nhiệm vụ cho 3 lập trình viên.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Giải pháp Đồ Họa Số. Thời gian: từ 2021-08 đến 2022-01. Mô tả: Phát triển giao diện web bán vé và sự kiện bằng React.js và Tailwind CSS.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J02-R03",
+          "section_id": "IT-J02-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Phần mềm Doanh nghiệp CloudNext. Thời gian: từ 2022-02 đến nay. Mô tả: Xây dựng nền tảng SaaS quản lý dự án sử dụng Next.js và TypeScript. Thiết kế Component Library nội bộ gồm hơn 50 component tuân thủ Design System. Sử dụng Zustand quản lý state cục bộ. Thực hiện review code định kỳ và hỗ trợ phân chia nhiệm vụ cho 3 lập trình viên.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Giải pháp Đồ Họa Số. Thời gian: từ 2021-08 đến 2022-01. Mô tả: Phát triển giao diện web bán vé và sự kiện bằng React.js và Tailwind CSS.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R06",
+          "section_id": "IT-J02-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Phần mềm Doanh nghiệp CloudNext. Thời gian: từ 2022-02 đến nay. Mô tả: Xây dựng nền tảng SaaS quản lý dự án sử dụng Next.js và TypeScript. Thiết kế Component Library nội bộ gồm hơn 50 component tuân thủ Design System. Sử dụng Zustand quản lý state cục bộ. Thực hiện review code định kỳ và hỗ trợ phân chia nhiệm vụ cho 3 lập trình viên.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Giải pháp Đồ Họa Số. Thời gian: từ 2021-08 đến 2022-01. Mô tả: Phát triển giao diện web bán vé và sự kiện bằng React.js và Tailwind CSS.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J02-R03: Chưa nêu tối ưu render và Web Vitals, hoặc mức phức tạp của state."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Cần làm rõ tối ưu hiệu năng/Web Vitals và state phức tạp; có thể đổi nhãn 2/3."
+      ]
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C08",
+      "relevance": 1,
+      "rationale": "Có React/Next.js và Redux cho portal; mốc hiện tại từ 2024-03 chỉ khoảng 2 năm 8 tháng, freelance không có ngày. Chưa chứng minh quy mô lớn, state phức tạp, Web Vitals hoặc dẫn dắt. Nhãn tạm thời vì lịch sử freelance chưa rõ.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J02-R01",
+          "section_id": "IT-J02-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty TNHH Truyền thông Số Lam Sơn. Thời gian: từ 2024-03 đến nay. Mô tả: Xây dựng các module trang web giới thiệu thương hiệu và danh mục sản phẩm sử dụng Next.js và React.js. Kết nối dữ liệu REST API và quản lý state bằng Redux Toolkit.\n- Chức danh: Lập trình viên Giao diện Web Tự do tại Nhóm Freelancer Web Studio. Thời gian: không nêu rõ ngày tháng bắt đầu và kết thúc. Mô tả: Thiết kế và cắt HTML/CSS, lập trình giao diện động bằng React.js cho các website bán hàng quy mô nhỏ.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R02",
+          "section_id": "IT-J02-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty TNHH Truyền thông Số Lam Sơn. Thời gian: từ 2024-03 đến nay. Mô tả: Xây dựng các module trang web giới thiệu thương hiệu và danh mục sản phẩm sử dụng Next.js và React.js. Kết nối dữ liệu REST API và quản lý state bằng Redux Toolkit.\n- Chức danh: Lập trình viên Giao diện Web Tự do tại Nhóm Freelancer Web Studio. Thời gian: không nêu rõ ngày tháng bắt đầu và kết thúc. Mô tả: Thiết kế và cắt HTML/CSS, lập trình giao diện động bằng React.js cho các website bán hàng quy mô nhỏ.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J02-R03",
+          "section_id": "IT-J02-C08-S04",
+          "quote": "Dự án:\n- Dự án Cổng Tin tức Doanh nghiệp LamSon Portal: Xây dựng website đọc báo nội bộ với Next.js và TypeScript, tối ưu tốc độ tải trang cơ bản.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J02-R01: Freelance thiếu ngày bắt đầu/kết thúc và trạng thái hiện tại; không xác định hợp thời gian đạt 5 năm.",
+        "IT-J02-R02: Chưa xác định 3 năm Next.js ở dự án quy mô lớn.",
+        "IT-J02-R06: Chưa có bằng chứng đủ để xác nhận yêu cầu: Kỹ năng dẫn dắt kỹ thuật, review code và phân chia công việc cho thành viên trong nhóm."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Cần ngày và phạm vi freelance để xác định thâm niên frontend liên quan (HR-SOURCE-005)."
+      ]
+    }
+  ]
+}

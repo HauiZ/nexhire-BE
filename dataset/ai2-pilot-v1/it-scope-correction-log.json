@@ -1,0 +1,205 @@
+{
+  "schema_version": "ai2-pilot-it-scope-correction-v1",
+  "correction_date": "2026-11-12",
+  "requested_model": "ag/gemini-3.8-flash",
+  "target_file": "dataset/ai2-pilot-v1/sources/it.json",
+  "reference_snapshot": "dataset/ai2-pilot-v1/snapshots/it-v2-reconstructed-exact.json",
+  "verification_source": "dataset/ai2-pilot-v1/flash-it-repair-verification.json",
+  "superseded_org_map_file": "dataset/ai2-pilot-v1/it-final-repair-org-map.json",
+  "scope_policy": "Narrow scope-enforcement restoration only. Restored unauthorized HR-SOURCE-002 summary deletion and unauthorized HR-SOURCE-007 cross_job_collision_repairs entries from snapshots/it-v2-reconstructed-exact.json. Preserved all approved repairs, descriptions, skills arrays, dates, other records, commercial files, old logs/mapping, and snapshot.",
+  "supersedes_mapping_entries": [
+    {
+      "org_map_section": "cross_job_collision_repairs",
+      "candidate_id": "IT-J09-C02",
+      "experience_id": "IT-J09-C02-E01",
+      "superseded_fictional_name": "Công ty Cổ phần Công nghệ Số Thành Tín",
+      "restored_original_name": "Công ty Cổ phần Công nghệ Số Thành Đạt",
+      "status": "superseded_and_reverted"
+    },
+    {
+      "org_map_section": "cross_job_collision_repairs",
+      "candidate_id": "IT-J09-C07",
+      "experience_id": "IT-J09-C07-E01",
+      "superseded_fictional_name": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Trẻ",
+      "restored_original_name": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới",
+      "status": "superseded_and_reverted"
+    },
+    {
+      "org_map_section": "cross_job_collision_repairs",
+      "candidate_id": "IT-J10-C07",
+      "experience_id": "IT-J10-C07-E01",
+      "superseded_fictional_name": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Số",
+      "restored_original_name": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới",
+      "status": "superseded_and_reverted"
+    },
+    {
+      "org_map_section": "cross_job_collision_repairs",
+      "candidate_id": "IT-J10-C03",
+      "experience_id": "IT-J10-C03-E01",
+      "superseded_fictional_name": "Công ty Cổ phần Công nghệ Mạng Tân Tiến",
+      "restored_original_name": "Công ty Cổ phần Công nghệ Mạng Đổi Mới",
+      "status": "superseded_and_reverted"
+    }
+  ],
+  "preserved_approved_repairs": [
+    {
+      "change_id": "IT-J04-C07-S01",
+      "candidate_id": "IT-J04-C07",
+      "rule": "HR-SOURCE-006",
+      "status": "preserved"
+    },
+    {
+      "change_id": "IT-J05-C02-E01",
+      "candidate_id": "IT-J05-C02",
+      "org_map_section": "brand_resemblance_repairs",
+      "preserved_name": "Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink",
+      "rule": "HR-SOURCE-007",
+      "status": "preserved"
+    },
+    {
+      "change_id": "IT-J06-C08-E01",
+      "candidate_id": "IT-J06-C08",
+      "org_map_section": "brand_resemblance_repairs",
+      "preserved_name": "Công ty Cổ phần Công nghệ Viễn Thông Số Sao Thiên Hà",
+      "rule": "HR-SOURCE-007",
+      "status": "preserved"
+    },
+    {
+      "change_id": "IT-J07-C01-E01",
+      "candidate_id": "IT-J07-C01",
+      "org_map_section": "brand_resemblance_repairs",
+      "preserved_name": "Công ty Cổ phần Công nghệ Thanh toán Quốc gia VietPayLink",
+      "rule": "HR-SOURCE-007",
+      "status": "preserved"
+    },
+    {
+      "change_id": "IT-J10-C04-E02",
+      "candidate_id": "IT-J10-C04",
+      "org_map_section": "educational_lab_employer_mapping",
+      "preserved_name": "Phòng Thí nghiệm Trí tuệ Nhân tạo AlphaLab",
+      "rule": "HR-SOURCE-007",
+      "status": "preserved"
+    }
+  ],
+  "corrections": [
+    {
+      "prior_change_id": "IT-J03-C05-S01",
+      "candidate_id": "IT-J03-C05",
+      "touched_ids": [
+        "IT-J03-C05",
+        "IT-J03-C05-S01"
+      ],
+      "rule_enforced": "HR-SOURCE-002",
+      "reason": "HR-SOURCE-002 enforcement: restored factual graduation/career-stage context ('mới tốt nghiệp') in summary section IT-J03-C05-S01 and cv_text; HR-SOURCE-002 addresses regional accent/discriminatory criteria and does not authorize removing recent-graduate career stage.",
+      "paths_restored": [
+        "/jobs/2/candidates/4/cv_text",
+        "/jobs/2/candidates/4/sections/0/text"
+      ],
+      "before": {
+        "section_text": "Tóm lược: Kỹ sư Dữ liệu có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Python, Pandas và SQL. Đã tham gia viết kịch bản trích xuất dữ liệu từ các API bên thứ ba nạp vào cơ sở dữ liệu MySQL và tìm hiểu cơ bản về Apache Spark."
+      },
+      "after": {
+        "section_text": "Tóm lược: Kỹ sư Dữ liệu mới tốt nghiệp có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Python, Pandas và SQL. Đã tham gia viết kịch bản trích xuất dữ liệu từ các API bên thứ ba nạp vào cơ sở dữ liệu MySQL và tìm hiểu cơ bản về Apache Spark."
+      },
+      "cv_text_join_verified": true
+    },
+    {
+      "prior_change_id": "IT-J09-C02-E01",
+      "candidate_id": "IT-J09-C02",
+      "touched_ids": [
+        "IT-J09-C02",
+        "IT-J09-C02-S03",
+        "IT-J09-C02-S04",
+        "IT-J09-C02-E01",
+        "IT-J09-C02-P01"
+      ],
+      "rule_enforced": "HR-SOURCE-007",
+      "reason": "HR-SOURCE-007 enforcement: superseded unauthorized cross_job_collision_repairs entry for IT-J09-C02-E01 and restored original employer and associated project name consistently across cv_text, sections, experiences, and projects. Repeated employer across CVs (with IT-J07-C07) is legitimate, not a duplication defect.",
+      "paths_restored": [
+        "/jobs/8/candidates/1/cv_text",
+        "/jobs/8/candidates/1/sections/2/text",
+        "/jobs/8/candidates/1/sections/3/text",
+        "/jobs/8/candidates/1/experiences/0/company",
+        "/jobs/8/candidates/1/projects/0/name"
+      ],
+      "before": {
+        "company": "Công ty Cổ phần Công nghệ Số Thành Tín",
+        "project_name": "Hệ thống Quản trị Bán buôn Thành Tín B2B"
+      },
+      "after": {
+        "company": "Công ty Cổ phần Công nghệ Số Thành Đạt",
+        "project_name": "Hệ thống Quản trị Bán buôn Thành Đạt B2B"
+      },
+      "cv_text_join_verified": true
+    },
+    {
+      "prior_change_id": "IT-J09-C07-E01",
+      "candidate_id": "IT-J09-C07",
+      "touched_ids": [
+        "IT-J09-C07",
+        "IT-J09-C07-S03",
+        "IT-J09-C07-E01"
+      ],
+      "rule_enforced": "HR-SOURCE-007",
+      "reason": "HR-SOURCE-007 enforcement: superseded unauthorized cross_job_collision_repairs entry for IT-J09-C07-E01 and restored original employer name consistently across cv_text, sections, and experiences. Eliminated inconsistent three-way split of shared employer 'Nhịp Điệu Mới' across IT-J08-C07, IT-J09-C07, and IT-J10-C07; repeated employer across CVs is legitimate.",
+      "paths_restored": [
+        "/jobs/8/candidates/6/cv_text",
+        "/jobs/8/candidates/6/sections/2/text",
+        "/jobs/8/candidates/6/experiences/0/company"
+      ],
+      "before": {
+        "company": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Trẻ"
+      },
+      "after": {
+        "company": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới"
+      },
+      "cv_text_join_verified": true
+    },
+    {
+      "prior_change_id": "IT-J10-C03-E01",
+      "candidate_id": "IT-J10-C03",
+      "touched_ids": [
+        "IT-J10-C03",
+        "IT-J10-C03-S03",
+        "IT-J10-C03-E01"
+      ],
+      "rule_enforced": "HR-SOURCE-007",
+      "reason": "HR-SOURCE-007 enforcement: superseded unauthorized cross_job_collision_repairs entry for IT-J10-C03-E01 and restored original employer name consistently across cv_text, sections, and experiences. Eliminated unauthorized split from IT-J05-C07 and removed the introduced same-job 'Tân Tiến' overlap with IT-J10-C08-E01; repeated employer across CVs is legitimate.",
+      "paths_restored": [
+        "/jobs/9/candidates/2/cv_text",
+        "/jobs/9/candidates/2/sections/2/text",
+        "/jobs/9/candidates/2/experiences/0/company"
+      ],
+      "before": {
+        "company": "Công ty Cổ phần Công nghệ Mạng Tân Tiến"
+      },
+      "after": {
+        "company": "Công ty Cổ phần Công nghệ Mạng Đổi Mới"
+      },
+      "cv_text_join_verified": true
+    },
+    {
+      "prior_change_id": "IT-J10-C07-E01",
+      "candidate_id": "IT-J10-C07",
+      "touched_ids": [
+        "IT-J10-C07",
+        "IT-J10-C07-S03",
+        "IT-J10-C07-E01"
+      ],
+      "rule_enforced": "HR-SOURCE-007",
+      "reason": "HR-SOURCE-007 enforcement: superseded unauthorized cross_job_collision_repairs entry for IT-J10-C07-E01 and restored original employer name consistently across cv_text, sections, and experiences. Eliminated inconsistent three-way split of shared employer 'Nhịp Điệu Mới' across IT-J08-C07, IT-J09-C07, and IT-J10-C07; repeated employer across CVs is legitimate.",
+      "paths_restored": [
+        "/jobs/9/candidates/6/cv_text",
+        "/jobs/9/candidates/6/sections/2/text",
+        "/jobs/9/candidates/6/experiences/0/company"
+      ],
+      "before": {
+        "company": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Số"
+      },
+      "after": {
+        "company": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới"
+      },
+      "cv_text_join_verified": true
+    }
+  ]
+}

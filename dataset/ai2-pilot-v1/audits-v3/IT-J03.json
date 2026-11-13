@@ -1,0 +1,49 @@
+{
+  "blocking_issues": [],
+  "source_acceptance": "accepted",
+  "verified_candidate_count": 8,
+  "limitations_noted": [
+    "Development pilot only (HR-SOURCE-009): recurring candidate-index scenario/template patterns (e.g., C01 stack-complete, C05 junior, C07 missing dates); exclude candidate IDs and ordering from features and labels, with no held-out generalization claim.",
+    "Presence-only skills and skills_used arrays omit proficiency and learning qualifiers present in CV text (C01 'Scala cơ bản', C03 'Apache Airflow (cơ bản)', C05 'PostgreSQL (cơ bản)', 'Apache Spark (cơ bản)', and E01 'Tìm hiểu áp dụng Apache Spark'); downstream labelers must read source prose rather than infer production mastery.",
+    "Retained summary-vs-chronology tenure ambiguities (HR-SOURCE-008) in C01 (42m summary vs ~44m current role + 9m prior), C03 (42m specialized SQL/DW summary vs ~45m current role + 20m prior), C05 (14m summary vs ~16m current role + 5m internship), and narrower/current-role-aligned summaries in C04 and C06; escalate label-material duration scope to human review.",
+    "Unstated date range and null is_current in IT-J03-C07-E02 (HR-SOURCE-005) leave employment duration and current status unknown for annotation; missing evidence must remain unknown rather than confirmed absence.",
+    "Synthetic fictional company names and corpus-wide duplicate/near-duplicate checks were not independently verified against external registries in this single-job audit."
+  ],
+  "job_id": "IT-J03",
+  "resolved_historical_issues": [
+    {
+      "issue_summary": "IT-J03-C04-E01 skills_used previously attributed unsupported 'PySpark' from second role (E02); repaired under HR-SOURCE-003 by removing 'PySpark' from E01 while retaining supported 'Apache Spark', 'Apache Airflow', 'Kafka', 'PostgreSQL'.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J03-C03-P01 technologies_or_methods previously included unsupported 'SQL'; repaired under HR-SOURCE-003 by removing 'SQL' and retaining explicitly cited 'PostgreSQL' and 'Power BI'."
+    },
+    {
+      "issue_summary": "IT-J03-C07-E02 previously inferred is_current=false from unstated dates ('không nêu ngày tháng bắt đầu và kết thúc cụ thể'); repaired under HR-SOURCE-005 by setting is_current to null alongside null dates.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J03-C01 summary states '3 năm 6 tháng' (42 months) while current role E01 alone spans 2023-03 to reference date 2026-11-10 (~44 months) plus prior E02 (9 months); preserved verbatim under HR-SOURCE-008 for human-review flagging if label-material.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J03-C03 summary states '3 năm 6 tháng' specialized SQL/Data Warehouse experience vs current role E01 starting 2023-02 (~45 months) and prior E02 (20 months); preserved verbatim under HR-SOURCE-008 for downstream human review.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J03-C05 summary states '1 năm 2 tháng' (14 months) practical experience vs current role E01 starting 2025-07 (~16 months) plus 5-month internship E02; preserved verbatim under HR-SOURCE-008 for downstream human review.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "Recurring candidate-index scenario/template patterns across jobs (C01 full-stack match, C05 junior, C07 missing dates) retained for development-only pilot under HR-SOURCE-009.",
+      "disposition": "accepted_limitation"
+    },
+    {
+      "issue_summary": "Basic/learning skill qualifiers ('cơ bản' in C01/C03/C05; 'Tìm hiểu áp dụng Apache Spark' in C05-E01) remain verbatim in prose/descriptions while omitted from presence-only skill arrays; retained with downstream anti-mastery-inference warning.",
+      "disposition": "accepted_limitation"
+    }
+  ],
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

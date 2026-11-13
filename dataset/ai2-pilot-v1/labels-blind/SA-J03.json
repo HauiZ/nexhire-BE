@@ -1,0 +1,300 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "blind_review",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C01",
+      "relevance": 3,
+      "rationale": "Thiết bị y tế từ 2019-07 hơn 7 năm, quản lý từ 2023-02 vượt 2 năm. Đấu thầu công, kế hoạch vùng/đào tạo và bằng Y sinh rõ; không dùng danh tiếng trường.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J03-R01",
+          "section_id": "SA-J03-C01-SEC-EXP",
+          "quote": "Quá trình làm việc:\nTrưởng phòng Kinh doanh Thiết bị Y tế tại Công ty Cổ phần Thiết Bị Y Tế Tân Bình\nThời gian: Từ 2023-02 đến nay (đang phụ trách)\n- Lãnh đạo phòng kinh doanh gồm 8 nhân sự, chịu trách nhiệm doanh số khu vực từ Hà Tĩnh trở ra Bắc với chỉ tiêu 85 tỷ đồng/năm.\n- Trực tiếp chỉ đạo tham gia và trúng 14 gói thầu mua sắm máy chụp X-quang kỹ thuật số và hệ thống siêu âm màu tại các bệnh viện đa khoa tỉnh Phú Thọ, Quảng Ninh và Hải Phòng.\n- Thường xuyên trao đổi với đại diện các hãng sản xuất tại Đức và Hàn Quốc bằng tiếng Anh về thông số kỹ thuật và chính sách bảo hành ủy quyền.\n- Huấn luyện nội bộ định kỳ hàng quý về kỹ năng bảo vệ kỹ thuật trong hồ sơ thầu cho nhân viên kinh doanh.\n\nKỹ sư Bán hàng Thiết bị Y tế Cấp cao tại Công ty TNHH Kỹ Thuật Y Khoa Phương Bắc\nThời gian: Từ 2019-07 đến 2023-01\n- Tư vấn kỹ thuật và chào giá các dòng máy đo điện tim và máy theo dõi bệnh nhân cho các phòng mổ và khoa xét nghiệm.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R02",
+          "section_id": "SA-J03-C01-SEC-SKILL",
+          "quote": "Năng lực quản lý và chuyên môn:\n- Xây dựng chiến lược phân phối và phân bổ KPI doanh số vùng miền Bắc\n- Quản lý, tuyển dụng và đào tạo chuyên môn cho đội ngũ 8 kỹ sư bán hàng y tế\n- Soạn thảo và thẩm định hồ sơ thầu y tế công lập theo Luật Đấu thầu\n- Thiết lập quan hệ với ban giám đốc và trưởng khoa chẩn đoán hình ảnh bệnh viện\n- Đàm phán phân phối độc quyền và làm việc trực tiếp với hãng sản xuất thiết bị quốc tế bằng tiếng Anh",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R03",
+          "section_id": "SA-J03-C01-SEC-EDU",
+          "quote": "Trình độ học vấn:\n- Kỹ sư ngành Kỹ thuật Y sinh, Trường Đại học Bách Khoa Hà Nội",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R04",
+          "section_id": "SA-J03-C01-SEC-SKILL",
+          "quote": "Năng lực quản lý và chuyên môn:\n- Xây dựng chiến lược phân phối và phân bổ KPI doanh số vùng miền Bắc\n- Quản lý, tuyển dụng và đào tạo chuyên môn cho đội ngũ 8 kỹ sư bán hàng y tế\n- Soạn thảo và thẩm định hồ sơ thầu y tế công lập theo Luật Đấu thầu\n- Thiết lập quan hệ với ban giám đốc và trưởng khoa chẩn đoán hình ảnh bệnh viện\n- Đàm phán phân phối độc quyền và làm việc trực tiếp với hãng sản xuất thiết bị quốc tế bằng tiếng Anh",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C02",
+      "relevance": 3,
+      "rationale": "Thiết bị/vật tư bệnh viện từ 2020-09 hơn 6 năm, trưởng nhóm từ 2024-06 khoảng 29 tháng. Có hồ sơ thầu, kế hoạch vùng/doanh số/đào tạo và bằng Dược đúng yêu cầu.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J03-R01",
+          "section_id": "SA-J03-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrưởng nhóm Kinh doanh Bệnh viện tại Công ty TNHH Dược Phẩm & Y Tế Khang Thịnh\nThời gian: Từ 2024-06 đến nay (đang công tác)\n- Quản lý nhóm 5 chuyên viên phụ trách cung cấp máy đo khí máu và vật tư can thiệp tim mạch cho 18 bệnh viện công lập miền Bắc.\n- Lên kế hoạch doanh số từng quý, phân công địa bàn phụ trách và giám sát chặt chẽ tiến độ nộp hồ sơ thầu qua mạng.\n- Tham gia cùng ban giám đốc đàm phán hợp đồng thầu trị giá 42 tỷ đồng tại bệnh viện tuyến trung ương.\n- Tổ chức các buổi chia sẻ cập nhật thông tư đấu thầu mới cho nhân viên trong phòng.\n\nChuyên viên Đấu thầu và Kinh doanh Thiết bị tại Công ty Cổ phần Y Dược Hà Thành\nThời gian: Từ 2020-09 đến 2024-05\n- Chuẩn bị năng lực hồ sơ thầu, bảng chào giá và giấy ủy quyền hãng sản xuất cho các gói thầu trang thiết bị nội soi và phẫu thuật.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R02",
+          "section_id": "SA-J03-C02-SEC-SKILL",
+          "quote": "Kỹ năng chủ chốt:\n- Quản lý đội ngũ kinh doanh thiết bị và vật tư y tế bệnh viện\n- Nghiệp vụ lập hồ sơ dự thầu y tế tuân thủ Luật Đấu thầu\n- Đào tạo sản phẩm y khoa và kỹ năng chào hàng cho sales\n- Thiết lập quan hệ với khoa Dược và phòng Vật tư Thiết bị Y tế\n- Tiếng Anh giao tiếp thương mại và đọc tài liệu kỹ thuật",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R03",
+          "section_id": "SA-J03-C02-SEC-EDU",
+          "quote": "Học vấn:\n- Dược sĩ Đại học (Cử nhân Dược học), Trường Đại học Dược Hà Nội",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R04",
+          "section_id": "SA-J03-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrưởng nhóm Kinh doanh Bệnh viện tại Công ty TNHH Dược Phẩm & Y Tế Khang Thịnh\nThời gian: Từ 2024-06 đến nay (đang công tác)\n- Quản lý nhóm 5 chuyên viên phụ trách cung cấp máy đo khí máu và vật tư can thiệp tim mạch cho 18 bệnh viện công lập miền Bắc.\n- Lên kế hoạch doanh số từng quý, phân công địa bàn phụ trách và giám sát chặt chẽ tiến độ nộp hồ sơ thầu qua mạng.\n- Tham gia cùng ban giám đốc đàm phán hợp đồng thầu trị giá 42 tỷ đồng tại bệnh viện tuyến trung ương.\n- Tổ chức các buổi chia sẻ cập nhật thông tư đấu thầu mới cho nhân viên trong phòng.\n\nChuyên viên Đấu thầu và Kinh doanh Thiết bị tại Công ty Cổ phần Y Dược Hà Thành\nThời gian: Từ 2020-09 đến 2024-05\n- Chuẩn bị năng lực hồ sơ thầu, bảng chào giá và giấy ủy quyền hãng sản xuất cho các gói thầu trang thiết bị nội soi và phẫu thuật.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C03",
+      "relevance": 2,
+      "rationale": "Bán thiết bị, đấu thầu và bằng Y sinh rõ nhưng sales từ 2022-11 khoảng 4 năm, trước đó bảo trì không phải sales; chưa có quản lý đội hai năm hoặc chiến lược vùng/phân bổ/huấn luyện sales.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J03-R01",
+          "section_id": "SA-J03-C03-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Kinh doanh Thiết bị Y tế tại Công ty Cổ phần Thiết Bị Y Khoa Phương Đông\nThời gian: Từ 2022-11 đến nay (đang làm việc)\n- Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\n- Hoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\n- Tiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\n- Tự lập kế hoạch kinh doanh cá nhân.\n\nKỹ sư Hỗ trợ Kỹ thuật Thiết bị Y tế tại Công ty TNHH Thiết Bị Nam Cường\nThời gian: Từ 2021-06 đến 2022-10\n- Lắp đặt, chạy thử và bảo trì định kỳ máy đo loãng xương và máy X-quang răng hàm mặt.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J03-R02",
+          "section_id": "SA-J03-C03-SEC-SKILL",
+          "quote": "Kỹ năng nghề nghiệp:\n- Bán hàng kỹ thuật thiết bị y tế (Medical Device Sales Specialist)\n- Xây dựng hồ sơ dự thầu và giải trình kỹ thuật thầu theo Luật Đấu thầu\n- Hướng dẫn vận hành thiết bị siêu âm cho y bác sĩ chuyên khoa\n- Mạng lưới liên hệ với các trưởng khoa thăm dò chức năng và chẩn đoán hình ảnh tại Hà Nội\n- Tiếng Anh giao tiếp và đọc hiểu tài liệu sản phẩm hãng",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R03",
+          "section_id": "SA-J03-C03-SEC-EDU",
+          "quote": "Học vấn:\n- Cử nhân ngành Kỹ thuật Y sinh, Trường Đại học Bách Khoa Hà Nội",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R04",
+          "section_id": "SA-J03-C03-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Kinh doanh Thiết bị Y tế tại Công ty Cổ phần Thiết Bị Y Khoa Phương Đông\nThời gian: Từ 2022-11 đến nay (đang làm việc)\n- Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\n- Hoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\n- Tiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\n- Tự lập kế hoạch kinh doanh cá nhân.\n\nKỹ sư Hỗ trợ Kỹ thuật Thiết bị Y tế tại Công ty TNHH Thiết Bị Nam Cường\nThời gian: Từ 2021-06 đến 2022-10\n- Lắp đặt, chạy thử và bảo trì định kỳ máy đo loãng xương và máy X-quang răng hàm mặt.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J03-R01: Chưa có 2 năm quản lý sales và chưa đủ 5 năm bán thiết bị.",
+        "SA-J03-R04: Kế hoạch cá nhân chưa chứng minh chiến lược vùng và quản lý/đào tạo đội."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C04",
+      "relevance": 1,
+      "rationale": "Quản lý B2B, thầu thiết bị phân tích và kế hoạch/đào tạo có tính chuyển đổi. Khách viện trường/R&D không chứng minh 5 năm thiết bị bệnh viện hoặc đấu thầu y tế; bằng Hóa học không thuộc ngành JD nêu.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J03-R01",
+          "section_id": "SA-J03-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrưởng phòng Kinh doanh Thiết bị Thí nghiệm tại Công ty Cổ phần Hóa Chất & Phân Tích Việt Nam\nThời gian: Từ 2024-01 đến nay (đang công tác)\n- Quản lý 6 nhân viên kinh doanh, phân bổ chỉ tiêu 50 tỷ đồng mỗi năm cho thị trường các viện nghiên cứu, trường đại học kỹ thuật và trung tâm quan trắc môi trường phía Bắc.\n- Lãnh đạo chuẩn bị hồ sơ tham gia đấu thầu các hệ thống sắc ký khí (GC), quang phổ hấp thụ nguyên tử (AAS).\n- Làm việc trực tiếp với các chuyên gia kỹ thuật hãng từ Tokyo và Basel bằng tiếng Anh.\n\nChuyên viên Kinh doanh Thiết bị Đo lường tại Công ty TNHH Thiết Bị Đo Chuẩn An Nam\nThời gian: Từ 2020-04 đến 2023-12\n- Chào bán máy đo độ ẩm, kính hiển vi điện tử và cân phân tích cho các nhà máy dược phẩm và phòng R&D thực phẩm.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J03-R02",
+          "section_id": "SA-J03-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrưởng phòng Kinh doanh Thiết bị Thí nghiệm tại Công ty Cổ phần Hóa Chất & Phân Tích Việt Nam\nThời gian: Từ 2024-01 đến nay (đang công tác)\n- Quản lý 6 nhân viên kinh doanh, phân bổ chỉ tiêu 50 tỷ đồng mỗi năm cho thị trường các viện nghiên cứu, trường đại học kỹ thuật và trung tâm quan trắc môi trường phía Bắc.\n- Lãnh đạo chuẩn bị hồ sơ tham gia đấu thầu các hệ thống sắc ký khí (GC), quang phổ hấp thụ nguyên tử (AAS).\n- Làm việc trực tiếp với các chuyên gia kỹ thuật hãng từ Tokyo và Basel bằng tiếng Anh.\n\nChuyên viên Kinh doanh Thiết bị Đo lường tại Công ty TNHH Thiết Bị Đo Chuẩn An Nam\nThời gian: Từ 2020-04 đến 2023-12\n- Chào bán máy đo độ ẩm, kính hiển vi điện tử và cân phân tích cho các nhà máy dược phẩm và phòng R&D thực phẩm.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J03-R03",
+          "section_id": "SA-J03-C04-SEC-EDU",
+          "quote": "Học vấn:\n- Cử nhân ngành Hóa học Phân tích, Trường Đại học Khoa học Tự nhiên - ĐHQGHN",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J03-R04",
+          "section_id": "SA-J03-C04-SEC-SKILL",
+          "quote": "Kỹ năng quản trị và chuyên môn:\n- Quản lý đội ngũ kinh doanh thiết bị phòng thí nghiệm B2B\n- Hoạch định kế hoạch kinh doanh và phân chia doanh số hàng năm\n- Soạn thảo hồ sơ đấu thầu mua sắm thiết bị phân tích công lập\n- Đào tạo nghiệp vụ bán hàng thiết bị kỹ thuật cho nhân sự mới\n- Tiếng Anh làm việc với các nhà cung cấp thiết bị từ Nhật Bản và Thụy Sỹ",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "SA-J03-R01: Chưa chứng minh thiết bị/vật tư bệnh viện 5 năm.",
+        "SA-J03-R02: Chưa có đấu thầu y tế và mua sắm bệnh viện.",
+        "SA-J03-R03: Chỉ ghi bằng Hóa học Phân tích, chưa có bằng thuộc ngành yêu cầu."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C05",
+      "relevance": 3,
+      "rationale": "Thiết bị hình ảnh và quản lý kinh doanh từ 2016 đủ xa hai ngưỡng; đấu thầu công, chiến lược toàn quốc và bằng Y khoa rõ. Chức danh giám đốc không phải lý do hạ mức hoặc suy diễn kỳ vọng lương.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J03-R01",
+          "section_id": "SA-J03-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nGiám đốc Kinh doanh Vùng Miền Bắc tại Tập Đoàn Y Tế An Sinh\nThời gian: Từ 2021-05 đến nay (đang đảm nhiệm)\n- Điều hành 3 phòng kinh doanh với tổng số 24 cán bộ nhân viên, chịu trách nhiệm doanh số 220 tỷ đồng/năm cho mảng máy cộng hưởng từ MRI và hệ thống CT Scanner.\n- Trực tiếp làm việc với lãnh đạo các bệnh viện trung ương tuyến cuối tại Hà Nội để xây dựng phương án hợp tác lắp đặt thiết bị theo hình thức xã hội hóa y tế và đấu thầu công.\n- Đàm phán các hợp đồng nhập khẩu chính hãng với các tập đoàn y tế hàng đầu tại Hoa Kỳ và Nhật Bản.\n\nTrưởng phòng Kinh doanh Thiết bị Hình ảnh tại Công ty Cổ phần Y Dược Thăng Long\nThời gian: Từ 2016-03 đến 2021-04\n- Quản lý đội ngũ 10 nhân sự kinh doanh và kỹ sư lâm sàng phụ trách phân phối máy siêu âm 4D.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R02",
+          "section_id": "SA-J03-C05-SEC-SKILL",
+          "quote": "Năng lực lãnh đạo:\n- Hoạch định chiến lược kinh doanh toàn quốc và điều hành khối kinh doanh quy mô trên 25 người\n- Quan hệ cấp cao với ban giám đốc các bệnh viện tuyến đầu trung ương\n- Thẩm định hồ sơ dự thầu các dự án ODA và vốn ngân sách nhà nước theo Luật Đấu thầu\n- Quản trị chuỗi cung ứng và thỏa thuận nhà phân phối độc quyền quốc tế\n- Tiếng Anh y khoa và thương mại cấp độ chuyên gia",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R03",
+          "section_id": "SA-J03-C05-SEC-EDU",
+          "quote": "Học vấn:\n- Bác sĩ Đa khoa (Bằng Bác sĩ Y khoa), Trường Đại học Y Hà Nội",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R04",
+          "section_id": "SA-J03-C05-SEC-SKILL",
+          "quote": "Năng lực lãnh đạo:\n- Hoạch định chiến lược kinh doanh toàn quốc và điều hành khối kinh doanh quy mô trên 25 người\n- Quan hệ cấp cao với ban giám đốc các bệnh viện tuyến đầu trung ương\n- Thẩm định hồ sơ dự thầu các dự án ODA và vốn ngân sách nhà nước theo Luật Đấu thầu\n- Quản trị chuỗi cung ứng và thỏa thuận nhà phân phối độc quyền quốc tế\n- Tiếng Anh y khoa và thương mại cấp độ chuyên gia",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C06",
+      "relevance": 1,
+      "rationale": "ETC bệnh viện và theo dõi thầu thuốc chuyển đổi một phần, bằng Dược đúng. Chưa có sales thiết bị/vật tư 5 năm, quản lý đội hoặc xây hồ sơ thầu thiết bị/chiến lược vùng.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J03-R01",
+          "section_id": "SA-J03-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrình Dược Viên Kênh Bệnh Viện ETC tại Công ty Cổ phần Dược Phẩm Lam Hà\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Phụ trách giới thiệu danh mục thuốc tim mạch và hạ huyết áp tại 6 bệnh viện quận/huyện tại Hà Nội.\n- Theo dõi số lượng sử dụng theo kết quả trúng thầu của gói thầu thuốc sở y tế, đôn đốc bệnh viện gửi đơn đặt hàng đúng tiến độ.\n\nTrình Dược Viên OTC tại Công ty TNHH Dược Phẩm Phúc An Khang\nThời gian: Từ 2022-04 đến 2023-07\n- Chào bán thực phẩm chức năng và thuốc không kê đơn cho 50 nhà thuốc bán lẻ tại quận Đống Đa.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J03-R02",
+          "section_id": "SA-J03-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrình Dược Viên Kênh Bệnh Viện ETC tại Công ty Cổ phần Dược Phẩm Lam Hà\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Phụ trách giới thiệu danh mục thuốc tim mạch và hạ huyết áp tại 6 bệnh viện quận/huyện tại Hà Nội.\n- Theo dõi số lượng sử dụng theo kết quả trúng thầu của gói thầu thuốc sở y tế, đôn đốc bệnh viện gửi đơn đặt hàng đúng tiến độ.\n\nTrình Dược Viên OTC tại Công ty TNHH Dược Phẩm Phúc An Khang\nThời gian: Từ 2022-04 đến 2023-07\n- Chào bán thực phẩm chức năng và thuốc không kê đơn cho 50 nhà thuốc bán lẻ tại quận Đống Đa.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J03-R03",
+          "section_id": "SA-J03-C06-SEC-EDU",
+          "quote": "Học vấn:\n- Cử nhân ngành Dược học, Trường Đại học Y Dược - Đại học Quốc gia Hà Nội",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "SA-J03-R04: Chưa có chiến lược vùng, phân bổ KPI và huấn luyện sales.",
+        "SA-J03-R01: Chưa chứng minh quản lý sales 2 năm hoặc thiết bị/vật tư bệnh viện 5 năm."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C07",
+      "relevance": 2,
+      "rationale": "Quản lý thiết bị từ 2024-04 hơn 2 năm, có thầu công, KPI vùng/huấn luyện và bằng Quản trị. Tóm tắt 5 năm chưa được niên biểu trước đây xác nhận ngày; dùng nhãn tạm thời thay vì coi thời gian thiếu là không có.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J03-R01",
+          "section_id": "SA-J03-C07-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nTrưởng nhóm Bán hàng Thiết bị Y tế tại Công ty Cổ phần Y Thiết Bị Thăng Long\nThời gian: Từ 2024-04 đến nay (đang phụ trách)\n- Quản lý 4 chuyên viên kinh doanh thiết bị phòng mổ và hồi sức cấp cứu.\n- Xây dựng chỉ tiêu doanh số năm 35 tỷ đồng cho thị trường Bắc Ninh, Vĩnh Phúc và Hưng Yên.\n- Tham gia cùng phòng đấu thầu nộp hồ sơ và trúng 5 gói thầu mua sắm đèn mổ và bàn mổ thủy lực tại các bệnh viện huyện.\n- Thường xuyên hướng dẫn nhân viên mới về thủ tục lập dự toán giá và thu thập cấu hình thiết bị y tế.\n\nChuyên viên Kinh doanh Thiết bị Y tế tại Công ty TNHH Trang Thiết Bị Y Tế Hùng Vương\nThời gian: (thời gian làm việc trước đây, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Chào bán máy đo điện tim và máy thở xách tay cho các trung tâm y tế dự phòng.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J03-R02",
+          "section_id": "SA-J03-C07-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Quản lý nhóm nhân viên kinh doanh thiết bị y tế\n- Lập hồ sơ chào giá cạnh tranh và hồ sơ dự thầu y tế công lập theo Luật Đấu thầu\n- Xây dựng chỉ tiêu bán hàng và đào tạo phương pháp chào hàng bệnh viện\n- Kỹ năng duy trì quan hệ với hội đồng mua sắm bệnh viện\n- Tiếng Anh đọc tài liệu thông số kỹ thuật thiết bị",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R03",
+          "section_id": "SA-J03-C07-SEC-EDU",
+          "quote": "Trình độ học vấn:\n- Cử nhân ngành Quản trị Kinh doanh, Trường Đại học Kinh tế Quốc dân",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R04",
+          "section_id": "SA-J03-C07-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nTrưởng nhóm Bán hàng Thiết bị Y tế tại Công ty Cổ phần Y Thiết Bị Thăng Long\nThời gian: Từ 2024-04 đến nay (đang phụ trách)\n- Quản lý 4 chuyên viên kinh doanh thiết bị phòng mổ và hồi sức cấp cứu.\n- Xây dựng chỉ tiêu doanh số năm 35 tỷ đồng cho thị trường Bắc Ninh, Vĩnh Phúc và Hưng Yên.\n- Tham gia cùng phòng đấu thầu nộp hồ sơ và trúng 5 gói thầu mua sắm đèn mổ và bàn mổ thủy lực tại các bệnh viện huyện.\n- Thường xuyên hướng dẫn nhân viên mới về thủ tục lập dự toán giá và thu thập cấu hình thiết bị y tế.\n\nChuyên viên Kinh doanh Thiết bị Y tế tại Công ty TNHH Trang Thiết Bị Y Tế Hùng Vương\nThời gian: (thời gian làm việc trước đây, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Chào bán máy đo điện tim và máy thở xách tay cho các trung tâm y tế dự phòng.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "SA-J03-R01: Vai trò trước thiếu ngày bắt đầu/kết thúc; cần xác định hợp thời gian không chồng lấn để kiểm tra 5 năm."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Ngưỡng 5 năm sales phụ thuộc vai trò không ngày; có thể đổi mức 2/3."
+      ]
+    },
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C08",
+      "relevance": 1,
+      "rationale": "Ứng dụng lâm sàng, hỗ trợ hồ sơ kỹ thuật thầu và bằng Y sinh phù hợp một phần. Không quy thời gian ứng dụng thành kinh doanh hoặc đào tạo chuyên môn thành quản lý sales hai năm; chưa có chiến lược/KPI vùng.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J03-R01",
+          "section_id": "SA-J03-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Ứng dụng Lâm sàng Cấp cao tại Công ty TNHH Giải Pháp Y Học Tiên Tiến\nThời gian: Từ 2023-01 đến nay (đang làm việc)\n- Trực tiếp tiếp nhận đào tạo chuyển giao công nghệ mới từ các chuyên gia của hãng tại Nhật Bản bằng tiếng Anh.\n- Hướng dẫn vận hành hệ thống CT 128 dãy cho hơn 40 bác sĩ và kỹ thuật viên hình ảnh tại Bệnh viện Đa khoa Trung tâm 1, Bệnh viện Ngoại khoa Trung ương và Bệnh viện Đa khoa Tỉnh Thái An.\n- Phối hợp cùng đội ngũ kinh doanh xây dựng hồ sơ giải trình kỹ thuật đáp ứng các tiêu chí mời thầu y tế công lập.\n- Hỗ trợ xây dựng tài liệu huấn luyện chuyên môn kỹ thuật cho các nhân viên kinh doanh mới của công ty.\n\nKỹ sư Ứng dụng Thiết bị Y tế tại Công ty Cổ phần Công Nghệ Y Tế Toàn Cầu\nThời gian: Từ 2021-08 đến 2022-12\n- Chịu trách nhiệm hướng dẫn sử dụng máy siêu âm tổng quát và siêu âm tim cho các phòng khám tư nhân.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J03-R02",
+          "section_id": "SA-J03-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Ứng dụng Lâm sàng Cấp cao tại Công ty TNHH Giải Pháp Y Học Tiên Tiến\nThời gian: Từ 2023-01 đến nay (đang làm việc)\n- Trực tiếp tiếp nhận đào tạo chuyển giao công nghệ mới từ các chuyên gia của hãng tại Nhật Bản bằng tiếng Anh.\n- Hướng dẫn vận hành hệ thống CT 128 dãy cho hơn 40 bác sĩ và kỹ thuật viên hình ảnh tại Bệnh viện Đa khoa Trung tâm 1, Bệnh viện Ngoại khoa Trung ương và Bệnh viện Đa khoa Tỉnh Thái An.\n- Phối hợp cùng đội ngũ kinh doanh xây dựng hồ sơ giải trình kỹ thuật đáp ứng các tiêu chí mời thầu y tế công lập.\n- Hỗ trợ xây dựng tài liệu huấn luyện chuyên môn kỹ thuật cho các nhân viên kinh doanh mới của công ty.\n\nKỹ sư Ứng dụng Thiết bị Y tế tại Công ty Cổ phần Công Nghệ Y Tế Toàn Cầu\nThời gian: Từ 2021-08 đến 2022-12\n- Chịu trách nhiệm hướng dẫn sử dụng máy siêu âm tổng quát và siêu âm tim cho các phòng khám tư nhân.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J03-R03",
+          "section_id": "SA-J03-C08-SEC-EDU",
+          "quote": "Học vấn:\n- Kỹ sư ngành Kỹ thuật Y sinh, Trường Đại học Bách Khoa Hà Nội",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J03-R04",
+          "section_id": "SA-J03-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Ứng dụng Lâm sàng Cấp cao tại Công ty TNHH Giải Pháp Y Học Tiên Tiến\nThời gian: Từ 2023-01 đến nay (đang làm việc)\n- Trực tiếp tiếp nhận đào tạo chuyển giao công nghệ mới từ các chuyên gia của hãng tại Nhật Bản bằng tiếng Anh.\n- Hướng dẫn vận hành hệ thống CT 128 dãy cho hơn 40 bác sĩ và kỹ thuật viên hình ảnh tại Bệnh viện Đa khoa Trung tâm 1, Bệnh viện Ngoại khoa Trung ương và Bệnh viện Đa khoa Tỉnh Thái An.\n- Phối hợp cùng đội ngũ kinh doanh xây dựng hồ sơ giải trình kỹ thuật đáp ứng các tiêu chí mời thầu y tế công lập.\n- Hỗ trợ xây dựng tài liệu huấn luyện chuyên môn kỹ thuật cho các nhân viên kinh doanh mới của công ty.\n\nKỹ sư Ứng dụng Thiết bị Y tế tại Công ty Cổ phần Công Nghệ Y Tế Toàn Cầu\nThời gian: Từ 2021-08 đến 2022-12\n- Chịu trách nhiệm hướng dẫn sử dụng máy siêu âm tổng quát và siêu âm tim cho các phòng khám tư nhân.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J03-R01: Chưa có 5 năm kinh doanh và 2 năm quản lý sales.",
+        "SA-J03-R02: Mới hỗ trợ kỹ thuật, chưa chứng minh toàn bộ hồ sơ/quy trình mua sắm.",
+        "SA-J03-R04: Chưa có chiến lược vùng/phân bổ doanh số."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

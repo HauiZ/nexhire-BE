@@ -1,0 +1,304 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "blind_review",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C01",
+      "relevance": 3,
+      "rationale": "GT hơn 1 năm có ngày, tuyến và mở điểm bán rõ; tồn kho, trưng bày/khuyến mãi và xe máy cá nhân đi hàng ngày được nêu cụ thể.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J02-R01",
+          "section_id": "SA-J02-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Thị trường tại Công ty Cổ phần Nước Giải Khát Biển Xanh\nThời gian: Từ 2025-04 đến nay (đang làm việc)\n- Phụ trách tuyến bán hàng gồm 130 tiệm tạp hóa và đại lý nước giải khát tại khu vực quận Tân Phú và Bình Tân.\n- Mở mới thành công trung bình 8 điểm bán hàng tháng, đạt mức tăng trưởng sản lượng 14% trong 2 quý gần nhất.\n- Viếng thăm trung bình 24 điểm bán mỗi ngày, kiểm tra lượng tồn kho thực tế, đặt hàng bổ sung và hướng dẫn chủ tiệm dán poster khuyến mại tháng.\n- Sử dụng xe máy cá nhân để đi lại suốt tuyến đường, ghi nhận toàn bộ đơn hàng vào phần mềm DMS công ty.\n\nNhân viên Bán hàng Lưu động tại Công ty TNHH Thương mại Tiêu dùng Đại Phát\nThời gian: Từ 2024-05 đến 2025-03\n- Chăm sóc tuyến khách hàng đại lý bán sỉ khăn ướt và hóa mỹ phẩm gia dụng tại quận 12.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R02",
+          "section_id": "SA-J02-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Thị trường tại Công ty Cổ phần Nước Giải Khát Biển Xanh\nThời gian: Từ 2025-04 đến nay (đang làm việc)\n- Phụ trách tuyến bán hàng gồm 130 tiệm tạp hóa và đại lý nước giải khát tại khu vực quận Tân Phú và Bình Tân.\n- Mở mới thành công trung bình 8 điểm bán hàng tháng, đạt mức tăng trưởng sản lượng 14% trong 2 quý gần nhất.\n- Viếng thăm trung bình 24 điểm bán mỗi ngày, kiểm tra lượng tồn kho thực tế, đặt hàng bổ sung và hướng dẫn chủ tiệm dán poster khuyến mại tháng.\n- Sử dụng xe máy cá nhân để đi lại suốt tuyến đường, ghi nhận toàn bộ đơn hàng vào phần mềm DMS công ty.\n\nNhân viên Bán hàng Lưu động tại Công ty TNHH Thương mại Tiêu dùng Đại Phát\nThời gian: Từ 2024-05 đến 2025-03\n- Chăm sóc tuyến khách hàng đại lý bán sỉ khăn ướt và hóa mỹ phẩm gia dụng tại quận 12.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R03",
+          "section_id": "SA-J02-C01-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Bán hàng kênh truyền thống (GT) ngành hàng nước giải khát\n- Quản lý tuyến bán hàng hàng ngày (MCP) và mở mới điểm bán tạp hóa\n- Kiểm đếm tồn kho, sắp xếp trưng bày sản phẩm bắt mắt tại quầy kệ\n- Thực thi chương trình khuyến mãi tháng và trả thưởng cho chủ đại lý\n- Sử dụng thành thạo ứng dụng bán hàng trên di động (DMS)\n- Có xe máy riêng, sẵn sàng di chuyển thị trường hàng ngày",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R04",
+          "section_id": "SA-J02-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Thị trường tại Công ty Cổ phần Nước Giải Khát Biển Xanh\nThời gian: Từ 2025-04 đến nay (đang làm việc)\n- Phụ trách tuyến bán hàng gồm 130 tiệm tạp hóa và đại lý nước giải khát tại khu vực quận Tân Phú và Bình Tân.\n- Mở mới thành công trung bình 8 điểm bán hàng tháng, đạt mức tăng trưởng sản lượng 14% trong 2 quý gần nhất.\n- Viếng thăm trung bình 24 điểm bán mỗi ngày, kiểm tra lượng tồn kho thực tế, đặt hàng bổ sung và hướng dẫn chủ tiệm dán poster khuyến mại tháng.\n- Sử dụng xe máy cá nhân để đi lại suốt tuyến đường, ghi nhận toàn bộ đơn hàng vào phần mềm DMS công ty.\n\nNhân viên Bán hàng Lưu động tại Công ty TNHH Thương mại Tiêu dùng Đại Phát\nThời gian: Từ 2024-05 đến 2025-03\n- Chăm sóc tuyến khách hàng đại lý bán sỉ khăn ướt và hóa mỹ phẩm gia dụng tại quận 12.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C02",
+      "relevance": 3,
+      "rationale": "Tiếp thị GT từ 2024-11 đủ 2 năm, tuyến/mở mới và tồn kho/POSM/khuyến mãi rõ. Có xe máy cá nhân và đi tuyến hàng ngày; bỏ qua nhận xét sức khỏe.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J02-R01",
+          "section_id": "SA-J02-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Tiếp thị Thị trường tại Công ty Cổ phần Thực Phẩm Thuận Phát\nThời gian: Từ 2024-11 đến nay (đang công tác)\n- Quản lý tuyến đường gồm 110 tiệm tạp hóa tại địa bàn quận Phú Nhuận và Gò Vấp.\n- Mỗi ngày di chuyển xe gắn máy viếng thăm từ 22 đến 26 điểm bán, kiểm tra số lượng tồn gói hạt nêm và nước tương.\n- Triển khai các gói khuyến mãi tháng của công ty tới từng tiệm, treo vật phẩm quảng cáo (wobbler, hanger) đúng vị trí quy chuẩn.\n- Thuyết phục thành công 25 quán ăn và tiệm tạp hóa mới nhập hàng phân phối trực tiếp.\n\nNhân viên Giao nhận kiêm Bán hàng Thị trường tại Cơ sở Sản xuất Bánh Kẹo Vĩnh Thịnh\nThời gian: Từ 2023-10 đến 2024-10\n- Trực tiếp đi giao bánh kẹo cho các sạp chợ truyền thống và thu đơn đặt hàng bổ sung cho kỳ tiếp theo.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R02",
+          "section_id": "SA-J02-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Tiếp thị Thị trường tại Công ty Cổ phần Thực Phẩm Thuận Phát\nThời gian: Từ 2024-11 đến nay (đang công tác)\n- Quản lý tuyến đường gồm 110 tiệm tạp hóa tại địa bàn quận Phú Nhuận và Gò Vấp.\n- Mỗi ngày di chuyển xe gắn máy viếng thăm từ 22 đến 26 điểm bán, kiểm tra số lượng tồn gói hạt nêm và nước tương.\n- Triển khai các gói khuyến mãi tháng của công ty tới từng tiệm, treo vật phẩm quảng cáo (wobbler, hanger) đúng vị trí quy chuẩn.\n- Thuyết phục thành công 25 quán ăn và tiệm tạp hóa mới nhập hàng phân phối trực tiếp.\n\nNhân viên Giao nhận kiêm Bán hàng Thị trường tại Cơ sở Sản xuất Bánh Kẹo Vĩnh Thịnh\nThời gian: Từ 2023-10 đến 2024-10\n- Trực tiếp đi giao bánh kẹo cho các sạp chợ truyền thống và thu đơn đặt hàng bổ sung cho kỳ tiếp theo.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R03",
+          "section_id": "SA-J02-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Tiếp thị Thị trường tại Công ty Cổ phần Thực Phẩm Thuận Phát\nThời gian: Từ 2024-11 đến nay (đang công tác)\n- Quản lý tuyến đường gồm 110 tiệm tạp hóa tại địa bàn quận Phú Nhuận và Gò Vấp.\n- Mỗi ngày di chuyển xe gắn máy viếng thăm từ 22 đến 26 điểm bán, kiểm tra số lượng tồn gói hạt nêm và nước tương.\n- Triển khai các gói khuyến mãi tháng của công ty tới từng tiệm, treo vật phẩm quảng cáo (wobbler, hanger) đúng vị trí quy chuẩn.\n- Thuyết phục thành công 25 quán ăn và tiệm tạp hóa mới nhập hàng phân phối trực tiếp.\n\nNhân viên Giao nhận kiêm Bán hàng Thị trường tại Cơ sở Sản xuất Bánh Kẹo Vĩnh Thịnh\nThời gian: Từ 2023-10 đến 2024-10\n- Trực tiếp đi giao bánh kẹo cho các sạp chợ truyền thống và thu đơn đặt hàng bổ sung cho kỳ tiếp theo.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R04",
+          "section_id": "SA-J02-C02-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Phát triển thị trường hàng thực phẩm tiêu dùng nhanh (FMCG Food)\n- Khảo sát mở rộng điểm bán mới và duy trì doanh số tuyến cũ\n- Kiểm tra hạn dùng, tồn kho và trưng bày gói gia vị tại ụ kệ\n- Tư vấn chính sách chiết khấu mua nhiều và quà tặng khuyến mãi\n- Di chuyển bằng xe máy cá nhân, sức khỏe tốt",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R04",
+          "section_id": "SA-J02-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Tiếp thị Thị trường tại Công ty Cổ phần Thực Phẩm Thuận Phát\nThời gian: Từ 2024-11 đến nay (đang công tác)\n- Quản lý tuyến đường gồm 110 tiệm tạp hóa tại địa bàn quận Phú Nhuận và Gò Vấp.\n- Mỗi ngày di chuyển xe gắn máy viếng thăm từ 22 đến 26 điểm bán, kiểm tra số lượng tồn gói hạt nêm và nước tương.\n- Triển khai các gói khuyến mãi tháng của công ty tới từng tiệm, treo vật phẩm quảng cáo (wobbler, hanger) đúng vị trí quy chuẩn.\n- Thuyết phục thành công 25 quán ăn và tiệm tạp hóa mới nhập hàng phân phối trực tiếp.\n\nNhân viên Giao nhận kiêm Bán hàng Thị trường tại Cơ sở Sản xuất Bánh Kẹo Vĩnh Thịnh\nThời gian: Từ 2023-10 đến 2024-10\n- Trực tiếp đi giao bánh kẹo cho các sạp chợ truyền thống và thu đơn đặt hàng bổ sung cho kỳ tiếp theo.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C03",
+      "relevance": 1,
+      "rationale": "Telesales, khách sỉ và chương trình giá là kỹ năng chuyển đổi; hồ sơ ghi chủ yếu văn phòng, chưa có một năm GT, tuyến/mở điểm và trưng bày. Có xe cá nhân nhưng cần xác nhận sẵn sàng đi thị trường hàng ngày.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J02-R01",
+          "section_id": "SA-J02-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Văn phòng phẩm tại Công ty TNHH Giấy & Bao Bì Toàn Phát\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\n- Tư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\n- Công việc chủ yếu ngồi tại văn phòng công ty.\n\nNhân viên Hỗ trợ Trực page Bán lẻ tại Cửa hàng Dụng cụ Học sinh Hồng Hà\nThời gian: Từ 2024-10 đến 2025-05\n- Trả lời tin nhắn trên trang Facebook, đóng gói bưu phẩm và giao hàng nội quận khi có đơn gấp.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R02",
+          "section_id": "SA-J02-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Văn phòng phẩm tại Công ty TNHH Giấy & Bao Bì Toàn Phát\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\n- Tư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\n- Công việc chủ yếu ngồi tại văn phòng công ty.\n\nNhân viên Hỗ trợ Trực page Bán lẻ tại Cửa hàng Dụng cụ Học sinh Hồng Hà\nThời gian: Từ 2024-10 đến 2025-05\n- Trả lời tin nhắn trên trang Facebook, đóng gói bưu phẩm và giao hàng nội quận khi có đơn gấp.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R03",
+          "section_id": "SA-J02-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Văn phòng phẩm tại Công ty TNHH Giấy & Bao Bì Toàn Phát\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\n- Tư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\n- Công việc chủ yếu ngồi tại văn phòng công ty.\n\nNhân viên Hỗ trợ Trực page Bán lẻ tại Cửa hàng Dụng cụ Học sinh Hồng Hà\nThời gian: Từ 2024-10 đến 2025-05\n- Trả lời tin nhắn trên trang Facebook, đóng gói bưu phẩm và giao hàng nội quận khi có đơn gấp.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R04",
+          "section_id": "SA-J02-C03-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Bán hàng qua điện thoại (Telesales) và gửi báo giá qua email\n- Tiếp nhận và theo dõi tiến độ đơn hàng văn phòng phẩm\n- Sử dụng phần mềm quản lý kho và bán hàng nội bộ\n- Kỹ năng thương lượng mức giá sỉ với khách mua buôn\n- Có phương tiện xe máy cá nhân và bằng lái xe hạng A1",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J02-R01: Chưa có thâm niên GT/field sales.",
+        "SA-J02-R02: Chưa có quản lý tuyến/mở điểm tạp hóa.",
+        "SA-J02-R04: Chưa xác nhận di chuyển hàng ngày."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C04",
+      "relevance": 2,
+      "rationale": "GT từ 2026-04 khoảng 7 tháng, có tuyến/tồn kho/trưng bày/khuyến mãi và xe máy. Chưa đủ một năm; không cộng giao nguyên liệu thành sales GT. Mở mới chưa rõ.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J02-R01",
+          "section_id": "SA-J02-C04-SEC-EXP",
+          "quote": "Kinh nghiệm công việc:\nNhân viên Bán hàng Kênh GT tại Công ty TNHH Bánh Kẹo Hướng Dương\nThời gian: Từ 2026-04 đến nay (đang công tác)\n- Quản lý tuyến bán hàng gồm 65 tiệm tạp hóa nhỏ tại quận Bình Thạnh.\n- Mỗi ngày di chuyển xe máy tới khoảng 18 tiệm theo lịch phân bổ, hỏi thăm tình hình bán hàng và kiểm tra date bánh kẹo.\n- Dán áp phích thông báo tặng chén dĩa khi nhập 2 thùng bánh kẹo quy chuẩn.\n- Đạt 90% chỉ tiêu doanh số được giám sát tuyến phân công trong quý 3/2026.\n\nNhân viên Giao nhận Thức uống tại Chuỗi Cà phê Trà Sữa Phúc Lộc\nThời gian: Từ 2025-08 đến 2026-03\n- Giao nguyên vật liệu trà và siro tới các chi nhánh cửa hàng nhượng quyền trong thành phố.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R02",
+          "section_id": "SA-J02-C04-SEC-EXP",
+          "quote": "Kinh nghiệm công việc:\nNhân viên Bán hàng Kênh GT tại Công ty TNHH Bánh Kẹo Hướng Dương\nThời gian: Từ 2026-04 đến nay (đang công tác)\n- Quản lý tuyến bán hàng gồm 65 tiệm tạp hóa nhỏ tại quận Bình Thạnh.\n- Mỗi ngày di chuyển xe máy tới khoảng 18 tiệm theo lịch phân bổ, hỏi thăm tình hình bán hàng và kiểm tra date bánh kẹo.\n- Dán áp phích thông báo tặng chén dĩa khi nhập 2 thùng bánh kẹo quy chuẩn.\n- Đạt 90% chỉ tiêu doanh số được giám sát tuyến phân công trong quý 3/2026.\n\nNhân viên Giao nhận Thức uống tại Chuỗi Cà phê Trà Sữa Phúc Lộc\nThời gian: Từ 2025-08 đến 2026-03\n- Giao nguyên vật liệu trà và siro tới các chi nhánh cửa hàng nhượng quyền trong thành phố.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R03",
+          "section_id": "SA-J02-C04-SEC-EXP",
+          "quote": "Kinh nghiệm công việc:\nNhân viên Bán hàng Kênh GT tại Công ty TNHH Bánh Kẹo Hướng Dương\nThời gian: Từ 2026-04 đến nay (đang công tác)\n- Quản lý tuyến bán hàng gồm 65 tiệm tạp hóa nhỏ tại quận Bình Thạnh.\n- Mỗi ngày di chuyển xe máy tới khoảng 18 tiệm theo lịch phân bổ, hỏi thăm tình hình bán hàng và kiểm tra date bánh kẹo.\n- Dán áp phích thông báo tặng chén dĩa khi nhập 2 thùng bánh kẹo quy chuẩn.\n- Đạt 90% chỉ tiêu doanh số được giám sát tuyến phân công trong quý 3/2026.\n\nNhân viên Giao nhận Thức uống tại Chuỗi Cà phê Trà Sữa Phúc Lộc\nThời gian: Từ 2025-08 đến 2026-03\n- Giao nguyên vật liệu trà và siro tới các chi nhánh cửa hàng nhượng quyền trong thành phố.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R04",
+          "section_id": "SA-J02-C04-SEC-SKILL",
+          "quote": "Kỹ năng chủ chốt:\n- Đi tuyến bán hàng thị trường kênh tạp hóa truyền thống\n- Vệ sinh và sắp xếp kệ trưng bày bánh quy, kẹo dẻo\n- Kiểm tra số lượng tồn trên quầy và gửi đơn hàng qua điện thoại\n- Giao tiếp thân thiện với các chủ quán bán lẻ\n- Có xe máy riêng, sẵn sàng đi thị trường mỗi ngày",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "SA-J02-R02: Chưa mô tả mở mới điểm bán."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C05",
+      "relevance": 2,
+      "rationale": "GT/giám sát nhiều năm, có MCP, quản lý phân phối/tồn kho/trưng bày. Chưa chứng minh mở điểm/khuyến mãi tháng và đặc biệt xe cá nhân, sẵn sàng đi tuyến hàng ngày; không hạ vì chức danh cao hơn.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J02-R01",
+          "section_id": "SA-J02-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nGiám sát Bán hàng Khu vực tại Công ty Cổ phần Nước Uống Đất Việt\nThời gian: Từ 2023-01 đến nay (đang đảm nhiệm)\n- Quản lý hoạt động kinh doanh kênh GT tại 3 quận trung tâm TP.HCM, phụ trách 2 nhà phân phối và đội ngũ 7 nhân viên bán hàng thị trường.\n- Kiểm tra đột xuất việc thực thi trưng bày POSM và kiểm soát tỷ lệ hoàn thành đơn hàng của nhân viên tuyến dưới.\n- Đạt mức tăng trưởng doanh thu 18% năm 2024 cho toàn cụm khu vực.\n\nNhân viên Bán hàng Kênh GT Cấp cao tại Công ty TNHH Đồ Uống Hòa Bình\nThời gian: Từ 2021-03 đến 2022-12\n- Chăm sóc 150 điểm bán sỉ và lẻ nước khoáng đóng chai tại quận Tân Bình, đạt danh hiệu nhân viên xuất sắc quý 4/2022.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R02",
+          "section_id": "SA-J02-C05-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Giám sát và quản lý mạng lưới bán hàng kênh truyền thống (GT)\n- Hoạch định tuyến bán hàng (Routing & MCP) cho đội ngũ 8 nhân viên sales\n- Giám sát quy chuẩn trưng bày sản phẩm (Planogram) toàn khu vực\n- Làm việc trực tiếp với nhà phân phối cấp 1 về hạn mức công nợ và tồn kho kho bãi\n- Đào tạo kỹ năng bán hàng và xử lý phản đối cho nhân viên mới",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R03",
+          "section_id": "SA-J02-C05-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Giám sát và quản lý mạng lưới bán hàng kênh truyền thống (GT)\n- Hoạch định tuyến bán hàng (Routing & MCP) cho đội ngũ 8 nhân viên sales\n- Giám sát quy chuẩn trưng bày sản phẩm (Planogram) toàn khu vực\n- Làm việc trực tiếp với nhà phân phối cấp 1 về hạn mức công nợ và tồn kho kho bãi\n- Đào tạo kỹ năng bán hàng và xử lý phản đối cho nhân viên mới",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J02-R04: Chưa nêu phương tiện cá nhân và sẵn sàng đi thị trường mỗi ngày.",
+        "SA-J02-R02: Chưa nêu mở mới điểm bán.",
+        "SA-J02-R03: Chưa nêu triển khai khuyến mãi tháng."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Điều kiện di chuyển/phương tiện bắt buộc chưa rõ có thể đổi mức 2/3."
+      ]
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C06",
+      "relevance": 1,
+      "rationale": "Bán lẻ cố định có tồn kho/trưng bày và giảm giá phù hợp một phần; chưa có GT/tuyến/mở mới. Xe cá nhân được nêu, nguyện vọng field sales chưa xác nhận lịch di chuyển hàng ngày.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J02-R01",
+          "section_id": "SA-J02-C06-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nTrưởng ca Bán hàng Siêu thị tại Chuỗi Cửa hàng Tiện lợi EcoMart\nThời gian: Từ 2024-08 đến nay (đang làm việc)\n- Giám sát quầy hàng thực phẩm khô, bánh kẹo và gia vị tại chi nhánh quận Phú Nhuận.\n- Trực tiếp nhận hàng từ xe tải trung chuyển, đối chiếu phiếu giao nhận và xếp sản phẩm lên các tầng kệ theo đúng hướng dẫn trưng bày của chuỗi.\n- Báo cáo sản phẩm sắp hết hạn để dán tem giảm giá kích cầu tiêu thụ.\n\nNhân viên Thu ngân kiêm Trưng bày tại Siêu thị Mini Xanh\nThời gian: Từ 2023-04 đến 2024-07\n- Thu tiền tại quầy thu ngân và hỗ trợ châm hàng lên kệ khi vắng khách.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R03",
+          "section_id": "SA-J02-C06-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nTrưởng ca Bán hàng Siêu thị tại Chuỗi Cửa hàng Tiện lợi EcoMart\nThời gian: Từ 2024-08 đến nay (đang làm việc)\n- Giám sát quầy hàng thực phẩm khô, bánh kẹo và gia vị tại chi nhánh quận Phú Nhuận.\n- Trực tiếp nhận hàng từ xe tải trung chuyển, đối chiếu phiếu giao nhận và xếp sản phẩm lên các tầng kệ theo đúng hướng dẫn trưng bày của chuỗi.\n- Báo cáo sản phẩm sắp hết hạn để dán tem giảm giá kích cầu tiêu thụ.\n\nNhân viên Thu ngân kiêm Trưng bày tại Siêu thị Mini Xanh\nThời gian: Từ 2023-04 đến 2024-07\n- Thu tiền tại quầy thu ngân và hỗ trợ châm hàng lên kệ khi vắng khách.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R04",
+          "section_id": "SA-J02-C06-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Sắp xếp và đảo date hàng hóa trên quầy kệ siêu thị\n- Kiểm tra số lượng tồn thực tế trong kho cửa hàng\n- Tư vấn trực tiếp cho khách mua sắm tại cửa hàng\n- Kỹ năng kiểm soát thất thoát hàng hóa\n- Có xe máy cá nhân phục vụ đi lại làm việc ca kíp",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J02-R02: Chưa nêu quản lý tuyến và mở mới điểm bán.",
+        "SA-J02-R01: Không chứng minh một năm GT.",
+        "SA-J02-R04: Cần xác nhận đi thị trường hàng ngày."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C07",
+      "relevance": 3,
+      "rationale": "Field sales hóa mỹ phẩm từ 2025-05 khoảng 18 tháng đủ ngưỡng; mở rộng điểm, tồn kho/trưng bày/khuyến mãi và xe cá nhân đi cả ngày rõ. FMCG không giới hạn bắt buộc thực phẩm. Công việc trước không ngày không cần cộng.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J02-R01",
+          "section_id": "SA-J02-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Thị trường Hóa Mỹ phẩm tại Công ty TNHH Mỹ Phẩm Hồng Ngọc\nThời gian: Từ 2025-05 đến nay (hiện tại)\n- Viếng thăm 85 tiệm mỹ phẩm nhỏ và tiệm tạp hóa tổng hợp tại quận Hóc Môn và 12.\n- Cập nhật số lượng chai dầu gội và nước giặt tồn kho tại quầy, thương lượng chỗ đặt kệ giới thiệu sản phẩm nổi bật ở mặt tiền tiệm.\n- Giúp chủ tiệm nắm rõ thể lệ cào thẻ trúng thưởng trong tháng bán hàng cao điểm.\n- Sử dụng xe máy cá nhân di chuyển liên tục từ sáng đến chiều.\n\nCộng tác viên Bán hàng Lưu động tại Cơ sở Phân phối Nước Rửa Chén Thanh Bình\nThời gian: (thời gian làm việc theo vụ việc trước đó, không nêu tháng cụ thể)\n- Chở hàng giao cho các quán ăn và tiệm tạp hóa lẻ theo đơn hàng có sẵn.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R02",
+          "section_id": "SA-J02-C07-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Chăm sóc và mở rộng mạng lưới điểm bán mỹ phẩm, xà phòng\n- Thuyết phục chủ cửa tiệm nhập thêm mẫu sản phẩm mới\n- Treo dây treo sản phẩm (hanger) và bảng hiệu quảng cáo\n- Theo dõi lượng bán ra hàng tuần để lập đơn đặt hàng mới\n- Sẵn sàng di chuyển xe máy ngoài đường cả ngày",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R03",
+          "section_id": "SA-J02-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Thị trường Hóa Mỹ phẩm tại Công ty TNHH Mỹ Phẩm Hồng Ngọc\nThời gian: Từ 2025-05 đến nay (hiện tại)\n- Viếng thăm 85 tiệm mỹ phẩm nhỏ và tiệm tạp hóa tổng hợp tại quận Hóc Môn và 12.\n- Cập nhật số lượng chai dầu gội và nước giặt tồn kho tại quầy, thương lượng chỗ đặt kệ giới thiệu sản phẩm nổi bật ở mặt tiền tiệm.\n- Giúp chủ tiệm nắm rõ thể lệ cào thẻ trúng thưởng trong tháng bán hàng cao điểm.\n- Sử dụng xe máy cá nhân di chuyển liên tục từ sáng đến chiều.\n\nCộng tác viên Bán hàng Lưu động tại Cơ sở Phân phối Nước Rửa Chén Thanh Bình\nThời gian: (thời gian làm việc theo vụ việc trước đó, không nêu tháng cụ thể)\n- Chở hàng giao cho các quán ăn và tiệm tạp hóa lẻ theo đơn hàng có sẵn.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J02-R04",
+          "section_id": "SA-J02-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Thị trường Hóa Mỹ phẩm tại Công ty TNHH Mỹ Phẩm Hồng Ngọc\nThời gian: Từ 2025-05 đến nay (hiện tại)\n- Viếng thăm 85 tiệm mỹ phẩm nhỏ và tiệm tạp hóa tổng hợp tại quận Hóc Môn và 12.\n- Cập nhật số lượng chai dầu gội và nước giặt tồn kho tại quầy, thương lượng chỗ đặt kệ giới thiệu sản phẩm nổi bật ở mặt tiền tiệm.\n- Giúp chủ tiệm nắm rõ thể lệ cào thẻ trúng thưởng trong tháng bán hàng cao điểm.\n- Sử dụng xe máy cá nhân di chuyển liên tục từ sáng đến chiều.\n\nCộng tác viên Bán hàng Lưu động tại Cơ sở Phân phối Nước Rửa Chén Thanh Bình\nThời gian: (thời gian làm việc theo vụ việc trước đó, không nêu tháng cụ thể)\n- Chở hàng giao cho các quán ăn và tiệm tạp hóa lẻ theo đơn hàng có sẵn.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "SA-J02-R01: Vai trò lưu động trước thiếu tháng; nguồn xác nhận trước đó, không cộng vào ngưỡng đã đạt."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C08",
+      "relevance": 1,
+      "rationale": "Giao tuyến tạp hóa, kiểm kê và gợi ý tái đặt có tính chuyển đổi nhưng chưa chứng minh vai trò sales GT một năm hoặc tự quản lý/mở điểm. Chưa có thực thi trưng bày/khuyến mãi; có xe nhưng không dùng nhận xét sức khỏe.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J02-R01",
+          "section_id": "SA-J02-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Giao nhận Tuyến Tạp hóa tại Công ty Cổ phần Phân Phối Đô Thành\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Trực tiếp chở hàng thực phẩm đóng gói (mì ăn liền, dầu ăn, tương ớt) giao cho 90 cửa hàng tạp hóa theo tuyến phân công.\n- Hỗ trợ chủ tiệm bốc dỡ thùng hàng, kiểm kê hạn sử dụng và đối chiếu số lượng thực tế với hóa đơn bán hàng.\n- Khi giao hàng, chủ động quan sát quầy kệ, nếu thấy sản phẩm gần hết sẽ gợi ý chủ tiệm bổ sung đơn vào ngày hôm sau.\n- Thu tiền mặt hoặc hướng dẫn quét mã VietQR, nộp đủ tiền về kế toán công ty cuối ngày.\n\nPhụ việc Kho Hàng Thực phẩm tại Hộ Kinh doanh Phân phối Minh Tâm\nThời gian: Từ 2024-11 đến 2025-05\n- Soạn đơn hàng bánh kẹo và gia vị theo phiếu xuất kho cho tài xế xe tải.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R02",
+          "section_id": "SA-J02-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Giao nhận Tuyến Tạp hóa tại Công ty Cổ phần Phân Phối Đô Thành\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Trực tiếp chở hàng thực phẩm đóng gói (mì ăn liền, dầu ăn, tương ớt) giao cho 90 cửa hàng tạp hóa theo tuyến phân công.\n- Hỗ trợ chủ tiệm bốc dỡ thùng hàng, kiểm kê hạn sử dụng và đối chiếu số lượng thực tế với hóa đơn bán hàng.\n- Khi giao hàng, chủ động quan sát quầy kệ, nếu thấy sản phẩm gần hết sẽ gợi ý chủ tiệm bổ sung đơn vào ngày hôm sau.\n- Thu tiền mặt hoặc hướng dẫn quét mã VietQR, nộp đủ tiền về kế toán công ty cuối ngày.\n\nPhụ việc Kho Hàng Thực phẩm tại Hộ Kinh doanh Phân phối Minh Tâm\nThời gian: Từ 2024-11 đến 2025-05\n- Soạn đơn hàng bánh kẹo và gia vị theo phiếu xuất kho cho tài xế xe tải.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R03",
+          "section_id": "SA-J02-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Giao nhận Tuyến Tạp hóa tại Công ty Cổ phần Phân Phối Đô Thành\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Trực tiếp chở hàng thực phẩm đóng gói (mì ăn liền, dầu ăn, tương ớt) giao cho 90 cửa hàng tạp hóa theo tuyến phân công.\n- Hỗ trợ chủ tiệm bốc dỡ thùng hàng, kiểm kê hạn sử dụng và đối chiếu số lượng thực tế với hóa đơn bán hàng.\n- Khi giao hàng, chủ động quan sát quầy kệ, nếu thấy sản phẩm gần hết sẽ gợi ý chủ tiệm bổ sung đơn vào ngày hôm sau.\n- Thu tiền mặt hoặc hướng dẫn quét mã VietQR, nộp đủ tiền về kế toán công ty cuối ngày.\n\nPhụ việc Kho Hàng Thực phẩm tại Hộ Kinh doanh Phân phối Minh Tâm\nThời gian: Từ 2024-11 đến 2025-05\n- Soạn đơn hàng bánh kẹo và gia vị theo phiếu xuất kho cho tài xế xe tải.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J02-R04",
+          "section_id": "SA-J02-C08-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Giao nhận hàng tiêu dùng nhanh (FMCG) tận nơi cho các tiệm tạp hóa\n- Kiểm đếm kiện hàng, kiểm tra tem nhãn và thu tiền mặt trực tiếp\n- Nhận biết các mặt hàng bán chạy và thông báo chủ quán đặt thêm hàng\n- Thông thạo mạng lưới đường sá khu vực Gò Vấp và Bình Thạnh\n- Có xe máy riêng, sức khỏe dẻo dai",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J02-R02: Chưa mô tả mở điểm bán và trách nhiệm doanh số tuyến.",
+        "SA-J02-R03: Chưa nêu trưng bày đúng chuẩn/khuyến mãi tháng.",
+        "SA-J02-R04: Cần xác nhận sẵn sàng lịch field sales hàng ngày."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

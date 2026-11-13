@@ -1,48 +1,46 @@
-# AI2 pilot v1 — work-in-progress transfer snapshot
+# AI2 pilot v1 — Accepted Source Corpus & Development Workspace
 
 ## Status
 
-Synthetic development-only source corpus: 20 Vietnamese JD, 8 CV per JD, 160 pairs (IT 10 JD, Sales 5, Marketing 5). **Not accepted for annotation or training. No relevance labels, initial annotation or blind relevance review have been completed.** No AI1/old AI2 modifications or training/deployment are part of this snapshot.
+Synthetic development-only source corpus: **20 Vietnamese JDs, 8 CVs per JD, 160 pairs** (IT 10 JDs, Sales 5 JDs, Marketing 5 JDs).
 
-This branch preserves unfinished work for transfer to another machine, not a completed dataset release.
+- **Plan A (Source Acceptance — A01–A08)**: **Ready for Gate A sign-off** (`20/20` JDs accepted, `160/160` pairs verified, `0` blocking issues, `0` mechanical errors, `0` exact/near-duplicates `>= 0.5`). See [source-acceptance-manifest-v3.json](source-acceptance-manifest-v3.json) and [audits-v3/](audits-v3/).
+- **Plan B (Silver Annotation)**: Rubric, validation scripts, and agreement analyzer ready ([ANNOTATION_RUBRIC_B01.md](ANNOTATION_RUBRIC_B01.md), [validate_labels.py](validate_labels.py), [analyze_label_agreement.py](analyze_label_agreement.py)). Initial & blind labeling (`B02–B03`) await Gate A sign-off and `cx/gpt-6.1-sol` quota reset in separate fresh contexts. **Zero relevance labels exist yet.**
+- **Plan C (Feature Contract `ai2-features-v1`)**: Implemented and audited ([PLAN_C_CONTRACT.md](PLAN_C_CONTRACT.md), `apps/matching-service/app/schemas/ai2.py`, `apps/matching-service/app/matching/ai2_features.py`, [plan_c_feature_audit.json](plan_c_feature_audit.json)).
+- **Plans D–G (Expansion, Experiments, Runtime Integration, Staging/Canary)**: Design & pre-registration specs ready ([PLAN_D_DATA_EXPANSION_PROPOSAL.md](PLAN_D_DATA_EXPANSION_PROPOSAL.md), [PLAN_E_EXPERIMENT_PROTOCOL.md](PLAN_E_EXPERIMENT_PROTOCOL.md), [PLAN_F_G_PRODUCTION_DESIGN.md](PLAN_F_G_PRODUCTION_DESIGN.md)). Legacy AI1 and old AI2 remain untouched; zero model training or live production changes executed.
 
-## Files to keep
+## Frozen Source Hashes (Reference Date `2026-11-10`)
 
-- `sources/it.json`, `sources/sales-marketing.json`: current, partially repaired source corpus.
-- `PROTOCOL.md`: approved scope/source/rubric contract, including approved nullable `is_current` amendment.
-- `IDEA_REFERENCE.md`: transfer copy of the original idea document previously located outside backend repository. On new machine use this copy when the parent-path reference in agent definitions is unavailable.
-- `human-review-decisions.json`: 11 human-approved source-repair rules. Entries still say `approved_pending_application`; application is only partial. Do not treat all rules as applied.
-- `human-repair-log-v1.json`: 292 logged changes in first bounded repair pass, current source hashes and pending work.
-- `snapshots/before-human-repairs-v1/`: immutable source copies before that pass.
-- `audits/`: per-JD source audit findings against pre-human-repair sources. These are model findings, not expert gold, not relevance labels and **not current acceptance evidence** after source changes.
-- `source-human-review-queue.json`: pre-repair consolidated findings (86 blocking entries, 108 other review entries); entries can overlap candidates. Reconcile against current sources before presenting as unresolved defects.
-- `source-validation.json`: latest mechanical/lexical checks. Most recently: 20 JD, 160 pairs, zero mechanical errors and 762 lexical warnings. Lexical mismatch alone is not a semantic defect; zero mechanical errors is not source acceptance.
-- `source-duplicate-report.json`: pre-human-repair lexical duplicate analysis; rerun after repairs. No exact duplicates or pairs above 0.5 five-token Jaccard were found in that version. This does not exclude semantic/template similarity.
-- `it-source-audit.json`: earlier incomplete IT audit, retained as historical provenance; per-JD IT audits supersede its coverage only.
-- `*-repair-notes.md`: generator repair claims before human review, not independently verified acceptance.
-- `validate_sources.py`: offline validator; run `python3 -I dataset/ai2-pilot-v1/validate_sources.py` from backend root.
-- `apply_approved_repairs.py`: already-run first-pass script. Refuses repeat application when snapshot/log exists; do not remove that guard to rerun against repaired sources.
-- Backend `.claude/agents/ai2-dataset-generator.md` and `ai2-dataset-reviewer.md`: named agent definitions.
+- `sources/it.json` SHA-256: `f56ac2552a106b0091f0cbfb775a46de6e33d1393344ca5920ba16a15ee62f22`
+- `sources/sales-marketing.json` SHA-256: `b196a9bc9aad9e0ed91ed04073280ba5e1b108f493838e75be5cd3e322f71f94`
+- [source-acceptance-manifest-v3.json](source-acceptance-manifest-v3.json): authoritative acceptance ledger (`131` fixed, `65` retained ambiguities, `25` accepted limitations across `20/20` JDs).
 
-Disposable `.test.json`, the derived `audit-inputs/` copies and `source-inspection.jsonl` are intentionally excluded from transfer commit. They are not authoritative sources. Generate new per-JD inspection views from current sources if needed; do not reuse old copies.
+## Source Changelog & Provenance
 
-## Resume work
+1. `human-repair-log-v1.json` + `apply_approved_repairs.py`: initial bounded human-approved repair pass (`snapshots/before-human-repairs-v1/`).
+2. `it-role-repair-log-v2.json` + `repair_it_role_attribution.py` + `it-final-repair-log.json`: corrected IT role boundaries and verified IT descriptions/organizations (`flash-it-repair-verification.json`).
+3. `exhaustive-repair-log-v3.json` + `apply_exhaustive_repairs.py` + `organization-mapping-v3.json`: fictionalized real employer/hospital/media entities (`HR-SOURCE-007`), restored qualifiers (`HR-SOURCE-004`), removed JD-shaped negative prose (`HR-SOURCE-006`).
+4. `commercial-repair-log-v4.json` + `apply_commercial_repairs_v4.py` (`snapshots/before-commercial-repairs-v4.json`): fixed all 49 commercial residual issues from `wtys44xgs` audit (synchronized 11 `experiences[*].description`, removed `MK-J05-C04` negative prose, harmonized 2 top-level skills and 37 `skills_used` items).
+5. `commercial-repair-log-v5.json` + `apply_commercial_repairs_v5.py` (`snapshots/before-commercial-repairs-v5.json`): fixed final 3 `SA-J03` cross-section `skills_used` attributions flagged by `wlj22smze`, verified clean by independent primary + adversarial skeptic workflow (`wxftmuxcr`).
 
-1. Read protocol, human decisions and repair log. Preserve current sources and snapshots; do not rerun first-pass repair script.
-2. Finish human-approved repairs: remove unsupported role/project skill attribution while retaining supported general skills; preserve source scope/quantifiers; consistently fictionalize employer/customer/partner names and save mapping; handle remaining mixed negative prose and unnecessary age descriptors. Do not invent supporting prose.
-3. Preserve and flag ambiguous degree/tenure information. Escalate new or genuinely different cases; apply approved rules to equivalent cases without repeated approval.
-4. Reconcile all audit findings against repaired sources, record dispositions, rerun mechanical/duplicate/source-support checks and refresh source hashes. Current audits/queue/duplicate report are historical until reconciled.
-5. Only after source acceptance, label and blind-review with separate fresh contexts supplied only protocol and current sources. Current coordinator session has generator/audit exposure and cannot serve as blind relevance review. Preserve both silver outputs; validate exact evidence quotes/references, queue disagreements/flagged cases and sample agreements for human review.
-6. No training, deployment, old AI1/AI2 edits or generalization claim. Candidate IDs/order must not become features or labeling shortcuts. Recurring candidate-index scenarios remain a human-accepted development-pilot limitation.
+## Key Files
 
-## Model routing and reference date
+- [sources/it.json](sources/it.json), [sources/sales-marketing.json](sources/sales-marketing.json): accepted development pilot source corpus.
+- [PROTOCOL.md](PROTOCOL.md): approved scope, source schema, nullable `is_current` amendment, and annotation protocol.
+- [IDEA_REFERENCE.md](IDEA_REFERENCE.md): backend copy of original AI2 evidence-assisted ranking specification.
+- [human-review-decisions.json](human-review-decisions.json): immutable 11 human-approved source-repair rules (`HR-SOURCE-001`..`011`).
+- [source-acceptance-manifest-v3.json](source-acceptance-manifest-v3.json) and [audits-v3/](audits-v3/): **current** post-repair acceptance evidence across all 20 JDs (10 IT via `wtys44xgs`, 9 commercial via `wlj22smze`, `SA-J03` dual-verified via `wxftmuxcr`).
+- [audits/](audits/), [source-human-review-queue.json](source-human-review-queue.json), [it-source-audit.json](it-source-audit.json), `*-repair-notes.md`: **historical pre-repair artifacts** retained for audit provenance only (superseded by `audits-v3/`).
+- [validate_sources.py](validate_sources.py) and [test_pilot_validation.py](test_pilot_validation.py): mechanical/lexical validator (`0` errors, `637` lexical warnings requiring semantic reading — all manually verified in `audits-v3/`), verbatim description-grounding checks, anti-brand checks, and 6 regression tests.
+- [source-validation.json](source-validation.json) and [source-duplicate-report.json](source-duplicate-report.json): refreshed validation and 5-token Jaccard duplicate reports (`0` exact, `0` near-duplicates `>= 0.5`).
 
-Generation and generator repairs requested `ag/gemini-3.8-flash-high`; reviewer requested `cx/gpt-6.1-sol`. Verify alias mapping on new machine **before dispatch**: `haiku` must map to requested Gemini model, `sonnet` to requested Sol model. Do not silently substitute or change main model. Global routing/settings are not included in repository. Backend named agents may need a new session to load. Maximum two agents concurrently, no worktree needed for separate files, no automatic Superpowers.
+## Verification & Model Routing
 
-Several Sol CLI calls failed with `Stream idle timeout - no chunks received`. IT and SA-J01 source audits completed in fresh reviewer contexts; remaining nine commercial source audits completed directly in coordinator Sol session after explicit user permission. They are disclosed as nonblind source inspection, never blind relevance review. Requested/reported model identity is not independent server-side verification.
-
-All employment/date interpretation uses protocol reference date **2026-11-10**, not the date work resumes.
+- Generator/repairs/source verification: `ag/gemini-3.8-flash-high` (`max 2 concurrent` subagents).
+- Silver labeling & blind review (`B02–B03`): strictly `cx/gpt-6.1-sol` in separate fresh contexts after Gate A sign-off and GPT session reset. Never expose repair/audit history or AI1 scores during blind review.
+- Reference date for all employment/tenure reasoning: **`2026-11-10`**.
+- Legacy runtime (`apps/matching-service/app/matching/service.py`) stays `evidence-only-v1`; `apps/matching-service` offline tests require missing wheels (`aio-pika`, `sentence-transformers`) for full suite (`npm run matching:test`), while isolated Plan B/C/E unit suites run cleanly via `/tmp/ai2-dev-venv`.
 
 ## Limitations
 
-Fictional sources, model-generated silver judgments only; no real applicant data or expert-gold labels. No independent employer/achievement verification. Synthetic names can collide with real entities. Source authoring is not a production parser. Near-duplicate/template effects, offline/online extraction consistency, AI1 contamination checks and untouched test construction remain unproven or separately scoped. Human-approved repairs do not establish hiring competence or legal compliance.
+Synthetic development corpus only; no real applicant data or expert-gold relevance labels. Candidate IDs (`C01..C08`), ordering, and shared 6-section/2-employer templates (`HR-SOURCE-009`) must never be used as model features. Preserved tenure-summary ambiguities (`HR-SOURCE-008`), null dates/`is_current=null` (`HR-SOURCE-005`), verbatim `'Cử nhân Cao đẳng'` wording (`HR-SOURCE-010`), and retained self-descriptions (`HR-SOURCE-011`) must follow rubric rules without guessing or bias.

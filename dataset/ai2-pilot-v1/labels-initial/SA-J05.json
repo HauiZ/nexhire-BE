@@ -1,0 +1,304 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "initial",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C01",
+      "relevance": 3,
+      "rationale": "Sales quốc tế từ 2021-06, KAM từ 2023-01 đủ 3 năm; FCL/LCL, air/hải quan, hợp đồng khung FDI và retention 94% kèm bán thêm rõ. Tiếng Anh bổ trợ.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J05-R01",
+          "section_id": "SA-J05-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Khách hàng Trọng yếu (KAM) tại Công ty Cổ phần Vận Tải & Logistics Biển Đông Vận\nThời gian: Từ 2023-01 đến nay (đang làm việc)\n- Quản lý 14 tài khoản khách hàng FDI lớn trong ngành linh kiện điện tử và may mặc xuất khẩu sang thị trường Mỹ và EU.\n- Thương thảo thành công hợp đồng khung thường niên với tổng sản lượng vận chuyển 1.200 TEU đường biển và 150 tấn hàng không mỗi năm.\n- Đạt tỷ lệ giữ chân khách hàng (retention rate) 94% qua 3 năm liên tiếp nhờ xử lý sự cố phát sinh nhanh và linh hoạt giờ lấy container rỗng.\n- Bán gia tăng thành công dịch vụ lưu kho ngoại quan và thủ tục hoàn thuế cho 6 tài khoản hiện hữu, gia tăng doanh số thêm 22%.\n- Trực tiếp trao đổi hàng ngày qua email và đàm phán giá cước định kỳ với giám đốc chuỗi cung ứng người Hàn Quốc và Đài Loan bằng tiếng Anh.\n\nChuyên viên Kinh doanh Cước Quốc tế tại Công ty TNHH Tiếp Vận Hàng Hải Phương Nam\nThời gian: Từ 2021-06 đến 2022-12\n- Chào bán cước đường biển FCL tuyến Đông Nam Á và dịch vụ thủ tục hải quan cảng Cát Lái.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R02",
+          "section_id": "SA-J05-C01-SEC-SKILL",
+          "quote": "Kỹ năng chủ đạo:\n- Quản trị khách hàng trọng yếu (Key Account Management) logistics quốc tế\n- Cước vận tải đường biển nguyên container (FCL), hàng lẻ (LCL) và đường hàng không Air Freight\n- Nghiệp vụ khai thuê hải quan và thủ tục xuất nhập khẩu tại chỗ\n- Đàm phán hợp đồng khung và báo giá chuỗi cung ứng trọn gói cho doanh nghiệp FDI\n- Bán chéo (cross-sell) dịch vụ kho bãi 3PL và vận chuyển nội địa\n- Tiếng Anh thương mại đàm phán quốc tế",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R02",
+          "section_id": "SA-J05-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Khách hàng Trọng yếu (KAM) tại Công ty Cổ phần Vận Tải & Logistics Biển Đông Vận\nThời gian: Từ 2023-01 đến nay (đang làm việc)\n- Quản lý 14 tài khoản khách hàng FDI lớn trong ngành linh kiện điện tử và may mặc xuất khẩu sang thị trường Mỹ và EU.\n- Thương thảo thành công hợp đồng khung thường niên với tổng sản lượng vận chuyển 1.200 TEU đường biển và 150 tấn hàng không mỗi năm.\n- Đạt tỷ lệ giữ chân khách hàng (retention rate) 94% qua 3 năm liên tiếp nhờ xử lý sự cố phát sinh nhanh và linh hoạt giờ lấy container rỗng.\n- Bán gia tăng thành công dịch vụ lưu kho ngoại quan và thủ tục hoàn thuế cho 6 tài khoản hiện hữu, gia tăng doanh số thêm 22%.\n- Trực tiếp trao đổi hàng ngày qua email và đàm phán giá cước định kỳ với giám đốc chuỗi cung ứng người Hàn Quốc và Đài Loan bằng tiếng Anh.\n\nChuyên viên Kinh doanh Cước Quốc tế tại Công ty TNHH Tiếp Vận Hàng Hải Phương Nam\nThời gian: Từ 2021-06 đến 2022-12\n- Chào bán cước đường biển FCL tuyến Đông Nam Á và dịch vụ thủ tục hải quan cảng Cát Lái.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R03",
+          "section_id": "SA-J05-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Khách hàng Trọng yếu (KAM) tại Công ty Cổ phần Vận Tải & Logistics Biển Đông Vận\nThời gian: Từ 2023-01 đến nay (đang làm việc)\n- Quản lý 14 tài khoản khách hàng FDI lớn trong ngành linh kiện điện tử và may mặc xuất khẩu sang thị trường Mỹ và EU.\n- Thương thảo thành công hợp đồng khung thường niên với tổng sản lượng vận chuyển 1.200 TEU đường biển và 150 tấn hàng không mỗi năm.\n- Đạt tỷ lệ giữ chân khách hàng (retention rate) 94% qua 3 năm liên tiếp nhờ xử lý sự cố phát sinh nhanh và linh hoạt giờ lấy container rỗng.\n- Bán gia tăng thành công dịch vụ lưu kho ngoại quan và thủ tục hoàn thuế cho 6 tài khoản hiện hữu, gia tăng doanh số thêm 22%.\n- Trực tiếp trao đổi hàng ngày qua email và đàm phán giá cước định kỳ với giám đốc chuỗi cung ứng người Hàn Quốc và Đài Loan bằng tiếng Anh.\n\nChuyên viên Kinh doanh Cước Quốc tế tại Công ty TNHH Tiếp Vận Hàng Hải Phương Nam\nThời gian: Từ 2021-06 đến 2022-12\n- Chào bán cước đường biển FCL tuyến Đông Nam Á và dịch vụ thủ tục hải quan cảng Cát Lái.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R04",
+          "section_id": "SA-J05-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Khách hàng Trọng yếu (KAM) tại Công ty Cổ phần Vận Tải & Logistics Biển Đông Vận\nThời gian: Từ 2023-01 đến nay (đang làm việc)\n- Quản lý 14 tài khoản khách hàng FDI lớn trong ngành linh kiện điện tử và may mặc xuất khẩu sang thị trường Mỹ và EU.\n- Thương thảo thành công hợp đồng khung thường niên với tổng sản lượng vận chuyển 1.200 TEU đường biển và 150 tấn hàng không mỗi năm.\n- Đạt tỷ lệ giữ chân khách hàng (retention rate) 94% qua 3 năm liên tiếp nhờ xử lý sự cố phát sinh nhanh và linh hoạt giờ lấy container rỗng.\n- Bán gia tăng thành công dịch vụ lưu kho ngoại quan và thủ tục hoàn thuế cho 6 tài khoản hiện hữu, gia tăng doanh số thêm 22%.\n- Trực tiếp trao đổi hàng ngày qua email và đàm phán giá cước định kỳ với giám đốc chuỗi cung ứng người Hàn Quốc và Đài Loan bằng tiếng Anh.\n\nChuyên viên Kinh doanh Cước Quốc tế tại Công ty TNHH Tiếp Vận Hàng Hải Phương Nam\nThời gian: Từ 2021-06 đến 2022-12\n- Chào bán cước đường biển FCL tuyến Đông Nam Á và dịch vụ thủ tục hải quan cảng Cát Lái.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C02",
+      "relevance": 2,
+      "rationale": "KAM/forwarding từ 2022-03 đủ ngưỡng, có hợp đồng thường niên và retention 92%/bán thêm. FCL/LCL/air có kỹ năng, nhưng khai thuê hải quan mới hồ sơ C/O/kiểm tra chuyên ngành, chưa đầy đủ; nhãn tạm thời.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J05-R01",
+          "section_id": "SA-J05-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Tài khoản Khách hàng tại Công ty TNHH Tiếp Vận Toàn Cầu Song Mã\nThời gian: Từ 2023-04 đến nay (đang công tác)\n- Phụ trách trực tiếp 18 khách hàng xuất khẩu gỗ và nội thất kim loại sang thị trường Bắc Mỹ.\n- Đàm phán các hợp đồng cung ứng dịch vụ logistics thường niên với cam kết về số lượng chỗ (space allocation) trong mùa cao điểm.\n- Đạt tỷ lệ giữ chân khách hàng 92% trong năm 2025, mở rộng bán thêm dịch vụ vận tải kéo container đường bộ từ nhà máy ra cảng Cái Mép.\n- Thường xuyên viết thư báo cước, cập nhật phụ phí xăng dầu (BAF) và lịch tàu bằng tiếng Anh cho các đối tác mua hàng nước ngoài.\n\nNhân viên Kinh doanh Cước Forwarding tại Công ty Cổ phần Giao Nhận Á Châu Mới\nThời gian: Từ 2022-03 đến 2023-03\n- Tìm kiếm khách hàng xuất nhập khẩu nông sản, tư vấn cước hàng lẻ LCL đi các cảng châu Á.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R02",
+          "section_id": "SA-J05-C02-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Quản lý tài khoản khách hàng doanh nghiệp vận tải quốc tế\n- Báo giá cước tàu biển container (FCL), hàng ghép cont (LCL)\n- Điều phối cước hàng không chuyển phát nhanh và hàng bay thông thường\n- Tư vấn hồ sơ chứng nhận xuất xứ hàng hóa (C/O) và kiểm tra chuyên ngành\n- Duy trì chỉ số giữ chân khách hàng (retention) và tư vấn mở rộng dịch vụ",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J05-R03",
+          "section_id": "SA-J05-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Tài khoản Khách hàng tại Công ty TNHH Tiếp Vận Toàn Cầu Song Mã\nThời gian: Từ 2023-04 đến nay (đang công tác)\n- Phụ trách trực tiếp 18 khách hàng xuất khẩu gỗ và nội thất kim loại sang thị trường Bắc Mỹ.\n- Đàm phán các hợp đồng cung ứng dịch vụ logistics thường niên với cam kết về số lượng chỗ (space allocation) trong mùa cao điểm.\n- Đạt tỷ lệ giữ chân khách hàng 92% trong năm 2025, mở rộng bán thêm dịch vụ vận tải kéo container đường bộ từ nhà máy ra cảng Cái Mép.\n- Thường xuyên viết thư báo cước, cập nhật phụ phí xăng dầu (BAF) và lịch tàu bằng tiếng Anh cho các đối tác mua hàng nước ngoài.\n\nNhân viên Kinh doanh Cước Forwarding tại Công ty Cổ phần Giao Nhận Á Châu Mới\nThời gian: Từ 2022-03 đến 2023-03\n- Tìm kiếm khách hàng xuất nhập khẩu nông sản, tư vấn cước hàng lẻ LCL đi các cảng châu Á.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R04",
+          "section_id": "SA-J05-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Tài khoản Khách hàng tại Công ty TNHH Tiếp Vận Toàn Cầu Song Mã\nThời gian: Từ 2023-04 đến nay (đang công tác)\n- Phụ trách trực tiếp 18 khách hàng xuất khẩu gỗ và nội thất kim loại sang thị trường Bắc Mỹ.\n- Đàm phán các hợp đồng cung ứng dịch vụ logistics thường niên với cam kết về số lượng chỗ (space allocation) trong mùa cao điểm.\n- Đạt tỷ lệ giữ chân khách hàng 92% trong năm 2025, mở rộng bán thêm dịch vụ vận tải kéo container đường bộ từ nhà máy ra cảng Cái Mép.\n- Thường xuyên viết thư báo cước, cập nhật phụ phí xăng dầu (BAF) và lịch tàu bằng tiếng Anh cho các đối tác mua hàng nước ngoài.\n\nNhân viên Kinh doanh Cước Forwarding tại Công ty Cổ phần Giao Nhận Á Châu Mới\nThời gian: Từ 2022-03 đến 2023-03\n- Tìm kiếm khách hàng xuất nhập khẩu nông sản, tư vấn cước hàng lẻ LCL đi các cảng châu Á.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "SA-J05-R02: Chưa chứng minh khai thuê hải quan thành thạo ngoài hồ sơ C/O và kiểm tra chuyên ngành."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Cần xác nhận phạm vi nghiệp vụ khai thuê hải quan; có thể đổi nhãn 2/3."
+      ]
+    },
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C03",
+      "relevance": 1,
+      "rationale": "Sales vận tải nội địa và thương lượng hợp đồng chuyển đổi được; chưa có KAM/forwarding quốc tế, cước biển/air/hải quan hoặc giải pháp FDI và retention/upsell định lượng. Không cộng điều vận thành kinh nghiệm sales quốc tế.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J05-R01",
+          "section_id": "SA-J05-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Kinh doanh Vận tải Đường bộ tại Công ty Cổ phần Vận Tải Đường Bộ Á Châu\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Khai thác khách hàng là các công ty phân phối nước giặt, đồ nhựa gia dụng cần vận chuyển hàng từ TP.HCM đi các tỉnh miền Tây và Tây Nguyên.\n- Báo giá cước xe tải theo ki-lô-mét và đàm phán hợp đồng thuê bao xe tháng cho 8 doanh nghiệp vừa và nhỏ.\n\nNhân viên Điều vận Xe Tải tại Hợp Tác Xã Vận Tải Miền Nam\nThời gian: Từ 2022-07 đến 2023-07\n- Nhận lệnh vận chuyển, phân tài xế và gọi điện xác nhận điểm giao hàng với thủ kho.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J05-R03",
+          "section_id": "SA-J05-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Kinh doanh Vận tải Đường bộ tại Công ty Cổ phần Vận Tải Đường Bộ Á Châu\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Khai thác khách hàng là các công ty phân phối nước giặt, đồ nhựa gia dụng cần vận chuyển hàng từ TP.HCM đi các tỉnh miền Tây và Tây Nguyên.\n- Báo giá cước xe tải theo ki-lô-mét và đàm phán hợp đồng thuê bao xe tháng cho 8 doanh nghiệp vừa và nhỏ.\n\nNhân viên Điều vận Xe Tải tại Hợp Tác Xã Vận Tải Miền Nam\nThời gian: Từ 2022-07 đến 2023-07\n- Nhận lệnh vận chuyển, phân tài xế và gọi điện xác nhận điểm giao hàng với thủ kho.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J05-R02: Chưa có bằng chứng đủ để xác nhận yêu cầu: Thành thạo nghiệp vụ cước vận tải đường biển (FCL/LCL), cước hàng không (Air Freight) và dịch vụ khai thuê hải quan.",
+        "SA-J05-R04: Chưa có bằng chứng đủ để xác nhận yêu cầu: Duy trì tỷ lệ giữ chân khách hàng (retention rate) trên 90% và mở rộng doanh thu từ tài khoản khách hàng hiện hữu (upsell/cross-sell)."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C04",
+      "relevance": 2,
+      "rationale": "Có forwarding quốc tế, cước FCL/LCL và theo dõi lô hàng; từ 2025-05 khoảng 18 tháng dưới 3 năm. Air/hải quan, hợp đồng khung tổng thể và retention/upsell chưa chứng minh, nhưng nội dung sales logistics trực tiếp đáng kể.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J05-R01",
+          "section_id": "SA-J05-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Kinh doanh Cước Forwarding tại Công ty Cổ phần Giao Nhận Nam Việt\nThời gian: Từ 2025-05 đến nay (đang làm việc)\n- Khai thác danh sách khách hàng doanh nghiệp vừa và nhỏ nhập khẩu hóa chất và hạt nhựa từ Trung Quốc, Hàn Quốc về cảng Cát Lái.\n- Làm việc với các hãng tàu như SITC, Sinokor, Wanhai để cập nhật giá cước tuần và lấy chỗ vận chuyển container rỗng.\n- Gửi báo giá cước biển, theo dõi ngày tàu cập bến và bàn giao lệnh giao hàng (D/O) cho khách.\n\nThực tập sinh Xuất Nhập Khẩu tại Công ty TNHH Thương mại XNK Hưng Long\nThời gian: Từ 2024-11 đến 2025-04\n- Hỗ trợ chuẩn bị bộ chứng từ xuất nhập khẩu: Invoice, Packing List, C/O form D.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J05-R02",
+          "section_id": "SA-J05-C04-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Báo giá cước tàu biển FCL và cước gom hàng lẻ LCL\n- Liên hệ hãng tàu (shipping lines) để xin giá đại lý và kiểm tra lịch tàu\n- Hỗ trợ làm thủ tục phát hành vận đơn đường biển (Bill of Lading)\n- Chăm sóc khách hàng trong quá trình theo dõi lịch trình container về cảng\n- Tiếng Anh giao tiếp và gửi email báo cước quốc tế",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J05-R03",
+          "section_id": "SA-J05-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Kinh doanh Cước Forwarding tại Công ty Cổ phần Giao Nhận Nam Việt\nThời gian: Từ 2025-05 đến nay (đang làm việc)\n- Khai thác danh sách khách hàng doanh nghiệp vừa và nhỏ nhập khẩu hóa chất và hạt nhựa từ Trung Quốc, Hàn Quốc về cảng Cát Lái.\n- Làm việc với các hãng tàu như SITC, Sinokor, Wanhai để cập nhật giá cước tuần và lấy chỗ vận chuyển container rỗng.\n- Gửi báo giá cước biển, theo dõi ngày tàu cập bến và bàn giao lệnh giao hàng (D/O) cho khách.\n\nThực tập sinh Xuất Nhập Khẩu tại Công ty TNHH Thương mại XNK Hưng Long\nThời gian: Từ 2024-11 đến 2025-04\n- Hỗ trợ chuẩn bị bộ chứng từ xuất nhập khẩu: Invoice, Packing List, C/O form D.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J05-R02: Chưa nêu nghiệp vụ cước air và khai thuê hải quan.",
+        "SA-J05-R03: Chưa nêu đàm phán hợp đồng khung/giải pháp tổng thể.",
+        "SA-J05-R04: Chưa có bằng chứng đủ để xác nhận yêu cầu: Duy trì tỷ lệ giữ chân khách hàng (retention rate) trên 90% và mở rộng doanh thu từ tài khoản khách hàng hiện hữu (upsell/cross-sell)."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C05",
+      "relevance": 3,
+      "rationale": "KAM logistics từ 2018-05 vượt ngưỡng, giải pháp FCL/air/thông quan, hợp đồng khung FDI và retention 98% rõ. LCL và upsell chưa tách riêng; xây trung tâm phân phối tích hợp hỗ trợ mở rộng tài khoản. Hợp đồng 2 năm thay vì 1 năm không phải thiếu năng lực đàm phán; không hạ vì chức danh cao.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J05-R01",
+          "section_id": "SA-J05-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nGiám đốc Khách hàng Trọng yếu Doanh nghiệp FDI tại Tập Đoàn Logistics Quốc Tế Đại Dương\nThời gian: Từ 2021-03 đến nay (đang đảm nhiệm)\n- Trực tiếp phụ trách danh mục 6 tập đoàn công nghệ đa quốc gia (FDI) có tổ hợp sản xuất tại Bắc Ninh, Thái Nguyên và TP.HCM.\n- Đàm phán và ký kết các hợp đồng khung chuỗi cung ứng 2 năm một lần với doanh số thường niên vượt 180 tỷ đồng.\n- Duy trì tỷ lệ giữ chân khách hàng 98%, chủ trì xây dựng trung tâm phân phối tích hợp và hệ thống thông quan tự động tại chỗ.\n- Điều phối mạng lưới văn phòng đại diện tại Singapore, Hồng Kông và Nhật Bản để hỗ trợ chuỗi vận chuyển xuyên biên giới.\n\nTrưởng bộ phận Quản lý Khách hàng Doanh nghiệp tại Công ty TNHH Vận Tải Toàn Cầu Apex\nThời gian: Từ 2018-05 đến 2021-02\n- Quản lý đội ngũ 8 nhân viên KAM phụ trách khách hàng ngành dệt may và da giày xuất khẩu.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R02",
+          "section_id": "SA-J05-C05-SEC-SUM",
+          "quote": "Tóm lược quản lý cấp cao:\nGiám đốc Phát triển Khách hàng Toàn cầu (Head of Global Accounts) với hơn 8 năm kinh nghiệm lãnh đạo khối kinh doanh chuỗi cung ứng cho các tập đoàn logistics đa quốc gia hàng đầu. Chuyên trách đàm phán hợp đồng khung toàn cầu quy mô trên 10 triệu USD với các doanh nghiệp FDI công nghệ cao và ô tô. Năng lực xây dựng giải pháp logistics 4PL tích hợp đường biển, đường hàng không thuê bao chuyến (Charter Flight), kho ngoại quan và thông quan phức tạp. Sử dụng tiếng Anh lưu loát ở cấp độ lãnh đạo quốc tế.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J05-R02",
+          "section_id": "SA-J05-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nGiám đốc Khách hàng Trọng yếu Doanh nghiệp FDI tại Tập Đoàn Logistics Quốc Tế Đại Dương\nThời gian: Từ 2021-03 đến nay (đang đảm nhiệm)\n- Trực tiếp phụ trách danh mục 6 tập đoàn công nghệ đa quốc gia (FDI) có tổ hợp sản xuất tại Bắc Ninh, Thái Nguyên và TP.HCM.\n- Đàm phán và ký kết các hợp đồng khung chuỗi cung ứng 2 năm một lần với doanh số thường niên vượt 180 tỷ đồng.\n- Duy trì tỷ lệ giữ chân khách hàng 98%, chủ trì xây dựng trung tâm phân phối tích hợp và hệ thống thông quan tự động tại chỗ.\n- Điều phối mạng lưới văn phòng đại diện tại Singapore, Hồng Kông và Nhật Bản để hỗ trợ chuỗi vận chuyển xuyên biên giới.\n\nTrưởng bộ phận Quản lý Khách hàng Doanh nghiệp tại Công ty TNHH Vận Tải Toàn Cầu Apex\nThời gian: Từ 2018-05 đến 2021-02\n- Quản lý đội ngũ 8 nhân viên KAM phụ trách khách hàng ngành dệt may và da giày xuất khẩu.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R03",
+          "section_id": "SA-J05-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nGiám đốc Khách hàng Trọng yếu Doanh nghiệp FDI tại Tập Đoàn Logistics Quốc Tế Đại Dương\nThời gian: Từ 2021-03 đến nay (đang đảm nhiệm)\n- Trực tiếp phụ trách danh mục 6 tập đoàn công nghệ đa quốc gia (FDI) có tổ hợp sản xuất tại Bắc Ninh, Thái Nguyên và TP.HCM.\n- Đàm phán và ký kết các hợp đồng khung chuỗi cung ứng 2 năm một lần với doanh số thường niên vượt 180 tỷ đồng.\n- Duy trì tỷ lệ giữ chân khách hàng 98%, chủ trì xây dựng trung tâm phân phối tích hợp và hệ thống thông quan tự động tại chỗ.\n- Điều phối mạng lưới văn phòng đại diện tại Singapore, Hồng Kông và Nhật Bản để hỗ trợ chuỗi vận chuyển xuyên biên giới.\n\nTrưởng bộ phận Quản lý Khách hàng Doanh nghiệp tại Công ty TNHH Vận Tải Toàn Cầu Apex\nThời gian: Từ 2018-05 đến 2021-02\n- Quản lý đội ngũ 8 nhân viên KAM phụ trách khách hàng ngành dệt may và da giày xuất khẩu.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R04",
+          "section_id": "SA-J05-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nGiám đốc Khách hàng Trọng yếu Doanh nghiệp FDI tại Tập Đoàn Logistics Quốc Tế Đại Dương\nThời gian: Từ 2021-03 đến nay (đang đảm nhiệm)\n- Trực tiếp phụ trách danh mục 6 tập đoàn công nghệ đa quốc gia (FDI) có tổ hợp sản xuất tại Bắc Ninh, Thái Nguyên và TP.HCM.\n- Đàm phán và ký kết các hợp đồng khung chuỗi cung ứng 2 năm một lần với doanh số thường niên vượt 180 tỷ đồng.\n- Duy trì tỷ lệ giữ chân khách hàng 98%, chủ trì xây dựng trung tâm phân phối tích hợp và hệ thống thông quan tự động tại chỗ.\n- Điều phối mạng lưới văn phòng đại diện tại Singapore, Hồng Kông và Nhật Bản để hỗ trợ chuỗi vận chuyển xuyên biên giới.\n\nTrưởng bộ phận Quản lý Khách hàng Doanh nghiệp tại Công ty TNHH Vận Tải Toàn Cầu Apex\nThời gian: Từ 2018-05 đến 2021-02\n- Quản lý đội ngũ 8 nhân viên KAM phụ trách khách hàng ngành dệt may và da giày xuất khẩu.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J05-R02: Chưa nêu riêng cước LCL.",
+        "SA-J05-R04: Chưa nêu riêng doanh thu upsell/cross-sell của tài khoản cũ."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C06",
+      "relevance": 2,
+      "rationale": "KAM B2B từ 2023-05 hơn 3 năm phù hợp nhánh KAM của tiêu chí thâm niên, có hợp đồng FDI và tái ký trên 90%. Tuy nhiên sản phẩm bao bì không chứng minh cước biển/air/hải quan hoặc giải pháp logistics tổng thể; chưa có upsell cụ thể.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J05-R01",
+          "section_id": "SA-J05-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Khách hàng B2B tại Công ty Cổ phần Bao Bì Công Nghiệp Tân Phát\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Phụ trách danh mục 12 nhà máy sản xuất thiết bị gia dụng và may mặc xuất khẩu tại Bình Dương.\n- Đàm phán tái ký hợp đồng khung thường niên cung cấp 500.000 thùng carton các loại với giá trị hợp đồng hơn 16 tỷ đồng/năm.\n- Đạt tỷ lệ tái ký hợp đồng trên 90% liên tục 2 năm qua.\n\nNhân viên Kinh doanh Bao Bì Nhựa tại Công ty TNHH Nhựa Kỹ Thuật Hoàng Long\nThời gian: Từ 2022-04 đến 2023-04\n- Chào bán khay nhựa định hình cho các cơ sở chế biến thực phẩm.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R03",
+          "section_id": "SA-J05-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Khách hàng B2B tại Công ty Cổ phần Bao Bì Công Nghiệp Tân Phát\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Phụ trách danh mục 12 nhà máy sản xuất thiết bị gia dụng và may mặc xuất khẩu tại Bình Dương.\n- Đàm phán tái ký hợp đồng khung thường niên cung cấp 500.000 thùng carton các loại với giá trị hợp đồng hơn 16 tỷ đồng/năm.\n- Đạt tỷ lệ tái ký hợp đồng trên 90% liên tục 2 năm qua.\n\nNhân viên Kinh doanh Bao Bì Nhựa tại Công ty TNHH Nhựa Kỹ Thuật Hoàng Long\nThời gian: Từ 2022-04 đến 2023-04\n- Chào bán khay nhựa định hình cho các cơ sở chế biến thực phẩm.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J05-R04",
+          "section_id": "SA-J05-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quản lý Khách hàng B2B tại Công ty Cổ phần Bao Bì Công Nghiệp Tân Phát\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Phụ trách danh mục 12 nhà máy sản xuất thiết bị gia dụng và may mặc xuất khẩu tại Bình Dương.\n- Đàm phán tái ký hợp đồng khung thường niên cung cấp 500.000 thùng carton các loại với giá trị hợp đồng hơn 16 tỷ đồng/năm.\n- Đạt tỷ lệ tái ký hợp đồng trên 90% liên tục 2 năm qua.\n\nNhân viên Kinh doanh Bao Bì Nhựa tại Công ty TNHH Nhựa Kỹ Thuật Hoàng Long\nThời gian: Từ 2022-04 đến 2023-04\n- Chào bán khay nhựa định hình cho các cơ sở chế biến thực phẩm.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J05-R03: Hợp đồng bao bì chưa chứng minh báo giá chuỗi cung ứng logistics.",
+        "SA-J05-R04: Tái ký không thay hoàn toàn retention tài khoản và chưa nêu upsell.",
+        "SA-J05-R02: Chưa có bằng chứng đủ để xác nhận yêu cầu: Thành thạo nghiệp vụ cước vận tải đường biển (FCL/LCL), cước hàng không (Air Freight) và dịch vụ khai thuê hải quan."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C07",
+      "relevance": 3,
+      "rationale": "KAM logistics từ 2023-09 hơn 3 năm đủ ngưỡng riêng; FCL/LCL/air, hải quan và báo giá tổng thể FDI rõ. Retention 91% và tăng sản lượng 15% trên hợp đồng hiện hữu hỗ trợ mở rộng tài khoản; không cần cộng vai trò cũ thiếu ngày.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J05-R01",
+          "section_id": "SA-J05-C07-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Quản lý Khách hàng Logistics tại Công ty Cổ phần Giao Nhận Thái Bình Dương\nThời gian: Từ 2023-09 đến nay (hiện tại)\n- Phụ trách chăm sóc 16 khách hàng doanh nghiệp FDI Nhật Bản và Đài Loan chuyên sản xuất phụ tùng cơ khí chính xác.\n- Xây dựng báo giá giải pháp chuỗi cung ứng tổng thể kết hợp cước tàu biển FCL từ Nhật về Việt Nam và thủ tục thông quan luồng vàng, luồng đỏ.\n- Thương thảo ký tiếp hợp đồng khung năm 2025 với mức tăng trưởng sản lượng container 15%.\n- Đạt tỷ lệ giữ chân tài khoản 91%, không để xảy ra tranh chấp công nợ lớn.\n\nCộng tác viên Bán cước Hàng hải tại Đại lý Giao Nhận Vận Tải Sao Mai\nThời gian: (thời gian làm việc trước đây theo dự án thời vụ, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Hỗ trợ gửi báo giá cước tàu feeder cho các chủ hàng cá nhân xuất khẩu thanh long sang Singapore.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R02",
+          "section_id": "SA-J05-C07-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Quản lý tài khoản khách hàng logistics (Key Account Management)\n- Cước tàu biển nguyên container (FCL), hàng lẻ (LCL) và hàng air\n- Đàm phán giá hợp đồng thường niên và phụ phí địa phương (Local charges)\n- Phối hợp xử lý vướng mắc thủ tục hải quan tại chi cục Hải quan khu vực\n- Duy trì tỷ lệ giữ chân khách hàng định kỳ hàng năm",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R02",
+          "section_id": "SA-J05-C07-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Quản lý Khách hàng Logistics tại Công ty Cổ phần Giao Nhận Thái Bình Dương\nThời gian: Từ 2023-09 đến nay (hiện tại)\n- Phụ trách chăm sóc 16 khách hàng doanh nghiệp FDI Nhật Bản và Đài Loan chuyên sản xuất phụ tùng cơ khí chính xác.\n- Xây dựng báo giá giải pháp chuỗi cung ứng tổng thể kết hợp cước tàu biển FCL từ Nhật về Việt Nam và thủ tục thông quan luồng vàng, luồng đỏ.\n- Thương thảo ký tiếp hợp đồng khung năm 2025 với mức tăng trưởng sản lượng container 15%.\n- Đạt tỷ lệ giữ chân tài khoản 91%, không để xảy ra tranh chấp công nợ lớn.\n\nCộng tác viên Bán cước Hàng hải tại Đại lý Giao Nhận Vận Tải Sao Mai\nThời gian: (thời gian làm việc trước đây theo dự án thời vụ, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Hỗ trợ gửi báo giá cước tàu feeder cho các chủ hàng cá nhân xuất khẩu thanh long sang Singapore.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R03",
+          "section_id": "SA-J05-C07-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Quản lý Khách hàng Logistics tại Công ty Cổ phần Giao Nhận Thái Bình Dương\nThời gian: Từ 2023-09 đến nay (hiện tại)\n- Phụ trách chăm sóc 16 khách hàng doanh nghiệp FDI Nhật Bản và Đài Loan chuyên sản xuất phụ tùng cơ khí chính xác.\n- Xây dựng báo giá giải pháp chuỗi cung ứng tổng thể kết hợp cước tàu biển FCL từ Nhật về Việt Nam và thủ tục thông quan luồng vàng, luồng đỏ.\n- Thương thảo ký tiếp hợp đồng khung năm 2025 với mức tăng trưởng sản lượng container 15%.\n- Đạt tỷ lệ giữ chân tài khoản 91%, không để xảy ra tranh chấp công nợ lớn.\n\nCộng tác viên Bán cước Hàng hải tại Đại lý Giao Nhận Vận Tải Sao Mai\nThời gian: (thời gian làm việc trước đây theo dự án thời vụ, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Hỗ trợ gửi báo giá cước tàu feeder cho các chủ hàng cá nhân xuất khẩu thanh long sang Singapore.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R04",
+          "section_id": "SA-J05-C07-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Quản lý Khách hàng Logistics tại Công ty Cổ phần Giao Nhận Thái Bình Dương\nThời gian: Từ 2023-09 đến nay (hiện tại)\n- Phụ trách chăm sóc 16 khách hàng doanh nghiệp FDI Nhật Bản và Đài Loan chuyên sản xuất phụ tùng cơ khí chính xác.\n- Xây dựng báo giá giải pháp chuỗi cung ứng tổng thể kết hợp cước tàu biển FCL từ Nhật về Việt Nam và thủ tục thông quan luồng vàng, luồng đỏ.\n- Thương thảo ký tiếp hợp đồng khung năm 2025 với mức tăng trưởng sản lượng container 15%.\n- Đạt tỷ lệ giữ chân tài khoản 91%, không để xảy ra tranh chấp công nợ lớn.\n\nCộng tác viên Bán cước Hàng hải tại Đại lý Giao Nhận Vận Tải Sao Mai\nThời gian: (thời gian làm việc trước đây theo dự án thời vụ, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Hỗ trợ gửi báo giá cước tàu feeder cho các chủ hàng cá nhân xuất khẩu thanh long sang Singapore.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C08",
+      "relevance": 2,
+      "rationale": "Vai trò hải quan kiêm quản lý tài khoản từ 2023-03 hơn 3 năm có nội dung KAM và upsell FCL rõ. Air, hợp đồng khung/báo giá tổng thể và retention trên 90% chưa nêu; không tính toàn bộ hiện trường trước thành KAM.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J05-R01",
+          "section_id": "SA-J05-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Hải quan kiêm Quản lý Tài khoản Khách hàng tại Công ty Cổ phần Tiếp Vận & Khai Thuê Hải Quan Rồng Vàng\nThời gian: Từ 2023-03 đến nay (đang làm việc)\n- Trực tiếp phụ trách thủ tục hải quan và điều phối logistics cho 10 nhà máy FDI may mặc và da giày xuất khẩu.\n- Lập tờ khai nhập khẩu nguyên phụ liệu gia công và tờ khai xuất khẩu sản phẩm hoàn chỉnh trung bình 180 tờ khai/tháng.\n- Thuyết phục khách hàng sử dụng thêm gói cước tàu biển FCL trọn gói do công ty cung cấp thay vì tự thuê dịch vụ ngoài, giúp tăng doanh thu từ tài khoản cũ thêm 30%.\n- Hỗ trợ giải trình hồ sơ tham vấn giá và kiểm tra sau thông quan thành công cho 2 đối tác FDI lớn.\n\nNhân viên Hiện trường Hải quan tại Công ty TNHH Tiếp Vận Hải An\nThời gian: Từ 2022-04 đến 2023-02\n- Trực tiếp đi mở tờ khai, lấy mẫu kiểm nghiệm và bấm seal container tại cảng Cát Lái.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J05-R02",
+          "section_id": "SA-J05-C08-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Khai thuê hải quan điện tử qua phần mềm VNACCS/VCIS\n- Tra cứu biểu thuế xuất nhập khẩu và phân loại mã HS Code\n- Quản trị dịch vụ khách hàng logistics doanh nghiệp FDI\n- Báo giá cước tàu biển FCL/LCL và cước vận tải đường bộ kéo cont\n- Tiếng Anh đọc hiểu chứng từ vận tải Bill of Lading, Invoice và Packing List",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J05-R03",
+          "section_id": "SA-J05-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Hải quan kiêm Quản lý Tài khoản Khách hàng tại Công ty Cổ phần Tiếp Vận & Khai Thuê Hải Quan Rồng Vàng\nThời gian: Từ 2023-03 đến nay (đang làm việc)\n- Trực tiếp phụ trách thủ tục hải quan và điều phối logistics cho 10 nhà máy FDI may mặc và da giày xuất khẩu.\n- Lập tờ khai nhập khẩu nguyên phụ liệu gia công và tờ khai xuất khẩu sản phẩm hoàn chỉnh trung bình 180 tờ khai/tháng.\n- Thuyết phục khách hàng sử dụng thêm gói cước tàu biển FCL trọn gói do công ty cung cấp thay vì tự thuê dịch vụ ngoài, giúp tăng doanh thu từ tài khoản cũ thêm 30%.\n- Hỗ trợ giải trình hồ sơ tham vấn giá và kiểm tra sau thông quan thành công cho 2 đối tác FDI lớn.\n\nNhân viên Hiện trường Hải quan tại Công ty TNHH Tiếp Vận Hải An\nThời gian: Từ 2022-04 đến 2023-02\n- Trực tiếp đi mở tờ khai, lấy mẫu kiểm nghiệm và bấm seal container tại cảng Cát Lái.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J05-R04",
+          "section_id": "SA-J05-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Hải quan kiêm Quản lý Tài khoản Khách hàng tại Công ty Cổ phần Tiếp Vận & Khai Thuê Hải Quan Rồng Vàng\nThời gian: Từ 2023-03 đến nay (đang làm việc)\n- Trực tiếp phụ trách thủ tục hải quan và điều phối logistics cho 10 nhà máy FDI may mặc và da giày xuất khẩu.\n- Lập tờ khai nhập khẩu nguyên phụ liệu gia công và tờ khai xuất khẩu sản phẩm hoàn chỉnh trung bình 180 tờ khai/tháng.\n- Thuyết phục khách hàng sử dụng thêm gói cước tàu biển FCL trọn gói do công ty cung cấp thay vì tự thuê dịch vụ ngoài, giúp tăng doanh thu từ tài khoản cũ thêm 30%.\n- Hỗ trợ giải trình hồ sơ tham vấn giá và kiểm tra sau thông quan thành công cho 2 đối tác FDI lớn.\n\nNhân viên Hiện trường Hải quan tại Công ty TNHH Tiếp Vận Hải An\nThời gian: Từ 2022-04 đến 2023-02\n- Trực tiếp đi mở tờ khai, lấy mẫu kiểm nghiệm và bấm seal container tại cảng Cát Lái.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J05-R02: Chưa nêu cước hàng không.",
+        "SA-J05-R03: Chưa nêu đàm phán hợp đồng khung thường niên và báo giá tổng thể.",
+        "SA-J05-R04: Chưa có tỷ lệ giữ chân khách hàng."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

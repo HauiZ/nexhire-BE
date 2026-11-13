@@ -1,0 +1,95 @@
+{
+  "verified_candidate_count": 8,
+  "job_id": "MK-J03",
+  "blocking_issues": [],
+  "resolved_historical_issues": [
+    {
+      "disposition": "fixed",
+      "issue_summary": "School prestige criterion in MK-J03-R05",
+      "candidate_id": "MK-J03-R05",
+      "evidence_note": "Removed 'tại các trường uy tín' from JD and requirement text per HR-SOURCE-001. All 6 requirements match verbatim in jd_text."
+    },
+    {
+      "evidence_note": "Cleared skills_used for EXP-02 per HR-SOURCE-003. Replaced real agency names Ogilvy/Dentsu with 'agency sáng tạo quốc tế' per HR-SOURCE-007.",
+      "issue_summary": "EXP-02 positioning skill ungrounded and real agency names in EXP-01",
+      "disposition": "fixed",
+      "candidate_id": "MK-J03-C01"
+    },
+    {
+      "issue_summary": "EXP-01 description scope inflation and EXP-02 ungrounded IMC skill",
+      "disposition": "fixed",
+      "evidence_note": "Repaired EXP-01 description to match section text verbatim without 28-store or Digital KOLs additions per HR-SOURCE-004. Cleared EXP-02 skills_used per HR-SOURCE-003.",
+      "candidate_id": "MK-J03-C02"
+    },
+    {
+      "candidate_id": "MK-J03-C03",
+      "disposition": "fixed",
+      "evidence_note": "Removed media agency from EXP-01 skills_used, retaining 'Làm việc với Creative Agency'. Removed negative denial clause 'chưa chính thức quản lý...' per HR-SOURCE-006.",
+      "issue_summary": "EXP-01 media agency compound attribution and negative prose"
+    },
+    {
+      "evidence_note": "Removed CVS from EXP-01 skills_used, retaining 'Kênh siêu thị MT'. Cleared EXP-02 skills_used. Removed negative denial sentences from summary and EXP per HR-SOURCE-006. Fictionalized retailer names per HR-SOURCE-007.",
+      "disposition": "fixed",
+      "issue_summary": "EXP-01/EXP-02 compound skill attribution, real retail brands, and negative prose",
+      "candidate_id": "MK-J03-C04"
+    },
+    {
+      "evidence_note": "Removed WPP/Omnicom from EXP-01 skills_used. Renamed SunGroup to SunRetail per HR-SOURCE-007. Cleared EXP-02 skills_used per HR-SOURCE-003.",
+      "issue_summary": "EXP-01 WPP/Omnicom attribution and real brand name SunGroup",
+      "candidate_id": "MK-J03-C05",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "Summary tenure vs dated employment timeline gap",
+      "evidence_note": "Summary claims >11 years experience while dated timeline spans 10 years 7 months (2016-04 to 2026-11). Preserved under HR-SOURCE-008 without rewriting.",
+      "candidate_id": "MK-J03-C05"
+    },
+    {
+      "issue_summary": "EXP-01 CPA attribution, EXP-02 e-commerce attribution, and negative prose",
+      "disposition": "fixed",
+      "candidate_id": "MK-J03-C06",
+      "evidence_note": "Removed CPA from EXP-01 skills_used, retaining 'Tối ưu ROAS'. Cleared EXP-02 skills_used. Removed negative denial sentences from summary and EXP per HR-SOURCE-006."
+    },
+    {
+      "disposition": "accepted_limitation",
+      "evidence_note": "500M monthly ad budget preserved verbatim without annualizing or equating to brand budget per HR-SOURCE-008.",
+      "candidate_id": "MK-J03-C06",
+      "issue_summary": "Monthly performance ad budget vs annual brand budget scope"
+    },
+    {
+      "candidate_id": "MK-J03-C07",
+      "evidence_note": "EXP-02 unstated dates with is_current=false supported by explicit prior wording '(thời gian làm việc trước đây...)' per HR-SOURCE-005.",
+      "issue_summary": "EXP-02 missing dates with false is_current status",
+      "disposition": "accepted_limitation"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "candidate_id": "MK-J03-C07",
+      "issue_summary": "Summary budget and tenure scope ambiguity",
+      "evidence_note": "Summary budget 6B vs dated 2025 budget 6.5B and unquantified total past tenure preserved under HR-SOURCE-008."
+    },
+    {
+      "evidence_note": "Cleared skills_used for EXP-02 per HR-SOURCE-003. EXP-01 skills_used supported in role prose.",
+      "candidate_id": "MK-J03-C08",
+      "disposition": "fixed",
+      "issue_summary": "EXP-02 brand positioning skill ungrounded"
+    },
+    {
+      "issue_summary": "Aggregate agency project budget vs owned brand budget scope",
+      "disposition": "accepted_limitation",
+      "evidence_note": "Aggregate client project budget >20B preserved verbatim; not equated mechanically to owned annual brand budget per HR-SOURCE-008.",
+      "candidate_id": "MK-J03-C08"
+    }
+  ],
+  "source_acceptance": "accepted",
+  "limitations_noted": [
+    "Development pilot only; no held-out test or generalization claim per PROTOCOL.md.",
+    "MK-J03-C01 length 526 tokens exceeds preferred 200-450 word range; kept intact per protocol anti-truncation rule.",
+    "Fictionalization checked against known brands per HR-SOURCE-007; no exhaustive external entity registry check.",
+    "Summary tenure discrepancies (C05 >11y summary vs 10y7m dated; C07 past tenure unstated dates) retained under HR-SOURCE-008.",
+    "Candidate index recurring scenarios present; candidate IDs and order must not be model features per HR-SOURCE-009."
+  ],
+  "verification_run_id": "wlj22smze",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

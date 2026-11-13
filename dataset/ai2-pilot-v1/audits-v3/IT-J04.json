@@ -1,0 +1,49 @@
+{
+  "limitations_noted": [
+    "Source acceptance only; no relevance labels or hiring fitness claims established.",
+    "Candidate-index template repetition across pilot jobs retained for development use only under HR-SOURCE-009.",
+    "Candidate IT-J04-C07 word count (183 words) is slightly below the preferred 200-450 word range following removal of negative sentence.",
+    "Lexical skill presence does not evaluate candidate proficiency level (e.g., basic qualifiers in source text).",
+    "Educational institution and employer entity names not independently verified beyond fictionalization protocol."
+  ],
+  "source_acceptance": "accepted",
+  "verified_candidate_count": 8,
+  "job_id": "IT-J04",
+  "blocking_issues": [],
+  "resolved_historical_issues": [
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J04-C01-E02 skills_used included Dart without explicit mention in internship description; removed under HR-SOURCE-003."
+    },
+    {
+      "issue_summary": "IT-J04-C07-E01 is_current was false despite unstated dates; updated to null under HR-SOURCE-005. Negative limitation prose removed from S01 under HR-SOURCE-006.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J04-C02 summary tenure (1 year 4 months) approximates current role and excludes probation tenure; preserved under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J04-C04 summary tenure (1 year 6 months) excludes probation tenure; Google Play Store summary vs Google Play Console test upload preserved under HR-SOURCE-004 and HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J04-C05 summary tenure (1 year 6 months) may exclude internship tenure; preserved under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J04-C06 summary tenure (1 year 2 months) versus ~15-month current role plus internship; preserved under HR-SOURCE-008."
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J04-C08 8-month self-study tenure within ~22-month mixed UI/UX and Flutter role; preserved under HR-SOURCE-008."
+    },
+    {
+      "disposition": "accepted_limitation",
+      "issue_summary": "Recurring candidate-index scenarios across IT jobs (e.g., freelance missing-dates profile C07, tech stack pivots C03/C05/C08); accepted under HR-SOURCE-009."
+    }
+  ],
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

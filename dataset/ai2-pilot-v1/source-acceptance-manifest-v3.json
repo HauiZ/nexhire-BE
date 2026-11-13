@@ -1,0 +1,333 @@
+{
+  "schema_version": "ai2-pilot-source-acceptance-v3",
+  "gate_status": "READY_FOR_GATE_A_SIGNOFF",
+  "split": "development",
+  "reference_date": "2026-11-10",
+  "synthetic_only": true,
+  "total_jobs": 20,
+  "accepted_jobs": 20,
+  "total_candidates_pairs": 160,
+  "total_blocking_issues": 0,
+  "verification_model": "ag/gemini-3.8-flash-high",
+  "source_artifacts": {
+    "it.json": {
+      "path": "dataset/ai2-pilot-v1/sources/it.json",
+      "sha256": "f56ac2552a106b0091f0cbfb775a46de6e33d1393344ca5920ba16a15ee62f22"
+    },
+    "sales-marketing.json": {
+      "path": "dataset/ai2-pilot-v1/sources/sales-marketing.json",
+      "sha256": "b196a9bc9aad9e0ed91ed04073280ba5e1b108f493838e75be5cd3e322f71f94"
+    },
+    "PROTOCOL.md": {
+      "path": "dataset/ai2-pilot-v1/PROTOCOL.md",
+      "sha256": "647920f5902a7da9c15ea23f5312700e35b8d868fd62467ce614197064407c4a"
+    },
+    "human-review-decisions.json": {
+      "path": "dataset/ai2-pilot-v1/human-review-decisions.json",
+      "sha256": "fa1658498e0cc1a1839b98ec1548bf3fd7663a1baef6b8a6ddfe288ed741d2ce"
+    }
+  },
+  "mechanical_validation": {
+    "validator_script": "dataset/ai2-pilot-v1/validate_sources.py",
+    "errors": 0,
+    "warnings": 637,
+    "warning_types": {
+      "preferred whitespace-token length": 5,
+      "skill requires semantic support check": 286,
+      "structured fact requires semantic support check": 346
+    },
+    "exact_duplicate_pairs": 0,
+    "near_duplicate_pairs_0_5": 0
+  },
+  "disposition_totals": {
+    "fixed": 131,
+    "retained_ambiguity": 65,
+    "accepted_limitation": 25
+  },
+  "accepted_pilot_limitations": [
+    "Development-only synthetic corpus; no real candidates or expert-gold hiring claims.",
+    "Candidate IDs, ordinal positions (C01..C08), and recurring 6-section/2-job archetypes must never be used as model features or labeling shortcuts (HR-SOURCE-009).",
+    "Preserved ambiguous summary tenure claims and unknown/null dates (HR-SOURCE-005/008) must be evaluated explicitly against role tasks/dates during silver annotation.",
+    "Preserved verbatim 'Cử nhân Cao đẳng' degree wording in SA-J02-C07 (HR-SOURCE-010) and retained CV self-descriptions without penalizing or rewarding protected/health prose (HR-SOURCE-011).",
+    "Silver annotation (Plan B02-B03) requires separate fresh cx/gpt-6.1-sol contexts once GPT session quota resets and Gate A is signed off."
+  ],
+  "jobs": [
+    {
+      "job_id": "IT-J01",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 3,
+        "retained_ambiguity": 4,
+        "accepted_limitation": 2
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "e514404bde102e5dd4bea420a68945e8819392f3775027aea68b5951ef2a2f16"
+    },
+    {
+      "job_id": "IT-J02",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 3,
+        "retained_ambiguity": 3
+      },
+      "limitations_count": 4,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "e9d2e05e3df255c62307d225039aba3ccab72f4e40e45e2ad1416d902113f18e"
+    },
+    {
+      "job_id": "IT-J03",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 3,
+        "retained_ambiguity": 3,
+        "accepted_limitation": 2
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "1cdf4690921a1d1d40c81d900c07c3851eae6d9184a5674a3faecc4bbc75612b"
+    },
+    {
+      "job_id": "IT-J04",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 2,
+        "retained_ambiguity": 5,
+        "accepted_limitation": 1
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "ccd72fb97807994a2ae992d9e2e005653fb67ddedd4bbc965a8b176760011959"
+    },
+    {
+      "job_id": "IT-J05",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 3,
+        "retained_ambiguity": 4,
+        "accepted_limitation": 1
+      },
+      "limitations_count": 6,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "d4ea343827d7c86bbbaa92344f4bd975c95d2139cdc3942480a9cc72154b17c3"
+    },
+    {
+      "job_id": "IT-J06",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "retained_ambiguity": 5,
+        "fixed": 3,
+        "accepted_limitation": 1
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "a852150e7515a23841dc473edfb35ef104fc76453dba8000dc4f8cdd7db08e01"
+    },
+    {
+      "job_id": "IT-J07",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 3,
+        "retained_ambiguity": 3,
+        "accepted_limitation": 2
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "eca68e8683489579c46ec09fcbd90bbfa8e590c06a1eda3aab59327ccbce1a64"
+    },
+    {
+      "job_id": "IT-J08",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "retained_ambiguity": 6,
+        "fixed": 1,
+        "accepted_limitation": 1
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "707f688d8cc36f67ba00ddfcf1d3e020ca07832c8bcbda5926e1f95e1efabc47"
+    },
+    {
+      "job_id": "IT-J09",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 4,
+        "accepted_limitation": 3,
+        "retained_ambiguity": 3
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "c4042603312b2be853d72980c94e02993c46f7d391472531d2f2bb6696f652c5"
+    },
+    {
+      "job_id": "IT-J10",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 7,
+        "retained_ambiguity": 5,
+        "accepted_limitation": 1
+      },
+      "limitations_count": 6,
+      "verification_run_id": "wtys44xgs",
+      "audit_file_sha256": "37631d6adc6d0c4b141ebb488df8c3d537c4675670b96356dfc2f642699d579e"
+    },
+    {
+      "job_id": "SA-J01",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 7,
+        "accepted_limitation": 1,
+        "retained_ambiguity": 1
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wlj22smze",
+      "audit_file_sha256": "c449024e38d63ddb4edcf8286b4228f655c72c78e3becb4c08b0e5c000215582"
+    },
+    {
+      "job_id": "SA-J02",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 12,
+        "retained_ambiguity": 4
+      },
+      "limitations_count": 4,
+      "verification_run_id": "wlj22smze",
+      "audit_file_sha256": "17561a4c4b771694d68d769ef5ff8b9b565e95ff5c78f596c997b4720020655b"
+    },
+    {
+      "job_id": "SA-J03",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 8,
+        "retained_ambiguity": 2,
+        "accepted_limitation": 1
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wxftmuxcr",
+      "audit_file_sha256": "a93ede58443af1cd23eb32f394caa0dbf61e9898006f4016be90524c57e53084"
+    },
+    {
+      "job_id": "SA-J04",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 13,
+        "accepted_limitation": 1,
+        "retained_ambiguity": 1
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wlj22smze",
+      "audit_file_sha256": "4a6bed6e41605c9e58a728e003c417a32d9ddde7a3ee4be98dd0738e568e483d"
+    },
+    {
+      "job_id": "SA-J05",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 14,
+        "retained_ambiguity": 6,
+        "accepted_limitation": 2
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wlj22smze",
+      "audit_file_sha256": "760812403ac2b981f585aeb9938c3dc8cb80625f2c05aa63bc63e5eff79ed5d8"
+    },
+    {
+      "job_id": "MK-J01",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 10,
+        "retained_ambiguity": 1,
+        "accepted_limitation": 1
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wlj22smze",
+      "audit_file_sha256": "aef71412dcab3876541c23da357b9b670a23c08551b7d93b524124c5ae5a79d3"
+    },
+    {
+      "job_id": "MK-J02",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 11,
+        "retained_ambiguity": 3,
+        "accepted_limitation": 1
+      },
+      "limitations_count": 4,
+      "verification_run_id": "wlj22smze",
+      "audit_file_sha256": "605b6580eaee0cf065945eaf32bd594692650f650c68b9616401c27b51bd9f78"
+    },
+    {
+      "job_id": "MK-J03",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 8,
+        "retained_ambiguity": 2,
+        "accepted_limitation": 3
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wlj22smze",
+      "audit_file_sha256": "a5152727b1d894d6ed7048be38beb882f51123b81ddd2103ebd8fafb72df4a54"
+    },
+    {
+      "job_id": "MK-J04",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 8,
+        "retained_ambiguity": 2,
+        "accepted_limitation": 1
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wlj22smze",
+      "audit_file_sha256": "29dddd15b5cda0d67f55dee65cf3f769815e014e11f9442d9e14bcbfca51ef03"
+    },
+    {
+      "job_id": "MK-J05",
+      "verified_candidate_count": 8,
+      "source_acceptance": "accepted",
+      "blocking_issues_count": 0,
+      "resolved_dispositions": {
+        "fixed": 8,
+        "retained_ambiguity": 2
+      },
+      "limitations_count": 5,
+      "verification_run_id": "wlj22smze",
+      "audit_file_sha256": "43ce704e26a8997fdbb5b229184fefcaa4caa30c2e57f3b4a19f7392e3340a35"
+    }
+  ]
+}

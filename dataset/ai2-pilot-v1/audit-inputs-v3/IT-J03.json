@@ -1,0 +1,886 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "IT-J03",
+      "source_family_id": "IT-J03",
+      "domain": "it",
+      "title": "Kỹ sư Dữ liệu (Data Engineer)",
+      "level": "mid",
+      "language": "vi",
+      "jd_text": "Công ty Cổ phần Công nghệ Dữ liệu Số DataX tuyển dụng Kỹ sư Dữ liệu (Data Engineer) cấp độ Mid làm việc tại Cầu Giấy, Hà Nội. Hình thức làm việc: Toàn thời gian trực tiếp tại văn phòng. Mức thu nhập từ 24.000.000 đến 38.000.000 VND kèm chế độ thưởng dự án hàng quý và bảo hiểm sức khỏe toàn diện.\n\nTrách nhiệm công việc:\n- Xây dựng, triển khai và bảo trì các đường ống dữ liệu (data pipeline) tự động từ nhiều nguồn khác nhau về Data Lake và Data Warehouse.\n- Xử lý làm sạch, chuẩn hóa và biến đổi dữ liệu lớn phục vụ các mô hình phân tích kinh doanh (BI) và Machine Learning.\n- Phối hợp chặt chẽ với Data Analyst và kỹ sư backend để thiết kế mô hình dữ liệu tối ưu.\n- Theo dõi, giám sát chất lượng và tính toàn vẹn của dữ liệu trong toàn bộ quy trình.\n\nYêu cầu bắt buộc:\n- Tối thiểu 3 năm kinh nghiệm trong vai trò Data Engineer hoặc Big Data Developer.\n- Thành thạo lập trình Python hoặc Scala phục vụ xử lý và biến đổi dữ liệu lớn.\n- Kinh nghiệm thực chiến với Apache Spark trong xử lý dữ liệu theo lô (batch) hoặc thời gian thực (streaming).\n- Thành thạo thiết kế data warehouse trên PostgreSQL, MySQL hoặc Google BigQuery.\n\nYêu cầu ưu tiên:\n- Kinh nghiệm điều phối luồng dữ liệu (workflow orchestration) với Apache Airflow.\n- Hiểu biết về kiến trúc Data Lake và định dạng lưu trữ cột như Parquet hoặc ORC.",
+      "requirements": [
+        {
+          "requirement_id": "IT-J03-R01",
+          "text": "Tối thiểu 3 năm kinh nghiệm trong vai trò Data Engineer hoặc Big Data Developer.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J03-R02",
+          "text": "Thành thạo lập trình Python hoặc Scala phục vụ xử lý và biến đổi dữ liệu lớn.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J03-R03",
+          "text": "Kinh nghiệm thực chiến với Apache Spark trong xử lý dữ liệu theo lô (batch) hoặc thời gian thực (streaming).",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J03-R04",
+          "text": "Thành thạo thiết kế data warehouse trên PostgreSQL, MySQL hoặc Google BigQuery.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J03-R05",
+          "text": "Kinh nghiệm điều phối luồng dữ liệu (workflow orchestration) với Apache Airflow.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J03-R06",
+          "text": "Hiểu biết về kiến trúc Data Lake và định dạng lưu trữ cột như Parquet hoặc ORC.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "IT-J03-C01",
+          "cv_text": "Tóm tắt: Kỹ sư Dữ liệu có 3 năm 6 tháng kinh nghiệm chuyên trách xây dựng data pipeline quy mô lớn. Thành thạo lập trình Python, xử lý dữ liệu phân tán với Apache Spark và điều phối luồng dữ liệu bằng Apache Airflow. Có kinh nghiệm xây dựng kho dữ liệu trên Google BigQuery và lưu trữ Data Lake định dạng Parquet.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: Python, SQL, Scala cơ bản.\n- Công nghệ Big Data: Apache Spark (PySpark), Hadoop HDFS, Kafka.\n- Điều phối & Kho dữ liệu: Apache Airflow, Google BigQuery, PostgreSQL.\n- Định dạng & Hạ tầng: Parquet, ORC, Docker, AWS S3, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Data Engineer tại Công ty Cổ phần Thương mại Số Đông Á. Thời gian: từ 2023-03 đến nay. Mô tả: Xây dựng và tối ưu các pipeline ETL hàng ngày xử lý hơn 50 triệu bản ghi bán hàng bằng PySpark và Apache Airflow. Thiết kế data warehouse trên Google BigQuery phục vụ báo cáo doanh thu BI. Chuyển đổi dữ liệu thô sang định dạng cột Parquet trên Amazon S3 Data Lake, giảm 65% chi phí lưu trữ.\n- Chức danh: Junior Data Engineer tại Công ty TNHH Giải pháp Phân tích Thống kê Việt. Thời gian: từ 2022-06 đến 2023-02. Mô tả: Lập trình các script Python thu thập dữ liệu qua API, làm sạch dữ liệu và nạp vào cơ sở dữ liệu PostgreSQL.\n\nDự án tiêu biểu:\n- Dự án Xây dựng Data Warehouse & Pipeline Đông Á: Thiết kế pipeline xử lý dữ liệu theo lô bằng Apache Spark và lập lịch tự động bằng Apache Airflow, nạp dữ liệu vào Google BigQuery.\n\nHọc vấn:\n- Cử nhân Khoa học Dữ liệu, Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội.\n\nChứng chỉ:\n- Google Cloud Certified Professional Data Engineer.",
+          "sections": [
+            {
+              "section_id": "IT-J03-C01-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Kỹ sư Dữ liệu có 3 năm 6 tháng kinh nghiệm chuyên trách xây dựng data pipeline quy mô lớn. Thành thạo lập trình Python, xử lý dữ liệu phân tán với Apache Spark và điều phối luồng dữ liệu bằng Apache Airflow. Có kinh nghiệm xây dựng kho dữ liệu trên Google BigQuery và lưu trữ Data Lake định dạng Parquet."
+            },
+            {
+              "section_id": "IT-J03-C01-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ: Python, SQL, Scala cơ bản.\n- Công nghệ Big Data: Apache Spark (PySpark), Hadoop HDFS, Kafka.\n- Điều phối & Kho dữ liệu: Apache Airflow, Google BigQuery, PostgreSQL.\n- Định dạng & Hạ tầng: Parquet, ORC, Docker, AWS S3, Git."
+            },
+            {
+              "section_id": "IT-J03-C01-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Data Engineer tại Công ty Cổ phần Thương mại Số Đông Á. Thời gian: từ 2023-03 đến nay. Mô tả: Xây dựng và tối ưu các pipeline ETL hàng ngày xử lý hơn 50 triệu bản ghi bán hàng bằng PySpark và Apache Airflow. Thiết kế data warehouse trên Google BigQuery phục vụ báo cáo doanh thu BI. Chuyển đổi dữ liệu thô sang định dạng cột Parquet trên Amazon S3 Data Lake, giảm 65% chi phí lưu trữ.\n- Chức danh: Junior Data Engineer tại Công ty TNHH Giải pháp Phân tích Thống kê Việt. Thời gian: từ 2022-06 đến 2023-02. Mô tả: Lập trình các script Python thu thập dữ liệu qua API, làm sạch dữ liệu và nạp vào cơ sở dữ liệu PostgreSQL."
+            },
+            {
+              "section_id": "IT-J03-C01-S04",
+              "kind": "project",
+              "text": "Dự án tiêu biểu:\n- Dự án Xây dựng Data Warehouse & Pipeline Đông Á: Thiết kế pipeline xử lý dữ liệu theo lô bằng Apache Spark và lập lịch tự động bằng Apache Airflow, nạp dữ liệu vào Google BigQuery."
+            },
+            {
+              "section_id": "IT-J03-C01-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Khoa học Dữ liệu, Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội."
+            },
+            {
+              "section_id": "IT-J03-C01-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Google Cloud Certified Professional Data Engineer."
+            }
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Scala",
+            "Apache Spark",
+            "PySpark",
+            "Hadoop HDFS",
+            "Kafka",
+            "Apache Airflow",
+            "Google BigQuery",
+            "PostgreSQL",
+            "Parquet",
+            "ORC",
+            "Docker",
+            "AWS S3",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J03-C01-E01",
+              "title": "Data Engineer",
+              "company": "Công ty Cổ phần Thương mại Số Đông Á",
+              "start_date": "2023-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng và tối ưu các pipeline ETL hàng ngày xử lý hơn 50 triệu bản ghi bán hàng bằng PySpark và Apache Airflow. Thiết kế data warehouse trên Google BigQuery phục vụ báo cáo doanh thu BI. Chuyển đổi dữ liệu thô sang định dạng cột Parquet trên Amazon S3 Data Lake, giảm 65% chi phí lưu trữ.",
+              "skills_used": [
+                "PySpark",
+                "Apache Airflow",
+                "Google BigQuery",
+                "Parquet"
+              ],
+              "section_id": "IT-J03-C01-S03"
+            },
+            {
+              "experience_id": "IT-J03-C01-E02",
+              "title": "Junior Data Engineer",
+              "company": "Công ty TNHH Giải pháp Phân tích Thống kê Việt",
+              "start_date": "2022-06",
+              "end_date": "2023-02",
+              "is_current": false,
+              "description": "Lập trình các script Python thu thập dữ liệu qua API, làm sạch dữ liệu và nạp vào cơ sở dữ liệu PostgreSQL.",
+              "skills_used": [
+                "Python",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C01-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J03-C01-P01",
+              "name": "Xây dựng Data Warehouse & Pipeline Đông Á",
+              "description": "Thiết kế pipeline xử lý dữ liệu theo lô bằng Apache Spark và lập lịch tự động bằng Apache Airflow, nạp dữ liệu vào Google BigQuery.",
+              "technologies_or_methods": [
+                "Apache Spark",
+                "Apache Airflow",
+                "Google BigQuery"
+              ],
+              "section_id": "IT-J03-C01-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Khoa học Dữ liệu",
+              "section_id": "IT-J03-C01-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Google Cloud Certified Professional Data Engineer",
+              "section_id": "IT-J03-C01-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J03-C02",
+          "cv_text": "Tóm lược nghề nghiệp: Kỹ sư Lập trình Backend chuyển hướng sang Kỹ sư Dữ liệu với hơn 4 năm kinh nghiệm công nghệ thông tin. Có 2 năm làm backend Python và hơn 2 năm chuyên sâu thiết kế cơ sở dữ liệu quan hệ PostgreSQL, MySQL cùng các đường ống truyền tải dữ liệu. Đã tham gia xử lý dữ liệu theo lô với Spark và lập lịch bằng Airflow.\n\nKỹ năng:\n- Ngôn ngữ: Python, SQL.\n- Công nghệ dữ liệu: Apache Spark, Apache Airflow, PostgreSQL, MySQL.\n- Công cụ & Hệ thống: Docker, Git, Linux, Bash Script.\n\nKinh nghiệm làm việc:\n- Chức danh: Kỹ sư Dữ liệu tại Công ty Cổ phần Vận tải Thông minh LogiTrack. Thời gian: từ 2024-01 đến nay. Mô tả: Xây dựng pipeline thu thập log vận chuyển từ xe tải thông minh. Sử dụng Python và Apache Spark để xử lý dữ liệu batch hàng đêm và lưu trữ vào PostgreSQL Data Warehouse. Cấu hình DAGs trên Apache Airflow để tự động hóa quy trình.\n- Chức danh: Lập trình viên Backend Python tại Công ty TNHH Giải pháp Phần mềm Trực Tuyến Á Châu. Thời gian: từ 2021-08 đến 2023-12. Mô tả: Phát triển REST API bằng Python FastAPI và quản trị cơ sở dữ liệu MySQL và PostgreSQL.\n\nDự án:\n- Dự án Hệ thống Thu thập và Báo cáo Vận tải LogiData: Triển khai pipeline ETL xử lý thông tin định vị GPS bằng Apache Spark, kết nối PostgreSQL và lập lịch qua Airflow.\n\nHọc vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J03-C02-S01",
+              "kind": "summary",
+              "text": "Tóm lược nghề nghiệp: Kỹ sư Lập trình Backend chuyển hướng sang Kỹ sư Dữ liệu với hơn 4 năm kinh nghiệm công nghệ thông tin. Có 2 năm làm backend Python và hơn 2 năm chuyên sâu thiết kế cơ sở dữ liệu quan hệ PostgreSQL, MySQL cùng các đường ống truyền tải dữ liệu. Đã tham gia xử lý dữ liệu theo lô với Spark và lập lịch bằng Airflow."
+            },
+            {
+              "section_id": "IT-J03-C02-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Python, SQL.\n- Công nghệ dữ liệu: Apache Spark, Apache Airflow, PostgreSQL, MySQL.\n- Công cụ & Hệ thống: Docker, Git, Linux, Bash Script."
+            },
+            {
+              "section_id": "IT-J03-C02-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Kỹ sư Dữ liệu tại Công ty Cổ phần Vận tải Thông minh LogiTrack. Thời gian: từ 2024-01 đến nay. Mô tả: Xây dựng pipeline thu thập log vận chuyển từ xe tải thông minh. Sử dụng Python và Apache Spark để xử lý dữ liệu batch hàng đêm và lưu trữ vào PostgreSQL Data Warehouse. Cấu hình DAGs trên Apache Airflow để tự động hóa quy trình.\n- Chức danh: Lập trình viên Backend Python tại Công ty TNHH Giải pháp Phần mềm Trực Tuyến Á Châu. Thời gian: từ 2021-08 đến 2023-12. Mô tả: Phát triển REST API bằng Python FastAPI và quản trị cơ sở dữ liệu MySQL và PostgreSQL."
+            },
+            {
+              "section_id": "IT-J03-C02-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Thu thập và Báo cáo Vận tải LogiData: Triển khai pipeline ETL xử lý thông tin định vị GPS bằng Apache Spark, kết nối PostgreSQL và lập lịch qua Airflow."
+            },
+            {
+              "section_id": "IT-J03-C02-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J03-C02-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Apache Spark",
+            "Apache Airflow",
+            "PostgreSQL",
+            "MySQL",
+            "Docker",
+            "Git",
+            "Linux",
+            "Bash Script"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J03-C02-E01",
+              "title": "Kỹ sư Dữ liệu",
+              "company": "Công ty Cổ phần Vận tải Thông minh LogiTrack",
+              "start_date": "2024-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng pipeline thu thập log vận chuyển từ xe tải thông minh. Sử dụng Python và Apache Spark để xử lý dữ liệu batch hàng đêm và lưu trữ vào PostgreSQL Data Warehouse. Cấu hình DAGs trên Apache Airflow để tự động hóa quy trình.",
+              "skills_used": [
+                "Python",
+                "Apache Spark",
+                "Apache Airflow",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C02-S03"
+            },
+            {
+              "experience_id": "IT-J03-C02-E02",
+              "title": "Lập trình viên Backend Python",
+              "company": "Công ty TNHH Giải pháp Phần mềm Trực Tuyến Á Châu",
+              "start_date": "2021-08",
+              "end_date": "2023-12",
+              "is_current": false,
+              "description": "Phát triển REST API bằng Python FastAPI và quản trị cơ sở dữ liệu MySQL và PostgreSQL.",
+              "skills_used": [
+                "Python",
+                "MySQL",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C02-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J03-C02-P01",
+              "name": "Hệ thống Thu thập và Báo cáo Vận tải LogiData",
+              "description": "Triển khai pipeline ETL xử lý thông tin định vị GPS bằng Apache Spark, kết nối PostgreSQL và lập lịch qua Airflow.",
+              "technologies_or_methods": [
+                "Apache Spark",
+                "Airflow",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C02-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J03-C02-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J03-C03",
+          "cv_text": "Tóm tắt: Chuyên viên Phân tích Dữ liệu BI (Business Intelligence) có 3 năm 6 tháng kinh nghiệm chuyên sâu về SQL và thiết kế Data Warehouse trên PostgreSQL và MySQL. Đã tự học và thực hiện các script biến đổi dữ liệu bằng Python và học cách cấu hình Apache Airflow.\n\nKỹ năng:\n- Ngôn ngữ: SQL (nâng cao), Python.\n- Công cụ BI & Dữ liệu: Power BI, Tableau, PostgreSQL, MySQL.\n- ETL & Tự động hóa: Python Pandas, Apache Airflow (cơ bản).\n- Khác: Excel, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Chuyên viên Dữ liệu BI tại Công ty Cổ phần Thương mại Bán lẻ Việt Hưng. Thời gian: từ 2023-02 đến nay. Mô tả: Thiết kế cấu trúc bảng fact và dimension cho Data Warehouse trên PostgreSQL. Tối ưu câu lệnh SQL phục vụ báo cáo quản trị và sử dụng Python để tự động trích xuất dữ liệu từ MySQL.\n- Chức danh: Nhân viên Phân tích Dữ liệu tại Công ty TNHH Dịch vụ Khảo sát Thị trường Nam Phong. Thời gian: từ 2021-06 đến 2023-01. Mô tả: Viết các câu lệnh SQL trích xuất dữ liệu từ cơ sở dữ liệu MySQL để xây dựng báo cáo định kỳ.\n\nDự án:\n- Dự án Thiết kế Mô hình Kho Dữ liệu Doanh số Bán lẻ VietHung-DW: Thiết kế kiến trúc Star Schema trên PostgreSQL, tạo báo cáo Power BI tự động.\n\nHọc vấn:\n- Cử nhân Hệ thống Thông tin Kinh tế, Trường Đại học Kinh tế Quốc dân.\n\nChứng chỉ:\n- Microsoft Certified: Power BI Data Analyst Associate.",
+          "sections": [
+            {
+              "section_id": "IT-J03-C03-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Chuyên viên Phân tích Dữ liệu BI (Business Intelligence) có 3 năm 6 tháng kinh nghiệm chuyên sâu về SQL và thiết kế Data Warehouse trên PostgreSQL và MySQL. Đã tự học và thực hiện các script biến đổi dữ liệu bằng Python và học cách cấu hình Apache Airflow."
+            },
+            {
+              "section_id": "IT-J03-C03-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: SQL (nâng cao), Python.\n- Công cụ BI & Dữ liệu: Power BI, Tableau, PostgreSQL, MySQL.\n- ETL & Tự động hóa: Python Pandas, Apache Airflow (cơ bản).\n- Khác: Excel, Git."
+            },
+            {
+              "section_id": "IT-J03-C03-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Chuyên viên Dữ liệu BI tại Công ty Cổ phần Thương mại Bán lẻ Việt Hưng. Thời gian: từ 2023-02 đến nay. Mô tả: Thiết kế cấu trúc bảng fact và dimension cho Data Warehouse trên PostgreSQL. Tối ưu câu lệnh SQL phục vụ báo cáo quản trị và sử dụng Python để tự động trích xuất dữ liệu từ MySQL.\n- Chức danh: Nhân viên Phân tích Dữ liệu tại Công ty TNHH Dịch vụ Khảo sát Thị trường Nam Phong. Thời gian: từ 2021-06 đến 2023-01. Mô tả: Viết các câu lệnh SQL trích xuất dữ liệu từ cơ sở dữ liệu MySQL để xây dựng báo cáo định kỳ."
+            },
+            {
+              "section_id": "IT-J03-C03-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Thiết kế Mô hình Kho Dữ liệu Doanh số Bán lẻ VietHung-DW: Thiết kế kiến trúc Star Schema trên PostgreSQL, tạo báo cáo Power BI tự động."
+            },
+            {
+              "section_id": "IT-J03-C03-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Hệ thống Thông tin Kinh tế, Trường Đại học Kinh tế Quốc dân."
+            },
+            {
+              "section_id": "IT-J03-C03-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Microsoft Certified: Power BI Data Analyst Associate."
+            }
+          ],
+          "skills": [
+            "SQL",
+            "Python",
+            "Power BI",
+            "Tableau",
+            "PostgreSQL",
+            "MySQL",
+            "Apache Airflow",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J03-C03-E01",
+              "title": "Chuyên viên Dữ liệu BI",
+              "company": "Công ty Cổ phần Thương mại Bán lẻ Việt Hưng",
+              "start_date": "2023-02",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết kế cấu trúc bảng fact và dimension cho Data Warehouse trên PostgreSQL. Tối ưu câu lệnh SQL phục vụ báo cáo quản trị và sử dụng Python để tự động trích xuất dữ liệu từ MySQL.",
+              "skills_used": [
+                "SQL",
+                "PostgreSQL",
+                "Python",
+                "MySQL"
+              ],
+              "section_id": "IT-J03-C03-S03"
+            },
+            {
+              "experience_id": "IT-J03-C03-E02",
+              "title": "Nhân viên Phân tích Dữ liệu",
+              "company": "Công ty TNHH Dịch vụ Khảo sát Thị trường Nam Phong",
+              "start_date": "2021-06",
+              "end_date": "2023-01",
+              "is_current": false,
+              "description": "Viết các câu lệnh SQL trích xuất dữ liệu từ cơ sở dữ liệu MySQL để xây dựng báo cáo định kỳ.",
+              "skills_used": [
+                "SQL",
+                "MySQL"
+              ],
+              "section_id": "IT-J03-C03-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J03-C03-P01",
+              "name": "Thiết kế Mô hình Kho Dữ liệu Doanh số Bán lẻ VietHung-DW",
+              "description": "Thiết kế kiến trúc Star Schema trên PostgreSQL, tạo báo cáo Power BI tự động.",
+              "technologies_or_methods": [
+                "PostgreSQL",
+                "Power BI"
+              ],
+              "section_id": "IT-J03-C03-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Hệ thống Thông tin Kinh tế",
+              "section_id": "IT-J03-C03-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Microsoft Certified: Power BI Data Analyst Associate",
+              "section_id": "IT-J03-C03-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J03-C04",
+          "cv_text": "Tóm tắt: Kỹ sư Dữ liệu có 3 năm kinh nghiệm thực chiến với Apache Spark (PySpark), Python và Apache Airflow. Chuyên xây dựng các đường ống ETL quy mô lớn trên hạ tầng đám mây AWS, chuyển đổi dữ liệu thô sang định dạng cột Parquet và lưu trữ vào kho dữ liệu PostgreSQL.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: Python, SQL, Bash.\n- Công nghệ Big Data & ETL: Apache Spark, PySpark, Apache Airflow, Kafka.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Định dạng lưu trữ & Cloud: Parquet, ORC, AWS S3, Docker, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Data Engineer tại Công ty Cổ phần Công nghệ Thông tin Tân Triều. Thời gian: từ 2023-09 đến nay. Mô tả: Xây dựng các pipeline xử lý luồng dữ liệu thời gian thực (streaming) với Apache Spark Streaming và Apache Kafka. Lưu trữ kết quả tổng hợp vào PostgreSQL và định dạng Parquet trên Amazon S3. Thiết lập lịch trình và cảnh báo lỗi tự động với Apache Airflow.\n- Chức danh: Junior Data Engineer tại Công ty TNHH Phát triển Phần mềm Hà An. Thời gian: từ 2022-07 đến 2023-08. Mô tả: Viết mã nguồn PySpark để tổng hợp dữ liệu clickstream của người dùng và lưu trữ dữ liệu theo định dạng ORC.\n\nDự án:\n- Dự án Nền tảng Xử lý Dữ liệu Clickstream Realtime: Xử lý dữ liệu luồng với Spark Streaming và Kafka, quản lý orchestration bằng Apache Airflow.\n\nHọc vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Databricks Certified Associate Developer for Apache Spark.",
+          "sections": [
+            {
+              "section_id": "IT-J03-C04-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Kỹ sư Dữ liệu có 3 năm kinh nghiệm thực chiến với Apache Spark (PySpark), Python và Apache Airflow. Chuyên xây dựng các đường ống ETL quy mô lớn trên hạ tầng đám mây AWS, chuyển đổi dữ liệu thô sang định dạng cột Parquet và lưu trữ vào kho dữ liệu PostgreSQL."
+            },
+            {
+              "section_id": "IT-J03-C04-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: Python, SQL, Bash.\n- Công nghệ Big Data & ETL: Apache Spark, PySpark, Apache Airflow, Kafka.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Định dạng lưu trữ & Cloud: Parquet, ORC, AWS S3, Docker, Git."
+            },
+            {
+              "section_id": "IT-J03-C04-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Data Engineer tại Công ty Cổ phần Công nghệ Thông tin Tân Triều. Thời gian: từ 2023-09 đến nay. Mô tả: Xây dựng các pipeline xử lý luồng dữ liệu thời gian thực (streaming) với Apache Spark Streaming và Apache Kafka. Lưu trữ kết quả tổng hợp vào PostgreSQL và định dạng Parquet trên Amazon S3. Thiết lập lịch trình và cảnh báo lỗi tự động với Apache Airflow.\n- Chức danh: Junior Data Engineer tại Công ty TNHH Phát triển Phần mềm Hà An. Thời gian: từ 2022-07 đến 2023-08. Mô tả: Viết mã nguồn PySpark để tổng hợp dữ liệu clickstream của người dùng và lưu trữ dữ liệu theo định dạng ORC."
+            },
+            {
+              "section_id": "IT-J03-C04-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Nền tảng Xử lý Dữ liệu Clickstream Realtime: Xử lý dữ liệu luồng với Spark Streaming và Kafka, quản lý orchestration bằng Apache Airflow."
+            },
+            {
+              "section_id": "IT-J03-C04-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J03-C04-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Databricks Certified Associate Developer for Apache Spark."
+            }
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Bash",
+            "Apache Spark",
+            "PySpark",
+            "Apache Airflow",
+            "Kafka",
+            "PostgreSQL",
+            "Redis",
+            "Parquet",
+            "ORC",
+            "AWS S3",
+            "Docker",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J03-C04-E01",
+              "title": "Data Engineer",
+              "company": "Công ty Cổ phần Công nghệ Thông tin Tân Triều",
+              "start_date": "2023-09",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các pipeline xử lý luồng dữ liệu thời gian thực (streaming) với Apache Spark Streaming và Apache Kafka. Lưu trữ kết quả tổng hợp vào PostgreSQL và định dạng Parquet trên Amazon S3. Thiết lập lịch trình và cảnh báo lỗi tự động với Apache Airflow.",
+              "skills_used": [
+                "Apache Spark",
+                "Apache Airflow",
+                "Kafka",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C04-S03"
+            },
+            {
+              "experience_id": "IT-J03-C04-E02",
+              "title": "Junior Data Engineer",
+              "company": "Công ty TNHH Phát triển Phần mềm Hà An",
+              "start_date": "2022-07",
+              "end_date": "2023-08",
+              "is_current": false,
+              "description": "Viết mã nguồn PySpark để tổng hợp dữ liệu clickstream của người dùng và lưu trữ dữ liệu theo định dạng ORC.",
+              "skills_used": [
+                "PySpark",
+                "ORC"
+              ],
+              "section_id": "IT-J03-C04-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J03-C04-P01",
+              "name": "Nền tảng Xử lý Dữ liệu Clickstream Realtime",
+              "description": "Xử lý dữ liệu luồng với Spark Streaming và Kafka, quản lý orchestration bằng Apache Airflow.",
+              "technologies_or_methods": [
+                "Spark Streaming",
+                "Kafka",
+                "Apache Airflow"
+              ],
+              "section_id": "IT-J03-C04-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Khoa học Máy tính",
+              "section_id": "IT-J03-C04-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Databricks Certified Associate Developer for Apache Spark",
+              "section_id": "IT-J03-C04-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J03-C05",
+          "cv_text": "Tóm lược: Kỹ sư Dữ liệu mới tốt nghiệp có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Python, Pandas và SQL. Đã tham gia viết kịch bản trích xuất dữ liệu từ các API bên thứ ba nạp vào cơ sở dữ liệu MySQL và tìm hiểu cơ bản về Apache Spark.\n\nKỹ năng:\n- Ngôn ngữ: Python, SQL.\n- Công cụ & Thư viện: Pandas, NumPy, MySQL, PostgreSQL (cơ bản).\n- Hệ sinh thái Big Data: Apache Spark (cơ bản), Git, Linux.\n\nKinh nghiệm làm việc:\n- Chức danh: Junior Data Engineer tại Công ty TNHH Giải pháp Dữ liệu Số Trẻ. Thời gian: từ 2025-07 đến nay. Mô tả: Viết các chương trình Python trích xuất thông tin sản phẩm từ sàn thương mại và lưu vào MySQL. Tìm hiểu áp dụng Apache Spark để xử lý các tệp CSV dung lượng lớn.\n- Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty Cổ phần Thống kê Số An Bình. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết câu lệnh SQL kiểm tra tính chính xác của dữ liệu trong bảng MySQL.\n\nDự án:\n- Dự án Cá nhân Pipeline Thu thập Dữ liệu Giá Sản phẩm: Sử dụng Python và MySQL để crawl và lưu trữ biến động giá cả hàng ngày.\n\nHọc vấn:\n- Cử nhân Toán - Tin ứng dụng, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J03-C05-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Dữ liệu mới tốt nghiệp có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Python, Pandas và SQL. Đã tham gia viết kịch bản trích xuất dữ liệu từ các API bên thứ ba nạp vào cơ sở dữ liệu MySQL và tìm hiểu cơ bản về Apache Spark."
+            },
+            {
+              "section_id": "IT-J03-C05-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Python, SQL.\n- Công cụ & Thư viện: Pandas, NumPy, MySQL, PostgreSQL (cơ bản).\n- Hệ sinh thái Big Data: Apache Spark (cơ bản), Git, Linux."
+            },
+            {
+              "section_id": "IT-J03-C05-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Junior Data Engineer tại Công ty TNHH Giải pháp Dữ liệu Số Trẻ. Thời gian: từ 2025-07 đến nay. Mô tả: Viết các chương trình Python trích xuất thông tin sản phẩm từ sàn thương mại và lưu vào MySQL. Tìm hiểu áp dụng Apache Spark để xử lý các tệp CSV dung lượng lớn.\n- Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty Cổ phần Thống kê Số An Bình. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết câu lệnh SQL kiểm tra tính chính xác của dữ liệu trong bảng MySQL."
+            },
+            {
+              "section_id": "IT-J03-C05-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Cá nhân Pipeline Thu thập Dữ liệu Giá Sản phẩm: Sử dụng Python và MySQL để crawl và lưu trữ biến động giá cả hàng ngày."
+            },
+            {
+              "section_id": "IT-J03-C05-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Toán - Tin ứng dụng, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội."
+            },
+            {
+              "section_id": "IT-J03-C05-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Pandas",
+            "NumPy",
+            "MySQL",
+            "PostgreSQL",
+            "Apache Spark",
+            "Git",
+            "Linux"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J03-C05-E01",
+              "title": "Junior Data Engineer",
+              "company": "Công ty TNHH Giải pháp Dữ liệu Số Trẻ",
+              "start_date": "2025-07",
+              "end_date": null,
+              "is_current": true,
+              "description": "Viết các chương trình Python trích xuất thông tin sản phẩm từ sàn thương mại và lưu vào MySQL. Tìm hiểu áp dụng Apache Spark để xử lý các tệp CSV dung lượng lớn.",
+              "skills_used": [
+                "Python",
+                "MySQL",
+                "Apache Spark"
+              ],
+              "section_id": "IT-J03-C05-S03"
+            },
+            {
+              "experience_id": "IT-J03-C05-E02",
+              "title": "Thực tập sinh Phân tích Dữ liệu",
+              "company": "Công ty Cổ phần Thống kê Số An Bình",
+              "start_date": "2025-01",
+              "end_date": "2025-05",
+              "is_current": false,
+              "description": "Hỗ trợ viết câu lệnh SQL kiểm tra tính chính xác của dữ liệu trong bảng MySQL.",
+              "skills_used": [
+                "SQL",
+                "MySQL"
+              ],
+              "section_id": "IT-J03-C05-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J03-C05-P01",
+              "name": "Dự án Cá nhân Pipeline Thu thập Dữ liệu Giá Sản phẩm",
+              "description": "Sử dụng Python và MySQL để crawl và lưu trữ biến động giá cả hàng ngày.",
+              "technologies_or_methods": [
+                "Python",
+                "MySQL"
+              ],
+              "section_id": "IT-J03-C05-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Toán - Tin ứng dụng",
+              "section_id": "IT-J03-C05-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J03-C06",
+          "cv_text": "Tóm tắt: Nhà khoa học Dữ liệu (Data Scientist) có 4 năm kinh nghiệm phân tích và xây dựng mô hình dự báo học máy. Thành thạo lập trình Python, xử lý dữ liệu với Pandas, Scikit-learn và truy vấn dữ liệu từ PostgreSQL. Có hiểu biết về kiến trúc dữ liệu và mong muốn đóng góp sâu hơn vào khâu kỹ thuật dữ liệu.\n\nKỹ năng:\n- Ngôn ngữ: Python, R, SQL.\n- Phân tích & Học máy: Pandas, NumPy, Scikit-learn, TensorFlow, XGBoost.\n- Cơ sở dữ liệu: PostgreSQL, MySQL.\n- Công cụ: Jupyter Notebook, Git, Docker.\n\nKinh nghiệm làm việc:\n- Chức danh: Data Scientist tại Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaSmart AI. Thời gian: từ 2022-09 đến nay. Mô tả: Xây dựng các mô hình dự báo nhu cầu khách hàng bằng Python và Scikit-learn. Viết các truy vấn trích xuất dữ liệu phức tạp từ cơ sở dữ liệu PostgreSQL. Phối hợp với đội Data Engineer để đưa mô hình vào phục vụ thực tế.\n- Chức danh: Chuyên viên Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Thị trường Hoàng Hà. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Phân tích hành vi người tiêu dùng và xây dựng báo cáo phân khúc thị trường bằng Python và SQL trên nền MySQL.\n\nDự án:\n- Dự án Mô hình Dự báo Nhu cầu Tiêu dùng FMCG: Huấn luyện và kiểm thử mô hình hồi quy và phân loại bằng Python Scikit-learn, trích xuất dữ liệu từ PostgreSQL.\n\nHọc vấn:\n- Cử nhân Toán Tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J03-C06-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Nhà khoa học Dữ liệu (Data Scientist) có 4 năm kinh nghiệm phân tích và xây dựng mô hình dự báo học máy. Thành thạo lập trình Python, xử lý dữ liệu với Pandas, Scikit-learn và truy vấn dữ liệu từ PostgreSQL. Có hiểu biết về kiến trúc dữ liệu và mong muốn đóng góp sâu hơn vào khâu kỹ thuật dữ liệu."
+            },
+            {
+              "section_id": "IT-J03-C06-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Python, R, SQL.\n- Phân tích & Học máy: Pandas, NumPy, Scikit-learn, TensorFlow, XGBoost.\n- Cơ sở dữ liệu: PostgreSQL, MySQL.\n- Công cụ: Jupyter Notebook, Git, Docker."
+            },
+            {
+              "section_id": "IT-J03-C06-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Data Scientist tại Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaSmart AI. Thời gian: từ 2022-09 đến nay. Mô tả: Xây dựng các mô hình dự báo nhu cầu khách hàng bằng Python và Scikit-learn. Viết các truy vấn trích xuất dữ liệu phức tạp từ cơ sở dữ liệu PostgreSQL. Phối hợp với đội Data Engineer để đưa mô hình vào phục vụ thực tế.\n- Chức danh: Chuyên viên Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Thị trường Hoàng Hà. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Phân tích hành vi người tiêu dùng và xây dựng báo cáo phân khúc thị trường bằng Python và SQL trên nền MySQL."
+            },
+            {
+              "section_id": "IT-J03-C06-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Mô hình Dự báo Nhu cầu Tiêu dùng FMCG: Huấn luyện và kiểm thử mô hình hồi quy và phân loại bằng Python Scikit-learn, trích xuất dữ liệu từ PostgreSQL."
+            },
+            {
+              "section_id": "IT-J03-C06-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Toán Tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J03-C06-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Python",
+            "R",
+            "SQL",
+            "Pandas",
+            "NumPy",
+            "Scikit-learn",
+            "TensorFlow",
+            "XGBoost",
+            "PostgreSQL",
+            "MySQL",
+            "Jupyter Notebook",
+            "Git",
+            "Docker"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J03-C06-E01",
+              "title": "Data Scientist",
+              "company": "Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaSmart AI",
+              "start_date": "2022-09",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các mô hình dự báo nhu cầu khách hàng bằng Python và Scikit-learn. Viết các truy vấn trích xuất dữ liệu phức tạp từ cơ sở dữ liệu PostgreSQL. Phối hợp với đội Data Engineer để đưa mô hình vào phục vụ thực tế.",
+              "skills_used": [
+                "Python",
+                "Scikit-learn",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C06-S03"
+            },
+            {
+              "experience_id": "IT-J03-C06-E02",
+              "title": "Chuyên viên Phân tích Dữ liệu",
+              "company": "Công ty TNHH Nghiên cứu Thị trường Hoàng Hà",
+              "start_date": "2021-04",
+              "end_date": "2022-08",
+              "is_current": false,
+              "description": "Phân tích hành vi người tiêu dùng và xây dựng báo cáo phân khúc thị trường bằng Python và SQL trên nền MySQL.",
+              "skills_used": [
+                "Python",
+                "SQL",
+                "MySQL"
+              ],
+              "section_id": "IT-J03-C06-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J03-C06-P01",
+              "name": "Mô hình Dự báo Nhu cầu Tiêu dùng FMCG",
+              "description": "Huấn luyện và kiểm thử mô hình hồi quy và phân loại bằng Python Scikit-learn, trích xuất dữ liệu từ PostgreSQL.",
+              "technologies_or_methods": [
+                "Python",
+                "Scikit-learn",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C06-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Toán Tin",
+              "section_id": "IT-J03-C06-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J03-C07",
+          "cv_text": "Tóm lược hồ sơ: Kỹ sư Dữ liệu có kinh nghiệm triển khai hệ thống đường ống ETL và làm việc với các hệ thống phân tán. Thành thạo ngôn ngữ Python, Apache Spark và kho dữ liệu PostgreSQL. Có kinh nghiệm làm việc theo hợp đồng dự án độc lập và công ty giải pháp.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: Python, SQL.\n- Công nghệ Big Data: Apache Spark, Apache Airflow, Kafka.\n- Cơ sở dữ liệu: PostgreSQL, MongoDB.\n- Hạ tầng: Docker, Git, Linux.\n\nKinh nghiệm làm việc:\n- Chức danh: Data Engineer tại Công ty Cổ phần Giải pháp Hạ tầng Dữ liệu Mới. Thời gian: từ 2024-03 đến nay. Mô tả: Xây dựng pipeline xử lý dữ liệu giao dịch bằng Python và Spark. Thiết kế bảng tổng hợp trong PostgreSQL và cấu hình luồng chạy định kỳ trên Apache Airflow.\n- Chức danh: Kỹ sư Dữ liệu Độc lập tại Dự án Dữ liệu Tự do. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các đoạn script Python và pipeline Spark xử lý log hệ thống máy chủ, lưu trữ kết quả phân tích vào PostgreSQL.\n\nDự án:\n- Dự án Phân tích Dữ liệu Giao dịch Vận chuyển: Xây dựng pipeline nạp dữ liệu bằng Spark và Airflow, báo cáo trên PostgreSQL.\n\nHọc vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J03-C07-S01",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ: Kỹ sư Dữ liệu có kinh nghiệm triển khai hệ thống đường ống ETL và làm việc với các hệ thống phân tán. Thành thạo ngôn ngữ Python, Apache Spark và kho dữ liệu PostgreSQL. Có kinh nghiệm làm việc theo hợp đồng dự án độc lập và công ty giải pháp."
+            },
+            {
+              "section_id": "IT-J03-C07-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: Python, SQL.\n- Công nghệ Big Data: Apache Spark, Apache Airflow, Kafka.\n- Cơ sở dữ liệu: PostgreSQL, MongoDB.\n- Hạ tầng: Docker, Git, Linux."
+            },
+            {
+              "section_id": "IT-J03-C07-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Data Engineer tại Công ty Cổ phần Giải pháp Hạ tầng Dữ liệu Mới. Thời gian: từ 2024-03 đến nay. Mô tả: Xây dựng pipeline xử lý dữ liệu giao dịch bằng Python và Spark. Thiết kế bảng tổng hợp trong PostgreSQL và cấu hình luồng chạy định kỳ trên Apache Airflow.\n- Chức danh: Kỹ sư Dữ liệu Độc lập tại Dự án Dữ liệu Tự do. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các đoạn script Python và pipeline Spark xử lý log hệ thống máy chủ, lưu trữ kết quả phân tích vào PostgreSQL."
+            },
+            {
+              "section_id": "IT-J03-C07-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Phân tích Dữ liệu Giao dịch Vận chuyển: Xây dựng pipeline nạp dữ liệu bằng Spark và Airflow, báo cáo trên PostgreSQL."
+            },
+            {
+              "section_id": "IT-J03-C07-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J03-C07-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Apache Spark",
+            "Apache Airflow",
+            "Kafka",
+            "PostgreSQL",
+            "MongoDB",
+            "Docker",
+            "Git",
+            "Linux"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J03-C07-E01",
+              "title": "Data Engineer",
+              "company": "Công ty Cổ phần Giải pháp Hạ tầng Dữ liệu Mới",
+              "start_date": "2024-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng pipeline xử lý dữ liệu giao dịch bằng Python và Spark. Thiết kế bảng tổng hợp trong PostgreSQL và cấu hình luồng chạy định kỳ trên Apache Airflow.",
+              "skills_used": [
+                "Python",
+                "Spark",
+                "PostgreSQL",
+                "Apache Airflow"
+              ],
+              "section_id": "IT-J03-C07-S03"
+            },
+            {
+              "experience_id": "IT-J03-C07-E02",
+              "title": "Kỹ sư Dữ liệu Độc lập",
+              "company": "Dự án Dữ liệu Tự do",
+              "start_date": null,
+              "end_date": null,
+              "is_current": null,
+              "description": "Xây dựng các đoạn script Python và pipeline Spark xử lý log hệ thống máy chủ, lưu trữ kết quả phân tích vào PostgreSQL.",
+              "skills_used": [
+                "Python",
+                "Spark",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C07-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J03-C07-P01",
+              "name": "Phân tích Dữ liệu Giao dịch Vận chuyển",
+              "description": "Xây dựng pipeline nạp dữ liệu bằng Spark và Airflow, báo cáo trên PostgreSQL.",
+              "technologies_or_methods": [
+                "Spark",
+                "Airflow",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C07-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J03-C07-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J03-C08",
+          "cv_text": "Tóm tắt: Quản trị viên Cơ sở Dữ liệu (DBA) có hơn 4 năm kinh nghiệm quản trị, bảo trì và tối ưu hóa hệ quản trị cơ sở dữ liệu PostgreSQL và MySQL. Chuyên môn sâu về sao lưu, khôi phục dữ liệu, thiết lập cụm sao chép (replication) và tối ưu câu lệnh SQL hiệu năng cao. Có kỹ năng viết script tự động hóa với Python.\n\nKỹ năng chuyên môn:\n- Cơ sở dữ liệu: PostgreSQL, MySQL, Oracle.\n- Ngôn ngữ: SQL, PL/pgSQL, Python, Bash Script.\n- Hệ thống: Linux, Docker, Zabbix, Prometheus.\n\nKinh nghiệm làm việc:\n- Chức danh: Chuyên viên Quản trị Cơ sở Dữ liệu tại Công ty Cổ phần Viễn thông Thăng Long. Thời gian: từ 2022-05 đến nay. Mô tả: Quản trị và giám sát cụm PostgreSQL và MySQL phục vụ hệ thống cước viễn thông. Tối ưu câu lệnh SQL, chỉ mục bảng và giám sát hiệu năng CPU/RAM của máy chủ DB. Viết các script tự động hóa kiểm tra dữ liệu bằng Python.\n- Chức danh: Quản trị viên Hệ thống & DB tại Công ty TNHH Giải pháp Mạng Toàn Cầu. Thời gian: từ 2021-04 đến 2022-04. Mô tả: Cài đặt và cấu hình sao lưu dự phòng cho hệ cơ sở dữ liệu MySQL trên môi trường Linux.\n\nDự án:\n- Dự án Tối ưu và Nâng cấp Cụm PostgreSQL Viễn thông: Triển khai giải pháp streaming replication và pgpool cho cụm cơ sở dữ liệu quy mô 5TB.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Oracle Database SQL Certified Associate.",
+          "sections": [
+            {
+              "section_id": "IT-J03-C08-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Quản trị viên Cơ sở Dữ liệu (DBA) có hơn 4 năm kinh nghiệm quản trị, bảo trì và tối ưu hóa hệ quản trị cơ sở dữ liệu PostgreSQL và MySQL. Chuyên môn sâu về sao lưu, khôi phục dữ liệu, thiết lập cụm sao chép (replication) và tối ưu câu lệnh SQL hiệu năng cao. Có kỹ năng viết script tự động hóa với Python."
+            },
+            {
+              "section_id": "IT-J03-C08-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Cơ sở dữ liệu: PostgreSQL, MySQL, Oracle.\n- Ngôn ngữ: SQL, PL/pgSQL, Python, Bash Script.\n- Hệ thống: Linux, Docker, Zabbix, Prometheus."
+            },
+            {
+              "section_id": "IT-J03-C08-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Chuyên viên Quản trị Cơ sở Dữ liệu tại Công ty Cổ phần Viễn thông Thăng Long. Thời gian: từ 2022-05 đến nay. Mô tả: Quản trị và giám sát cụm PostgreSQL và MySQL phục vụ hệ thống cước viễn thông. Tối ưu câu lệnh SQL, chỉ mục bảng và giám sát hiệu năng CPU/RAM của máy chủ DB. Viết các script tự động hóa kiểm tra dữ liệu bằng Python.\n- Chức danh: Quản trị viên Hệ thống & DB tại Công ty TNHH Giải pháp Mạng Toàn Cầu. Thời gian: từ 2021-04 đến 2022-04. Mô tả: Cài đặt và cấu hình sao lưu dự phòng cho hệ cơ sở dữ liệu MySQL trên môi trường Linux."
+            },
+            {
+              "section_id": "IT-J03-C08-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Tối ưu và Nâng cấp Cụm PostgreSQL Viễn thông: Triển khai giải pháp streaming replication và pgpool cho cụm cơ sở dữ liệu quy mô 5TB."
+            },
+            {
+              "section_id": "IT-J03-C08-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J03-C08-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Oracle Database SQL Certified Associate."
+            }
+          ],
+          "skills": [
+            "PostgreSQL",
+            "MySQL",
+            "Oracle",
+            "SQL",
+            "PL/pgSQL",
+            "Python",
+            "Bash Script",
+            "Linux",
+            "Docker",
+            "Zabbix",
+            "Prometheus"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J03-C08-E01",
+              "title": "Chuyên viên Quản trị Cơ sở Dữ liệu",
+              "company": "Công ty Cổ phần Viễn thông Thăng Long",
+              "start_date": "2022-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Quản trị và giám sát cụm PostgreSQL và MySQL phục vụ hệ thống cước viễn thông. Tối ưu câu lệnh SQL, chỉ mục bảng và giám sát hiệu năng CPU/RAM của máy chủ DB. Viết các script tự động hóa kiểm tra dữ liệu bằng Python.",
+              "skills_used": [
+                "PostgreSQL",
+                "MySQL",
+                "SQL",
+                "Python"
+              ],
+              "section_id": "IT-J03-C08-S03"
+            },
+            {
+              "experience_id": "IT-J03-C08-E02",
+              "title": "Quản trị viên Hệ thống & DB",
+              "company": "Công ty TNHH Giải pháp Mạng Toàn Cầu",
+              "start_date": "2021-04",
+              "end_date": "2022-04",
+              "is_current": false,
+              "description": "Cài đặt và cấu hình sao lưu dự phòng cho hệ cơ sở dữ liệu MySQL trên môi trường Linux.",
+              "skills_used": [
+                "MySQL",
+                "Linux"
+              ],
+              "section_id": "IT-J03-C08-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J03-C08-P01",
+              "name": "Tối ưu và Nâng cấp Cụm PostgreSQL Viễn thông",
+              "description": "Triển khai giải pháp streaming replication và pgpool cho cụm cơ sở dữ liệu quy mô 5TB.",
+              "technologies_or_methods": [
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J03-C08-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Máy tính",
+              "section_id": "IT-J03-C08-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Oracle Database SQL Certified Associate",
+              "section_id": "IT-J03-C08-S06"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

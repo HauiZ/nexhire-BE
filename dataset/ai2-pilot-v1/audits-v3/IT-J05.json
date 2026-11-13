@@ -1,0 +1,50 @@
+{
+  "resolved_historical_issues": [
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J05-C08-E02 skills_used wrongly attributed Docker from first employer IT-J05-C08-E01; repaired to empty array [] per HR-SOURCE-003 while keeping supported Docker claims in E01, skills, and P01."
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J05-C07-E02 had is_current=false inferred from missing dates without explicit ended wording; repaired to is_current=null per HR-SOURCE-005 and amended PROTOCOL.md."
+    },
+    {
+      "issue_summary": "IT-J05-C02-E01 company name VNPayLink resembled existing real brand; renamed to PayLink (Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink) per HR-SOURCE-007.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J05-C02 summary claims 5 years AWS/Kubernetes while detailed E01 starts 2023-01 and E02 omits AWS/Kubernetes; source preserved per HR-SOURCE-008 for annotation-time human review.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J05-C04 summary claims >2 years AWS while mixed-role E01 starts 2022-04; exact AWS task start unstated and distinction preserved per HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J05-C05 summary claims >2 years AWS while mixed backend/cloud role E01 starts 2022-02; exact AWS task start unstated and preserved per HR-SOURCE-008."
+    },
+    {
+      "issue_summary": "IT-J05-C06 summary claims >1 year AWS while multi-cloud role E01 starts 2022-06; exact AWS task start unstated and preserved per HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "disposition": "accepted_limitation",
+      "issue_summary": "Recurring candidate-index scenario and identical section/two-role/one-project layout across C01..C08 (including C07 unstated-date pattern); retained for development-only pilot per HR-SOURCE-009."
+    }
+  ],
+  "blocking_issues": [],
+  "limitations_noted": [
+    "Development-only synthetic corpus; source acceptance covers structure and grounding only, with no relevance labels, verified competence claims, or held-out generalization claims.",
+    "Retained summary-vs-chronology task-duration ambiguities in IT-J05-C02, IT-J05-C04, IT-J05-C05, and IT-J05-C06, plus unstated dates/status (null) in IT-J05-C07-E02, require missing-information handling and human-review escalation when label-material (HR-SOURCE-005, HR-SOURCE-008).",
+    "Recurring candidate-index scenario and layout structure across IT-J05-C01..C08 (HR-SOURCE-009); candidate IDs and ordering must be excluded from model features and label inference.",
+    "Fictional employer and project names (including PayLink, CloudForce Việt Nam, Giải pháp Số Nam Á, and E-Bank) are declared synthetic and not exhaustively externally verified for brand collisions (HR-SOURCE-007).",
+    "IT-J05-C03 (\"Kubernetes (cơ bản)\") and IT-J05-C08 (\"Đám mây cơ bản\") scope qualifiers appear in prose only; structured skills arrays do not imply production-grade expertise.",
+    "Corpus-wide exact/near-duplicate detection across jobs remains coordinator scope."
+  ],
+  "source_acceptance": "accepted",
+  "verified_candidate_count": 8,
+  "job_id": "IT-J05",
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

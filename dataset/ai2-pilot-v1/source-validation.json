@@ -1,8 +1,7 @@
 {
   "source_sha256": {
-    "sales-marketing.json": "fd4da5ed2878c84bd6b297c4858954151756c6627b180c17780c293ab5665e58",
-    ".test.json": "80f65706d935d3b928d95207937dd81bad43ab56cd4d3b7ed41772318e734168",
-    "it.json": "b8795770d52214690c9acbe8cb1d62127d9ac8bef111b79967c07b2e2da05abd"
+    "sales-marketing.json": "b196a9bc9aad9e0ed91ed04073280ba5e1b108f493838e75be5cd3e322f71f94",
+    "it.json": "f56ac2552a106b0091f0cbfb775a46de6e33d1393344ca5920ba16a15ee62f22"
   },
   "jobs": 20,
   "pairs": 160,
@@ -11,7 +10,7 @@
     {
       "id": "IT-J04-C07",
       "issue": "preferred whitespace-token length",
-      "value": 196
+      "value": 183
     },
     {
       "id": "IT-J06-C05",
@@ -146,7 +145,7 @@
       "id": "SA-J01-C03",
       "section_id": "SA-J01-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\nTư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\nThực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\nChưa sử dụng Salesforce hay HubSpot chuyên sâu, chủ yếu quản lý khách hàng bằng bảng tính Excel kết hợp Zalo."
+      "value": "Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\nTư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\nThực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\nQuản lý khách hàng bằng bảng tính Excel kết hợp Zalo."
     },
     {
       "id": "SA-J01-C03",
@@ -199,12 +198,6 @@
       "section_id": "SA-J01-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Lead generation"
-    },
-    {
-      "id": "SA-J01-C04",
-      "section_id": "SA-J01-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Thuyết trình demo cơ bản"
     },
     {
       "id": "SA-J01-C04",
@@ -294,19 +287,7 @@
       "id": "SA-J01-C06",
       "section_id": "SA-J01-C06-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Đàm phán hợp đồng đặt cọc"
-    },
-    {
-      "id": "SA-J01-C06",
-      "section_id": "SA-J01-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Chăm sóc khách hàng VIP"
-    },
-    {
-      "id": "SA-J01-C06",
-      "section_id": "SA-J01-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Kỹ năng tạo dựng quan hệ"
     },
     {
       "id": "SA-J01-C07",
@@ -380,18 +361,6 @@
       "section_id": "SA-J01-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "HubSpot CRM"
-    },
-    {
-      "id": "SA-J01-C08",
-      "section_id": "SA-J01-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp SME."
-    },
-    {
-      "id": "SA-J01-C08",
-      "section_id": "SA-J01-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tư vấn giải pháp Pre-sales"
     },
     {
       "id": "SA-J02-C01",
@@ -498,12 +467,6 @@
       "id": "SA-J02-C02",
       "section_id": "SA-J02-C02-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Trưng bày kệ hàng"
-    },
-    {
-      "id": "SA-J02-C02",
-      "section_id": "SA-J02-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Triển khai khuyến mãi tháng"
     },
     {
@@ -531,7 +494,7 @@
       "id": "SA-J02-C03",
       "section_id": "SA-J02-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\nTư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\nCông việc chủ yếu ngồi tại văn phòng công ty, chưa phụ trách tuyến đường thực địa hay đi kiểm tra tạp hóa bao giờ."
+      "value": "Gọi điện chăm sóc danh sách 200 khách hàng là các công ty và trường học đã từng mua giấy in ấn.\nTư vấn các chương trình giảm giá theo thùng và hỗ trợ lập hóa đơn bán lẻ.\nCông việc chủ yếu ngồi tại văn phòng công ty."
     },
     {
       "id": "SA-J02-C03",
@@ -544,12 +507,6 @@
       "section_id": "SA-J02-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Chăm sóc khách hàng sỉ"
-    },
-    {
-      "id": "SA-J02-C03",
-      "section_id": "SA-J02-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Xe máy cá nhân"
     },
     {
       "id": "SA-J02-C04",
@@ -582,24 +539,6 @@
       "section_id": "SA-J02-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Bán hàng kênh tạp hóa"
-    },
-    {
-      "id": "SA-J02-C04",
-      "section_id": "SA-J02-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Trưng bày kệ bánh kẹo"
-    },
-    {
-      "id": "SA-J02-C04",
-      "section_id": "SA-J02-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Kiểm tra tồn kho date hàng"
-    },
-    {
-      "id": "SA-J02-C04",
-      "section_id": "SA-J02-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Đi tuyến bằng xe máy"
     },
     {
       "id": "SA-J02-C04",
@@ -643,12 +582,6 @@
       "section_id": "SA-J02-C05-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Giám sát bán hàng GT"
-    },
-    {
-      "id": "SA-J02-C05",
-      "section_id": "SA-J02-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Quản lý tuyến MCP"
     },
     {
       "id": "SA-J02-C05",
@@ -699,18 +632,6 @@
       "id": "SA-J02-C06",
       "section_id": "SA-J02-C06-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Kiểm kê tồn kho cửa hàng"
-    },
-    {
-      "id": "SA-J02-C06",
-      "section_id": "SA-J02-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Đảo date hàng hóa"
-    },
-    {
-      "id": "SA-J02-C06",
-      "section_id": "SA-J02-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Bán lẻ trực tiếp"
     },
     {
@@ -755,25 +676,7 @@
       "id": "SA-J02-C07",
       "section_id": "SA-J02-C07-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Mở rộng điểm bán hóa mỹ phẩm"
-    },
-    {
-      "id": "SA-J02-C07",
-      "section_id": "SA-J02-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Treo hanger quảng cáo"
-    },
-    {
-      "id": "SA-J02-C07",
-      "section_id": "SA-J02-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Theo dõi hàng tồn quầy"
-    },
-    {
-      "id": "SA-J02-C07",
-      "section_id": "SA-J02-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Xe máy di chuyển thị trường"
     },
     {
       "id": "SA-J02-C07",
@@ -818,18 +721,6 @@
       "section_id": "SA-J02-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Thu tiền và đối chiếu hóa đơn"
-    },
-    {
-      "id": "SA-J02-C08",
-      "section_id": "SA-J02-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Thông thạo đường sá Gò Vấp"
-    },
-    {
-      "id": "SA-J02-C08",
-      "section_id": "SA-J02-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Xe máy cá nhân"
     },
     {
       "id": "SA-J02-C08",
@@ -884,19 +775,7 @@
       "id": "SA-J03-C01",
       "section_id": "SA-J03-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Luật Đấu thầu"
-    },
-    {
-      "id": "SA-J03-C01",
-      "section_id": "SA-J03-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Thiết bị chẩn đoán hình ảnh"
-    },
-    {
-      "id": "SA-J03-C01",
-      "section_id": "SA-J03-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Quan hệ lãnh đạo bệnh viện miền Bắc"
     },
     {
       "id": "SA-J03-C01",
@@ -939,30 +818,6 @@
     },
     {
       "id": "SA-J03-C02",
-      "section_id": "SA-J03-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Luật Đấu thầu"
-    },
-    {
-      "id": "SA-J03-C02",
-      "section_id": "SA-J03-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Quan hệ phòng vật tư bệnh viện"
-    },
-    {
-      "id": "SA-J03-C02",
-      "section_id": "SA-J03-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Đấu thầu y tế công lập"
-    },
-    {
-      "id": "SA-J03-C02",
-      "section_id": "SA-J03-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tiếng Anh đọc tài liệu kỹ thuật"
-    },
-    {
-      "id": "SA-J03-C02",
       "section_id": "SA-J03-C02-SEC-EDU",
       "issue": "structured fact requires semantic support check",
       "value": "Dược sĩ Đại học (Cử nhân)"
@@ -981,7 +836,7 @@
       "id": "SA-J03-C03",
       "section_id": "SA-J03-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\nHoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\nTiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\nTự lập kế hoạch kinh doanh cá nhân, chưa tham gia quản lý hay phân chia chỉ tiêu cho nhân viên khác."
+      "value": "Trực tiếp phụ trách bán hàng cá nhân cho 12 bệnh viện công và 8 phòng khám đa khoa tư nhân tại Hà Nội.\nHoàn thành hồ sơ dự thầu cho 9 gói thầu thiết bị y tế công lập, trong đó trúng thầu 7 gói với tổng giá trị hơn 26 tỷ đồng.\nTiếp xúc hàng tuần với các bác sĩ trưởng khoa để cập nhật nhu cầu cấu hình máy mới và giới thiệu các dòng đầu dò siêu âm công nghệ cao.\nTự lập kế hoạch kinh doanh cá nhân."
     },
     {
       "id": "SA-J03-C03",
@@ -994,24 +849,6 @@
       "section_id": "SA-J03-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Đấu thầu y tế công lập"
-    },
-    {
-      "id": "SA-J03-C03",
-      "section_id": "SA-J03-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Luật Đấu thầu"
-    },
-    {
-      "id": "SA-J03-C03",
-      "section_id": "SA-J03-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Quan hệ khoa chẩn đoán hình ảnh"
-    },
-    {
-      "id": "SA-J03-C03",
-      "section_id": "SA-J03-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Kỹ thuật Y sinh"
     },
     {
       "id": "SA-J03-C04",
@@ -1104,31 +941,13 @@
       "id": "SA-J03-C05",
       "section_id": "SA-J03-C05-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Mối quan hệ viện trưởng và sở y tế"
-    },
-    {
-      "id": "SA-J03-C05",
-      "section_id": "SA-J03-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Đấu thầu y tế công lập"
     },
     {
       "id": "SA-J03-C05",
       "section_id": "SA-J03-C05-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Luật Đấu thầu"
-    },
-    {
-      "id": "SA-J03-C05",
-      "section_id": "SA-J03-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Hệ thống MRI và CT Scanner"
-    },
-    {
-      "id": "SA-J03-C05",
-      "section_id": "SA-J03-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tiếng Anh cấp độ chuyên gia"
     },
     {
       "id": "SA-J03-C05",
@@ -1176,12 +995,6 @@
       "value": "Theo dõi thầu thuốc sở y tế"
     },
     {
-      "id": "SA-J03-C06",
-      "section_id": "SA-J03-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Quan hệ khoa Dược"
-    },
-    {
       "id": "SA-J03-C07",
       "issue": "skill requires semantic support check",
       "value": "Quản lý nhóm sales thiết bị y tế"
@@ -1217,12 +1030,6 @@
       "id": "SA-J03-C07",
       "section_id": "SA-J03-C07-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Đấu thầu y tế theo Luật Đấu thầu"
-    },
-    {
-      "id": "SA-J03-C07",
-      "section_id": "SA-J03-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Chỉ tiêu doanh số vùng"
     },
     {
@@ -1244,7 +1051,7 @@
       "id": "SA-J03-C08",
       "section_id": "SA-J03-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Trực tiếp tiếp nhận đào tạo chuyển giao công nghệ mới từ các chuyên gia của hãng tại Nhật Bản bằng tiếng Anh.\nHướng dẫn vận hành hệ thống CT 128 dãy cho hơn 40 bác sĩ và kỹ thuật viên hình ảnh tại Bệnh viện Bạch Mai, Bệnh viện Việt Đức và Bệnh viện Đa khoa Thái Nguyên.\nPhối hợp cùng đội ngũ kinh doanh xây dựng hồ sơ giải trình kỹ thuật đáp ứng các tiêu chí mời thầu y tế công lập.\nHỗ trợ xây dựng tài liệu huấn luyện chuyên môn kỹ thuật cho các nhân viên kinh doanh mới của công ty."
+      "value": "Trực tiếp tiếp nhận đào tạo chuyển giao công nghệ mới từ các chuyên gia của hãng tại Nhật Bản bằng tiếng Anh.\nHướng dẫn vận hành hệ thống CT 128 dãy cho hơn 40 bác sĩ và kỹ thuật viên hình ảnh tại Bệnh viện Đa khoa Trung tâm 1, Bệnh viện Ngoại khoa Trung ương và Bệnh viện Đa khoa Tỉnh Thái An.\nPhối hợp cùng đội ngũ kinh doanh xây dựng hồ sơ giải trình kỹ thuật đáp ứng các tiêu chí mời thầu y tế công lập.\nHỗ trợ xây dựng tài liệu huấn luyện chuyên môn kỹ thuật cho các nhân viên kinh doanh mới của công ty."
     },
     {
       "id": "SA-J03-C08",
@@ -1263,24 +1070,6 @@
       "section_id": "SA-J03-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Làm việc với hãng sản xuất quốc tế"
-    },
-    {
-      "id": "SA-J03-C08",
-      "section_id": "SA-J03-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Hồ sơ thầu kỹ thuật theo Luật Đấu thầu"
-    },
-    {
-      "id": "SA-J03-C08",
-      "section_id": "SA-J03-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tiếng Anh IELTS 7.5"
-    },
-    {
-      "id": "SA-J03-C08",
-      "section_id": "SA-J03-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Kỹ thuật Y sinh"
     },
     {
       "id": "SA-J04-C01",
@@ -1313,31 +1102,13 @@
       "id": "SA-J04-C01",
       "section_id": "SA-J04-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Nội thất gỗ tự nhiên và sofa da"
-    },
-    {
-      "id": "SA-J04-C01",
-      "section_id": "SA-J04-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Tư vấn phối màu sắc và chất liệu"
     },
     {
       "id": "SA-J04-C01",
       "section_id": "SA-J04-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Theo dõi đơn hàng giao lắp"
-    },
-    {
-      "id": "SA-J04-C01",
-      "section_id": "SA-J04-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Chăm sóc khách hàng sau bàn giao"
-    },
-    {
-      "id": "SA-J04-C01",
-      "section_id": "SA-J04-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Thiết kế nội thất"
     },
     {
       "id": "SA-J04-C02",
@@ -1375,12 +1146,6 @@
       "id": "SA-J04-C02",
       "section_id": "SA-J04-C02-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Đèn trang trí và tủ kệ"
-    },
-    {
-      "id": "SA-J04-C02",
-      "section_id": "SA-J04-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Tư vấn màu sắc ánh sáng"
     },
     {
@@ -1401,11 +1166,6 @@
     },
     {
       "id": "SA-J04-C03",
-      "issue": "skill requires semantic support check",
-      "value": "Giọng nói chuẩn"
-    },
-    {
-      "id": "SA-J04-C03",
       "section_id": "SA-J04-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Trực sảnh trưng bày, mở cửa chào đón khách hàng và phát catalogue sản phẩm mới.\nDẫn khách tham quan các gian trưng bày buồng tắm mẫu, giới thiệu độ bóng và khả năng chống trơn trượt của từng dòng gạch.\nHỗ trợ các anh chị nhân viên chính thức ghi thông tin khách hàng vào sổ theo dõi."
@@ -1415,18 +1175,6 @@
       "section_id": "SA-J04-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Chào đón khách showroom"
-    },
-    {
-      "id": "SA-J04-C03",
-      "section_id": "SA-J04-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Giới thiệu mẫu gạch men thiết bị"
-    },
-    {
-      "id": "SA-J04-C03",
-      "section_id": "SA-J04-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Giọng nói chuẩn"
     },
     {
       "id": "SA-J04-C03",
@@ -1459,19 +1207,13 @@
       "id": "SA-J04-C04",
       "section_id": "SA-J04-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại Union Square.\nGợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\nNhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng."
+      "value": "Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại lớn ở trung tâm thành phố.\nGợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\nNhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng."
     },
     {
       "id": "SA-J04-C04",
       "section_id": "SA-J04-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Tư vấn hàng cao cấp"
-    },
-    {
-      "id": "SA-J04-C04",
-      "section_id": "SA-J04-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Giao tiếp lịch thiệp"
     },
     {
       "id": "SA-J04-C04",
@@ -1484,12 +1226,6 @@
       "section_id": "SA-J04-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Chăm sóc khách VIP"
-    },
-    {
-      "id": "SA-J04-C04",
-      "section_id": "SA-J04-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tư vấn hàng cao cấp"
     },
     {
       "id": "SA-J04-C05",
@@ -1532,36 +1268,17 @@
       "id": "SA-J04-C05",
       "section_id": "SA-J04-C05-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Tư vấn nội thất cao cấp"
-    },
-    {
-      "id": "SA-J04-C05",
-      "section_id": "SA-J04-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Phối màu và công năng không gian sống"
-    },
-    {
-      "id": "SA-J04-C05",
-      "section_id": "SA-J04-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Điều phối vận chuyển lắp đặt"
-    },
-    {
-      "id": "SA-J04-C05",
-      "section_id": "SA-J04-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Chăm sóc hậu mãi khách VIP"
-    },
-    {
-      "id": "SA-J04-C05",
-      "section_id": "SA-J04-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tư vấn nội thất cao cấp"
     },
     {
       "id": "SA-J04-C06",
       "issue": "skill requires semantic support check",
       "value": "Telesales tài chính"
+    },
+    {
+      "id": "SA-J04-C06",
+      "issue": "skill requires semantic support check",
+      "value": "Giao tiếp truyền cảm"
     },
     {
       "id": "SA-J04-C06",
@@ -1574,18 +1291,6 @@
       "section_id": "SA-J04-C06-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Telesales tài chính"
-    },
-    {
-      "id": "SA-J04-C06",
-      "section_id": "SA-J04-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Giọng nói chuẩn"
-    },
-    {
-      "id": "SA-J04-C06",
-      "section_id": "SA-J04-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Thuyết phục khách hàng"
     },
     {
       "id": "SA-J04-C07",
@@ -1617,31 +1322,13 @@
       "id": "SA-J04-C07",
       "section_id": "SA-J04-C07-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Tư vấn nội thất gỗ công nghiệp"
-    },
-    {
-      "id": "SA-J04-C07",
-      "section_id": "SA-J04-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Tư vấn phối màu sắc không gian"
     },
     {
       "id": "SA-J04-C07",
       "section_id": "SA-J04-C07-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Theo dõi giao hàng lắp đặt"
-    },
-    {
-      "id": "SA-J04-C07",
-      "section_id": "SA-J04-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Chăm sóc hậu mãi khách hàng"
-    },
-    {
-      "id": "SA-J04-C07",
-      "section_id": "SA-J04-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Giọng nói hòa nhã"
     },
     {
       "id": "SA-J04-C08",
@@ -1679,37 +1366,7 @@
       "id": "SA-J04-C08",
       "section_id": "SA-J04-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Phối màu sắc và công năng"
-    },
-    {
-      "id": "SA-J04-C08",
-      "section_id": "SA-J04-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Thiết kế 3D SketchUp"
-    },
-    {
-      "id": "SA-J04-C08",
-      "section_id": "SA-J04-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Phối hợp thợ lắp đặt"
-    },
-    {
-      "id": "SA-J04-C08",
-      "section_id": "SA-J04-C08-SEC-PRJ",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tư vấn trọn gói bộ bàn ăn thông minh và hệ tủ tivi treo tường cho gia chủ trẻ, hoàn thiện bàn giao nghiệm thu."
-    },
-    {
-      "id": "SA-J04-C08",
-      "section_id": "SA-J04-C08-SEC-PRJ",
-      "issue": "structured fact requires semantic support check",
-      "value": "Phối màu sắc và công năng"
-    },
-    {
-      "id": "SA-J04-C08",
-      "section_id": "SA-J04-C08-SEC-PRJ",
-      "issue": "structured fact requires semantic support check",
-      "value": "Thiết kế 3D SketchUp"
     },
     {
       "id": "SA-J05-C01",
@@ -1742,37 +1399,13 @@
       "id": "SA-J05-C01",
       "section_id": "SA-J05-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Cước đường biển FCL LCL"
-    },
-    {
-      "id": "SA-J05-C01",
-      "section_id": "SA-J05-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Đường hàng không Air Freight"
     },
     {
       "id": "SA-J05-C01",
       "section_id": "SA-J05-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Khai thuê hải quan"
-    },
-    {
-      "id": "SA-J05-C01",
-      "section_id": "SA-J05-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Đàm phán hợp đồng khung doanh nghiệp FDI"
-    },
-    {
-      "id": "SA-J05-C01",
-      "section_id": "SA-J05-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tiếng Anh TOEIC 890"
-    },
-    {
-      "id": "SA-J05-C01",
-      "section_id": "SA-J05-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Cước đường biển FCL LCL"
     },
     {
       "id": "SA-J05-C01",
@@ -1794,11 +1427,6 @@
       "id": "SA-J05-C02",
       "issue": "skill requires semantic support check",
       "value": "Cước hàng không Air Freight"
-    },
-    {
-      "id": "SA-J05-C02",
-      "issue": "skill requires semantic support check",
-      "value": "Hợp đồng khung thường niên"
     },
     {
       "id": "SA-J05-C02",
@@ -1826,18 +1454,6 @@
       "id": "SA-J05-C02",
       "section_id": "SA-J05-C02-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Cước tàu biển FCL LCL"
-    },
-    {
-      "id": "SA-J05-C02",
-      "section_id": "SA-J05-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Hợp đồng khung thường niên"
-    },
-    {
-      "id": "SA-J05-C02",
-      "section_id": "SA-J05-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Giữ chân khách hàng retention 92%"
     },
     {
@@ -1850,7 +1466,7 @@
       "id": "SA-J05-C02",
       "section_id": "SA-J05-C02-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Cước tàu biển FCL LCL"
+      "value": "Cước tàu biển LCL"
     },
     {
       "id": "SA-J05-C03",
@@ -1916,19 +1532,7 @@
       "id": "SA-J05-C04",
       "section_id": "SA-J05-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Cước biển FCL LCL"
-    },
-    {
-      "id": "SA-J05-C04",
-      "section_id": "SA-J05-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Làm việc với hãng tàu"
-    },
-    {
-      "id": "SA-J05-C04",
-      "section_id": "SA-J05-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tiếng Anh gửi email báo cước"
     },
     {
       "id": "SA-J05-C05",
@@ -1969,18 +1573,6 @@
       "value": "Đàm phán hợp đồng khung FDI"
     },
     {
-      "id": "SA-J05-C05",
-      "section_id": "SA-J05-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Cước đường biển FCL và hàng không Charter"
-    },
-    {
-      "id": "SA-J05-C05",
-      "section_id": "SA-J05-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tiếng Anh cấp độ thành thạo"
-    },
-    {
       "id": "SA-J05-C06",
       "issue": "skill requires semantic support check",
       "value": "Quản lý tài khoản B2B"
@@ -2016,13 +1608,7 @@
       "id": "SA-J05-C06",
       "section_id": "SA-J05-C06-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Đàm phán hợp đồng khung nhà máy FDI"
-    },
-    {
-      "id": "SA-J05-C06",
-      "section_id": "SA-J05-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Chỉ số giao hàng đúng hạn OTIF"
+      "value": "Đàm phán hợp đồng khung"
     },
     {
       "id": "SA-J05-C07",
@@ -2060,12 +1646,6 @@
       "id": "SA-J05-C07",
       "section_id": "SA-J05-C07-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Cước tàu biển FCL LCL"
-    },
-    {
-      "id": "SA-J05-C07",
-      "section_id": "SA-J05-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Thủ tục thông quan hải quan"
     },
     {
@@ -2073,12 +1653,6 @@
       "section_id": "SA-J05-C07-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Hợp đồng khung thường niên FDI"
-    },
-    {
-      "id": "SA-J05-C07",
-      "section_id": "SA-J05-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Cước tàu biển FCL LCL"
     },
     {
       "id": "SA-J05-C08",
@@ -2110,37 +1684,13 @@
       "id": "SA-J05-C08",
       "section_id": "SA-J05-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Khai thuê hải quan VNACCS"
-    },
-    {
-      "id": "SA-J05-C08",
-      "section_id": "SA-J05-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Mã HS Code"
-    },
-    {
-      "id": "SA-J05-C08",
-      "section_id": "SA-J05-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Quản lý khách hàng FDI logistics"
     },
     {
       "id": "SA-J05-C08",
       "section_id": "SA-J05-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Báo giá cước FCL LCL"
-    },
-    {
-      "id": "SA-J05-C08",
-      "section_id": "SA-J05-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Bán thêm dịch vụ cước biển"
-    },
-    {
-      "id": "SA-J05-C08",
-      "section_id": "SA-J05-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Khai thuê hải quan VNACCS"
     },
     {
       "id": "MK-J01-C01",
@@ -2285,7 +1835,7 @@
       "id": "MK-J01-C03",
       "section_id": "MK-J01-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\nViết và phân phối hơn 50 bài PR trên các trang báo điện tử VnExpress, Dân Trí, Tuổi Trẻ.\nĐiều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\nCác chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng."
+      "value": "Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\nViết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\nĐiều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\nCác chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng."
     },
     {
       "id": "MK-J01-C03",
@@ -2304,12 +1854,6 @@
       "section_id": "MK-J01-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Tổ chức sự kiện hội nghị"
-    },
-    {
-      "id": "MK-J01-C03",
-      "section_id": "MK-J01-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Quản lý KOL KOC"
     },
     {
       "id": "MK-J01-C03",
@@ -2349,12 +1893,6 @@
       "section_id": "MK-J01-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Copywriting mạng xã hội"
-    },
-    {
-      "id": "MK-J01-C04",
-      "section_id": "MK-J01-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Canva"
     },
     {
       "id": "MK-J01-C04",
@@ -2410,25 +1948,13 @@
       "id": "MK-J01-C05",
       "section_id": "MK-J01-C05-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Google Ads"
-    },
-    {
-      "id": "MK-J01-C05",
-      "section_id": "MK-J01-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "TikTok Ads"
-    },
-    {
-      "id": "MK-J01-C05",
-      "section_id": "MK-J01-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "GA4 và Looker Studio"
     },
     {
       "id": "MK-J01-C05",
       "section_id": "MK-J01-C05-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Tối ưu ROAS và CAC"
+      "value": "Tối ưu ROAS"
     },
     {
       "id": "MK-J01-C05",
@@ -2472,19 +1998,7 @@
       "id": "MK-J01-C06",
       "section_id": "MK-J01-C06-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Biên tập video ngắn CapCut Premiere"
-    },
-    {
-      "id": "MK-J01-C06",
-      "section_id": "MK-J01-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Thiết kế Landing Page"
-    },
-    {
-      "id": "MK-J01-C06",
-      "section_id": "MK-J01-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Adobe Photoshop Illustrator"
     },
     {
       "id": "MK-J01-C07",
@@ -2511,13 +2025,7 @@
       "id": "MK-J01-C07",
       "section_id": "MK-J01-C07-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Quảng cáo đa kênh Meta TikTok Google"
-    },
-    {
-      "id": "MK-J01-C07",
-      "section_id": "MK-J01-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Google Analytics 4 (GA4)"
+      "value": "Quảng cáo Meta và TikTok"
     },
     {
       "id": "MK-J01-C07",
@@ -2567,25 +2075,7 @@
       "id": "MK-J01-C08",
       "section_id": "MK-J01-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Google Analytics 4 (GA4)"
-    },
-    {
-      "id": "MK-J01-C08",
-      "section_id": "MK-J01-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Đo lường quảng cáo Meta TikTok Google"
-    },
-    {
-      "id": "MK-J01-C08",
-      "section_id": "MK-J01-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Ngành giáo dục trực tuyến EdTech"
-    },
-    {
-      "id": "MK-J01-C08",
-      "section_id": "MK-J01-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Google Analytics 4 (GA4)"
     },
     {
       "id": "MK-J02-C01",
@@ -2649,12 +2139,6 @@
       "value": "Thiết kế Canva và Photoshop"
     },
     {
-      "id": "MK-J02-C01",
-      "section_id": "MK-J02-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Bắt trend xu hướng Gen Z"
-    },
-    {
       "id": "MK-J02-C02",
       "issue": "skill requires semantic support check",
       "value": "Sáng tạo nội dung Instagram và TikTok"
@@ -2696,12 +2180,6 @@
       "id": "MK-J02-C02",
       "section_id": "MK-J02-C02-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Bắt nhịp xu hướng nhạc trend"
-    },
-    {
-      "id": "MK-J02-C02",
-      "section_id": "MK-J02-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Thiết kế ảnh Canva"
     },
     {
@@ -2718,7 +2196,7 @@
       "id": "MK-J02-C03",
       "section_id": "MK-J02-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\nTối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\nCông việc chủ yếu thao tác viết trên máy tính, chưa từng tự quay video, đứng trước ống kính hay sử dụng ứng dụng dựng phim CapCut, Premiere."
+      "value": "Nghiên cứu và viết trung bình 25 bài viết chuyên sâu về trí tuệ nhân tạo và xu hướng giáo dục cho cổng thông tin công ty.\nTối ưu hóa cấu trúc bài viết, đặt thẻ tiêu đề H2, H3 theo danh sách từ khóa được cung cấp.\nCông việc chủ yếu thao tác viết trên máy tính."
     },
     {
       "id": "MK-J02-C03",
@@ -2731,12 +2209,6 @@
       "section_id": "MK-J02-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Nghiên cứu tài liệu sâu"
-    },
-    {
-      "id": "MK-J02-C03",
-      "section_id": "MK-J02-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Dịch thuật tiếng Anh"
     },
     {
       "id": "MK-J02-C04",
@@ -2769,12 +2241,6 @@
       "section_id": "MK-J02-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Quay dựng video TikTok CapCut"
-    },
-    {
-      "id": "MK-J02-C04",
-      "section_id": "MK-J02-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Diễn xuất trước ống kính"
     },
     {
       "id": "MK-J02-C04",
@@ -2823,18 +2289,6 @@
       "value": "Chỉ đạo sản xuất video ngắn"
     },
     {
-      "id": "MK-J02-C05",
-      "section_id": "MK-J02-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Storytelling"
-    },
-    {
-      "id": "MK-J02-C05",
-      "section_id": "MK-J02-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Storytelling"
-    },
-    {
       "id": "MK-J02-C06",
       "issue": "skill requires semantic support check",
       "value": "Trực tin nhắn Fanpage"
@@ -2861,12 +2315,6 @@
       "section_id": "MK-J02-C06-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Chăm sóc khách hàng"
-    },
-    {
-      "id": "MK-J02-C06",
-      "section_id": "MK-J02-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Pancake Harasocial"
     },
     {
       "id": "MK-J02-C06",
@@ -2966,31 +2414,7 @@
       "id": "MK-J02-C08",
       "section_id": "MK-J02-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Bắt trend du lịch ẩm thực"
-    },
-    {
-      "id": "MK-J02-C08",
-      "section_id": "MK-J02-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Thiết kế thumbnail Photoshop"
-    },
-    {
-      "id": "MK-J02-C08",
-      "section_id": "MK-J02-C08-SEC-PRJ",
-      "issue": "structured fact requires semantic support check",
-      "value": "Sản xuất 10 video ngắn giới thiệu quán ăn lâu đời hẻm nhỏ, đạt 4,5 triệu view TikTok."
-    },
-    {
-      "id": "MK-J02-C08",
-      "section_id": "MK-J02-C08-SEC-PRJ",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tự quay và dựng Premiere CapCut"
-    },
-    {
-      "id": "MK-J02-C08",
-      "section_id": "MK-J02-C08-SEC-PRJ",
-      "issue": "structured fact requires semantic support check",
-      "value": "Bắt trend du lịch ẩm thực"
     },
     {
       "id": "MK-J03-C01",
@@ -3031,7 +2455,7 @@
       "id": "MK-J03-C01",
       "section_id": "MK-J03-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\nHoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\nChỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình VTV3 (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\nTrực tiếp chủ trì chấm thầu, làm việc với các agency quảng cáo quốc tế Ogilvy, Dentsu để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\nThuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh."
+      "value": "Lãnh đạo trực tiếp đội ngũ 6 nhân sự (Brand Executive, Trade Marketing, Creative Designer), quản lý ngân sách tiếp thị 14 tỷ đồng/năm.\nHoạch định chiến lược tái định vị dòng sản phẩm gia vị và nước sốt cao cấp, giúp nhận biết thương hiệu tự phát (Top of Mind) tăng từ 14% lên 28% sau 18 tháng.\nChỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình quốc gia (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\nTrực tiếp chủ trì chấm thầu, làm việc với các các agency sáng tạo quốc tế để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.\nThuyết trình báo cáo kết quả kinh doanh và đề xuất kế hoạch năm trước Tổng Giám đốc và Hội đồng Quản trị hoàn toàn bằng tiếng Anh."
     },
     {
       "id": "MK-J03-C01",
@@ -3061,19 +2485,13 @@
       "id": "MK-J03-C01",
       "section_id": "MK-J03-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Quản lý Creative PR Media Agency"
+      "value": "Quản lý Creative Agency"
     },
     {
       "id": "MK-J03-C01",
       "section_id": "MK-J03-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Báo cáo Hội đồng Quản trị tiếng Anh"
-    },
-    {
-      "id": "MK-J03-C01",
-      "section_id": "MK-J03-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Chiến lược định vị thương hiệu"
     },
     {
       "id": "MK-J03-C02",
@@ -3126,12 +2544,6 @@
       "value": "Báo cáo CEO bằng tiếng Anh"
     },
     {
-      "id": "MK-J03-C02",
-      "section_id": "MK-J03-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Chiến dịch IMC bán lẻ mỹ phẩm"
-    },
-    {
       "id": "MK-J03-C03",
       "issue": "skill requires semantic support check",
       "value": "Brand Marketing ABM"
@@ -3155,7 +2567,7 @@
       "id": "MK-J03-C03",
       "section_id": "MK-J03-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\nTheo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\nGiám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\nHướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu, chưa chính thức quản lý đội ngũ nhân viên chính thức."
+      "value": "Trực tiếp hỗ trợ Giám đốc Nhãn hàng quản lý thực thi ngân sách 3 tỷ đồng cho nhãn hàng trà thảo mộc.\nTheo dõi tiến độ sản xuất TVC 15s với agency sáng tạo và kiểm tra lịch phát sóng quảng cáo trên truyền hình.\nGiám sát chương trình phát mẫu dùng thử (sampling) tại 30 trường đại học tại khu vực TP.HCM.\nHướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu."
     },
     {
       "id": "MK-J03-C03",
@@ -3173,7 +2585,7 @@
       "id": "MK-J03-C03",
       "section_id": "MK-J03-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Làm việc với Creative và Media Agency"
+      "value": "Làm việc với Creative Agency"
     },
     {
       "id": "MK-J03-C04",
@@ -3199,7 +2611,7 @@
       "id": "MK-J03-C04",
       "section_id": "MK-J03-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Quản lý 6 nhân viên chuyên trách kênh siêu thị WinMart, Big C/Go! và Lotte Mart trên toàn miền Nam.\nQuản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\nĐảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\nPhối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn."
+      "value": "Quản lý 6 nhân viên chuyên trách các hệ thống siêu thị bán lẻ lớn trên toàn miền Nam.\nQuản trị ngân sách xúc tiến bán hàng 7 tỷ đồng/năm cho mảng nước mắm và gia vị thực phẩm.\nĐảm bảo 100% các điểm bán trọng yếu đạt tiêu chuẩn trưng bày đầu kệ (End-cap) và ụ đảo sản phẩm trong các dịp lễ lớn.\nPhối hợp cùng các xưởng sản xuất vật phẩm quảng cáo POSM thi công đúng hạn."
     },
     {
       "id": "MK-J03-C04",
@@ -3211,19 +2623,13 @@
       "id": "MK-J03-C04",
       "section_id": "MK-J03-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Kênh siêu thị MT và CVS"
+      "value": "Kênh siêu thị MT"
     },
     {
       "id": "MK-J03-C04",
       "section_id": "MK-J03-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Ngân sách khuyến mãi điểm bán"
-    },
-    {
-      "id": "MK-J03-C04",
-      "section_id": "MK-J03-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Shopper Activation và POSM"
     },
     {
       "id": "MK-J03-C04",
@@ -3254,7 +2660,7 @@
     {
       "id": "MK-J03-C05",
       "issue": "skill requires semantic support check",
-      "value": "Hợp tác WPP Omnicom"
+      "value": "Hợp tác tập đoàn truyền thông toàn cầu"
     },
     {
       "id": "MK-J03-C05",
@@ -3284,18 +2690,6 @@
       "section_id": "MK-J03-C05-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Chiến dịch IMC toàn quốc"
-    },
-    {
-      "id": "MK-J03-C05",
-      "section_id": "MK-J03-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Hợp tác WPP Omnicom"
-    },
-    {
-      "id": "MK-J03-C05",
-      "section_id": "MK-J03-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Chiến lược danh mục đa thương hiệu"
     },
     {
       "id": "MK-J03-C06",
@@ -3334,13 +2728,7 @@
       "id": "MK-J03-C06",
       "section_id": "MK-J03-C06-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Tối ưu ROAS và CPA"
-    },
-    {
-      "id": "MK-J03-C06",
-      "section_id": "MK-J03-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Quảng cáo số E-commerce"
+      "value": "Tối ưu ROAS"
     },
     {
       "id": "MK-J03-C07",
@@ -3433,12 +2821,6 @@
       "id": "MK-J03-C08",
       "section_id": "MK-J03-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Định vị thương hiệu Brand Positioning"
-    },
-    {
-      "id": "MK-J03-C08",
-      "section_id": "MK-J03-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Sản xuất TVC và làm việc Media Agency"
     },
     {
@@ -3446,12 +2828,6 @@
       "section_id": "MK-J03-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Thuyết trình tiếng Anh chuyên nghiệp"
-    },
-    {
-      "id": "MK-J03-C08",
-      "section_id": "MK-J03-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Định vị thương hiệu Brand Positioning"
     },
     {
       "id": "MK-J04-C01",
@@ -3495,12 +2871,6 @@
       "section_id": "MK-J04-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "SEO On-page và Topic Cluster"
-    },
-    {
-      "id": "MK-J04-C01",
-      "section_id": "MK-J04-C01-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Xây dựng liên kết Off-page"
     },
     {
       "id": "MK-J04-C01",
@@ -3567,12 +2937,6 @@
       "id": "MK-J04-C02",
       "section_id": "MK-J04-C02-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Google Search Console"
-    },
-    {
-      "id": "MK-J04-C02",
-      "section_id": "MK-J04-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Ahrefs và Screaming Frog"
     },
     {
@@ -3603,18 +2967,6 @@
       "section_id": "MK-J04-C03-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Thiết lập và quản lý ngân sách 150 triệu đồng/tháng quảng cáo từ khóa cho các website bán hàng điện máy và khóa học nghề.\nTối ưu trang đích để đạt Điểm chất lượng từ 8/10 trở lên nhằm giảm chi phí thầu CPC.\nSử dụng Google Search Console để xem xét các từ khóa có lượt tìm kiếm tăng đột biến để đưa vào danh sách từ khóa quảng cáo."
-    },
-    {
-      "id": "MK-J04-C03",
-      "section_id": "MK-J04-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Quảng cáo tìm kiếm Google Ads"
-    },
-    {
-      "id": "MK-J04-C03",
-      "section_id": "MK-J04-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Nghiên cứu từ khóa Keyword Planner"
     },
     {
       "id": "MK-J04-C03",
@@ -3684,24 +3036,6 @@
       "value": "Lãnh đạo bộ phận SEO sàn TMĐT"
     },
     {
-      "id": "MK-J04-C05",
-      "section_id": "MK-J04-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Technical SEO triệu trang"
-    },
-    {
-      "id": "MK-J04-C05",
-      "section_id": "MK-J04-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Screaming Frog Enterprise"
-    },
-    {
-      "id": "MK-J04-C05",
-      "section_id": "MK-J04-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Ahrefs và BigQuery"
-    },
-    {
       "id": "MK-J04-C06",
       "issue": "skill requires semantic support check",
       "value": "Yoast SEO Rank Math"
@@ -3716,12 +3050,6 @@
       "section_id": "MK-J04-C06-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Nhận danh sách từ khóa từ chuyên viên SEO và viết 15 bài/tuần cho website phòng khám nhi khoa.\nĐảm bảo bài viết đáp ứng đầy đủ các tiêu chuẩn về độ dài trên 1.200 từ, cấu trúc rõ ràng và hấp dẫn người đọc.\nTự đăng bài lên hệ thống WordPress, chỉnh sửa định dạng đoạn văn bản và chọn danh mục phù hợp."
-    },
-    {
-      "id": "MK-J04-C06",
-      "section_id": "MK-J04-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Yoast SEO Rank Math"
     },
     {
       "id": "MK-J04-C06",
@@ -3760,25 +3088,7 @@
       "id": "MK-J04-C07",
       "section_id": "MK-J04-C07-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Nghiên cứu từ khóa Ahrefs Content Gap"
-    },
-    {
-      "id": "MK-J04-C07",
-      "section_id": "MK-J04-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
       "value": "Phối hợp đội viết bài outline"
-    },
-    {
-      "id": "MK-J04-C07",
-      "section_id": "MK-J04-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "WordPress"
-    },
-    {
-      "id": "MK-J04-C07",
-      "section_id": "MK-J04-C07-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "SEO On-page web nội thất"
     },
     {
       "id": "MK-J04-C08",
@@ -3821,25 +3131,13 @@
       "id": "MK-J04-C08",
       "section_id": "MK-J04-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Core Web Vitals HTML CSS JS"
+      "value": "Tối ưu hiệu năng JavaScript"
     },
     {
       "id": "MK-J04-C08",
       "section_id": "MK-J04-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Cấu trúc dữ liệu Schema"
-    },
-    {
-      "id": "MK-J04-C08",
-      "section_id": "MK-J04-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Google Search Console và Ahrefs"
-    },
-    {
-      "id": "MK-J04-C08",
-      "section_id": "MK-J04-C08-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "WordPress Custom Theme"
+      "value": "Lập trình giao diện Responsive Web"
     },
     {
       "id": "MK-J05-C01",
@@ -3910,7 +3208,7 @@
       "id": "MK-J05-C01",
       "section_id": "MK-J05-C01-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Chỉ số CAC LTV Retention Activation"
+      "value": "Chỉ số CAC và Retention Rate"
     },
     {
       "id": "MK-J05-C01",
@@ -3980,24 +3278,6 @@
       "value": "Tỷ lệ kích hoạt Activation Rate"
     },
     {
-      "id": "MK-J05-C02",
-      "section_id": "MK-J05-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Đồng bộ Product Sales CS"
-    },
-    {
-      "id": "MK-J05-C02",
-      "section_id": "MK-J05-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tiếng Anh TOEIC 860"
-    },
-    {
-      "id": "MK-J05-C02",
-      "section_id": "MK-J05-C02-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Product Marketing Fintech thanh toán"
-    },
-    {
       "id": "MK-J05-C03",
       "issue": "skill requires semantic support check",
       "value": "Đặc tả tính năng PRD"
@@ -4032,12 +3312,6 @@
       "value": "Scrum Agile"
     },
     {
-      "id": "MK-J05-C03",
-      "section_id": "MK-J05-C03-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Scrum Agile"
-    },
-    {
       "id": "MK-J05-C04",
       "issue": "skill requires semantic support check",
       "value": "Tài liệu tính năng Release notes"
@@ -4056,25 +3330,13 @@
       "id": "MK-J05-C04",
       "section_id": "MK-J05-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\nViết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\nTổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\nChưa trực tiếp chủ trì chiến lược GTM độc lập hay phân tích sâu các chỉ số vòng đời tài chính như CAC, LTV."
-    },
-    {
-      "id": "MK-J05-C04",
-      "section_id": "MK-J05-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Tài liệu tính năng Release notes"
+      "value": "Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\nViết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\nTổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm."
     },
     {
       "id": "MK-J05-C04",
       "section_id": "MK-J05-C04-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Hỗ trợ ra mắt tính năng phần mềm"
-    },
-    {
-      "id": "MK-J05-C04",
-      "section_id": "MK-J05-C04-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Slide hội thảo trực tuyến"
     },
     {
       "id": "MK-J05-C05",
@@ -4126,12 +3388,6 @@
       "value": "Hệ số LTV CAC Fintech"
     },
     {
-      "id": "MK-J05-C05",
-      "section_id": "MK-J05-C05-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Hệ sinh thái ví điện tử đa quốc gia"
-    },
-    {
       "id": "MK-J05-C06",
       "issue": "skill requires semantic support check",
       "value": "Đàm phán đối tác ưu đãi thẻ"
@@ -4147,12 +3403,6 @@
       "section_id": "MK-J05-C06-SEC-EXP",
       "issue": "structured fact requires semantic support check",
       "value": "Tiếp thị sản phẩm thẻ ngân hàng"
-    },
-    {
-      "id": "MK-J05-C06",
-      "section_id": "MK-J05-C06-SEC-EXP",
-      "issue": "structured fact requires semantic support check",
-      "value": "Chương trình tích điểm hoàn tiền"
     },
     {
       "id": "MK-J05-C06",
@@ -4262,7 +3512,7 @@
       "id": "MK-J05-C08",
       "section_id": "MK-J05-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Amplitude Mixpanel"
+      "value": "Phân tích dữ liệu Amplitude"
     },
     {
       "id": "MK-J05-C08",
@@ -4274,7 +3524,7 @@
       "id": "MK-J05-C08",
       "section_id": "MK-J05-C08-SEC-EXP",
       "issue": "structured fact requires semantic support check",
-      "value": "Activation Rate và Retention Rate"
+      "value": "Tối ưu Activation Rate"
     },
     {
       "id": "MK-J05-C08",
@@ -4289,10 +3539,15 @@
       "value": "Làm việc PM nước ngoài bằng tiếng Anh"
     }
   ],
+  "warning_types": {
+    "preferred whitespace-token length": 5,
+    "skill requires semantic support check": 286,
+    "structured fact requires semantic support check": 346
+  },
   "limitations": [
     "Lexical checks do not establish semantic support or fictional entity identity.",
-    "Near duplicates and natural profile diversity require separate inspection.",
-    "Whitespace token count is not Vietnamese linguistic word segmentation.",
-    "No annotation permitted until source acceptance."
+    "Zero mechanical errors is a necessary gate, not complete silver relevance acceptance.",
+    "Whitespace token count is not linguistic word segmentation.",
+    "No annotation permitted until source acceptance manifest is approved."
   ]
 }

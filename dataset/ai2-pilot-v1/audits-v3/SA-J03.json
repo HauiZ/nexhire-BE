@@ -1,0 +1,85 @@
+{
+  "source_acceptance": "accepted",
+  "verified_candidate_count": 8,
+  "blocking_issues": [],
+  "job_id": "SA-J03",
+  "resolved_historical_issues": [
+    {
+      "evidence_note": "HR-SOURCE-003/004: Removed 'Quan hệ lãnh đạo bệnh viện miền Bắc' and 'Luật Đấu thầu' from SA-J03-C01-EXP-01.skills_used in commercial-repair-log-v4.json; EXP-01 and EXP-02 descriptions match exact verbatim lines of SA-J03-C01-SEC-EXP. Remaining EXP-01 skills_used (4 items) are locally grounded; EXP-02 skills_used is [].",
+      "candidate_id": "SA-J03-C01",
+      "disposition": "fixed",
+      "issue_summary": "Role skills_used attributed hospital leadership relationships and Luật Đấu thầu without role-local wording; compressed structured descriptions."
+    },
+    {
+      "disposition": "fixed",
+      "evidence_note": "HR-SOURCE-003/004: Removed 'Tiếng Anh đọc tài liệu kỹ thuật' and 'Đấu thầu y tế công lập' (commercial-repair-log-v5.json) from SA-J03-C02-EXP-02.skills_used (now []). Removed 'Quan hệ phòng vật tư bệnh viện' and 'Luật Đấu thầu' from EXP-01.skills_used. Restored verbatim EXP-01 description including 'Tham gia cùng ban giám đốc'.",
+      "issue_summary": "C02-EXP-02 skills_used included ungrounded English and public-bidding tags; C02-EXP-01 omitted co-participation qualifier and included unsupported department/statutory tags.",
+      "candidate_id": "SA-J03-C02"
+    },
+    {
+      "evidence_note": "HR-SOURCE-003/004/006: Removed negative prose from SA-J03-C03-SEC-SUM ('Chưa từng giữ chức danh quản lý đội nhóm') and SEC-EXP/EXP-01.description (', chưa tham gia quản lý hay phân chia chỉ tiêu cho nhân viên khác') and rebuilt cv_text. Removed 'Luật Đấu thầu' and 'Quan hệ khoa chẩn đoán hình ảnh' from EXP-01.skills_used and 'Kỹ thuật Y sinh' from EXP-02.skills_used (now []).",
+      "candidate_id": "SA-J03-C03",
+      "disposition": "fixed",
+      "issue_summary": "JD-shaped negative sentences in summary/experience; ungrounded Luật Đấu thầu, department relationship, and degree-derived skills_used."
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "Repeated JD-shaped negative denials of hospital clinical device experience and summarized structured descriptions.",
+      "evidence_note": "HR-SOURCE-003/004/006: Removed both JD-shaped negative sentences from SA-J03-C04-SEC-SUM and SEC-EXP and rebuilt cv_text. Synchronized EXP-01/02 descriptions verbatim with SEC-EXP. EXP-01 skills_used (4 items) grounded locally; EXP-02 skills_used is [].",
+      "candidate_id": "SA-J03-C04"
+    },
+    {
+      "disposition": "fixed",
+      "candidate_id": "SA-J03-C05",
+      "issue_summary": "C05-EXP-01 skills_used attributed hospital director/DOH relationships, expert English, and statutory Luật Đấu thầu not explicit in role prose.",
+      "evidence_note": "HR-SOURCE-003/004: Removed 'Mối quan hệ viện trưởng và sở y tế', 'Tiếng Anh cấp độ chuyên gia', and 'Luật Đấu thầu' (commercial-repair-log-v5.json) from SA-J03-C05-EXP-01.skills_used; remaining 3 items are locally grounded in EXP-01 prose. EXP-01/02 descriptions match verbatim lines of SEC-EXP."
+    },
+    {
+      "issue_summary": "Team size (25+ vs 24) and nationwide executive role claim in summary not explicitly represented as separate dated period in timeline.",
+      "evidence_note": "HR-SOURCE-008: Preserved original summary ('Giám đốc điều hành kinh doanh toàn quốc'), skills ('quy mô trên 25 người'), and timeline (EXP-01 '24 cán bộ nhân viên' 2021-05..null; EXP-02 '10 nhân sự' 2016-03..2021-04) without inventing dates or rewriting numbers.",
+      "disposition": "retained_ambiguity",
+      "candidate_id": "SA-J03-C05"
+    },
+    {
+      "disposition": "fixed",
+      "candidate_id": "SA-J03-C06",
+      "issue_summary": "JD-shaped negative bullet in SEC-EXP and unsupported 'Quan hệ khoa Dược' in EXP-01 skills_used.",
+      "evidence_note": "HR-SOURCE-003/004/006: Removed negative-list bullet from SA-J03-C06-SEC-EXP and rebuilt cv_text. Removed 'Quan hệ khoa Dược' from EXP-01.skills_used; EXP-02 skills_used is []. Descriptions match SEC-EXP verbatim."
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "C07-EXP-01 skills_used included statutory 'theo Luật Đấu thầu' absent from role prose; C07-EXP-02 null dates and prior status verification.",
+      "evidence_note": "HR-SOURCE-003/004/005: Removed 'Đấu thầu y tế theo Luật Đấu thầu' from SA-J03-C07-EXP-01.skills_used (commercial-repair-log-v5.json); remaining 3 items grounded locally. EXP-02 retains null dates with is_current=false supported by explicit 'trước đây' wording, and skills_used=[].",
+      "candidate_id": "SA-J03-C07"
+    },
+    {
+      "candidate_id": "SA-J03-C07",
+      "evidence_note": "HR-SOURCE-008: Preserved summary '5 năm kinh nghiệm' alongside dated EXP-01 (2024-04..null) and undated EXP-02 (null..null) without fabricating dates; requires human-review flag if label-material for 5-year threshold SA-J03-R01.",
+      "disposition": "retained_ambiguity",
+      "issue_summary": "Summary claims 5 years experience while EXP-02 dates are null (unknown prior duration)."
+    },
+    {
+      "disposition": "fixed",
+      "evidence_note": "HR-SOURCE-003/004/007: Removed 'Tiếng Anh IELTS 7.5' and 'Hồ sơ thầu kỹ thuật theo Luật Đấu thầu' from EXP-01.skills_used and 'Kỹ thuật Y sinh' from EXP-02.skills_used (now []). Restored verbatim mixed participant count 'cho hơn 40 bác sĩ và kỹ thuật viên hình ảnh'. Fictionalized real hospitals to 'Bệnh viện Đa khoa Trung tâm 1, Bệnh viện Ngoại khoa Trung ương và Bệnh viện Đa khoa Tỉnh Thái An' in SEC-EXP, cv_text, and EXP-01.description (logged in organization-mapping-v3.json).",
+      "issue_summary": "EXP-01 attached IELTS 7.5 and statutory phrase, altered mixed participant count to doctors-only, and named real hospitals (Bạch Mai, Việt Đức, Thái Nguyên); EXP-02 attributed degree skill.",
+      "candidate_id": "SA-J03-C08"
+    },
+    {
+      "candidate_id": "SA-J03",
+      "issue_summary": "Job-level JD/requirement synchronization (HR-SOURCE-011) and degree terminology faithfulness (HR-SOURCE-010).",
+      "evidence_note": "HR-SOURCE-010/011: All 6 JD requirements (SA-J03-R01..R06; 4 required, 2 preferred) match jd_text verbatim with no omitted mandatory criteria or discriminatory requirements; all 8 candidate education records match degree/field prose unambiguously without Cử nhân Cao đẳng ambiguity.",
+      "disposition": "accepted_limitation"
+    }
+  ],
+  "limitations_noted": [
+    "Lexical validator (validate_sources.py) emits semantic-support warnings on paraphrased skills and multi-line structured facts because exact substring checks are lexical only; all items were manually verified as semantically grounded in cited sections.",
+    "HR-SOURCE-007: Generic synthetic employer names (e.g., Tân Bình, Phương Đông, Thăng Long, An Sinh, Hùng Vương) may lexically collide with real entities; no external identity verification was performed. Educational institutions (ĐH Bách Khoa Hà Nội, ĐH Dược Hà Nội, ĐH KHTN - ĐHQGHN, ĐH Y Hà Nội, ĐH Y Dược - ĐHQGHN, ĐH Kinh tế Quốc dân) are preserved per protocol.",
+    "HR-SOURCE-008: SA-J03-C05 summary/skills discrepancy (nationwide executive claim and >25 team size vs 24 staff in listed 2021-05..2026-11 + 2016-03..2021-04 timeline) and SA-J03-C07 summary 5-year tenure vs undated prior role EXP-02 remain preserved as unknown/ambiguous periods for human-flagged annotation rather than rewritten.",
+    "HR-SOURCE-009: All 8 candidates contain two experiences and follow the development pilot profile pattern (senior managers vs individual contributors/adjacent roles); pilot is development-only with IDs and ordering excluded from features and labels.",
+    "Synthetic work outcomes (e.g., tender counts and revenue targets) are fictional CV narratives, not verified performance or hiring outcomes; silver-only development scope."
+  ],
+  "skeptic_source_acceptance": "accepted",
+  "skeptic_blocking_issues": [],
+  "verification_run_id": "wxftmuxcr",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

@@ -1,0 +1,149 @@
+{
+  "job_id": "SA-J05",
+  "limitations_noted": [
+    "Pilot development scope only: all 8 candidate profiles share two-employer structure and recurring candidate-index scenario patterns (HR-SOURCE-009); IDs and candidate ordering must be excluded from feature modeling.",
+    "Summary tenure statements (C01, C02, C03, C06, C08) provide narrower or rounded duration scopes relative to total calendar intervals; preserved as retained ambiguities under HR-SOURCE-008.",
+    "Candidate C07 second experience engagement (SA-J05-C07-EXP-02) has unstated start and end dates with explicit prior wording, preserving is_current=false cleanly under HR-SOURCE-005 without inferred dates.",
+    "All employer organizations are declared synthetic fictional designations; Thai Nguyen and Bac Ninh are recognized valid industrial geographic provinces in Vietnam.",
+    "Historical retention rate metric in JD requirement SA-J05-R04 is evaluated under the principle that missing evidence is unknown rather than confirmed absence."
+  ],
+  "verified_candidate_count": 8,
+  "blocking_issues": [],
+  "resolved_historical_issues": [
+    {
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C01-EXP-01 skills_used was repaired under HR-SOURCE-003 to include only explicit role skills: ['Quản lý khách hàng trọng yếu KAM', 'Cước đường biển FCL', 'Đường hàng không Air Freight', 'Đàm phán hợp đồng khung doanh nghiệp FDI', 'Tỷ lệ giữ chân khách hàng']. Unsupported LCL, customs declaration service, and TOEIC 890 removed from role skills_used.",
+      "candidate_id": "SA-J05-C01",
+      "issue_summary": "SA-J05-C01-EXP-01 skills_used contained unsupported LCL, customs declaration service, and TOEIC 890.",
+      "disposition": "fixed"
+    },
+    {
+      "candidate_id": "SA-J05-C01",
+      "disposition": "fixed",
+      "issue_summary": "SA-J05-C01-EXP-02 skills_used compound FCL LCL added unstated LCL.",
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C01-EXP-02 skills_used was updated to ['Cước đường biển FCL', 'Khai thuê hải quan'] under HR-SOURCE-003, removing unstated LCL to match role text."
+    },
+    {
+      "issue_summary": "SA-J05-C02-EXP-02 skills_used compound FCL LCL added FCL; description narrowed import/export customer search to export only.",
+      "disposition": "fixed",
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C02-EXP-02 description verbatim matches section text ('xuất nhập khẩu nông sản'), and skills_used was corrected to ['Cước tàu biển LCL'] under HR-SOURCE-003 and HR-SOURCE-004.",
+      "candidate_id": "SA-J05-C02"
+    },
+    {
+      "candidate_id": "SA-J05-C02",
+      "issue_summary": "SA-J05-C02-EXP-01 structured description omitted metal-furniture category; skills_used and top skills included unsupported framework contract and ungrounded FCL/LCL granularity.",
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C02-EXP-01 description restored 'nội thất kim loại' under HR-SOURCE-004; EXP-01 skills_used removed unsupported FCL/LCL and framework contract under HR-SOURCE-003; top skills updated from 'Hợp đồng khung thường niên' to 'Đàm phán giá cước thường niên'.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "SA-J05-C03-SEC-EXP contained requirement-shaped negative denial prose ('Chưa có kinh nghiệm xử lý tờ khai hải quan, cước tàu biển quốc tế hay dịch vụ chuyển phát hàng không.').",
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, the templated negative denial bullet was removed from SA-J05-C03-SEC-EXP and cv_text under HR-SOURCE-006; section naturally describes domestic transport work.",
+      "candidate_id": "SA-J05-C03",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "SA-J05-C04-EXP-01 description modified handover to issuing D/O; skills_used assigned English email and LCL without explicit role evidence.",
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C04-EXP-01 description preserves faithful handover wording ('bàn giao lệnh giao hàng (D/O) cho khách'); skills_used was adjusted to ['Cước biển', 'Làm việc với hãng tàu'] under HR-SOURCE-003 and HR-SOURCE-004.",
+      "disposition": "fixed",
+      "candidate_id": "SA-J05-C04"
+    },
+    {
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, 'trẻ tuổi' and the negative denial sentence were eliminated from SA-J05-C04-SEC-SUM and cv_text under HR-SOURCE-002 and HR-SOURCE-006.",
+      "issue_summary": "SA-J05-C04-SEC-SUM contained unnecessary age proxy ('trẻ tuổi') and requirement-shaped negative denial ('Chưa có nhiều cơ hội trực tiếp ký kết hợp đồng khung thường niên...').",
+      "disposition": "fixed",
+      "candidate_id": "SA-J05-C04"
+    },
+    {
+      "disposition": "fixed",
+      "candidate_id": "SA-J05-C05",
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C05-EXP-01 description was synchronized verbatim with role text without added English work claim; skills_used was corrected to ['Lãnh đạo khách hàng toàn cầu KAM', 'Đàm phán hợp đồng khung FDI', 'Tỷ lệ giữ chân khách hàng 98%'] under HR-SOURCE-003 and HR-SOURCE-004.",
+      "issue_summary": "SA-J05-C05-EXP-01 description added English work; skills_used added FCL/Charter transport and English proficiency not explicit in employer section."
+    },
+    {
+      "disposition": "fixed",
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C06-EXP-01 description restores faithful wording ('giá trị hợp đồng hơn 16 tỷ đồng/năm' and no injected FDI label); skills_used removed OTIF, retaining ['Quản lý tài khoản B2B', 'Đàm phán hợp đồng khung'] under HR-SOURCE-003 and HR-SOURCE-004.",
+      "issue_summary": "SA-J05-C06-EXP-01 description added FDI status from other sections and rounded 'hơn 16 tỷ' to '16 tỷ'; skills_used assigned OTIF without employer prose metric.",
+      "candidate_id": "SA-J05-C06"
+    },
+    {
+      "candidate_id": "SA-J05-C06",
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, templated negative denial bullet was removed from SA-J05-C06-SEC-EXP and cv_text under HR-SOURCE-006.",
+      "issue_summary": "SA-J05-C06-SEC-EXP contained JD-shaped negative denial list ('Chưa từng đảm nhiệm nghiệp vụ cước tàu biển container, booking đường bay hay thủ tục hải quan xuất nhập khẩu.').",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "SA-J05-C07-EXP-01 skills_used compound FCL LCL added unstated LCL.",
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C07-EXP-01 skills_used was updated to ['Quản lý tài khoản logistics KAM', 'Cước tàu biển FCL', 'Thủ tục thông quan hải quan', 'Hợp đồng khung thường niên FDI', 'Tỷ lệ giữ chân tài khoản 91%'] under HR-SOURCE-003, removing unstated LCL.",
+      "disposition": "fixed",
+      "candidate_id": "SA-J05-C07"
+    },
+    {
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C07-EXP-02 skills_used was cleared to [] under HR-SOURCE-003; unstated dates with explicit prior engagement wording retain is_current=false under HR-SOURCE-005.",
+      "candidate_id": "SA-J05-C07",
+      "disposition": "fixed",
+      "issue_summary": "SA-J05-C07-EXP-02 skills_used compound FCL LCL was unsupported for feeder carrier engagement."
+    },
+    {
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C08-EXP-01 skills_used was reduced to ['Quản lý khách hàng FDI logistics', 'Cước tàu biển FCL', 'Bán thêm dịch vụ cước biển'] under HR-SOURCE-003, removing cross-section VNACCS, HS Code, and LCL.",
+      "candidate_id": "SA-J05-C08",
+      "issue_summary": "SA-J08-C08-EXP-01 skills_used assigned VNACCS software, HS Code, and LCL not explicit in current role source.",
+      "disposition": "fixed"
+    },
+    {
+      "evidence_note": "In audit-inputs-v3/SA-J05.json, SA-J05-C08-EXP-02 skills_used was cleared to [] under HR-SOURCE-003.",
+      "issue_summary": "SA-J05-C08-EXP-02 skills_used assigned VNACCS without explicit software mention in second employer text.",
+      "candidate_id": "SA-J05-C08",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "SA-J05-C07-EXP-02 has null start and end dates with explicit 'thời gian làm việc trước đây' wording.",
+      "disposition": "retained_ambiguity",
+      "evidence_note": "Under HR-SOURCE-005, null dates with explicit prior wording ('trước đây theo dự án thời vụ') cleanly support is_current=false without inferring unstated dates. Retained as valid source ambiguity.",
+      "candidate_id": "SA-J05-C07"
+    },
+    {
+      "evidence_note": "Under HR-SOURCE-008, rounded or narrower summary duration is preserved as written and flagged as non-blocking duration ambiguity without modifying source text.",
+      "issue_summary": "SA-J05-C01 summary tenure states 4 years while timeline covers 2021-06 to 2026-11 (over 5 years).",
+      "disposition": "retained_ambiguity",
+      "candidate_id": "SA-J05-C01"
+    },
+    {
+      "evidence_note": "Under HR-SOURCE-008, narrower/rounded summary tenure is preserved as written and flagged as non-blocking duration ambiguity.",
+      "issue_summary": "SA-J05-C02 summary tenure states 'hơn 3 năm 6 tháng' while timeline spans ~4 years 7 months.",
+      "disposition": "retained_ambiguity",
+      "candidate_id": "SA-J05-C02"
+    },
+    {
+      "evidence_note": "Under HR-SOURCE-008, narrower/rounded summary tenure is preserved as written and flagged as non-blocking duration ambiguity.",
+      "issue_summary": "SA-J05-C03 summary tenure states 3 years while timeline spans ~4 years 3 months.",
+      "disposition": "retained_ambiguity",
+      "candidate_id": "SA-J05-C03"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "evidence_note": "Under HR-SOURCE-008, narrower/rounded summary tenure is preserved as written and flagged as non-blocking duration ambiguity.",
+      "candidate_id": "SA-J05-C06",
+      "issue_summary": "SA-J05-C06 summary tenure states 'hơn 3 năm' while timeline spans ~4 years 6 months."
+    },
+    {
+      "evidence_note": "Under HR-SOURCE-008, narrower/rounded summary tenure is preserved as written and flagged as non-blocking duration ambiguity.",
+      "candidate_id": "SA-J05-C08",
+      "disposition": "retained_ambiguity",
+      "issue_summary": "SA-J05-C08 summary tenure states 'hơn 3 năm 6 tháng' while timeline spans ~4 years 6 months."
+    },
+    {
+      "disposition": "accepted_limitation",
+      "issue_summary": "Clarify performance target versus historical qualification for retention rate criteria (SA-J05-R04).",
+      "candidate_id": "SA-J05-C01",
+      "evidence_note": "Under PROTOCOL.md annotation rubric, missing retention metric is unknown rather than confirmed absence; labelers must not treat unequal reporting in synthetic CVs as confirmed failure."
+    },
+    {
+      "evidence_note": "Under HR-SOURCE-009, recurring template structure is documented as an accepted development pilot limitation; candidate IDs and ordering are excluded from feature engineering and relevance inference.",
+      "issue_summary": "All 8 candidates share two-employer structure and recurring candidate-index scenarios.",
+      "candidate_id": "SA-J05-C01",
+      "disposition": "accepted_limitation"
+    }
+  ],
+  "source_acceptance": "accepted",
+  "verification_run_id": "wlj22smze",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

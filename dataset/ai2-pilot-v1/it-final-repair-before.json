@@ -1,0 +1,25 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "snapshot_role": "immutable_pre_repair_snapshot",
+  "source_file": "dataset/ai2-pilot-v1/sources/it.json",
+  "source_sha256": "0649da4954c7c62449a17b7705648e958483736ba3f1ff2c2a13f66dc8395c34",
+  "reference_date": "2026-11-10",
+  "domain": "it",
+  "jobs_covered": [
+    "IT-J01",
+    "IT-J02",
+    "IT-J03",
+    "IT-J04",
+    "IT-J05",
+    "IT-J06",
+    "IT-J07",
+    "IT-J08",
+    "IT-J09",
+    "IT-J10"
+  ],
+  "candidate_count": 80,
+  "note": "Immutable copy before human-approved final repairs applied to sources/it.json."
+}

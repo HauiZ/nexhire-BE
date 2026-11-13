@@ -1,0 +1,79 @@
+{
+  "schema_version": "ai2-pilot-it-org-map-v1",
+  "disclaimer": "All organizations are declared fictional synthetic designations for dataset authoring only. No claim of independently verified external existence or non-existence is made. Platform, tool, certification and educational institution names are preserved except institutions acting directly as employers.",
+  "educational_lab_employer_mapping": [
+    {
+      "candidate_id": "IT-J10-C04",
+      "experience_id": "IT-J10-C04-E02",
+      "original_name": "Phòng Thí nghiệm Đại học Bách Khoa",
+      "fictional_name": "Phòng Thí nghiệm Trí tuệ Nhân tạo AlphaLab",
+      "reason": "Educational institution acting as employer replaced with explicitly fictional research laboratory per HR-SOURCE-007."
+    }
+  ],
+  "brand_resemblance_repairs": [
+    {
+      "candidate_id": "IT-J05-C02",
+      "experience_id": "IT-J05-C02-E01",
+      "original_name": "Công ty Cổ phần Giải pháp Thanh toán Thông minh VNPayLink",
+      "fictional_name": "Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink",
+      "reason": "Removed resemblance to real trademark (VNPay) per HR-SOURCE-007."
+    },
+    {
+      "candidate_id": "IT-J06-C08",
+      "experience_id": "IT-J06-C08-E01",
+      "original_name": "Công ty Cổ phần Công nghệ Viễn Thông Số Sao Bắc Đẩu",
+      "fictional_name": "Công ty Cổ phần Công nghệ Viễn Thông Số Sao Thiên Hà",
+      "reason": "Removed resemblance to real corporate entity (Sao Bắc Đẩu Telecom) per HR-SOURCE-007."
+    },
+    {
+      "candidate_id": "IT-J07-C01",
+      "experience_id": "IT-J07-C01-E01",
+      "original_name": "Công ty Cổ phần Công nghệ Thanh toán Quốc gia VinaPay",
+      "fictional_name": "Công ty Cổ phần Công nghệ Thanh toán Quốc gia VietPayLink",
+      "reason": "Removed resemblance to real national payment brand (VinaPay/VNPAY) per HR-SOURCE-007."
+    }
+  ],
+  "cross_job_collision_repairs": [
+    {
+      "candidate_id": "IT-J09-C02",
+      "experience_id": "IT-J09-C02-E01",
+      "original_name": "Công ty Cổ phần Công nghệ Số Thành Đạt",
+      "fictional_name": "Công ty Cổ phần Công nghệ Số Thành Tín",
+      "reason": "Resolved cross-job company collision with IT-J07-C07 to preserve distinct employer identity across domains."
+    },
+    {
+      "candidate_id": "IT-J09-C07",
+      "experience_id": "IT-J09-C07-E01",
+      "original_name": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới",
+      "fictional_name": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Trẻ",
+      "reason": "Differentiated duplicate employer name shared across IT-J08-C07, IT-J09-C07, and IT-J10-C07."
+    },
+    {
+      "candidate_id": "IT-J10-C07",
+      "experience_id": "IT-J10-C07-E01",
+      "original_name": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới",
+      "fictional_name": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Số",
+      "reason": "Differentiated duplicate employer name shared across IT-J08-C07, IT-J09-C07, and IT-J10-C07."
+    },
+    {
+      "candidate_id": "IT-J10-C03",
+      "experience_id": "IT-J10-C03-E01",
+      "original_name": "Công ty Cổ phần Công nghệ Mạng Đổi Mới",
+      "fictional_name": "Công ty Cổ phần Công nghệ Mạng Tân Tiến",
+      "reason": "Resolved cross-job company collision with IT-J05-C07 to preserve distinct employer identity."
+    }
+  ],
+  "preserved_educational_institutions": [
+    "Trường Đại học Bách Khoa Hà Nội",
+    "Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM",
+    "Trường Đại học Công nghệ Thông tin - Đại học Quốc gia TP.HCM",
+    "Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội",
+    "Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM",
+    "Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội",
+    "Trường Đại học Kinh tế Quốc dân",
+    "Trường Đại học Công nghiệp Hà Nội",
+    "Trường Đại học Sư phạm Kỹ thuật TP.HCM",
+    "Trường Đại học Mỹ thuật Công nghiệp Hà Nội",
+    "Trường Cao đẳng Kỹ thuật Cao Thắng"
+  ]
+}

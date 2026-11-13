@@ -1,0 +1,310 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "initial",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C01",
+      "relevance": 3,
+      "rationale": "Đa kênh trực tiếp từ 2023-08 hơn 3 năm, Meta/Google/TikTok ngân sách rõ; GA4/GTM/Looker đo ROI và phối hợp banner/video cụ thể. Không cần lấy tổng lịch sử để đạt ngưỡng.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J01-R01",
+          "section_id": "MK-J01-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Tiếp thị Kỹ thuật số tại Công ty Cổ phần Công nghệ Giáo Dục NovaEdu\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Trực tiếp chạy quảng cáo chuyển đổi cho các khóa học tiếng Anh trực tuyến và lập trình trẻ em trên Meta Ads, Google Search/Performance Max và TikTok Ads.\n- Quản lý ngân sách 350-500 triệu đồng/tháng, duy trì chi phí thu hút học viên mới (CPA) giảm 18% so với cùng kỳ.\n- Tự cấu hình Google Tag Manager để theo dõi các sự kiện gửi form đăng ký học thử và liên kết tài khoản GA4.\n- Dựng bảng điều khiển báo cáo Looker Studio tự động cập nhật hàng ngày giúp ban giám đốc theo dõi ROI thời gian thực.\n- Lên ý tưởng kịch bản video ngắn dạng phỏng vấn giáo viên bản ngữ và phối hợp cùng designer thiết kế bộ banner chạy khuyến mãi tuyển sinh hè.\n\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Truyền Thông Digilink\nThời gian: Từ 2022-09 đến 2023-07\n- Cài đặt chiến dịch quảng cáo tìm kiếm Google Ads và tăng lượt thích trang Facebook cho các trung tâm đào tạo nghề.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R02",
+          "section_id": "MK-J01-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Tiếp thị Kỹ thuật số tại Công ty Cổ phần Công nghệ Giáo Dục NovaEdu\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Trực tiếp chạy quảng cáo chuyển đổi cho các khóa học tiếng Anh trực tuyến và lập trình trẻ em trên Meta Ads, Google Search/Performance Max và TikTok Ads.\n- Quản lý ngân sách 350-500 triệu đồng/tháng, duy trì chi phí thu hút học viên mới (CPA) giảm 18% so với cùng kỳ.\n- Tự cấu hình Google Tag Manager để theo dõi các sự kiện gửi form đăng ký học thử và liên kết tài khoản GA4.\n- Dựng bảng điều khiển báo cáo Looker Studio tự động cập nhật hàng ngày giúp ban giám đốc theo dõi ROI thời gian thực.\n- Lên ý tưởng kịch bản video ngắn dạng phỏng vấn giáo viên bản ngữ và phối hợp cùng designer thiết kế bộ banner chạy khuyến mãi tuyển sinh hè.\n\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Truyền Thông Digilink\nThời gian: Từ 2022-09 đến 2023-07\n- Cài đặt chiến dịch quảng cáo tìm kiếm Google Ads và tăng lượt thích trang Facebook cho các trung tâm đào tạo nghề.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "section_id": "MK-J01-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Tiếp thị Kỹ thuật số tại Công ty Cổ phần Công nghệ Giáo Dục NovaEdu\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Trực tiếp chạy quảng cáo chuyển đổi cho các khóa học tiếng Anh trực tuyến và lập trình trẻ em trên Meta Ads, Google Search/Performance Max và TikTok Ads.\n- Quản lý ngân sách 350-500 triệu đồng/tháng, duy trì chi phí thu hút học viên mới (CPA) giảm 18% so với cùng kỳ.\n- Tự cấu hình Google Tag Manager để theo dõi các sự kiện gửi form đăng ký học thử và liên kết tài khoản GA4.\n- Dựng bảng điều khiển báo cáo Looker Studio tự động cập nhật hàng ngày giúp ban giám đốc theo dõi ROI thời gian thực.\n- Lên ý tưởng kịch bản video ngắn dạng phỏng vấn giáo viên bản ngữ và phối hợp cùng designer thiết kế bộ banner chạy khuyến mãi tuyển sinh hè.\n\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Truyền Thông Digilink\nThời gian: Từ 2022-09 đến 2023-07\n- Cài đặt chiến dịch quảng cáo tìm kiếm Google Ads và tăng lượt thích trang Facebook cho các trung tâm đào tạo nghề.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R04",
+          "section_id": "MK-J01-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Tiếp thị Kỹ thuật số tại Công ty Cổ phần Công nghệ Giáo Dục NovaEdu\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Trực tiếp chạy quảng cáo chuyển đổi cho các khóa học tiếng Anh trực tuyến và lập trình trẻ em trên Meta Ads, Google Search/Performance Max và TikTok Ads.\n- Quản lý ngân sách 350-500 triệu đồng/tháng, duy trì chi phí thu hút học viên mới (CPA) giảm 18% so với cùng kỳ.\n- Tự cấu hình Google Tag Manager để theo dõi các sự kiện gửi form đăng ký học thử và liên kết tài khoản GA4.\n- Dựng bảng điều khiển báo cáo Looker Studio tự động cập nhật hàng ngày giúp ban giám đốc theo dõi ROI thời gian thực.\n- Lên ý tưởng kịch bản video ngắn dạng phỏng vấn giáo viên bản ngữ và phối hợp cùng designer thiết kế bộ banner chạy khuyến mãi tuyển sinh hè.\n\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Truyền Thông Digilink\nThời gian: Từ 2022-09 đến 2023-07\n- Cài đặt chiến dịch quảng cáo tìm kiếm Google Ads và tăng lượt thích trang Facebook cho các trung tâm đào tạo nghề.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C02",
+      "relevance": 2,
+      "rationale": "Có đa kênh Meta/TikTok/Google, ngân sách và sản xuất visual/video; GA4/Looker đo mua hàng rõ. GTM chưa nêu, nhãn tạm thời cho khoảng trống công cụ bắt buộc; không hạ vì kinh nghiệm hơn 4 năm khi JD không nêu giới hạn loại trừ.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J01-R01",
+          "section_id": "MK-J01-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing Thương Mại Điện Tử tại Công ty Cổ phần Thời Trang Bán Lẻ TrendVina\nThời gian: Từ 2023-04 đến nay (đang công tác)\n- Quản trị ngân sách quảng cáo 600 triệu đồng/tháng cho chuỗi 15 cửa hàng và kênh website bán hàng trực tuyến.\n- Triển khai chiến dịch Meta Catalog Ads và TikTok Spark Ads kết hợp video review của KOC, giúp chỉ số ROAS đạt mức trung bình 4.2.\n- Cài đặt hệ thống theo dõi giá trị mua hàng Purchase Event qua GA4 và xây dựng báo cáo phân tích phễu rớt giỏ hàng trên Looker Studio.\n- Phối hợp chặt chẽ với đội ngũ designer và quay phim nội bộ để sản xuất 40 mẫu visual và 15 video ngắn mỗi tháng.\n\nNhân viên Digital Marketing tại Công ty TNHH Phụ Kiện Thời Trang VinaBag\nThời gian: Từ 2021-11 đến 2023-03\n- Thiết lập chiến dịch quảng cáo Facebook và Google Search thúc đẩy doanh số túi xách nữ.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R02",
+          "section_id": "MK-J01-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing Thương Mại Điện Tử tại Công ty Cổ phần Thời Trang Bán Lẻ TrendVina\nThời gian: Từ 2023-04 đến nay (đang công tác)\n- Quản trị ngân sách quảng cáo 600 triệu đồng/tháng cho chuỗi 15 cửa hàng và kênh website bán hàng trực tuyến.\n- Triển khai chiến dịch Meta Catalog Ads và TikTok Spark Ads kết hợp video review của KOC, giúp chỉ số ROAS đạt mức trung bình 4.2.\n- Cài đặt hệ thống theo dõi giá trị mua hàng Purchase Event qua GA4 và xây dựng báo cáo phân tích phễu rớt giỏ hàng trên Looker Studio.\n- Phối hợp chặt chẽ với đội ngũ designer và quay phim nội bộ để sản xuất 40 mẫu visual và 15 video ngắn mỗi tháng.\n\nNhân viên Digital Marketing tại Công ty TNHH Phụ Kiện Thời Trang VinaBag\nThời gian: Từ 2021-11 đến 2023-03\n- Thiết lập chiến dịch quảng cáo Facebook và Google Search thúc đẩy doanh số túi xách nữ.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "section_id": "MK-J01-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing Thương Mại Điện Tử tại Công ty Cổ phần Thời Trang Bán Lẻ TrendVina\nThời gian: Từ 2023-04 đến nay (đang công tác)\n- Quản trị ngân sách quảng cáo 600 triệu đồng/tháng cho chuỗi 15 cửa hàng và kênh website bán hàng trực tuyến.\n- Triển khai chiến dịch Meta Catalog Ads và TikTok Spark Ads kết hợp video review của KOC, giúp chỉ số ROAS đạt mức trung bình 4.2.\n- Cài đặt hệ thống theo dõi giá trị mua hàng Purchase Event qua GA4 và xây dựng báo cáo phân tích phễu rớt giỏ hàng trên Looker Studio.\n- Phối hợp chặt chẽ với đội ngũ designer và quay phim nội bộ để sản xuất 40 mẫu visual và 15 video ngắn mỗi tháng.\n\nNhân viên Digital Marketing tại Công ty TNHH Phụ Kiện Thời Trang VinaBag\nThời gian: Từ 2021-11 đến 2023-03\n- Thiết lập chiến dịch quảng cáo Facebook và Google Search thúc đẩy doanh số túi xách nữ.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R04",
+          "section_id": "MK-J01-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing Thương Mại Điện Tử tại Công ty Cổ phần Thời Trang Bán Lẻ TrendVina\nThời gian: Từ 2023-04 đến nay (đang công tác)\n- Quản trị ngân sách quảng cáo 600 triệu đồng/tháng cho chuỗi 15 cửa hàng và kênh website bán hàng trực tuyến.\n- Triển khai chiến dịch Meta Catalog Ads và TikTok Spark Ads kết hợp video review của KOC, giúp chỉ số ROAS đạt mức trung bình 4.2.\n- Cài đặt hệ thống theo dõi giá trị mua hàng Purchase Event qua GA4 và xây dựng báo cáo phân tích phễu rớt giỏ hàng trên Looker Studio.\n- Phối hợp chặt chẽ với đội ngũ designer và quay phim nội bộ để sản xuất 40 mẫu visual và 15 video ngắn mỗi tháng.\n\nNhân viên Digital Marketing tại Công ty TNHH Phụ Kiện Thời Trang VinaBag\nThời gian: Từ 2021-11 đến 2023-03\n- Thiết lập chiến dịch quảng cáo Facebook và Google Search thúc đẩy doanh số túi xách nữ.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "MK-J01-R03: Chưa có bằng chứng Google Tag Manager."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Cần xác nhận GTM; có thể đổi nhãn 2/3."
+      ]
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C03",
+      "relevance": 1,
+      "rationale": "PR/sự kiện và duyệt nội dung có tính chuyển đổi nhưng hồ sơ nói rõ quảng cáo do bộ phận khác thực hiện. Chưa chứng minh triển khai paid media đa kênh, quản ngân sách hoặc GA4/GTM/Looker; không dùng thâm niên PR thay cho digital trực tiếp.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J01-R01",
+          "section_id": "MK-J01-C03-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Truyền thông & Sự kiện tại Công ty Cổ phần Truyền Thông Đất Phương Nam\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\n- Viết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\n- Điều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\n- Các chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.\n\nNhân viên Hỗ trợ Sự kiện tại Công ty TNHH Sự Kiện & Hội Nghị VinaEvent\nThời gian: Từ 2023-06 đến 2024-02\n- Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R02",
+          "section_id": "MK-J01-C03-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Truyền thông & Sự kiện tại Công ty Cổ phần Truyền Thông Đất Phương Nam\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\n- Viết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\n- Điều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\n- Các chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.\n\nNhân viên Hỗ trợ Sự kiện tại Công ty TNHH Sự Kiện & Hội Nghị VinaEvent\nThời gian: Từ 2023-06 đến 2024-02\n- Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường.",
+          "assessment": "contradicted"
+        },
+        {
+          "requirement_id": "MK-J01-R04",
+          "section_id": "MK-J01-C03-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Truyền thông & Sự kiện tại Công ty Cổ phần Truyền Thông Đất Phương Nam\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\n- Viết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\n- Điều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\n- Các chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.\n\nNhân viên Hỗ trợ Sự kiện tại Công ty TNHH Sự Kiện & Hội Nghị VinaEvent\nThời gian: Từ 2023-06 đến 2024-02\n- Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J01-R03: Chưa có bằng chứng đủ để xác nhận yêu cầu: Am hiểu công cụ phân tích dữ liệu như Google Analytics 4 (GA4), Google Tag Manager và Looker Studio để đo lường chuyển đổi và ROI."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C04",
+      "relevance": 1,
+      "rationale": "Có Meta Ads ngân sách nhỏ, copy/Canva và thử nghiệm sáng tạo. Vai trò quảng cáo từ 2025-10 khoảng 13 tháng dưới 2 năm; chưa chứng minh Google/TikTok Ads và đo chuyển đổi GA4/GTM/Looker nên nhiều thiếu hụt trung tâm.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J01-R01",
+          "section_id": "MK-J01-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Số AlphaAds\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Trực tiếp thiết lập và theo dõi các chiến dịch quảng cáo Facebook tin nhắn cho khách hàng bán đồ ăn vặt và phụ kiện thú cưng.\n- Ngân sách quản trị khoảng 30-50 triệu đồng/tháng.\n- Thử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa để tìm mẫu quảng cáo có chi phí nhắn tin rẻ nhất.\n\nThực tập sinh Marketing tại Cửa hàng Thời Trang Đô Thị UrbanFit\nThời gian: Từ 2025-05 đến 2025-09\n- Chụp ảnh sản phẩm quần áo và viết bài giới thiệu mẫu trang phục mới lên Facebook Fanpage.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R02",
+          "section_id": "MK-J01-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Số AlphaAds\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Trực tiếp thiết lập và theo dõi các chiến dịch quảng cáo Facebook tin nhắn cho khách hàng bán đồ ăn vặt và phụ kiện thú cưng.\n- Ngân sách quản trị khoảng 30-50 triệu đồng/tháng.\n- Thử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa để tìm mẫu quảng cáo có chi phí nhắn tin rẻ nhất.\n\nThực tập sinh Marketing tại Cửa hàng Thời Trang Đô Thị UrbanFit\nThời gian: Từ 2025-05 đến 2025-09\n- Chụp ảnh sản phẩm quần áo và viết bài giới thiệu mẫu trang phục mới lên Facebook Fanpage.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "section_id": "MK-J01-C04-SEC-SKILL",
+          "quote": "Kỹ năng chính:\n- Cài đặt chiến dịch quảng cáo tin nhắn và tương tác trên Meta Ads\n- Viết bài quảng cáo bán hàng (Copywriting) cho trang Facebook\n- Xem các chỉ số cơ bản trên trình quản lý quảng cáo Ads Manager (CTR, CPC, Reach)\n- Thiết kế ảnh quảng cáo đơn giản bằng ứng dụng Canva\n- Xem báo cáo lượng truy cập cơ bản trên Google Analytics",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R04",
+          "section_id": "MK-J01-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Số AlphaAds\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Trực tiếp thiết lập và theo dõi các chiến dịch quảng cáo Facebook tin nhắn cho khách hàng bán đồ ăn vặt và phụ kiện thú cưng.\n- Ngân sách quản trị khoảng 30-50 triệu đồng/tháng.\n- Thử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa để tìm mẫu quảng cáo có chi phí nhắn tin rẻ nhất.\n\nThực tập sinh Marketing tại Cửa hàng Thời Trang Đô Thị UrbanFit\nThời gian: Từ 2025-05 đến 2025-09\n- Chụp ảnh sản phẩm quần áo và viết bài giới thiệu mẫu trang phục mới lên Facebook Fanpage.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C05",
+      "relevance": 3,
+      "rationale": "Digital từ 2019-06, đa kênh/ngân sách, GTM server-side/GA4/Looker và đào tạo sáng tạo có bằng chứng. Kinh nghiệm sâu hơn 4 năm không tự động thành không phù hợp; nhiệm vụ điều hành và công việc quảng cáo trực tiếp trước hỗ trợ fit mạnh.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J01-R01",
+          "section_id": "MK-J01-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrưởng nhóm Performance Marketing tại Tập Đoàn Thương Mại Điện Tử VinaShop\nThời gian: Từ 2022-01 đến nay (đang phụ trách)\n- Dẫn dắt đội ngũ 5 nhân viên thực thi các chiến dịch quảng cáo ngày hội siêu sale (Mega Campaign 11.11, 12.12) với ngân sách 2 tỷ đồng/tháng.\n- Xây dựng mô hình phân bổ đóng góp (Attribution Modeling) trên Looker Studio kết nối dữ liệu từ GA4 và CRM nội bộ.\n- Đạt chỉ số hoàn vốn trên chi phí quảng cáo (Blended ROAS) đạt 5.8 trong năm 2025.\n- Đào tạo đội ngũ về phương pháp sáng tạo nội dung video ngắn chuyển đổi cao theo chuẩn Meta Best Practices.\n\nChuyên viên Cấp cao Digital Marketing tại Công ty Cổ phần Bán Lẻ Công Nghệ DigiKing\nThời gian: Từ 2019-06 đến 2021-12\n- Chịu trách nhiệm toàn bộ chiến dịch Google Search và Google Display Network cho chuỗi bán lẻ điện máy.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R02",
+          "section_id": "MK-J01-C05-SEC-SUM",
+          "quote": "Tóm lược năng lực quản lý:\nTrưởng nhóm Performance Marketing Cấp cao (Senior Performance Marketing Lead) với hơn 6 năm kinh nghiệm trong ngành thương mại điện tử quy mô lớn. Quản lý và điều phối ngân sách quảng cáo số từ 1,8 tỷ đến 2,5 tỷ đồng mỗi tháng trên toàn bộ các kênh Meta Ads, Google Ads, TikTok Ads và hệ thống tiếp thị liên kết (Affiliate Network). Sở hữu năng lực phân tích phễu chuyển đổi chuyên sâu với GA4, BigQuery và Looker Studio. Đầy đủ chứng chỉ chuyên môn cao cấp của Google và Meta.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "section_id": "MK-J01-C05-SEC-SKILL",
+          "quote": "Kỹ năng lãnh đạo và chuyên môn:\n- Hoạch định chiến lược tăng trưởng Performance Marketing đa kênh\n- Quản trị ngân sách lớn trên 2 tỷ đồng/tháng cho E-commerce đa ngành\n- Thiết kế kiến trúc theo dõi dữ liệu nâng cao: Server-side GTM, GA4, BigQuery, Looker Studio\n- Lãnh đạo đội ngũ 5 chuyên viên Media Buyer và chuyên viên Creative Strategist\n- Tối ưu hóa chỉ số LTV, CAC và ROAS toàn sàn",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "section_id": "MK-J01-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrưởng nhóm Performance Marketing tại Tập Đoàn Thương Mại Điện Tử VinaShop\nThời gian: Từ 2022-01 đến nay (đang phụ trách)\n- Dẫn dắt đội ngũ 5 nhân viên thực thi các chiến dịch quảng cáo ngày hội siêu sale (Mega Campaign 11.11, 12.12) với ngân sách 2 tỷ đồng/tháng.\n- Xây dựng mô hình phân bổ đóng góp (Attribution Modeling) trên Looker Studio kết nối dữ liệu từ GA4 và CRM nội bộ.\n- Đạt chỉ số hoàn vốn trên chi phí quảng cáo (Blended ROAS) đạt 5.8 trong năm 2025.\n- Đào tạo đội ngũ về phương pháp sáng tạo nội dung video ngắn chuyển đổi cao theo chuẩn Meta Best Practices.\n\nChuyên viên Cấp cao Digital Marketing tại Công ty Cổ phần Bán Lẻ Công Nghệ DigiKing\nThời gian: Từ 2019-06 đến 2021-12\n- Chịu trách nhiệm toàn bộ chiến dịch Google Search và Google Display Network cho chuỗi bán lẻ điện máy.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R04",
+          "section_id": "MK-J01-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrưởng nhóm Performance Marketing tại Tập Đoàn Thương Mại Điện Tử VinaShop\nThời gian: Từ 2022-01 đến nay (đang phụ trách)\n- Dẫn dắt đội ngũ 5 nhân viên thực thi các chiến dịch quảng cáo ngày hội siêu sale (Mega Campaign 11.11, 12.12) với ngân sách 2 tỷ đồng/tháng.\n- Xây dựng mô hình phân bổ đóng góp (Attribution Modeling) trên Looker Studio kết nối dữ liệu từ GA4 và CRM nội bộ.\n- Đạt chỉ số hoàn vốn trên chi phí quảng cáo (Blended ROAS) đạt 5.8 trong năm 2025.\n- Đào tạo đội ngũ về phương pháp sáng tạo nội dung video ngắn chuyển đổi cao theo chuẩn Meta Best Practices.\n\nChuyên viên Cấp cao Digital Marketing tại Công ty Cổ phần Bán Lẻ Công Nghệ DigiKing\nThời gian: Từ 2019-06 đến 2021-12\n- Chịu trách nhiệm toàn bộ chiến dịch Google Search và Google Display Network cho chuỗi bán lẻ điện máy.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C06",
+      "relevance": 1,
+      "rationale": "Sản xuất visual/video và landing page hỗ trợ yêu cầu sáng tạo rõ. Chưa chứng minh trực tiếp thiết lập/quản ngân sách đa kênh hoặc đo lường GA4/GTM/Looker; không tính 2 năm thiết kế thành triển khai digital.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J01-R01",
+          "section_id": "MK-J01-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Thiết kế Quảng cáo & Video tại Công ty TNHH MediaHouse Studio\nThời gian: Từ 2024-04 đến nay (đang làm việc)\n- Trực tiếp sản xuất hơn 60 ấn phẩm visual và 20 video ngắn mỗi tháng theo yêu cầu của đội ngũ chạy quảng cáo số cho các khách hàng mỹ phẩm, thời trang.\n- Thiết kế các định dạng ảnh Carousel, Story, Canvas tối ưu theo chuẩn kích thước Meta và TikTok.\n- Thiết kế giao diện 12 trang Landing Page phục vụ các đợt flash sale sản phẩm.\n\nNhân viên Thiết kế Đồ họa tại Công ty In Ấn & Thiết Kế Ánh Sao\nThời gian: Từ 2023-08 đến 2024-03\n- Thiết kế tờ rơi, catalogue và banner sự kiện cho các doanh nghiệp vừa và nhỏ.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R04",
+          "section_id": "MK-J01-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Thiết kế Quảng cáo & Video tại Công ty TNHH MediaHouse Studio\nThời gian: Từ 2024-04 đến nay (đang làm việc)\n- Trực tiếp sản xuất hơn 60 ấn phẩm visual và 20 video ngắn mỗi tháng theo yêu cầu của đội ngũ chạy quảng cáo số cho các khách hàng mỹ phẩm, thời trang.\n- Thiết kế các định dạng ảnh Carousel, Story, Canvas tối ưu theo chuẩn kích thước Meta và TikTok.\n- Thiết kế giao diện 12 trang Landing Page phục vụ các đợt flash sale sản phẩm.\n\nNhân viên Thiết kế Đồ họa tại Công ty In Ấn & Thiết Kế Ánh Sao\nThời gian: Từ 2023-08 đến 2024-03\n- Thiết kế tờ rơi, catalogue và banner sự kiện cho các doanh nghiệp vừa và nhỏ.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "MK-J01-R02: Chưa có bằng chứng đủ để xác nhận yêu cầu: Thành thạo thiết lập, tối ưu và quản lý ngân sách quảng cáo trên các nền tảng Meta Ads, Google Ads và TikTok Ads.",
+        "MK-J01-R03: Chưa có bằng chứng đủ để xác nhận yêu cầu: Am hiểu công cụ phân tích dữ liệu như Google Analytics 4 (GA4), Google Tag Manager và Looker Studio để đo lường chuyển đổi và ROI."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C07",
+      "relevance": 2,
+      "rationale": "Meta/TikTok có ngân sách thực tế từ 2024-02 đủ 2 năm, Google/GA4 ở kỹ năng, Looker và phối hợp video rõ. GTM và đo chuyển đổi/ROI còn chưa đầy đủ nên nhãn tạm thời; freelance không ngày không ảnh hưởng ngưỡng.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J01-R01",
+          "section_id": "MK-J01-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing tại Công ty TNHH Mỹ Phẩm Thiên Nhiên Mộc Trà\nThời gian: Từ 2024-02 đến nay (hiện tại)\n- Thiết lập và quản trị các chiến dịch quảng cáo trả phí cho dòng sản phẩm xà bông thảo mộc và serum dưỡng ẩm trên Facebook và TikTok.\n- Quản trị mức ngân sách khoảng 180 triệu đồng/tháng, tối ưu hóa điểm chất lượng quảng cáo và giữ chỉ số ROAS duy trì từ 3.2 đến 3.8.\n- Kết nối nguồn dữ liệu đơn hàng website từ nền tảng Haravan sang Looker Studio để theo dõi biến động doanh thu theo từng ngày.\n- Lập kế hoạch nội dung tuần, phối hợp với nhân sự sản xuất video quay thử các video trải nghiệm chất lượng kem thực tế.\n\nCộng tác viên Marketing Số tại Hộ Kinh Doanh Mỹ Phẩm Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng bắt đầu kết thúc cụ thể)\n- Hỗ trợ viết bài fanpage và chạy thử nghiệm quảng cáo bài viết tiếp cận khách hàng trẻ.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R02",
+          "section_id": "MK-J01-C07-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Quản lý quảng cáo Meta Ads, TikTok Shop Ads và Google Ads\n- Phân tích lưu lượng truy cập và hành vi khách hàng với Google Analytics 4 (GA4)\n- Thiết lập bảng theo dõi chi phí và doanh số bán lẻ qua Looker Studio\n- Lên kế hoạch bài đăng mạng xã hội và đặt hàng hình ảnh thiết kế\n- Am hiểu lĩnh vực thương mại điện tử mỹ phẩm bán lẻ",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R02",
+          "section_id": "MK-J01-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing tại Công ty TNHH Mỹ Phẩm Thiên Nhiên Mộc Trà\nThời gian: Từ 2024-02 đến nay (hiện tại)\n- Thiết lập và quản trị các chiến dịch quảng cáo trả phí cho dòng sản phẩm xà bông thảo mộc và serum dưỡng ẩm trên Facebook và TikTok.\n- Quản trị mức ngân sách khoảng 180 triệu đồng/tháng, tối ưu hóa điểm chất lượng quảng cáo và giữ chỉ số ROAS duy trì từ 3.2 đến 3.8.\n- Kết nối nguồn dữ liệu đơn hàng website từ nền tảng Haravan sang Looker Studio để theo dõi biến động doanh thu theo từng ngày.\n- Lập kế hoạch nội dung tuần, phối hợp với nhân sự sản xuất video quay thử các video trải nghiệm chất lượng kem thực tế.\n\nCộng tác viên Marketing Số tại Hộ Kinh Doanh Mỹ Phẩm Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng bắt đầu kết thúc cụ thể)\n- Hỗ trợ viết bài fanpage và chạy thử nghiệm quảng cáo bài viết tiếp cận khách hàng trẻ.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "section_id": "MK-J01-C07-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Quản lý quảng cáo Meta Ads, TikTok Shop Ads và Google Ads\n- Phân tích lưu lượng truy cập và hành vi khách hàng với Google Analytics 4 (GA4)\n- Thiết lập bảng theo dõi chi phí và doanh số bán lẻ qua Looker Studio\n- Lên kế hoạch bài đăng mạng xã hội và đặt hàng hình ảnh thiết kế\n- Am hiểu lĩnh vực thương mại điện tử mỹ phẩm bán lẻ",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "section_id": "MK-J01-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing tại Công ty TNHH Mỹ Phẩm Thiên Nhiên Mộc Trà\nThời gian: Từ 2024-02 đến nay (hiện tại)\n- Thiết lập và quản trị các chiến dịch quảng cáo trả phí cho dòng sản phẩm xà bông thảo mộc và serum dưỡng ẩm trên Facebook và TikTok.\n- Quản trị mức ngân sách khoảng 180 triệu đồng/tháng, tối ưu hóa điểm chất lượng quảng cáo và giữ chỉ số ROAS duy trì từ 3.2 đến 3.8.\n- Kết nối nguồn dữ liệu đơn hàng website từ nền tảng Haravan sang Looker Studio để theo dõi biến động doanh thu theo từng ngày.\n- Lập kế hoạch nội dung tuần, phối hợp với nhân sự sản xuất video quay thử các video trải nghiệm chất lượng kem thực tế.\n\nCộng tác viên Marketing Số tại Hộ Kinh Doanh Mỹ Phẩm Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng bắt đầu kết thúc cụ thể)\n- Hỗ trợ viết bài fanpage và chạy thử nghiệm quảng cáo bài viết tiếp cận khách hàng trẻ.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R04",
+          "section_id": "MK-J01-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing tại Công ty TNHH Mỹ Phẩm Thiên Nhiên Mộc Trà\nThời gian: Từ 2024-02 đến nay (hiện tại)\n- Thiết lập và quản trị các chiến dịch quảng cáo trả phí cho dòng sản phẩm xà bông thảo mộc và serum dưỡng ẩm trên Facebook và TikTok.\n- Quản trị mức ngân sách khoảng 180 triệu đồng/tháng, tối ưu hóa điểm chất lượng quảng cáo và giữ chỉ số ROAS duy trì từ 3.2 đến 3.8.\n- Kết nối nguồn dữ liệu đơn hàng website từ nền tảng Haravan sang Looker Studio để theo dõi biến động doanh thu theo từng ngày.\n- Lập kế hoạch nội dung tuần, phối hợp với nhân sự sản xuất video quay thử các video trải nghiệm chất lượng kem thực tế.\n\nCộng tác viên Marketing Số tại Hộ Kinh Doanh Mỹ Phẩm Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng bắt đầu kết thúc cụ thể)\n- Hỗ trợ viết bài fanpage và chạy thử nghiệm quảng cáo bài viết tiếp cận khách hàng trẻ.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "MK-J01-R03: Chưa nêu GTM và cấu hình sự kiện chuyển đổi/ROI."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Cần xác nhận GTM và thiết lập đo lường chuyển đổi; có thể đổi nhãn 2/3."
+      ]
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C08",
+      "relevance": 2,
+      "rationale": "GTM/GA4/Looker, ROI và A/B testing mạnh; phối hợp ngân sách và khuyến nghị video có nội dung liên quan. Chưa chứng minh trực tiếp vận hành tối ưu cả ba nền tảng và lập kế hoạch tài nguyên sáng tạo, không đồng nhất analytics với media buying.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J01-R01",
+          "section_id": "MK-J01-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phân tích Tiếp thị Số tại Công ty Cổ phần Ứng Dụng Học Tập Thông Minh EduSmart\nThời gian: Từ 2023-09 đến nay (đang làm việc)\n- Thiết lập hệ thống thẻ đo lường GTM theo dõi toàn bộ hành trình người dùng từ lượt nhấp quảng cáo TikTok, Meta đến khi hoàn tất cài app và mua gói cước học tập.\n- Phối hợp cùng đội ngũ quảng cáo phân bổ ngân sách 300 triệu đồng/tháng cho các nhóm đối tượng phụ huynh học sinh tiểu học.\n- Xây dựng hệ thống bảng điều khiển Looker Studio đo lường chỉ số ROI và tỷ lệ giữ chân khách hàng sau 30 ngày.\n- Đưa ra khuyến nghị điều chỉnh nội dung video quảng cáo ngắn dựa trên thời lượng xem trung bình (Average Watch Time) của từng tệp người dùng.\n\nChuyên viên Phân tích Dữ liệu Tiếp thị tại Công ty TNHH Giải Pháp Công Nghệ Trí Tuệ Số\nThời gian: Từ 2022-09 đến 2023-08\n- Phân tích dữ liệu web và lưu lượng tìm kiếm từ khóa cho các website dịch vụ trực tuyến.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R02",
+          "section_id": "MK-J01-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phân tích Tiếp thị Số tại Công ty Cổ phần Ứng Dụng Học Tập Thông Minh EduSmart\nThời gian: Từ 2023-09 đến nay (đang làm việc)\n- Thiết lập hệ thống thẻ đo lường GTM theo dõi toàn bộ hành trình người dùng từ lượt nhấp quảng cáo TikTok, Meta đến khi hoàn tất cài app và mua gói cước học tập.\n- Phối hợp cùng đội ngũ quảng cáo phân bổ ngân sách 300 triệu đồng/tháng cho các nhóm đối tượng phụ huynh học sinh tiểu học.\n- Xây dựng hệ thống bảng điều khiển Looker Studio đo lường chỉ số ROI và tỷ lệ giữ chân khách hàng sau 30 ngày.\n- Đưa ra khuyến nghị điều chỉnh nội dung video quảng cáo ngắn dựa trên thời lượng xem trung bình (Average Watch Time) của từng tệp người dùng.\n\nChuyên viên Phân tích Dữ liệu Tiếp thị tại Công ty TNHH Giải Pháp Công Nghệ Trí Tuệ Số\nThời gian: Từ 2022-09 đến 2023-08\n- Phân tích dữ liệu web và lưu lượng tìm kiếm từ khóa cho các website dịch vụ trực tuyến.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "section_id": "MK-J01-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phân tích Tiếp thị Số tại Công ty Cổ phần Ứng Dụng Học Tập Thông Minh EduSmart\nThời gian: Từ 2023-09 đến nay (đang làm việc)\n- Thiết lập hệ thống thẻ đo lường GTM theo dõi toàn bộ hành trình người dùng từ lượt nhấp quảng cáo TikTok, Meta đến khi hoàn tất cài app và mua gói cước học tập.\n- Phối hợp cùng đội ngũ quảng cáo phân bổ ngân sách 300 triệu đồng/tháng cho các nhóm đối tượng phụ huynh học sinh tiểu học.\n- Xây dựng hệ thống bảng điều khiển Looker Studio đo lường chỉ số ROI và tỷ lệ giữ chân khách hàng sau 30 ngày.\n- Đưa ra khuyến nghị điều chỉnh nội dung video quảng cáo ngắn dựa trên thời lượng xem trung bình (Average Watch Time) của từng tệp người dùng.\n\nChuyên viên Phân tích Dữ liệu Tiếp thị tại Công ty TNHH Giải Pháp Công Nghệ Trí Tuệ Số\nThời gian: Từ 2022-09 đến 2023-08\n- Phân tích dữ liệu web và lưu lượng tìm kiếm từ khóa cho các website dịch vụ trực tuyến.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "section_id": "MK-J01-C08-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Cấu hình theo dõi nâng cao: Google Tag Manager (Web & Server), GA4\n- Phân tích và trực quan hóa dữ liệu chiến dịch qua Looker Studio\n- Đo lường và tối ưu hóa chuyển đổi quảng cáo: Meta Ads, TikTok Ads, Google Search\n- Kiểm thử A/B Testing thông điệp quảng cáo và trải nghiệm trang đích\n- Lĩnh vực: Giáo dục trực tuyến (EdTech)",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J01-R04",
+          "section_id": "MK-J01-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phân tích Tiếp thị Số tại Công ty Cổ phần Ứng Dụng Học Tập Thông Minh EduSmart\nThời gian: Từ 2023-09 đến nay (đang làm việc)\n- Thiết lập hệ thống thẻ đo lường GTM theo dõi toàn bộ hành trình người dùng từ lượt nhấp quảng cáo TikTok, Meta đến khi hoàn tất cài app và mua gói cước học tập.\n- Phối hợp cùng đội ngũ quảng cáo phân bổ ngân sách 300 triệu đồng/tháng cho các nhóm đối tượng phụ huynh học sinh tiểu học.\n- Xây dựng hệ thống bảng điều khiển Looker Studio đo lường chỉ số ROI và tỷ lệ giữ chân khách hàng sau 30 ngày.\n- Đưa ra khuyến nghị điều chỉnh nội dung video quảng cáo ngắn dựa trên thời lượng xem trung bình (Average Watch Time) của từng tệp người dùng.\n\nChuyên viên Phân tích Dữ liệu Tiếp thị tại Công ty TNHH Giải Pháp Công Nghệ Trí Tuệ Số\nThời gian: Từ 2022-09 đến 2023-08\n- Phân tích dữ liệu web và lưu lượng tìm kiếm từ khóa cho các website dịch vụ trực tuyến.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J01-R02: Cần bằng chứng tự thiết lập/tối ưu chiến dịch Meta, Google, TikTok.",
+        "MK-J01-R04: Chưa rõ lập kế hoạch nội dung/điều phối sản xuất visual và video."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "resolved_historical_issues": [
+    {
+      "evidence_note": "Synchronized under HR-SOURCE-011 by removing the vague subjective personality bullet from jd_text. All 5 remaining requirements (3 required, 2 preferred) are verbatim in jd_text and satisfy the 4-7 requirement boundary without bias.",
+      "candidate_id": "SA-J01",
+      "issue_summary": "Omission of explicit mandatory JD criterion regarding professional working style and sales pressure (SA-J01-B01)",
+      "disposition": "fixed"
+    },
+    {
+      "evidence_note": "Under HR-SOURCE-003 and HR-SOURCE-004, removed 'Thuyết trình demo cơ bản' from EXP-01 skills_used and synchronized structured descriptions of EXP-01 and EXP-02 to verbatim section bullets.",
+      "disposition": "fixed",
+      "issue_summary": "Overstated demo presentation ownership in EXP-01 and distorted trial guidance scope in EXP-02 (SA-J01-B02)",
+      "candidate_id": "SA-J01-C04"
+    },
+    {
+      "evidence_note": "Under HR-SOURCE-003, removed 'Đàm phán hợp đồng đặt cọc' from EXP-01 skills_used and 'Kỹ năng tạo dựng quan hệ' from EXP-02 skills_used, leaving only duties directly supported in cited section.",
+      "issue_summary": "Unsupported role-level skill attribution for deposit contract negotiation and relationship building (SA-J01-B03)",
+      "candidate_id": "SA-J01-C06",
+      "disposition": "fixed"
+    },
+    {
+      "evidence_note": "Under HR-SOURCE-005, amended is_current to null in EXP-02 to faithfully reflect unstated start/end dates and project-based flexibility without fabricating termination status.",
+      "candidate_id": "SA-J01-C07",
+      "issue_summary": "Unsupported false current employment boolean for project-based freelance work with unstated timeline (SA-J01-B04)",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "Ambiguous presales attribution for freelance software selection and real company name collision",
+      "evidence_note": "Under HR-SOURCE-003 and HR-SOURCE-007, removed presales skill attribution from EXP-02 skills_used and fictionalized employer to Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft in EXP-01, section text, and cv_text.",
+      "candidate_id": "SA-J01-C08",
+      "disposition": "fixed"
+    },
+    {
+      "candidate_id": "SA-J01-C03",
+      "issue_summary": "Templated negative denial clause regarding Salesforce and HubSpot in section and structured description",
+      "disposition": "fixed",
+      "evidence_note": "Under HR-SOURCE-006 and HR-SOURCE-004, stripped negative denial clause 'Chưa sử dụng Salesforce hay HubSpot chuyên sâu, ' from section text, cv_text, and structured description, preserving positive client management duty via Excel/Zalo."
+    },
+    {
+      "evidence_note": "Removed 'trẻ tuổi' qualitative age descriptor from summary section and cv_text join in compliance with PROTOCOL.md anti-bias guidelines.",
+      "candidate_id": "SA-J01-C04",
+      "issue_summary": "Subjective age cue 'trẻ tuổi' present in professional summary",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "accepted_limitation",
+      "evidence_note": "Under HR-SOURCE-008, summary tenure of nearly 3 years reflects current SaaS employment (~34 months at reference date 2026-11-10); preserved as non-contradictory rounded statement without altering source prose.",
+      "issue_summary": "Summary SaaS tenure approximation ('gần 3 năm') versus chronological timeline",
+      "candidate_id": "SA-J01-C01"
+    },
+    {
+      "candidate_id": "SA-J01-C07",
+      "issue_summary": "Unstated duration and schedule for project-based freelance engagement",
+      "disposition": "retained_ambiguity",
+      "evidence_note": "Under HR-SOURCE-005 and HR-SOURCE-008, unstated start/end dates for freelance engagement are preserved as null without guessing duration or tenure contribution."
+    }
+  ],
+  "blocking_issues": [],
+  "verified_candidate_count": 8,
+  "source_acceptance": "accepted",
+  "job_id": "SA-J01",
+  "limitations_noted": [
+    "Source verification only on development pilot split; no relevance labels, ranking scores, or hiring fitness assertions evaluated.",
+    "Reference date 2026-11-10 applied; approximate summary tenures (e.g. C01, C02, C05, C06) retained as non-contradictory approximations or lower bounds under HR-SOURCE-008.",
+    "Concurrent freelance experience in SA-J01-C08 overlaps with primary employment; overlapping months must not be double-counted during tenure derivation.",
+    "Organization names verified against known real-brand collision list and fictionalized per HR-SOURCE-007; synthetic nonexistence not independently verified via commercial registers.",
+    "All 8 candidate profiles share similar 4-section layout with exactly two experience records per candidate; candidate index ordering must not be used as model feature per HR-SOURCE-009."
+  ],
+  "verification_run_id": "wlj22smze",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

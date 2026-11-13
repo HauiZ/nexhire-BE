@@ -1,0 +1,374 @@
+{
+  "schema_version": "nexhire-machine-transfer-v1",
+  "files": [
+    {
+      "path": "artifacts/ai1-kaggle-result-audit/audit.json",
+      "bytes": 24679,
+      "sha256": "f08db21995d3c805e7386e919e03e5cc0bfc75793a0b887b94a86059d72e8123"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-result-audit/audit.md",
+      "bytes": 6558,
+      "sha256": "db1af48bbd9275b7eca261daa9f69072c01dc4ad26134873d20d1e49ba0595b6"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/data/semantic.jsonl",
+      "bytes": 13617870,
+      "sha256": "d759ba3fa604bfb6edf5eabdc636f0bfea9d6f497edd7952f01df6bda8d1f265"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/data/silver_comparisons.jsonl",
+      "bytes": 959553,
+      "sha256": "4ad1f916b246fe976838242ed3a583c604073cda14bf0f10b866c9ad22da24e7"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/data/silver_manifest.json",
+      "bytes": 6216,
+      "sha256": "9bf23a74667919b34a61b57b1b42065035d60372aa93d93064c98b50ee771f3e"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/manifest.json",
+      "bytes": 1905,
+      "sha256": "501fc67aff81734e90a0da619177f82ecff94bd54e19a7bfbbf24f2ce88365d2"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/1_Pooling/config.json",
+      "bytes": 296,
+      "sha256": "a19c83805e1ce4174f3fbfec4ac8d3b8dbae0c958f8fd51b80937eb33e0c5335"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/README.md",
+      "bytes": 3744,
+      "sha256": "d5aeffdcca3cc5efdde9444e1af5eb975af3f38f57f519d1beaf214f1d642b57"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/config.json",
+      "bytes": 613,
+      "sha256": "376a54b28d37e8502389a87d6c8ff59247fc361cd8d980a47b36b6cae876de5e"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/config_sentence_transformers.json",
+      "bytes": 202,
+      "sha256": "7662662aa9c59c51a0115e43a7f051321dd18949a1bf4f987acd4f9e7a782201"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/model.safetensors",
+      "bytes": 470637416,
+      "sha256": "871aeef8a305b0336b443ce8ed1c275e0a656eee6760d87d8cab1b6665c829df"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/modules.json",
+      "bytes": 229,
+      "sha256": "8f4b264b80206c830bebbdcae377e137925650a433b689343a63bdc9b3145460"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/sentence_bert_config.json",
+      "bytes": 53,
+      "sha256": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/special_tokens_map.json",
+      "bytes": 964,
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/tokenizer.json",
+      "bytes": 17082987,
+      "sha256": "a514807cffabd8abaf028cfaffe7ff0c4f60b97ea2db80c41f14172ae6b018ca"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/model/tokenizer_config.json",
+      "bytes": 1457,
+      "sha256": "f469534f4662884f6a1f5ff2a5fe70cbc6dc4a8c34c1fa765d2f022ea9a0ac12"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/notebook/ai1_silver_v1_kaggle.ipynb",
+      "bytes": 12898,
+      "sha256": "d5d945cf3f3da63668b9a09574bc2dfe887c0e94d74ee4195b2d058e4f5f447d"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1/runner/ai1_kaggle_experiment.py",
+      "bytes": 53431,
+      "sha256": "3b3a3a66d712c2ad9406fced97ae26e32cc9e5c0dec6349b634109c85673157c"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v1.zip",
+      "bytes": 438245252,
+      "sha256": "ff1fc3efb3eee93cf3c39d34d45dffe80edde124090019cafbe1533ff4b9676b"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/data/semantic.jsonl",
+      "bytes": 13617870,
+      "sha256": "d759ba3fa604bfb6edf5eabdc636f0bfea9d6f497edd7952f01df6bda8d1f265"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/data/silver_comparisons.jsonl",
+      "bytes": 959553,
+      "sha256": "4ad1f916b246fe976838242ed3a583c604073cda14bf0f10b866c9ad22da24e7"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/data/silver_manifest.json",
+      "bytes": 6216,
+      "sha256": "9bf23a74667919b34a61b57b1b42065035d60372aa93d93064c98b50ee771f3e"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/manifest.json",
+      "bytes": 1905,
+      "sha256": "9a5c86df4f66daf5489bb87d229110854f04307bd3bf67fdd2cdf94d47b19229"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/1_Pooling/config.json",
+      "bytes": 296,
+      "sha256": "a19c83805e1ce4174f3fbfec4ac8d3b8dbae0c958f8fd51b80937eb33e0c5335"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/README.md",
+      "bytes": 3744,
+      "sha256": "d5aeffdcca3cc5efdde9444e1af5eb975af3f38f57f519d1beaf214f1d642b57"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/config.json",
+      "bytes": 613,
+      "sha256": "376a54b28d37e8502389a87d6c8ff59247fc361cd8d980a47b36b6cae876de5e"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/config_sentence_transformers.json",
+      "bytes": 202,
+      "sha256": "7662662aa9c59c51a0115e43a7f051321dd18949a1bf4f987acd4f9e7a782201"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/model.safetensors",
+      "bytes": 470637416,
+      "sha256": "871aeef8a305b0336b443ce8ed1c275e0a656eee6760d87d8cab1b6665c829df"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/modules.json",
+      "bytes": 229,
+      "sha256": "8f4b264b80206c830bebbdcae377e137925650a433b689343a63bdc9b3145460"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/sentence_bert_config.json",
+      "bytes": 53,
+      "sha256": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/special_tokens_map.json",
+      "bytes": 964,
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/tokenizer.json",
+      "bytes": 17082987,
+      "sha256": "a514807cffabd8abaf028cfaffe7ff0c4f60b97ea2db80c41f14172ae6b018ca"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/model/tokenizer_config.json",
+      "bytes": 1457,
+      "sha256": "f469534f4662884f6a1f5ff2a5fe70cbc6dc4a8c34c1fa765d2f022ea9a0ac12"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/notebook/ai1_silver_v1_kaggle.ipynb",
+      "bytes": 15350,
+      "sha256": "b695db6b3411c2c25c9be4f23f40c5951895167cd1607fd16ea53657c2c66791"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2/runner/ai1_kaggle_experiment.py",
+      "bytes": 55146,
+      "sha256": "289c7659ba12c6b7114d6fa6571c07a298b462275a7eaf7f169455bde4e8921a"
+    },
+    {
+      "path": "artifacts/ai1-kaggle-silver-v2.zip",
+      "bytes": 438246501,
+      "sha256": "db483cad41036f3903aad29170626fe9e799f0906b9bcd830c9897370f0e2b05"
+    },
+    {
+      "path": "artifacts/smoke_verification/experiment_results.json",
+      "bytes": 20671,
+      "sha256": "40e2d74ce23f0c837f159406ee8fcc2f71673c6caa2bc449cad1066982fc449d"
+    },
+    {
+      "path": "artifacts/smoke_verification/test_predictions.jsonl",
+      "bytes": 342901,
+      "sha256": "a4ebf024d637c546cc554b0f774160c8b4c980f4e2a49d05c289cf0297c409c9"
+    },
+    {
+      "path": "kaggle-ranking-v1/experiment_results.json",
+      "bytes": 48822,
+      "sha256": "a47fa198a66c49e07c7c00f63d9bf87e671bf34e97e78b1c67b5cdaad51361ca"
+    },
+    {
+      "path": "kaggle-ranking-v1/import_receipt.json",
+      "bytes": 3244,
+      "sha256": "668dce64326a331fc7911d6d4a16a672984ded84c21dfe6c169ceb55d39add48"
+    },
+    {
+      "path": "kaggle-ranking-v1/local_geometry.json",
+      "bytes": 1527,
+      "sha256": "d8ceba57dcfdea0d193102375b35a0268dd05f8e2e9fdf1b174c9f930f6eaf16"
+    },
+    {
+      "path": "kaggle-ranking-v1/local_verification.json",
+      "bytes": 26296,
+      "sha256": "1d85a560c5244d97406f3261d97a1523a0888c82cbd8cac7d2fda2abab9361c1"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/1_Pooling/config.json",
+      "bytes": 296,
+      "sha256": "a19c83805e1ce4174f3fbfec4ac8d3b8dbae0c958f8fd51b80937eb33e0c5335"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/README.md",
+      "bytes": 3744,
+      "sha256": "d5aeffdcca3cc5efdde9444e1af5eb975af3f38f57f519d1beaf214f1d642b57"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/config.json",
+      "bytes": 613,
+      "sha256": "376a54b28d37e8502389a87d6c8ff59247fc361cd8d980a47b36b6cae876de5e"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/config_sentence_transformers.json",
+      "bytes": 202,
+      "sha256": "7662662aa9c59c51a0115e43a7f051321dd18949a1bf4f987acd4f9e7a782201"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/model.safetensors",
+      "bytes": 470637416,
+      "sha256": "697657224344793f00d60d239305657ee4add61873802c0be0142f985d4aa35a"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/modules.json",
+      "bytes": 229,
+      "sha256": "8f4b264b80206c830bebbdcae377e137925650a433b689343a63bdc9b3145460"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/sentence_bert_config.json",
+      "bytes": 53,
+      "sha256": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/special_tokens_map.json",
+      "bytes": 964,
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/tokenizer.json",
+      "bytes": 17082987,
+      "sha256": "a514807cffabd8abaf028cfaffe7ff0c4f60b97ea2db80c41f14172ae6b018ca"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-only/tokenizer_config.json",
+      "bytes": 1457,
+      "sha256": "f469534f4662884f6a1f5ff2a5fe70cbc6dc4a8c34c1fa765d2f022ea9a0ac12"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/1_Pooling/config.json",
+      "bytes": 296,
+      "sha256": "a19c83805e1ce4174f3fbfec4ac8d3b8dbae0c958f8fd51b80937eb33e0c5335"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/README.md",
+      "bytes": 3744,
+      "sha256": "d5aeffdcca3cc5efdde9444e1af5eb975af3f38f57f519d1beaf214f1d642b57"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/config.json",
+      "bytes": 613,
+      "sha256": "376a54b28d37e8502389a87d6c8ff59247fc361cd8d980a47b36b6cae876de5e"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/config_sentence_transformers.json",
+      "bytes": 202,
+      "sha256": "7662662aa9c59c51a0115e43a7f051321dd18949a1bf4f987acd4f9e7a782201"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/model.safetensors",
+      "bytes": 470637416,
+      "sha256": "871aeef8a305b0336b443ce8ed1c275e0a656eee6760d87d8cab1b6665c829df"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/modules.json",
+      "bytes": 229,
+      "sha256": "8f4b264b80206c830bebbdcae377e137925650a433b689343a63bdc9b3145460"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/sentence_bert_config.json",
+      "bytes": 53,
+      "sha256": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/special_tokens_map.json",
+      "bytes": 964,
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/tokenizer.json",
+      "bytes": 17082987,
+      "sha256": "a514807cffabd8abaf028cfaffe7ff0c4f60b97ea2db80c41f14172ae6b018ca"
+    },
+    {
+      "path": "kaggle-ranking-v1/models/ranking-retention/tokenizer_config.json",
+      "bytes": 1457,
+      "sha256": "f469534f4662884f6a1f5ff2a5fe70cbc6dc4a8c34c1fa765d2f022ea9a0ac12"
+    },
+    {
+      "path": "kaggle-ranking-v1/pretrained_local_reference.json",
+      "bytes": 505244,
+      "sha256": "e2432f27c245c4ce1130c04ac7942d4603f1ea21dec574974cb6d09ed0e94b99"
+    },
+    {
+      "path": "kaggle-ranking-v1/pretrained_reference.json",
+      "bytes": 484521,
+      "sha256": "9a2745396dd77aef1fcbfbb17711fd98ab9e0e680a4ee713400a20c8d216ba28"
+    },
+    {
+      "path": "kaggle-ranking-v1/ranking-only_best_reference.json",
+      "bytes": 484399,
+      "sha256": "0898bdf305015dca515367bb031e0471b13b9a2f6493832e09f4c8628023be16"
+    },
+    {
+      "path": "kaggle-ranking-v1/ranking-only_history.json",
+      "bytes": 8365,
+      "sha256": "a93e7ab7a4a04fd6fbadaa6182500dd2aad7885da1c1c870d80cba5ced5fce80"
+    },
+    {
+      "path": "kaggle-ranking-v1/ranking-only_local_reference.json",
+      "bytes": 505215,
+      "sha256": "542c324db5e8fa25929e92d9ef61f4406b38c3ea3e0c7583b2dd8b458d058b55"
+    },
+    {
+      "path": "kaggle-ranking-v1/ranking-retention_best_reference.json",
+      "bytes": 484286,
+      "sha256": "8037939f641856959b815effbee21ed7417241c9ff394af06b1f80838905989e"
+    },
+    {
+      "path": "kaggle-ranking-v1/ranking-retention_history.json",
+      "bytes": 8368,
+      "sha256": "c7dad01b354ef7269693af7c5e6b26be636ca908214563ae3b7f956395dcdfe4"
+    },
+    {
+      "path": "kaggle-ranking-v1/ranking-retention_local_reference.json",
+      "bytes": 505104,
+      "sha256": "66fff8b2176716d1ae989fbaf3cb82dfaff6f6be1e26decb40756a03dfdd19a4"
+    },
+    {
+      "path": "kaggle-ranking-v1/shadow-ranking-only.json",
+      "bytes": 1811,
+      "sha256": "7d4270ac7b4646e7d60e9c08c7b5b1824bde56c9e201f22a7a5f610a3f8353e9"
+    },
+    {
+      "path": "kaggle-ranking-v1/shadow-ranking-retention.json",
+      "bytes": 1826,
+      "sha256": "bdfc4c0aef381cc73de2447251a27d4f1381f3787606833f79657931190620d4"
+    }
+  ],
+  "total_bytes": 2860175347,
+  "excluded": [
+    ".env files",
+    "account configuration",
+    "chat transcripts",
+    "agent worktrees",
+    "Python virtualenv"
+  ],
+  "scope": "Existing experiment exports only; no new AI2 training"
+}

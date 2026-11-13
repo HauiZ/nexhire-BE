@@ -1,0 +1,1186 @@
+{
+  "total_common_pairs": 160,
+  "missing_in_blind": [],
+  "missing_in_initial": [],
+  "exact_agreement": 0.9125,
+  "adjacent_agreement": 1.0,
+  "quadratic_weighted_kappa": 0.9322,
+  "confusion_matrix_initial_vs_blind": {
+    "0": {
+      "0": 1,
+      "1": 0,
+      "2": 0,
+      "3": 0
+    },
+    "1": {
+      "0": 0,
+      "1": 38,
+      "2": 0,
+      "3": 0
+    },
+    "2": {
+      "0": 0,
+      "1": 10,
+      "2": 52,
+      "3": 2
+    },
+    "3": {
+      "0": 0,
+      "1": 0,
+      "2": 2,
+      "3": 55
+    }
+  },
+  "per_domain": {
+    "it": {
+      "pairs": 80,
+      "exact_agreement": 0.875,
+      "adjacent_agreement": 1.0,
+      "quadratic_weighted_kappa": 0.8938,
+      "disagreements": 10
+    },
+    "sales": {
+      "pairs": 40,
+      "exact_agreement": 0.925,
+      "adjacent_agreement": 1.0,
+      "quadratic_weighted_kappa": 0.946,
+      "disagreements": 3
+    },
+    "marketing": {
+      "pairs": 40,
+      "exact_agreement": 0.975,
+      "adjacent_agreement": 1.0,
+      "quadratic_weighted_kappa": 0.9817,
+      "disagreements": 1
+    }
+  },
+  "disagreement_count": 14,
+  "flagged_ambiguity_count": 32,
+  "agreement_audit_sample_count": 10,
+  "human_review_queue": [
+    {
+      "job_id": "IT-J01",
+      "candidate_id": "IT-J01-C03",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J01-R02: Chưa nêu triển khai microservices.",
+        "IT-J01-R03: Chưa nêu tối ưu truy vấn PostgreSQL."
+      ],
+      "blind_missing": [
+        "IT-J01-R01: Chưa rõ tỷ trọng và thời lượng Node.js/TypeScript thực tế trong vai trò fullstack.",
+        "IT-J01-R02: Chưa có mô tả microservices.",
+        "IT-J01-R03: Chưa có bằng chứng tối ưu truy vấn."
+      ]
+    },
+    {
+      "job_id": "IT-J01",
+      "candidate_id": "IT-J01-C07",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Thời gian freelance không rõ có thể đổi đánh giá ngưỡng 3 năm (HR-SOURCE-005)."
+      ],
+      "blind_reasons": [
+        "Thời lượng vai trò liên quan không rõ có thể đổi mức phù hợp; không cộng chồng lấn."
+      ],
+      "initial_missing": [
+        "IT-J01-R01: Cần ngày bắt đầu/kết thúc, trạng thái hiện tại và phạm vi TypeScript của freelance; không cộng trùng với vai trò từ 2024-02.",
+        "IT-J01-R02: Chưa nêu microservices.",
+        "IT-J01-R03: Chưa nêu tối ưu SQL."
+      ],
+      "blind_missing": [
+        "IT-J01-R01: Cần ngày bắt đầu/kết thúc, trạng thái, phạm vi TypeScript và chồng lấn của freelance để xác định đủ 3 năm.",
+        "IT-J01-R02: Chưa nêu kiến trúc microservices.",
+        "IT-J01-R03: Chưa mô tả tối ưu SQL."
+      ]
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C03",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 1,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [
+        "Mâu thuẫn thời lượng Next.js; chưa cộng toàn bộ nhiệm kỳ thành kinh nghiệm chuyên sâu."
+      ],
+      "initial_missing": [
+        "IT-J02-R06: Chưa có bằng chứng đủ để xác nhận yêu cầu: Kỹ năng dẫn dắt kỹ thuật, review code và phân chia công việc cho thành viên trong nhóm."
+      ],
+      "blind_missing": [
+        "IT-J02-R06: Chưa nêu dẫn dắt, review và phân chia việc.",
+        "IT-J02-R02: Tóm tắt 10 tháng khác vai trò Next.js từ 2024-01; cần làm rõ thời lượng thực tế."
+      ]
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C07",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần làm rõ tối ưu hiệu năng/Web Vitals và state phức tạp; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Thiếu mô tả năng lực tối ưu hiệu năng trung tâm có thể thay đổi nhãn 2/3."
+      ],
+      "initial_missing": [
+        "IT-J02-R03: Chưa nêu tối ưu render và Web Vitals, hoặc mức phức tạp của state."
+      ],
+      "blind_missing": [
+        "IT-J02-R03: Cần bằng chứng tối ưu render/Web Vitals và state phức tạp."
+      ]
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C08",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 1,
+      "blind_relevance": 1,
+      "initial_reasons": [
+        "Cần ngày và phạm vi freelance để xác định thâm niên frontend liên quan (HR-SOURCE-005)."
+      ],
+      "blind_reasons": [
+        "Cần xác minh thời gian freelance và phạm vi nhiệm vụ liên quan; nhãn tạm thời."
+      ],
+      "initial_missing": [
+        "IT-J02-R01: Freelance thiếu ngày bắt đầu/kết thúc và trạng thái hiện tại; không xác định hợp thời gian đạt 5 năm.",
+        "IT-J02-R02: Chưa xác định 3 năm Next.js ở dự án quy mô lớn.",
+        "IT-J02-R06: Chưa có bằng chứng đủ để xác nhận yêu cầu: Kỹ năng dẫn dắt kỹ thuật, review code và phân chia công việc cho thành viên trong nhóm."
+      ],
+      "blind_missing": [
+        "IT-J02-R01: Freelance thiếu ngày và chồng lấn; tóm tắt khoảng 4 năm chưa chứng minh ngưỡng 5 năm.",
+        "IT-J02-R02: Next.js từ 2024-03 khoảng 32 tháng, chưa rõ dự án lớn.",
+        "IT-J02-R06: Chưa nêu dẫn dắt/review/chia việc."
+      ]
+    },
+    {
+      "job_id": "IT-J03",
+      "candidate_id": "IT-J03-C04",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 3,
+      "initial_reasons": [
+        "Cần làm rõ thiết kế PostgreSQL warehouse; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J03-R04: Cần mô hình warehouse/schema và trách nhiệm thiết kế, không chỉ lưu kết quả tổng hợp."
+      ],
+      "blind_missing": []
+    },
+    {
+      "job_id": "IT-J03",
+      "candidate_id": "IT-J03-C07",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Ngày dự án độc lập và phạm vi thiết kế warehouse có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Thời lượng DE độc lập chưa xác định có thể đổi nhãn 2/3."
+      ],
+      "initial_missing": [
+        "IT-J03-R01: Thiếu ngày và trạng thái của vai trò độc lập; cần hợp các khoảng không đếm trùng.",
+        "IT-J03-R04: Cần làm rõ kiến trúc kho dữ liệu trên PostgreSQL."
+      ],
+      "blind_missing": [
+        "IT-J03-R01: Cần ngày và trạng thái vai trò độc lập, kiểm tra hợp khoảng không chồng lấn để xác định ngưỡng 3 năm.",
+        "IT-J03-R04: Cần rõ mô hình warehouse ngoài bảng tổng hợp."
+      ]
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C07",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Vai trò Flutter chính thiếu ngày và trạng thái (HR-SOURCE-005); có thể đổi nhãn."
+      ],
+      "blind_reasons": [
+        "Thời lượng vai trò Flutter không xác định có thể đổi nhãn 2/3."
+      ],
+      "initial_missing": [
+        "IT-J04-R01: Cần ngày bắt đầu/kết thúc và trạng thái freelance để xác định ít nhất 1 năm Flutter.",
+        "IT-J04-R02: Cần ví dụ dùng Provider trong ứng dụng.",
+        "IT-J04-R03: Chưa mô tả xử lý JSON."
+      ],
+      "blind_missing": [
+        "IT-J04-R01: Thiếu ngày bắt đầu/kết thúc và trạng thái freelance để xác định ít nhất 1 năm.",
+        "IT-J04-R02: Cần mô tả áp dụng Provider thực tế.",
+        "IT-J04-R03: Chưa mô tả xử lý JSON."
+      ]
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C08",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Tóm tắt 8 tháng Flutter và công việc từ 2025-01 khác nhau tại ngưỡng 1 năm (HR-SOURCE-008)."
+      ],
+      "blind_reasons": [
+        "Mâu thuẫn thâm niên Flutter ảnh hưởng ngưỡng 1 năm; dựa nhiệm vụ có ngày nhưng cần xác minh."
+      ],
+      "initial_missing": [
+        "IT-J04-R01: Cần thời điểm thực sự bắt đầu Flutter trong vai trò UI/UX kiêm lập trình.",
+        "IT-J04-R03: Chưa nêu xử lý JSON thực tế.",
+        "IT-J04-R02: Chưa có bằng chứng đủ để xác nhận yêu cầu: Nắm vững các kỹ thuật quản lý state phổ biến như Bloc, Provider hoặc Riverpod."
+      ],
+      "blind_missing": [
+        "IT-J04-R01: Cần làm rõ Flutter bắt đầu trong vai trò 2025-01 khi tóm tắt chỉ 8 tháng.",
+        "IT-J04-R02: Chưa nêu Bloc/Provider/Riverpod.",
+        "IT-J04-R03: JSON được liệt kê nhưng mức xử lý chưa rõ."
+      ]
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C02",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Tóm tắt 5 năm cloud/SRE không khớp nhiệm vụ có ngày; có thể đổi nhãn 2/3 (HR-SOURCE-008)."
+      ],
+      "blind_reasons": [
+        "Tóm tắt và niên biểu khác nhau ngay ngưỡng 5 năm; nhãn tạm thời theo nhiệm vụ có ngày."
+      ],
+      "initial_missing": [
+        "IT-J05-R01: Cần phạm vi DevOps/SRE/Cloud trong vai trò 2021-09 đến 2022-12 hoặc lịch sử liên quan khác."
+      ],
+      "blind_missing": [
+        "IT-J05-R01: Cần xác minh nhiệm vụ DevOps/Cloud ở vai trò 2021-09 tới 2022-12 do tóm tắt nói 5 năm AWS/K8s."
+      ]
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C06",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Làm rõ AWS RDS/VPC và phạm vi vận hành production có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Phạm vi AWS và production chưa đủ rõ có thể thay đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "IT-J05-R02: Chưa nêu vận hành AWS RDS và VPC thực tế."
+      ],
+      "blind_missing": [
+        "IT-J05-R02: Chưa mô tả quản trị RDS/VPC và độ sâu vận hành AWS.",
+        "IT-J05-R03: Cần xác nhận môi trường production của các cụm được quản trị."
+      ]
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C07",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Freelance cloud thiếu ngày/trạng thái; có thể đổi đánh giá ngưỡng 5 năm (HR-SOURCE-005)."
+      ],
+      "blind_reasons": [
+        "Thâm niên cloud độc lập không rõ có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "IT-J05-R01: Cần ngày và trạng thái vai trò độc lập, tránh cộng trùng với công việc hiện tại.",
+        "IT-J05-R02: Cần làm rõ IAM.",
+        "IT-J05-R03: Chưa xác định rõ môi trường production."
+      ],
+      "blind_missing": [
+        "IT-J05-R01: Cần ngày/trạng thái và chồng lấn vai trò độc lập để kiểm tra 5 năm.",
+        "IT-J05-R02: Chưa nêu IAM thực hành.",
+        "IT-J05-R03: Cần xác nhận cụm production."
+      ]
+    },
+    {
+      "job_id": "IT-J06",
+      "candidate_id": "IT-J06-C03",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần mốc bắt đầu automation trong vai trò hỗn hợp; có thể đổi ngưỡng 2 năm (HR-SOURCE-008)."
+      ],
+      "blind_reasons": [
+        "Thời điểm chuyển automation không rõ trong niên biểu; ảnh hưởng ngưỡng 2 năm."
+      ],
+      "initial_missing": [
+        "IT-J06-R01: Chưa có khoảng ngày riêng automation; tóm tắt nêu 1 năm.",
+        "IT-J06-R03: Cần trách nhiệm xây framework thay vì một số script."
+      ],
+      "blind_missing": [
+        "IT-J06-R01: Cần xác định bắt đầu automation trong vai trò từ 2023-04; tóm tắt nói 1 năm.",
+        "IT-J06-R03: Chưa mô tả thiết kế framework ngoài một số script."
+      ]
+    },
+    {
+      "job_id": "IT-J06",
+      "candidate_id": "IT-J06-C05",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [],
+      "blind_missing": []
+    },
+    {
+      "job_id": "IT-J06",
+      "candidate_id": "IT-J06-C06",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 3,
+      "blind_relevance": 2,
+      "initial_reasons": [],
+      "blind_reasons": [
+        "Độ sâu framework được yêu cầu có thể đổi mức 2/3."
+      ],
+      "initial_missing": [],
+      "blind_missing": [
+        "IT-J06-R03: Cần xác minh thiết kế/duy trì framework Cypress ngoài viết một số luồng E2E."
+      ]
+    },
+    {
+      "job_id": "IT-J06",
+      "candidate_id": "IT-J06-C07",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Freelance thiếu ngày/trạng thái có thể đổi đánh giá thâm niên 3 năm (HR-SOURCE-005)."
+      ],
+      "blind_reasons": [
+        "Thời lượng QA độc lập chưa biết; có thể thay đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "IT-J06-R01: Cần ngày và trạng thái freelance để hợp khoảng QA không trùng.",
+        "IT-J06-R03: Cần ví dụ xây và duy trì framework Playwright."
+      ],
+      "blind_missing": [
+        "IT-J06-R01: Cần ngày/trạng thái và chồng lấn freelance để xác định tổng QA 3 năm.",
+        "IT-J06-R03: Chưa rõ kiến trúc framework ngoài kịch bản Playwright."
+      ]
+    },
+    {
+      "job_id": "IT-J07",
+      "candidate_id": "IT-J07-C02",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần làm rõ Spring Cloud; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Thiếu bằng chứng Spring Cloud có thể thay đổi mức 2/3; không suy thành không biết."
+      ],
+      "initial_missing": [
+        "IT-J07-R02: Chưa có bằng chứng Spring Cloud."
+      ],
+      "blind_missing": [
+        "IT-J07-R02: Chưa nêu Spring Cloud thực tế."
+      ]
+    },
+    {
+      "job_id": "IT-J07",
+      "candidate_id": "IT-J07-C03",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J07-R02: Chưa nêu Spring Cloud và kiến trúc microservices thực chiến.",
+        "IT-J07-R04: PostgreSQL chỉ cơ bản, chưa nêu tối ưu hiệu năng."
+      ],
+      "blind_missing": [
+        "IT-J07-R02: Chưa nêu Spring Cloud và kiến trúc microservices thực chiến.",
+        "IT-J07-R04: Chưa có tối ưu Oracle/PostgreSQL."
+      ]
+    },
+    {
+      "job_id": "IT-J07",
+      "candidate_id": "IT-J07-C07",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [
+        "Vai trò Java freelance thiếu ngày/trạng thái; chưa xác định thâm niên liên quan (HR-SOURCE-005)."
+      ],
+      "blind_reasons": [
+        "Thâm niên Java độc lập chưa xác định; nhãn tạm thời theo bằng chứng hiện có."
+      ],
+      "initial_missing": [
+        "IT-J07-R01: Cần ngày freelance và hợp thời gian không cộng trùng.",
+        "IT-J07-R02: Chưa nêu Spring Cloud.",
+        "IT-J07-R04: Chưa nêu tối ưu PostgreSQL.",
+        "IT-J07-R03: Chưa có bằng chứng đủ để xác nhận yêu cầu: Kinh nghiệm thực chiến với hệ thống message broker phân tán Apache Kafka hoặc RabbitMQ."
+      ],
+      "blind_missing": [
+        "IT-J07-R01: Thiếu ngày/trạng thái freelance và thông tin chồng lấn để kiểm tra 5 năm.",
+        "IT-J07-R02: Chưa nêu Spring Cloud.",
+        "IT-J07-R03: Chưa nêu Kafka/RabbitMQ.",
+        "IT-J07-R04: Chưa nêu tối ưu PostgreSQL."
+      ]
+    },
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C03",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 3,
+      "initial_reasons": [
+        "Tóm tắt 6 tháng Go và vai trò Go từ 2025-05 không khớp ở ngưỡng 1 năm (HR-SOURCE-008)."
+      ],
+      "blind_reasons": [
+        "Mâu thuẫn tóm tắt/niên biểu ảnh hưởng ngưỡng 1 năm; nhãn 3 tạm thời theo nhiệm vụ có ngày."
+      ],
+      "initial_missing": [
+        "IT-J08-R01: Cần ngày thực sự bắt đầu Go trong vai trò backend."
+      ],
+      "blind_missing": [
+        "IT-J08-R01: Tóm tắt chuyển Go 6 tháng khác vai trò Go từ 2025-05; cần xác minh thời điểm bắt đầu thực tế."
+      ]
+    },
+    {
+      "job_id": "IT-J08",
+      "candidate_id": "IT-J08-C06",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Thời điểm bắt đầu Go trong vai trò C++/Go mâu thuẫn tóm tắt 8 tháng tại ngưỡng 1 năm (HR-SOURCE-008)."
+      ],
+      "blind_reasons": [
+        "Mâu thuẫn thời lượng Go có thể đổi nhãn 1/2; không tính toàn bộ thời gian C++."
+      ],
+      "initial_missing": [
+        "IT-J08-R01: Cần khoảng thực sự làm Go.",
+        "IT-J08-R02: Chưa nêu REST API/gRPC thực tế với Gin.",
+        "IT-J08-R03: Chưa nêu GORM, sqlx hoặc database/sql."
+      ],
+      "blind_missing": [
+        "IT-J08-R01: Cần xác định lúc bắt đầu Go trong vai trò C++/Go so với tóm tắt 8 tháng.",
+        "IT-J08-R02: Gin chỉ liệt kê, chưa mô tả REST/gRPC.",
+        "IT-J08-R03: Chưa nêu GORM/sqlx/database/sql."
+      ]
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C02",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 3,
+      "blind_relevance": 3,
+      "initial_reasons": [
+        "Tóm tắt hơn 1 năm React và timeline fullstack từ 2023-08 cần xác minh tại ngưỡng 3 năm (HR-SOURCE-008)."
+      ],
+      "blind_reasons": [
+        "Mơ hồ thâm niên React có thể đổi mức 2/3; nhãn tạm thời theo niên biểu."
+      ],
+      "initial_missing": [
+        "IT-J09-R01: Cần ngày thực sự bắt đầu React trong vai trò fullstack.",
+        "IT-J09-R02: Chưa nêu phiên bản .NET 6/7/8."
+      ],
+      "blind_missing": [
+        "IT-J09-R01: Cần xác định lúc bắt đầu React trong vai trò từ 2023-08 so với tóm tắt hơn 1 năm.",
+        "IT-J09-R02: Chưa nêu phiên bản .NET 6/7/8."
+      ]
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C03",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J09-R02: Chưa nêu Entity Framework Core và phiên bản .NET.",
+        "IT-J09-R04: Chưa nêu tối ưu PostgreSQL."
+      ],
+      "blind_missing": [
+        "IT-J09-R02: Chưa nêu EF Core và phiên bản .NET.",
+        "IT-J09-R04: Chưa có tối ưu PostgreSQL.",
+        "IT-J09-R01: Thời lượng frontend không tương đương fullstack .NET/React."
+      ]
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C04",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần làm rõ tối ưu truy vấn; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Thiếu mô tả tối ưu DB bắt buộc có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "IT-J09-R04: Chưa nêu tối ưu truy vấn PostgreSQL/SQL Server."
+      ],
+      "blind_missing": [
+        "IT-J09-R04: Cần ví dụ tối ưu SQL trên PostgreSQL/SQL Server.",
+        "IT-J09-R03: HTML5/CSS3 chưa được nêu trực tiếp."
+      ]
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C05",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J09-R02: Chưa nêu phiên bản .NET.",
+        "IT-J09-R04: Chưa nêu tối ưu SQL Server."
+      ],
+      "blind_missing": [
+        "IT-J09-R02: Chưa nêu phiên bản .NET.",
+        "IT-J09-R04: Chưa mô tả tối ưu SQL."
+      ]
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C06",
+      "domain": "it",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J09-R02: Chưa nêu Entity Framework Core và phiên bản .NET.",
+        "IT-J09-R04: Chưa nêu tối ưu truy vấn."
+      ],
+      "blind_missing": [
+        "IT-J09-R02: Chưa nêu EF Core, phiên bản .NET.",
+        "IT-J09-R04: Chưa có tối ưu PostgreSQL/SQL Server.",
+        "IT-J09-R03: Chưa có mô tả độ sâu TypeScript/HTML5/CSS3."
+      ]
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C07",
+      "domain": "it",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Freelance fullstack thiếu ngày/trạng thái có thể đổi đánh giá thâm niên (HR-SOURCE-005)."
+      ],
+      "blind_reasons": [
+        "Thời lượng freelance và độ sâu stack bắt buộc chưa rõ; nhãn tạm thời."
+      ],
+      "initial_missing": [
+        "IT-J09-R01: Cần ngày freelance để hợp khoảng không đếm trùng.",
+        "IT-J09-R02: Chưa nêu EF Core/.NET 6/7/8.",
+        "IT-J09-R03: Cần ví dụ React với TypeScript/HTML/CSS.",
+        "IT-J09-R04: Chưa nêu tối ưu truy vấn."
+      ],
+      "blind_missing": [
+        "IT-J09-R01: Cần ngày/trạng thái và chồng lấn freelance để kiểm tra 3 năm.",
+        "IT-J09-R02: Chưa nêu EF Core hoặc .NET 6/7/8.",
+        "IT-J09-R03: Cần rõ TypeScript/HTML/CSS thực hành.",
+        "IT-J09-R04: Chưa có tối ưu SQL Server."
+      ]
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C02",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần xác nhận GTM; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Cần xác minh GTM; có thể thay đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J01-R03: Chưa có bằng chứng Google Tag Manager."
+      ],
+      "blind_missing": [
+        "MK-J01-R03: Chưa có Google Tag Manager."
+      ]
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C07",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần xác nhận GTM và thiết lập đo lường chuyển đổi; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Thiếu bằng chứng công cụ đo lường bắt buộc có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J01-R03: Chưa nêu GTM và cấu hình sự kiện chuyển đổi/ROI."
+      ],
+      "blind_missing": [
+        "MK-J01-R03: Chưa có GTM và mô tả đầy đủ theo dõi chuyển đổi/ROI.",
+        "MK-J01-R01: Cộng tác viên trước thiếu ngày, không cộng vào ngưỡng đã đạt."
+      ]
+    },
+    {
+      "job_id": "MK-J02",
+      "candidate_id": "MK-J02-C05",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần xác nhận tự quay và dựng CapCut/Premiere; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Năng lực hands-on video bắt buộc chưa rõ, có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J02-R02: Chưa có bằng chứng tự quay và trực tiếp biên tập bằng CapCut/Premiere."
+      ],
+      "blind_missing": [
+        "MK-J02-R02: Cần bằng chứng tự quay/dựng và dùng CapCut/Premiere."
+      ]
+    },
+    {
+      "job_id": "MK-J03",
+      "candidate_id": "MK-J03-C02",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần xác nhận phạm vi IMC toàn quốc và chiến lược định vị dài hạn; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Phạm vi IMC và chiến lược dài hạn chưa rõ có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J03-R02: Chưa nêu rõ định vị sản phẩm và chiến lược thương hiệu dài hạn.",
+        "MK-J03-R03: Công việc mô tả ba thành phố, chưa chứng minh quy mô toàn quốc."
+      ],
+      "blind_missing": [
+        "MK-J03-R03: Chiến dịch nêu ba thành phố, cần xác nhận quy mô toàn quốc.",
+        "MK-J03-R02: Chưa rõ định vị sản phẩm/chiến lược dài hạn ngoài kế hoạch ngân sách."
+      ]
+    },
+    {
+      "job_id": "MK-J03",
+      "candidate_id": "MK-J03-C07",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Vai trò brand trước đây thiếu ngày; có thể đổi nhãn 2/3 (HR-SOURCE-005)."
+      ],
+      "blind_reasons": [
+        "Ngưỡng 5 năm phụ thuộc vai trò không ngày; có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J03-R01: Cần ngày bắt đầu/kết thúc công việc brand trước đây, tránh cộng trùng."
+      ],
+      "blind_missing": [
+        "MK-J03-R01: Cần ngày bắt đầu/kết thúc vai trò trước để xác nhận 5 năm brand, không cộng chồng lấn."
+      ]
+    },
+    {
+      "job_id": "MK-J03",
+      "candidate_id": "MK-J03-C08",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần làm rõ ngân sách theo năm/quyền phân bổ và chiến lược dài hạn; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Quyền sở hữu ngân sách năm/chiến lược dài hạn chưa rõ có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J03-R02: Tổng ngân sách nhiều dự án không xác lập ngân sách tiếp thị năm trên 5 tỷ và chiến lược thương hiệu dài hạn."
+      ],
+      "blind_missing": [
+        "MK-J03-R02: Cần ngân sách năm do ứng viên phân bổ và phạm vi định vị dài hạn; không chia tổng nhiều dự án để suy ra ngưỡng."
+      ]
+    },
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C02",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần làm rõ xây liên kết Off-page và kiến trúc website; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Phạm vi Off-page/kiến trúc chưa rõ có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J04-R02: Chưa nêu xây liên kết Off-page an toàn và tối ưu kiến trúc website."
+      ],
+      "blind_missing": [
+        "MK-J04-R02: Chưa nêu xây liên kết Off-page an toàn và thiết kế kiến trúc website."
+      ]
+    },
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C05",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần làm rõ phạm vi từ khóa/Off-page và GSC/SEMrush; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Phạm vi công cụ và Off-page bắt buộc chưa rõ có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J04-R02: Chưa nêu trực tiếp lập kế hoạch từ khóa và xây liên kết Off-page an toàn.",
+        "MK-J04-R03: Chưa nêu Google Search Console và SEMrush."
+      ],
+      "blind_missing": [
+        "MK-J04-R02: Cần bằng chứng lập kế hoạch từ khóa và Off-page an toàn.",
+        "MK-J04-R03: Chưa nêu GSC/SEMrush."
+      ]
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C02",
+      "domain": "marketing",
+      "queue_reason": "disagreement",
+      "initial_relevance": 3,
+      "blind_relevance": 2,
+      "initial_reasons": [],
+      "blind_reasons": [
+        "Phạm vi đo lường vòng đời và CS chưa rõ có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J05-R04: Chưa nêu riêng Retention Rate và LTV."
+      ],
+      "blind_missing": [
+        "MK-J05-R04: Chưa nêu LTV/Retention và tối ưu toàn phễu.",
+        "MK-J05-R02: Cần rõ đồng bộ CS trong GTM ngoài Sales/PM/hỗ trợ kỹ thuật."
+      ]
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C05",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần xác nhận nghiên cứu người dùng/đối thủ và đồng bộ Sales/CS trong GTM; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Nghiên cứu/đồng bộ/chỉ số chưa đầy đủ có thể đổi mức 2/3; chức danh không thay bằng chứng."
+      ],
+      "initial_missing": [
+        "MK-J05-R02: Chưa nêu đồng bộ Sales và CS cụ thể.",
+        "MK-J05-R03: Chưa nêu phương pháp nghiên cứu thị trường/đối thủ/người dùng để định hình Value Proposition."
+      ],
+      "blind_missing": [
+        "MK-J05-R03: Cần bằng chứng nghiên cứu người dùng, thị trường và đối thủ cho Value Proposition.",
+        "MK-J05-R02: Chưa rõ đồng bộ Sales/CS.",
+        "MK-J05-R04: Chưa nêu retention/activation."
+      ]
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C07",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Vai trò truyền thông sản phẩm trước thiếu ngày/phạm vi; có thể đổi nhãn 2/3 (HR-SOURCE-005, HR-SOURCE-008)."
+      ],
+      "blind_reasons": [
+        "Ngưỡng 4 năm mâu thuẫn tóm tắt và niên biểu xác định; có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J05-R01: Cần ngày và nhiệm vụ marketing công nghệ của vai trò trước, hợp khoảng không cộng trùng.",
+        "MK-J05-R03: Chưa nêu riêng phân tích đối thủ."
+      ],
+      "blind_missing": [
+        "MK-J05-R01: Cần ngày và phạm vi PMM/Growth của cộng tác viên trước để kiểm tra 4 năm không chồng lấn.",
+        "MK-J05-R03: Chưa mô tả phân tích đối thủ cụ thể.",
+        "MK-J05-R04: Chưa nêu LTV."
+      ]
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C08",
+      "domain": "marketing",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần làm rõ phạm vi Growth Marketing trong vai trò 2021-10 đến 2023-03; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Thâm niên đúng nhiệm vụ marketing chưa rõ có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "MK-J05-R01: Vai trò phân tích sản phẩm trước chưa nêu trực tiếp nhiệm vụ marketing/growth thương mại hóa.",
+        "MK-J05-R03: Chưa nêu nghiên cứu thị trường và phân tích đối thủ cạnh tranh."
+      ],
+      "blind_missing": [
+        "MK-J05-R01: Cần xác minh phạm vi Growth Marketing ở analyst 2021-10 tới 2023-03; không cộng toàn bộ product analytics mặc định.",
+        "MK-J05-R03: Chưa có nghiên cứu thị trường/đối thủ cụ thể."
+      ]
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C04",
+      "domain": "sales",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "SA-J01-R02: Chưa nêu trực tiếp đàm phán và chủ trì demo.",
+        "SA-J01-R03: Chưa nêu dự báo doanh số trên CRM."
+      ],
+      "blind_missing": [
+        "SA-J01-R02: Chưa nêu tự đàm phán thương mại.",
+        "SA-J01-R03: Chưa mô tả dự báo doanh số."
+      ]
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C05",
+      "domain": "sales",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần làm rõ sản phẩm phần mềm/SaaS và chức năng CRM; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Phạm vi sản phẩm công nghệ và CRM có thể đổi mức phù hợp; nhãn tạm thời."
+      ],
+      "initial_missing": [
+        "SA-J01-R01: Cần xác nhận thời gian bán giải pháp phần mềm/SaaS thay vì hạ tầng viễn thông.",
+        "SA-J01-R02: Chưa rõ demo phần mềm.",
+        "SA-J01-R03: Chưa nêu dự báo doanh số."
+      ],
+      "blind_missing": [
+        "SA-J01-R01: Cần xác nhận có bán phần mềm B2B/SaaS, không chỉ đường truyền/lưu trữ.",
+        "SA-J01-R02: Chưa rõ demo phần mềm và khai thác lead mới.",
+        "SA-J01-R03: Chưa rõ dự báo doanh số trên CRM nội bộ."
+      ]
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C05",
+      "domain": "sales",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần xác nhận phương tiện cá nhân và sẵn sàng trực tiếp đi tuyến; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Điều kiện di chuyển/phương tiện bắt buộc chưa rõ có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "SA-J02-R02: Chưa nêu trực tiếp mở mới điểm bán.",
+        "SA-J02-R03: Chưa nêu triển khai khuyến mãi tháng.",
+        "SA-J02-R04: Chưa có bằng chứng đủ để xác nhận yêu cầu: Sẵn sàng di chuyển thị trường hàng ngày và có phương tiện đi lại cá nhân phục vụ công việc."
+      ],
+      "blind_missing": [
+        "SA-J02-R04: Chưa nêu phương tiện cá nhân và sẵn sàng đi thị trường mỗi ngày.",
+        "SA-J02-R02: Chưa nêu mở mới điểm bán.",
+        "SA-J02-R03: Chưa nêu triển khai khuyến mãi tháng."
+      ]
+    },
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C07",
+      "domain": "sales",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Vai trò sales thiết bị trước đây thiếu ngày; có thể đổi nhãn 2/3 (HR-SOURCE-005)."
+      ],
+      "blind_reasons": [
+        "Ngưỡng 5 năm sales phụ thuộc vai trò không ngày; có thể đổi mức 2/3."
+      ],
+      "initial_missing": [
+        "SA-J03-R01: Cần ngày bắt đầu/kết thúc vai trò trước để xác định 5 năm; trạng thái đã kết thúc được nêu."
+      ],
+      "blind_missing": [
+        "SA-J03-R01: Vai trò trước thiếu ngày bắt đầu/kết thúc; cần xác định hợp thời gian không chồng lấn để kiểm tra 5 năm."
+      ]
+    },
+    {
+      "job_id": "SA-J03",
+      "candidate_id": "SA-J03-C08",
+      "domain": "sales",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [],
+      "blind_missing": [
+        "SA-J03-R01: Chưa có 5 năm kinh doanh và 2 năm quản lý sales.",
+        "SA-J03-R02: Mới hỗ trợ kỹ thuật, chưa chứng minh toàn bộ hồ sơ/quy trình mua sắm.",
+        "SA-J03-R04: Chưa có chiến lược vùng/phân bổ doanh số."
+      ]
+    },
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C02",
+      "domain": "sales",
+      "queue_reason": "flagged_ambiguity",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [
+        "Cần xác nhận phạm vi nghiệp vụ khai thuê hải quan; có thể đổi nhãn 2/3."
+      ],
+      "blind_reasons": [
+        "Phạm vi khai thuê hải quan chưa rõ có thể đổi nhãn 2/3."
+      ],
+      "initial_missing": [
+        "SA-J05-R02: Chưa chứng minh khai thuê hải quan thành thạo ngoài hồ sơ C/O và kiểm tra chuyên ngành."
+      ],
+      "blind_missing": [
+        "SA-J05-R02: Chưa mô tả khai thuê hải quan ngoài C/O/kiểm tra chuyên ngành."
+      ]
+    },
+    {
+      "job_id": "SA-J05",
+      "candidate_id": "SA-J05-C04",
+      "domain": "sales",
+      "queue_reason": "disagreement",
+      "initial_relevance": 2,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "SA-J05-R02: Chưa nêu nghiệp vụ cước air và khai thuê hải quan.",
+        "SA-J05-R03: Chưa nêu đàm phán hợp đồng khung/giải pháp tổng thể.",
+        "SA-J05-R04: Chưa có bằng chứng đủ để xác nhận yêu cầu: Duy trì tỷ lệ giữ chân khách hàng (retention rate) trên 90% và mở rộng doanh thu từ tài khoản khách hàng hiện hữu (upsell/cross-sell)."
+      ],
+      "blind_missing": [
+        "SA-J05-R04: Chưa có retention trên 90% và mở rộng tài khoản.",
+        "SA-J05-R02: Chưa có air/khai thuê hải quan.",
+        "SA-J05-R03: Chưa có hợp đồng khung năm và giải pháp FDI."
+      ]
+    },
+    {
+      "job_id": "IT-J06",
+      "candidate_id": "IT-J06-C02",
+      "domain": "it",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 3,
+      "blind_relevance": 3,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [],
+      "blind_missing": []
+    },
+    {
+      "job_id": "MK-J01",
+      "candidate_id": "MK-J01-C08",
+      "domain": "marketing",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "MK-J01-R02: Cần bằng chứng tự thiết lập/tối ưu chiến dịch Meta, Google, TikTok.",
+        "MK-J01-R04: Chưa rõ lập kế hoạch nội dung/điều phối sản xuất visual và video."
+      ],
+      "blind_missing": [
+        "MK-J01-R01: Cần rõ thời lượng trực tiếp triển khai chiến dịch.",
+        "MK-J01-R02: Chưa chứng minh tự vận hành Meta/Google/TikTok.",
+        "MK-J01-R04: Chưa nêu kế hoạch và phối hợp sản xuất visual/video trọn vẹn."
+      ]
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C03",
+      "domain": "sales",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 1,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [],
+      "blind_missing": [
+        "SA-J02-R01: Chưa có thâm niên GT/field sales.",
+        "SA-J02-R02: Chưa có quản lý tuyến/mở điểm tạp hóa.",
+        "SA-J02-R04: Chưa xác nhận di chuyển hàng ngày."
+      ]
+    },
+    {
+      "job_id": "IT-J03",
+      "candidate_id": "IT-J03-C05",
+      "domain": "it",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 1,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J03-R04: Chưa nêu thiết kế data warehouse, chỉ lưu dữ liệu MySQL."
+      ],
+      "blind_missing": [
+        "IT-J03-R04: Chưa mô tả thiết kế data warehouse thay vì lưu dữ liệu MySQL."
+      ]
+    },
+    {
+      "job_id": "SA-J02",
+      "candidate_id": "SA-J02-C04",
+      "domain": "sales",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [],
+      "blind_missing": [
+        "SA-J02-R02: Chưa mô tả mở mới điểm bán."
+      ]
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C05",
+      "domain": "it",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 1,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J04-R02: Chưa có bằng chứng đủ để xác nhận yêu cầu: Nắm vững các kỹ thuật quản lý state phổ biến như Bloc, Provider hoặc Riverpod."
+      ],
+      "blind_missing": [
+        "IT-J04-R02: Chưa nêu Bloc, Provider hoặc Riverpod.",
+        "IT-J04-R01: Chưa có thời gian phát triển Flutter/Dart thực tế."
+      ]
+    },
+    {
+      "job_id": "IT-J02",
+      "candidate_id": "IT-J02-C06",
+      "domain": "it",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 1,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J02-R06: Chưa có bằng chứng đủ để xác nhận yêu cầu: Kỹ năng dẫn dắt kỹ thuật, review code và phân chia công việc cho thành viên trong nhóm."
+      ],
+      "blind_missing": [
+        "IT-J02-R03: Chưa mô tả tối ưu render/Web Vitals web.",
+        "IT-J02-R06: Chưa có dẫn dắt, review và chia việc."
+      ]
+    },
+    {
+      "job_id": "IT-J01",
+      "candidate_id": "IT-J01-C08",
+      "domain": "it",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 1,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "IT-J01-R01: Chưa có thâm niên phát triển backend Node.js/TypeScript.",
+        "IT-J01-R02: Chưa nêu phát triển NestJS/microservices.",
+        "IT-J01-R03: Chưa nêu tối ưu PostgreSQL."
+      ],
+      "blind_missing": [
+        "IT-J01-R01: Chưa chứng minh 3 năm backend Node.js/TypeScript.",
+        "IT-J01-R02: Chưa nêu xây dựng NestJS microservices.",
+        "IT-J01-R03: Chưa có tối ưu truy vấn, chỉ xác minh dữ liệu."
+      ]
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C03",
+      "domain": "it",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 2,
+      "blind_relevance": 2,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [],
+      "blind_missing": [
+        "IT-J04-R01: Chưa chứng minh ít nhất 1 năm phát triển Flutter, không cộng thời gian Android Native.",
+        "IT-J04-R03: Chưa rõ xử lý JSON và REST trong Flutter."
+      ]
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C06",
+      "domain": "sales",
+      "queue_reason": "deterministic_agreement_audit_sample",
+      "initial_relevance": 1,
+      "blind_relevance": 1,
+      "initial_reasons": [],
+      "blind_reasons": [],
+      "initial_missing": [
+        "SA-J01-R03: Chưa có bằng chứng đủ để xác nhận yêu cầu: Có kỹ năng sử dụng các công cụ CRM như Salesforce hoặc HubSpot để quản lý pipeline và dự báo doanh số."
+      ],
+      "blind_missing": [
+        "SA-J01-R01: Chưa có kinh doanh phần mềm B2B/SaaS.",
+        "SA-J01-R03: Chưa có CRM pipeline/dự báo doanh số.",
+        "SA-J01-R02: Chưa có demo giải pháp phần mềm."
+      ]
+    }
+  ],
+  "limitations": [
+    "Pilot is 20 JDs / 160 pairs (development only); kappa and agreement rates do not generalize to live production pools.",
+    "Unreviewed silver agreements between two model contexts remain silver labels, not human expert gold."
+  ]
+}

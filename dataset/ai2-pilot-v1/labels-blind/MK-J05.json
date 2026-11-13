@@ -1,0 +1,322 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "blind_review",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C01",
+      "relevance": 3,
+      "rationale": "PMM fintech từ 2021-03 đủ hơn 5 năm; GTM và đồng bộ Product/Sales/CS, nghiên cứu người dùng/Value Proposition và chỉ số vòng đời có căn cứ. Nghiên cứu đối thủ được hỗ trợ battlecard, không dựa danh tiếng trường.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J05-R01",
+          "section_id": "MK-J05-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Cấp cao Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính FinSmart Việt Nam\nThời gian: Từ 2022-10 đến nay (đang làm việc)\n- Trực tiếp chủ trì chiến lược GTM ra mắt tính năng 'Ví trả sau hạn mức linh hoạt', thu hút hơn 250.000 người dùng kích hoạt tài khoản trong 6 tháng đầu.\n- Tiến hành 30 cuộc phỏng vấn người dùng chuyên sâu và khảo sát 1.200 khách hàng để làm rõ rào cản tâm lý khi liên kết ngân hàng, từ đó xác lập thông điệp cốt lõi (Value Proposition) tập trung vào yếu tố 'Bảo mật kép và miễn lãi 45 ngày'.\n- Đồng bộ quy trình bàn giao với bộ phận Kinh doanh đối tác và dịch vụ khách hàng CS trước mỗi kỳ nâng cấp phiên bản ứng dụng.\n- Theo dõi chỉ số giữ chân người dùng (Retention Rate sau 3 tháng đạt 42%) và tối ưu chi phí thu hút người dùng mới (CAC giảm 15%).\n- Thảo luận hàng ngày với Giám đốc Sản phẩm người Singapore hoàn toàn bằng tiếng Anh về lộ trình tính năng (Product Roadmap).\n\nChuyên viên Product Marketing tại Công ty TNHH Giải Pháp Số MoneyFast\nThời gian: Từ 2021-03 đến 2022-09\n- Lên kế hoạch tiếp thị sản phẩm cho ứng dụng tích lũy tiền gửi trực tuyến và chuyển tiền nhanh liên ngân hàng.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J05-R02",
+          "section_id": "MK-J05-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Cấp cao Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính FinSmart Việt Nam\nThời gian: Từ 2022-10 đến nay (đang làm việc)\n- Trực tiếp chủ trì chiến lược GTM ra mắt tính năng 'Ví trả sau hạn mức linh hoạt', thu hút hơn 250.000 người dùng kích hoạt tài khoản trong 6 tháng đầu.\n- Tiến hành 30 cuộc phỏng vấn người dùng chuyên sâu và khảo sát 1.200 khách hàng để làm rõ rào cản tâm lý khi liên kết ngân hàng, từ đó xác lập thông điệp cốt lõi (Value Proposition) tập trung vào yếu tố 'Bảo mật kép và miễn lãi 45 ngày'.\n- Đồng bộ quy trình bàn giao với bộ phận Kinh doanh đối tác và dịch vụ khách hàng CS trước mỗi kỳ nâng cấp phiên bản ứng dụng.\n- Theo dõi chỉ số giữ chân người dùng (Retention Rate sau 3 tháng đạt 42%) và tối ưu chi phí thu hút người dùng mới (CAC giảm 15%).\n- Thảo luận hàng ngày với Giám đốc Sản phẩm người Singapore hoàn toàn bằng tiếng Anh về lộ trình tính năng (Product Roadmap).\n\nChuyên viên Product Marketing tại Công ty TNHH Giải Pháp Số MoneyFast\nThời gian: Từ 2021-03 đến 2022-09\n- Lên kế hoạch tiếp thị sản phẩm cho ứng dụng tích lũy tiền gửi trực tuyến và chuyển tiền nhanh liên ngân hàng.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "section_id": "MK-J05-C01-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Xây dựng chiến lược Go-to-Market (GTM) toàn diện cho sản phẩm công nghệ tài chính Fintech\n- Khảo sát người dùng (User Research), phỏng vấn sâu và định hình Value Proposition\n- Phân tích và tối ưu hóa chỉ số phễu vòng đời: CAC, LTV, Activation Rate, Retention Rate\n- Soạn thảo tài liệu Sales Enablement, Battlecard đối thủ và kịch bản CSKH\n- Phối hợp liên phòng ban Agile: Product Manager, Growth Marketing, Sales, CS\n- Tiếng Anh làm việc công nghệ chuyên nghiệp",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "section_id": "MK-J05-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Cấp cao Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính FinSmart Việt Nam\nThời gian: Từ 2022-10 đến nay (đang làm việc)\n- Trực tiếp chủ trì chiến lược GTM ra mắt tính năng 'Ví trả sau hạn mức linh hoạt', thu hút hơn 250.000 người dùng kích hoạt tài khoản trong 6 tháng đầu.\n- Tiến hành 30 cuộc phỏng vấn người dùng chuyên sâu và khảo sát 1.200 khách hàng để làm rõ rào cản tâm lý khi liên kết ngân hàng, từ đó xác lập thông điệp cốt lõi (Value Proposition) tập trung vào yếu tố 'Bảo mật kép và miễn lãi 45 ngày'.\n- Đồng bộ quy trình bàn giao với bộ phận Kinh doanh đối tác và dịch vụ khách hàng CS trước mỗi kỳ nâng cấp phiên bản ứng dụng.\n- Theo dõi chỉ số giữ chân người dùng (Retention Rate sau 3 tháng đạt 42%) và tối ưu chi phí thu hút người dùng mới (CAC giảm 15%).\n- Thảo luận hàng ngày với Giám đốc Sản phẩm người Singapore hoàn toàn bằng tiếng Anh về lộ trình tính năng (Product Roadmap).\n\nChuyên viên Product Marketing tại Công ty TNHH Giải Pháp Số MoneyFast\nThời gian: Từ 2021-03 đến 2022-09\n- Lên kế hoạch tiếp thị sản phẩm cho ứng dụng tích lũy tiền gửi trực tuyến và chuyển tiền nhanh liên ngân hàng.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J05-R04",
+          "section_id": "MK-J05-C01-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Xây dựng chiến lược Go-to-Market (GTM) toàn diện cho sản phẩm công nghệ tài chính Fintech\n- Khảo sát người dùng (User Research), phỏng vấn sâu và định hình Value Proposition\n- Phân tích và tối ưu hóa chỉ số phễu vòng đời: CAC, LTV, Activation Rate, Retention Rate\n- Soạn thảo tài liệu Sales Enablement, Battlecard đối thủ và kịch bản CSKH\n- Phối hợp liên phòng ban Agile: Product Manager, Growth Marketing, Sales, CS\n- Tiếng Anh làm việc công nghệ chuyên nghiệp",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C02",
+      "relevance": 2,
+      "rationale": "PMM công nghệ từ 2021-08 vượt 4 năm, GTM thanh toán và khảo sát/đối thủ rõ. Activation/CAC có căn cứ nhưng LTV/retention chưa nêu, đồng bộ CS còn ở hỗ trợ kỹ thuật; chưa mạnh đầy đủ theo vòng đời.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J05-R01",
+          "section_id": "MK-J05-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Product Marketing tại Công ty TNHH Giải Pháp Thanh Toán Digipay\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Chủ trì kế hoạch GTM cho gói giải pháp thanh toán QR đa năng dành cho chuỗi bán lẻ, phối hợp tập huấn sản phẩm cho hơn 30 nhân viên Sales doanh nghiệp.\n- Xây dựng bộ tài liệu so sánh tính năng cạnh tranh (Product Battlecard) giúp bộ phận bán hàng tăng tỷ lệ chốt hợp đồng thêm 20%.\n- Theo dõi tỷ lệ kích hoạt mã thanh toán của các điểm bán mới, cải tiến luồng hướng dẫn sử dụng giúp đẩy tỷ lệ kích hoạt giao dịch đầu tiên từ 55% lên 72%.\n- Thường xuyên làm việc với Giám đốc Sản phẩm quốc tế tại chi nhánh khu vực để hiệu chỉnh tài liệu kỹ thuật bằng tiếng Anh.\n\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Công Nghệ Số PayPlus\nThời gian: Từ 2021-08 đến 2022-12\n- Viết tài liệu cập nhật tính năng mới và tổ chức hội thảo giới thiệu giải pháp hóa đơn số.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J05-R02",
+          "section_id": "MK-J05-C02-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Xây dựng chiến lược Go-to-Market (GTM) cho cổng thanh toán B2B và B2C\n- Nghiên cứu đối thủ cạnh tranh (Competitive Benchmarking) trong ngành Fintech\n- Khảo sát trải nghiệm đối tác merchant để tối ưu thông điệp giá trị\n- Phân tích tỷ lệ kích hoạt tài khoản điểm bán (Activation Rate) và chỉ số CAC\n- Phối hợp giữa Product Manager, bộ phận Bán hàng và Hỗ trợ kỹ thuật\n- Tiếng Anh trao đổi kỹ thuật và kinh doanh tốt",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "section_id": "MK-J05-C02-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Xây dựng chiến lược Go-to-Market (GTM) cho cổng thanh toán B2B và B2C\n- Nghiên cứu đối thủ cạnh tranh (Competitive Benchmarking) trong ngành Fintech\n- Khảo sát trải nghiệm đối tác merchant để tối ưu thông điệp giá trị\n- Phân tích tỷ lệ kích hoạt tài khoản điểm bán (Activation Rate) và chỉ số CAC\n- Phối hợp giữa Product Manager, bộ phận Bán hàng và Hỗ trợ kỹ thuật\n- Tiếng Anh trao đổi kỹ thuật và kinh doanh tốt",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J05-R04",
+          "section_id": "MK-J05-C02-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Xây dựng chiến lược Go-to-Market (GTM) cho cổng thanh toán B2B và B2C\n- Nghiên cứu đối thủ cạnh tranh (Competitive Benchmarking) trong ngành Fintech\n- Khảo sát trải nghiệm đối tác merchant để tối ưu thông điệp giá trị\n- Phân tích tỷ lệ kích hoạt tài khoản điểm bán (Activation Rate) và chỉ số CAC\n- Phối hợp giữa Product Manager, bộ phận Bán hàng và Hỗ trợ kỹ thuật\n- Tiếng Anh trao đổi kỹ thuật và kinh doanh tốt",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J05-R04: Chưa nêu LTV/Retention và tối ưu toàn phễu.",
+        "MK-J05-R02: Cần rõ đồng bộ CS trong GTM ngoài Sales/PM/hỗ trợ kỹ thuật."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Phạm vi đo lường vòng đời và CS chưa rõ có thể đổi mức 2/3."
+      ]
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C03",
+      "relevance": 1,
+      "rationale": "BA/PO có user research và phối hợp Product/CS, nhưng chưa có 4 năm PMM/brand/growth công nghệ, chủ trì GTM hoặc chỉ số vòng đời. Khảo sát yêu cầu chức năng chưa chứng minh định vị thương mại/đối thủ.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J05-R01",
+          "section_id": "MK-J05-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phân tích Sản phẩm tại Công ty Cổ phần Giải Pháp Công Nghệ TechSolutions\nThời gian: Từ 2023-07 đến nay (đang làm việc)\n- Trực tiếp khảo sát nhu cầu từ 40 kế toán trưởng để xây dựng tài liệu chức năng cho phân hệ 'Đối soát thanh toán tự động'.\n- Làm việc chặt chẽ với đội ngũ kỹ sư phần mềm trong các buổi Sprint Planning và Backlog Refinement.\n- Tham gia viết tài liệu hướng dẫn sử dụng (User Manual) và hỗ trợ giải đáp thắc mắc cho đội ngũ chăm sóc khách hàng sau khi phiên bản mới lên sàn.\n\nNhân viên Kiểm thử Phần mềm tại Công ty TNHH Kiểm Thử Số VinaTest\nThời gian: Từ 2022-09 đến 2023-06\n- Thực hiện kiểm thử tính năng trên ứng dụng di động iOS và Android.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R02",
+          "section_id": "MK-J05-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phân tích Sản phẩm tại Công ty Cổ phần Giải Pháp Công Nghệ TechSolutions\nThời gian: Từ 2023-07 đến nay (đang làm việc)\n- Trực tiếp khảo sát nhu cầu từ 40 kế toán trưởng để xây dựng tài liệu chức năng cho phân hệ 'Đối soát thanh toán tự động'.\n- Làm việc chặt chẽ với đội ngũ kỹ sư phần mềm trong các buổi Sprint Planning và Backlog Refinement.\n- Tham gia viết tài liệu hướng dẫn sử dụng (User Manual) và hỗ trợ giải đáp thắc mắc cho đội ngũ chăm sóc khách hàng sau khi phiên bản mới lên sàn.\n\nNhân viên Kiểm thử Phần mềm tại Công ty TNHH Kiểm Thử Số VinaTest\nThời gian: Từ 2022-09 đến 2023-06\n- Thực hiện kiểm thử tính năng trên ứng dụng di động iOS và Android.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "section_id": "MK-J05-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phân tích Sản phẩm tại Công ty Cổ phần Giải Pháp Công Nghệ TechSolutions\nThời gian: Từ 2023-07 đến nay (đang làm việc)\n- Trực tiếp khảo sát nhu cầu từ 40 kế toán trưởng để xây dựng tài liệu chức năng cho phân hệ 'Đối soát thanh toán tự động'.\n- Làm việc chặt chẽ với đội ngũ kỹ sư phần mềm trong các buổi Sprint Planning và Backlog Refinement.\n- Tham gia viết tài liệu hướng dẫn sử dụng (User Manual) và hỗ trợ giải đáp thắc mắc cho đội ngũ chăm sóc khách hàng sau khi phiên bản mới lên sàn.\n\nNhân viên Kiểm thử Phần mềm tại Công ty TNHH Kiểm Thử Số VinaTest\nThời gian: Từ 2022-09 đến 2023-06\n- Thực hiện kiểm thử tính năng trên ứng dụng di động iOS và Android.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J05-R04: Chưa nêu CAC/LTV/retention/activation và tối ưu phễu.",
+        "MK-J05-R02: Chưa có chủ trì GTM tài chính số.",
+        "MK-J05-R03: Chưa có đối thủ/Value Proposition thương mại."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C04",
+      "relevance": 1,
+      "rationale": "Có hỗ trợ ra mắt/tài liệu/Sales trong phần mềm kế toán, khoảng 2 năm vai trò chính, chưa đủ 4 năm. Chưa chủ trì GTM, nghiên cứu định vị và số đăng ký đơn thuần không chứng minh chỉ số vòng đời.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J05-R01",
+          "section_id": "MK-J05-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R02",
+          "section_id": "MK-J05-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "section_id": "MK-J05-C04-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Soạn thảo tài liệu giới thiệu tính năng và bản tin phát hành (Release notes)\n- Hỗ trợ xây dựng nội dung slide thuyết trình cho hội thảo trực tuyến sản phẩm\n- Phối hợp với đội ngũ Sales gửi tài liệu hướng dẫn dùng thử cho khách hàng\n- Thu thập ý kiến phản hồi về lỗi tính năng từ người dùng gửi cho ban sản phẩm\n- Tiếng Anh giao tiếp cơ bản",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R04",
+          "section_id": "MK-J05-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Marketing Sản phẩm tại Công ty Cổ phần Phần Mềm Kế Toán CloudLedger\nThời gian: Từ 2024-11 đến nay (đang làm việc)\n- Hỗ trợ chuyên viên cao cấp chuẩn bị tài liệu truyền thông ra mắt 4 gói tính năng kế toán theo thông tư thuế mới.\n- Viết 18 bài blog hướng dẫn các bước thao tác trên phần mềm và dựng video ngắn quay màn hình hướng dẫn.\n- Tổng hợp số liệu số lượng tài khoản đăng ký dùng thử hàng tuần báo cáo cho trưởng nhóm.\n\nThực tập sinh Marketing tại Công ty TNHH Giải Pháp Doanh Nghiệp Việt\nThời gian: Từ 2024-05 đến 2024-10\n- Hỗ trợ dịch tài liệu phần mềm từ tiếng Anh sang tiếng Việt.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J05-R03: Chưa có nghiên cứu thị trường/đối thủ/Value Proposition.",
+        "MK-J05-R04: Chưa có CAC/LTV/retention/activation."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C05",
+      "relevance": 2,
+      "rationale": "PMM/Growth fintech từ 2017, GTM khu vực và LTV/CAC rõ. Chưa mô tả user research/đối thủ để định hình Value Proposition, retention/activation và đồng bộ Sales/CS cụ thể. Không suy các kỹ năng đó từ chức danh VP.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J05-R01",
+          "section_id": "MK-J05-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nPhó Chủ Tịch Tăng Trưởng Sản Phẩm tại Tập Đoàn Fintech Quốc Tế PayAsia\nThời gian: Từ 2021-04 đến nay (đang giữ cương vị)\n- Lãnh đạo khối Product Marketing gồm 22 nhân sự tại 3 thị trường: Việt Nam, Indonesia và Philippines.\n- Chỉ đạo chiến lược GTM đưa ứng dụng chuyển tiền quốc tế đạt 5 triệu người dùng đăng ký chỉ sau 18 tháng ra mắt.\n- Phối hợp cùng Ban Giám đốc Công nghệ và Sản phẩm toàn cầu để định hình kiến trúc trải nghiệm người dùng thích ứng theo quy định pháp lý từng quốc gia.\n- Đạt mức tối ưu hóa chỉ số LTV/CAC đạt ngưỡng 4.5 lần.\n\nTrưởng phòng Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính GlobalFin\nThời gian: Từ 2017-06 đến 2021-03\n- Xây dựng quy trình Go-to-Market chuẩn cho cổng thanh toán doanh nghiệp B2B.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J05-R02",
+          "section_id": "MK-J05-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nPhó Chủ Tịch Tăng Trưởng Sản Phẩm tại Tập Đoàn Fintech Quốc Tế PayAsia\nThời gian: Từ 2021-04 đến nay (đang giữ cương vị)\n- Lãnh đạo khối Product Marketing gồm 22 nhân sự tại 3 thị trường: Việt Nam, Indonesia và Philippines.\n- Chỉ đạo chiến lược GTM đưa ứng dụng chuyển tiền quốc tế đạt 5 triệu người dùng đăng ký chỉ sau 18 tháng ra mắt.\n- Phối hợp cùng Ban Giám đốc Công nghệ và Sản phẩm toàn cầu để định hình kiến trúc trải nghiệm người dùng thích ứng theo quy định pháp lý từng quốc gia.\n- Đạt mức tối ưu hóa chỉ số LTV/CAC đạt ngưỡng 4.5 lần.\n\nTrưởng phòng Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính GlobalFin\nThời gian: Từ 2017-06 đến 2021-03\n- Xây dựng quy trình Go-to-Market chuẩn cho cổng thanh toán doanh nghiệp B2B.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "section_id": "MK-J05-C05-SEC-SKILL",
+          "quote": "Năng lực lãnh đạo:\n- Hoạch định chiến lược Go-to-Market đa quốc gia cho hệ sinh thái Fintech\n- Quản trị danh mục sản phẩm và tối ưu hóa hệ số LTV/CAC trên diện rộng\n- Định vị thương hiệu công nghệ tài chính cấp khu vực ASEAN\n- Điều hành đội ngũ chuyên gia Product Marketing quốc tế\n- Tiếng Anh thương thuyết và diễn thuyết công nghệ chuyên nghiệp",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R04",
+          "section_id": "MK-J05-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nPhó Chủ Tịch Tăng Trưởng Sản Phẩm tại Tập Đoàn Fintech Quốc Tế PayAsia\nThời gian: Từ 2021-04 đến nay (đang giữ cương vị)\n- Lãnh đạo khối Product Marketing gồm 22 nhân sự tại 3 thị trường: Việt Nam, Indonesia và Philippines.\n- Chỉ đạo chiến lược GTM đưa ứng dụng chuyển tiền quốc tế đạt 5 triệu người dùng đăng ký chỉ sau 18 tháng ra mắt.\n- Phối hợp cùng Ban Giám đốc Công nghệ và Sản phẩm toàn cầu để định hình kiến trúc trải nghiệm người dùng thích ứng theo quy định pháp lý từng quốc gia.\n- Đạt mức tối ưu hóa chỉ số LTV/CAC đạt ngưỡng 4.5 lần.\n\nTrưởng phòng Tiếp thị Sản phẩm tại Công ty Cổ phần Công Nghệ Tài Chính GlobalFin\nThời gian: Từ 2017-06 đến 2021-03\n- Xây dựng quy trình Go-to-Market chuẩn cho cổng thanh toán doanh nghiệp B2B.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J05-R03: Cần bằng chứng nghiên cứu người dùng, thị trường và đối thủ cho Value Proposition.",
+        "MK-J05-R02: Chưa rõ đồng bộ Sales/CS.",
+        "MK-J05-R04: Chưa nêu retention/activation."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Nghiên cứu/đồng bộ/chỉ số chưa đầy đủ có thể đổi mức 2/3; chức danh không thay bằng chứng."
+      ]
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C06",
+      "relevance": 1,
+      "rationale": "Tiếp thị thẻ và đào tạo kênh ngân hàng hơn 4 năm chuyển đổi một phần. Nguồn mô tả thẻ truyền thống qua chi nhánh, chưa chứng minh marketing công nghệ/ứng dụng fintech, GTM số, research định vị hoặc chỉ số vòng đời.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J05-R01",
+          "section_id": "MK-J05-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phát Triển Sản Phẩm Thẻ tại Ngân Hàng TMCP Việt An\nThời gian: Từ 2022-08 đến nay (đang làm việc)\n- Xây dựng chương trình hoàn tiền 10% khi chi tiêu ăn uống cuối tuần cho dòng thẻ tín dụng Platinum.\n- Đàm phán hợp đồng tài trợ ưu đãi với hơn 40 chuỗi nhà hàng và rạp chiếu phim trên toàn quốc.\n- Soạn thảo cẩm nang sản phẩm thẻ gửi cho nhân viên giao dịch viên tại 80 chi nhánh ngân hàng.\n\nNhân viên Chăm sóc Khách hàng Thẻ tại Ngân Hàng TMCP Phát Triển Đông Đô\nThời gian: Từ 2021-02 đến 2022-07\n- Hướng dẫn thủ tục mở thẻ và giải đáp khiếu nại biểu phí thẻ cho khách hàng cá nhân.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R02",
+          "section_id": "MK-J05-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phát Triển Sản Phẩm Thẻ tại Ngân Hàng TMCP Việt An\nThời gian: Từ 2022-08 đến nay (đang làm việc)\n- Xây dựng chương trình hoàn tiền 10% khi chi tiêu ăn uống cuối tuần cho dòng thẻ tín dụng Platinum.\n- Đàm phán hợp đồng tài trợ ưu đãi với hơn 40 chuỗi nhà hàng và rạp chiếu phim trên toàn quốc.\n- Soạn thảo cẩm nang sản phẩm thẻ gửi cho nhân viên giao dịch viên tại 80 chi nhánh ngân hàng.\n\nNhân viên Chăm sóc Khách hàng Thẻ tại Ngân Hàng TMCP Phát Triển Đông Đô\nThời gian: Từ 2021-02 đến 2022-07\n- Hướng dẫn thủ tục mở thẻ và giải đáp khiếu nại biểu phí thẻ cho khách hàng cá nhân.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "section_id": "MK-J05-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Phát Triển Sản Phẩm Thẻ tại Ngân Hàng TMCP Việt An\nThời gian: Từ 2022-08 đến nay (đang làm việc)\n- Xây dựng chương trình hoàn tiền 10% khi chi tiêu ăn uống cuối tuần cho dòng thẻ tín dụng Platinum.\n- Đàm phán hợp đồng tài trợ ưu đãi với hơn 40 chuỗi nhà hàng và rạp chiếu phim trên toàn quốc.\n- Soạn thảo cẩm nang sản phẩm thẻ gửi cho nhân viên giao dịch viên tại 80 chi nhánh ngân hàng.\n\nNhân viên Chăm sóc Khách hàng Thẻ tại Ngân Hàng TMCP Phát Triển Đông Đô\nThời gian: Từ 2021-02 đến 2022-07\n- Hướng dẫn thủ tục mở thẻ và giải đáp khiếu nại biểu phí thẻ cho khách hàng cá nhân.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R04",
+          "section_id": "MK-J05-C06-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Quản lý chương trình ưu đãi sản phẩm thẻ tín dụng ngân hàng\n- Đàm phán liên kết đối tác ẩm thực, du lịch và thời trang\n- Xây dựng tài liệu hướng dẫn và tờ rơi tiếp thị tại quầy giao dịch\n- Theo dõi chỉ tiêu phát hành thẻ mới qua mạng lưới chi nhánh\n- Tiếng Anh thương mại trao đổi với các tổ chức thẻ quốc tế Visa, Mastercard",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J05-R01: Chưa rõ phạm vi sản phẩm công nghệ/ứng dụng fintech.",
+        "MK-J05-R02: Chưa có GTM tính năng tài chính số đồng bộ Product/Sales/CS.",
+        "MK-J05-R03: Chưa có research/đối thủ/Value Proposition.",
+        "MK-J05-R04: Phát hành thẻ chưa chứng minh vòng đời người dùng số."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C07",
+      "relevance": 2,
+      "rationale": "GTM wealth-tech, research/định vị và đồng bộ Sales/CS/activation rõ; vai trò có ngày từ 2023-03 khoảng 44 tháng, dưới 4 năm. Tóm tắt 4 năm 5 tháng phụ thuộc vai trò trước thiếu ngày, không cộng giả định.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J05-R01",
+          "section_id": "MK-J05-C07-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Tiếp thị Sản phẩm tại Công ty Cổ phần Ứng Dụng Đầu Tư FinCap\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Chủ trì kế hoạch GTM ra mắt tính năng 'Tích lũy sinh lời hàng ngày' đạt hơn 180.000 người dùng nạp tiền trải nghiệm.\n- Tiến hành khảo sát 500 người dùng trẻ để làm rõ băn khoăn về tính thanh khoản, từ đó định vị thông điệp sản phẩm là 'Rút tiền linh hoạt 24/7 không mất phí'.\n- Tổ chức buổi chia sẻ nội bộ đồng bộ tính năng mới cho 25 nhân viên tư vấn kinh doanh và đội ngũ CSKH trực hotline.\n- Theo dõi tỷ lệ kích hoạt tài khoản nạp tiền thành công tăng từ 40% lên 58% sau khi tối ưu lại các bước xác thực danh tính eKYC.\n\nCộng tác viên Truyền thông Sản phẩm tại Cổng Tài Chính Đầu Tư Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng cụ thể)\n- Viết bài giải thích các thuật ngữ tài chính và giới thiệu tính năng tích lũy tiền nhàn rỗi.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R02",
+          "section_id": "MK-J05-C07-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Tiếp thị Sản phẩm tại Công ty Cổ phần Ứng Dụng Đầu Tư FinCap\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Chủ trì kế hoạch GTM ra mắt tính năng 'Tích lũy sinh lời hàng ngày' đạt hơn 180.000 người dùng nạp tiền trải nghiệm.\n- Tiến hành khảo sát 500 người dùng trẻ để làm rõ băn khoăn về tính thanh khoản, từ đó định vị thông điệp sản phẩm là 'Rút tiền linh hoạt 24/7 không mất phí'.\n- Tổ chức buổi chia sẻ nội bộ đồng bộ tính năng mới cho 25 nhân viên tư vấn kinh doanh và đội ngũ CSKH trực hotline.\n- Theo dõi tỷ lệ kích hoạt tài khoản nạp tiền thành công tăng từ 40% lên 58% sau khi tối ưu lại các bước xác thực danh tính eKYC.\n\nCộng tác viên Truyền thông Sản phẩm tại Cổng Tài Chính Đầu Tư Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng cụ thể)\n- Viết bài giải thích các thuật ngữ tài chính và giới thiệu tính năng tích lũy tiền nhàn rỗi.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "section_id": "MK-J05-C07-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Tiếp thị Sản phẩm tại Công ty Cổ phần Ứng Dụng Đầu Tư FinCap\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Chủ trì kế hoạch GTM ra mắt tính năng 'Tích lũy sinh lời hàng ngày' đạt hơn 180.000 người dùng nạp tiền trải nghiệm.\n- Tiến hành khảo sát 500 người dùng trẻ để làm rõ băn khoăn về tính thanh khoản, từ đó định vị thông điệp sản phẩm là 'Rút tiền linh hoạt 24/7 không mất phí'.\n- Tổ chức buổi chia sẻ nội bộ đồng bộ tính năng mới cho 25 nhân viên tư vấn kinh doanh và đội ngũ CSKH trực hotline.\n- Theo dõi tỷ lệ kích hoạt tài khoản nạp tiền thành công tăng từ 40% lên 58% sau khi tối ưu lại các bước xác thực danh tính eKYC.\n\nCộng tác viên Truyền thông Sản phẩm tại Cổng Tài Chính Đầu Tư Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng cụ thể)\n- Viết bài giải thích các thuật ngữ tài chính và giới thiệu tính năng tích lũy tiền nhàn rỗi.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R04",
+          "section_id": "MK-J05-C07-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Chiến lược Go-to-Market (GTM) cho ứng dụng công nghệ đầu tư tài chính\n- Nghiên cứu tâm lý nhà đầu tư cá nhân và xác lập thông điệp giá trị (Value Proposition)\n- Đo lường và tối ưu hóa chỉ số phễu eKYC: Activation Rate, CAC, 30-day Retention\n- Chuẩn bị tài liệu đào tạo bán hàng và giải đáp thắc mắc cho đội ngũ tư vấn\n- Tiếng Anh giao tiếp và làm việc với các chuyên gia kỹ thuật",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J05-R01: Cần ngày và phạm vi PMM/Growth của cộng tác viên trước để kiểm tra 4 năm không chồng lấn.",
+        "MK-J05-R03: Chưa mô tả phân tích đối thủ cụ thể.",
+        "MK-J05-R04: Chưa nêu LTV."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Ngưỡng 4 năm mâu thuẫn tóm tắt và niên biểu xác định; có thể đổi mức 2/3."
+      ]
+    },
+    {
+      "job_id": "MK-J05",
+      "candidate_id": "MK-J05-C08",
+      "relevance": 2,
+      "rationale": "Growth có GTM, đồng bộ Product/Sales/CS, hành vi/Value Proposition và tối ưu activation rõ. Vai trò từ 2023-04 khoảng 43 tháng; analyst trước theo dõi funnel/churn liên quan nhưng chưa rõ là Growth Marketing đủ cộng ngưỡng 4 năm. Đối thủ chưa mô tả.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J05-R01",
+          "section_id": "MK-J05-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nQuản lý Tăng trưởng Sản phẩm tại Công ty Cổ phần Sàn Giao Dịch Số FutureFin\nThời gian: Từ 2023-04 đến nay (đang làm việc)\n- Trực tiếp xây dựng chiến lược GTM cho tính năng nạp tiền tự động qua quét mã QR động, phối hợp giữa Product, Sales và CS.\n- Phân tích dữ liệu hành vi người dùng qua Amplitude, nhận thấy 35% người dùng bỏ dở ở bước xác minh danh tính; thiết kế lại giao diện hướng dẫn giúp tỷ lệ Activation Rate tăng thêm 14%.\n- Thực hiện kiểm thử A/B cho thông điệp Value Proposition trên trang tải app, giúp tỷ lệ chuyển đổi từ lượt xem sang lượt tải tăng 22%.\n- Làm việc trực tiếp với Giám đốc Sản phẩm người Đức trong việc lên kế hoạch tính năng hàng quý bằng tiếng Anh.\n\nChuyên viên Phân tích Sản phẩm Số tại Công ty TNHH Giải Pháp Công Nghệ Số Nam Việt\nThời gian: Từ 2021-10 đến 2023-03\n- Thiết lập các phễu theo dõi lượt đăng ký và phân tích tỷ lệ khách hàng rời bỏ (Churn Rate).",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R02",
+          "section_id": "MK-J05-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nQuản lý Tăng trưởng Sản phẩm tại Công ty Cổ phần Sàn Giao Dịch Số FutureFin\nThời gian: Từ 2023-04 đến nay (đang làm việc)\n- Trực tiếp xây dựng chiến lược GTM cho tính năng nạp tiền tự động qua quét mã QR động, phối hợp giữa Product, Sales và CS.\n- Phân tích dữ liệu hành vi người dùng qua Amplitude, nhận thấy 35% người dùng bỏ dở ở bước xác minh danh tính; thiết kế lại giao diện hướng dẫn giúp tỷ lệ Activation Rate tăng thêm 14%.\n- Thực hiện kiểm thử A/B cho thông điệp Value Proposition trên trang tải app, giúp tỷ lệ chuyển đổi từ lượt xem sang lượt tải tăng 22%.\n- Làm việc trực tiếp với Giám đốc Sản phẩm người Đức trong việc lên kế hoạch tính năng hàng quý bằng tiếng Anh.\n\nChuyên viên Phân tích Sản phẩm Số tại Công ty TNHH Giải Pháp Công Nghệ Số Nam Việt\nThời gian: Từ 2021-10 đến 2023-03\n- Thiết lập các phễu theo dõi lượt đăng ký và phân tích tỷ lệ khách hàng rời bỏ (Churn Rate).",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J05-R03",
+          "section_id": "MK-J05-C08-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nQuản lý Tăng trưởng Sản phẩm tại Công ty Cổ phần Sàn Giao Dịch Số FutureFin\nThời gian: Từ 2023-04 đến nay (đang làm việc)\n- Trực tiếp xây dựng chiến lược GTM cho tính năng nạp tiền tự động qua quét mã QR động, phối hợp giữa Product, Sales và CS.\n- Phân tích dữ liệu hành vi người dùng qua Amplitude, nhận thấy 35% người dùng bỏ dở ở bước xác minh danh tính; thiết kế lại giao diện hướng dẫn giúp tỷ lệ Activation Rate tăng thêm 14%.\n- Thực hiện kiểm thử A/B cho thông điệp Value Proposition trên trang tải app, giúp tỷ lệ chuyển đổi từ lượt xem sang lượt tải tăng 22%.\n- Làm việc trực tiếp với Giám đốc Sản phẩm người Đức trong việc lên kế hoạch tính năng hàng quý bằng tiếng Anh.\n\nChuyên viên Phân tích Sản phẩm Số tại Công ty TNHH Giải Pháp Công Nghệ Số Nam Việt\nThời gian: Từ 2021-10 đến 2023-03\n- Thiết lập các phễu theo dõi lượt đăng ký và phân tích tỷ lệ khách hàng rời bỏ (Churn Rate).",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J05-R04",
+          "section_id": "MK-J05-C08-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Hoạch định chiến lược Go-to-Market (GTM) cho các tính năng giao dịch tài chính số\n- Nghiên cứu hành vi người dùng bằng công cụ phân tích sự kiện Mixpanel, Amplitude\n- Định hình thông điệp giá trị (Value Proposition) và kiểm thử A/B trang đích\n- Tối ưu hóa các chỉ số phễu: CAC, LTV, Activation Rate, 90-day Retention Rate\n- Đồng bộ luồng vận hành sản phẩm giữa đội ngũ Product, Growth, Sales và CS\n- Tiếng Anh công nghệ lưu loát",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "MK-J05-R01: Cần xác minh phạm vi Growth Marketing ở analyst 2021-10 tới 2023-03; không cộng toàn bộ product analytics mặc định.",
+        "MK-J05-R03: Chưa có nghiên cứu thị trường/đối thủ cụ thể."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Thâm niên đúng nhiệm vụ marketing chưa rõ có thể đổi mức 2/3."
+      ]
+    }
+  ]
+}

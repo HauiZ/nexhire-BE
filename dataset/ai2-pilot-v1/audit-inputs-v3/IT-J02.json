@@ -1,0 +1,894 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "IT-J02",
+      "source_family_id": "IT-J02",
+      "domain": "it",
+      "title": "Kỹ sư Lập trình Frontend (React/Next.js)",
+      "level": "senior",
+      "language": "vi",
+      "jd_text": "Công ty Cổ phần Giải pháp Công nghệ Trực tuyến AlphaTech tuyển dụng Kỹ sư Lập trình Frontend (React/Next.js) cấp độ Senior tại Quận 1, TP. Hồ Chí Minh. Chế độ làm việc: Toàn thời gian trực tiếp tại văn phòng từ thứ Hai đến thứ Sáu, hỗ trợ thiết bị làm việc Macbook Pro M3 và gói phụ cấp đào tạo chứng chỉ quốc tế 20 triệu VND/năm.\n\nTrách nhiệm công việc:\n- Dẫn dắt kỹ thuật và xây dựng kiến trúc frontend cho hệ thống sàn giao dịch thương mại điện tử phục vụ hàng triệu người dùng.\n- Phối hợp với UI/UX Designer xây dựng hệ thống Design System tiêu chuẩn và nhất quán trên toàn bộ sản phẩm.\n- Tối ưu hóa hiệu năng tải trang, các chỉ số Web Vitals và khả năng SEO của hệ thống bằng Next.js.\n- Tổ chức review mã nguồn, hướng dẫn các lập trình viên junior và mid trong đội ngũ.\n\nYêu cầu bắt buộc:\n- Ít nhất 5 năm kinh nghiệm lập trình web frontend chuyên sâu với JavaScript/TypeScript.\n- Tối thiểu 3 năm kinh nghiệm thực chiến với React.js và Next.js trong các dự án quy mô lớn.\n- Thành thạo quản lý state phức tạp (Redux Toolkit, Zustand hoặc React Query) và tối ưu hóa hiệu năng render, Web Vitals.\n- Kỹ năng dẫn dắt kỹ thuật, review code và phân chia công việc cho thành viên trong nhóm.\n\nYêu cầu ưu tiên:\n- Kinh nghiệm thiết kế kiến trúc Component Library hoặc Design System dùng chung.\n- Kinh nghiệm viết kiểm thử tự động với Jest, React Testing Library hoặc Cypress.",
+      "requirements": [
+        {
+          "requirement_id": "IT-J02-R01",
+          "text": "Ít nhất 5 năm kinh nghiệm lập trình web frontend chuyên sâu với JavaScript/TypeScript.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J02-R02",
+          "text": "Tối thiểu 3 năm kinh nghiệm thực chiến với React.js và Next.js trong các dự án quy mô lớn.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J02-R03",
+          "text": "Thành thạo quản lý state phức tạp (Redux Toolkit, Zustand hoặc React Query) và tối ưu hóa hiệu năng render, Web Vitals.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J02-R04",
+          "text": "Kinh nghiệm thiết kế kiến trúc Component Library hoặc Design System dùng chung.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J02-R05",
+          "text": "Kinh nghiệm viết kiểm thử tự động với Jest, React Testing Library hoặc Cypress.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J02-R06",
+          "text": "Kỹ năng dẫn dắt kỹ thuật, review code và phân chia công việc cho thành viên trong nhóm.",
+          "importance": "required"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "IT-J02-C01",
+          "cv_text": "Tóm lược năng lực: Kỹ sư Trưởng Frontend (Lead Frontend Engineer) với 6 năm kinh nghiệm chuyên sâu trong xây dựng các ứng dụng web quy mô lớn bằng TypeScript, React.js và Next.js. Có kinh nghiệm dẫn dắt đội ngũ 6 lập trình viên, xây dựng Component Library dùng chung toàn doanh nghiệp và tối ưu hóa triệt để Web Vitals.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript (ES6+), HTML5, CSS3, SCSS.\n- Framework & Thư viện: React.js, Next.js (SSR, SSG, ISR), Redux Toolkit, Zustand, React Query.\n- Kiến trúc UI & Testing: Design System, Tailwind CSS, Storybook, Jest, React Testing Library, Cypress.\n- Quy trình & Quản lý: Agile/Scrum, Git, CI/CD, Tech Lead, Code Review.\n\nKinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ thuật Frontend (Frontend Tech Lead) tại Công ty Cổ phần Công nghệ Bán lẻ Á Châu. Thời gian: từ 2023-01 đến nay. Mô tả: Dẫn dắt đội ngũ kỹ thuật gồm 6 kỹ sư frontend phát triển sàn thương mại đa quốc gia. Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query. Thiết kế và phát hành Design System nội bộ gồm 45 component tái sử dụng trên Storybook. Phụ trách review code hàng ngày, phân chia công việc theo sprint và tối ưu điểm số Core Web Vitals đạt trên 90 điểm trên cả thiết bị di động và máy tính.\n- Chức danh: Kỹ sư Lập trình Frontend Cấp cao tại Công ty TNHH Phần mềm Mặt Trời Mới. Thời gian: từ 2020-10 đến 2022-12. Mô tả: Phát triển cổng thông tin du lịch và đặt vé máy bay trực tuyến sử dụng React.js, Next.js và Zustand. Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn.\n\nDự án tiêu biểu:\n- Dự án Hệ sinh thái Thương mại S-Mall: Đảm nhiệm vai trò kiến trúc sư frontend, xây dựng hệ thống SSR bằng Next.js và Design System dùng chung. Ứng dụng Jest và Cypress để đảm bảo chất lượng phát hành.\n\nHọc vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Meta Front-End Developer Specialization.",
+          "sections": [
+            {
+              "section_id": "IT-J02-C01-S01",
+              "kind": "summary",
+              "text": "Tóm lược năng lực: Kỹ sư Trưởng Frontend (Lead Frontend Engineer) với 6 năm kinh nghiệm chuyên sâu trong xây dựng các ứng dụng web quy mô lớn bằng TypeScript, React.js và Next.js. Có kinh nghiệm dẫn dắt đội ngũ 6 lập trình viên, xây dựng Component Library dùng chung toàn doanh nghiệp và tối ưu hóa triệt để Web Vitals."
+            },
+            {
+              "section_id": "IT-J02-C01-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript (ES6+), HTML5, CSS3, SCSS.\n- Framework & Thư viện: React.js, Next.js (SSR, SSG, ISR), Redux Toolkit, Zustand, React Query.\n- Kiến trúc UI & Testing: Design System, Tailwind CSS, Storybook, Jest, React Testing Library, Cypress.\n- Quy trình & Quản lý: Agile/Scrum, Git, CI/CD, Tech Lead, Code Review."
+            },
+            {
+              "section_id": "IT-J02-C01-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ thuật Frontend (Frontend Tech Lead) tại Công ty Cổ phần Công nghệ Bán lẻ Á Châu. Thời gian: từ 2023-01 đến nay. Mô tả: Dẫn dắt đội ngũ kỹ thuật gồm 6 kỹ sư frontend phát triển sàn thương mại đa quốc gia. Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query. Thiết kế và phát hành Design System nội bộ gồm 45 component tái sử dụng trên Storybook. Phụ trách review code hàng ngày, phân chia công việc theo sprint và tối ưu điểm số Core Web Vitals đạt trên 90 điểm trên cả thiết bị di động và máy tính.\n- Chức danh: Kỹ sư Lập trình Frontend Cấp cao tại Công ty TNHH Phần mềm Mặt Trời Mới. Thời gian: từ 2020-10 đến 2022-12. Mô tả: Phát triển cổng thông tin du lịch và đặt vé máy bay trực tuyến sử dụng React.js, Next.js và Zustand. Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn."
+            },
+            {
+              "section_id": "IT-J02-C01-S04",
+              "kind": "project",
+              "text": "Dự án tiêu biểu:\n- Dự án Hệ sinh thái Thương mại S-Mall: Đảm nhiệm vai trò kiến trúc sư frontend, xây dựng hệ thống SSR bằng Next.js và Design System dùng chung. Ứng dụng Jest và Cypress để đảm bảo chất lượng phát hành."
+            },
+            {
+              "section_id": "IT-J02-C01-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J02-C01-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Meta Front-End Developer Specialization."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "HTML5",
+            "CSS3",
+            "SCSS",
+            "React.js",
+            "Next.js",
+            "Redux Toolkit",
+            "Zustand",
+            "React Query",
+            "Design System",
+            "Tailwind CSS",
+            "Storybook",
+            "Jest",
+            "React Testing Library",
+            "Cypress",
+            "Git",
+            "CI/CD"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J02-C01-E01",
+              "title": "Trưởng nhóm Kỹ thuật Frontend (Frontend Tech Lead)",
+              "company": "Công ty Cổ phần Công nghệ Bán lẻ Á Châu",
+              "start_date": "2023-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Dẫn dắt đội ngũ kỹ thuật gồm 6 kỹ sư frontend phát triển sàn thương mại đa quốc gia. Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query. Thiết kế và phát hành Design System nội bộ gồm 45 component tái sử dụng trên Storybook. Phụ trách review code hàng ngày, phân chia công việc theo sprint và tối ưu điểm số Core Web Vitals đạt trên 90 điểm trên cả thiết bị di động và máy tính.",
+              "skills_used": [
+                "Next.js",
+                "Redux Toolkit",
+                "React Query",
+                "Storybook"
+              ],
+              "section_id": "IT-J02-C01-S03"
+            },
+            {
+              "experience_id": "IT-J02-C01-E02",
+              "title": "Kỹ sư Lập trình Frontend Cấp cao",
+              "company": "Công ty TNHH Phần mềm Mặt Trời Mới",
+              "start_date": "2020-10",
+              "end_date": "2022-12",
+              "is_current": false,
+              "description": "Phát triển cổng thông tin du lịch và đặt vé máy bay trực tuyến sử dụng React.js, Next.js và Zustand. Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn.",
+              "skills_used": [
+                "React.js",
+                "Next.js",
+                "Zustand",
+                "Jest",
+                "Cypress"
+              ],
+              "section_id": "IT-J02-C01-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J02-C01-P01",
+              "name": "Hệ sinh thái Thương mại S-Mall",
+              "description": "Đảm nhiệm vai trò kiến trúc sư frontend, xây dựng hệ thống SSR bằng Next.js và Design System dùng chung. Ứng dụng Jest và Cypress để đảm bảo chất lượng phát hành.",
+              "technologies_or_methods": [
+                "Next.js",
+                "Design System",
+                "Jest",
+                "Cypress"
+              ],
+              "section_id": "IT-J02-C01-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J02-C01-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Meta Front-End Developer Specialization",
+              "section_id": "IT-J02-C01-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J02-C02",
+          "cv_text": "Tóm tắt: Senior Frontend Developer với 5 năm 2 tháng kinh nghiệm làm việc cùng JavaScript và TypeScript. Có 3 năm 6 tháng chuyên trách xây dựng ứng dụng với React.js và Next.js. Thế mạnh về quản lý state với Zustand và React Query, phân tích tối ưu hiệu năng trang Web Vitals và hướng dẫn đồng nghiệp mới.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: TypeScript, JavaScript, HTML/CSS.\n- Thư viện & Framework: React.js, Next.js, Zustand, React Query, Redux Toolkit.\n- Công cụ & Thử nghiệm: Cypress, Jest, Webpack, Vite, Git, Tailwind CSS.\n- Kỹ năng mềm: Review code, hướng dẫn thành viên mới, phân rã công việc kỹ thuật.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Giải pháp Tài chính Số FinPro. Thời gian: từ 2023-03 đến nay. Mô tả: Phát triển nền tảng bảng điều khiển quản trị tài chính doanh nghiệp với Next.js và TypeScript. Quản lý trạng thái bất đồng bộ bằng React Query và lưu trữ cục bộ với Zustand. Tối ưu hóa tải trang, giảm LCP từ 3.2s xuống 1.4s. Thực hiện review code cho 4 thành viên mid/junior trong đội.\n- Chức danh: Frontend Developer tại Công ty TNHH Giải pháp Mạng Việt Nam. Thời gian: từ 2021-09 đến 2023-02. Mô tả: Xây dựng giao diện ứng dụng web chăm sóc khách hàng bằng React.js và Redux Toolkit. Viết end-to-end test bằng Cypress.\n\nDự án:\n- Dự án Nền tảng Tài chính Doanh nghiệp FinPro Dashboard: Ứng dụng Next.js SSR và TypeScript, kết hợp Zustand và React Query để xử lý dữ liệu biểu đồ thời gian thực. Tối ưu hóa Web Vitals toàn diện.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J02-C02-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Senior Frontend Developer với 5 năm 2 tháng kinh nghiệm làm việc cùng JavaScript và TypeScript. Có 3 năm 6 tháng chuyên trách xây dựng ứng dụng với React.js và Next.js. Thế mạnh về quản lý state với Zustand và React Query, phân tích tối ưu hiệu năng trang Web Vitals và hướng dẫn đồng nghiệp mới."
+            },
+            {
+              "section_id": "IT-J02-C02-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: TypeScript, JavaScript, HTML/CSS.\n- Thư viện & Framework: React.js, Next.js, Zustand, React Query, Redux Toolkit.\n- Công cụ & Thử nghiệm: Cypress, Jest, Webpack, Vite, Git, Tailwind CSS.\n- Kỹ năng mềm: Review code, hướng dẫn thành viên mới, phân rã công việc kỹ thuật."
+            },
+            {
+              "section_id": "IT-J02-C02-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Giải pháp Tài chính Số FinPro. Thời gian: từ 2023-03 đến nay. Mô tả: Phát triển nền tảng bảng điều khiển quản trị tài chính doanh nghiệp với Next.js và TypeScript. Quản lý trạng thái bất đồng bộ bằng React Query và lưu trữ cục bộ với Zustand. Tối ưu hóa tải trang, giảm LCP từ 3.2s xuống 1.4s. Thực hiện review code cho 4 thành viên mid/junior trong đội.\n- Chức danh: Frontend Developer tại Công ty TNHH Giải pháp Mạng Việt Nam. Thời gian: từ 2021-09 đến 2023-02. Mô tả: Xây dựng giao diện ứng dụng web chăm sóc khách hàng bằng React.js và Redux Toolkit. Viết end-to-end test bằng Cypress."
+            },
+            {
+              "section_id": "IT-J02-C02-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Nền tảng Tài chính Doanh nghiệp FinPro Dashboard: Ứng dụng Next.js SSR và TypeScript, kết hợp Zustand và React Query để xử lý dữ liệu biểu đồ thời gian thực. Tối ưu hóa Web Vitals toàn diện."
+            },
+            {
+              "section_id": "IT-J02-C02-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J02-C02-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "HTML/CSS",
+            "React.js",
+            "Next.js",
+            "Zustand",
+            "React Query",
+            "Redux Toolkit",
+            "Cypress",
+            "Jest",
+            "Webpack",
+            "Vite",
+            "Git",
+            "Tailwind CSS"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J02-C02-E01",
+              "title": "Senior Frontend Developer",
+              "company": "Công ty Cổ phần Giải pháp Tài chính Số FinPro",
+              "start_date": "2023-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển nền tảng bảng điều khiển quản trị tài chính doanh nghiệp với Next.js và TypeScript. Quản lý trạng thái bất đồng bộ bằng React Query và lưu trữ cục bộ với Zustand. Tối ưu hóa tải trang, giảm LCP từ 3.2s xuống 1.4s. Thực hiện review code cho 4 thành viên mid/junior trong đội.",
+              "skills_used": [
+                "Next.js",
+                "TypeScript",
+                "React Query",
+                "Zustand"
+              ],
+              "section_id": "IT-J02-C02-S03"
+            },
+            {
+              "experience_id": "IT-J02-C02-E02",
+              "title": "Frontend Developer",
+              "company": "Công ty TNHH Giải pháp Mạng Việt Nam",
+              "start_date": "2021-09",
+              "end_date": "2023-02",
+              "is_current": false,
+              "description": "Xây dựng giao diện ứng dụng web chăm sóc khách hàng bằng React.js và Redux Toolkit. Viết end-to-end test bằng Cypress.",
+              "skills_used": [
+                "React.js",
+                "Redux Toolkit",
+                "Cypress"
+              ],
+              "section_id": "IT-J02-C02-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J02-C02-P01",
+              "name": "Nền tảng Tài chính Doanh nghiệp FinPro Dashboard",
+              "description": "Ứng dụng Next.js SSR và TypeScript, kết hợp Zustand và React Query để xử lý dữ liệu biểu đồ thời gian thực. Tối ưu hóa Web Vitals toàn diện.",
+              "technologies_or_methods": [
+                "Next.js",
+                "TypeScript",
+                "Zustand",
+                "React Query"
+              ],
+              "section_id": "IT-J02-C02-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Phần mềm",
+              "section_id": "IT-J02-C02-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J02-C03",
+          "cv_text": "Tóm tắt: Lập trình viên Frontend có 3 năm kinh nghiệm lập trình giao diện người dùng với TypeScript và React.js. Đã từng tham gia 1 dự án triển khai Next.js trong 10 tháng qua. Quản lý trạng thái bằng Redux Toolkit và viết unit test cơ bản với Jest.\n\nKỹ năng:\n- Ngôn ngữ: TypeScript, JavaScript, CSS3, HTML5.\n- Framework & Thư viện: React.js, Next.js, Redux Toolkit, Tailwind CSS.\n- Công cụ: Jest, Git, Figma, Webpack.\n\nKinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty TNHH Phần mềm Đất Việt. Thời gian: từ 2024-01 đến nay. Mô tả: Phát triển giao diện sàn thương mại điện tử bằng Next.js và TypeScript. Sử dụng Redux Toolkit để quản lý giỏ hàng và dữ liệu tài khoản người dùng. Viết test case bằng Jest cho các hàm tiện ích và reducer.\n- Chức danh: Junior Frontend Developer tại Công ty Cổ phần Công nghệ An Nam. Thời gian: từ 2023-03 đến 2023-12. Mô tả: Lập trình các trang giới thiệu và bảng khảo sát trực tuyến bằng React.js và CSS3.\n\nDự án:\n- Dự án Website Bán Hàng Điện Tử ElectroHub: Xây dựng các trang danh mục sản phẩm và thanh toán bằng Next.js, React.js và Redux Toolkit.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Công nghiệp Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J02-C03-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Lập trình viên Frontend có 3 năm kinh nghiệm lập trình giao diện người dùng với TypeScript và React.js. Đã từng tham gia 1 dự án triển khai Next.js trong 10 tháng qua. Quản lý trạng thái bằng Redux Toolkit và viết unit test cơ bản với Jest."
+            },
+            {
+              "section_id": "IT-J02-C03-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: TypeScript, JavaScript, CSS3, HTML5.\n- Framework & Thư viện: React.js, Next.js, Redux Toolkit, Tailwind CSS.\n- Công cụ: Jest, Git, Figma, Webpack."
+            },
+            {
+              "section_id": "IT-J02-C03-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty TNHH Phần mềm Đất Việt. Thời gian: từ 2024-01 đến nay. Mô tả: Phát triển giao diện sàn thương mại điện tử bằng Next.js và TypeScript. Sử dụng Redux Toolkit để quản lý giỏ hàng và dữ liệu tài khoản người dùng. Viết test case bằng Jest cho các hàm tiện ích và reducer.\n- Chức danh: Junior Frontend Developer tại Công ty Cổ phần Công nghệ An Nam. Thời gian: từ 2023-03 đến 2023-12. Mô tả: Lập trình các trang giới thiệu và bảng khảo sát trực tuyến bằng React.js và CSS3."
+            },
+            {
+              "section_id": "IT-J02-C03-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Website Bán Hàng Điện Tử ElectroHub: Xây dựng các trang danh mục sản phẩm và thanh toán bằng Next.js, React.js và Redux Toolkit."
+            },
+            {
+              "section_id": "IT-J02-C03-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Công nghiệp Hà Nội."
+            },
+            {
+              "section_id": "IT-J02-C03-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "CSS3",
+            "HTML5",
+            "React.js",
+            "Next.js",
+            "Redux Toolkit",
+            "Tailwind CSS",
+            "Jest",
+            "Git",
+            "Figma",
+            "Webpack"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J02-C03-E01",
+              "title": "Frontend Developer",
+              "company": "Công ty TNHH Phần mềm Đất Việt",
+              "start_date": "2024-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển giao diện sàn thương mại điện tử bằng Next.js và TypeScript. Sử dụng Redux Toolkit để quản lý giỏ hàng và dữ liệu tài khoản người dùng. Viết test case bằng Jest cho các hàm tiện ích và reducer.",
+              "skills_used": [
+                "Next.js",
+                "TypeScript",
+                "Redux Toolkit",
+                "Jest"
+              ],
+              "section_id": "IT-J02-C03-S03"
+            },
+            {
+              "experience_id": "IT-J02-C03-E02",
+              "title": "Junior Frontend Developer",
+              "company": "Công ty Cổ phần Công nghệ An Nam",
+              "start_date": "2023-03",
+              "end_date": "2023-12",
+              "is_current": false,
+              "description": "Lập trình các trang giới thiệu và bảng khảo sát trực tuyến bằng React.js và CSS3.",
+              "skills_used": [
+                "React.js",
+                "CSS3"
+              ],
+              "section_id": "IT-J02-C03-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J02-C03-P01",
+              "name": "Website Bán Hàng Điện Tử ElectroHub",
+              "description": "Xây dựng các trang danh mục sản phẩm và thanh toán bằng Next.js, React.js và Redux Toolkit.",
+              "technologies_or_methods": [
+                "Next.js",
+                "React.js",
+                "Redux Toolkit"
+              ],
+              "section_id": "IT-J02-C03-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J02-C03-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J02-C04",
+          "cv_text": "Tóm tắt: Senior Fullstack Engineer có hơn 6 năm kinh nghiệm phát triển phần mềm doanh nghiệp với C# .NET và nền tảng frontend Angular, React.js. Từng phụ trách vị trí nhóm trưởng phụ trách 3 lập trình viên trong 2 năm qua. Nắm chắc quy trình review code và phân chia công việc kỹ thuật.\n\nKỹ năng chính:\n- Ngôn ngữ: C#, TypeScript, JavaScript, SQL.\n- Frontend: Angular, React.js, Redux, HTML5, Bootstrap.\n- Backend: ASP.NET Core, Entity Framework, SQL Server.\n- Quản lý & Công cụ: Git, Azure DevOps, Scrum, Code Review.\n\nKinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Phát triển Phần mềm (Fullstack Team Leader) tại Công ty Cổ phần Giải pháp Doanh nghiệp Tân Tiến. Thời gian: từ 2022-06 đến nay. Mô tả: Dẫn dắt nhóm 3 kỹ sư phát triển phần mềm ERP doanh nghiệp. Thiết kế kiến trúc phân hệ người dùng bằng React.js và Angular, phối hợp backend ASP.NET Core. Phân bổ công việc theo sprint, review mã nguồn và kiểm soát chất lượng kỹ thuật.\n- Chức danh: Kỹ sư Phần mềm tại Công ty TNHH Dịch vụ Công nghệ Quang Minh. Thời gian: từ 2020-04 đến 2022-05. Mô tả: Xây dựng hệ thống quản lý nhân sự bằng Angular và .NET Core.\n\nDự án:\n- Dự án Hệ thống ERP Quản trị Sản xuất ERP-Pro: Thiết kế giao diện báo cáo và vận hành kho bằng React.js và Angular, kết nối hệ thống microservices .NET.\n\nHọc vấn:\n- Kỹ sư Khoa học Máy tính, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Microsoft Certified: Azure Developer Associate.",
+          "sections": [
+            {
+              "section_id": "IT-J02-C04-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Senior Fullstack Engineer có hơn 6 năm kinh nghiệm phát triển phần mềm doanh nghiệp với C# .NET và nền tảng frontend Angular, React.js. Từng phụ trách vị trí nhóm trưởng phụ trách 3 lập trình viên trong 2 năm qua. Nắm chắc quy trình review code và phân chia công việc kỹ thuật."
+            },
+            {
+              "section_id": "IT-J02-C04-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chính:\n- Ngôn ngữ: C#, TypeScript, JavaScript, SQL.\n- Frontend: Angular, React.js, Redux, HTML5, Bootstrap.\n- Backend: ASP.NET Core, Entity Framework, SQL Server.\n- Quản lý & Công cụ: Git, Azure DevOps, Scrum, Code Review."
+            },
+            {
+              "section_id": "IT-J02-C04-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Phát triển Phần mềm (Fullstack Team Leader) tại Công ty Cổ phần Giải pháp Doanh nghiệp Tân Tiến. Thời gian: từ 2022-06 đến nay. Mô tả: Dẫn dắt nhóm 3 kỹ sư phát triển phần mềm ERP doanh nghiệp. Thiết kế kiến trúc phân hệ người dùng bằng React.js và Angular, phối hợp backend ASP.NET Core. Phân bổ công việc theo sprint, review mã nguồn và kiểm soát chất lượng kỹ thuật.\n- Chức danh: Kỹ sư Phần mềm tại Công ty TNHH Dịch vụ Công nghệ Quang Minh. Thời gian: từ 2020-04 đến 2022-05. Mô tả: Xây dựng hệ thống quản lý nhân sự bằng Angular và .NET Core."
+            },
+            {
+              "section_id": "IT-J02-C04-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống ERP Quản trị Sản xuất ERP-Pro: Thiết kế giao diện báo cáo và vận hành kho bằng React.js và Angular, kết nối hệ thống microservices .NET."
+            },
+            {
+              "section_id": "IT-J02-C04-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Khoa học Máy tính, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J02-C04-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Microsoft Certified: Azure Developer Associate."
+            }
+          ],
+          "skills": [
+            "C#",
+            "TypeScript",
+            "JavaScript",
+            "SQL",
+            "Angular",
+            "React.js",
+            "Redux",
+            "HTML5",
+            "Bootstrap",
+            "ASP.NET Core",
+            "Entity Framework",
+            "SQL Server",
+            "Git",
+            "Azure DevOps"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J02-C04-E01",
+              "title": "Trưởng nhóm Phát triển Phần mềm (Fullstack Team Leader)",
+              "company": "Công ty Cổ phần Giải pháp Doanh nghiệp Tân Tiến",
+              "start_date": "2022-06",
+              "end_date": null,
+              "is_current": true,
+              "description": "Dẫn dắt nhóm 3 kỹ sư phát triển phần mềm ERP doanh nghiệp. Thiết kế kiến trúc phân hệ người dùng bằng React.js và Angular, phối hợp backend ASP.NET Core. Phân bổ công việc theo sprint, review mã nguồn và kiểm soát chất lượng kỹ thuật.",
+              "skills_used": [
+                "React.js",
+                "Angular",
+                "ASP.NET Core"
+              ],
+              "section_id": "IT-J02-C04-S03"
+            },
+            {
+              "experience_id": "IT-J02-C04-E02",
+              "title": "Kỹ sư Phần mềm",
+              "company": "Công ty TNHH Dịch vụ Công nghệ Quang Minh",
+              "start_date": "2020-04",
+              "end_date": "2022-05",
+              "is_current": false,
+              "description": "Xây dựng hệ thống quản lý nhân sự bằng Angular và .NET Core.",
+              "skills_used": [
+                "Angular"
+              ],
+              "section_id": "IT-J02-C04-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J02-C04-P01",
+              "name": "Hệ thống ERP Quản trị Sản xuất ERP-Pro",
+              "description": "Thiết kế giao diện báo cáo và vận hành kho bằng React.js và Angular, kết nối hệ thống microservices .NET.",
+              "technologies_or_methods": [
+                "React.js",
+                "Angular",
+                ".NET"
+              ],
+              "section_id": "IT-J02-C04-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Khoa học Máy tính",
+              "section_id": "IT-J02-C04-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Microsoft Certified: Azure Developer Associate",
+              "section_id": "IT-J02-C04-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J02-C05",
+          "cv_text": "Tóm lược: Kỹ sư Frontend Senior có 5 năm 6 tháng kinh nghiệm chuyên biệt với React.js (Single Page Application), TypeScript và Redux Toolkit. Có kinh nghiệm tối ưu hóa hiệu năng render, quản lý bộ nhớ trình duyệt, viết kiểm thử tự động với Jest và React Testing Library. Từng phụ trách kỹ thuật và hướng dẫn 4 lập trình viên trong nhóm.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: TypeScript, JavaScript, HTML5, CSS3, SCSS.\n- Framework & Thư viện: React.js, Redux, Redux Toolkit, Webpack, Vite.\n- Testing & Tối ưu: Jest, React Testing Library, Web Vitals, Chrome DevTools Profiler.\n- Quy trình: Git, Scrum, Hướng dẫn kỹ thuật và Review code.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Frontend Engineer tại Công ty Cổ phần Công nghệ Truyền thông VinaNet. Thời gian: từ 2022-01 đến nay. Mô tả: Thiết kế kiến trúc SPA cho nền tảng mạng xã hội và phân phối nội dung video bằng React.js và TypeScript. Quản lý trạng thái bằng Redux Toolkit. Tối ưu hóa chu kỳ re-render component, cải thiện chỉ số INP và LCP. Trực tiếp hướng dẫn và review code cho 4 kỹ sư trong nhóm.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Hiện Đại. Thời gian: từ 2021-03 đến 2021-12. Mô tả: Xây dựng giao diện ứng dụng quản lý quan hệ khách hàng bằng React.js và Redux. Viết unit test với Jest và React Testing Library.\n\nDự án:\n- Dự án Nền tảng Video Trực tuyến VinaVideo: Phát triển giao diện xem video và tương tác trực tiếp với React.js, TypeScript và Redux Toolkit. Thực hiện đo lường và tối ưu Web Vitals.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J02-C05-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Frontend Senior có 5 năm 6 tháng kinh nghiệm chuyên biệt với React.js (Single Page Application), TypeScript và Redux Toolkit. Có kinh nghiệm tối ưu hóa hiệu năng render, quản lý bộ nhớ trình duyệt, viết kiểm thử tự động với Jest và React Testing Library. Từng phụ trách kỹ thuật và hướng dẫn 4 lập trình viên trong nhóm."
+            },
+            {
+              "section_id": "IT-J02-C05-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: TypeScript, JavaScript, HTML5, CSS3, SCSS.\n- Framework & Thư viện: React.js, Redux, Redux Toolkit, Webpack, Vite.\n- Testing & Tối ưu: Jest, React Testing Library, Web Vitals, Chrome DevTools Profiler.\n- Quy trình: Git, Scrum, Hướng dẫn kỹ thuật và Review code."
+            },
+            {
+              "section_id": "IT-J02-C05-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Engineer tại Công ty Cổ phần Công nghệ Truyền thông VinaNet. Thời gian: từ 2022-01 đến nay. Mô tả: Thiết kế kiến trúc SPA cho nền tảng mạng xã hội và phân phối nội dung video bằng React.js và TypeScript. Quản lý trạng thái bằng Redux Toolkit. Tối ưu hóa chu kỳ re-render component, cải thiện chỉ số INP và LCP. Trực tiếp hướng dẫn và review code cho 4 kỹ sư trong nhóm.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Hiện Đại. Thời gian: từ 2021-03 đến 2021-12. Mô tả: Xây dựng giao diện ứng dụng quản lý quan hệ khách hàng bằng React.js và Redux. Viết unit test với Jest và React Testing Library."
+            },
+            {
+              "section_id": "IT-J02-C05-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Nền tảng Video Trực tuyến VinaVideo: Phát triển giao diện xem video và tương tác trực tiếp với React.js, TypeScript và Redux Toolkit. Thực hiện đo lường và tối ưu Web Vitals."
+            },
+            {
+              "section_id": "IT-J02-C05-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J02-C05-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "HTML5",
+            "CSS3",
+            "SCSS",
+            "React.js",
+            "Redux",
+            "Redux Toolkit",
+            "Webpack",
+            "Vite",
+            "Jest",
+            "React Testing Library",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J02-C05-E01",
+              "title": "Senior Frontend Engineer",
+              "company": "Công ty Cổ phần Công nghệ Truyền thông VinaNet",
+              "start_date": "2022-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết kế kiến trúc SPA cho nền tảng mạng xã hội và phân phối nội dung video bằng React.js và TypeScript. Quản lý trạng thái bằng Redux Toolkit. Tối ưu hóa chu kỳ re-render component, cải thiện chỉ số INP và LCP. Trực tiếp hướng dẫn và review code cho 4 kỹ sư trong nhóm.",
+              "skills_used": [
+                "React.js",
+                "TypeScript",
+                "Redux Toolkit"
+              ],
+              "section_id": "IT-J02-C05-S03"
+            },
+            {
+              "experience_id": "IT-J02-C05-E02",
+              "title": "Lập trình viên Frontend",
+              "company": "Công ty TNHH Phần mềm Hiện Đại",
+              "start_date": "2021-03",
+              "end_date": "2021-12",
+              "is_current": false,
+              "description": "Xây dựng giao diện ứng dụng quản lý quan hệ khách hàng bằng React.js và Redux. Viết unit test với Jest và React Testing Library.",
+              "skills_used": [
+                "React.js",
+                "Redux",
+                "Jest",
+                "React Testing Library"
+              ],
+              "section_id": "IT-J02-C05-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J02-C05-P01",
+              "name": "Nền tảng Video Trực tuyến VinaVideo",
+              "description": "Phát triển giao diện xem video và tương tác trực tiếp với React.js, TypeScript và Redux Toolkit. Thực hiện đo lường và tối ưu Web Vitals.",
+              "technologies_or_methods": [
+                "React.js",
+                "TypeScript",
+                "Redux Toolkit"
+              ],
+              "section_id": "IT-J02-C05-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J02-C05-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J02-C06",
+          "cv_text": "Tóm lược chuyên môn: Lập trình viên di động và web có hơn 5 năm kinh nghiệm. Khởi đầu với lập trình ứng dụng di động React Native trong 3 năm 6 tháng, sau đó mở rộng sang lập trình web portal với Next.js và React.js trong 1 năm 6 tháng qua. Quản lý trạng thái bằng Zustand.\n\nKỹ năng:\n- Ngôn ngữ: JavaScript, TypeScript, HTML/CSS.\n- Framework & Thư viện: React Native, React.js, Next.js, Zustand, Tailwind CSS.\n- Công cụ: Git, Android Studio, Xcode, Jest.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Mobile & Web tại Công ty Cổ phần Ứng dụng Di động Toàn Cầu. Thời gian: từ 2025-05 đến nay. Mô tả: Phát triển cổng web hỗ trợ khách hàng bằng Next.js và TypeScript, đồng thời duy trì codebase React Native cho ứng dụng di động.\n- Chức danh: Lập trình viên React Native tại Công ty TNHH Phát triển Ứng dụng Thông Minh. Thời gian: từ 2021-11 đến 2025-04. Mô tả: Xây dựng các tính năng ứng dụng di động thương mại điện tử bằng React Native và JavaScript. Quản lý trạng thái ứng dụng bằng Zustand.\n\nDự án:\n- Dự án Ứng dụng & Cổng thông tin Khách hàng SmartService: Xây dựng ứng dụng di động và website giới thiệu sản phẩm bằng React Native và Next.js.\n\nHọc vấn:\n- Kỹ sư Điện tử Viễn thông, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J02-C06-S01",
+              "kind": "summary",
+              "text": "Tóm lược chuyên môn: Lập trình viên di động và web có hơn 5 năm kinh nghiệm. Khởi đầu với lập trình ứng dụng di động React Native trong 3 năm 6 tháng, sau đó mở rộng sang lập trình web portal với Next.js và React.js trong 1 năm 6 tháng qua. Quản lý trạng thái bằng Zustand."
+            },
+            {
+              "section_id": "IT-J02-C06-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: JavaScript, TypeScript, HTML/CSS.\n- Framework & Thư viện: React Native, React.js, Next.js, Zustand, Tailwind CSS.\n- Công cụ: Git, Android Studio, Xcode, Jest."
+            },
+            {
+              "section_id": "IT-J02-C06-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Mobile & Web tại Công ty Cổ phần Ứng dụng Di động Toàn Cầu. Thời gian: từ 2025-05 đến nay. Mô tả: Phát triển cổng web hỗ trợ khách hàng bằng Next.js và TypeScript, đồng thời duy trì codebase React Native cho ứng dụng di động.\n- Chức danh: Lập trình viên React Native tại Công ty TNHH Phát triển Ứng dụng Thông Minh. Thời gian: từ 2021-11 đến 2025-04. Mô tả: Xây dựng các tính năng ứng dụng di động thương mại điện tử bằng React Native và JavaScript. Quản lý trạng thái ứng dụng bằng Zustand."
+            },
+            {
+              "section_id": "IT-J02-C06-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Ứng dụng & Cổng thông tin Khách hàng SmartService: Xây dựng ứng dụng di động và website giới thiệu sản phẩm bằng React Native và Next.js."
+            },
+            {
+              "section_id": "IT-J02-C06-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Điện tử Viễn thông, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J02-C06-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "JavaScript",
+            "TypeScript",
+            "HTML/CSS",
+            "React Native",
+            "React.js",
+            "Next.js",
+            "Zustand",
+            "Tailwind CSS",
+            "Git",
+            "Android Studio",
+            "Xcode",
+            "Jest"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J02-C06-E01",
+              "title": "Lập trình viên Mobile & Web",
+              "company": "Công ty Cổ phần Ứng dụng Di động Toàn Cầu",
+              "start_date": "2025-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển cổng web hỗ trợ khách hàng bằng Next.js và TypeScript, đồng thời duy trì codebase React Native cho ứng dụng di động.",
+              "skills_used": [
+                "Next.js",
+                "TypeScript",
+                "React Native"
+              ],
+              "section_id": "IT-J02-C06-S03"
+            },
+            {
+              "experience_id": "IT-J02-C06-E02",
+              "title": "Lập trình viên React Native",
+              "company": "Công ty TNHH Phát triển Ứng dụng Thông Minh",
+              "start_date": "2021-11",
+              "end_date": "2025-04",
+              "is_current": false,
+              "description": "Xây dựng các tính năng ứng dụng di động thương mại điện tử bằng React Native và JavaScript. Quản lý trạng thái ứng dụng bằng Zustand.",
+              "skills_used": [
+                "React Native",
+                "JavaScript",
+                "Zustand"
+              ],
+              "section_id": "IT-J02-C06-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J02-C06-P01",
+              "name": "Ứng dụng & Cổng thông tin Khách hàng SmartService",
+              "description": "Xây dựng ứng dụng di động và website giới thiệu sản phẩm bằng React Native và Next.js.",
+              "technologies_or_methods": [
+                "React Native",
+                "Next.js"
+              ],
+              "section_id": "IT-J02-C06-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Điện tử Viễn thông",
+              "section_id": "IT-J02-C06-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J02-C07",
+          "cv_text": "Tóm tắt bản thân: Lập trình viên Frontend Cấp cao có 5 năm kinh nghiệm lập trình giao diện với TypeScript, React.js và Next.js. Chuyên môn sâu về phát triển hệ thống Design System và Component Library cho các sản phẩm SaaS. Có kỹ năng review code và hướng dẫn kỹ thuật cho các kỹ sư mới.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, CSS3, HTML5.\n- Framework & Thư viện: React.js, Next.js, Zustand, Tailwind CSS, Storybook.\n- Kiến trúc UI & Testing: Design System, Jest, Cypress.\n- Khác: Git, Figma, Docker cơ bản.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Phần mềm Doanh nghiệp CloudNext. Thời gian: từ 2022-02 đến nay. Mô tả: Xây dựng nền tảng SaaS quản lý dự án sử dụng Next.js và TypeScript. Thiết kế Component Library nội bộ gồm hơn 50 component tuân thủ Design System. Sử dụng Zustand quản lý state cục bộ. Thực hiện review code định kỳ và hỗ trợ phân chia nhiệm vụ cho 3 lập trình viên.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Giải pháp Đồ Họa Số. Thời gian: từ 2021-08 đến 2022-01. Mô tả: Phát triển giao diện web bán vé và sự kiện bằng React.js và Tailwind CSS.\n\nDự án:\n- Dự án Hệ thống SaaS Quản lý Công việc CloudTask: Xây dựng toàn bộ giao diện bằng Next.js, tích hợp Component Library và viết test với Jest và Cypress.\n\nHọc vấn:\n- Thông tin học vấn: Không có văn bằng đại học chính quy ghi nhận trong hồ sơ.\n\nChứng chỉ nghề nghiệp:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J02-C07-S01",
+              "kind": "summary",
+              "text": "Tóm tắt bản thân: Lập trình viên Frontend Cấp cao có 5 năm kinh nghiệm lập trình giao diện với TypeScript, React.js và Next.js. Chuyên môn sâu về phát triển hệ thống Design System và Component Library cho các sản phẩm SaaS. Có kỹ năng review code và hướng dẫn kỹ thuật cho các kỹ sư mới."
+            },
+            {
+              "section_id": "IT-J02-C07-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, CSS3, HTML5.\n- Framework & Thư viện: React.js, Next.js, Zustand, Tailwind CSS, Storybook.\n- Kiến trúc UI & Testing: Design System, Jest, Cypress.\n- Khác: Git, Figma, Docker cơ bản."
+            },
+            {
+              "section_id": "IT-J02-C07-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Frontend Developer tại Công ty Cổ phần Phần mềm Doanh nghiệp CloudNext. Thời gian: từ 2022-02 đến nay. Mô tả: Xây dựng nền tảng SaaS quản lý dự án sử dụng Next.js và TypeScript. Thiết kế Component Library nội bộ gồm hơn 50 component tuân thủ Design System. Sử dụng Zustand quản lý state cục bộ. Thực hiện review code định kỳ và hỗ trợ phân chia nhiệm vụ cho 3 lập trình viên.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Giải pháp Đồ Họa Số. Thời gian: từ 2021-08 đến 2022-01. Mô tả: Phát triển giao diện web bán vé và sự kiện bằng React.js và Tailwind CSS."
+            },
+            {
+              "section_id": "IT-J02-C07-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống SaaS Quản lý Công việc CloudTask: Xây dựng toàn bộ giao diện bằng Next.js, tích hợp Component Library và viết test với Jest và Cypress."
+            },
+            {
+              "section_id": "IT-J02-C07-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Thông tin học vấn: Không có văn bằng đại học chính quy ghi nhận trong hồ sơ."
+            },
+            {
+              "section_id": "IT-J02-C07-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ nghề nghiệp:\n- Không có."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "CSS3",
+            "HTML5",
+            "React.js",
+            "Next.js",
+            "Zustand",
+            "Tailwind CSS",
+            "Storybook",
+            "Design System",
+            "Jest",
+            "Cypress",
+            "Git",
+            "Figma",
+            "Docker"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J02-C07-E01",
+              "title": "Senior Frontend Developer",
+              "company": "Công ty Cổ phần Phần mềm Doanh nghiệp CloudNext",
+              "start_date": "2022-02",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng nền tảng SaaS quản lý dự án sử dụng Next.js và TypeScript. Thiết kế Component Library nội bộ gồm hơn 50 component tuân thủ Design System. Sử dụng Zustand quản lý state cục bộ. Thực hiện review code định kỳ và hỗ trợ phân chia nhiệm vụ cho 3 lập trình viên.",
+              "skills_used": [
+                "Next.js",
+                "TypeScript",
+                "Zustand"
+              ],
+              "section_id": "IT-J02-C07-S03"
+            },
+            {
+              "experience_id": "IT-J02-C07-E02",
+              "title": "Lập trình viên Frontend",
+              "company": "Công ty TNHH Giải pháp Đồ Họa Số",
+              "start_date": "2021-08",
+              "end_date": "2022-01",
+              "is_current": false,
+              "description": "Phát triển giao diện web bán vé và sự kiện bằng React.js và Tailwind CSS.",
+              "skills_used": [
+                "React.js",
+                "Tailwind CSS"
+              ],
+              "section_id": "IT-J02-C07-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J02-C07-P01",
+              "name": "Hệ thống SaaS Quản lý Công việc CloudTask",
+              "description": "Xây dựng toàn bộ giao diện bằng Next.js, tích hợp Component Library và viết test với Jest và Cypress.",
+              "technologies_or_methods": [
+                "Next.js",
+                "Jest",
+                "Cypress"
+              ],
+              "section_id": "IT-J02-C07-S04"
+            }
+          ],
+          "education": [],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J02-C08",
+          "cv_text": "Tóm lược hồ sơ: Lập trình viên Frontend có kinh nghiệm tự do và doanh nghiệp với tổng thời gian làm việc khoảng 4 năm. Sử dụng thành thạo React.js và Next.js để phát triển các trang tin tức và cổng thông tin giới thiệu dịch vụ. Quản lý state bằng Redux Toolkit.\n\nKỹ năng:\n- Ngôn ngữ: JavaScript, TypeScript, HTML, CSS.\n- Framework & Thư viện: React.js, Next.js, Redux Toolkit, Bootstrap.\n- Công cụ: Git, VS Code, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty TNHH Truyền thông Số Lam Sơn. Thời gian: từ 2024-03 đến nay. Mô tả: Xây dựng các module trang web giới thiệu thương hiệu và danh mục sản phẩm sử dụng Next.js và React.js. Kết nối dữ liệu REST API và quản lý state bằng Redux Toolkit.\n- Chức danh: Lập trình viên Giao diện Web Tự do tại Nhóm Freelancer Web Studio. Thời gian: không nêu rõ ngày tháng bắt đầu và kết thúc. Mô tả: Thiết kế và cắt HTML/CSS, lập trình giao diện động bằng React.js cho các website bán hàng quy mô nhỏ.\n\nDự án:\n- Dự án Cổng Tin tức Doanh nghiệp LamSon Portal: Xây dựng website đọc báo nội bộ với Next.js và TypeScript, tối ưu tốc độ tải trang cơ bản.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J02-C08-S01",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ: Lập trình viên Frontend có kinh nghiệm tự do và doanh nghiệp với tổng thời gian làm việc khoảng 4 năm. Sử dụng thành thạo React.js và Next.js để phát triển các trang tin tức và cổng thông tin giới thiệu dịch vụ. Quản lý state bằng Redux Toolkit."
+            },
+            {
+              "section_id": "IT-J02-C08-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: JavaScript, TypeScript, HTML, CSS.\n- Framework & Thư viện: React.js, Next.js, Redux Toolkit, Bootstrap.\n- Công cụ: Git, VS Code, Postman."
+            },
+            {
+              "section_id": "IT-J02-C08-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty TNHH Truyền thông Số Lam Sơn. Thời gian: từ 2024-03 đến nay. Mô tả: Xây dựng các module trang web giới thiệu thương hiệu và danh mục sản phẩm sử dụng Next.js và React.js. Kết nối dữ liệu REST API và quản lý state bằng Redux Toolkit.\n- Chức danh: Lập trình viên Giao diện Web Tự do tại Nhóm Freelancer Web Studio. Thời gian: không nêu rõ ngày tháng bắt đầu và kết thúc. Mô tả: Thiết kế và cắt HTML/CSS, lập trình giao diện động bằng React.js cho các website bán hàng quy mô nhỏ."
+            },
+            {
+              "section_id": "IT-J02-C08-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Cổng Tin tức Doanh nghiệp LamSon Portal: Xây dựng website đọc báo nội bộ với Next.js và TypeScript, tối ưu tốc độ tải trang cơ bản."
+            },
+            {
+              "section_id": "IT-J02-C08-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J02-C08-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "JavaScript",
+            "TypeScript",
+            "HTML",
+            "CSS",
+            "React.js",
+            "Next.js",
+            "Redux Toolkit",
+            "Bootstrap",
+            "Git",
+            "VS Code",
+            "Postman"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J02-C08-E01",
+              "title": "Frontend Developer",
+              "company": "Công ty TNHH Truyền thông Số Lam Sơn",
+              "start_date": "2024-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các module trang web giới thiệu thương hiệu và danh mục sản phẩm sử dụng Next.js và React.js. Kết nối dữ liệu REST API và quản lý state bằng Redux Toolkit.",
+              "skills_used": [
+                "Next.js",
+                "React.js",
+                "Redux Toolkit"
+              ],
+              "section_id": "IT-J02-C08-S03"
+            },
+            {
+              "experience_id": "IT-J02-C08-E02",
+              "title": "Lập trình viên Giao diện Web Tự do",
+              "company": "Nhóm Freelancer Web Studio",
+              "start_date": null,
+              "end_date": null,
+              "is_current": null,
+              "description": "Thiết kế và cắt HTML/CSS, lập trình giao diện động bằng React.js cho các website bán hàng quy mô nhỏ.",
+              "skills_used": [
+                "React.js",
+                "HTML",
+                "CSS"
+              ],
+              "section_id": "IT-J02-C08-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J02-C08-P01",
+              "name": "Cổng Tin tức Doanh nghiệp LamSon Portal",
+              "description": "Xây dựng website đọc báo nội bộ với Next.js và TypeScript, tối ưu tốc độ tải trang cơ bản.",
+              "technologies_or_methods": [
+                "Next.js",
+                "TypeScript"
+              ],
+              "section_id": "IT-J02-C08-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J02-C08-S05"
+            }
+          ],
+          "certifications": []
+        }
+      ]
+    }
+  ]
+}

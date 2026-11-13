@@ -1,0 +1,57 @@
+{
+  "job_id": "IT-J09",
+  "limitations_noted": [
+    "Development pilot scope only; synthetic silver sources with no hiring or generalization claims.",
+    "Synthetic scenario and template reuse across jobs (e.g. IT-J09-C02 shared company name with IT-J07-C07; IT-J09-C07 missing-date freelance pattern) retained under HR-SOURCE-009.",
+    "Summary tenure versus chronological duration variances in C02, C03, and C05 retained under HR-SOURCE-008 and flagged for labeling ambiguity rather than rewritten.",
+    "Candidate C08 mentions ASP.NET Core, React, and SQL Server in QA automation testing context rather than software development; source scope is faithfully retained.",
+    "Selected technologies in descriptions (such as Entity Framework Core in C02-E01 or Vue in C06-P01) are omitted from structured arrays; structured claims remain strict subsets of cited facts."
+  ],
+  "verified_candidate_count": 8,
+  "source_acceptance": "accepted",
+  "resolved_historical_issues": [
+    {
+      "issue_summary": "IT-J09-C02-E01: Unsupported C# in skills_used removed under HR-SOURCE-003.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J09-C04-E01: Unsupported C# in skills_used removed under HR-SOURCE-003.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J09-C07-E02: Unsupported C# in skills_used removed under HR-SOURCE-003.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J09-C07-E02: is_current changed from false to null under HR-SOURCE-005."
+    },
+    {
+      "issue_summary": "IT-J09-C01-E01: .NET 8 release timing during ongoing employment accepted without contradiction.",
+      "disposition": "accepted_limitation"
+    },
+    {
+      "issue_summary": "IT-J09-C02-S01: Summary tenure vs total chronology retained under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J09-C03-S01: Summary tenure vs role chronology retained under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J09-C05-S01: Summary tenure vs current role timeline retained under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "disposition": "accepted_limitation",
+      "issue_summary": "IT-J09-C02: Near-duplicate company and project names with IT-J07-C07 accepted under HR-SOURCE-009."
+    },
+    {
+      "issue_summary": "IT-J09-C07: Recurring unstated-date freelance template pattern accepted under HR-SOURCE-009.",
+      "disposition": "accepted_limitation"
+    }
+  ],
+  "blocking_issues": [],
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

@@ -1,0 +1,401 @@
+{
+  "feature_schema_version": "ai2-features-v1",
+  "feature_extractor_version": "ai2-extractor-v1",
+  "preprocessing_version": "matching-text-v2",
+  "score_reference_date": "2026-11-10",
+  "pairs_evaluated": 160,
+  "feature_count": 46,
+  "provenance_count": 46,
+  "forbidden_feature_overlap": [],
+  "id_school_whitespace_invariance_failures": [],
+  "missingness_ablation_failures": [],
+  "cv_word_count_range": {
+    "min": 183,
+    "max": 526,
+    "mean": 307.22
+  },
+  "features_with_abs_length_corr_ge_0_5": [
+    {
+      "feature": "jd_skill_count",
+      "corr_with_cv_words": -0.5108
+    },
+    {
+      "feature": "preferred_term_coverage_ratio",
+      "corr_with_cv_words": 0.5452
+    },
+    {
+      "feature": "relevant_project_count",
+      "corr_with_cv_words": -0.7091
+    }
+  ],
+  "feature_distributions": {
+    "ai1_available": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "ai1_missing_indicator": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "ai1_status_code": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "corr_with_cv_words": null
+    },
+    "ai1_mean_top1_similarity": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_min_top1_similarity": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_required_mean_top1_similarity": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_required_min_top1_similarity": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_preferred_mean_top1_similarity": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_coverage_ratio_above_ref": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_required_coverage_ratio": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_review_required_ratio": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_negation_cue_count": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_exact_keyword_match_ratio": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "ai1_truncated_texts_count": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "jd_skill_count": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 12.0,
+      "mean": 5.2,
+      "corr_with_cv_words": -0.5108
+    },
+    "declared_skill_coverage_ratio": {
+      "non_null_count": 112,
+      "null_count": 48,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.5421,
+      "corr_with_cv_words": -0.2478
+    },
+    "role_verified_skill_coverage_ratio": {
+      "non_null_count": 112,
+      "null_count": 48,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.4884,
+      "corr_with_cv_words": -0.0588
+    },
+    "required_term_coverage_ratio": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.2306,
+      "max": 0.8889,
+      "mean": 0.5595,
+      "corr_with_cv_words": 0.3951
+    },
+    "preferred_term_coverage_ratio": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 0.9444,
+      "mean": 0.4427,
+      "corr_with_cv_words": 0.5452
+    },
+    "jd_min_years_required": {
+      "non_null_count": 152,
+      "null_count": 8,
+      "min": 1.0,
+      "max": 5.0,
+      "mean": 2.8947,
+      "corr_with_cv_words": 0.1728
+    },
+    "total_verified_experience_months": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 128.0,
+      "mean": 48.3,
+      "corr_with_cv_words": 0.3929
+    },
+    "relevant_experience_months": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 128.0,
+      "mean": 46.2437,
+      "corr_with_cv_words": 0.4012
+    },
+    "relevant_to_required_years_ratio": {
+      "non_null_count": 152,
+      "null_count": 8,
+      "min": 0.0,
+      "max": 6.8333,
+      "mean": 1.5769,
+      "corr_with_cv_words": 0.2026
+    },
+    "relevant_years_gap": {
+      "non_null_count": 152,
+      "null_count": 8,
+      "min": -2.5,
+      "max": 6.4167,
+      "mean": 1.034,
+      "corr_with_cv_words": 0.3647
+    },
+    "relevant_role_title_match_count": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 2.0,
+      "mean": 1.3,
+      "corr_with_cv_words": 0.1415
+    },
+    "unknown_date_experience_count": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.125,
+      "corr_with_cv_words": -0.1154
+    },
+    "unknown_current_status_count": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.0688,
+      "corr_with_cv_words": -0.3184
+    },
+    "has_relevant_experience_with_unknown_dates": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "has_projects": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "relevant_project_count": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.5062,
+      "corr_with_cv_words": -0.7091
+    },
+    "project_skill_coverage_ratio": {
+      "non_null_count": 112,
+      "null_count": 48,
+      "min": 0.0,
+      "max": 0.75,
+      "mean": 0.2286,
+      "corr_with_cv_words": -0.4964
+    },
+    "jd_education_required_level": {
+      "non_null_count": 80,
+      "null_count": 80,
+      "min": 1.0,
+      "max": 3.0,
+      "mean": 2.5,
+      "corr_with_cv_words": 0.0663
+    },
+    "jd_education_importance_code": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 2.0,
+      "mean": 0.6,
+      "corr_with_cv_words": 0.1083
+    },
+    "candidate_max_education_level": {
+      "non_null_count": 154,
+      "null_count": 6,
+      "min": 0.0,
+      "max": 4.0,
+      "mean": 2.9675,
+      "corr_with_cv_words": 0.1433
+    },
+    "meets_jd_education_level": {
+      "non_null_count": 76,
+      "null_count": 84,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "education_field_match": {
+      "non_null_count": 76,
+      "null_count": 84,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "jd_certification_requirement_present": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "jd_certification_matched_count": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 2.0,
+      "mean": 0.1062,
+      "corr_with_cv_words": 0.1131
+    },
+    "candidate_certification_count": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 0.0,
+      "max": 2.0,
+      "mean": 0.3625,
+      "corr_with_cv_words": 0.3926
+    },
+    "jd_is_remote": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "location_match": {
+      "non_null_count": 0,
+      "null_count": 160,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "corr_with_cv_words": null
+    },
+    "location_missing_indicator": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "missing_experiences_section": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "missing_skills_section": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "missing_education_section": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    },
+    "has_any_unknown_dates": {
+      "non_null_count": 160,
+      "null_count": 0,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "corr_with_cv_words": null
+    }
+  }
+}

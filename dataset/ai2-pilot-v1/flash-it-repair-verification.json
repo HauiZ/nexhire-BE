@@ -1,0 +1,322 @@
+{
+  "schema_version": "ai2-pilot-it-repair-verification-v1",
+  "verification_date": "2026-11-12",
+  "scope": "IT domain source repair verification only (IT-J01 through IT-J10); no relevance labels assigned, no source files modified.",
+  "source_acceptance": false,
+  "acceptance_blockers": [
+    "Unauthorized deletion of career-stage context under misapplied HR-SOURCE-002 in IT-J03-C05 (removed 'mới tốt nghiệp' from summary_text_and_cv_text).",
+    "Inconsistent cross-job employer renaming under HR-SOURCE-007: shared names split into distinct fictional identities across jobs ('Nhịp Điệu Mới' -> 'Nhịp Điệu Mới' / 'Nhịp Điệu Trẻ' / 'Nhịp Điệu Số'; 'Thành Đạt' -> 'Thành Đạt' / 'Thành Tín'; 'Công nghệ Mạng Đổi Mới' -> 'Công nghệ Mạng Đổi Mới' / 'Công nghệ Mạng Tân Tiến', with 'Tân Tiến' colliding across 4 candidates including two in IT-J10).",
+    "Unresolved exact cross-job employer duplicates and trademark-resembling organization names remaining in sources/it.json.",
+    "Automated programmatic verification (SHA-256 checks, byte-level diffing, automated join checks, v1-to-v2 artifact audit of 79 descriptions and 15 skill repairs, and cross-domain checks against sales-marketing.json) could not be executed in this read-only verification context."
+  ],
+  "fallback_execution": {
+    "requested_verification_model": "ag/gemini-3.8-flash",
+    "prior_model_failed": "cx/gpt-6.1-sol",
+    "prior_failure_reason": "API Error: Stream idle timeout - no chunks received",
+    "user_approval": "User explicitly approved Flash/Sol fallback, not Astra.",
+    "independence_and_gold_disclaimers": [
+      "This output is an ag/gemini-3.8-flash fallback audit, NOT cx/gpt-6.1-sol review.",
+      "This is NOT independent cross-model verification because the source generator ('ag/gemini-3.8-flash-high') belongs to the Gemini model family.",
+      "This file verifies source repairs only and does NOT produce relevance labels or expert gold."
+    ]
+  },
+  "files_read_and_coverage": {
+    "dataset/ai2-pilot-v1/PROTOCOL.md": "lines 1-32 (100% read)",
+    "dataset/ai2-pilot-v1/human-review-decisions.json": "lines 1-112 (100% read)",
+    "dataset/ai2-pilot-v1/it-final-repair-log.json": "lines 1-107 (100% read)",
+    "dataset/ai2-pilot-v1/it-final-repair-org-map.json": "lines 1-80 (100% read)",
+    "dataset/ai2-pilot-v1/it-final-repair-recovered-diff.json": "lines 1-183 (100% read)",
+    "dataset/ai2-pilot-v1/sources/it.json": "lines 1-8726 in 10 bounded reads (100% read)",
+    "dataset/ai2-pilot-v1/snapshots/it-v2-reconstructed-exact.json": "lines 1-8726 in 10 bounded reads (100% read)"
+  },
+  "execution_distinction": {
+    "semantic_and_manual_inspection_performed": [
+      "Full bounded reading of all 7 target files.",
+      "Manual verification of all 10 jobs, 60 requirements (verbatim presence in jd_text), and 80 candidate structures in sources/it.json.",
+      "Line-by-line semantic and structural audit of all 10 logged changes (28 recovered JSON path diffs) comparing sources/it.json against snapshots/it-v2-reconstructed-exact.json, it-final-repair-log.json, it-final-repair-org-map.json, and human-review-decisions.json.",
+      "Manual verification of section joins, ID patterns, and is_current null usage on unstated-date roles in sources/it.json.",
+      "Manual cross-candidate scan in sources/it.json for shared employer names, trademark-resembling names, negative-list prose, degree wording, and summary-vs-timeline tenure ambiguities."
+    ],
+    "automated_checks_not_executed": [
+      "No shell/script execution tool was available; SHA-256 digests in it-final-repair-recovered-diff.json ('baseline_sha256': '0649da4954c7c62449a17b7705648e958483736ba3f1ff2c2a13f66dc8395c34', 'current_sha256': '13141a5f13ce77a824a883c966328dce2592dea684182df03cef550e450499d2') were NOT cryptographically verified.",
+      "Byte-level programmatic JSON diff between snapshots/it-v2-reconstructed-exact.json and sources/it.json was NOT executed; equivalence outside the 28 diffs in it-final-repair-recovered-diff.json rests on bounded visual/manual inspection of matching 8726-line files.",
+      "Programmatic exact-join equality check (cv_text == '\\n\\n'.join(section.text)) across all 80 candidates was NOT executed.",
+      "Baseline v1 source snapshot was not in scope/read, so the claimed v1-to-v2 counts ('corrected_descriptions_kept': 79, 'removed_unsupported_skills_kept': 15) could not be independently verified against v1; only preservation from v2 to current was verified.",
+      "Cross-domain collision check against dataset/ai2-pilot-v1/sources/sales-marketing.json was NOT executed."
+    ]
+  },
+  "structural_and_v2_preservation_checks": {
+    "root_metadata": {
+      "schema_version": "ai2-pilot-source-v1",
+      "split": "development",
+      "synthetic": true,
+      "generation_model_requested": "ag/gemini-3.8-flash-high"
+    },
+    "counts": {
+      "jobs": 10,
+      "job_ids": "IT-J01 through IT-J10",
+      "requirements_total": 60,
+      "requirements_per_job": 6,
+      "candidates_total": 80,
+      "candidates_per_job": 8,
+      "level_distribution": {
+        "junior": ["IT-J04", "IT-J08", "IT-J10"],
+        "mid": ["IT-J01", "IT-J03", "IT-J06", "IT-J09"],
+        "senior": ["IT-J02", "IT-J05", "IT-J07"]
+      }
+    },
+    "protocol_and_prior_rule_checks": {
+      "jd_requirements_verbatim_sync_HR_SOURCE_011": "Inspected all 10 JDs (IT-J01..IT-J10); all 60 requirement texts appear verbatim in their respective jd_text sections, within the 4-7 requirement count limit.",
+      "is_current_null_usage_HR_SOURCE_005": "Unstated-date roles in C07/C08 profiles (IT-J01-C07-E02, IT-J02-C08-E02, IT-J03-C07-E02, IT-J04-C07-E01, IT-J05-C07-E02, IT-J06-C07-E02, IT-J07-C07-E02, IT-J08-C07-E02, IT-J09-C07-E02, IT-J10-C07-E02) use start_date: null, end_date: null, is_current: null. Explicit end dates use is_current: false (including IT-J04-C03-E01 with end_date '2026-06' prior to reference date 2026-11-10).",
+      "v2_descriptions_and_skill_repairs_preserved": "Verified by full read of sources/it.json and snapshots/it-v2-reconstructed-exact.json that all experiences[*].description, projects[*].description, experiences[*].skills_used, and projects[*].technologies_or_methods match v2 verbatim (none of the 28 recovered diffs alter descriptions or skill arrays; only 3 project names changed to harmonize with employer renames). The v1->v2 counts (79 descriptions, 15 skill removals) remain unverified against v1.",
+      "section_joins_on_changed_candidates": "All 10 modified candidates in sources/it.json show consistent updates across cv_text, sections[*].text, experiences[*].company, and projects[*].name; section texts join cleanly to cv_text on manual inspection."
+    }
+  },
+  "audited_changes": [
+    {
+      "change_id": "IT-J03-C05-S01",
+      "candidate_id": "IT-J03-C05",
+      "decision_id_claimed": "HR-SOURCE-002",
+      "verdict": "blocker_rule_misapplication",
+      "paths_modified": [
+        "/jobs/2/candidates/4/cv_text",
+        "/jobs/2/candidates/4/sections/0/text"
+      ],
+      "line_numbers_it_json": [2291, 2296],
+      "before_quote": "Tóm lược: Kỹ sư Dữ liệu mới tốt nghiệp có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Python, Pandas và SQL.",
+      "after_quote": "Tóm lược: Kỹ sư Dữ liệu có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Python, Pandas và SQL.",
+      "audit_finding": "Blocker. HR-SOURCE-002 addresses regional accent and discriminatory criteria ('giọng nói chuẩn', age descriptors, or protected proxies) in JD/requirements and instructs not to alter CVs unnecessarily. 'mới tốt nghiệp' (recent graduate) describes career/graduation stage, not applicant age, and IT-J03-C05 also holds an internship (2025-01..2025-05) and junior role (2025-07..present). Deleting 'mới tốt nghiệp' removes factual career context without human decision authorization."
+    },
+    {
+      "change_id": "IT-J04-C07-S01",
+      "candidate_id": "IT-J04-C07",
+      "decision_id_claimed": "HR-SOURCE-006",
+      "verdict": "valid",
+      "paths_modified": [
+        "/jobs/3/candidates/6/cv_text",
+        "/jobs/3/candidates/6/sections/0/text"
+      ],
+      "line_numbers_it_json": [3352, 3357],
+      "before_quote": "Có kỹ năng tích hợp RESTful API và Firebase Authentication. Chưa có nhiều cơ hội làm việc trong môi trường doanh nghiệp lớn.",
+      "after_quote": "Có kỹ năng tích hợp RESTful API và Firebase Authentication.",
+      "audit_finding": "Valid under HR-SOURCE-006. Removes requirement-shaped negative/denial sentence while preserving positive skills and section joins."
+    },
+    {
+      "change_id": "IT-J05-C02-E01",
+      "candidate_id": "IT-J05-C02",
+      "decision_id_claimed": "HR-SOURCE-007",
+      "verdict": "valid",
+      "paths_modified": [
+        "/jobs/4/candidates/1/cv_text",
+        "/jobs/4/candidates/1/sections/2/text",
+        "/jobs/4/candidates/1/experiences/0/company"
+      ],
+      "line_numbers_it_json": [3707, 3722, 3762],
+      "before_quote": "Công ty Cổ phần Giải pháp Thanh toán Thông minh VNPayLink",
+      "after_quote": "Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink",
+      "audit_finding": "Valid under HR-SOURCE-007. Removes real-trademark resemblance ('VNPay') consistently across cv_text, section text, and structured experience. Minor note: shares 'PayLink' suffix with 'VietPayLink' introduced in IT-J07-C01."
+    },
+    {
+      "change_id": "IT-J06-C08-E01",
+      "candidate_id": "IT-J06-C08",
+      "decision_id_claimed": "HR-SOURCE-007",
+      "verdict": "valid",
+      "paths_modified": [
+        "/jobs/5/candidates/7/cv_text",
+        "/jobs/5/candidates/7/sections/2/text",
+        "/jobs/5/candidates/7/sections/3/text",
+        "/jobs/5/candidates/7/experiences/0/company",
+        "/jobs/5/candidates/7/projects/0/name"
+      ],
+      "line_numbers_it_json": [5195, 5210, 5215, 5245, 5276],
+      "before_quote": "Công ty Cổ phần Công nghệ Viễn Thông Số Sao Bắc Đẩu / Kiểm thử Tải Hệ sinh thái SaoBacDau Pay",
+      "after_quote": "Công ty Cổ phần Công nghệ Viễn Thông Số Sao Thiên Hà / Kiểm thử Tải Hệ sinh thái ThienHa Pay",
+      "audit_finding": "Valid under HR-SOURCE-007. Removes resemblance to real corporate entity ('Sao Bắc Đẩu') and harmonizes the project name across prose and structured records."
+    },
+    {
+      "change_id": "IT-J07-C01-E01",
+      "candidate_id": "IT-J07-C01",
+      "decision_id_claimed": "HR-SOURCE-007",
+      "verdict": "valid",
+      "paths_modified": [
+        "/jobs/6/candidates/0/cv_text",
+        "/jobs/6/candidates/0/sections/2/text",
+        "/jobs/6/candidates/0/sections/3/text",
+        "/jobs/6/candidates/0/experiences/0/company",
+        "/jobs/6/candidates/0/projects/0/name"
+      ],
+      "line_numbers_it_json": [5344, 5359, 5364, 5398, 5433],
+      "before_quote": "Công ty Cổ phần Công nghệ Thanh toán Quốc gia VinaPay / Hệ thống Thanh toán Liên Ngân hàng VinaPay-Core",
+      "after_quote": "Công ty Cổ phần Công nghệ Thanh toán Quốc gia VietPayLink / Hệ thống Thanh toán Liên Ngân hàng VietPay-Core",
+      "audit_finding": "Valid under HR-SOURCE-007. Removes resemblance to real payment brand ('VinaPay'/'VNPAY') and updates project name consistently."
+    },
+    {
+      "change_id": "IT-J09-C02-E01",
+      "candidate_id": "IT-J09-C02",
+      "decision_id_claimed": "HR-SOURCE-007",
+      "verdict": "issue_inconsistent_cross_job_fictionalization",
+      "paths_modified": [
+        "/jobs/8/candidates/1/cv_text",
+        "/jobs/8/candidates/1/sections/2/text",
+        "/jobs/8/candidates/1/sections/3/text",
+        "/jobs/8/candidates/1/experiences/0/company",
+        "/jobs/8/candidates/1/projects/0/name"
+      ],
+      "line_numbers_it_json": [7201, 7216, 7221, 7251, 7283],
+      "before_quote": "Công ty Cổ phần Công nghệ Số Thành Đạt / Hệ thống Quản trị Bán buôn Thành Đạt B2B",
+      "after_quote": "Công ty Cổ phần Công nghệ Số Thành Tín / Hệ thống Quản trị Bán buôn Thành Tín B2B",
+      "audit_finding": "Selective/inconsistent application of HR-SOURCE-007. IT-J07-C07 (lines 5990, 6005, 6010, 6038, 6069) retains 'Công ty Cổ phần Công nghệ Số Thành Đạt' and 'Hệ thống Quản trị Bán buôn Thành Đạt B2B'. Changing one occurrence to 'Thành Tín' while keeping the other as 'Thành Đạt' invents distinct identities for a previously shared employer+project rather than consistent fictionalization, while other cross-job employer duplicates remain untouched."
+    },
+    {
+      "change_id": "IT-J09-C07-E01",
+      "candidate_id": "IT-J09-C07",
+      "decision_id_claimed": "HR-SOURCE-007",
+      "verdict": "blocker_inconsistent_cross_job_fictionalization",
+      "paths_modified": [
+        "/jobs/8/candidates/6/cv_text",
+        "/jobs/8/candidates/6/sections/2/text",
+        "/jobs/8/candidates/6/experiences/0/company"
+      ],
+      "line_numbers_it_json": [7706, 7721, 7753],
+      "before_quote": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới",
+      "after_quote": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Trẻ",
+      "audit_finding": "Blocker against HR-SOURCE-007 consistent fictionalization. The same original employer name appeared in IT-J08-C07, IT-J09-C07, and IT-J10-C07. Repair left IT-J08-C07 as 'Nhịp Điệu Mới' (lines 6846, 6861, 6892), changed IT-J09-C07 to 'Nhịp Điệu Trẻ', and changed IT-J10-C07 to 'Nhịp Điệu Số', inventing three distinct organization identities from one shared employer name."
+    },
+    {
+      "change_id": "IT-J10-C03-E01",
+      "candidate_id": "IT-J10-C03",
+      "decision_id_claimed": "HR-SOURCE-007",
+      "verdict": "blocker_inconsistent_cross_job_fictionalization_and_new_collision",
+      "paths_modified": [
+        "/jobs/9/candidates/2/cv_text",
+        "/jobs/9/candidates/2/sections/2/text",
+        "/jobs/9/candidates/2/experiences/0/company"
+      ],
+      "line_numbers_it_json": [8152, 8167, 8201],
+      "before_quote": "Công ty Cổ phần Công nghệ Mạng Đổi Mới",
+      "after_quote": "Công ty Cổ phần Công nghệ Mạng Tân Tiến",
+      "audit_finding": "Blocker. Splits shared employer 'Công ty Cổ phần Công nghệ Mạng Đổi Mới' into two identities (IT-J05-C07 at lines 4253, 4268, 4304 keeps 'Đổi Mới' while IT-J10-C03 becomes 'Tân Tiến'), and introduces a new 'Tân Tiến' brand overlap inside the same job IT-J10 (IT-J10-C08-E01 at line 8677 is 'Công ty Cổ phần Dịch vụ Số Tân Tiến', alongside IT-J02-C04-E01 'Tân Tiến' and IT-J06-C04-E02 'Tân Tiến')."
+    },
+    {
+      "change_id": "IT-J10-C04-E02",
+      "candidate_id": "IT-J10-C04",
+      "decision_id_claimed": "HR-SOURCE-007",
+      "verdict": "valid",
+      "paths_modified": [
+        "/jobs/9/candidates/3/cv_text",
+        "/jobs/9/candidates/3/sections/2/text",
+        "/jobs/9/candidates/3/experiences/1/company"
+      ],
+      "line_numbers_it_json": [8252, 8267, 8316],
+      "before_quote": "Phòng Thí nghiệm Đại học Bách Khoa",
+      "after_quote": "Phòng Thí nghiệm Trí tuệ Nhân tạo AlphaLab",
+      "audit_finding": "Valid under HR-SOURCE-007. Replaces educational institution acting as employer with a synthetic research lab while preserving 'Trường Đại học Bách Khoa Hà Nội' in the education section (line 8277)."
+    },
+    {
+      "change_id": "IT-J10-C07-E01",
+      "candidate_id": "IT-J10-C07",
+      "decision_id_claimed": "HR-SOURCE-007",
+      "verdict": "blocker_inconsistent_cross_job_fictionalization",
+      "paths_modified": [
+        "/jobs/9/candidates/6/cv_text",
+        "/jobs/9/candidates/6/sections/2/text",
+        "/jobs/9/candidates/6/experiences/0/company"
+      ],
+      "line_numbers_it_json": [8534, 8549, 8580],
+      "before_quote": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới",
+      "after_quote": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Số",
+      "audit_finding": "Blocker against HR-SOURCE-007 consistent fictionalization. Part of the three-way split ('Nhịp Điệu Mới' in IT-J08-C07, 'Nhịp Điệu Trẻ' in IT-J09-C07, 'Nhịp Điệu Số' in IT-J10-C07)."
+    }
+  ],
+  "unresolved_cases_and_residual_issues": {
+    "untouched_exact_cross_job_employer_duplicates": [
+      {
+        "company": "Công ty TNHH Phát triển Phần mềm Trí Việt",
+        "occurrences": ["IT-J01-C04-E02 (line 463)", "IT-J08-C02-E02 (line 6413)"]
+      },
+      {
+        "company": "Công ty Cổ phần Giải pháp Phần mềm Kiểm Thử Toàn Cầu",
+        "occurrences": ["IT-J01-C08-E01 (line 876)", "IT-J09-C08-E01 (line 7850)"]
+      },
+      {
+        "company": "Công ty TNHH Phần mềm Ánh Dương",
+        "occurrences": ["IT-J01-C03-E02 (line 350)", "IT-J06-C03-E02 (line 4773)"]
+      },
+      {
+        "company": "Công ty TNHH Phần mềm Á Châu",
+        "occurrences": ["IT-J07-C01-E02 (line 5416)", "IT-J10-C08-E02 (line 8691)"]
+      }
+    ],
+    "untouched_near_duplicate_employer_roots": [
+      {
+        "root": "Tân Tiến",
+        "occurrences": [
+          "IT-J02-C04-E01: Công ty Cổ phần Giải pháp Doanh nghiệp Tân Tiến (line 1360)",
+          "IT-J06-C04-E02: Công ty TNHH Phát triển Công nghệ Tân Tiến (line 4878)",
+          "IT-J10-C03-E01: Công ty Cổ phần Công nghệ Mạng Tân Tiến (line 8201, newly renamed)",
+          "IT-J10-C08-E01: Công ty Cổ phần Dịch vụ Số Tân Tiến (line 8677)"
+        ]
+      },
+      {
+        "root": "Phương Đông (same job IT-J07)",
+        "occurrences": [
+          "IT-J07-C02-E02: Công ty TNHH Công nghệ Viễn Thông Phương Đông (line 5530)",
+          "IT-J07-C06-E01: Công ty Cổ phần Công nghệ Tài chính Phương Đông (line 5932)"
+        ]
+      },
+      {
+        "root": "Hà An / Sao Mai / Nam Á",
+        "occurrences": [
+          "IT-J03-C04-E02 (line 2250) vs IT-J09-C01-E02 (line 7160): Hà An",
+          "IT-J06-C05-E02 (line 4974), IT-J07-C05-E02 (line 5842), IT-J08-C01-E01 (line 6289): Sao Mai",
+          "IT-J01-C02-E01 (line 217) vs IT-J05-C08-E01 (line 4406): Nam Á"
+        ]
+      }
+    ],
+    "untouched_real_or_trademark_resembling_names": [
+      {
+        "entity": "Công ty Cổ phần Khởi nghiệp NextTech Việt",
+        "location": "IT-J01-C07-E01 (line 765)",
+        "note": "Resembles real Vietnamese tech group NextTech."
+      },
+      {
+        "entity": "Công ty Cổ phần Công nghệ SmartLog",
+        "location": "IT-J01-C04-E01 (line 447)",
+        "note": "Resembles real Vietnamese logistics platform SmartLog."
+      },
+      {
+        "entity": "Công ty Cổ phần Giải pháp Trí tuệ Nhân tạo VinaAI",
+        "location": "IT-J03-C06-E01 (line 2441)",
+        "note": "Uses Vina-prefixed AI brand alongside VinaNet/VinaVideo (IT-J02-C05), VinaSoft (IT-J06-C04), VinaERP (IT-J09-C01) after VinaPay was renamed."
+      },
+      {
+        "entity": "Công ty Cổ phần Công nghệ Mạng Đa Điểm Gotech",
+        "location": "IT-J08 JD (line 6199)",
+        "note": "Resembles real brand Gotech."
+      }
+    ],
+    "ambiguities_preserved_per_approved_rules": [
+      {
+        "decision_id": "HR-SOURCE-008",
+        "finding": "Multiple candidates have summary tenure statements that understate or differ from chronological span computed to reference date 2026-11-10 (e.g., IT-J01-C01 summary '3 năm 6 tháng' vs 2021-06..2026-11; IT-J02-C03 summary '3 năm' and 'Next.js trong 10 tháng qua' vs E01 2024-01..2026-11; IT-J03-C05 summary '1 năm 2 tháng' vs 2025-07..2026-11 plus 2025-01..2025-05 internship; IT-J06-C01 summary '3 năm 6 tháng' vs 2022-03..2026-11; IT-J08-C03 summary '1 năm 8 tháng' vs 2024-07..2026-11). Preserved untouched per HR-SOURCE-008; must be flagged during annotation."
+      },
+      {
+        "decision_id": "HR-SOURCE-009",
+        "finding": "Recurring candidate-index scenarios across IT-J01..IT-J10 (e.g., C07 unstated-date freelance profiles, C08 QA/adjacent crossover profiles, C05 junior/no-formal-degree profiles) remain as a documented development-only pilot limitation."
+      },
+      {
+        "decision_id": "HR-SOURCE-010",
+        "finding": "IT-J04-C06 (line 3276, 3343) uses 'Cử nhân Thực hành (Cao đẳng) Công nghệ thông tin' in S05 and 'Tốt nghiệp Cao đẳng' in S01, mapped to structured degree 'Cao đẳng'. No unclarified 'Cử nhân Cao đẳng' ambiguity found in sources/it.json."
+      },
+      {
+        "decision_id": "HR-SOURCE-006",
+        "finding": "No JD-skill denial lists remain; IT-J02-C07 (line 1647), IT-J08-C05 (line 6682), and IT-J10-C05 (line 8373) retain factual statements 'Không có bằng cấp đại học chính quy ghi nhận trong hồ sơ.' with education: []."
+      }
+    ]
+  },
+  "limitations": [
+    "Fallback model limitation: executed by ag/gemini-3.8-flash after cx/gpt-6.1-sol stream idle timeout; not independent cross-model verification against the Gemini-family source generator.",
+    "Tooling limitation: no shell/script runner available, so SHA-256 checksums, programmatic JSON diffs, automated cv_text join checks, and v1->v2 verification of the 79 descriptions and 15 skill repairs were not executed.",
+    "Scope limitation: IT domain only; sales-marketing.json was not inspected."
+  ]
+}

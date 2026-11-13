@@ -1,0 +1,871 @@
+{
+  "changes": [
+    {
+      "id": "IT-J01-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Web Backend tại Công ty TNHH Giải pháp Số Sao Việt. Thời gian: từ 2021-06 đến 2023-03. Mô tả: Phát triển RESTful API cho ứng dụng quản trị chuỗi cung ứng sử dụng Node.js, Express và PostgreSQL. Thiết kế schema cơ sở dữ liệu và tích hợp các cổng thanh toán nội địa.",
+      "after": "Xây dựng hệ thống microservices cho nền tảng bán lẻ đa kênh với NestJS và TypeScript. Tối ưu hóa các truy vấn phức tạp trên PostgreSQL, giảm 40% thời gian phản hồi API. Cấu hình Redis caching và sử dụng RabbitMQ để xử lý bất đồng bộ các giao dịch thanh toán và thông báo đơn hàng. Đóng gói ứng dụng bằng Docker và tham gia cấu hình pipeline CI/CD trên GitLab.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J01-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Java Backend tại Công ty Công nghệ Phần mềm Viễn Đông. Thời gian: từ 2022-07 đến 2025-07. Mô tả: Phát triển hệ thống ngân hàng lõi bằng Java Spring Boot, làm việc với cơ sở dữ liệu Oracle và PostgreSQL. Thiết kế RESTful API theo tiêu chuẩn mở và tối ưu truy vấn dữ liệu báo cáo tài chính.",
+      "after": "Phát triển các dịch vụ API xử lý giao dịch tài chính bằng TypeScript và NestJS. Tích hợp Kafka để nhận và phân phối sự kiện giao dịch thời gian thực. Truy vấn và tối ưu cơ sở dữ liệu PostgreSQL.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J01-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Ánh Dương. Thời gian: từ 2022-01 đến 2023-08. Mô tả: Xây dựng landing page và cổng thông tin tin tức sử dụng React, Redux và HTML5/CSS3. Phối hợp với đội ngũ backend để tích hợp API.",
+      "after": "Phát triển giao diện người dùng chính với ReactJS và Next.js. Đồng thời hỗ trợ đội ngũ xây dựng một số endpoint RESTful API quản lý người dùng và sản phẩm bằng NestJS và cơ sở dữ liệu MongoDB, kết hợp viết câu truy vấn cơ bản trên PostgreSQL.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J01-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2022-03 đến 2023-09. Mô tả: Tham gia phát triển hệ thống quản lý học tập trực tuyến (LMS). Viết RESTful API với NestJS, sử dụng TypeORM kết nối PostgreSQL. Triển khai ứng dụng qua Docker container.",
+      "after": "Phát triển các mô-đun dịch vụ microservices cho hệ thống theo dõi logistics bằng NestJS và TypeScript. Tối ưu hóa các bảng dữ liệu PostgreSQL có hàng triệu bản ghi, lập chỉ mục và điều chỉnh câu lệnh SQL để duy trì độ trễ dưới 100ms. Ứng dụng Redis để lưu trữ phiên làm việc và caching dữ liệu tra cứu hành trình.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J01-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Lập trình Web tại Công ty Phần mềm Ngôi Sao Xanh. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết unit test và tài liệu API Swagger bằng JavaScript và Express.js.",
+      "after": "Xây dựng các API CRUD cho hệ thống quản lý nội bộ doanh nghiệp bằng Node.js và Express.js. Viết các câu truy vấn MySQL và tối ưu hóa bảng biểu cơ bản. Hỗ trợ sửa lỗi và bảo trì các dịch vụ backend hiện có.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J01-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Python Backend tại Công ty Công nghệ Phần mềm Thăng Long. Thời gian: từ 2021-05 đến 2022-03. Mô tả: Xây dựng RESTful API cho ứng dụng quản trị quan hệ khách hàng (CRM) bằng Django REST Framework và cơ sở dữ liệu PostgreSQL.",
+      "after": "Thiết kế kiến trúc dịch vụ backend phân tán cho nền tảng xử lý dữ liệu lớn với Python và FastAPI. Tối ưu hóa cơ sở dữ liệu PostgreSQL cho bảng dữ liệu giao dịch quy mô hàng chục triệu dòng. Vận hành cụm RabbitMQ kết hợp Celery để xử lý hàng đợi tác vụ nặng. Sử dụng Docker triển khai hệ thống.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J01-C07-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Tự do (Freelance Backend Developer) tại Nhóm Dự án Tự do Công nghệ. Thời gian: không nêu ngày tháng cụ thể. Mô tả: Xây dựng RESTful API và quản lý dữ liệu PostgreSQL cho các website bán hàng vừa và nhỏ bằng Node.js và Express.js. Đóng gói mã nguồn qua Docker.",
+      "after": "Phát triển các module API backend bằng NestJS và TypeScript cho ứng dụng quản lý cộng đồng. Thiết kế cơ sở dữ liệu PostgreSQL và tích hợp Redis để xử lý lưu cache thông tin phiên làm việc và danh sách bài đăng nổi bật.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J01-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Giải pháp Đổi mới Số. Thời gian: từ 2022-05 đến 2023-10. Mô tả: Thực hiện kiểm thử chức năng và kiểm thử API RESTful bằng Postman. Viết mock service đơn giản bằng Node.js và Express.js để phục vụ đội ngũ kiểm thử độc lập.",
+      "after": "Xây dựng framework kiểm thử tự động API bằng TypeScript và Playwright. Viết các kịch bản kiểm thử tải bằng k6, trực tiếp truy vấn cơ sở dữ liệu PostgreSQL để xác minh tính toàn vẹn dữ liệu của các microservices backend. Tích hợp kiểm thử vào pipeline GitHub Actions.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J02-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Kỹ sư Lập trình Frontend Cấp cao tại Công ty TNHH Phần mềm Mặt Trời Mới. Thời gian: từ 2020-10 đến 2022-12. Mô tả: Phát triển cổng thông tin du lịch và đặt vé máy bay trực tuyến sử dụng React.js, Next.js và Zustand. Viết bộ kiểm thử tự động với Jest và Cypress đạt 80% độ phủ mã nguồn.",
+      "after": "Dẫn dắt đội ngũ kỹ thuật gồm 6 kỹ sư frontend phát triển sàn thương mại đa quốc gia. Lựa chọn kiến trúc Next.js App Router kết hợp Redux Toolkit và React Query. Thiết kế và phát hành Design System nội bộ gồm 45 component tái sử dụng trên Storybook. Phụ trách review code hàng ngày, phân chia công việc theo sprint và tối ưu điểm số Core Web Vitals đạt trên 90 điểm trên cả thiết bị di động và máy tính.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J02-C01-E01",
+      "field": "skills_used",
+      "before": [
+        "Next.js",
+        "React.js",
+        "Redux Toolkit",
+        "React Query",
+        "Storybook",
+        "Jest"
+      ],
+      "after": [
+        "Next.js",
+        "React.js",
+        "Redux Toolkit",
+        "React Query",
+        "Storybook"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J02-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Frontend Developer tại Công ty TNHH Giải pháp Mạng Việt Nam. Thời gian: từ 2021-09 đến 2023-02. Mô tả: Xây dựng giao diện ứng dụng web chăm sóc khách hàng bằng React.js và Redux Toolkit. Viết end-to-end test bằng Cypress.",
+      "after": "Phát triển nền tảng bảng điều khiển quản trị tài chính doanh nghiệp với Next.js và TypeScript. Quản lý trạng thái bất đồng bộ bằng React Query và lưu trữ cục bộ với Zustand. Tối ưu hóa tải trang, giảm LCP từ 3.2s xuống 1.4s. Thực hiện review code cho 4 thành viên mid/junior trong đội.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J02-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Junior Frontend Developer tại Công ty Cổ phần Công nghệ An Nam. Thời gian: từ 2023-03 đến 2023-12. Mô tả: Lập trình các trang giới thiệu và bảng khảo sát trực tuyến bằng React.js và CSS3.",
+      "after": "Phát triển giao diện sàn thương mại điện tử bằng Next.js và TypeScript. Sử dụng Redux Toolkit để quản lý giỏ hàng và dữ liệu tài khoản người dùng. Viết test case bằng Jest cho các hàm tiện ích và reducer.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J02-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Kỹ sư Phần mềm tại Công ty TNHH Dịch vụ Công nghệ Quang Minh. Thời gian: từ 2020-04 đến 2022-05. Mô tả: Xây dựng hệ thống quản lý nhân sự bằng Angular và .NET Core.",
+      "after": "Dẫn dắt nhóm 3 kỹ sư phát triển phần mềm ERP doanh nghiệp. Thiết kế kiến trúc phân hệ người dùng bằng React.js và Angular, phối hợp backend ASP.NET Core. Phân bổ công việc theo sprint, review mã nguồn và kiểm soát chất lượng kỹ thuật.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J02-C04-E02",
+      "field": "skills_used",
+      "before": [
+        "Angular",
+        "ASP.NET Core"
+      ],
+      "after": [
+        "Angular"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J02-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Hiện Đại. Thời gian: từ 2021-03 đến 2021-12. Mô tả: Xây dựng giao diện ứng dụng quản lý quan hệ khách hàng bằng React.js và Redux. Viết unit test với Jest và React Testing Library.",
+      "after": "Thiết kế kiến trúc SPA cho nền tảng mạng xã hội và phân phối nội dung video bằng React.js và TypeScript. Quản lý trạng thái bằng Redux Toolkit. Tối ưu hóa chu kỳ re-render component, cải thiện chỉ số INP và LCP. Trực tiếp hướng dẫn và review code cho 4 kỹ sư trong nhóm.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J02-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên React Native tại Công ty TNHH Phát triển Ứng dụng Thông Minh. Thời gian: từ 2021-11 đến 2025-04. Mô tả: Xây dựng các tính năng ứng dụng di động thương mại điện tử bằng React Native và JavaScript. Quản lý trạng thái ứng dụng bằng Zustand.",
+      "after": "Phát triển cổng web hỗ trợ khách hàng bằng Next.js và TypeScript, đồng thời duy trì codebase React Native cho ứng dụng di động.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J02-C07-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Frontend tại Công ty TNHH Giải pháp Đồ Họa Số. Thời gian: từ 2021-08 đến 2022-01. Mô tả: Phát triển giao diện web bán vé và sự kiện bằng React.js và Tailwind CSS.",
+      "after": "Xây dựng nền tảng SaaS quản lý dự án sử dụng Next.js và TypeScript. Thiết kế Component Library nội bộ gồm hơn 50 component tuân thủ Design System. Sử dụng Zustand quản lý state cục bộ. Thực hiện review code định kỳ và hỗ trợ phân chia nhiệm vụ cho 3 lập trình viên.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J02-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Giao diện Web Tự do tại Nhóm Freelancer Web Studio. Thời gian: không nêu rõ ngày tháng bắt đầu và kết thúc. Mô tả: Thiết kế và cắt HTML/CSS, lập trình giao diện động bằng React.js cho các website bán hàng quy mô nhỏ.",
+      "after": "Xây dựng các module trang web giới thiệu thương hiệu và danh mục sản phẩm sử dụng Next.js và React.js. Kết nối dữ liệu REST API và quản lý state bằng Redux Toolkit.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J03-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Junior Data Engineer tại Công ty TNHH Giải pháp Phân tích Thống kê Việt. Thời gian: từ 2022-06 đến 2023-02. Mô tả: Lập trình các script Python thu thập dữ liệu qua API, làm sạch dữ liệu và nạp vào cơ sở dữ liệu PostgreSQL.",
+      "after": "Xây dựng và tối ưu các pipeline ETL hàng ngày xử lý hơn 50 triệu bản ghi bán hàng bằng PySpark và Apache Airflow. Thiết kế data warehouse trên Google BigQuery phục vụ báo cáo doanh thu BI. Chuyển đổi dữ liệu thô sang định dạng cột Parquet trên Amazon S3 Data Lake, giảm 65% chi phí lưu trữ.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J03-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Backend Python tại Công ty TNHH Giải pháp Phần mềm Trực Tuyến Á Châu. Thời gian: từ 2021-08 đến 2023-12. Mô tả: Phát triển REST API bằng Python FastAPI và quản trị cơ sở dữ liệu MySQL và PostgreSQL.",
+      "after": "Xây dựng pipeline thu thập log vận chuyển từ xe tải thông minh. Sử dụng Python và Apache Spark để xử lý dữ liệu batch hàng đêm và lưu trữ vào PostgreSQL Data Warehouse. Cấu hình DAGs trên Apache Airflow để tự động hóa quy trình.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J03-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Nhân viên Phân tích Dữ liệu tại Công ty TNHH Dịch vụ Khảo sát Thị trường Nam Phong. Thời gian: từ 2021-06 đến 2023-01. Mô tả: Viết các câu lệnh SQL trích xuất dữ liệu từ cơ sở dữ liệu MySQL để xây dựng báo cáo định kỳ.",
+      "after": "Thiết kế cấu trúc bảng fact và dimension cho Data Warehouse trên PostgreSQL. Tối ưu câu lệnh SQL phục vụ báo cáo quản trị và sử dụng Python để tự động trích xuất dữ liệu từ MySQL.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J03-C03-P01",
+      "field": "technologies_or_methods",
+      "before": [
+        "PostgreSQL",
+        "SQL",
+        "Power BI"
+      ],
+      "after": [
+        "PostgreSQL",
+        "Power BI"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J03-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Junior Data Engineer tại Công ty TNHH Phát triển Phần mềm Hà An. Thời gian: từ 2022-07 đến 2023-08. Mô tả: Viết mã nguồn PySpark để tổng hợp dữ liệu clickstream của người dùng và lưu trữ dữ liệu theo định dạng ORC.",
+      "after": "Xây dựng các pipeline xử lý luồng dữ liệu thời gian thực (streaming) với Apache Spark Streaming và Apache Kafka. Lưu trữ kết quả tổng hợp vào PostgreSQL và định dạng Parquet trên Amazon S3. Thiết lập lịch trình và cảnh báo lỗi tự động với Apache Airflow.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J03-C04-E01",
+      "field": "skills_used",
+      "before": [
+        "Apache Spark",
+        "PySpark",
+        "Apache Airflow",
+        "Kafka",
+        "PostgreSQL"
+      ],
+      "after": [
+        "Apache Spark",
+        "Apache Airflow",
+        "Kafka",
+        "PostgreSQL"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J03-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty Cổ phần Thống kê Số An Bình. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết câu lệnh SQL kiểm tra tính chính xác của dữ liệu trong bảng MySQL.",
+      "after": "Viết các chương trình Python trích xuất thông tin sản phẩm từ sàn thương mại và lưu vào MySQL. Tìm hiểu áp dụng Apache Spark để xử lý các tệp CSV dung lượng lớn.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J03-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Chuyên viên Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Thị trường Hoàng Hà. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Phân tích hành vi người tiêu dùng và xây dựng báo cáo phân khúc thị trường bằng Python và SQL trên nền MySQL.",
+      "after": "Xây dựng các mô hình dự báo nhu cầu khách hàng bằng Python và Scikit-learn. Viết các truy vấn trích xuất dữ liệu phức tạp từ cơ sở dữ liệu PostgreSQL. Phối hợp với đội Data Engineer để đưa mô hình vào phục vụ thực tế.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J03-C07-E01",
+      "field": "description",
+      "before": "Chức danh: Kỹ sư Dữ liệu Độc lập tại Dự án Dữ liệu Tự do. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các đoạn script Python và pipeline Spark xử lý log hệ thống máy chủ, lưu trữ kết quả phân tích vào PostgreSQL.",
+      "after": "Xây dựng pipeline xử lý dữ liệu giao dịch bằng Python và Spark. Thiết kế bảng tổng hợp trong PostgreSQL và cấu hình luồng chạy định kỳ trên Apache Airflow.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J03-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Quản trị viên Hệ thống & DB tại Công ty TNHH Giải pháp Mạng Toàn Cầu. Thời gian: từ 2021-04 đến 2022-04. Mô tả: Cài đặt và cấu hình sao lưu dự phòng cho hệ cơ sở dữ liệu MySQL trên môi trường Linux.",
+      "after": "Quản trị và giám sát cụm PostgreSQL và MySQL phục vụ hệ thống cước viễn thông. Tối ưu câu lệnh SQL, chỉ mục bảng và giám sát hiệu năng CPU/RAM của máy chủ DB. Viết các script tự động hóa kiểm tra dữ liệu bằng Python.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J04-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ An Phú. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Làm quen dự án, cắt giao diện từ Figma sang widget Flutter và gọi API cơ bản.",
+      "after": "Phát triển các tính năng giỏ hàng, thông báo đẩy và xác thực người dùng cho ứng dụng thương mại điện tử bằng Flutter và Dart. Sử dụng thư viện flutter_bloc để quản lý state. Tích hợp RESTful API xử lý định dạng JSON và cấu hình Firebase Cloud Messaging. Tham gia quy trình build bản phát hành lên Google Play Store và Apple App Store.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J04-C01-E02",
+      "field": "skills_used",
+      "before": [
+        "Flutter",
+        "Dart",
+        "Figma"
+      ],
+      "after": [
+        "Flutter",
+        "Figma"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J04-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Ứng dụng Di động Mặt Trời. Thời gian: từ 2025-02 đến 2025-06. Mô tả: Cắt giao diện ứng dụng theo bản vẽ và quản lý state với Provider.",
+      "after": "Xây dựng ứng dụng tra cứu thời tiết và tin tức địa phương bằng Flutter. Kết nối RESTful API qua thư viện Dio, xử lý parse JSON và lưu trữ offline bằng SQLite và Shared Preferences. Quản lý state bằng Riverpod.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J04-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Android tại Công ty TNHH Ứng dụng Di động Thăng Long. Thời gian: từ 2023-10 đến 2024-04. Mô tả: Sửa lỗi giao diện và hỗ trợ viết unit test cho ứng dụng Android Native.",
+      "after": "Phát triển các tính năng ứng dụng giao hàng bằng Kotlin, tích hợp Google Maps API và gọi các dịch vụ RESTful API.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J04-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Công nghệ Viễn Đông. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Viết các widget tùy chỉnh và tích hợp Firebase Cloud Messaging để nhận thông báo đẩy.",
+      "after": "Xây dựng các màn hình đặt xe và lịch sử chuyến đi bằng Flutter. Quản lý trạng thái bằng flutter_bloc, tích hợp RESTful API với backend Node.js. Hỗ trợ cấu hình chứng chỉ ký ứng dụng và đưa bản thử nghiệm lên Google Play Console.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J04-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Lập trình Di động tại Công ty Cổ phần Công nghệ Đại Việt. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Xây dựng các component giao diện React Native và gọi API lấy dữ liệu.",
+      "after": "Phát triển tính năng đặt vé và thanh toán trực tuyến trên ứng dụng React Native. Kết nối RESTful API và đồng bộ thông báo đẩy qua Firebase Cloud Messaging.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J04-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ Số Hoa Sen. Thời gian: từ 2025-03 đến 2025-07. Mô tả: Hỗ trợ kiểm tra lỗi giao diện trên các kích thước màn hình Android khác nhau.",
+      "after": "Lập trình các màn hình hiển thị danh mục sản phẩm và hồ sơ người dùng bằng Flutter và Dart. Quản lý trạng thái ứng dụng bằng Provider và tích hợp RESTful API JSON.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J04-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Nhân viên Thiết kế UI/UX tại Công ty Cổ phần Truyền thông Ngôi Sao Mới. Thời gian: từ 2024-03 đến 2024-12. Mô tả: Thiết kế wireframe và prototype ứng dụng di động bằng Figma.",
+      "after": "Thiết kế luồng trải nghiệm người dùng trên Figma và trực tiếp hiện thực hóa hơn 15 màn hình ứng dụng bằng Flutter và Dart. Kết nối RESTful API lấy thông tin người dùng.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J05-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Kỹ sư Cloud DevOps tại Công ty TNHH Phần mềm Ánh Sao. Thời gian: từ 2020-08 đến 2022-02. Mô tả: Triển khai ứng dụng container hóa Docker lên cụm Kubernetes tự dựng trên AWS EC2. Thiết lập quy trình build và deploy với GitLab CI.",
+      "after": "Quản trị toàn bộ hạ tầng AWS gồm hơn 15 cụm Amazon EKS chạy production. Viết toàn bộ mã nguồn quản lý hạ tầng (IaC) bằng Terraform cho môi trường multi-region. Thiết lập hệ thống giám sát tập trung Prometheus và Grafana, phát hiện và xử lý sự cố hạ tầng. Xây dựng quy trình CI/CD tự động hóa trên GitLab CI phục vụ 12 nhóm phát triển phần mềm.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J05-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Kỹ sư Quản trị Hệ thống tại Công ty TNHH Viễn thông Miền Bắc. Thời gian: từ 2021-09 đến 2022-12. Mô tả: Vận hành máy chủ Linux, cài đặt cấu hình web server Nginx và hỗ trợ triển khai Docker.",
+      "after": "Vận hành cụm EKS trên AWS đảm bảo chỉ số uptime 99.95%. Tự động hóa cấu hình hạ tầng bằng Ansible và Terraform. Xây dựng pipeline kiểm thử và đóng gói Docker trên GitHub Actions. Cấu hình dashboard Grafana và hệ thống báo động Prometheus qua Telegram.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J05-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Quản trị viên Hệ thống Junior tại Công ty TNHH Công nghệ Mạng Sao Xanh. Thời gian: từ 2022-09 đến 2023-09. Mô tả: Hỗ trợ cài đặt hệ điều hành Linux và cấu hình mạng nội bộ.",
+      "after": "Xây dựng pipeline GitLab CI tự động kiểm tra mã nguồn và build Docker image. Quản lý các máy chủ AWS EC2 và cấu hình cơ sở dữ liệu AWS RDS. Cài đặt hệ thống giám sát Prometheus và Grafana cho cụm máy chủ staging.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J05-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Quản trị viên Hệ thống Linux tại Công ty TNHH Dịch vụ Mạng Hà Nội. Thời gian: từ 2020-05 đến 2022-03. Mô tả: Cài đặt và vận hành hệ thống máy chủ thư điện tử và web hosting trên nền tảng Linux.",
+      "after": "Quản trị hơn 200 máy chủ Linux vật lý và môi trường AWS hybrid cloud. Sử dụng Ansible để chuẩn hóa cấu hình và vá lỗ hổng bảo mật tự động. Cấu hình thu thập log tập trung với ELK Stack.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J05-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Java tại Công ty TNHH Giải pháp Phần mềm Đại Nam. Thời gian: từ 2021-03 đến 2022-01. Mô tả: Phát triển hệ thống quản lý bán hàng sử dụng Spring Boot và cơ sở dữ liệu MySQL.",
+      "after": "Phát triển microservices backend bằng Java Spring Boot. Đồng thời khởi tạo và quản lý hạ tầng AWS bằng Terraform. Xây dựng pipeline CI/CD trên GitLab CI và cấu hình giám sát Prometheus, Grafana cho hệ thống thanh toán.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J05-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Kỹ sư Điện toán Đám mây tại Công ty TNHH Công nghệ Mây Việt. Thời gian: từ 2021-05 đến 2022-05. Mô tả: Quản trị các máy ảo trên Azure và viết script tự động sao lưu dữ liệu.",
+      "after": "Quản trị các cụm Kubernetes trên GCP (GKE) và AWS (EKS). Tự động hóa việc cung cấp tài nguyên đám mây đa nền tảng bằng Terraform. Thiết lập cụm ELK Stack để phân tích log hệ thống.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J05-C07-E01",
+      "field": "description",
+      "before": "Chức danh: Chuyên viên Vận hành Hạ tầng Độc lập tại Nhóm Kỹ sư Đám mây Tự do. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Tư vấn triển khai Docker và cấu hình dịch vụ AWS EC2 và S3 cho các ứng dụng vừa và nhỏ.",
+      "after": "Vận hành cụm Kubernetes trên AWS EKS, tự động hóa hạ tầng bằng Terraform và cấu hình pipeline CI/CD qua GitHub Actions. Cấu hình bảng hiển thị số liệu hiệu năng với Grafana.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J05-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Kỹ sư Kiểm thử tại Công ty TNHH Phần mềm Biển Bạc. Thời gian: từ 2021-04 đến 2022-10. Mô tả: Viết kịch bản kiểm thử tự động giao diện và API.",
+      "after": "Tích hợp bộ kiểm thử tự động vào quy trình GitLab CI. Đóng gói môi trường kiểm thử trên Docker và triển khai các dịch vụ kiểm thử tạm thời trên AWS EC2.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J05-C08-E02",
+      "field": "skills_used",
+      "before": [
+        "Docker"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J06-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Dịch vụ Số Hồng Hà. Thời gian: từ 2022-03 đến 2023-04. Mô tả: Thực hiện kiểm thử thủ công và viết các kịch bản kiểm thử API bằng Postman.",
+      "after": "Xây dựng framework kiểm thử tự động từ đầu bằng TypeScript và Playwright cho hệ thống sàn thương mại điện tử. Tự động hóa hơn 300 test case end-to-end cho cả giao diện web và RESTful API. Sử dụng Newman và Postman để chạy kiểm thử hồi quy API tự động trên GitHub Actions pipeline.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J06-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Chuyên viên Đảm bảo Chất lượng tại Công ty TNHH Phát triển Hệ thống An Phát. Thời gian: từ 2021-08 đến 2023-07. Mô tả: Thiết kế kịch bản test case chức năng và kiểm thử kiểm soát chất lượng API bằng Postman.",
+      "after": "Phát triển bộ kiểm thử tự động cho hệ thống ngân hàng trực tuyến bằng Java và Selenium WebDriver kết hợp TestNG. Sử dụng RestAssured để kiểm thử tự động các dịch vụ REST API giao dịch tài chính. Tích hợp thực thi kiểm thử định kỳ trên Jenkins.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J06-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Nhân viên Kiểm thử tại Công ty TNHH Phần mềm Ánh Dương. Thời gian: từ 2021-11 đến 2023-03. Mô tả: Thực hiện kiểm thử giao diện và viết báo cáo lỗi lên Jira.",
+      "after": "Thiết kế kịch bản kiểm thử chức năng cho cổng thông tin y tế. Sử dụng Postman để kiểm tra tính đúng đắn của dữ liệu API. Tự xây dựng một số script kiểm thử tự động đăng nhập và luồng đặt lịch bằng Python và Selenium.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J06-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Kiểm thử tại Công ty TNHH Phát triển Công nghệ Tân Tiến. Thời gian: từ 2022-09 đến 2023-10. Mô tả: Viết script tự động kiểm thử chức năng web với Selenium và Python.",
+      "after": "Xây dựng framework tự động hóa kiểm thử web bằng Python Playwright kết hợp pytest. Viết các kịch bản kiểm thử API tự động và đóng gói vào container Docker để chạy trên pipeline GitLab CI. Sử dụng Newman xuất báo cáo kiểm tra tự động.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J06-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Kiểm thử tại Công ty Cổ phần Phần mềm Sao Mai. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết tài liệu test case và kiểm thử thủ công.",
+      "after": "Viết kịch bản kiểm thử giao diện các luồng mua hàng và đăng ký tài khoản bằng JavaScript và Cypress. Thực hiện kiểm tra định dạng phản hồi API bằng Postman.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J06-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trực Tuyến Đô Thành. Thời gian: từ 2022-07 đến 2023-08. Mô tả: Viết API Node.js và unit test bằng Jest.",
+      "after": "Phát triển API và trực tiếp chịu trách nhiệm viết bộ kiểm thử tự động API bằng Supertest và Postman/Newman. Xây dựng một số luồng test end-to-end giao diện với Cypress. Cấu hình chạy test tự động trên GitHub Actions.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J06-C07-E01",
+      "field": "description",
+      "before": "Chức danh: Chuyên viên Kiểm thử Tự do tại Nhóm Kiểm thử Phần mềm Độc lập. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Thực hiện viết script kiểm thử tự động giao diện đơn giản bằng JavaScript và Playwright.",
+      "after": "Viết kịch bản kiểm thử tự động bằng Playwright cho giao diện trang web quản lý bán hàng. Thực hiện kiểm thử API bằng Postman.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J06-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Phần mềm Thống Nhất. Thời gian: từ 2022-04 đến 2023-02. Mô tả: Thực hiện kiểm thử API bằng Postman và kiểm thử tải cơ bản với JMeter.",
+      "after": "Thiết kế các kịch bản kiểm thử hiệu năng và tải nặng (Stress test, Load test) cho các cổng thanh toán và API dịch vụ bằng Apache JMeter và k6. Phối hợp với đội backend phân tích điểm nghẽn cổ chai. Sử dụng Newman và Postman để kiểm tra tính toàn vẹn chức năng của API trước khi chạy tải.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J07-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Kỹ sư Lập trình Java Cấp cao tại Công ty TNHH Phần mềm Á Châu. Thời gian: từ 2020-04 đến 2022-04. Mô tả: Phát triển microservices cho hệ thống ngân hàng số lõi bằng Java 11 và Spring Boot, sử dụng PostgreSQL và Docker.",
+      "after": "Thiết kế kiến trúc vi dịch vụ Spring Boot và Spring Cloud cho cổng thanh toán trực tuyến. Tích hợp cụm Apache Kafka xử lý hơn 10.000 sự kiện giao dịch mỗi giây. Tối ưu hóa các gói thủ tục PL/SQL và chỉ mục trên Oracle Database. Dẫn dắt 7 kỹ sư lập trình, phân công nhiệm vụ và thực hiện review mã nguồn nghiêm ngặt trước khi triển khai lên Kubernetes.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J07-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Java Backend tại Công ty TNHH Công nghệ Viễn Thông Phương Đông. Thời gian: từ 2021-07 đến 2022-12. Mô tả: Xây dựng RESTful API cho ứng dụng chăm sóc khách hàng viễn thông bằng Spring Boot và MySQL.",
+      "after": "Phát triển các vi dịch vụ thẩm định và bồi thường hợp đồng bảo hiểm bằng Java 17 và Spring Boot. Sử dụng RabbitMQ và Apache Kafka để luân chuyển thông tin hợp đồng. Tối ưu hóa truy vấn PostgreSQL và thiết lập cache Redis.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J07-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Junior Java Developer tại Công ty TNHH Giải pháp Phần mềm Trí Tuệ. Thời gian: từ 2022-09 đến 2023-10. Mô tả: Viết API CRUD đơn giản bằng Spring Boot và viết unit test với JUnit.",
+      "after": "Xây dựng các module quản lý kho và đơn hàng bằng Java và Spring Boot. Sử dụng RabbitMQ để gửi thông báo biến động kho hàng tới khách hàng. Làm việc với cơ sở dữ liệu MySQL.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J07-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên C# .NET tại Công ty TNHH Phát triển Ứng dụng Hiện Đại. Thời gian: từ 2020-04 đến 2022-02. Mô tả: Xây dựng hệ thống backend quản lý hợp đồng bảo hiểm bằng .NET Core và SQL Server.",
+      "after": "Phụ trách bảo trì hệ thống thanh toán .NET và tham gia chuyển đổi một số microservices sang Java Spring Boot. Tích hợp Apache Kafka để chia sẻ sự kiện giữa hai nền tảng .NET và Java.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J07-C04-E01",
+      "field": "skills_used",
+      "before": [
+        "Java",
+        "Spring Boot",
+        "Apache Kafka",
+        "C#"
+      ],
+      "after": [
+        "Java",
+        "Spring Boot",
+        "Apache Kafka"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J07-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Java tại Công ty TNHH Phần mềm Giáo dục Sao Mai. Thời gian: từ 2021-09 đến 2022-07. Mô tả: Xây dựng cổng thông tin sinh viên sử dụng Spring Boot và MySQL.",
+      "after": "Phát triển hệ thống hồ sơ bệnh án điện tử. Xây dựng dịch vụ backend bằng Java Spring Boot kết nối cơ sở dữ liệu Oracle Database, tối ưu hóa các thủ tục PL/SQL cho báo cáo khám chữa bệnh. Lập trình giao diện bác sĩ bằng Angular.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J07-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Senior Java Developer tại Công ty TNHH Giải pháp Ngân hàng Việt. Thời gian: từ 2019-09 đến 2021-09. Mô tả: Xây dựng các module thanh toán và hạch toán bằng Java Spring Boot và Oracle Database.",
+      "after": "Thiết kế kiến trúc tổng thể cho hệ sinh thái vi dịch vụ ngân hàng số với Java 17, Spring Boot và Spring Cloud. Triển khai cụm Apache Kafka phân tán đảm bảo xử lý giao dịch không mất mát dữ liệu. Tối ưu cơ sở dữ liệu Oracle Database chịu tải cao. Định hướng kỹ thuật và đào tạo cho hơn 15 lập trình viên trong khối phát triển.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J07-C07-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Java Tự do tại Nhóm Phát triển Dịch vụ Trực tuyến. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Lập trình hệ thống quản lý nội bộ doanh nghiệp bằng Java Spring Boot.",
+      "after": "Phát triển các vi dịch vụ xử lý dữ liệu đơn hàng bằng Java và Spring Boot. Sử dụng Spring Data JPA kết nối PostgreSQL và đóng gói bằng Docker.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J07-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Python tại Công ty TNHH Phát triển Phần mềm Tân Long. Thời gian: từ 2020-05 đến 2022-03. Mô tả: Viết REST API bằng Django kết nối cơ sở dữ liệu PostgreSQL.",
+      "after": "Xây dựng các dịch vụ backend phân tán bằng Python FastAPI và Django. Tích hợp Kafka để nhận và truyền tải dữ liệu phân tích. Tối ưu hóa các bảng dữ liệu PostgreSQL.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J08-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Backend Golang tại Công ty Cổ phần Giải pháp Phần mềm Hà Thành. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Làm quen cú pháp Go, viết các endpoint CRUD bằng Gin và viết unit test cơ bản.",
+      "after": "Xây dựng các dịch vụ RESTful API phục vụ ứng dụng ví điện tử bằng Golang và framework Gin. Quản lý truy vấn dữ liệu trên PostgreSQL bằng GORM. Áp dụng goroutine và channel để xử lý đồng thời các tác vụ kiểm tra số dư và ghi log. Cấu hình Redis caching giảm tải cơ sở dữ liệu. Đóng gói mã nguồn qua Docker.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J08-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Junior Node.js Developer tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2024-08 đến 2025-07. Mô tả: Xây dựng RESTful API quản lý người dùng bằng Node.js, Express và MySQL.",
+      "after": "Phát triển microservices backend bằng Golang và framework Fiber cho nền tảng quản lý đặt chỗ. Truy vấn cơ sở dữ liệu MySQL thông qua GORM và tối ưu tốc độ đọc dữ liệu bằng Redis.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J08-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Junior Python Developer tại Công ty Cổ phần Công nghệ Nam Định. Thời gian: từ 2024-07 đến 2025-04. Mô tả: Xây dựng REST API bằng Python FastAPI và quản trị cơ sở dữ liệu PostgreSQL.",
+      "after": "Hỗ trợ viết các API kiểm tra thông tin tài khoản bằng Golang và Gin. Kết nối cơ sở dữ liệu PostgreSQL sử dụng thư viện database/sql và GORM.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J08-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Lập trình C++ và Go tại Công ty TNHH Phần mềm Công Nghệ Cao. Thời gian: từ 2025-01 đến 2025-06. Mô tả: Tham gia viết mã nguồn kiểm thử và tìm hiểu lập trình phân tán trong Go.",
+      "after": "Xây dựng các dịch vụ microservices backend bằng Golang kết nối qua gRPC và Protobuf. Quản lý truy vấn dữ liệu hiệu năng cao với PostgreSQL thông qua sqlx. Đóng gói ứng dụng vào Docker container.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J08-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Thử việc tại Công ty Cổ phần Số Khởi Tạo. Thời gian: từ 2025-03 đến 2025-08. Mô tả: Hỗ trợ kiểm thử và sửa lỗi nhỏ trong các API Golang.",
+      "after": "Xây dựng các RESTful API phục vụ tính năng bình luận và đánh giá sản phẩm bằng Golang và Gin. Kết nối cơ sở dữ liệu MySQL qua GORM.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J08-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Lập trình C tại Công ty TNHH Kỹ thuật Điện tử Miền Bắc. Thời gian: từ 2024-08 đến 2025-02. Mô tả: Lập trình firmware điều khiển vi xử lý bằng ngôn ngữ C.",
+      "after": "Phát triển dịch vụ thu thập gói tin thiết bị IoT bằng C++ và Golang. Sử dụng goroutine và channel trong Go để xử lý dữ liệu cảm biến đồng thời trước khi ghi vào cơ sở dữ liệu PostgreSQL.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J08-C07-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Backend Tự do tại Nhóm Phát triển Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Viết các API và kết nối cơ sở dữ liệu PostgreSQL bằng Golang.",
+      "after": "Xây dựng RESTful API cho ứng dụng khảo sát trực tuyến bằng Golang Gin và cơ sở dữ liệu PostgreSQL. Cấu hình Redis lưu phiên làm việc.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J08-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Dịch vụ Số Tân An. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Kiểm thử chức năng và kiểm thử API bằng Postman.",
+      "after": "Xây dựng các mock service bằng Golang và framework Gin để hỗ trợ môi trường kiểm thử tự động. Trực tiếp truy vấn kiểm tra dữ liệu trên PostgreSQL và đóng gói bộ kiểm thử bằng Docker.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J09-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Web .NET tại Công ty TNHH Giải pháp Phần mềm Hà An. Thời gian: từ 2022-06 đến 2023-03. Mô tả: Lập trình các dịch vụ API bằng ASP.NET Core và làm việc với cơ sở dữ liệu PostgreSQL.",
+      "after": "Phát triển các module kế toán và quản lý nhân sự cho hệ thống ERP. Viết backend RESTful API bằng ASP.NET Core 8 kết hợp Entity Framework Core. Xây dựng giao diện web động bằng React.js và TypeScript. Tối ưu câu truy vấn trên Microsoft SQL Server và cấu hình pipeline CI/CD trên Azure DevOps.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J09-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên .NET Backend tại Công ty TNHH Phát triển Phần mềm Tân Bình. Thời gian: từ 2021-08 đến 2023-07. Mô tả: Viết REST API bằng C# ASP.NET Core và tối ưu câu lệnh SQL trên SQL Server.",
+      "after": "Thiết kế các dịch vụ backend bằng ASP.NET Core và Entity Framework Core kết nối Microsoft SQL Server. Đồng thời xây dựng giao diện quản trị bằng React.js và TypeScript.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J09-C02-E01",
+      "field": "skills_used",
+      "before": [
+        "C#",
+        "ASP.NET Core",
+        "React.js",
+        "TypeScript",
+        "Microsoft SQL Server"
+      ],
+      "after": [
+        "ASP.NET Core",
+        "React.js",
+        "TypeScript",
+        "Microsoft SQL Server"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J09-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Junior Web Developer tại Công ty TNHH Phần mềm Đất Mới. Thời gian: từ 2022-04 đến 2023-04. Mô tả: Cắt HTML/CSS và lập trình giao diện React.",
+      "after": "Phát triển giao diện web cho hệ thống bán hàng đa kênh bằng React.js và TypeScript. Tham gia hỗ trợ chỉnh sửa một số controller API trên ASP.NET Core và truy vấn PostgreSQL.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J09-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên C# Web tại Công ty TNHH Dịch vụ Công nghệ Miền Trung. Thời gian: từ 2022-08 đến 2023-09. Mô tả: Phát triển các trang web quản trị nội bộ bằng ASP.NET Core và SQL Server.",
+      "after": "Xây dựng hệ thống quản lý học tập trực tuyến (LMS). Viết API bằng ASP.NET Core 7 và Entity Framework Core kết nối PostgreSQL. Phát triển giao diện React.js TypeScript và cấu hình GitHub Actions triển khai tự động Docker container.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J09-C04-E01",
+      "field": "skills_used",
+      "before": [
+        "C#",
+        "ASP.NET Core",
+        "React.js",
+        "PostgreSQL",
+        "GitHub Actions"
+      ],
+      "after": [
+        "ASP.NET Core",
+        "React.js",
+        "PostgreSQL",
+        "GitHub Actions"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J09-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh .NET tại Công ty Cổ phần Công nghệ An Thái. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết controller API bằng ASP.NET Core.",
+      "after": "Xây dựng các trang web nội bộ quản lý danh bạ khách hàng bằng ASP.NET Core và React.js. Thao tác dữ liệu với Entity Framework Core trên Microsoft SQL Server.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J09-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Web tại Công ty TNHH Giải pháp Mạng Ánh Mai. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Xây dựng hệ thống backend Java Spring Boot.",
+      "after": "Phát triển các hệ thống dịch vụ trực tuyến. Khởi đầu với Java Spring Boot và Vue.js, sau đó chuyển sang hỗ trợ viết API ASP.NET Core và xây dựng giao diện React.js kết nối cơ sở dữ liệu PostgreSQL.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J09-C07-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Tự do tại Nhóm Phát triển Ứng dụng Doanh Nghiệp Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các trang web quản trị sử dụng ASP.NET Core và giao diện React.",
+      "after": "Phát triển ứng dụng quản lý hợp đồng bằng C# ASP.NET Core và React.js. Làm việc với cơ sở dữ liệu Microsoft SQL Server.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J09-C07-E02",
+      "field": "skills_used",
+      "before": [
+        "C#",
+        "React.js"
+      ],
+      "after": [
+        "React.js"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J09-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Chuyên viên Kiểm thử tại Công ty TNHH Phát triển Ứng dụng Tin Cậy. Thời gian: từ 2022-09 đến 2023-06. Mô tả: Kiểm thử chức năng và kiểm tra dữ liệu bằng câu lệnh SQL trên SQL Server.",
+      "after": "Xây dựng các kịch bản kiểm thử tự động giao diện React.js bằng Playwright. Kiểm tra chức năng và hiệu năng các endpoint API ASP.NET Core kết nối cơ sở dữ liệu Microsoft SQL Server.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J10-C01-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Nghiên cứu AI tại Viện Nghiên cứu Công nghệ Số Ứng Dụng. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Thử nghiệm huấn luyện mô hình phân loại cảm xúc văn bản bằng PyTorch và Scikit-learn.",
+      "after": "Thu thập, gán nhãn và làm sạch dữ liệu văn bản tiếng Việt. Tinh chỉnh các mô hình ngôn ngữ dựa trên Transformer bằng PyTorch để phân loại ý định người dùng và trích xuất thực thể. Đóng gói mô hình thành RESTful API sử dụng FastAPI và tối ưu tốc độ suy luận bằng ONNX Runtime. Đóng gói dịch vụ triển khai qua Docker.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J10-C02-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Xử lý Ảnh tại Công ty TNHH Phần mềm Đồ Họa Số. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Thu thập tập dữ liệu ảnh và gán nhãn cho bài toán phân loại ảnh.",
+      "after": "Huấn luyện và tinh chỉnh mô hình nhận diện biển số xe và phát hiện người xâm nhập sử dụng TensorFlow và YOLO. Tiền xử lý dữ liệu hình ảnh video bằng OpenCV. Đóng gói mô hình thành dịch vụ RESTful API bằng Flask để giao tiếp với hệ thống quản lý camera.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J10-C02-E02",
+      "field": "skills_used",
+      "before": [
+        "OpenCV"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J10-C03-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Python thử việc tại Công ty TNHH Phần mềm Khởi Nghiệp. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Viết các script trích xuất dữ liệu và làm sạch dữ liệu phục vụ phân tích.",
+      "after": "Xây dựng các API dịch vụ bằng FastAPI và đóng gói với Docker. Tích hợp mô hình gợi ý sản phẩm sử dụng Scikit-learn và thuật toán lọc cộng tác (collaborative filtering).",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J10-C04-E01",
+      "field": "description",
+      "before": "Chức danh: Trợ lý Nghiên cứu AI tại Phòng Thí nghiệm Đại học Bách Khoa. Thời gian: từ 2025-01 đến 2025-06. Mô tả: Thực hiện tiền xử lý dữ liệu và chạy thực nghiệm các mô hình học sâu.",
+      "after": "Tham gia huấn luyện mô hình phân loại tài liệu văn bản bằng PyTorch và mô hình phát hiện lỗi sản phẩm công nghiệp bằng OpenCV và TensorFlow. Triển khai API bằng FastAPI và đóng gói với Docker.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J10-C04-E02",
+      "field": "skills_used",
+      "before": [
+        "PyTorch"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J10-C05-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty Cổ phần Số Liệu Mới. Thời gian: từ 2025-02 đến 2025-07. Mô tả: Làm sạch và chuẩn hóa dữ liệu bảng bằng Pandas.",
+      "after": "Thu thập dữ liệu và huấn luyện mô hình cây quyết định bằng Scikit-learn. Đóng gói mô hình thành dịch vụ API bằng Flask.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J10-C06-E01",
+      "field": "description",
+      "before": "Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Trực Tuyến Á Châu. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Trích xuất và trực quan hóa dữ liệu bằng Python và SQL.",
+      "after": "Phân tích xu hướng dữ liệu người dùng và phát triển module phân loại văn bản tự động bằng Python PyTorch. Đóng gói dịch vụ phân tích thành API bằng FastAPI.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J10-C07-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên AI Tự do tại Nhóm Nghiên cứu Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Huấn luyện mô hình thị giác máy tính cơ bản bằng Python.",
+      "after": "Huấn luyện mô hình nhận diện khuôn mặt và phát hiện khẩu trang bằng PyTorch và OpenCV. Triển khai API bằng FastAPI và đóng gói với Docker.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J10-C07-E01",
+      "field": "skills_used",
+      "before": [
+        "Python",
+        "PyTorch",
+        "OpenCV",
+        "FastAPI",
+        "Docker"
+      ],
+      "after": [
+        "PyTorch",
+        "OpenCV",
+        "FastAPI",
+        "Docker"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J10-C07-E02",
+      "field": "skills_used",
+      "before": [
+        "Python",
+        "PyTorch"
+      ],
+      "after": [
+        "Python"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    },
+    {
+      "id": "IT-J10-C08-E01",
+      "field": "description",
+      "before": "Chức danh: Lập trình viên Python Thử việc tại Công ty TNHH Phần mềm Á Châu. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Viết các script thu thập và làm sạch dữ liệu văn bản.",
+      "after": "Xây dựng hệ thống RESTful API kết nối và phục vụ dự đoán từ các mô hình học máy sử dụng FastAPI và đóng gói qua Docker.",
+      "decision": "HR-SOURCE-004",
+      "reason": "Exact role-bounded source description; correct v1 parser cross-role attribution."
+    },
+    {
+      "id": "IT-J10-C08-E01",
+      "field": "skills_used",
+      "before": [
+        "Python",
+        "FastAPI",
+        "Docker"
+      ],
+      "after": [
+        "FastAPI",
+        "Docker"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Source audit establishes no explicit support for this specific role/project; general CV skills unchanged."
+    }
+  ],
+  "before_sha256": "b8795770d52214690c9acbe8cb1d62127d9ac8bef111b79967c07b2e2da05abd",
+  "after_sha256": "0649da4954c7c62449a17b7705648e958483736ba3f1ff2c2a13f66dc8395c34",
+  "limitations": [
+    "Only 15 explicitly audited skill links repaired; not complete semantic acceptance.",
+    "CV section prose, dates, IDs and general skills unchanged.",
+    "Old audits/logs retained as historical records."
+  ]
+}

@@ -1,0 +1,320 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "blind_review",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C01",
+      "relevance": 3,
+      "rationale": "Fullstack .NET/React từ 2023-04 hơn 3 năm; ASP.NET Core 8/EF Core, React/TypeScript và tối ưu SQL Server rõ. Đáp ứng trung tâm, không cộng vai trò backend trước vào React.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J09-R01",
+          "section_id": "IT-J09-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Fullstack .NET & React Developer tại Công ty Cổ phần Phần mềm Doanh nghiệp VinaERP. Thời gian: từ 2023-04 đến nay. Mô tả: Phát triển các module kế toán và quản lý nhân sự cho hệ thống ERP. Viết backend RESTful API bằng ASP.NET Core 8 kết hợp Entity Framework Core. Xây dựng giao diện web động bằng React.js và TypeScript. Tối ưu câu truy vấn trên Microsoft SQL Server và cấu hình pipeline CI/CD trên Azure DevOps.\n- Chức danh: Lập trình viên Web .NET tại Công ty TNHH Giải pháp Phần mềm Hà An. Thời gian: từ 2022-06 đến 2023-03. Mô tả: Lập trình các dịch vụ API bằng ASP.NET Core và làm việc với cơ sở dữ liệu PostgreSQL.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J09-R02",
+          "section_id": "IT-J09-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Fullstack .NET & React Developer tại Công ty Cổ phần Phần mềm Doanh nghiệp VinaERP. Thời gian: từ 2023-04 đến nay. Mô tả: Phát triển các module kế toán và quản lý nhân sự cho hệ thống ERP. Viết backend RESTful API bằng ASP.NET Core 8 kết hợp Entity Framework Core. Xây dựng giao diện web động bằng React.js và TypeScript. Tối ưu câu truy vấn trên Microsoft SQL Server và cấu hình pipeline CI/CD trên Azure DevOps.\n- Chức danh: Lập trình viên Web .NET tại Công ty TNHH Giải pháp Phần mềm Hà An. Thời gian: từ 2022-06 đến 2023-03. Mô tả: Lập trình các dịch vụ API bằng ASP.NET Core và làm việc với cơ sở dữ liệu PostgreSQL.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J09-R03",
+          "section_id": "IT-J09-C01-S02",
+          "quote": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: C#, TypeScript, JavaScript, SQL, HTML5, CSS3.\n- Backend: ASP.NET Core (.NET 6, .NET 8), Entity Framework Core, LINQ.\n- Frontend: React.js, Redux Toolkit, Tailwind CSS, Axios.\n- Cơ sở dữ liệu: Microsoft SQL Server, PostgreSQL.\n- Hạ tầng & Công cụ: Docker, Azure DevOps, Git, Postman.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J09-R04",
+          "section_id": "IT-J09-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Fullstack .NET & React Developer tại Công ty Cổ phần Phần mềm Doanh nghiệp VinaERP. Thời gian: từ 2023-04 đến nay. Mô tả: Phát triển các module kế toán và quản lý nhân sự cho hệ thống ERP. Viết backend RESTful API bằng ASP.NET Core 8 kết hợp Entity Framework Core. Xây dựng giao diện web động bằng React.js và TypeScript. Tối ưu câu truy vấn trên Microsoft SQL Server và cấu hình pipeline CI/CD trên Azure DevOps.\n- Chức danh: Lập trình viên Web .NET tại Công ty TNHH Giải pháp Phần mềm Hà An. Thời gian: từ 2022-06 đến 2023-03. Mô tả: Lập trình các dịch vụ API bằng ASP.NET Core và làm việc với cơ sở dữ liệu PostgreSQL.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C02",
+      "relevance": 3,
+      "rationale": "Theo niên biểu fullstack từ 2023-08 khoảng 39 tháng với React/TypeScript và EF Core, có tối ưu SQL Server ở vai trò trước. Tóm tắt React hơn 1 năm không khớp rõ niên biểu; dùng nhiệm vụ có ngày nhưng cần xác minh.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J09-R01",
+          "section_id": "IT-J09-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Fullstack Web tại Công ty Cổ phần Công nghệ Số Thành Đạt. Thời gian: từ 2023-08 đến nay. Mô tả: Thiết kế các dịch vụ backend bằng ASP.NET Core và Entity Framework Core kết nối Microsoft SQL Server. Đồng thời xây dựng giao diện quản trị bằng React.js và TypeScript.\n- Chức danh: Lập trình viên .NET Backend tại Công ty TNHH Phát triển Phần mềm Tân Bình. Thời gian: từ 2021-08 đến 2023-07. Mô tả: Viết REST API bằng C# ASP.NET Core và tối ưu câu lệnh SQL trên SQL Server.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J09-R02",
+          "section_id": "IT-J09-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Fullstack Web tại Công ty Cổ phần Công nghệ Số Thành Đạt. Thời gian: từ 2023-08 đến nay. Mô tả: Thiết kế các dịch vụ backend bằng ASP.NET Core và Entity Framework Core kết nối Microsoft SQL Server. Đồng thời xây dựng giao diện quản trị bằng React.js và TypeScript.\n- Chức danh: Lập trình viên .NET Backend tại Công ty TNHH Phát triển Phần mềm Tân Bình. Thời gian: từ 2021-08 đến 2023-07. Mô tả: Viết REST API bằng C# ASP.NET Core và tối ưu câu lệnh SQL trên SQL Server.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R03",
+          "section_id": "IT-J09-C02-S02",
+          "quote": "Kỹ năng:\n- Phía máy chủ: C#, ASP.NET Core, Entity Framework Core, SQL Server.\n- Giao diện: React.js, JavaScript, TypeScript, HTML5/CSS3.\n- Khác: Git, Postman, Docker cơ bản.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J09-R04",
+          "section_id": "IT-J09-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Fullstack Web tại Công ty Cổ phần Công nghệ Số Thành Đạt. Thời gian: từ 2023-08 đến nay. Mô tả: Thiết kế các dịch vụ backend bằng ASP.NET Core và Entity Framework Core kết nối Microsoft SQL Server. Đồng thời xây dựng giao diện quản trị bằng React.js và TypeScript.\n- Chức danh: Lập trình viên .NET Backend tại Công ty TNHH Phát triển Phần mềm Tân Bình. Thời gian: từ 2021-08 đến 2023-07. Mô tả: Viết REST API bằng C# ASP.NET Core và tối ưu câu lệnh SQL trên SQL Server.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J09-R01: Cần xác định lúc bắt đầu React trong vai trò từ 2023-08 so với tóm tắt hơn 1 năm.",
+        "IT-J09-R02: Chưa nêu phiên bản .NET 6/7/8."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Mơ hồ thâm niên React có thể đổi mức 2/3; nhãn tạm thời theo niên biểu."
+      ]
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C03",
+      "relevance": 1,
+      "rationale": "Frontend React/TypeScript rõ, nhưng C#/ASP.NET chỉ hỗ trợ controller cơ bản. Chưa chứng minh fullstack chuyên trách 3 năm, EF Core và tối ưu truy vấn DB.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J09-R01",
+          "section_id": "IT-J09-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty Cổ phần Công nghệ Ánh Sáng. Thời gian: từ 2023-05 đến nay. Mô tả: Phát triển giao diện web cho hệ thống bán hàng đa kênh bằng React.js và TypeScript. Tham gia hỗ trợ chỉnh sửa một số controller API trên ASP.NET Core và truy vấn PostgreSQL.\n- Chức danh: Junior Web Developer tại Công ty TNHH Phần mềm Đất Mới. Thời gian: từ 2022-04 đến 2023-04. Mô tả: Cắt HTML/CSS và lập trình giao diện React.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R02",
+          "section_id": "IT-J09-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty Cổ phần Công nghệ Ánh Sáng. Thời gian: từ 2023-05 đến nay. Mô tả: Phát triển giao diện web cho hệ thống bán hàng đa kênh bằng React.js và TypeScript. Tham gia hỗ trợ chỉnh sửa một số controller API trên ASP.NET Core và truy vấn PostgreSQL.\n- Chức danh: Junior Web Developer tại Công ty TNHH Phần mềm Đất Mới. Thời gian: từ 2022-04 đến 2023-04. Mô tả: Cắt HTML/CSS và lập trình giao diện React.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R03",
+          "section_id": "IT-J09-C03-S02",
+          "quote": "Kỹ năng:\n- Giao diện: React.js, TypeScript, JavaScript, HTML5, CSS3, Redux.\n- Backend & DB: C# (cơ bản), ASP.NET Core (cơ bản), PostgreSQL.\n- Khác: Git, Postman.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J09-R04",
+          "section_id": "IT-J09-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Frontend Developer tại Công ty Cổ phần Công nghệ Ánh Sáng. Thời gian: từ 2023-05 đến nay. Mô tả: Phát triển giao diện web cho hệ thống bán hàng đa kênh bằng React.js và TypeScript. Tham gia hỗ trợ chỉnh sửa một số controller API trên ASP.NET Core và truy vấn PostgreSQL.\n- Chức danh: Junior Web Developer tại Công ty TNHH Phần mềm Đất Mới. Thời gian: từ 2022-04 đến 2023-04. Mô tả: Cắt HTML/CSS và lập trình giao diện React.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J09-R02: Chưa nêu EF Core và phiên bản .NET.",
+        "IT-J09-R04: Chưa có tối ưu PostgreSQL.",
+        "IT-J09-R01: Thời lượng frontend không tương đương fullstack .NET/React."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C04",
+      "relevance": 2,
+      "rationale": "Fullstack từ 2023-10 hơn 3 năm, Core 7/EF Core và React/TypeScript rõ. Có PostgreSQL nhưng chưa mô tả tối ưu truy vấn; HTML/CSS không nêu đầy đủ, chưa đạt bằng chứng mạnh toàn bộ yêu cầu.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J09-R01",
+          "section_id": "IT-J09-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Fullstack Developer tại Công ty Cổ phần Giải pháp Phần mềm Trực Tuyến An Bình. Thời gian: từ 2023-10 đến nay. Mô tả: Xây dựng hệ thống quản lý học tập trực tuyến (LMS). Viết API bằng ASP.NET Core 7 và Entity Framework Core kết nối PostgreSQL. Phát triển giao diện React.js TypeScript và cấu hình GitHub Actions triển khai tự động Docker container.\n- Chức danh: Lập trình viên C# Web tại Công ty TNHH Dịch vụ Công nghệ Miền Trung. Thời gian: từ 2022-08 đến 2023-09. Mô tả: Phát triển các trang web quản trị nội bộ bằng ASP.NET Core và SQL Server.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J09-R02",
+          "section_id": "IT-J09-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Fullstack Developer tại Công ty Cổ phần Giải pháp Phần mềm Trực Tuyến An Bình. Thời gian: từ 2023-10 đến nay. Mô tả: Xây dựng hệ thống quản lý học tập trực tuyến (LMS). Viết API bằng ASP.NET Core 7 và Entity Framework Core kết nối PostgreSQL. Phát triển giao diện React.js TypeScript và cấu hình GitHub Actions triển khai tự động Docker container.\n- Chức danh: Lập trình viên C# Web tại Công ty TNHH Dịch vụ Công nghệ Miền Trung. Thời gian: từ 2022-08 đến 2023-09. Mô tả: Phát triển các trang web quản trị nội bộ bằng ASP.NET Core và SQL Server.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J09-R03",
+          "section_id": "IT-J09-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Fullstack Developer tại Công ty Cổ phần Giải pháp Phần mềm Trực Tuyến An Bình. Thời gian: từ 2023-10 đến nay. Mô tả: Xây dựng hệ thống quản lý học tập trực tuyến (LMS). Viết API bằng ASP.NET Core 7 và Entity Framework Core kết nối PostgreSQL. Phát triển giao diện React.js TypeScript và cấu hình GitHub Actions triển khai tự động Docker container.\n- Chức danh: Lập trình viên C# Web tại Công ty TNHH Dịch vụ Công nghệ Miền Trung. Thời gian: từ 2022-08 đến 2023-09. Mô tả: Phát triển các trang web quản trị nội bộ bằng ASP.NET Core và SQL Server.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J09-R04",
+          "section_id": "IT-J09-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Fullstack Developer tại Công ty Cổ phần Giải pháp Phần mềm Trực Tuyến An Bình. Thời gian: từ 2023-10 đến nay. Mô tả: Xây dựng hệ thống quản lý học tập trực tuyến (LMS). Viết API bằng ASP.NET Core 7 và Entity Framework Core kết nối PostgreSQL. Phát triển giao diện React.js TypeScript và cấu hình GitHub Actions triển khai tự động Docker container.\n- Chức danh: Lập trình viên C# Web tại Công ty TNHH Dịch vụ Công nghệ Miền Trung. Thời gian: từ 2022-08 đến 2023-09. Mô tả: Phát triển các trang web quản trị nội bộ bằng ASP.NET Core và SQL Server.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J09-R04: Cần ví dụ tối ưu SQL trên PostgreSQL/SQL Server.",
+        "IT-J09-R03: HTML5/CSS3 chưa được nêu trực tiếp."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Thiếu mô tả tối ưu DB bắt buộc có thể đổi mức 2/3."
+      ]
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C05",
+      "relevance": 1,
+      "rationale": "Có .NET/React/EF Core thực tế nhưng fullstack từ 2025-06 khoảng 17 tháng, TypeScript cơ bản và chưa có tối ưu SQL Server. Chưa đạt mức mid ở nhiều yêu cầu.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J09-R01",
+          "section_id": "IT-J09-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Fullstack Developer tại Công ty TNHH Công nghệ Giải pháp Số Trẻ. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng các trang web nội bộ quản lý danh bạ khách hàng bằng ASP.NET Core và React.js. Thao tác dữ liệu với Entity Framework Core trên Microsoft SQL Server.\n- Chức danh: Thực tập sinh .NET tại Công ty Cổ phần Công nghệ An Thái. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết controller API bằng ASP.NET Core.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R02",
+          "section_id": "IT-J09-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Fullstack Developer tại Công ty TNHH Công nghệ Giải pháp Số Trẻ. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng các trang web nội bộ quản lý danh bạ khách hàng bằng ASP.NET Core và React.js. Thao tác dữ liệu với Entity Framework Core trên Microsoft SQL Server.\n- Chức danh: Thực tập sinh .NET tại Công ty Cổ phần Công nghệ An Thái. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết controller API bằng ASP.NET Core.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R03",
+          "section_id": "IT-J09-C05-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: C#, JavaScript, TypeScript (cơ bản), SQL.\n- Công nghệ: ASP.NET Core, Entity Framework Core, React.js, Bootstrap.\n- Cơ sở dữ liệu: Microsoft SQL Server.\n- Khác: Git, Postman.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R04",
+          "section_id": "IT-J09-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Fullstack Developer tại Công ty TNHH Công nghệ Giải pháp Số Trẻ. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng các trang web nội bộ quản lý danh bạ khách hàng bằng ASP.NET Core và React.js. Thao tác dữ liệu với Entity Framework Core trên Microsoft SQL Server.\n- Chức danh: Thực tập sinh .NET tại Công ty Cổ phần Công nghệ An Thái. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết controller API bằng ASP.NET Core.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J09-R02: Chưa nêu phiên bản .NET.",
+        "IT-J09-R04: Chưa mô tả tối ưu SQL."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C06",
+      "relevance": 1,
+      "rationale": "Có chuyển đổi ASP.NET/React trong 8 tháng và nền fullstack Java/Vue, nhưng không có 3 năm đúng stack. EF Core và tối ưu DB chưa được chứng minh; không dùng tổng thời gian phần mềm thay thâm niên yêu cầu.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J09-R01",
+          "section_id": "IT-J09-C06-S01",
+          "quote": "Tóm lược: Kỹ sư Lập trình Fullstack Java & Vue.js có hơn 4 năm kinh nghiệm. Có khả năng tiếp cận nhanh các ngôn ngữ mới và đã tham gia dự án chuyển đổi mã nguồn sang C# ASP.NET Core và React.js trong 8 tháng gần đây.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R02",
+          "section_id": "IT-J09-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Fullstack Engineer tại Công ty Cổ phần Công nghệ Số Toàn Cầu. Thời gian: từ 2022-09 đến nay. Mô tả: Phát triển các hệ thống dịch vụ trực tuyến. Khởi đầu với Java Spring Boot và Vue.js, sau đó chuyển sang hỗ trợ viết API ASP.NET Core và xây dựng giao diện React.js kết nối cơ sở dữ liệu PostgreSQL.\n- Chức danh: Lập trình viên Web tại Công ty TNHH Giải pháp Mạng Ánh Mai. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Xây dựng hệ thống backend Java Spring Boot.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R03",
+          "section_id": "IT-J09-C06-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: Java, C#, TypeScript, JavaScript, SQL.\n- Framework & Thư viện: Spring Boot, ASP.NET Core, Vue.js, React.js.\n- Cơ sở dữ liệu: PostgreSQL, MySQL, SQL Server.\n- Khác: Docker, Git.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R04",
+          "section_id": "IT-J09-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Fullstack Engineer tại Công ty Cổ phần Công nghệ Số Toàn Cầu. Thời gian: từ 2022-09 đến nay. Mô tả: Phát triển các hệ thống dịch vụ trực tuyến. Khởi đầu với Java Spring Boot và Vue.js, sau đó chuyển sang hỗ trợ viết API ASP.NET Core và xây dựng giao diện React.js kết nối cơ sở dữ liệu PostgreSQL.\n- Chức danh: Lập trình viên Web tại Công ty TNHH Giải pháp Mạng Ánh Mai. Thời gian: từ 2021-04 đến 2022-08. Mô tả: Xây dựng hệ thống backend Java Spring Boot.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J09-R02: Chưa nêu EF Core, phiên bản .NET.",
+        "IT-J09-R04: Chưa có tối ưu PostgreSQL/SQL Server.",
+        "IT-J09-R03: Chưa có mô tả độ sâu TypeScript/HTML5/CSS3."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C07",
+      "relevance": 2,
+      "rationale": "Có ứng dụng fullstack .NET/React và SQL Server, khoảng 32 tháng có ngày. Freelance thiếu ngày có thể bổ sung nhưng không cộng giả định; EF Core, phiên bản .NET, TypeScript thực hành và tối ưu SQL chưa rõ.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J09-R01",
+          "section_id": "IT-J09-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Fullstack tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2024-03 đến nay. Mô tả: Phát triển ứng dụng quản lý hợp đồng bằng C# ASP.NET Core và React.js. Làm việc với cơ sở dữ liệu Microsoft SQL Server.\n- Chức danh: Lập trình viên Tự do tại Nhóm Phát triển Ứng dụng Doanh Nghiệp Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các trang web quản trị sử dụng ASP.NET Core và giao diện React.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R02",
+          "section_id": "IT-J09-C07-S04",
+          "quote": "Dự án:\n- Dự án Hệ thống Quản trị Hợp đồng ContractPro: Viết API ASP.NET Core và màn hình giao diện React.js kết nối SQL Server.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R03",
+          "section_id": "IT-J09-C07-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: C#, TypeScript, JavaScript, SQL.\n- Công nghệ: ASP.NET Core, React.js, Microsoft SQL Server, Git.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R04",
+          "section_id": "IT-J09-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Fullstack tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2024-03 đến nay. Mô tả: Phát triển ứng dụng quản lý hợp đồng bằng C# ASP.NET Core và React.js. Làm việc với cơ sở dữ liệu Microsoft SQL Server.\n- Chức danh: Lập trình viên Tự do tại Nhóm Phát triển Ứng dụng Doanh Nghiệp Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các trang web quản trị sử dụng ASP.NET Core và giao diện React.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J09-R01: Cần ngày/trạng thái và chồng lấn freelance để kiểm tra 3 năm.",
+        "IT-J09-R02: Chưa nêu EF Core hoặc .NET 6/7/8.",
+        "IT-J09-R03: Cần rõ TypeScript/HTML/CSS thực hành.",
+        "IT-J09-R04: Chưa có tối ưu SQL Server."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Thời lượng freelance và độ sâu stack bắt buộc chưa rõ; nhãn tạm thời."
+      ]
+    },
+    {
+      "job_id": "IT-J09",
+      "candidate_id": "IT-J09-C08",
+      "relevance": 1,
+      "rationale": "Có kiểm thử .NET/React và truy vấn SQL, hiểu API hữu ích chuyển đổi, nhưng chưa mô tả phát triển fullstack, EF Core hoặc lập trình UI. Không coi 3 năm QA là 3 năm .NET/React development.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J09-R01",
+          "section_id": "IT-J09-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Automation QA Engineer tại Công ty Cổ phần Giải pháp Phần mềm Kiểm Thử Toàn Cầu. Thời gian: từ 2023-07 đến nay. Mô tả: Xây dựng các kịch bản kiểm thử tự động giao diện React.js bằng Playwright. Kiểm tra chức năng và hiệu năng các endpoint API ASP.NET Core kết nối cơ sở dữ liệu Microsoft SQL Server.\n- Chức danh: Chuyên viên Kiểm thử tại Công ty TNHH Phát triển Ứng dụng Tin Cậy. Thời gian: từ 2022-09 đến 2023-06. Mô tả: Kiểm thử chức năng và kiểm tra dữ liệu bằng câu lệnh SQL trên SQL Server.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R02",
+          "section_id": "IT-J09-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Automation QA Engineer tại Công ty Cổ phần Giải pháp Phần mềm Kiểm Thử Toàn Cầu. Thời gian: từ 2023-07 đến nay. Mô tả: Xây dựng các kịch bản kiểm thử tự động giao diện React.js bằng Playwright. Kiểm tra chức năng và hiệu năng các endpoint API ASP.NET Core kết nối cơ sở dữ liệu Microsoft SQL Server.\n- Chức danh: Chuyên viên Kiểm thử tại Công ty TNHH Phát triển Ứng dụng Tin Cậy. Thời gian: từ 2022-09 đến 2023-06. Mô tả: Kiểm thử chức năng và kiểm tra dữ liệu bằng câu lệnh SQL trên SQL Server.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R03",
+          "section_id": "IT-J09-C08-S04",
+          "quote": "Dự án:\n- Dự án Kiểm thử Tự động Cổng Quản lý Bán Lẻ RetailPortal: Xây dựng bộ test Playwright cho giao diện web React.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J09-R04",
+          "section_id": "IT-J09-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Automation QA Engineer tại Công ty Cổ phần Giải pháp Phần mềm Kiểm Thử Toàn Cầu. Thời gian: từ 2023-07 đến nay. Mô tả: Xây dựng các kịch bản kiểm thử tự động giao diện React.js bằng Playwright. Kiểm tra chức năng và hiệu năng các endpoint API ASP.NET Core kết nối cơ sở dữ liệu Microsoft SQL Server.\n- Chức danh: Chuyên viên Kiểm thử tại Công ty TNHH Phát triển Ứng dụng Tin Cậy. Thời gian: từ 2022-09 đến 2023-06. Mô tả: Kiểm thử chức năng và kiểm tra dữ liệu bằng câu lệnh SQL trên SQL Server.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J09-R02: Chưa có xây API ASP.NET Core/EF Core.",
+        "IT-J09-R03: Chưa có xây UI React/TypeScript.",
+        "IT-J09-R04: Chưa có tối ưu truy vấn."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

@@ -1,0 +1,303 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "blind_review",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C01",
+      "relevance": 3,
+      "rationale": "SEO từ 2022-09 vượt 2 năm, On-page/kiến trúc/từ khóa/Off-page rõ, đủ bốn công cụ và phối hợp Content Writer. Technical SEO bổ sung có căn cứ.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J04-R01",
+          "section_id": "MK-J04-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên SEO Website tại Công ty Cổ phần Công Nghệ SEO Đỉnh Cao\nThời gian: Từ 2023-06 đến nay (đang làm việc)\n- Trực tiếp phụ trách dự án SEO cho 2 website thương mại điện tử mảng thiết bị bếp và đồ gia dụng gia đình.\n- Nghiên cứu bộ từ khóa gồm hơn 1.500 từ khóa ngách và từ khóa chuyển đổi cao; lên sơ đồ kiến trúc website dạng Topic Cluster.\n- Sử dụng Screaming Frog quét định kỳ toàn trang, rà soát mã lỗi 404, chuỗi chuyển hướng 301 và thẻ Canonical trùng lặp.\n- Sử dụng Google Search Console, Ahrefs và SEMrush theo dõi biến động vị trí từ khóa hàng tuần và kiểm soát hồ sơ backlink.\n- Lập bản yêu cầu chi tiết (Content Brief) và hướng dẫn 4 bạn Content Writer cách rải từ khóa tự nhiên, viết thẻ mở đầu hấp dẫn để tăng tỷ lệ nhấp CTR.\n- Can thiệp trực tiếp mã nguồn HTML, CSS và cấu hình plugin trên WordPress để tối ưu chỉ số tải trang Core Web Vitals.\n\nNhân viên SEO Junior tại Công ty TNHH Giải Pháp Trực Tuyến VinaTech\nThời gian: Từ 2022-09 đến 2023-05\n- Viết bài chuẩn SEO và đi liên kết nội bộ cho các website bán đồ nội thất.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J04-R02",
+          "section_id": "MK-J04-C01-SEC-SKILL",
+          "quote": "Kỹ năng chủ đạo:\n- Nghiên cứu từ khóa và lập cấu trúc nội dung website (Topic Cluster / Silo Structure)\n- Kỹ thuật SEO On-page: thẻ Title, Meta, Heading, Internal Linking, Schema\n- Xây dựng liên kết SEO Off-page an toàn: Guest Post, PR báo chí, Social Entity\n- Công cụ phân tích SEO: Google Search Console, Ahrefs, SEMrush, Screaming Frog\n- Khắc phục lỗi Technical SEO trên nền tảng WordPress bằng HTML, CSS và JavaScript",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J04-R03",
+          "section_id": "MK-J04-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên SEO Website tại Công ty Cổ phần Công Nghệ SEO Đỉnh Cao\nThời gian: Từ 2023-06 đến nay (đang làm việc)\n- Trực tiếp phụ trách dự án SEO cho 2 website thương mại điện tử mảng thiết bị bếp và đồ gia dụng gia đình.\n- Nghiên cứu bộ từ khóa gồm hơn 1.500 từ khóa ngách và từ khóa chuyển đổi cao; lên sơ đồ kiến trúc website dạng Topic Cluster.\n- Sử dụng Screaming Frog quét định kỳ toàn trang, rà soát mã lỗi 404, chuỗi chuyển hướng 301 và thẻ Canonical trùng lặp.\n- Sử dụng Google Search Console, Ahrefs và SEMrush theo dõi biến động vị trí từ khóa hàng tuần và kiểm soát hồ sơ backlink.\n- Lập bản yêu cầu chi tiết (Content Brief) và hướng dẫn 4 bạn Content Writer cách rải từ khóa tự nhiên, viết thẻ mở đầu hấp dẫn để tăng tỷ lệ nhấp CTR.\n- Can thiệp trực tiếp mã nguồn HTML, CSS và cấu hình plugin trên WordPress để tối ưu chỉ số tải trang Core Web Vitals.\n\nNhân viên SEO Junior tại Công ty TNHH Giải Pháp Trực Tuyến VinaTech\nThời gian: Từ 2022-09 đến 2023-05\n- Viết bài chuẩn SEO và đi liên kết nội bộ cho các website bán đồ nội thất.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J04-R04",
+          "section_id": "MK-J04-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên SEO Website tại Công ty Cổ phần Công Nghệ SEO Đỉnh Cao\nThời gian: Từ 2023-06 đến nay (đang làm việc)\n- Trực tiếp phụ trách dự án SEO cho 2 website thương mại điện tử mảng thiết bị bếp và đồ gia dụng gia đình.\n- Nghiên cứu bộ từ khóa gồm hơn 1.500 từ khóa ngách và từ khóa chuyển đổi cao; lên sơ đồ kiến trúc website dạng Topic Cluster.\n- Sử dụng Screaming Frog quét định kỳ toàn trang, rà soát mã lỗi 404, chuỗi chuyển hướng 301 và thẻ Canonical trùng lặp.\n- Sử dụng Google Search Console, Ahrefs và SEMrush theo dõi biến động vị trí từ khóa hàng tuần và kiểm soát hồ sơ backlink.\n- Lập bản yêu cầu chi tiết (Content Brief) và hướng dẫn 4 bạn Content Writer cách rải từ khóa tự nhiên, viết thẻ mở đầu hấp dẫn để tăng tỷ lệ nhấp CTR.\n- Can thiệp trực tiếp mã nguồn HTML, CSS và cấu hình plugin trên WordPress để tối ưu chỉ số tải trang Core Web Vitals.\n\nNhân viên SEO Junior tại Công ty TNHH Giải Pháp Trực Tuyến VinaTech\nThời gian: Từ 2022-09 đến 2023-05\n- Viết bài chuẩn SEO và đi liên kết nội bộ cho các website bán đồ nội thất.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C02",
+      "relevance": 2,
+      "rationale": "SEO cổng doanh nghiệp hơn 2 năm và công cụ/Content CTA rõ. Chưa có bằng chứng Off-page an toàn và tối ưu kiến trúc đầy đủ, một phần bắt buộc chưa chứng minh.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J04-R01",
+          "section_id": "MK-J04-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Tối ưu Hóa Tìm Kiếm tại Cổng Thông Tin Doanh Nghiệp VinaPortal\nThời gian: Từ 2024-01 đến nay (đang công tác)\n- Triển khai chiến lược SEO tổng thể cho trang tin tức và danh bạ doanh nghiệp với hơn 300.000 lượt truy cập hàng tháng.\n- Quản lý bộ 800 từ khóa ngành luật doanh nghiệp và kế toán thuế, đưa 65% từ khóa vào trang nhất kết quả tìm kiếm Google.\n- Sử dụng Ahrefs kiểm tra đối thủ cạnh tranh và Screaming Frog để tìm kiếm các liên kết gãy nội bộ.\n- Hướng dẫn đội ngũ 3 cộng tác viên viết bài chuẩn hóa cấu trúc bài viết, chèn lời kêu gọi hành động (CTA) chuyển đổi khách hàng tiềm năng.\n- Sử dụng kiến thức cơ bản về HTML, CSS để tùy chỉnh giao diện bài viết trên nền tảng WordPress.\n\nNhân viên SEO Nội dung tại Công ty TNHH Truyền Thông Trí Việt\nThời gian: Từ 2023-04 đến 2023-12\n- Viết bài chuẩn SEO và tối ưu thẻ meta cho các website dịch vụ du lịch.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J04-R02",
+          "section_id": "MK-J04-C02-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Hoạch định chiến lược từ khóa cổng thông tin doanh nghiệp B2B\n- Tối ưu On-page: cấu trúc Heading, URL thân thiện, thẻ Alt ảnh\n- Khai thác dữ liệu Google Search Console và Google Analytics để tìm trang tiềm năng\n- Quét và sửa lỗi Technical SEO với phần mềm Screaming Frog\n- Quản trị website và đăng bài chuẩn SEO trên hệ quản trị mã nguồn mở WordPress",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R03",
+          "section_id": "MK-J04-C02-SEC-SUM",
+          "quote": "Tóm lược hồ sơ:\nChuyên viên SEO với 2 năm 6 tháng kinh nghiệm xây dựng lượng truy cập tự nhiên cho cổng thông tin doanh nghiệp và báo điện tử chuyên ngành. Thành thạo việc phân tích đối thủ cạnh tranh trên Ahrefs, SEMrush, tối ưu trải nghiệm đọc trên trang và xây dựng chiến lược từ khóa dài (Long-tail keywords). Có khả năng làm việc chặt chẽ cùng đội biên tập viên nội dung để nâng cao tỷ lệ chuyển đổi form liên hệ.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J04-R03",
+          "section_id": "MK-J04-C02-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Hoạch định chiến lược từ khóa cổng thông tin doanh nghiệp B2B\n- Tối ưu On-page: cấu trúc Heading, URL thân thiện, thẻ Alt ảnh\n- Khai thác dữ liệu Google Search Console và Google Analytics để tìm trang tiềm năng\n- Quét và sửa lỗi Technical SEO với phần mềm Screaming Frog\n- Quản trị website và đăng bài chuẩn SEO trên hệ quản trị mã nguồn mở WordPress",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J04-R04",
+          "section_id": "MK-J04-C02-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Tối ưu Hóa Tìm Kiếm tại Cổng Thông Tin Doanh Nghiệp VinaPortal\nThời gian: Từ 2024-01 đến nay (đang công tác)\n- Triển khai chiến lược SEO tổng thể cho trang tin tức và danh bạ doanh nghiệp với hơn 300.000 lượt truy cập hàng tháng.\n- Quản lý bộ 800 từ khóa ngành luật doanh nghiệp và kế toán thuế, đưa 65% từ khóa vào trang nhất kết quả tìm kiếm Google.\n- Sử dụng Ahrefs kiểm tra đối thủ cạnh tranh và Screaming Frog để tìm kiếm các liên kết gãy nội bộ.\n- Hướng dẫn đội ngũ 3 cộng tác viên viết bài chuẩn hóa cấu trúc bài viết, chèn lời kêu gọi hành động (CTA) chuyển đổi khách hàng tiềm năng.\n- Sử dụng kiến thức cơ bản về HTML, CSS để tùy chỉnh giao diện bài viết trên nền tảng WordPress.\n\nNhân viên SEO Nội dung tại Công ty TNHH Truyền Thông Trí Việt\nThời gian: Từ 2023-04 đến 2023-12\n- Viết bài chuẩn SEO và tối ưu thẻ meta cho các website dịch vụ du lịch.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "MK-J04-R02: Chưa nêu xây liên kết Off-page an toàn và thiết kế kiến trúc website."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Phạm vi Off-page/kiến trúc chưa rõ có thể đổi mức 2/3."
+      ]
+    },
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C03",
+      "relevance": 1,
+      "rationale": "Paid Search, nghiên cứu từ khóa và GSC chuyển đổi một phần nhưng chưa có SEO organic 2 năm. Chưa chứng minh On/Off-page/kiến trúc, bộ công cụ và phối hợp Content Writer chuẩn SEO.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J04-R01",
+          "section_id": "MK-J04-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quảng Cáo Google Ads tại Công ty Cổ phần Quảng Cáo Chuyển Đổi VinaSearch\nThời gian: Từ 2024-09 đến nay (đang làm việc)\n- Thiết lập và quản lý ngân sách 150 triệu đồng/tháng quảng cáo từ khóa cho các website bán hàng điện máy và khóa học nghề.\n- Tối ưu trang đích để đạt Điểm chất lượng từ 8/10 trở lên nhằm giảm chi phí thầu CPC.\n- Sử dụng Google Search Console để xem xét các từ khóa có lượt tìm kiếm tăng đột biến để đưa vào danh sách từ khóa quảng cáo.\n\nNhân viên Thiết lập Quảng cáo Số tại Công ty TNHH Tiếp Thị Minh Phát\nThời gian: Từ 2023-10 đến 2024-08\n- Cài đặt từ khóa và viết tiện ích mở rộng cho các mẫu quảng cáo tìm kiếm văn phòng phẩm.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R02",
+          "section_id": "MK-J04-C03-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Quản lý chiến dịch quảng cáo tìm kiếm Google Ads Search\n- Nghiên cứu từ khóa thương mại bằng công cụ Google Keyword Planner\n- Tối ưu điểm chất lượng trang đích và thông điệp mẫu quảng cáo\n- Xem báo cáo tỷ lệ hiển thị và cụm từ tìm kiếm trong Google Search Console\n- Kỹ năng phân tích chi phí trên mỗi lượt nhấp (CPC) và tỷ lệ chuyển đổi",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R03",
+          "section_id": "MK-J04-C03-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Quảng Cáo Google Ads tại Công ty Cổ phần Quảng Cáo Chuyển Đổi VinaSearch\nThời gian: Từ 2024-09 đến nay (đang làm việc)\n- Thiết lập và quản lý ngân sách 150 triệu đồng/tháng quảng cáo từ khóa cho các website bán hàng điện máy và khóa học nghề.\n- Tối ưu trang đích để đạt Điểm chất lượng từ 8/10 trở lên nhằm giảm chi phí thầu CPC.\n- Sử dụng Google Search Console để xem xét các từ khóa có lượt tìm kiếm tăng đột biến để đưa vào danh sách từ khóa quảng cáo.\n\nNhân viên Thiết lập Quảng cáo Số tại Công ty TNHH Tiếp Thị Minh Phát\nThời gian: Từ 2023-10 đến 2024-08\n- Cài đặt từ khóa và viết tiện ích mở rộng cho các mẫu quảng cáo tìm kiếm văn phòng phẩm.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J04-R04: Chưa có phối hợp Content Writer cho organic.",
+        "MK-J04-R03: Chưa nêu Ahrefs/SEMrush/Screaming Frog.",
+        "MK-J04-R02: Chưa có Off-page/kiến trúc SEO."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C04",
+      "relevance": 1,
+      "rationale": "SEO khoảng 18 tháng kể cả thực tập, chưa 2 năm; On-page/Ahrefs/GSC ở mức cơ bản, chưa có kiến trúc/từ khóa chiến lược, liên kết an toàn và công cụ kỹ thuật đầy đủ.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J04-R01",
+          "section_id": "MK-J04-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên SEO Junior tại Công ty TNHH Dịch Vụ SEO Ánh Mai\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Phụ trách theo dõi thứ hạng 200 từ khóa mảng hoa tươi mừng khai trương và hoa sinh nhật.\n- Hàng ngày kiểm tra và sửa thẻ meta, chèn từ khóa in đậm và đặt liên kết trỏ về danh mục sản phẩm chính trên website WordPress.\n- Xuất báo cáo vị trí từ khóa từ Ahrefs vào bảng tính Excel vào mỗi chiều thứ Sáu.\n- Đọc các thông báo lỗi lập chỉ mục đơn giản trên Google Search Console.\n\nThực tập sinh SEO tại Công ty TNHH Giải Pháp Trực Tuyến Sao Băng\nThời gian: Từ 2025-05 đến 2025-09\n- Tìm kiếm diễn đàn và trang web rao vặt để đăng bài giới thiệu đường link website.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R02",
+          "section_id": "MK-J04-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên SEO Junior tại Công ty TNHH Dịch Vụ SEO Ánh Mai\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Phụ trách theo dõi thứ hạng 200 từ khóa mảng hoa tươi mừng khai trương và hoa sinh nhật.\n- Hàng ngày kiểm tra và sửa thẻ meta, chèn từ khóa in đậm và đặt liên kết trỏ về danh mục sản phẩm chính trên website WordPress.\n- Xuất báo cáo vị trí từ khóa từ Ahrefs vào bảng tính Excel vào mỗi chiều thứ Sáu.\n- Đọc các thông báo lỗi lập chỉ mục đơn giản trên Google Search Console.\n\nThực tập sinh SEO tại Công ty TNHH Giải Pháp Trực Tuyến Sao Băng\nThời gian: Từ 2025-05 đến 2025-09\n- Tìm kiếm diễn đàn và trang web rao vặt để đăng bài giới thiệu đường link website.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R03",
+          "section_id": "MK-J04-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên SEO Junior tại Công ty TNHH Dịch Vụ SEO Ánh Mai\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Phụ trách theo dõi thứ hạng 200 từ khóa mảng hoa tươi mừng khai trương và hoa sinh nhật.\n- Hàng ngày kiểm tra và sửa thẻ meta, chèn từ khóa in đậm và đặt liên kết trỏ về danh mục sản phẩm chính trên website WordPress.\n- Xuất báo cáo vị trí từ khóa từ Ahrefs vào bảng tính Excel vào mỗi chiều thứ Sáu.\n- Đọc các thông báo lỗi lập chỉ mục đơn giản trên Google Search Console.\n\nThực tập sinh SEO tại Công ty TNHH Giải Pháp Trực Tuyến Sao Băng\nThời gian: Từ 2025-05 đến 2025-09\n- Tìm kiếm diễn đàn và trang web rao vặt để đăng bài giới thiệu đường link website.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J04-R04: Chưa nêu phối hợp Content Writer và chuyển đổi organic.",
+        "MK-J04-R03: Chưa có SEMrush/Screaming Frog.",
+        "MK-J04-R02: Đăng diễn đàn/rao vặt chưa đủ bằng chứng Off-page an toàn."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C05",
+      "relevance": 2,
+      "rationale": "SEO kỹ thuật/kiến trúc quy mô lớn và Content Strategy mạnh nhiều năm; chưa nêu GSC/SEMrush, nghiên cứu từ khóa và Off-page an toàn rõ. Không suy kỹ năng bị thiếu từ chức danh Head hoặc dùng thâm niên thay bằng chứng.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J04-R01",
+          "section_id": "MK-J04-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrưởng bộ phận SEO tại Tập Đoàn Bán Lẻ Trực Tuyến Megamall\nThời gian: Từ 2022-03 đến nay (đang phụ trách)\n- Quản lý toàn bộ lưu lượng tìm kiếm tự nhiên của hệ thống website thương mại điện tử với hơn 4 triệu lượt organic traffic mỗi tháng.\n- Chỉ đạo kiểm toán kỹ thuật định kỳ với Screaming Frog chạy qua máy chủ đám mây, xử lý triệt để vấn đề trùng lặp nội dung do bộ lọc thuộc tính sản phẩm.\n- Xây dựng quy trình tự động hóa kiểm tra mã thẻ Schema và thẻ Canonical trong pipeline triển khai của đội phát triển web.\n- Đào tạo đội ngũ Content Strategist chuẩn hóa quy trình sản xuất nội dung bài viết và trang danh mục ngành hàng.\n\nChuyên viên Cấp cao SEO Kỹ thuật tại Công ty Cổ phần Thương Mại Điện Tử VinaDeal\nThời gian: Từ 2019-08 đến 2022-02\n- Chịu trách nhiệm tối ưu On-page và phục hồi lưu lượng truy cập sau các đợt thuật toán Google Panda/Penguin.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J04-R02",
+          "section_id": "MK-J04-C05-SEC-SKILL",
+          "quote": "Kỹ năng điều hành và kỹ thuật:\n- Hoạch định chiến lược SEO dài hạn cho website quy mô trên 1.000.000 URLs\n- Quản lý và phát triển đội ngũ 8 nhân sự SEO kỹ thuật và nội dung\n- Vận hành thành thạo hệ thống phân tích: Screaming Frog Enterprise Server, Botify, Ahrefs, BigQuery\n- Tối ưu hóa kiến trúc điều hướng Faceted Navigation và dữ liệu có cấu trúc JSON-LD Schema\n- Phối hợp cùng đội ngũ Kỹ sư Phần mềm (Engineering) để tối ưu hạ tầng Server-side Rendering",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R03",
+          "section_id": "MK-J04-C05-SEC-SKILL",
+          "quote": "Kỹ năng điều hành và kỹ thuật:\n- Hoạch định chiến lược SEO dài hạn cho website quy mô trên 1.000.000 URLs\n- Quản lý và phát triển đội ngũ 8 nhân sự SEO kỹ thuật và nội dung\n- Vận hành thành thạo hệ thống phân tích: Screaming Frog Enterprise Server, Botify, Ahrefs, BigQuery\n- Tối ưu hóa kiến trúc điều hướng Faceted Navigation và dữ liệu có cấu trúc JSON-LD Schema\n- Phối hợp cùng đội ngũ Kỹ sư Phần mềm (Engineering) để tối ưu hạ tầng Server-side Rendering",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R04",
+          "section_id": "MK-J04-C05-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nTrưởng bộ phận SEO tại Tập Đoàn Bán Lẻ Trực Tuyến Megamall\nThời gian: Từ 2022-03 đến nay (đang phụ trách)\n- Quản lý toàn bộ lưu lượng tìm kiếm tự nhiên của hệ thống website thương mại điện tử với hơn 4 triệu lượt organic traffic mỗi tháng.\n- Chỉ đạo kiểm toán kỹ thuật định kỳ với Screaming Frog chạy qua máy chủ đám mây, xử lý triệt để vấn đề trùng lặp nội dung do bộ lọc thuộc tính sản phẩm.\n- Xây dựng quy trình tự động hóa kiểm tra mã thẻ Schema và thẻ Canonical trong pipeline triển khai của đội phát triển web.\n- Đào tạo đội ngũ Content Strategist chuẩn hóa quy trình sản xuất nội dung bài viết và trang danh mục ngành hàng.\n\nChuyên viên Cấp cao SEO Kỹ thuật tại Công ty Cổ phần Thương Mại Điện Tử VinaDeal\nThời gian: Từ 2019-08 đến 2022-02\n- Chịu trách nhiệm tối ưu On-page và phục hồi lưu lượng truy cập sau các đợt thuật toán Google Panda/Penguin.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "MK-J04-R02: Cần bằng chứng lập kế hoạch từ khóa và Off-page an toàn.",
+        "MK-J04-R03: Chưa nêu GSC/SEMrush."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Phạm vi công cụ và Off-page bắt buộc chưa rõ có thể đổi mức 2/3."
+      ]
+    },
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C06",
+      "relevance": 1,
+      "rationale": "SEO content hơn 2 năm và On-page/WordPress liên quan, nhưng nhận từ khóa có sẵn chưa chứng minh lập kế hoạch/kiến trúc/Off-page; chưa có công cụ SEO chuyên sâu và phối hợp định hướng Content ở mức specialist.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J04-R01",
+          "section_id": "MK-J04-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Viết Bài Chuẩn SEO tại Công Ty Truyền Thông Xanh\nThời gian: Từ 2024-10 đến nay (đang làm việc)\n- Nhận danh sách từ khóa từ chuyên viên SEO và viết 15 bài/tuần cho website phòng khám nhi khoa.\n- Đảm bảo bài viết đáp ứng đầy đủ các tiêu chuẩn về độ dài trên 1.200 từ, cấu trúc rõ ràng và hấp dẫn người đọc.\n- Tự đăng bài lên hệ thống WordPress, chỉnh sửa định dạng đoạn văn bản và chọn danh mục phù hợp.\n\nCộng tác viên Nội Dung Bài Viết tại Trang Tin Mẹ Yêu Con\nThời gian: Từ 2023-10 đến 2024-09\n- Viết bài chia sẻ kinh nghiệm chăm sóc trẻ sơ sinh và dinh dưỡng ăn dặm.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R02",
+          "section_id": "MK-J04-C06-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Viết bài chuẩn SEO theo bộ từ khóa và tiêu chí mật độ từ khóa\n- Chèn thẻ H2, H3, Alt hình ảnh và đường dẫn nội bộ vào bài viết\n- Sử dụng plugin Yoast SEO và Rank Math trên WordPress để kiểm tra độ xanh của bài viết\n- Tìm kiếm và biên tập hình ảnh minh họa chất lượng cao không dính bản quyền\n- Kỹ năng kiểm tra đạo văn bằng công cụ trực tuyến SmallSEOTools",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R04",
+          "section_id": "MK-J04-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nNhân viên Viết Bài Chuẩn SEO tại Công Ty Truyền Thông Xanh\nThời gian: Từ 2024-10 đến nay (đang làm việc)\n- Nhận danh sách từ khóa từ chuyên viên SEO và viết 15 bài/tuần cho website phòng khám nhi khoa.\n- Đảm bảo bài viết đáp ứng đầy đủ các tiêu chuẩn về độ dài trên 1.200 từ, cấu trúc rõ ràng và hấp dẫn người đọc.\n- Tự đăng bài lên hệ thống WordPress, chỉnh sửa định dạng đoạn văn bản và chọn danh mục phù hợp.\n\nCộng tác viên Nội Dung Bài Viết tại Trang Tin Mẹ Yêu Con\nThời gian: Từ 2023-10 đến 2024-09\n- Viết bài chia sẻ kinh nghiệm chăm sóc trẻ sơ sinh và dinh dưỡng ăn dặm.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "MK-J04-R03: Chưa nêu GSC/Ahrefs/SEMrush/Screaming Frog.",
+        "MK-J04-R02: Chưa có kế hoạch từ khóa, kiến trúc và Off-page an toàn."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C07",
+      "relevance": 2,
+      "rationale": "SEO bán hàng từ 2024-03 khoảng 32 tháng tự đủ 2 năm; On-page/từ khóa/GSC/Ahrefs và Content rõ. Chưa có Off-page an toàn, SEMrush/Screaming Frog; freelance không ngày không ảnh hưởng ngưỡng.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J04-R01",
+          "section_id": "MK-J04-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên SEO Website tại Công ty TNHH Nội Thất Số Online\nThời gian: Từ 2024-03 đến nay (hiện tại)\n- Phụ trách SEO cho website bán bàn ghế làm việc và sofa chung cư.\n- Tối ưu hóa thẻ tiêu đề, mô tả sản phẩm và đường dẫn nội bộ cho hơn 120 trang sản phẩm chính.\n- Phối hợp cùng đội viết bài để lên outline 20 bài blog hướng dẫn bố trí phòng khách mỗi tháng, giúp lượt organic traffic tăng trưởng 40% sau 1 năm.\n- Thường xuyên dùng Google Search Console để kiểm tra các trang chưa được Google lập chỉ mục và gửi yêu cầu lập chỉ mục lại.\n\nCộng tác viên Tối ưu Bài viết tại Cửa Hàng Đồ Gỗ Trang Trí Xinh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng cụ thể)\n- Chỉnh sửa lại các bài viết cũ trên blog để chèn thêm từ khóa phụ và hình ảnh sản phẩm.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "MK-J04-R02",
+          "section_id": "MK-J04-C07-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Tối ưu On-page cho các trang danh mục sản phẩm và bài viết blog bán hàng\n- Nghiên cứu từ khóa thương mại và lập bản đồ từ khóa tương ứng từng trang\n- Theo dõi tỷ lệ nhấp chuột (CTR) và từ khóa rớt hạng qua Google Search Console\n- Sử dụng công cụ Ahrefs để tìm kiếm khoảng trống từ khóa so với đối thủ (Content Gap)\n- Quản trị nội dung và tùy biến giao diện cơ bản trên hệ thống WordPress",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R03",
+          "section_id": "MK-J04-C07-SEC-SKILL",
+          "quote": "Kỹ năng làm việc:\n- Tối ưu On-page cho các trang danh mục sản phẩm và bài viết blog bán hàng\n- Nghiên cứu từ khóa thương mại và lập bản đồ từ khóa tương ứng từng trang\n- Theo dõi tỷ lệ nhấp chuột (CTR) và từ khóa rớt hạng qua Google Search Console\n- Sử dụng công cụ Ahrefs để tìm kiếm khoảng trống từ khóa so với đối thủ (Content Gap)\n- Quản trị nội dung và tùy biến giao diện cơ bản trên hệ thống WordPress",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R04",
+          "section_id": "MK-J04-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên SEO Website tại Công ty TNHH Nội Thất Số Online\nThời gian: Từ 2024-03 đến nay (hiện tại)\n- Phụ trách SEO cho website bán bàn ghế làm việc và sofa chung cư.\n- Tối ưu hóa thẻ tiêu đề, mô tả sản phẩm và đường dẫn nội bộ cho hơn 120 trang sản phẩm chính.\n- Phối hợp cùng đội viết bài để lên outline 20 bài blog hướng dẫn bố trí phòng khách mỗi tháng, giúp lượt organic traffic tăng trưởng 40% sau 1 năm.\n- Thường xuyên dùng Google Search Console để kiểm tra các trang chưa được Google lập chỉ mục và gửi yêu cầu lập chỉ mục lại.\n\nCộng tác viên Tối ưu Bài viết tại Cửa Hàng Đồ Gỗ Trang Trí Xinh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng cụ thể)\n- Chỉnh sửa lại các bài viết cũ trên blog để chèn thêm từ khóa phụ và hình ảnh sản phẩm.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "MK-J04-R02: Chưa có Off-page an toàn.",
+        "MK-J04-R03: Chưa có SEMrush/Screaming Frog.",
+        "MK-J04-R01: Vai trò trước thiếu ngày, không cộng vào ngưỡng đã đạt."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "MK-J04",
+      "candidate_id": "MK-J04-C08",
+      "relevance": 2,
+      "rationale": "Technical SEO từ 2025-06 khoảng 17 tháng và Content Writer hướng dẫn rõ; frontend trước không có nhiệm vụ SEO nên không cộng thành 2 năm SEO. Thiếu Off-page/từ khóa và SEMrush, dù hiệu năng/Schema mạnh.",
+      "evidence": [
+        {
+          "requirement_id": "MK-J04-R01",
+          "section_id": "MK-J04-C08-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Technical SEO & Web Performance tại Công ty Cổ phần Giải Pháp Web Minh Khang\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Trực tiếp rà soát và khắc phục các lỗi kỹ thuật cho 6 website khách hàng bán hàng và dịch vụ trực tuyến.\n- Sử dụng phần mềm Screaming Frog quét sâu cấu trúc đường dẫn URL, phát hiện và sửa các liên kết chuyển hướng vòng lặp, thẻ meta robot chặn bot tìm kiếm nhầm lẫn.\n- Tối ưu hóa mã nguồn JavaScript làm nghẽn quá trình dựng hình trang (render-blocking), cải thiện chỉ số LCP từ 4,2 giây xuống dưới 1,8 giây.\n- Hướng dẫn đội ngũ Content Writer cách gắn liên kết nội bộ theo cấu trúc cụm chủ đề và tối ưu kích thước ảnh WebP chuẩn SEO.\n\nLập trình viên Front-end Web tại Công ty TNHH Phần Mềm Đại Nam\nThời gian: Từ 2023-04 đến 2025-05\n- Lập trình giao diện website bán hàng chuẩn đáp ứng (Responsive Web Design) bằng HTML5, CSS3, JavaScript và WordPress CMS.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R02",
+          "section_id": "MK-J04-C08-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Technical SEO & Web Performance tại Công ty Cổ phần Giải Pháp Web Minh Khang\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Trực tiếp rà soát và khắc phục các lỗi kỹ thuật cho 6 website khách hàng bán hàng và dịch vụ trực tuyến.\n- Sử dụng phần mềm Screaming Frog quét sâu cấu trúc đường dẫn URL, phát hiện và sửa các liên kết chuyển hướng vòng lặp, thẻ meta robot chặn bot tìm kiếm nhầm lẫn.\n- Tối ưu hóa mã nguồn JavaScript làm nghẽn quá trình dựng hình trang (render-blocking), cải thiện chỉ số LCP từ 4,2 giây xuống dưới 1,8 giây.\n- Hướng dẫn đội ngũ Content Writer cách gắn liên kết nội bộ theo cấu trúc cụm chủ đề và tối ưu kích thước ảnh WebP chuẩn SEO.\n\nLập trình viên Front-end Web tại Công ty TNHH Phần Mềm Đại Nam\nThời gian: Từ 2023-04 đến 2025-05\n- Lập trình giao diện website bán hàng chuẩn đáp ứng (Responsive Web Design) bằng HTML5, CSS3, JavaScript và WordPress CMS.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R03",
+          "section_id": "MK-J04-C08-SEC-SKILL",
+          "quote": "Kỹ năng chuyên môn:\n- Kiểm toán Technical SEO chuyên sâu bằng Screaming Frog SEO Spider\n- Tối ưu hóa hiệu năng website và chỉ số Core Web Vitals bằng HTML, CSS, JS\n- Triển khai cấu trúc dữ liệu Rich Snippets (Schema.org / JSON-LD)\n- Khai thác dữ liệu Google Search Console, Ahrefs để phân tích tỷ lệ thu thập dữ liệu\n- Quản trị và lập trình giao diện tùy biến (Custom Theme) trên hệ thống WordPress",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "MK-J04-R04",
+          "section_id": "MK-J04-C08-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Technical SEO & Web Performance tại Công ty Cổ phần Giải Pháp Web Minh Khang\nThời gian: Từ 2025-06 đến nay (đang làm việc)\n- Trực tiếp rà soát và khắc phục các lỗi kỹ thuật cho 6 website khách hàng bán hàng và dịch vụ trực tuyến.\n- Sử dụng phần mềm Screaming Frog quét sâu cấu trúc đường dẫn URL, phát hiện và sửa các liên kết chuyển hướng vòng lặp, thẻ meta robot chặn bot tìm kiếm nhầm lẫn.\n- Tối ưu hóa mã nguồn JavaScript làm nghẽn quá trình dựng hình trang (render-blocking), cải thiện chỉ số LCP từ 4,2 giây xuống dưới 1,8 giây.\n- Hướng dẫn đội ngũ Content Writer cách gắn liên kết nội bộ theo cấu trúc cụm chủ đề và tối ưu kích thước ảnh WebP chuẩn SEO.\n\nLập trình viên Front-end Web tại Công ty TNHH Phần Mềm Đại Nam\nThời gian: Từ 2023-04 đến 2025-05\n- Lập trình giao diện website bán hàng chuẩn đáp ứng (Responsive Web Design) bằng HTML5, CSS3, JavaScript và WordPress CMS.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "MK-J04-R02: Chưa nêu chiến lược từ khóa và Off-page an toàn.",
+        "MK-J04-R03: Chưa nêu SEMrush."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

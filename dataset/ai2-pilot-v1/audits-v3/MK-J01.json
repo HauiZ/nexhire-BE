@@ -1,0 +1,89 @@
+{
+  "verified_candidate_count": 8,
+  "limitations_noted": [
+    "Shared candidate structure: All 8 candidates follow a two-employment chronological template without independent project records, reflecting generator scenario constraints documented in HR-SOURCE-009.",
+    "Degree level terminology: Candidate MK-J01-C04 retains 'Cử nhân Cao đẳng' verbatim in education.degree and MK-J01-C04-SEC-EDU under HR-SOURCE-010 without forced mapping to university or college level.",
+    "Tenure duration ambiguities: Candidates C01, C02, C03, C04, C05, C07, and C08 state summary tenures reflecting specific domain experience or rounded duration rather than exact arithmetic sum across all roles; C07 includes a prior freelance role with unstated start/end dates (is_current: false explicitly supported by 'trước đây' under HR-SOURCE-005). All tenure scopes preserved under HR-SOURCE-008.",
+    "Presence-only and bounded scope qualifiers: Support, coordination, or narrow-scope roles/tags remain preserved verbatim in descriptions and flagged for calibration (C01 Facebook page likes as Meta Ads in EXP-02 and coarse tag 'Sản xuất video ngắn và visual' for script/brief coordination in EXP-01; C02 coarse tag 'Sản xuất visual và video ngắn' for coordination with designer/videographer in EXP-01; C03 content-approval boundary and coarse 'Viết bài thông cáo báo chí' PR tag in EXP-01; C04 basic Ads Manager/GA in SKILL; C08 budget allocation coordination in EXP-01).",
+    "Fictional entity scope: All 16 employer names in MK-J01 are fictionalized and unique across all 20 pilot jobs, with media outlet names in C03 replaced by generic descriptors under HR-SOURCE-007; no external commercial register nonexistence claim asserted."
+  ],
+  "job_id": "MK-J01",
+  "resolved_historical_issues": [
+    {
+      "issue_summary": "Structured description added Google Shopping to current employment without section evidence.",
+      "evidence_note": "MK-J01-C02-EXP-01.description repaired to exact section bullets without Google Shopping; Google Shopping also removed from EXP-02.skills_used, while retained in candidate-level skills where supported by summary and skills sections (HR-SOURCE-004).",
+      "candidate_id": "MK-J01-C02",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "Quản lý KOL KOC unsupported for role; description upgraded launch event to press conference and over 50 PR articles to exactly 50; real media outlets present.",
+      "disposition": "fixed",
+      "candidate_id": "MK-J01-C03",
+      "evidence_note": "Quản lý KOL KOC removed from MK-J01-C03-EXP-01.skills_used; description repaired to preserve exact source wording ('hơn 50 bài PR', 'sự kiện ra mắt thương hiệu'); real media brands (VnExpress, Dân Trí, Tuổi Trẻ) replaced with 'các trang báo điện tử kinh tế và đời sống uy tín' across section and description (HR-SOURCE-003, HR-SOURCE-004, HR-SOURCE-007)."
+    },
+    {
+      "candidate_id": "MK-J01-C04",
+      "evidence_note": "Canva and specific Ads Manager CTR/CPC monitoring removed from MK-J01-C04-EXP-01.skills_used and description; description matches exact source bullets (HR-SOURCE-003, HR-SOURCE-004).",
+      "issue_summary": "Canva and specific CTR/CPC monitoring on Ads Manager assigned to employer without section evidence.",
+      "disposition": "fixed"
+    },
+    {
+      "evidence_note": "Google Ads, TikTok Ads, and CAC removed from MK-J01-C05-EXP-01.skills_used; description synchronized to exact role bullets; Meta Ads, GA4 và Looker Studio, and Tối ưu ROAS retained as supported (HR-SOURCE-003, HR-SOURCE-004).",
+      "issue_summary": "Current employer lacked explicit Google/TikTok campaign execution or CAC optimization; description imported channel list from summary.",
+      "disposition": "fixed",
+      "candidate_id": "MK-J01-C05"
+    },
+    {
+      "issue_summary": "CapCut/Premiere/Photoshop/Illustrator not named for employer; description changed over 60 visual to exactly 60.",
+      "evidence_note": "Description restored to exact text 'hơn 60 ấn phẩm visual'; CapCut, Premiere, Photoshop, Illustrator removed from MK-J01-C06-EXP-01.skills_used, retaining only directly supported skills (Thiết kế visual quảng cáo, Thiết kế Landing Page) (HR-SOURCE-003, HR-SOURCE-004).",
+      "disposition": "fixed",
+      "candidate_id": "MK-J01-C06"
+    },
+    {
+      "issue_summary": "Compound Meta TikTok Google added unsupported Google use; GA4 absent from employer source.",
+      "candidate_id": "MK-J01-C07",
+      "disposition": "fixed",
+      "evidence_note": "Google Ads and GA4 removed from MK-J01-C07-EXP-01.skills_used; narrowed to 'Quảng cáo Meta và TikTok', 'Looker Studio', 'Kế hoạch nội dung và video', and 'E-commerce mỹ phẩm' (HR-SOURCE-003)."
+    },
+    {
+      "issue_summary": "GA4 and Google ad measurement not explicit for EXP-01; coordinating budget allocation strengthened to ad execution.",
+      "evidence_note": "GA4 and Google ad measurement removed from MK-J01-C08-EXP-01.skills_used; description bullet 2 restored to exact source wording 'Phối hợp cùng đội ngũ quảng cáo phân bổ ngân sách 300 triệu đồng/tháng...' without strengthening to ad execution (HR-SOURCE-003, HR-SOURCE-004).",
+      "candidate_id": "MK-J01-C08",
+      "disposition": "fixed"
+    },
+    {
+      "evidence_note": "GA4 removed from MK-J01-C08-EXP-02.skills_used; skills_used emptied to avoid unsupported product-version attribution (HR-SOURCE-003).",
+      "candidate_id": "MK-J01-C08",
+      "disposition": "fixed",
+      "issue_summary": "Generic web analytics did not establish GA4 product/version for second employer."
+    },
+    {
+      "evidence_note": "Age descriptor 'trẻ tuổi' removed from MK-J01-C04-SEC-SUM and cv_text; templated negative denial bullet ('Chưa có kinh nghiệm chạy Google Ads...') removed from MK-J01-C04-SEC-EXP and cv_text (HR-SOURCE-002, HR-SOURCE-006).",
+      "disposition": "fixed",
+      "candidate_id": "MK-J01-C04",
+      "issue_summary": "Unnecessary age descriptor 'trẻ tuổi' and requirement-shaped negative denial list in CV prose."
+    },
+    {
+      "candidate_id": "MK-J01-C06",
+      "issue_summary": "Repeated negative denial list mirroring JD requirements in experience section.",
+      "evidence_note": "Templated negative denial sentence ('Bản thân không trực tiếp phân bổ ngân sách tiền tệ...') removed from MK-J01-C06-SEC-EXP and cv_text while preserving positive design facts (HR-SOURCE-006).",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "Meta Ads for second role plausible from Facebook page-like ad context, requiring scope bounded to source wording.",
+      "evidence_note": "MK-J01-C01-EXP-02 explicitly describes Facebook page-like advertising ('tăng lượt thích trang Facebook'), tagged as 'Meta Ads' in skills_used as a bounded advertising alias while exact task scope remains verbatim in description; retained under HR-SOURCE-003/008.",
+      "candidate_id": "MK-J01-C01"
+    },
+    {
+      "issue_summary": "JD upper tenure bound explicit ('Có từ 2 đến 4 năm kinh nghiệm'); must not penalize older/more experienced candidates via age inference.",
+      "disposition": "accepted_limitation",
+      "candidate_id": "MK-J01",
+      "evidence_note": "Accepted under pilot rubric and HR-SOURCE-002: tenure range ('Có từ 2 đến 4 năm kinh nghiệm') reflects role scope rather than age screening; experienced candidates such as MK-J01-C05 (>6 years) must be assessed on task/level fit without age inference."
+    }
+  ],
+  "blocking_issues": [],
+  "source_acceptance": "accepted",
+  "verification_run_id": "wlj22smze",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

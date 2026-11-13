@@ -1,0 +1,77 @@
+{
+  "job_id": "MK-J05",
+  "source_acceptance": "accepted",
+  "blocking_issues": [],
+  "verified_candidate_count": 8,
+  "resolved_historical_issues": [
+    {
+      "evidence_note": "MK-J05-C01-EXP-01.skills_used repaired to 'Chỉ số CAC và Retention Rate' (LTV removed from EXP-01; retained in candidate-level skills via SEC-SUM and SEC-SKILL). MK-J05-C01-EXP-01.description now matches MK-J05-C01-SEC-EXP verbatim, preserving 'hơn 250.000 người dùng kích hoạt' and 'Giám đốc Sản phẩm người Singapore'.",
+      "disposition": "fixed",
+      "candidate_id": "MK-J05-C01",
+      "issue_summary": "EXP-01.skills_used included unsupported LTV; EXP-01.description dropped 'hơn' qualifier and changed Product Director title to Product Manager."
+    },
+    {
+      "evidence_note": "MK-J05-C02-EXP-01.skills_used removed 'Đồng bộ Product Sales CS' and 'Tiếng Anh TOEIC 860', keeping 4 explicitly supported role skills; MK-J05-C02-EXP-01.description synced verbatim to MK-J05-C02-SEC-EXP restoring 'hơn 30 nhân viên Sales doanh nghiệp' and 'Giám đốc Sản phẩm quốc tế'. MK-J05-C02-EXP-02.skills_used cleared to [].",
+      "disposition": "fixed",
+      "issue_summary": "EXP-01.skills_used assigned unsupported CS coordination and cert-only TOEIC 860; EXP-01.description altered 'over 30' and Director title; EXP-02.skills_used assigned unsupported payment-product marketing.",
+      "candidate_id": "MK-J05-C02"
+    },
+    {
+      "candidate_id": "MK-J05-C03",
+      "issue_summary": "EXP-02.skills_used attributed unsupported 'Scrum Agile'; SEC-EXP contained templated JD-shaped negative-list bullet conflating LTV and CAC.",
+      "disposition": "fixed",
+      "evidence_note": "MK-J05-C03-EXP-02.skills_used cleared to [] under HR-SOURCE-003; negative bullet '- Chưa có nhiều kinh nghiệm trực tiếp thiết kế chiến dịch tiếp thị Go-to-Market...' removed from MK-J05-C03-SEC-EXP, cv_text, and MK-J05-C03-EXP-01.description under HR-SOURCE-006 with exact double-newline section join preserved."
+    },
+    {
+      "candidate_id": "MK-J05-C04",
+      "evidence_note": "MK-J05-C04-EXP-01.skills_used trimmed to ['Hỗ trợ ra mắt tính năng phần mềm'] (both 'Slide hội thảo trực tuyến' and 'Tài liệu tính năng Release notes' removed); EXP-01.description synced verbatim preserving 'Hỗ trợ chuyên viên cao cấp...'; 'trẻ tuổi' removed from MK-J05-C04-SEC-SUM; negative denial bullet removed from MK-J05-C04-SEC-EXP, cv_text, and EXP-01.description.",
+      "issue_summary": "EXP-01.skills_used attributed unsupported Webinar slides and Release notes; EXP-01.description removed support-to-senior scope; SEC-SUM included 'trẻ tuổi' age proxy and SEC-EXP contained JD-shaped negative denial bullet.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "EXP-01.description added English work not stated in role section; EXP-01.skills_used assigned 'Hệ sinh thái ví điện tử đa quốc gia' unsupported by remittance app text.",
+      "candidate_id": "MK-J05-C05",
+      "evidence_note": "MK-J05-C05-EXP-01.description synced verbatim to MK-J05-C05-SEC-EXP bullets (removing ungrounded English work claim); 'Hệ sinh thái ví điện tử đa quốc gia' removed from MK-J05-C05-EXP-01.skills_used while retained in candidate-level skills via SEC-SUM.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "fixed",
+      "evidence_note": "MK-J05-C06-EXP-01.skills_used repaired to 'Chương trình hoàn tiền' (removing loyalty points); EXP-01.description synced verbatim preserving 'hơn 40 chuỗi nhà hàng và rạp chiếu phim'; templated negative prose removed from MK-J05-C06-SEC-SUM, MK-J05-C06-SEC-EXP, cv_text, and EXP-01.description.",
+      "issue_summary": "EXP-01.skills_used added unstated loyalty points; EXP-01.description dropped 'hơn' qualifier on 40 partners; SEC-SUM and SEC-EXP contained repeated requirement-shaped negative prose.",
+      "candidate_id": "MK-J05-C06"
+    },
+    {
+      "issue_summary": "EXP-01.description dropped 'hơn' qualifier on 180,000 users and ambiguously compressed '25 nhân viên tư vấn kinh doanh và đội ngũ CSKH'.",
+      "disposition": "fixed",
+      "evidence_note": "MK-J05-C07-EXP-01.description synced verbatim to MK-J05-C07-SEC-EXP bullets, restoring 'hơn 180.000 người dùng nạp tiền trải nghiệm' and exact headcount phrasing 'cho 25 nhân viên tư vấn kinh doanh và đội ngũ CSKH trực hotline'.",
+      "candidate_id": "MK-J05-C07"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "Summary tenure claim (>4 years 5 months) exceeds dated current role (3 years 9 months) while prior freelance role has unknown dates.",
+      "candidate_id": "MK-J05-C07",
+      "evidence_note": "Per HR-SOURCE-005 and HR-SOURCE-008, MK-J05-C07-EXP-02 preserves null dates and is_current=false (supported by explicit 'trước đây, không có ngày tháng cụ thể'), and summary claim of >4 years 5 months remains unverified beyond dated EXP-01 (3 years 9 months at 2026-11-10) for downstream human review if label-material."
+    },
+    {
+      "evidence_note": "MK-J05-C08-EXP-01.skills_used repaired to 'Phân tích dữ liệu Amplitude' and 'Tối ưu Activation Rate', removing unstated Mixpanel and Retention Rate from EXP-01 under HR-SOURCE-003.",
+      "candidate_id": "MK-J05-C08",
+      "issue_summary": "EXP-01.skills_used assigned compound 'Amplitude Mixpanel' and 'Activation Rate và Retention Rate' unsupported in role section.",
+      "disposition": "fixed"
+    },
+    {
+      "evidence_note": "Per HR-SOURCE-004 and HR-SOURCE-008, 'tăng thêm 14%' in MK-J05-C08-SEC-EXP and MK-J05-C08-EXP-01.description is preserved verbatim without inventing an unstated baseline or converting to percentage points.",
+      "disposition": "retained_ambiguity",
+      "candidate_id": "MK-J05-C08",
+      "issue_summary": "Relative percent vs percentage-point ambiguity in 'tăng thêm 14%' Activation Rate improvement."
+    }
+  ],
+  "limitations_noted": [
+    "Development-only synthetic pilot data (PROTOCOL.md, HR-SOURCE-009): fictional employer/partner names have no independent external identity verification (HR-SOURCE-007), and recurring candidate-index scenario patterns across jobs must not be used in model features or label inference.",
+    "MK-J05-C01 whitespace token count is 489 (above the 200-450 preferred range in PROTOCOL.md and flagged as a non-blocking warning in source-validation.json), accepted without truncation to preserve full senior profile details.",
+    "Preserved tenure and metric ambiguities under HR-SOURCE-004/008 without inventing facts: MK-J05-C07 claims over 4 years 5 months in summary while dated EXP-01 (2023-03 to 2026-11 at reference date 2026-11-10) covers 3 years 9 months and prior freelance EXP-02 has null dates; MK-J05-C02 summary states 4 years 6 months vs 5 years 4 months total dated span (3 years 11 months in EXP-01); MK-J05-C03 summary states 3 years BA/PO vs 3 years 5 months in EXP-01 (4 years 3 months including QA EXP-02); MK-J05-C08 'tăng thêm 14%' leaves relative percent vs percentage-point change unspecified.",
+    "Minor canonical skill label normalizations retained where semantically supported: MK-J05-C02.skills includes 'Đồng bộ Product Sales CS' based on MK-J05-C02-SEC-SKILL 'Phối hợp giữa Product Manager, bộ phận Bán hàng và Hỗ trợ kỹ thuật' (removed from EXP-01.skills_used); MK-J05-C01 and MK-J05-C08 EXP-01.skills_used include 'Làm việc PM nước ngoài bằng tiếng Anh' while EXP-01.description preserves original 'Giám đốc Sản phẩm' title.",
+    "source-validation.json reports 0 errors and only lexical substring warnings ('skill/structured fact requires semantic support check') on normalized skill tags; all structured records were verified semantically against their cited sections."
+  ],
+  "verification_run_id": "wlj22smze",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

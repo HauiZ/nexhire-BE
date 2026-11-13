@@ -62,7 +62,8 @@ def main():
                     if start < 0:
                         continue  # Exact role boundary unavailable: do not guess.
                     rest = text[start:]
-                    role = rest.split('\n\n', 1)[0]
+                    # IT uses single-newline role bullets; do not mistake next role for task bullets.
+                    role = re.split(r'\n- Chức danh:|\n\n', rest, maxsplit=1)[0]
                     if exp['start_date'] is None and exp['end_date'] is None:
                         if not re.search(r'trước đây|trước đó|đã kết thúc|đã nghỉ', role, re.I) and not re.search(r'đến nay|hiện tại|đang (?:làm|công tác|hoạt động)', role, re.I):
                             exp['is_current'] = change(exp['experience_id'], 'is_current', exp['is_current'], None, 'HR-SOURCE-005')

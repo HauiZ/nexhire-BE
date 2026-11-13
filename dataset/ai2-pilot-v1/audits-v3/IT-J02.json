@@ -1,0 +1,40 @@
+{
+  "limitations_noted": [
+    "Synthetic development pilot; silver evaluation only; no real-world hiring competence claim.",
+    "Candidate-index template repetition present across pilot; ordinal index must not serve as model feature per HR-SOURCE-009.",
+    "Summary vs chronology duration discrepancies in C01, C03, C04 retained as non-blocking ambiguities per HR-SOURCE-008.",
+    "Docker skill tag omits 'cơ bản' qualifier present in source section text."
+  ],
+  "resolved_historical_issues": [
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J02-C01-E01 skills_used contained Jest not supported in first role text"
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J02-C04-E02 skills_used contained ASP.NET Core when role text only stated .NET Core"
+    },
+    {
+      "issue_summary": "IT-J02-C08-E02 is_current was false despite unstated employment dates",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J02-C01 metric phrasing 'Core Web Vitals đạt trên 90 điểm' retained verbatim"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J02-C03 summary duration vs employment chronology retained verbatim under HR-SOURCE-008"
+    },
+    {
+      "issue_summary": "IT-J02-C04 summary leadership tenure vs role start date retained verbatim under HR-SOURCE-008",
+      "disposition": "retained_ambiguity"
+    }
+  ],
+  "source_acceptance": "accepted",
+  "job_id": "IT-J02",
+  "verified_candidate_count": 8,
+  "blocking_issues": [],
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

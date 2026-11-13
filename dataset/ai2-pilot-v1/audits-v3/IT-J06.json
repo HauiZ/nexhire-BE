@@ -1,0 +1,53 @@
+{
+  "blocking_issues": [],
+  "verified_candidate_count": 8,
+  "resolved_historical_issues": [
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J06-C01: Summary 3 years 6 months total software experience versus 56 months chronology since 2022-03 retained under HR-SOURCE-008."
+    },
+    {
+      "issue_summary": "IT-J06-C02: Summary 4 years total experience versus 5 years 3 months chronology since 2021-08 retained under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J06-C03: Functional testing 3 years 6 months and 1 year automation testing versus total chronology retained under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J06-C06: Backend/TypeScript 3 years experience versus 4 years 4 months chronology retained under HR-SOURCE-008."
+    },
+    {
+      "issue_summary": "IT-J06-C07-E02: is_current set to null for undated freelance role without explicit ended wording per HR-SOURCE-005.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J06-C08: Performance testing 3 years 6 months versus role start date 2023-03 retained under HR-SOURCE-008.",
+      "disposition": "retained_ambiguity"
+    },
+    {
+      "issue_summary": "IT-J06-C08: Resemblance to real entity Sao Bắc Đẩu fictionalized to Sao Thiên Hà and ThienHa Pay per HR-SOURCE-007.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J06-C08-E02: skills_used normalized from Apache JMeter to JMeter matching role text per HR-SOURCE-003.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "Recurring six-section/two-role/one-project structural pattern and candidate-index leakage risk accepted as pilot limitation per HR-SOURCE-009.",
+      "disposition": "accepted_limitation"
+    }
+  ],
+  "limitations_noted": [
+    "Development pilot scope only; synthetic profiles without competence verification or external ground truth.",
+    "Recurring candidate scenario and structural template patterns (six-section, two-role, one-project) documented under HR-SOURCE-009; candidate ordering excluded from model features.",
+    "Summary specialized duration versus total career chronological tenure discrepancies retained as non-blocking ambiguities under HR-SOURCE-008.",
+    "Candidate IT-J06-C05 word count (191 words) slightly below preferred 200-word guideline; accepted as non-blocking.",
+    "Skill entry presence lists do not indicate proficiency level; basic qualifiers preserved in source text."
+  ],
+  "job_id": "IT-J06",
+  "source_acceptance": "accepted",
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

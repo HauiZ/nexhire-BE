@@ -19,6 +19,20 @@ apps/matching-service/models/m1-ranking-retention/
 dist/
 build/
 dataset/
+
+# AI2 development pilot is portable; other datasets stay local.
+!dataset/
+dataset/*
+!dataset/ai2-pilot-v1/
+dataset/ai2-pilot-v1/sources/.test.json
+dataset/ai2-pilot-v1/audit-inputs/
+dataset/ai2-pilot-v1/source-inspection.jsonl
+
+# Local model weights, experiment exports and agent workspaces
+/artifacts/
+/kaggle-ranking-v1/
+/.claude/worktrees/
+/local-transfer/
 trainning/
 .codegraph/
 *.zip

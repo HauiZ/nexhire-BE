@@ -1,0 +1,936 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "IT-J01",
+      "source_family_id": "IT-J01",
+      "domain": "it",
+      "title": "Kỹ sư Lập trình Backend (Node.js/NestJS)",
+      "level": "mid",
+      "language": "vi",
+      "jd_text": "Công ty Cổ phần Công nghệ Anpha Việt Nam tuyển dụng vị trí Kỹ sư Lập trình Backend (Node.js/NestJS) tại văn phòng Cầu Giấy, Hà Nội. Hình thức làm việc: Toàn thời gian, kết hợp linh hoạt làm việc tại văn phòng và từ xa 1 ngày/tuần. Mức lương thỏa thuận theo năng lực từ 22.000.000 đến 35.000.000 VND cùng gói bảo hiểm sức khỏe cao cấp và phụ cấp ăn trưa.\n\nTrách nhiệm công việc:\n- Thiết kế, xây dựng và duy trì các hệ sinh thái API, dịch vụ xử lý dữ liệu và hệ thống thanh toán điện tử.\n- Tham gia trao đổi nghiệp vụ với Product Owner và đội ngũ Frontend để chốt giải pháp kỹ thuật.\n- Viết mã nguồn sạch, tối ưu hóa câu lệnh cơ sở dữ liệu và bảo đảm an toàn thông tin dịch vụ.\n\nYêu cầu bắt buộc:\n- Tối thiểu 3 năm kinh nghiệm phát triển backend với Node.js và TypeScript.\n- Thành thạo xây dựng RESTful API và microservices sử dụng NestJS framework.\n- Kinh nghiệm làm việc với cơ sở dữ liệu PostgreSQL và tối ưu hóa truy vấn SQL.\n\nYêu cầu ưu tiên:\n- Có kinh nghiệm sử dụng Redis làm caching layer và message queue với RabbitMQ hoặc Kafka.\n- Hiểu biết về container hóa ứng dụng với Docker và quy trình CI/CD cơ bản.\n- Tốt nghiệp Đại học chuyên ngành Công nghệ thông tin hoặc ngành kỹ thuật liên quan.",
+      "requirements": [
+        {
+          "requirement_id": "IT-J01-R01",
+          "text": "Tối thiểu 3 năm kinh nghiệm phát triển backend với Node.js và TypeScript.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J01-R02",
+          "text": "Thành thạo xây dựng RESTful API và microservices sử dụng NestJS framework.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J01-R03",
+          "text": "Kinh nghiệm làm việc với cơ sở dữ liệu PostgreSQL và tối ưu hóa truy vấn SQL.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J01-R04",
+          "text": "Có kinh nghiệm sử dụng Redis làm caching layer và message queue với RabbitMQ hoặc Kafka.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J01-R05",
+          "text": "Hiểu biết về container hóa ứng dụng với Docker và quy trình CI/CD cơ bản.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J01-R06",
+          "text": "Tốt nghiệp Đại học chuyên ngành Công nghệ thông tin hoặc ngành kỹ thuật liên quan.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "IT-J01-C01",
+          "cv_text": "Tóm tắt chuyên môn: Lập trình viên Backend có 3 năm 6 tháng kinh nghiệm làm việc chuyên sâu với Node.js, TypeScript và hệ sinh thái NestJS. Có thế mạnh về thiết kế kiến trúc microservices, tối ưu cơ sở dữ liệu PostgreSQL và tích hợp message broker phục vụ các ứng dụng thương mại điện tử.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, SQL.\n- Framework & Nền tảng: Node.js, NestJS, Express.js.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Công cụ & Hệ thống: Docker, RabbitMQ, Git, Linux.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Node.js tại Công ty Công nghệ Phần mềm Bình Minh. Thời gian: từ 2023-04 đến nay. Mô tả: Xây dựng hệ thống microservices cho nền tảng bán lẻ đa kênh với NestJS và TypeScript. Tối ưu hóa các truy vấn phức tạp trên PostgreSQL, giảm 40% thời gian phản hồi API. Cấu hình Redis caching và sử dụng RabbitMQ để xử lý bất đồng bộ các giao dịch thanh toán và thông báo đơn hàng. Đóng gói ứng dụng bằng Docker và tham gia cấu hình pipeline CI/CD trên GitLab.\n- Chức danh: Lập trình viên Web Backend tại Công ty TNHH Giải pháp Số Sao Việt. Thời gian: từ 2021-06 đến 2023-03. Mô tả: Phát triển RESTful API cho ứng dụng quản trị chuỗi cung ứng sử dụng Node.js, Express và PostgreSQL. Thiết kế schema cơ sở dữ liệu và tích hợp các cổng thanh toán nội địa.\n\nDự án tiêu biểu:\n- Dự án Nền tảng Bán lẻ Đa kênh OmniHub: Phụ trách dịch vụ quản lý kho và thanh toán. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và RabbitMQ. Ứng dụng mô hình kiến trúc microservices và triển khai trên môi trường Docker container.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Công nghệ Thông tin - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- AWS Certified Developer - Associate.",
+          "sections": [
+            {
+              "section_id": "IT-J01-C01-S01",
+              "kind": "summary",
+              "text": "Tóm tắt chuyên môn: Lập trình viên Backend có 3 năm 6 tháng kinh nghiệm làm việc chuyên sâu với Node.js, TypeScript và hệ sinh thái NestJS. Có thế mạnh về thiết kế kiến trúc microservices, tối ưu cơ sở dữ liệu PostgreSQL và tích hợp message broker phục vụ các ứng dụng thương mại điện tử."
+            },
+            {
+              "section_id": "IT-J01-C01-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, SQL.\n- Framework & Nền tảng: Node.js, NestJS, Express.js.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Công cụ & Hệ thống: Docker, RabbitMQ, Git, Linux."
+            },
+            {
+              "section_id": "IT-J01-C01-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Node.js tại Công ty Công nghệ Phần mềm Bình Minh. Thời gian: từ 2023-04 đến nay. Mô tả: Xây dựng hệ thống microservices cho nền tảng bán lẻ đa kênh với NestJS và TypeScript. Tối ưu hóa các truy vấn phức tạp trên PostgreSQL, giảm 40% thời gian phản hồi API. Cấu hình Redis caching và sử dụng RabbitMQ để xử lý bất đồng bộ các giao dịch thanh toán và thông báo đơn hàng. Đóng gói ứng dụng bằng Docker và tham gia cấu hình pipeline CI/CD trên GitLab.\n- Chức danh: Lập trình viên Web Backend tại Công ty TNHH Giải pháp Số Sao Việt. Thời gian: từ 2021-06 đến 2023-03. Mô tả: Phát triển RESTful API cho ứng dụng quản trị chuỗi cung ứng sử dụng Node.js, Express và PostgreSQL. Thiết kế schema cơ sở dữ liệu và tích hợp các cổng thanh toán nội địa."
+            },
+            {
+              "section_id": "IT-J01-C01-S04",
+              "kind": "project",
+              "text": "Dự án tiêu biểu:\n- Dự án Nền tảng Bán lẻ Đa kênh OmniHub: Phụ trách dịch vụ quản lý kho và thanh toán. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và RabbitMQ. Ứng dụng mô hình kiến trúc microservices và triển khai trên môi trường Docker container."
+            },
+            {
+              "section_id": "IT-J01-C01-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Công nghệ Thông tin - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J01-C01-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- AWS Certified Developer - Associate."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "SQL",
+            "Node.js",
+            "NestJS",
+            "Express.js",
+            "PostgreSQL",
+            "Redis",
+            "Docker",
+            "RabbitMQ",
+            "Git",
+            "Linux"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J01-C01-E01",
+              "title": "Lập trình viên Backend Node.js",
+              "company": "Công ty Công nghệ Phần mềm Bình Minh",
+              "start_date": "2023-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng hệ thống microservices cho nền tảng bán lẻ đa kênh với NestJS và TypeScript. Tối ưu hóa các truy vấn phức tạp trên PostgreSQL, giảm 40% thời gian phản hồi API. Cấu hình Redis caching và sử dụng RabbitMQ để xử lý bất đồng bộ các giao dịch thanh toán và thông báo đơn hàng. Đóng gói ứng dụng bằng Docker và tham gia cấu hình pipeline CI/CD trên GitLab.",
+              "skills_used": [
+                "NestJS",
+                "TypeScript",
+                "PostgreSQL",
+                "Redis",
+                "RabbitMQ",
+                "Docker"
+              ],
+              "section_id": "IT-J01-C01-S03"
+            },
+            {
+              "experience_id": "IT-J01-C01-E02",
+              "title": "Lập trình viên Web Backend",
+              "company": "Công ty TNHH Giải pháp Số Sao Việt",
+              "start_date": "2021-06",
+              "end_date": "2023-03",
+              "is_current": false,
+              "description": "Phát triển RESTful API cho ứng dụng quản trị chuỗi cung ứng sử dụng Node.js, Express và PostgreSQL. Thiết kế schema cơ sở dữ liệu và tích hợp các cổng thanh toán nội địa.",
+              "skills_used": [
+                "Node.js",
+                "Express",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J01-C01-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J01-C01-P01",
+              "name": "Nền tảng Bán lẻ Đa kênh OmniHub",
+              "description": "Phụ trách dịch vụ quản lý kho và thanh toán. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và RabbitMQ. Ứng dụng mô hình kiến trúc microservices và triển khai trên môi trường Docker container.",
+              "technologies_or_methods": [
+                "NestJS",
+                "TypeScript",
+                "PostgreSQL",
+                "Redis",
+                "RabbitMQ",
+                "Docker"
+              ],
+              "section_id": "IT-J01-C01-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J01-C01-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "AWS Certified Developer - Associate",
+              "section_id": "IT-J01-C01-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J01-C02",
+          "cv_text": "Tóm tắt kinh nghiệm: Kỹ sư phát triển phần mềm có hơn 4 năm kinh nghiệm lập trình backend. Khởi đầu với hệ sinh thái Java Spring Boot trong 3 năm và đã chuyển đổi sang lập trình Node.js với TypeScript trong hơn 1 năm qua. Có kinh nghiệm sâu sắc về cơ sở dữ liệu quan hệ PostgreSQL và hệ thống message queue Kafka.\n\nKỹ năng công nghệ:\n- Ngôn ngữ: Java, TypeScript, JavaScript, SQL.\n- Framework: Spring Boot, Express.js, NestJS.\n- Cơ sở dữ liệu: PostgreSQL, Oracle, Redis.\n- Hạ tầng & Công cụ: Kafka, Docker, Git, CI/CD Jenkins.\n\nLịch sử công tác:\n- Chức danh: Backend Engineer tại Công ty Cổ phần Dịch vụ Số Nam Á. Thời gian: từ 2025-08 đến nay. Mô tả: Phát triển các dịch vụ API xử lý giao dịch tài chính bằng TypeScript và NestJS. Tích hợp Kafka để nhận và phân phối sự kiện giao dịch thời gian thực. Truy vấn và tối ưu cơ sở dữ liệu PostgreSQL.\n- Chức danh: Lập trình viên Java Backend tại Công ty Công nghệ Phần mềm Viễn Đông. Thời gian: từ 2022-07 đến 2025-07. Mô tả: Phát triển hệ thống ngân hàng lõi bằng Java Spring Boot, làm việc với cơ sở dữ liệu Oracle và PostgreSQL. Thiết kế RESTful API theo tiêu chuẩn mở và tối ưu truy vấn dữ liệu báo cáo tài chính.\n\nDự án thực tế:\n- Dự án Hệ thống Trung chuyển Giao dịch Tài chính PayRoute: Xây dựng service trung chuyển và đối soát giao dịch tự động. Ứng dụng NestJS, TypeScript, Apache Kafka, PostgreSQL và Redis. Sử dụng Docker để container hóa ứng dụng.\n\nHọc vấn:\n- Kỹ sư Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Oracle Certified Professional: Java SE 11 Developer.",
+          "sections": [
+            {
+              "section_id": "IT-J01-C02-S01",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm: Kỹ sư phát triển phần mềm có hơn 4 năm kinh nghiệm lập trình backend. Khởi đầu với hệ sinh thái Java Spring Boot trong 3 năm và đã chuyển đổi sang lập trình Node.js với TypeScript trong hơn 1 năm qua. Có kinh nghiệm sâu sắc về cơ sở dữ liệu quan hệ PostgreSQL và hệ thống message queue Kafka."
+            },
+            {
+              "section_id": "IT-J01-C02-S02",
+              "kind": "skills",
+              "text": "Kỹ năng công nghệ:\n- Ngôn ngữ: Java, TypeScript, JavaScript, SQL.\n- Framework: Spring Boot, Express.js, NestJS.\n- Cơ sở dữ liệu: PostgreSQL, Oracle, Redis.\n- Hạ tầng & Công cụ: Kafka, Docker, Git, CI/CD Jenkins."
+            },
+            {
+              "section_id": "IT-J01-C02-S03",
+              "kind": "experience",
+              "text": "Lịch sử công tác:\n- Chức danh: Backend Engineer tại Công ty Cổ phần Dịch vụ Số Nam Á. Thời gian: từ 2025-08 đến nay. Mô tả: Phát triển các dịch vụ API xử lý giao dịch tài chính bằng TypeScript và NestJS. Tích hợp Kafka để nhận và phân phối sự kiện giao dịch thời gian thực. Truy vấn và tối ưu cơ sở dữ liệu PostgreSQL.\n- Chức danh: Lập trình viên Java Backend tại Công ty Công nghệ Phần mềm Viễn Đông. Thời gian: từ 2022-07 đến 2025-07. Mô tả: Phát triển hệ thống ngân hàng lõi bằng Java Spring Boot, làm việc với cơ sở dữ liệu Oracle và PostgreSQL. Thiết kế RESTful API theo tiêu chuẩn mở và tối ưu truy vấn dữ liệu báo cáo tài chính."
+            },
+            {
+              "section_id": "IT-J01-C02-S04",
+              "kind": "project",
+              "text": "Dự án thực tế:\n- Dự án Hệ thống Trung chuyển Giao dịch Tài chính PayRoute: Xây dựng service trung chuyển và đối soát giao dịch tự động. Ứng dụng NestJS, TypeScript, Apache Kafka, PostgreSQL và Redis. Sử dụng Docker để container hóa ứng dụng."
+            },
+            {
+              "section_id": "IT-J01-C02-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J01-C02-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Oracle Certified Professional: Java SE 11 Developer."
+            }
+          ],
+          "skills": [
+            "Java",
+            "TypeScript",
+            "JavaScript",
+            "SQL",
+            "Spring Boot",
+            "Express.js",
+            "NestJS",
+            "PostgreSQL",
+            "Oracle",
+            "Redis",
+            "Kafka",
+            "Docker",
+            "Git",
+            "CI/CD Jenkins"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J01-C02-E01",
+              "title": "Backend Engineer",
+              "company": "Công ty Cổ phần Dịch vụ Số Nam Á",
+              "start_date": "2025-08",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển các dịch vụ API xử lý giao dịch tài chính bằng TypeScript và NestJS. Tích hợp Kafka để nhận và phân phối sự kiện giao dịch thời gian thực. Truy vấn và tối ưu cơ sở dữ liệu PostgreSQL.",
+              "skills_used": [
+                "TypeScript",
+                "NestJS",
+                "Kafka",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J01-C02-S03"
+            },
+            {
+              "experience_id": "IT-J01-C02-E02",
+              "title": "Lập trình viên Java Backend",
+              "company": "Công ty Công nghệ Phần mềm Viễn Đông",
+              "start_date": "2022-07",
+              "end_date": "2025-07",
+              "is_current": false,
+              "description": "Phát triển hệ thống ngân hàng lõi bằng Java Spring Boot, làm việc với cơ sở dữ liệu Oracle và PostgreSQL. Thiết kế RESTful API theo tiêu chuẩn mở và tối ưu truy vấn dữ liệu báo cáo tài chính.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "Oracle",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J01-C02-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J01-C02-P01",
+              "name": "Hệ thống Trung chuyển Giao dịch Tài chính PayRoute",
+              "description": "Xây dựng service trung chuyển và đối soát giao dịch tự động. Ứng dụng NestJS, TypeScript, Apache Kafka, PostgreSQL và Redis. Sử dụng Docker để container hóa ứng dụng.",
+              "technologies_or_methods": [
+                "NestJS",
+                "TypeScript",
+                "Kafka",
+                "PostgreSQL",
+                "Redis",
+                "Docker"
+              ],
+              "section_id": "IT-J01-C02-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Kỹ thuật Phần mềm",
+              "section_id": "IT-J01-C02-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Oracle Certified Professional: Java SE 11 Developer",
+              "section_id": "IT-J01-C02-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J01-C03",
+          "cv_text": "Mục tiêu & Năng lực: Lập trình viên Fullstack với định hướng thiên về Frontend, có hơn 3 năm kinh nghiệm phát triển ứng dụng web hiện đại. Có khả năng tự đảm nhiệm cả giao diện React và một số dịch vụ backend nhỏ bằng Node.js / NestJS. Mong muốn tìm kiếm môi trường để chuyên sâu hơn vào hạ tầng backend.\n\nKỹ năng:\n- Giao diện: ReactJS, Next.js, Redux, HTML5, CSS3, Tailwind CSS.\n- Phía máy chủ: Node.js, Express.js, NestJS, TypeScript.\n- Cơ sở dữ liệu: MongoDB, PostgreSQL (cơ bản).\n- Khác: Git, Postman, Docker cơ bản.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Fullstack Web tại Công ty Cổ phần Giải pháp Trực tuyến Đại Dương. Thời gian: từ 2023-09 đến nay. Mô tả: Phát triển giao diện người dùng chính với ReactJS và Next.js. Đồng thời hỗ trợ đội ngũ xây dựng một số endpoint RESTful API quản lý người dùng và sản phẩm bằng NestJS và cơ sở dữ liệu MongoDB, kết hợp viết câu truy vấn cơ bản trên PostgreSQL.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Ánh Dương. Thời gian: từ 2022-01 đến 2023-08. Mô tả: Xây dựng landing page và cổng thông tin tin tức sử dụng React, Redux và HTML5/CSS3. Phối hợp với đội ngũ backend để tích hợp API.\n\nDự án hoàn thành:\n- Dự án Website Đặt lịch Khám bệnh MedConnect: Xây dựng giao diện bệnh nhân và bác sĩ bằng ReactJS. Tham gia viết module đặt lịch hẹn backend bằng NestJS kết nối cơ sở dữ liệu PostgreSQL và MongoDB.\n\nTrình độ học vấn:\n- Cử nhân Hệ thống Thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội.\n\nChứng chỉ:\n- Meta Front-End Developer Professional Certificate.",
+          "sections": [
+            {
+              "section_id": "IT-J01-C03-S01",
+              "kind": "summary",
+              "text": "Mục tiêu & Năng lực: Lập trình viên Fullstack với định hướng thiên về Frontend, có hơn 3 năm kinh nghiệm phát triển ứng dụng web hiện đại. Có khả năng tự đảm nhiệm cả giao diện React và một số dịch vụ backend nhỏ bằng Node.js / NestJS. Mong muốn tìm kiếm môi trường để chuyên sâu hơn vào hạ tầng backend."
+            },
+            {
+              "section_id": "IT-J01-C03-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Giao diện: ReactJS, Next.js, Redux, HTML5, CSS3, Tailwind CSS.\n- Phía máy chủ: Node.js, Express.js, NestJS, TypeScript.\n- Cơ sở dữ liệu: MongoDB, PostgreSQL (cơ bản).\n- Khác: Git, Postman, Docker cơ bản."
+            },
+            {
+              "section_id": "IT-J01-C03-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Fullstack Web tại Công ty Cổ phần Giải pháp Trực tuyến Đại Dương. Thời gian: từ 2023-09 đến nay. Mô tả: Phát triển giao diện người dùng chính với ReactJS và Next.js. Đồng thời hỗ trợ đội ngũ xây dựng một số endpoint RESTful API quản lý người dùng và sản phẩm bằng NestJS và cơ sở dữ liệu MongoDB, kết hợp viết câu truy vấn cơ bản trên PostgreSQL.\n- Chức danh: Lập trình viên Frontend tại Công ty TNHH Phần mềm Ánh Dương. Thời gian: từ 2022-01 đến 2023-08. Mô tả: Xây dựng landing page và cổng thông tin tin tức sử dụng React, Redux và HTML5/CSS3. Phối hợp với đội ngũ backend để tích hợp API."
+            },
+            {
+              "section_id": "IT-J01-C03-S04",
+              "kind": "project",
+              "text": "Dự án hoàn thành:\n- Dự án Website Đặt lịch Khám bệnh MedConnect: Xây dựng giao diện bệnh nhân và bác sĩ bằng ReactJS. Tham gia viết module đặt lịch hẹn backend bằng NestJS kết nối cơ sở dữ liệu PostgreSQL và MongoDB."
+            },
+            {
+              "section_id": "IT-J01-C03-S05",
+              "kind": "education",
+              "text": "Trình độ học vấn:\n- Cử nhân Hệ thống Thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội."
+            },
+            {
+              "section_id": "IT-J01-C03-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Meta Front-End Developer Professional Certificate."
+            }
+          ],
+          "skills": [
+            "ReactJS",
+            "Next.js",
+            "Redux",
+            "HTML5",
+            "CSS3",
+            "Tailwind CSS",
+            "Node.js",
+            "Express.js",
+            "NestJS",
+            "TypeScript",
+            "MongoDB",
+            "PostgreSQL",
+            "Git",
+            "Postman",
+            "Docker"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J01-C03-E01",
+              "title": "Lập trình viên Fullstack Web",
+              "company": "Công ty Cổ phần Giải pháp Trực tuyến Đại Dương",
+              "start_date": "2023-09",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển giao diện người dùng chính với ReactJS và Next.js. Đồng thời hỗ trợ đội ngũ xây dựng một số endpoint RESTful API quản lý người dùng và sản phẩm bằng NestJS và cơ sở dữ liệu MongoDB, kết hợp viết câu truy vấn cơ bản trên PostgreSQL.",
+              "skills_used": [
+                "ReactJS",
+                "Next.js",
+                "NestJS",
+                "MongoDB",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J01-C03-S03"
+            },
+            {
+              "experience_id": "IT-J01-C03-E02",
+              "title": "Lập trình viên Frontend",
+              "company": "Công ty TNHH Phần mềm Ánh Dương",
+              "start_date": "2022-01",
+              "end_date": "2023-08",
+              "is_current": false,
+              "description": "Xây dựng landing page và cổng thông tin tin tức sử dụng React, Redux và HTML5/CSS3. Phối hợp với đội ngũ backend để tích hợp API.",
+              "skills_used": [
+                "React",
+                "Redux",
+                "HTML5",
+                "CSS3"
+              ],
+              "section_id": "IT-J01-C03-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J01-C03-P01",
+              "name": "Website Đặt lịch Khám bệnh MedConnect",
+              "description": "Xây dựng giao diện bệnh nhân và bác sĩ bằng ReactJS. Tham gia viết module đặt lịch hẹn backend bằng NestJS kết nối cơ sở dữ liệu PostgreSQL và MongoDB.",
+              "technologies_or_methods": [
+                "ReactJS",
+                "NestJS",
+                "PostgreSQL",
+                "MongoDB"
+              ],
+              "section_id": "IT-J01-C03-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Hệ thống Thông tin",
+              "section_id": "IT-J01-C03-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Meta Front-End Developer Professional Certificate",
+              "section_id": "IT-J01-C03-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J01-C04",
+          "cv_text": "Giới thiệu bản thân: Kỹ sư Backend có 3 năm kinh nghiệm thực tế với Node.js, TypeScript và NestJS. Tập trung vào thiết kế hệ thống API chịu tải tốt, quản trị cơ sở dữ liệu PostgreSQL và cấu hình bộ nhớ đệm Redis. Có thói quen viết mã kiểm thử và tự động hóa quy trình triển khai bằng Docker.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, SQL.\n- Khung phát triển: NestJS, Node.js, TypeORM, Prisma.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Docker Compose, Git, Linux, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Công nghệ LogiSmart Việt Nam. Thời gian: từ 2023-10 đến nay. Mô tả: Phát triển các mô-đun dịch vụ microservices cho hệ thống theo dõi logistics bằng NestJS và TypeScript. Tối ưu hóa các bảng dữ liệu PostgreSQL có hàng triệu bản ghi, lập chỉ mục và điều chỉnh câu lệnh SQL để duy trì độ trễ dưới 100ms. Ứng dụng Redis để lưu trữ phiên làm việc và caching dữ liệu tra cứu hành trình.\n- Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2022-03 đến 2023-09. Mô tả: Tham gia phát triển hệ thống quản lý học tập trực tuyến (LMS). Viết RESTful API với NestJS, sử dụng TypeORM kết nối PostgreSQL. Triển khai ứng dụng qua Docker container.\n\nDự án đã thực hiện:\n- Dự án Hệ thống Giám sát Vận tải LogiSmart: Xây dựng các API xử lý định vị và trạng thái đơn hàng. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và đóng gói toàn bộ dịch vụ qua Docker Compose.\n\nHọc vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM.\n\nChứng chỉ nghề nghiệp:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J01-C04-S01",
+              "kind": "summary",
+              "text": "Giới thiệu bản thân: Kỹ sư Backend có 3 năm kinh nghiệm thực tế với Node.js, TypeScript và NestJS. Tập trung vào thiết kế hệ thống API chịu tải tốt, quản trị cơ sở dữ liệu PostgreSQL và cấu hình bộ nhớ đệm Redis. Có thói quen viết mã kiểm thử và tự động hóa quy trình triển khai bằng Docker."
+            },
+            {
+              "section_id": "IT-J01-C04-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, SQL.\n- Khung phát triển: NestJS, Node.js, TypeORM, Prisma.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Docker Compose, Git, Linux, Postman."
+            },
+            {
+              "section_id": "IT-J01-C04-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Công nghệ LogiSmart Việt Nam. Thời gian: từ 2023-10 đến nay. Mô tả: Phát triển các mô-đun dịch vụ microservices cho hệ thống theo dõi logistics bằng NestJS và TypeScript. Tối ưu hóa các bảng dữ liệu PostgreSQL có hàng triệu bản ghi, lập chỉ mục và điều chỉnh câu lệnh SQL để duy trì độ trễ dưới 100ms. Ứng dụng Redis để lưu trữ phiên làm việc và caching dữ liệu tra cứu hành trình.\n- Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2022-03 đến 2023-09. Mô tả: Tham gia phát triển hệ thống quản lý học tập trực tuyến (LMS). Viết RESTful API với NestJS, sử dụng TypeORM kết nối PostgreSQL. Triển khai ứng dụng qua Docker container."
+            },
+            {
+              "section_id": "IT-J01-C04-S04",
+              "kind": "project",
+              "text": "Dự án đã thực hiện:\n- Dự án Hệ thống Giám sát Vận tải LogiSmart: Xây dựng các API xử lý định vị và trạng thái đơn hàng. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và đóng gói toàn bộ dịch vụ qua Docker Compose."
+            },
+            {
+              "section_id": "IT-J01-C04-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J01-C04-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ nghề nghiệp:\n- Không có."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "SQL",
+            "NestJS",
+            "Node.js",
+            "TypeORM",
+            "Prisma",
+            "PostgreSQL",
+            "Redis",
+            "Docker",
+            "Docker Compose",
+            "Git",
+            "Linux",
+            "Postman"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J01-C04-E01",
+              "title": "Backend Developer",
+              "company": "Công ty Cổ phần Công nghệ LogiSmart Việt Nam",
+              "start_date": "2023-10",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển các mô-đun dịch vụ microservices cho hệ thống theo dõi logistics bằng NestJS và TypeScript. Tối ưu hóa các bảng dữ liệu PostgreSQL có hàng triệu bản ghi, lập chỉ mục và điều chỉnh câu lệnh SQL để duy trì độ trễ dưới 100ms. Ứng dụng Redis để lưu trữ phiên làm việc và caching dữ liệu tra cứu hành trình.",
+              "skills_used": [
+                "NestJS",
+                "TypeScript",
+                "PostgreSQL",
+                "Redis"
+              ],
+              "section_id": "IT-J01-C04-S03"
+            },
+            {
+              "experience_id": "IT-J01-C04-E02",
+              "title": "Lập trình viên Node.js",
+              "company": "Công ty TNHH Phát triển Phần mềm Trí Việt",
+              "start_date": "2022-03",
+              "end_date": "2023-09",
+              "is_current": false,
+              "description": "Tham gia phát triển hệ thống quản lý học tập trực tuyến (LMS). Viết RESTful API với NestJS, sử dụng TypeORM kết nối PostgreSQL. Triển khai ứng dụng qua Docker container.",
+              "skills_used": [
+                "Node.js",
+                "NestJS",
+                "PostgreSQL",
+                "Docker"
+              ],
+              "section_id": "IT-J01-C04-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J01-C04-P01",
+              "name": "Hệ thống Giám sát Vận tải LogiSmart",
+              "description": "Xây dựng các API xử lý định vị và trạng thái đơn hàng. Sử dụng NestJS, TypeScript, PostgreSQL, Redis và đóng gói toàn bộ dịch vụ qua Docker Compose.",
+              "technologies_or_methods": [
+                "NestJS",
+                "TypeScript",
+                "PostgreSQL",
+                "Redis",
+                "Docker Compose"
+              ],
+              "section_id": "IT-J01-C04-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Khoa học Máy tính",
+              "section_id": "IT-J01-C04-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J01-C05",
+          "cv_text": "Tóm tắt: Lập trình viên Junior Backend có 1 năm 4 tháng kinh nghiệm làm việc với Node.js, Express.js và cơ sở dữ liệu MySQL. Đam mê tìm hiểu công nghệ mới, đã tự học NestJS và TypeScript thông qua các khóa học trực tuyến và dự án cá nhân.\n\nKỹ năng:\n- Ngôn ngữ lập trình: JavaScript, TypeScript (cơ bản), SQL.\n- Công nghệ Backend: Node.js, Express.js, NestJS (cơ bản).\n- Cơ sở dữ liệu: MySQL, MongoDB.\n- Công cụ: Git, Postman, VS Code.\n\nKinh nghiệm làm việc:\n- Chức danh: Junior Backend Developer tại Công ty TNHH Công nghệ Giải pháp Trẻ Việt. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng các API CRUD cho hệ thống quản lý nội bộ doanh nghiệp bằng Node.js và Express.js. Viết các câu truy vấn MySQL và tối ưu hóa bảng biểu cơ bản. Hỗ trợ sửa lỗi và bảo trì các dịch vụ backend hiện có.\n- Chức danh: Thực tập sinh Lập trình Web tại Công ty Phần mềm Ngôi Sao Xanh. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết unit test và tài liệu API Swagger bằng JavaScript và Express.js.\n\nDự án:\n- Dự án Cá nhân Quản lý Chi tiêu Cá nhân MyBudget: Viết REST API bằng NestJS và TypeScript, kết nối với cơ sở dữ liệu MySQL thông qua TypeORM. Triển khai thử nghiệm trên Render.\n\nHọc vấn:\n- Thông tin học vấn: Không nêu trong hồ sơ.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J01-C05-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Lập trình viên Junior Backend có 1 năm 4 tháng kinh nghiệm làm việc với Node.js, Express.js và cơ sở dữ liệu MySQL. Đam mê tìm hiểu công nghệ mới, đã tự học NestJS và TypeScript thông qua các khóa học trực tuyến và dự án cá nhân."
+            },
+            {
+              "section_id": "IT-J01-C05-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ lập trình: JavaScript, TypeScript (cơ bản), SQL.\n- Công nghệ Backend: Node.js, Express.js, NestJS (cơ bản).\n- Cơ sở dữ liệu: MySQL, MongoDB.\n- Công cụ: Git, Postman, VS Code."
+            },
+            {
+              "section_id": "IT-J01-C05-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Junior Backend Developer tại Công ty TNHH Công nghệ Giải pháp Trẻ Việt. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng các API CRUD cho hệ thống quản lý nội bộ doanh nghiệp bằng Node.js và Express.js. Viết các câu truy vấn MySQL và tối ưu hóa bảng biểu cơ bản. Hỗ trợ sửa lỗi và bảo trì các dịch vụ backend hiện có.\n- Chức danh: Thực tập sinh Lập trình Web tại Công ty Phần mềm Ngôi Sao Xanh. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết unit test và tài liệu API Swagger bằng JavaScript và Express.js."
+            },
+            {
+              "section_id": "IT-J01-C05-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Cá nhân Quản lý Chi tiêu Cá nhân MyBudget: Viết REST API bằng NestJS và TypeScript, kết nối với cơ sở dữ liệu MySQL thông qua TypeORM. Triển khai thử nghiệm trên Render."
+            },
+            {
+              "section_id": "IT-J01-C05-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Thông tin học vấn: Không nêu trong hồ sơ."
+            },
+            {
+              "section_id": "IT-J01-C05-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "JavaScript",
+            "TypeScript",
+            "SQL",
+            "Node.js",
+            "Express.js",
+            "NestJS",
+            "MySQL",
+            "MongoDB",
+            "Git",
+            "Postman",
+            "VS Code"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J01-C05-E01",
+              "title": "Junior Backend Developer",
+              "company": "Công ty TNHH Công nghệ Giải pháp Trẻ Việt",
+              "start_date": "2025-06",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các API CRUD cho hệ thống quản lý nội bộ doanh nghiệp bằng Node.js và Express.js. Viết các câu truy vấn MySQL và tối ưu hóa bảng biểu cơ bản. Hỗ trợ sửa lỗi và bảo trì các dịch vụ backend hiện có.",
+              "skills_used": [
+                "Node.js",
+                "Express.js",
+                "MySQL"
+              ],
+              "section_id": "IT-J01-C05-S03"
+            },
+            {
+              "experience_id": "IT-J01-C05-E02",
+              "title": "Thực tập sinh Lập trình Web",
+              "company": "Công ty Phần mềm Ngôi Sao Xanh",
+              "start_date": "2025-01",
+              "end_date": "2025-05",
+              "is_current": false,
+              "description": "Hỗ trợ viết unit test và tài liệu API Swagger bằng JavaScript và Express.js.",
+              "skills_used": [
+                "JavaScript",
+                "Express.js"
+              ],
+              "section_id": "IT-J01-C05-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J01-C05-P01",
+              "name": "Dự án Cá nhân Quản lý Chi tiêu Cá nhân MyBudget",
+              "description": "Viết REST API bằng NestJS và TypeScript, kết nối với cơ sở dữ liệu MySQL thông qua TypeORM. Triển khai thử nghiệm trên Render.",
+              "technologies_or_methods": [
+                "NestJS",
+                "TypeScript",
+                "MySQL",
+                "TypeORM"
+              ],
+              "section_id": "IT-J01-C05-S04"
+            }
+          ],
+          "education": [],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J01-C06",
+          "cv_text": "Tóm tắt: Senior Backend Engineer có hơn 5 năm kinh nghiệm chuyên sâu với hệ sinh thái Python, Django và FastAPI. Có kiến thức vững chắc về cơ sở dữ liệu quan hệ PostgreSQL, thiết kế phân tán, Docker và RabbitMQ. Đang tìm hiểu thêm về Node.js để mở rộng công nghệ.\n\nKỹ năng:\n- Ngôn ngữ: Python, SQL, JavaScript cơ bản.\n- Khung ứng dụng: Django, Django REST Framework, FastAPI, Flask.\n- Cơ sở dữ liệu: PostgreSQL, Redis, Elasticsearch.\n- Hệ thống: Docker, Kubernetes cơ bản, RabbitMQ, Celery, Git, Linux.\n\nKinh nghiệm làm việc:\n- Chức danh: Kỹ sư Phần mềm Cấp cao tại Công ty Cổ phần Giải pháp Dữ liệu Thông minh Sen Vàng. Thời gian: từ 2022-04 đến nay. Mô tả: Thiết kế kiến trúc dịch vụ backend phân tán cho nền tảng xử lý dữ liệu lớn với Python và FastAPI. Tối ưu hóa cơ sở dữ liệu PostgreSQL cho bảng dữ liệu giao dịch quy mô hàng chục triệu dòng. Vận hành cụm RabbitMQ kết hợp Celery để xử lý hàng đợi tác vụ nặng. Sử dụng Docker triển khai hệ thống.\n- Chức danh: Lập trình viên Python Backend tại Công ty Công nghệ Phần mềm Thăng Long. Thời gian: từ 2021-05 đến 2022-03. Mô tả: Xây dựng RESTful API cho ứng dụng quản trị quan hệ khách hàng (CRM) bằng Django REST Framework và cơ sở dữ liệu PostgreSQL.\n\nDự án:\n- Dự án Hệ thống Tổng hợp Phân tích Dữ liệu DataPulse: Xây dựng hệ thống thu thập và phân tích dữ liệu thị trường bằng Python, FastAPI, PostgreSQL và RabbitMQ. Cấu hình Redis lưu cache và tăng tốc độ đọc dữ liệu.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- AWS Certified Solutions Architect - Associate.",
+          "sections": [
+            {
+              "section_id": "IT-J01-C06-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Senior Backend Engineer có hơn 5 năm kinh nghiệm chuyên sâu với hệ sinh thái Python, Django và FastAPI. Có kiến thức vững chắc về cơ sở dữ liệu quan hệ PostgreSQL, thiết kế phân tán, Docker và RabbitMQ. Đang tìm hiểu thêm về Node.js để mở rộng công nghệ."
+            },
+            {
+              "section_id": "IT-J01-C06-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Python, SQL, JavaScript cơ bản.\n- Khung ứng dụng: Django, Django REST Framework, FastAPI, Flask.\n- Cơ sở dữ liệu: PostgreSQL, Redis, Elasticsearch.\n- Hệ thống: Docker, Kubernetes cơ bản, RabbitMQ, Celery, Git, Linux."
+            },
+            {
+              "section_id": "IT-J01-C06-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Kỹ sư Phần mềm Cấp cao tại Công ty Cổ phần Giải pháp Dữ liệu Thông minh Sen Vàng. Thời gian: từ 2022-04 đến nay. Mô tả: Thiết kế kiến trúc dịch vụ backend phân tán cho nền tảng xử lý dữ liệu lớn với Python và FastAPI. Tối ưu hóa cơ sở dữ liệu PostgreSQL cho bảng dữ liệu giao dịch quy mô hàng chục triệu dòng. Vận hành cụm RabbitMQ kết hợp Celery để xử lý hàng đợi tác vụ nặng. Sử dụng Docker triển khai hệ thống.\n- Chức danh: Lập trình viên Python Backend tại Công ty Công nghệ Phần mềm Thăng Long. Thời gian: từ 2021-05 đến 2022-03. Mô tả: Xây dựng RESTful API cho ứng dụng quản trị quan hệ khách hàng (CRM) bằng Django REST Framework và cơ sở dữ liệu PostgreSQL."
+            },
+            {
+              "section_id": "IT-J01-C06-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Tổng hợp Phân tích Dữ liệu DataPulse: Xây dựng hệ thống thu thập và phân tích dữ liệu thị trường bằng Python, FastAPI, PostgreSQL và RabbitMQ. Cấu hình Redis lưu cache và tăng tốc độ đọc dữ liệu."
+            },
+            {
+              "section_id": "IT-J01-C06-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J01-C06-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- AWS Certified Solutions Architect - Associate."
+            }
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "JavaScript",
+            "Django",
+            "Django REST Framework",
+            "FastAPI",
+            "Flask",
+            "PostgreSQL",
+            "Redis",
+            "Elasticsearch",
+            "Docker",
+            "Kubernetes",
+            "RabbitMQ",
+            "Celery",
+            "Git",
+            "Linux"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J01-C06-E01",
+              "title": "Kỹ sư Phần mềm Cấp cao",
+              "company": "Công ty Cổ phần Giải pháp Dữ liệu Thông minh Sen Vàng",
+              "start_date": "2022-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết kế kiến trúc dịch vụ backend phân tán cho nền tảng xử lý dữ liệu lớn với Python và FastAPI. Tối ưu hóa cơ sở dữ liệu PostgreSQL cho bảng dữ liệu giao dịch quy mô hàng chục triệu dòng. Vận hành cụm RabbitMQ kết hợp Celery để xử lý hàng đợi tác vụ nặng. Sử dụng Docker triển khai hệ thống.",
+              "skills_used": [
+                "Python",
+                "FastAPI",
+                "PostgreSQL",
+                "RabbitMQ",
+                "Docker"
+              ],
+              "section_id": "IT-J01-C06-S03"
+            },
+            {
+              "experience_id": "IT-J01-C06-E02",
+              "title": "Lập trình viên Python Backend",
+              "company": "Công ty Công nghệ Phần mềm Thăng Long",
+              "start_date": "2021-05",
+              "end_date": "2022-03",
+              "is_current": false,
+              "description": "Xây dựng RESTful API cho ứng dụng quản trị quan hệ khách hàng (CRM) bằng Django REST Framework và cơ sở dữ liệu PostgreSQL.",
+              "skills_used": [
+                "Python",
+                "Django",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J01-C06-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J01-C06-P01",
+              "name": "Hệ thống Tổng hợp Phân tích Dữ liệu DataPulse",
+              "description": "Xây dựng hệ thống thu thập và phân tích dữ liệu thị trường bằng Python, FastAPI, PostgreSQL và RabbitMQ. Cấu hình Redis lưu cache và tăng tốc độ đọc dữ liệu.",
+              "technologies_or_methods": [
+                "Python",
+                "FastAPI",
+                "PostgreSQL",
+                "RabbitMQ",
+                "Redis"
+              ],
+              "section_id": "IT-J01-C06-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J01-C06-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "AWS Certified Solutions Architect - Associate",
+              "section_id": "IT-J01-C06-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J01-C07",
+          "cv_text": "Giới thiệu: Lập trình viên Backend Node.js có kinh nghiệm triển khai hệ thống API cho các sản phẩm dịch vụ số. Thành thạo TypeScript, cơ sở dữ liệu PostgreSQL và Docker. Từng làm việc trong môi trường dự án tự do và công ty khởi nghiệp.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: JavaScript, TypeScript, SQL.\n- Công nghệ Backend: Node.js, NestJS, Express.js.\n- Cơ sở dữ liệu & Caching: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Git, REST API.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Node.js tại Công ty Cổ phần Khởi nghiệp NextGen Việt. Thời gian: từ 2024-02 đến nay. Mô tả: Phát triển các module API backend bằng NestJS và TypeScript cho ứng dụng quản lý cộng đồng. Thiết kế cơ sở dữ liệu PostgreSQL và tích hợp Redis để xử lý lưu cache thông tin phiên làm việc và danh sách bài đăng nổi bật.\n- Chức danh: Lập trình viên Tự do (Freelance Backend Developer) tại Nhóm Dự án Tự do Công nghệ. Thời gian: không nêu ngày tháng cụ thể. Mô tả: Xây dựng RESTful API và quản lý dữ liệu PostgreSQL cho các website bán hàng vừa và nhỏ bằng Node.js và Express.js. Đóng gói mã nguồn qua Docker.\n\nDự án:\n- Dự án Hệ thống Mạng Xã hội Nội bộ TeamConnect: Thiết kế RESTful API bằng NestJS và TypeScript, lưu trữ dữ liệu với PostgreSQL, ứng dụng Redis caching nhằm tăng tốc độ nạp dữ liệu. Đóng gói container ứng dụng bằng Docker.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J01-C07-S01",
+              "kind": "summary",
+              "text": "Giới thiệu: Lập trình viên Backend Node.js có kinh nghiệm triển khai hệ thống API cho các sản phẩm dịch vụ số. Thành thạo TypeScript, cơ sở dữ liệu PostgreSQL và Docker. Từng làm việc trong môi trường dự án tự do và công ty khởi nghiệp."
+            },
+            {
+              "section_id": "IT-J01-C07-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: JavaScript, TypeScript, SQL.\n- Công nghệ Backend: Node.js, NestJS, Express.js.\n- Cơ sở dữ liệu & Caching: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Git, REST API."
+            },
+            {
+              "section_id": "IT-J01-C07-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Node.js tại Công ty Cổ phần Khởi nghiệp NextGen Việt. Thời gian: từ 2024-02 đến nay. Mô tả: Phát triển các module API backend bằng NestJS và TypeScript cho ứng dụng quản lý cộng đồng. Thiết kế cơ sở dữ liệu PostgreSQL và tích hợp Redis để xử lý lưu cache thông tin phiên làm việc và danh sách bài đăng nổi bật.\n- Chức danh: Lập trình viên Tự do (Freelance Backend Developer) tại Nhóm Dự án Tự do Công nghệ. Thời gian: không nêu ngày tháng cụ thể. Mô tả: Xây dựng RESTful API và quản lý dữ liệu PostgreSQL cho các website bán hàng vừa và nhỏ bằng Node.js và Express.js. Đóng gói mã nguồn qua Docker."
+            },
+            {
+              "section_id": "IT-J01-C07-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Mạng Xã hội Nội bộ TeamConnect: Thiết kế RESTful API bằng NestJS và TypeScript, lưu trữ dữ liệu với PostgreSQL, ứng dụng Redis caching nhằm tăng tốc độ nạp dữ liệu. Đóng gói container ứng dụng bằng Docker."
+            },
+            {
+              "section_id": "IT-J01-C07-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J01-C07-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "JavaScript",
+            "TypeScript",
+            "SQL",
+            "Node.js",
+            "NestJS",
+            "Express.js",
+            "PostgreSQL",
+            "Redis",
+            "Docker",
+            "Git",
+            "REST API"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J01-C07-E01",
+              "title": "Lập trình viên Backend Node.js",
+              "company": "Công ty Cổ phần Khởi nghiệp NextGen Việt",
+              "start_date": "2024-02",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển các module API backend bằng NestJS và TypeScript cho ứng dụng quản lý cộng đồng. Thiết kế cơ sở dữ liệu PostgreSQL và tích hợp Redis để xử lý lưu cache thông tin phiên làm việc và danh sách bài đăng nổi bật.",
+              "skills_used": [
+                "NestJS",
+                "TypeScript",
+                "PostgreSQL",
+                "Redis"
+              ],
+              "section_id": "IT-J01-C07-S03"
+            },
+            {
+              "experience_id": "IT-J01-C07-E02",
+              "title": "Lập trình viên Tự do (Freelance Backend Developer)",
+              "company": "Nhóm Dự án Tự do Công nghệ",
+              "start_date": null,
+              "end_date": null,
+              "is_current": null,
+              "description": "Xây dựng RESTful API và quản lý dữ liệu PostgreSQL cho các website bán hàng vừa và nhỏ bằng Node.js và Express.js. Đóng gói mã nguồn qua Docker.",
+              "skills_used": [
+                "Node.js",
+                "Express.js",
+                "PostgreSQL",
+                "Docker"
+              ],
+              "section_id": "IT-J01-C07-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J01-C07-P01",
+              "name": "Hệ thống Mạng Xã hội Nội bộ TeamConnect",
+              "description": "Thiết kế RESTful API bằng NestJS và TypeScript, lưu trữ dữ liệu với PostgreSQL, ứng dụng Redis caching nhằm tăng tốc độ nạp dữ liệu. Đóng gói container ứng dụng bằng Docker.",
+              "technologies_or_methods": [
+                "NestJS",
+                "TypeScript",
+                "PostgreSQL",
+                "Redis",
+                "Docker"
+              ],
+              "section_id": "IT-J01-C07-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Máy tính",
+              "section_id": "IT-J01-C07-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J01-C08",
+          "cv_text": "Tóm tắt năng lực: Kỹ sư Kiểm thử Tự động (QA Automation Engineer) có 3 năm kinh nghiệm trong kiểm thử API và giao diện web. Có nền tảng lập trình tốt với TypeScript, JavaScript và Node.js. Thường xuyên viết framework kiểm thử tích hợp, giả lập microservices và kiểm tra hiệu năng hệ thống backend.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, Python.\n- Công cụ kiểm thử: Playwright, Cypress, Postman, Newman, k6.\n- Backend & Công nghệ: Node.js, Express.js (viết stub/mock server), RESTful API.\n- Cơ sở dữ liệu: PostgreSQL (viết query kiểm tra dữ liệu), MongoDB.\n- CI/CD & Hạ tầng: Docker, Git, GitHub Actions.\n\nKinh nghiệm làm việc:\n- Chức danh: Kỹ sư Kiểm thử Tự động tại Công ty Cổ phần Giải pháp Phần mềm Kiểm Thử Toàn Cầu. Thời gian: từ 2023-11 đến nay. Mô tả: Xây dựng framework kiểm thử tự động API bằng TypeScript và Playwright. Viết các kịch bản kiểm thử tải bằng k6, trực tiếp truy vấn cơ sở dữ liệu PostgreSQL để xác minh tính toàn vẹn dữ liệu của các microservices backend. Tích hợp kiểm thử vào pipeline GitHub Actions.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Giải pháp Đổi mới Số. Thời gian: từ 2022-05 đến 2023-10. Mô tả: Thực hiện kiểm thử chức năng và kiểm thử API RESTful bằng Postman. Viết mock service đơn giản bằng Node.js và Express.js để phục vụ đội ngũ kiểm thử độc lập.\n\nDự án kiểm thử:\n- Dự án Tự động hóa Kiểm thử Cổng Thanh toán E-Pay: Thiết kế hệ thống mock API và bộ kịch bản tự động kiểm tra hơn 200 API giao dịch tài chính bằng TypeScript, Node.js và Docker.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- ISTQB Certified Tester Foundation Level (CTFL).",
+          "sections": [
+            {
+              "section_id": "IT-J01-C08-S01",
+              "kind": "summary",
+              "text": "Tóm tắt năng lực: Kỹ sư Kiểm thử Tự động (QA Automation Engineer) có 3 năm kinh nghiệm trong kiểm thử API và giao diện web. Có nền tảng lập trình tốt với TypeScript, JavaScript và Node.js. Thường xuyên viết framework kiểm thử tích hợp, giả lập microservices và kiểm tra hiệu năng hệ thống backend."
+            },
+            {
+              "section_id": "IT-J01-C08-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ: TypeScript, JavaScript, Python.\n- Công cụ kiểm thử: Playwright, Cypress, Postman, Newman, k6.\n- Backend & Công nghệ: Node.js, Express.js (viết stub/mock server), RESTful API.\n- Cơ sở dữ liệu: PostgreSQL (viết query kiểm tra dữ liệu), MongoDB.\n- CI/CD & Hạ tầng: Docker, Git, GitHub Actions."
+            },
+            {
+              "section_id": "IT-J01-C08-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Kỹ sư Kiểm thử Tự động tại Công ty Cổ phần Giải pháp Phần mềm Kiểm Thử Toàn Cầu. Thời gian: từ 2023-11 đến nay. Mô tả: Xây dựng framework kiểm thử tự động API bằng TypeScript và Playwright. Viết các kịch bản kiểm thử tải bằng k6, trực tiếp truy vấn cơ sở dữ liệu PostgreSQL để xác minh tính toàn vẹn dữ liệu của các microservices backend. Tích hợp kiểm thử vào pipeline GitHub Actions.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Giải pháp Đổi mới Số. Thời gian: từ 2022-05 đến 2023-10. Mô tả: Thực hiện kiểm thử chức năng và kiểm thử API RESTful bằng Postman. Viết mock service đơn giản bằng Node.js và Express.js để phục vụ đội ngũ kiểm thử độc lập."
+            },
+            {
+              "section_id": "IT-J01-C08-S04",
+              "kind": "project",
+              "text": "Dự án kiểm thử:\n- Dự án Tự động hóa Kiểm thử Cổng Thanh toán E-Pay: Thiết kế hệ thống mock API và bộ kịch bản tự động kiểm tra hơn 200 API giao dịch tài chính bằng TypeScript, Node.js và Docker."
+            },
+            {
+              "section_id": "IT-J01-C08-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J01-C08-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- ISTQB Certified Tester Foundation Level (CTFL)."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "Python",
+            "Playwright",
+            "Cypress",
+            "Postman",
+            "Newman",
+            "k6",
+            "Node.js",
+            "Express.js",
+            "RESTful API",
+            "PostgreSQL",
+            "MongoDB",
+            "Docker",
+            "Git",
+            "GitHub Actions"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J01-C08-E01",
+              "title": "Kỹ sư Kiểm thử Tự động",
+              "company": "Công ty Cổ phần Giải pháp Phần mềm Kiểm Thử Toàn Cầu",
+              "start_date": "2023-11",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng framework kiểm thử tự động API bằng TypeScript và Playwright. Viết các kịch bản kiểm thử tải bằng k6, trực tiếp truy vấn cơ sở dữ liệu PostgreSQL để xác minh tính toàn vẹn dữ liệu của các microservices backend. Tích hợp kiểm thử vào pipeline GitHub Actions.",
+              "skills_used": [
+                "TypeScript",
+                "Playwright",
+                "k6",
+                "PostgreSQL",
+                "GitHub Actions"
+              ],
+              "section_id": "IT-J01-C08-S03"
+            },
+            {
+              "experience_id": "IT-J01-C08-E02",
+              "title": "Chuyên viên Kiểm thử Phần mềm",
+              "company": "Công ty TNHH Giải pháp Đổi mới Số",
+              "start_date": "2022-05",
+              "end_date": "2023-10",
+              "is_current": false,
+              "description": "Thực hiện kiểm thử chức năng và kiểm thử API RESTful bằng Postman. Viết mock service đơn giản bằng Node.js và Express.js để phục vụ đội ngũ kiểm thử độc lập.",
+              "skills_used": [
+                "Postman",
+                "Node.js",
+                "Express.js"
+              ],
+              "section_id": "IT-J01-C08-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J01-C08-P01",
+              "name": "Dự án Tự động hóa Kiểm thử Cổng Thanh toán E-Pay",
+              "description": "Thiết kế hệ thống mock API và bộ kịch bản tự động kiểm tra hơn 200 API giao dịch tài chính bằng TypeScript, Node.js và Docker.",
+              "technologies_or_methods": [
+                "TypeScript",
+                "Node.js",
+                "Docker"
+              ],
+              "section_id": "IT-J01-C08-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J01-C08-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "ISTQB Certified Tester Foundation Level (CTFL)",
+              "section_id": "IT-J01-C08-S06"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

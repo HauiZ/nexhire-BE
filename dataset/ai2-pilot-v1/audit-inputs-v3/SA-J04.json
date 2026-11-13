@@ -1,0 +1,601 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "SA-J04",
+      "source_family_id": "SA-J04",
+      "domain": "sales",
+      "title": "Nhân viên Tư vấn Bán hàng Showroom Nội thất (Showroom Sales Consultant)",
+      "level": "junior",
+      "language": "vi",
+      "jd_text": "Vị trí: Nhân viên Tư vấn Bán hàng Showroom Nội thất (Showroom Sales Consultant)\nĐịa điểm làm việc: Showroom Nội thất Quận 7, TP. Hồ Chí Minh.\nThời gian làm việc: Làm việc xoay ca (Ca 1: 9h00 - 17h30, Ca 2: 13h30 - 21h00), nghỉ 1 ngày trong tuần.\n\nMô tả công việc:\n- Đón tiếp, tư vấn và giới thiệu sản phẩm nội thất cao cấp trực tiếp cho khách hàng tham quan showroom.\n- Lắng nghe ý tưởng thiết kế căn hộ của khách hàng, gợi ý phương án kết hợp bộ sofa, bàn ăn, giường ngủ và tủ kệ tương thích với phong cách nội thất.\n- Kỹ năng giao tiếp lịch thiệp, tư vấn phối màu sắc và chất liệu sản phẩm phù hợp không gian sống.\n- Soạn thảo báo giá chi tiết, gửi hợp đồng mua bán và thu tiền đặt cọc theo chính sách thanh toán của công ty.\n- Theo dõi đơn hàng, phối hợp bộ phận giao vận lắp đặt và chăm sóc hậu mãi khách hàng sau bàn giao.\n\nYêu cầu công việc (Bắt buộc):\n- Đón tiếp, tư vấn và giới thiệu sản phẩm nội thất cao cấp trực tiếp cho khách hàng tham quan showroom.\n- Có từ 6 tháng kinh nghiệm tư vấn bán hàng trực tiếp tại showroom, cửa hàng bán lẻ hoặc dịch vụ khách hàng cao cấp.\n- Kỹ năng giao tiếp lịch thiệp, tư vấn phối màu sắc và chất liệu sản phẩm phù hợp không gian sống.\n- Theo dõi đơn hàng, phối hợp bộ phận giao vận lắp đặt và chăm sóc hậu mãi khách hàng sau bàn giao.\n\nTiêu chí ưu tiên (Ưu tiên):\n- Tốt nghiệp trung cấp hoặc cao đẳng trở lên các ngành thiết kế nội thất, mỹ thuật công nghiệp hoặc kinh tế.\n\nChế độ quyền lợi:\n- Lương cơ bản từ 8.500.000 đến 12.000.000 VNĐ cùng hoa hồng phần trăm trên từng đơn hàng nội thất giao thành công (thu nhập trung bình từ 15.000.000 đến 25.000.000 VNĐ/tháng).\n- Thưởng nóng khi vượt chỉ tiêu doanh số tháng; môi trường showroom máy lạnh sang trọng, chuyên nghiệp.",
+      "requirements": [
+        {
+          "requirement_id": "SA-J04-R01",
+          "text": "Đón tiếp, tư vấn và giới thiệu sản phẩm nội thất cao cấp trực tiếp cho khách hàng tham quan showroom.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "SA-J04-R02",
+          "text": "Có từ 6 tháng kinh nghiệm tư vấn bán hàng trực tiếp tại showroom, cửa hàng bán lẻ hoặc dịch vụ khách hàng cao cấp.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "SA-J04-R03",
+          "text": "Kỹ năng giao tiếp lịch thiệp, tư vấn phối màu sắc và chất liệu sản phẩm phù hợp không gian sống.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "SA-J04-R04",
+          "text": "Theo dõi đơn hàng, phối hợp bộ phận giao vận lắp đặt và chăm sóc hậu mãi khách hàng sau bàn giao.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "SA-J04-R05",
+          "text": "Tốt nghiệp trung cấp hoặc cao đẳng trở lên các ngành thiết kế nội thất, mỹ thuật công nghiệp hoặc kinh tế.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "SA-J04-C01",
+          "cv_text": "Tóm lược hồ sơ:\nNhân viên tư vấn bán hàng showroom với 1 năm kinh nghiệm trong ngành nội thất gỗ tự nhiên và sofa da nhập khẩu. Tốt nghiệp Cao đẳng Thiết kế Nội thất, có gu thẩm mỹ tốt, kỹ năng tư vấn phối màu sắc và vật liệu hài hòa cho các căn hộ chung cư cao cấp. Tác phong niềm nở, tận tình chăm sóc khách hàng từ khâu tiếp đón đến khi hoàn thiện bàn giao tại nhà.\n\nKỹ năng chuyên môn:\n- Đón tiếp và tư vấn bán hàng trực tiếp tại showroom nội thất\n- Tư vấn chất liệu da bò Ý, vải nỉ và các loại gỗ óc chó, sồi\n- Lập báo giá, theo dõi tiến độ đơn hàng sản xuất và giao lắp\n- Phối hợp đội ngũ thợ giao hàng và thợ kỹ thuật lắp đặt\n- Chăm sóc khách hàng sau bán hàng và hướng dẫn bảo dưỡng bề mặt gỗ\n\nKinh nghiệm làm việc:\nNhân viên Bán hàng Showroom tại Công ty Cổ phần Nội Thất Gỗ Xanh Hoàng Gia\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Trực ca đón tiếp từ 8 đến 15 lượt khách tham quan showroom mỗi ngày tại khu đô thị Phú Mỹ Hưng.\n- Lắng nghe bản vẽ mặt bằng nhà khách hàng, tư vấn chọn kích thước sofa góc và bộ bàn ăn 6 ghế phù hợp diện tích phòng khách.\n- Tư vấn phối hợp tông màu tường với màu gỗ veneer và đệm da để tạo cảm giác không gian thoáng đãng.\n- Soạn đơn đặt hàng, kiểm tra lịch xuất kho và liên hệ thông báo giờ giao hàng chính xác cho chủ nhà.\n- Gọi điện thăm hỏi sự hài lòng sau 7 ngày bàn giao và ghi nhận phản hồi bảo hành sản phẩm.\n\nThực tập sinh Thiết kế kiêm Bán hàng tại Xưởng Nội Thất An Cư\nThời gian: Từ 2025-04 đến 2025-09\n- Hỗ trợ sắp đặt góc chụp ảnh mẫu và tư vấn khách chọn tay nắm tủ, phụ kiện bản lề.\n\nTrình độ học vấn:\n- Cử nhân Cao đẳng ngành Thiết kế Nội thất, Trường Cao đẳng Mỹ thuật Trang trí Đồng Nai",
+          "sections": [
+            {
+              "section_id": "SA-J04-C01-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nNhân viên tư vấn bán hàng showroom với 1 năm kinh nghiệm trong ngành nội thất gỗ tự nhiên và sofa da nhập khẩu. Tốt nghiệp Cao đẳng Thiết kế Nội thất, có gu thẩm mỹ tốt, kỹ năng tư vấn phối màu sắc và vật liệu hài hòa cho các căn hộ chung cư cao cấp. Tác phong niềm nở, tận tình chăm sóc khách hàng từ khâu tiếp đón đến khi hoàn thiện bàn giao tại nhà."
+            },
+            {
+              "section_id": "SA-J04-C01-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Đón tiếp và tư vấn bán hàng trực tiếp tại showroom nội thất\n- Tư vấn chất liệu da bò Ý, vải nỉ và các loại gỗ óc chó, sồi\n- Lập báo giá, theo dõi tiến độ đơn hàng sản xuất và giao lắp\n- Phối hợp đội ngũ thợ giao hàng và thợ kỹ thuật lắp đặt\n- Chăm sóc khách hàng sau bán hàng và hướng dẫn bảo dưỡng bề mặt gỗ"
+            },
+            {
+              "section_id": "SA-J04-C01-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Showroom tại Công ty Cổ phần Nội Thất Gỗ Xanh Hoàng Gia\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Trực ca đón tiếp từ 8 đến 15 lượt khách tham quan showroom mỗi ngày tại khu đô thị Phú Mỹ Hưng.\n- Lắng nghe bản vẽ mặt bằng nhà khách hàng, tư vấn chọn kích thước sofa góc và bộ bàn ăn 6 ghế phù hợp diện tích phòng khách.\n- Tư vấn phối hợp tông màu tường với màu gỗ veneer và đệm da để tạo cảm giác không gian thoáng đãng.\n- Soạn đơn đặt hàng, kiểm tra lịch xuất kho và liên hệ thông báo giờ giao hàng chính xác cho chủ nhà.\n- Gọi điện thăm hỏi sự hài lòng sau 7 ngày bàn giao và ghi nhận phản hồi bảo hành sản phẩm.\n\nThực tập sinh Thiết kế kiêm Bán hàng tại Xưởng Nội Thất An Cư\nThời gian: Từ 2025-04 đến 2025-09\n- Hỗ trợ sắp đặt góc chụp ảnh mẫu và tư vấn khách chọn tay nắm tủ, phụ kiện bản lề."
+            },
+            {
+              "section_id": "SA-J04-C01-SEC-EDU",
+              "kind": "education",
+              "text": "Trình độ học vấn:\n- Cử nhân Cao đẳng ngành Thiết kế Nội thất, Trường Cao đẳng Mỹ thuật Trang trí Đồng Nai"
+            }
+          ],
+          "skills": [
+            "Tư vấn bán hàng showroom",
+            "Nội thất gỗ tự nhiên và sofa da",
+            "Tư vấn phối màu sắc và chất liệu",
+            "Theo dõi đơn hàng giao lắp",
+            "Chăm sóc khách hàng sau bàn giao",
+            "Thiết kế nội thất"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J04-C01-EXP-01",
+              "title": "Nhân viên Bán hàng Showroom",
+              "company": "Công ty Cổ phần Nội Thất Gỗ Xanh Hoàng Gia",
+              "start_date": "2025-10",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực ca đón tiếp từ 8 đến 15 lượt khách tham quan showroom mỗi ngày tại khu đô thị Phú Mỹ Hưng.\nLắng nghe bản vẽ mặt bằng nhà khách hàng, tư vấn chọn kích thước sofa góc và bộ bàn ăn 6 ghế phù hợp diện tích phòng khách.\nTư vấn phối hợp tông màu tường với màu gỗ veneer và đệm da để tạo cảm giác không gian thoáng đãng.\nSoạn đơn đặt hàng, kiểm tra lịch xuất kho và liên hệ thông báo giờ giao hàng chính xác cho chủ nhà.\nGọi điện thăm hỏi sự hài lòng sau 7 ngày bàn giao và ghi nhận phản hồi bảo hành sản phẩm.",
+              "skills_used": [
+                "Tư vấn bán hàng showroom",
+                "Tư vấn phối màu sắc và chất liệu",
+                "Chăm sóc khách hàng sau bàn giao"
+              ],
+              "section_id": "SA-J04-C01-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J04-C01-EXP-02",
+              "title": "Thực tập sinh Thiết kế kiêm Bán hàng",
+              "company": "Xưởng Nội Thất An Cư",
+              "start_date": "2025-04",
+              "end_date": "2025-09",
+              "is_current": false,
+              "description": "Hỗ trợ sắp đặt góc chụp ảnh mẫu và tư vấn khách chọn tay nắm tủ, phụ kiện bản lề.",
+              "skills_used": [],
+              "section_id": "SA-J04-C01-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân Cao đẳng",
+              "field": "Thiết kế Nội thất",
+              "section_id": "SA-J04-C01-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J04-C02",
+          "cv_text": "Tóm lược bản thân:\nChuyên viên tư vấn bán lẻ với 8 tháng kinh nghiệm làm việc tại showroom đèn chùm trang trí và thiết bị nội thất hiện đại. Tốt nghiệp Cao đẳng Kinh tế, kỹ năng lắng nghe nhu cầu khách hàng, giải thích chi tiết đặc tính kỹ thuật vật liệu kim loại mạ và gỗ công nghiệp. Luôn chủ động phối hợp với thợ điện lạnh và đội giao hàng để bảo đảm trải nghiệm dịch vụ trọn vẹn cho người tiêu dùng.\n\nKỹ năng làm việc:\n- Tư vấn trực tiếp tại cửa hàng bán lẻ và showroom đèn trang trí\n- Giới thiệu kiểu dáng đèn thả trần, đèn bàn và tủ kệ trang trí phòng khách\n- Lập phiếu yêu cầu giao hàng và lắp đặt thiết bị tại nhà khách\n- Giao tiếp hòa nhã, ứng xử khéo léo với khách hàng phân khúc khá giả\n- Sử dụng phần mềm bán hàng KiotViet\n\nKinh nghiệm làm việc:\nNhân viên Tư vấn Bán hàng tại Công ty TNHH Đèn Trang Trí & Nội Thất Minh Anh\nThời gian: Từ 2026-02 đến nay (đang công tác)\n- Đón tiếp khách ghé xem showroom tại quận 10, giới thiệu các bộ sưu tập đèn chùm pha lê và đồ gỗ phụ trợ không gian phòng ăn.\n- Hướng dẫn khách hàng chọn màu ánh sáng (trắng, vàng, trung tính) hài hòa với màu sơn và nội thất gỗ trong nhà.\n- Lập hóa đơn, nhận tiền đặt cọc và chuyển thông tin địa chỉ cho đội thợ kỹ thuật đi khảo sát lắp ráp.\n- Bám sát tiến độ đơn hàng và gọi điện chăm sóc khách hàng sau khi hoàn tất thi công lắp đèn.\n\nNhân viên Thu ngân kiêm Chăm sóc Khách hàng tại Cửa hàng Đồ Gia Dụng Tiện Ích\nThời gian: Từ 2025-07 đến 2026-01\n- Tư vấn bán đồ dùng nhà bếp và thu tiền tại quầy cho khách mua lẻ.\n\nHọc vấn:\n- Cử nhân Cao đẳng ngành Kinh tế Thương mại, Trường Cao đẳng Kinh tế Đối ngoại",
+          "sections": [
+            {
+              "section_id": "SA-J04-C02-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược bản thân:\nChuyên viên tư vấn bán lẻ với 8 tháng kinh nghiệm làm việc tại showroom đèn chùm trang trí và thiết bị nội thất hiện đại. Tốt nghiệp Cao đẳng Kinh tế, kỹ năng lắng nghe nhu cầu khách hàng, giải thích chi tiết đặc tính kỹ thuật vật liệu kim loại mạ và gỗ công nghiệp. Luôn chủ động phối hợp với thợ điện lạnh và đội giao hàng để bảo đảm trải nghiệm dịch vụ trọn vẹn cho người tiêu dùng."
+            },
+            {
+              "section_id": "SA-J04-C02-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Tư vấn trực tiếp tại cửa hàng bán lẻ và showroom đèn trang trí\n- Giới thiệu kiểu dáng đèn thả trần, đèn bàn và tủ kệ trang trí phòng khách\n- Lập phiếu yêu cầu giao hàng và lắp đặt thiết bị tại nhà khách\n- Giao tiếp hòa nhã, ứng xử khéo léo với khách hàng phân khúc khá giả\n- Sử dụng phần mềm bán hàng KiotViet"
+            },
+            {
+              "section_id": "SA-J04-C02-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Tư vấn Bán hàng tại Công ty TNHH Đèn Trang Trí & Nội Thất Minh Anh\nThời gian: Từ 2026-02 đến nay (đang công tác)\n- Đón tiếp khách ghé xem showroom tại quận 10, giới thiệu các bộ sưu tập đèn chùm pha lê và đồ gỗ phụ trợ không gian phòng ăn.\n- Hướng dẫn khách hàng chọn màu ánh sáng (trắng, vàng, trung tính) hài hòa với màu sơn và nội thất gỗ trong nhà.\n- Lập hóa đơn, nhận tiền đặt cọc và chuyển thông tin địa chỉ cho đội thợ kỹ thuật đi khảo sát lắp ráp.\n- Bám sát tiến độ đơn hàng và gọi điện chăm sóc khách hàng sau khi hoàn tất thi công lắp đèn.\n\nNhân viên Thu ngân kiêm Chăm sóc Khách hàng tại Cửa hàng Đồ Gia Dụng Tiện Ích\nThời gian: Từ 2025-07 đến 2026-01\n- Tư vấn bán đồ dùng nhà bếp và thu tiền tại quầy cho khách mua lẻ."
+            },
+            {
+              "section_id": "SA-J04-C02-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Cao đẳng ngành Kinh tế Thương mại, Trường Cao đẳng Kinh tế Đối ngoại"
+            }
+          ],
+          "skills": [
+            "Tư vấn bán hàng showroom",
+            "Đèn trang trí và tủ kệ",
+            "Tư vấn màu sắc ánh sáng",
+            "Phối hợp lắp đặt",
+            "KiotViet"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J04-C02-EXP-01",
+              "title": "Nhân viên Tư vấn Bán hàng",
+              "company": "Công ty TNHH Đèn Trang Trí & Nội Thất Minh Anh",
+              "start_date": "2026-02",
+              "end_date": null,
+              "is_current": true,
+              "description": "Đón tiếp khách ghé xem showroom tại quận 10, giới thiệu các bộ sưu tập đèn chùm pha lê và đồ gỗ phụ trợ không gian phòng ăn.\nHướng dẫn khách hàng chọn màu ánh sáng (trắng, vàng, trung tính) hài hòa với màu sơn và nội thất gỗ trong nhà.\nLập hóa đơn, nhận tiền đặt cọc và chuyển thông tin địa chỉ cho đội thợ kỹ thuật đi khảo sát lắp ráp.\nBám sát tiến độ đơn hàng và gọi điện chăm sóc khách hàng sau khi hoàn tất thi công lắp đèn.",
+              "skills_used": [
+                "Tư vấn bán hàng showroom",
+                "Tư vấn màu sắc ánh sáng",
+                "Phối hợp lắp đặt"
+              ],
+              "section_id": "SA-J04-C02-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J04-C02-EXP-02",
+              "title": "Nhân viên Thu ngân kiêm Chăm sóc Khách hàng",
+              "company": "Cửa hàng Đồ Gia Dụng Tiện Ích",
+              "start_date": "2025-07",
+              "end_date": "2026-01",
+              "is_current": false,
+              "description": "Tư vấn bán đồ dùng nhà bếp và thu tiền tại quầy cho khách mua lẻ.",
+              "skills_used": [],
+              "section_id": "SA-J04-C02-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân Cao đẳng",
+              "field": "Kinh tế Thương mại",
+              "section_id": "SA-J04-C02-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J04-C03",
+          "cv_text": "Tóm lược ứng viên:\nỨng viên hoạt bát có 4 tháng làm nhân viên bán hàng tập sự tại showroom gạch ốp lát và thiết bị vệ sinh cao cấp. Nhiệt tình, có tinh thần học hỏi cao, yêu thích lĩnh vực nhà cửa và trang trí nội thất. Có thể làm việc theo ca xoay cuối tuần và ngày lễ.\n\nKỹ năng làm việc:\n- Chào đón khách hàng vào tham quan cửa hàng trưng bày\n- Giới thiệu các mẫu gạch men lát sàn và thiết bị vệ sinh men sứ\n- Hỗ trợ ghi lại kích thước phòng tắm và lập phiếu báo giá cơ bản\n- Bốc mẫu gạch cho khách xem thử màu sắc thực tế\n- Tác phong nhanh nhẹn, giao tiếp rõ ràng dễ hiểu\n\nKinh nghiệm làm việc:\nNhân viên Bán hàng Tập sự tại Showroom Gạch Men & Thiết Bị Vệ Sinh Á Châu\nThời gian: Từ 2026-06 đến nay (đang làm việc)\n- Trực sảnh trưng bày, mở cửa chào đón khách hàng và phát catalogue sản phẩm mới.\n- Dẫn khách tham quan các gian trưng bày buồng tắm mẫu, giới thiệu độ bóng và khả năng chống trơn trượt của từng dòng gạch.\n- Hỗ trợ các anh chị nhân viên chính thức ghi thông tin khách hàng vào sổ theo dõi.\n\nNhân viên Phục vụ Bàn tại Nhà hàng Lẩu Nướng Sài Gòn Phố\nThời gian: Từ 2025-09 đến 2026-05\n- Đón khách, phục vụ món ăn và hỗ trợ thanh toán hóa đơn bàn ăn.\n\nHọc vấn:\n- Tốt nghiệp Trung học Phổ thông, Trường THPT Hùng Vương",
+          "sections": [
+            {
+              "section_id": "SA-J04-C03-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược ứng viên:\nỨng viên hoạt bát có 4 tháng làm nhân viên bán hàng tập sự tại showroom gạch ốp lát và thiết bị vệ sinh cao cấp. Nhiệt tình, có tinh thần học hỏi cao, yêu thích lĩnh vực nhà cửa và trang trí nội thất. Có thể làm việc theo ca xoay cuối tuần và ngày lễ."
+            },
+            {
+              "section_id": "SA-J04-C03-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Chào đón khách hàng vào tham quan cửa hàng trưng bày\n- Giới thiệu các mẫu gạch men lát sàn và thiết bị vệ sinh men sứ\n- Hỗ trợ ghi lại kích thước phòng tắm và lập phiếu báo giá cơ bản\n- Bốc mẫu gạch cho khách xem thử màu sắc thực tế\n- Tác phong nhanh nhẹn, giao tiếp rõ ràng dễ hiểu"
+            },
+            {
+              "section_id": "SA-J04-C03-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Tập sự tại Showroom Gạch Men & Thiết Bị Vệ Sinh Á Châu\nThời gian: Từ 2026-06 đến nay (đang làm việc)\n- Trực sảnh trưng bày, mở cửa chào đón khách hàng và phát catalogue sản phẩm mới.\n- Dẫn khách tham quan các gian trưng bày buồng tắm mẫu, giới thiệu độ bóng và khả năng chống trơn trượt của từng dòng gạch.\n- Hỗ trợ các anh chị nhân viên chính thức ghi thông tin khách hàng vào sổ theo dõi.\n\nNhân viên Phục vụ Bàn tại Nhà hàng Lẩu Nướng Sài Gòn Phố\nThời gian: Từ 2025-09 đến 2026-05\n- Đón khách, phục vụ món ăn và hỗ trợ thanh toán hóa đơn bàn ăn."
+            },
+            {
+              "section_id": "SA-J04-C03-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Tốt nghiệp Trung học Phổ thông, Trường THPT Hùng Vương"
+            }
+          ],
+          "skills": [
+            "Chào đón khách showroom",
+            "Giới thiệu mẫu gạch men thiết bị",
+            "Tác phong nhanh nhẹn",
+            "Giao tiếp rõ ràng"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J04-C03-EXP-01",
+              "title": "Nhân viên Bán hàng Tập sự",
+              "company": "Showroom Gạch Men & Thiết Bị Vệ Sinh Á Châu",
+              "start_date": "2026-06",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực sảnh trưng bày, mở cửa chào đón khách hàng và phát catalogue sản phẩm mới.\nDẫn khách tham quan các gian trưng bày buồng tắm mẫu, giới thiệu độ bóng và khả năng chống trơn trượt của từng dòng gạch.\nHỗ trợ các anh chị nhân viên chính thức ghi thông tin khách hàng vào sổ theo dõi.",
+              "skills_used": [
+                "Chào đón khách showroom"
+              ],
+              "section_id": "SA-J04-C03-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J04-C03-EXP-02",
+              "title": "Nhân viên Phục vụ Bàn",
+              "company": "Nhà hàng Lẩu Nướng Sài Gòn Phố",
+              "start_date": "2025-09",
+              "end_date": "2026-05",
+              "is_current": false,
+              "description": "Đón khách, phục vụ món ăn và hỗ trợ thanh toán hóa đơn bàn ăn.",
+              "skills_used": [],
+              "section_id": "SA-J04-C03-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Tốt nghiệp THPT",
+              "field": "Phổ thông trung học",
+              "section_id": "SA-J04-C03-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J04-C04",
+          "cv_text": "Tóm lược hồ sơ:\nChuyên viên tư vấn bán hàng thời trang xa xỉ (Luxury Boutique Fashion Consultant) với hơn 2 năm làm việc tại các trung tâm thương mại lớn ở trung tâm Sài Gòn. Phong cách phục vụ lịch lãm, cách giao tiếp nhẹ nhàng lịch sự, kỹ năng chăm sóc và trò chuyện cùng khách hàng tầng lớp thượng lưu. Mong muốn tìm kiếm môi trường mới trong ngành tư vấn nội thất cao cấp để ứng dụng kỹ năng dịch vụ khách hàng cao cấp.\n\nKỹ năng chuyên môn:\n- Tư vấn bán hàng trực tiếp tại boutique hàng hiệu cao cấp\n- Giao tiếp lịch thiệp, kỹ năng lắng nghe và tư vấn phong cách (Styling)\n- Quản lý danh sách khách hàng thân thiết (VIP Clienteling)\n- Kiểm kê hàng hóa xa xỉ và xử lý thanh toán quẹt thẻ quốc tế\n- Tiếng Anh giao tiếp lưu loát với khách hàng nước ngoài\n\nKinh nghiệm làm việc:\nChuyên viên Tư vấn Bán lẻ Cấp cao tại Cửa hàng Thời Trang Cao Cấp Bellissimo\nThời gian: Từ 2024-05 đến nay (đang làm việc)\n- Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại lớn ở trung tâm thành phố.\n- Gợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\n- Nhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng.\n\nNhân viên Bán hàng Mỹ phẩm Nhập khẩu tại Chuỗi Bán Lẻ Glamour Beauty\nThời gian: Từ 2023-01 đến 2024-04\n- Tư vấn dòng sản phẩm chăm sóc da chống lão hóa cho khách hàng nữ.\n\nHọc vấn:\n- Cử nhân ngành Quan hệ Công chúng, Trường Đại học Văn Lang",
+          "sections": [
+            {
+              "section_id": "SA-J04-C04-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nChuyên viên tư vấn bán hàng thời trang xa xỉ (Luxury Boutique Fashion Consultant) với hơn 2 năm làm việc tại các trung tâm thương mại lớn ở trung tâm Sài Gòn. Phong cách phục vụ lịch lãm, cách giao tiếp nhẹ nhàng lịch sự, kỹ năng chăm sóc và trò chuyện cùng khách hàng tầng lớp thượng lưu. Mong muốn tìm kiếm môi trường mới trong ngành tư vấn nội thất cao cấp để ứng dụng kỹ năng dịch vụ khách hàng cao cấp."
+            },
+            {
+              "section_id": "SA-J04-C04-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Tư vấn bán hàng trực tiếp tại boutique hàng hiệu cao cấp\n- Giao tiếp lịch thiệp, kỹ năng lắng nghe và tư vấn phong cách (Styling)\n- Quản lý danh sách khách hàng thân thiết (VIP Clienteling)\n- Kiểm kê hàng hóa xa xỉ và xử lý thanh toán quẹt thẻ quốc tế\n- Tiếng Anh giao tiếp lưu loát với khách hàng nước ngoài"
+            },
+            {
+              "section_id": "SA-J04-C04-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Tư vấn Bán lẻ Cấp cao tại Cửa hàng Thời Trang Cao Cấp Bellissimo\nThời gian: Từ 2024-05 đến nay (đang làm việc)\n- Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại lớn ở trung tâm thành phố.\n- Gợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\n- Nhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng.\n\nNhân viên Bán hàng Mỹ phẩm Nhập khẩu tại Chuỗi Bán Lẻ Glamour Beauty\nThời gian: Từ 2023-01 đến 2024-04\n- Tư vấn dòng sản phẩm chăm sóc da chống lão hóa cho khách hàng nữ."
+            },
+            {
+              "section_id": "SA-J04-C04-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Quan hệ Công chúng, Trường Đại học Văn Lang"
+            }
+          ],
+          "skills": [
+            "Tư vấn hàng cao cấp",
+            "Giao tiếp lịch thiệp",
+            "Tư vấn phối màu sắc",
+            "Chăm sóc khách VIP",
+            "Tiếng Anh giao tiếp lưu loát"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J04-C04-EXP-01",
+              "title": "Chuyên viên Tư vấn Bán lẻ Cấp cao",
+              "company": "Cửa hàng Thời Trang Cao Cấp Bellissimo",
+              "start_date": "2024-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại lớn ở trung tâm thành phố.\nGợi ý cách phối màu trang phục và phụ kiện trang sức đi kèm, tạo dựng phong thái tự tin và ấn tượng cho khách dự tiệc.\nNhắn tin chúc mừng sinh nhật, gửi quà tri ân và duy trì quan hệ thân thiết với nhóm 60 khách VIP của cửa hàng.",
+              "skills_used": [
+                "Tư vấn hàng cao cấp",
+                "Tư vấn phối màu sắc",
+                "Chăm sóc khách VIP"
+              ],
+              "section_id": "SA-J04-C04-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J04-C04-EXP-02",
+              "title": "Nhân viên Bán hàng Mỹ phẩm Nhập khẩu",
+              "company": "Chuỗi Bán Lẻ Glamour Beauty",
+              "start_date": "2023-01",
+              "end_date": "2024-04",
+              "is_current": false,
+              "description": "Tư vấn dòng sản phẩm chăm sóc da chống lão hóa cho khách hàng nữ.",
+              "skills_used": [],
+              "section_id": "SA-J04-C04-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Quan hệ Công chúng",
+              "section_id": "SA-J04-C04-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J04-C05",
+          "cv_text": "Tóm tắt kinh nghiệm quản lý:\nNhà quản lý bán hàng showroom nội thất cao cấp với hơn 5 năm kinh nghiệm dẫn dắt các cụm showroom quy mô từ 800m2 đến 1.500m2. Tốt nghiệp Đại học chuyên ngành Mỹ thuật Công nghiệp, có chuyên môn sâu về kiến trúc không gian sống, vật liệu đá marble nhân tạo và các dòng gỗ quý. Đã từng huấn luyện hơn 40 nhân viên tư vấn showroom về nghệ thuật chốt đơn và chăm sóc hậu mãi khách hàng siêu giàu.\n\nKỹ năng điều hành và tư vấn:\n- Quản lý và vận hành toàn diện hệ thống showroom nội thất cao cấp\n- Tư vấn giải pháp phối màu, công năng nội thất biệt thự và penthouse\n- Đào tạo kỹ năng bán hàng tư vấn và quy chuẩn dịch vụ 5 sao cho nhân viên\n- Điều phối mạng lưới vận chuyển, kho bãi và đội thợ lắp ráp hoàn thiện\n- Xử lý các khiếu nại bảo hành phức tạp về cong vênh, rạn nứt gỗ tự nhiên\n\nKinh nghiệm làm việc:\nQuản lý Cụm Showroom Nội Thất tại Tập Đoàn Nội Thất Châu Âu\nThời gian: Từ 2022-03 đến nay (đang quản lý)\n- Chịu trách nhiệm doanh số 45 tỷ đồng/năm của 2 showroom nội thất cao cấp tại Sala Quận 2 và Phú Mỹ Hưng Quận 7.\n- Trực tiếp hướng dẫn đội ngũ 12 nhân viên bán hàng cách đón tiếp các chủ đầu tư biệt thự và kiến trúc sư nội thất.\n- Giám sát toàn bộ tiến trình từ khâu tư vấn thiết kế 3D, ký hợp đồng kinh tế đến bàn giao nghiệm thu tận nhà.\n- Thiết lập quy trình kiểm tra chất lượng thi công lắp đặt và dịch vụ bảo trì định kỳ 6 tháng/lần cho khách VIP.\n\nTrưởng ca Tư vấn Showroom tại Công ty Cổ phần Nội Thất Không Gian Đẹp\nThời gian: Từ 2019-09 đến 2022-02\n- Tư vấn bán các gói nội thất hoàn thiện căn hộ và điều phối thợ lắp ráp bàn ghế.\n\nHọc vấn:\n- Cử nhân ngành Mỹ thuật Công nghiệp, Trường Đại học Kiến Trúc TP.HCM",
+          "sections": [
+            {
+              "section_id": "SA-J04-C05-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm quản lý:\nNhà quản lý bán hàng showroom nội thất cao cấp với hơn 5 năm kinh nghiệm dẫn dắt các cụm showroom quy mô từ 800m2 đến 1.500m2. Tốt nghiệp Đại học chuyên ngành Mỹ thuật Công nghiệp, có chuyên môn sâu về kiến trúc không gian sống, vật liệu đá marble nhân tạo và các dòng gỗ quý. Đã từng huấn luyện hơn 40 nhân viên tư vấn showroom về nghệ thuật chốt đơn và chăm sóc hậu mãi khách hàng siêu giàu."
+            },
+            {
+              "section_id": "SA-J04-C05-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng điều hành và tư vấn:\n- Quản lý và vận hành toàn diện hệ thống showroom nội thất cao cấp\n- Tư vấn giải pháp phối màu, công năng nội thất biệt thự và penthouse\n- Đào tạo kỹ năng bán hàng tư vấn và quy chuẩn dịch vụ 5 sao cho nhân viên\n- Điều phối mạng lưới vận chuyển, kho bãi và đội thợ lắp ráp hoàn thiện\n- Xử lý các khiếu nại bảo hành phức tạp về cong vênh, rạn nứt gỗ tự nhiên"
+            },
+            {
+              "section_id": "SA-J04-C05-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nQuản lý Cụm Showroom Nội Thất tại Tập Đoàn Nội Thất Châu Âu\nThời gian: Từ 2022-03 đến nay (đang quản lý)\n- Chịu trách nhiệm doanh số 45 tỷ đồng/năm của 2 showroom nội thất cao cấp tại Sala Quận 2 và Phú Mỹ Hưng Quận 7.\n- Trực tiếp hướng dẫn đội ngũ 12 nhân viên bán hàng cách đón tiếp các chủ đầu tư biệt thự và kiến trúc sư nội thất.\n- Giám sát toàn bộ tiến trình từ khâu tư vấn thiết kế 3D, ký hợp đồng kinh tế đến bàn giao nghiệm thu tận nhà.\n- Thiết lập quy trình kiểm tra chất lượng thi công lắp đặt và dịch vụ bảo trì định kỳ 6 tháng/lần cho khách VIP.\n\nTrưởng ca Tư vấn Showroom tại Công ty Cổ phần Nội Thất Không Gian Đẹp\nThời gian: Từ 2019-09 đến 2022-02\n- Tư vấn bán các gói nội thất hoàn thiện căn hộ và điều phối thợ lắp ráp bàn ghế."
+            },
+            {
+              "section_id": "SA-J04-C05-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Mỹ thuật Công nghiệp, Trường Đại học Kiến Trúc TP.HCM"
+            }
+          ],
+          "skills": [
+            "Quản lý showroom nội thất",
+            "Tư vấn nội thất cao cấp",
+            "Phối màu và công năng không gian sống",
+            "Điều phối vận chuyển lắp đặt",
+            "Chăm sóc hậu mãi khách VIP",
+            "Mỹ thuật công nghiệp"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J04-C05-EXP-01",
+              "title": "Quản lý Cụm Showroom Nội Thất",
+              "company": "Tập Đoàn Nội Thất Châu Âu",
+              "start_date": "2022-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Chịu trách nhiệm doanh số 45 tỷ đồng/năm của 2 showroom nội thất cao cấp tại Sala Quận 2 và Phú Mỹ Hưng Quận 7.\nTrực tiếp hướng dẫn đội ngũ 12 nhân viên bán hàng cách đón tiếp các chủ đầu tư biệt thự và kiến trúc sư nội thất.\nGiám sát toàn bộ tiến trình từ khâu tư vấn thiết kế 3D, ký hợp đồng kinh tế đến bàn giao nghiệm thu tận nhà.\nThiết lập quy trình kiểm tra chất lượng thi công lắp đặt và dịch vụ bảo trì định kỳ 6 tháng/lần cho khách VIP.",
+              "skills_used": [
+                "Quản lý showroom nội thất",
+                "Chăm sóc hậu mãi khách VIP"
+              ],
+              "section_id": "SA-J04-C05-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J04-C05-EXP-02",
+              "title": "Trưởng ca Tư vấn Showroom",
+              "company": "Công ty Cổ phần Nội Thất Không Gian Đẹp",
+              "start_date": "2019-09",
+              "end_date": "2022-02",
+              "is_current": false,
+              "description": "Tư vấn bán các gói nội thất hoàn thiện căn hộ và điều phối thợ lắp ráp bàn ghế.",
+              "skills_used": [],
+              "section_id": "SA-J04-C05-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Mỹ thuật Công nghiệp",
+              "section_id": "SA-J04-C05-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J04-C06",
+          "cv_text": "Tóm tắt bản thân:\nNhân viên tư vấn bán hàng qua điện thoại với hơn 1 năm 6 tháng kinh nghiệm trong mảng thẻ tín dụng và khoản vay tiêu dùng cá nhân. Giao tiếp rõ ràng, diễn đạt mạch lạc, phản xạ ứng biến nhanh khi giải đáp thắc mắc về lãi suất và thủ tục giấy tờ. Mong muốn chuyển sang môi trường bán lẻ trực tiếp tại showroom để phát huy kỹ năng giao tiếp trực diện và chăm sóc khách hàng.\n\nKỹ năng làm việc:\n- Tư vấn sản phẩm tài chính và thẻ tín dụng qua điện thoại (Telesales)\n- Xử lý phản hồi từ chối và thuyết phục khách hàng mở tài khoản\n- Quản lý danh sách liên hệ khách hàng trên phần mềm CRM nội bộ\n- Giao tiếp rõ ràng truyền cảm, nhẹ nhàng, kiên nhẫn\n- Kỹ năng làm việc dưới áp lực chỉ tiêu cuộc gọi hàng ngày\n\nKinh nghiệm làm việc:\nNhân viên Telesales Thẻ Tín Dụng tại Công ty Tài Chính Ngân Hàng Số Tiên Phong\nThời gian: Từ 2025-04 đến nay (đang làm việc)\n- Thực hiện trung bình 60 đến 80 cuộc gọi mỗi ngày theo danh sách dữ liệu tiềm năng được cung cấp.\n- Tư vấn các chương trình hoàn tiền mua sắm và ưu đãi trả góp 0% cho chủ thẻ mới.\n- Hỗ trợ khách hàng hoàn thiện hồ sơ chứng minh thu nhập để phê duyệt hạn mức thẻ.\n\nCộng tác viên Bán hàng Online Phụ Kiện Điện Thoại tại Cửa Hàng Phụ Kiện Số Zin\nThời gian: Từ 2024-09 đến 2025-03\n- Trực hộp thư tin nhắn và chốt đơn ốp lưng, tai nghe trên sàn Shopee.\n\nHọc vấn:\n- Cử nhân Cao đẳng ngành Quản trị Kinh doanh, Trường Cao đẳng Công Thương TP.HCM",
+          "sections": [
+            {
+              "section_id": "SA-J04-C06-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt bản thân:\nNhân viên tư vấn bán hàng qua điện thoại với hơn 1 năm 6 tháng kinh nghiệm trong mảng thẻ tín dụng và khoản vay tiêu dùng cá nhân. Giao tiếp rõ ràng, diễn đạt mạch lạc, phản xạ ứng biến nhanh khi giải đáp thắc mắc về lãi suất và thủ tục giấy tờ. Mong muốn chuyển sang môi trường bán lẻ trực tiếp tại showroom để phát huy kỹ năng giao tiếp trực diện và chăm sóc khách hàng."
+            },
+            {
+              "section_id": "SA-J04-C06-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Tư vấn sản phẩm tài chính và thẻ tín dụng qua điện thoại (Telesales)\n- Xử lý phản hồi từ chối và thuyết phục khách hàng mở tài khoản\n- Quản lý danh sách liên hệ khách hàng trên phần mềm CRM nội bộ\n- Giao tiếp rõ ràng truyền cảm, nhẹ nhàng, kiên nhẫn\n- Kỹ năng làm việc dưới áp lực chỉ tiêu cuộc gọi hàng ngày"
+            },
+            {
+              "section_id": "SA-J04-C06-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Telesales Thẻ Tín Dụng tại Công ty Tài Chính Ngân Hàng Số Tiên Phong\nThời gian: Từ 2025-04 đến nay (đang làm việc)\n- Thực hiện trung bình 60 đến 80 cuộc gọi mỗi ngày theo danh sách dữ liệu tiềm năng được cung cấp.\n- Tư vấn các chương trình hoàn tiền mua sắm và ưu đãi trả góp 0% cho chủ thẻ mới.\n- Hỗ trợ khách hàng hoàn thiện hồ sơ chứng minh thu nhập để phê duyệt hạn mức thẻ.\n\nCộng tác viên Bán hàng Online Phụ Kiện Điện Thoại tại Cửa Hàng Phụ Kiện Số Zin\nThời gian: Từ 2024-09 đến 2025-03\n- Trực hộp thư tin nhắn và chốt đơn ốp lưng, tai nghe trên sàn Shopee."
+            },
+            {
+              "section_id": "SA-J04-C06-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Cao đẳng ngành Quản trị Kinh doanh, Trường Cao đẳng Công Thương TP.HCM"
+            }
+          ],
+          "skills": [
+            "Telesales tài chính",
+            "Giao tiếp truyền cảm",
+            "Thuyết phục khách hàng",
+            "Quản trị kinh doanh"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J04-C06-EXP-01",
+              "title": "Nhân viên Telesales Thẻ Tín Dụng",
+              "company": "Công ty Tài Chính Ngân Hàng Số Tiên Phong",
+              "start_date": "2025-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thực hiện trung bình 60 đến 80 cuộc gọi mỗi ngày theo danh sách dữ liệu tiềm năng được cung cấp.\nTư vấn các chương trình hoàn tiền mua sắm và ưu đãi trả góp 0% cho chủ thẻ mới.\nHỗ trợ khách hàng hoàn thiện hồ sơ chứng minh thu nhập để phê duyệt hạn mức thẻ.",
+              "skills_used": [
+                "Telesales tài chính"
+              ],
+              "section_id": "SA-J04-C06-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J04-C06-EXP-02",
+              "title": "Cộng tác viên Bán hàng Online Phụ Kiện Điện Thoại",
+              "company": "Cửa Hàng Phụ Kiện Số Zin",
+              "start_date": "2024-09",
+              "end_date": "2025-03",
+              "is_current": false,
+              "description": "Trực hộp thư tin nhắn và chốt đơn ốp lưng, tai nghe trên sàn Shopee.",
+              "skills_used": [],
+              "section_id": "SA-J04-C06-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân Cao đẳng",
+              "field": "Quản trị Kinh doanh",
+              "section_id": "SA-J04-C06-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J04-C07",
+          "cv_text": "Tóm lược kỹ năng:\nNhân viên tư vấn bán hàng nội thất với hơn 1 năm làm việc tại cửa hàng kinh doanh bàn ghế gỗ công nghiệp MDF chống ẩm và giường tủ thông minh. Tác phong lịch sự, giao tiếp hòa nhã, có hiểu biết về quy trình thi công căn hộ chung cư và phối màu sắc rèm cửa, giấy dán tường ăn khớp với đồ nội thất chính.\n\nKỹ năng làm việc:\n- Tư vấn trực tiếp cho khách mua sắm tại cửa hàng nội thất\n- Giới thiệu chất liệu ván gỗ phủ Melamine và Laminate An Cường\n- Lập đơn đặt hàng và thu tiền cọc theo biểu mẫu công ty\n- Kết nối thợ giao vận và theo dõi tiến độ lắp ráp tại nhà dân\n- Xử lý các vấn đề trầy xước sơn và chỉnh phụ kiện cánh tủ sau bàn giao\n\nKinh nghiệm làm việc:\nNhân viên Bán hàng Cửa hàng Nội thất tại Công ty TNHH Nội Thất Gỗ Mộc Lan\nThời gian: Từ 2025-08 đến nay (hiện tại)\n- Đón tiếp khách hàng tới xem các mẫu giường ngủ bọc nỉ, tủ áo cánh kính và bàn trang điểm thông minh.\n- Tư vấn lựa chọn kích thước tủ áo phù hợp với chiều cao trần thạch cao và diện tích phòng ngủ của khách.\n- Tư vấn khách hàng phối tông màu xám ghi hiện đại hoặc vân gỗ sồi ấm áp cho không gian nhà mới.\n- Theo dõi quá trình vận chuyển đơn hàng, liên hệ trước với ban quản lý chung cư để đăng ký thang máy vận chuyển đồ.\n- Chăm sóc khách hàng sau khi bàn giao để tiếp nhận thông tin bảo dưỡng định kỳ.\n\nNhân viên Hỗ trợ Bán hàng Đồ Gỗ tại Xưởng Mộc Gia Định\nThời gian: (thời gian làm việc bán thời gian trước đây, không có ngày tháng cụ thể)\n- Hỗ trợ lau chùi đồ nội thất mẫu và phụ việc sắp xếp bàn ghế tại kho trưng bày.\n\nHọc vấn:\n- Cử nhân Cao đẳng ngành Quản trị Bán hàng, Trường Cao đẳng Kinh tế Kỹ thuật Vinatex TP.HCM",
+          "sections": [
+            {
+              "section_id": "SA-J04-C07-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược kỹ năng:\nNhân viên tư vấn bán hàng nội thất với hơn 1 năm làm việc tại cửa hàng kinh doanh bàn ghế gỗ công nghiệp MDF chống ẩm và giường tủ thông minh. Tác phong lịch sự, giao tiếp hòa nhã, có hiểu biết về quy trình thi công căn hộ chung cư và phối màu sắc rèm cửa, giấy dán tường ăn khớp với đồ nội thất chính."
+            },
+            {
+              "section_id": "SA-J04-C07-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Tư vấn trực tiếp cho khách mua sắm tại cửa hàng nội thất\n- Giới thiệu chất liệu ván gỗ phủ Melamine và Laminate An Cường\n- Lập đơn đặt hàng và thu tiền cọc theo biểu mẫu công ty\n- Kết nối thợ giao vận và theo dõi tiến độ lắp ráp tại nhà dân\n- Xử lý các vấn đề trầy xước sơn và chỉnh phụ kiện cánh tủ sau bàn giao"
+            },
+            {
+              "section_id": "SA-J04-C07-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Bán hàng Cửa hàng Nội thất tại Công ty TNHH Nội Thất Gỗ Mộc Lan\nThời gian: Từ 2025-08 đến nay (hiện tại)\n- Đón tiếp khách hàng tới xem các mẫu giường ngủ bọc nỉ, tủ áo cánh kính và bàn trang điểm thông minh.\n- Tư vấn lựa chọn kích thước tủ áo phù hợp với chiều cao trần thạch cao và diện tích phòng ngủ của khách.\n- Tư vấn khách hàng phối tông màu xám ghi hiện đại hoặc vân gỗ sồi ấm áp cho không gian nhà mới.\n- Theo dõi quá trình vận chuyển đơn hàng, liên hệ trước với ban quản lý chung cư để đăng ký thang máy vận chuyển đồ.\n- Chăm sóc khách hàng sau khi bàn giao để tiếp nhận thông tin bảo dưỡng định kỳ.\n\nNhân viên Hỗ trợ Bán hàng Đồ Gỗ tại Xưởng Mộc Gia Định\nThời gian: (thời gian làm việc bán thời gian trước đây, không có ngày tháng cụ thể)\n- Hỗ trợ lau chùi đồ nội thất mẫu và phụ việc sắp xếp bàn ghế tại kho trưng bày."
+            },
+            {
+              "section_id": "SA-J04-C07-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Cao đẳng ngành Quản trị Bán hàng, Trường Cao đẳng Kinh tế Kỹ thuật Vinatex TP.HCM"
+            }
+          ],
+          "skills": [
+            "Tư vấn nội thất gỗ công nghiệp",
+            "Tư vấn phối màu sắc không gian",
+            "Theo dõi giao hàng lắp đặt",
+            "Chăm sóc hậu mãi khách hàng",
+            "Giao tiếp hòa nhã"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J04-C07-EXP-01",
+              "title": "Nhân viên Bán hàng Cửa hàng Nội thất",
+              "company": "Công ty TNHH Nội Thất Gỗ Mộc Lan",
+              "start_date": "2025-08",
+              "end_date": null,
+              "is_current": true,
+              "description": "Đón tiếp khách hàng tới xem các mẫu giường ngủ bọc nỉ, tủ áo cánh kính và bàn trang điểm thông minh.\nTư vấn lựa chọn kích thước tủ áo phù hợp với chiều cao trần thạch cao và diện tích phòng ngủ của khách.\nTư vấn khách hàng phối tông màu xám ghi hiện đại hoặc vân gỗ sồi ấm áp cho không gian nhà mới.\nTheo dõi quá trình vận chuyển đơn hàng, liên hệ trước với ban quản lý chung cư để đăng ký thang máy vận chuyển đồ.\nChăm sóc khách hàng sau khi bàn giao để tiếp nhận thông tin bảo dưỡng định kỳ.",
+              "skills_used": [
+                "Tư vấn phối màu sắc không gian",
+                "Chăm sóc hậu mãi khách hàng"
+              ],
+              "section_id": "SA-J04-C07-SEC-EXP"
+            },
+            {
+              "experience_id": "SA-J04-C07-EXP-02",
+              "title": "Nhân viên Hỗ trợ Bán hàng Đồ Gỗ",
+              "company": "Xưởng Mộc Gia Định",
+              "start_date": null,
+              "end_date": null,
+              "is_current": false,
+              "description": "Hỗ trợ lau chùi đồ nội thất mẫu và phụ việc sắp xếp bàn ghế tại kho trưng bày.",
+              "skills_used": [],
+              "section_id": "SA-J04-C07-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân Cao đẳng",
+              "field": "Quản trị Bán hàng",
+              "section_id": "SA-J04-C07-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "SA-J04-C08",
+          "cv_text": "Tóm tắt kinh nghiệm:\nCử nhân Thiết kế Nội thất với 10 tháng làm việc thực tế tại xưởng mộc thiết kế theo yêu cầu, vừa dựng phối cảnh 3D vừa trực tiếp tiếp đón khách hàng tham quan không gian trưng bày chất liệu. Kỹ năng lắng nghe nhu cầu sống thực tế, am hiểu sâu sắc về độ bền vật liệu và có năng khiếu tư vấn phối cảnh màu sắc phòng khách, phòng bếp hiện đại.\n\nKỹ năng chuyên môn:\n- Tư vấn giải pháp thiết kế và vật liệu nội thất tại phòng trưng bày xưởng\n- Kỹ năng phối màu sắc, bố trí công năng và chọn vật liệu gỗ công nghiệp MDF chống ẩm\n- Dựng hình 3D SketchUp và vẽ mặt bằng bố trí nội thất 2D\n- Soạn bảng dự toán chi phí đóng đồ gỗ theo thiết kế may đo\n- Phối hợp với thợ thi công để bảo đảm sản phẩm hoàn thiện đúng yêu cầu kỹ thuật\n\nKinh nghiệm công tác:\nHọa viên Thiết kế kiêm Tư vấn Khách hàng tại Xưởng Mộc Hiện Đại\nThời gian: Từ 2025-12 đến nay (đang làm việc)\n- Trực tiếp đón tiếp các khách hàng ghé xưởng xem bảng mẫu ván gỗ Melamine, đá nhân tạo bếp và kính cường lực ốp tường.\n- Lắng nghe ý muốn phong cách nội thất tối giản (Minimalism) hoặc Bắc Âu (Scandinavian) để gợi ý màu gỗ phối hợp màu đệm sofa.\n- Lên dự toán chi phí chi tiết, ký hợp đồng đóng đồ nội thất theo số đo căn hộ chung cư.\n- Cùng thợ lắp đặt tới công trình bàn giao, kiểm tra độ êm của ray trượt và hướng dẫn khách lau chùi bề mặt bảo quản.\n\nDự án tiêu biểu:\nThiết kế và Tư vấn Căn hộ 2 Phòng Ngủ Dự án An Khang Riverside\nThời gian: 2026-03 đến 2026-05\n- Tư vấn trọn gói bộ bàn ăn thông minh kéo dài và hệ tủ tivi treo tường cho gia chủ trẻ, nhận được đánh giá rất hài lòng sau bàn giao nghiệm thu.\n\nHọc vấn:\n- Cử nhân ngành Thiết kế Nội thất, Trường Đại học Văn Lang",
+          "sections": [
+            {
+              "section_id": "SA-J04-C08-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm:\nCử nhân Thiết kế Nội thất với 10 tháng làm việc thực tế tại xưởng mộc thiết kế theo yêu cầu, vừa dựng phối cảnh 3D vừa trực tiếp tiếp đón khách hàng tham quan không gian trưng bày chất liệu. Kỹ năng lắng nghe nhu cầu sống thực tế, am hiểu sâu sắc về độ bền vật liệu và có năng khiếu tư vấn phối cảnh màu sắc phòng khách, phòng bếp hiện đại."
+            },
+            {
+              "section_id": "SA-J04-C08-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Tư vấn giải pháp thiết kế và vật liệu nội thất tại phòng trưng bày xưởng\n- Kỹ năng phối màu sắc, bố trí công năng và chọn vật liệu gỗ công nghiệp MDF chống ẩm\n- Dựng hình 3D SketchUp và vẽ mặt bằng bố trí nội thất 2D\n- Soạn bảng dự toán chi phí đóng đồ gỗ theo thiết kế may đo\n- Phối hợp với thợ thi công để bảo đảm sản phẩm hoàn thiện đúng yêu cầu kỹ thuật"
+            },
+            {
+              "section_id": "SA-J04-C08-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm công tác:\nHọa viên Thiết kế kiêm Tư vấn Khách hàng tại Xưởng Mộc Hiện Đại\nThời gian: Từ 2025-12 đến nay (đang làm việc)\n- Trực tiếp đón tiếp các khách hàng ghé xưởng xem bảng mẫu ván gỗ Melamine, đá nhân tạo bếp và kính cường lực ốp tường.\n- Lắng nghe ý muốn phong cách nội thất tối giản (Minimalism) hoặc Bắc Âu (Scandinavian) để gợi ý màu gỗ phối hợp màu đệm sofa.\n- Lên dự toán chi phí chi tiết, ký hợp đồng đóng đồ nội thất theo số đo căn hộ chung cư.\n- Cùng thợ lắp đặt tới công trình bàn giao, kiểm tra độ êm của ray trượt và hướng dẫn khách lau chùi bề mặt bảo quản."
+            },
+            {
+              "section_id": "SA-J04-C08-SEC-PRJ",
+              "kind": "project",
+              "text": "Dự án tiêu biểu:\nThiết kế và Tư vấn Căn hộ 2 Phòng Ngủ Dự án An Khang Riverside\nThời gian: 2026-03 đến 2026-05\n- Tư vấn trọn gói bộ bàn ăn thông minh kéo dài và hệ tủ tivi treo tường cho gia chủ trẻ, nhận được đánh giá rất hài lòng sau bàn giao nghiệm thu."
+            },
+            {
+              "section_id": "SA-J04-C08-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Thiết kế Nội thất, Trường Đại học Văn Lang"
+            }
+          ],
+          "skills": [
+            "Tư vấn vật liệu nội thất",
+            "Phối màu sắc và công năng",
+            "Thiết kế 3D SketchUp",
+            "Phối hợp thợ lắp đặt",
+            "Thiết kế nội thất"
+          ],
+          "experiences": [
+            {
+              "experience_id": "SA-J04-C08-EXP-01",
+              "title": "Họa viên Thiết kế kiêm Tư vấn Khách hàng",
+              "company": "Xưởng Mộc Hiện Đại",
+              "start_date": "2025-12",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp đón tiếp các khách hàng ghé xưởng xem bảng mẫu ván gỗ Melamine, đá nhân tạo bếp và kính cường lực ốp tường.\nLắng nghe ý muốn phong cách nội thất tối giản (Minimalism) hoặc Bắc Âu (Scandinavian) để gợi ý màu gỗ phối hợp màu đệm sofa.\nLên dự toán chi phí chi tiết, ký hợp đồng đóng đồ nội thất theo số đo căn hộ chung cư.\nCùng thợ lắp đặt tới công trình bàn giao, kiểm tra độ êm của ray trượt và hướng dẫn khách lau chùi bề mặt bảo quản.",
+              "skills_used": [
+                "Tư vấn vật liệu nội thất",
+                "Phối hợp thợ lắp đặt"
+              ],
+              "section_id": "SA-J04-C08-SEC-EXP"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "SA-J04-C08-PRJ-01",
+              "name": "Thiết kế và Tư vấn Căn hộ 2 Phòng Ngủ Dự án An Khang Riverside",
+              "description": "Tư vấn trọn gói bộ bàn ăn thông minh kéo dài và hệ tủ tivi treo tường cho gia chủ trẻ, nhận được đánh giá rất hài lòng sau bàn giao nghiệm thu.",
+              "technologies_or_methods": [],
+              "section_id": "SA-J04-C08-SEC-PRJ"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Thiết kế Nội thất",
+              "section_id": "SA-J04-C08-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        }
+      ]
+    }
+  ]
+}

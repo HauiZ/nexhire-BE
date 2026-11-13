@@ -1,0 +1,106 @@
+{
+  "source_acceptance": "accepted",
+  "limitations_noted": [
+    "Target market/audience descriptors (người dùng trẻ, thế hệ trẻ, Gen Z) in JD and candidate marketing narratives refer to target audience demographics, not applicant constraints.",
+    "All 8 candidate word counts (284 to 384 words) fall strictly within preferred 200-450 word range.",
+    "Offline lexical checks flag semantic support checks on multi-word descriptions and skill aliases; all verified against cited section texts.",
+    "Pilot synthetic sources are development-only; no generalization or untouched test claims authorized."
+  ],
+  "job_id": "MK-J02",
+  "blocking_issues": [],
+  "resolved_historical_issues": [
+    {
+      "candidate_id": "MK-J02-C03",
+      "disposition": "fixed",
+      "evidence_note": "WordPress removed from structured description; description synchronized verbatim with MK-J02-C03-SEC-EXP bullet text per HR-SOURCE-004.",
+      "issue_summary": "WordPress CMS added in structured description without section evidence"
+    },
+    {
+      "issue_summary": "English language skill assigned to EXP-02 without role-specific evidence",
+      "disposition": "fixed",
+      "candidate_id": "MK-J02-C03",
+      "evidence_note": "Removed unsupported role-specific language skill Dịch thuật tiếng Anh from MK-J02-C03-EXP-02 skills_used per HR-SOURCE-003, leaving skills_used empty []."
+    },
+    {
+      "candidate_id": "MK-J02-C06",
+      "issue_summary": "Pancake/Harasocial products imported into EXP-01 and over-200 quantifier converted to exactly 200",
+      "disposition": "fixed",
+      "evidence_note": "Removed Pancake Harasocial from MK-J02-C06-EXP-01 skills_used per HR-SOURCE-003; restored exact quantifier 'hơn 200 lượt hỏi giá' verbatim in structured description per HR-SOURCE-004."
+    },
+    {
+      "evidence_note": "Cleared unsupported technologies_or_methods to [] in MK-J02-C08-PRJ-01 per HR-SOURCE-003; project description preserved verbatim from MK-J02-C08-SEC-PRJ.",
+      "disposition": "fixed",
+      "candidate_id": "MK-J02-C08",
+      "issue_summary": "Project PRJ-01 assigned unstated video editing methods and trend adaptation without section support"
+    },
+    {
+      "evidence_note": "MK-J02-C01-EXP-01 description restored to verbatim section text preserving 'hơn 150.000 người theo dõi'; 'Bắt trend xu hướng Gen Z' removed from internship MK-J02-C01-EXP-02 skills_used per HR-SOURCE-003.",
+      "candidate_id": "MK-J02-C01",
+      "issue_summary": "Description dropped over-qualifier; Gen Z trend skill assigned to internship EXP-02 without cohort evidence",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "Music-trend adaptation skill assigned to employer role EXP-01 without role prose support",
+      "disposition": "fixed",
+      "evidence_note": "Removed 'Bắt nhịp xu hướng nhạc trend' from MK-J02-C02-EXP-01 skills_used per HR-SOURCE-003; retained supported general skill in candidate skills.",
+      "candidate_id": "MK-J02-C02"
+    },
+    {
+      "evidence_note": "Negative denial clause removed from MK-J02-C03-SEC-EXP and structured description per HR-SOURCE-006; cv_text join updated cleanly.",
+      "issue_summary": "Templated negative denial clause in experience prose and description",
+      "candidate_id": "MK-J02-C03",
+      "disposition": "fixed"
+    },
+    {
+      "candidate_id": "MK-J02-C04",
+      "issue_summary": "Applicant age descriptor trẻ tuổi, Premiere negative denial, quantifier drop, and unsupported on-camera acting skill in EXP-01",
+      "evidence_note": "Removed 'trẻ tuổi' from MK-J02-C04-SEC-SUM; removed Premiere denial bullet per HR-SOURCE-006; preserved 'trên 300.000 lượt xem' in description per HR-SOURCE-004; removed 'Diễn xuất trước ống kính' from MK-J02-C04-EXP-01 skills_used per HR-SOURCE-003.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "Description dropped over-qualifier, storytelling narrow attribution, and real media brand leak in company name",
+      "candidate_id": "MK-J02-C05",
+      "evidence_note": "Restored 'hơn 45 triệu lượt xem' in MK-J02-C05-EXP-01 description per HR-SOURCE-004; removed 'Storytelling' from EXP-01 and EXP-02 skills_used per HR-SOURCE-003; company 'Giải Trí Tuổi Trẻ' fictionalized to 'Công ty Cổ phần Giải Trí Trẻ Vina' per HR-SOURCE-007.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "JD-shaped negative denial bullet in EXP-01 and malformed EXP-02 section_id reference",
+      "candidate_id": "MK-J02-C06",
+      "evidence_note": "Removed negative denial bullet from MK-J02-C06-SEC-EXP and synchronized cv_text per HR-SOURCE-006; fixed EXP-02 section_id to 'MK-J02-C06-SEC-EXP'."
+    },
+    {
+      "evidence_note": "Restored 'hơn 70.000 người theo dõi' in MK-J02-C08-EXP-01 description per HR-SOURCE-004; removed 'Bắt trend du lịch ẩm thực' from EXP-01 skills_used per HR-SOURCE-003; removed 'trẻ tuổi' from MK-J02-C08-SEC-SKILL; fixed cv_text join order.",
+      "disposition": "fixed",
+      "issue_summary": "Description dropped over-qualifier, role trend skill unsupported in role prose, trẻ tuổi in skills, cv_text section order inverted",
+      "candidate_id": "MK-J02-C08"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "evidence_note": "Degree wording 'Cử nhân Cao đẳng ngành Quản trị Văn phòng' preserved verbatim in source text and structured education record under HR-SOURCE-010 without forced mapping to university or college level; non-blocking.",
+      "candidate_id": "MK-J02-C06",
+      "issue_summary": "Ambiguous degree wording Cử nhân Cao đẳng"
+    },
+    {
+      "candidate_id": "MK-J02-C07",
+      "issue_summary": "Nullable is_current=false with null dates for prior freelance work",
+      "disposition": "accepted_limitation",
+      "evidence_note": "Freelance experience EXP-02 has null start/end dates with is_current=false supported by explicit prior wording 'trước đây' under HR-SOURCE-005; non-blocking."
+    },
+    {
+      "issue_summary": "Summary tenure phrasing versus total career chronology",
+      "disposition": "retained_ambiguity",
+      "evidence_note": "Summary tenure phrasing ('hơn 1 năm 5 tháng') reflects rounded focus on primary video role (EXP-01: May 2025 - Nov 2026, ~18 months) vs total chronology (~24 months); preserved under HR-SOURCE-008 as non-blocking.",
+      "candidate_id": "MK-J02-C01"
+    },
+    {
+      "candidate_id": "MK-J02-C04",
+      "issue_summary": "Summary tenure phrasing versus total employment chronology",
+      "evidence_note": "Summary tenure phrasing ('6 tháng kinh nghiệm') reflects role-specific focus on TikTok/Facebook chain role (EXP-01: Apr 2026 - Nov 2026, ~7 months) vs total chronology (~13 months); preserved under HR-SOURCE-008 as non-blocking.",
+      "disposition": "retained_ambiguity"
+    }
+  ],
+  "verified_candidate_count": 8,
+  "verification_run_id": "wlj22smze",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

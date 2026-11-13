@@ -1,0 +1,848 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "IT-J04",
+      "source_family_id": "IT-J04",
+      "domain": "it",
+      "title": "Lập trình viên Di động Flutter (Flutter Mobile Developer)",
+      "level": "junior",
+      "language": "vi",
+      "jd_text": "Công ty Cổ phần Công nghệ Di động Mobitech Việt Nam cần tuyển vị trí Lập trình viên Di động Flutter (Flutter Mobile Developer) cấp độ Junior tại Quận Tân Bình, TP. Hồ Chí Minh. Hình thức làm việc: Toàn thời gian trực tiếp tại văn phòng. Mức thu nhập từ 12.000.000 đến 18.000.000 VND kèm phụ cấp gửi xe và hỗ trợ thiết bị chạy thử ứng dụng iOS/Android.\n\nTrách nhiệm công việc:\n- Tham gia lập trình và phát triển các tính năng mới trên ứng dụng di động đa nền tảng iOS và Android bằng Flutter.\n- Tích hợp các dịch vụ backend thông qua RESTful API và quản lý dữ liệu lưu trữ phía client.\n- Khắc phục lỗi giao diện, tối ưu độ mượt và hiệu ứng người dùng theo bản thiết kế Figma.\n- Hỗ trợ chuẩn bị tài liệu và gói cài đặt để phát hành ứng dụng lên các kho ứng dụng.\n\nYêu cầu bắt buộc:\n- Có từ 1 đến 2 năm kinh nghiệm phát triển ứng dụng di động đa nền tảng bằng Flutter và Dart.\n- Nắm vững các kỹ thuật quản lý state phổ biến như Bloc, Provider hoặc Riverpod.\n- Kinh nghiệm tích hợp RESTful API và xử lý dữ liệu JSON trong ứng dụng di động.\n\nYêu cầu ưu tiên:\n- Hiểu biết về quy trình phát hành ứng dụng lên Google Play Store và Apple App Store.\n- Kinh nghiệm làm việc với Firebase (Authentication, Cloud Firestore, Cloud Messaging).\n- Tốt nghiệp Cao đẳng hoặc Đại học chuyên ngành Công nghệ thông tin, Phần mềm hoặc liên quan.",
+      "requirements": [
+        {
+          "requirement_id": "IT-J04-R01",
+          "text": "Có từ 1 đến 2 năm kinh nghiệm phát triển ứng dụng di động đa nền tảng bằng Flutter và Dart.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J04-R02",
+          "text": "Nắm vững các kỹ thuật quản lý state phổ biến như Bloc, Provider hoặc Riverpod.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J04-R03",
+          "text": "Kinh nghiệm tích hợp RESTful API và xử lý dữ liệu JSON trong ứng dụng di động.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J04-R04",
+          "text": "Hiểu biết về quy trình phát hành ứng dụng lên Google Play Store và Apple App Store.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J04-R05",
+          "text": "Kinh nghiệm làm việc với Firebase (Authentication, Cloud Firestore, Cloud Messaging).",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J04-R06",
+          "text": "Tốt nghiệp Cao đẳng hoặc Đại học chuyên ngành Công nghệ thông tin, Phần mềm hoặc liên quan.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "IT-J04-C01",
+          "cv_text": "Tóm tắt: Lập trình viên Di động Junior có 1 năm 8 tháng kinh nghiệm lập trình Flutter và Dart. Thành thạo quản lý state bằng Flutter Bloc, tích hợp RESTful API và sử dụng các dịch vụ Firebase như Authentication và Cloud Messaging. Đã tham gia đóng gói và phát hành ứng dụng lên Google Play Store và Apple App Store.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: Dart, Java (cơ bản).\n- Khung ứng dụng: Flutter SDK.\n- Quản lý trạng thái: Bloc (flutter_bloc), Provider.\n- Dịch vụ & Công cụ: Firebase Authentication, Cloud Firestore, Cloud Messaging, RESTful API, Git, Postman, Figma.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter Junior tại Công ty TNHH Phát triển Phần mềm Sáng Tạo Việt. Thời gian: từ 2025-03 đến nay. Mô tả: Phát triển các tính năng giỏ hàng, thông báo đẩy và xác thực người dùng cho ứng dụng thương mại điện tử bằng Flutter và Dart. Sử dụng thư viện flutter_bloc để quản lý state. Tích hợp RESTful API xử lý định dạng JSON và cấu hình Firebase Cloud Messaging. Tham gia quy trình build bản phát hành lên Google Play Store và Apple App Store.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ An Phú. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Làm quen dự án, cắt giao diện từ Figma sang widget Flutter và gọi API cơ bản.\n\nDự án:\n- Dự án Ứng dụng Bán hàng Nông sản GreenShop: Xây dựng ứng dụng Flutter hoàn chỉnh sử dụng Bloc, tích hợp Firebase Authentication và cổng thanh toán nội địa.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Công nghệ Thông tin - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J04-C01-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Lập trình viên Di động Junior có 1 năm 8 tháng kinh nghiệm lập trình Flutter và Dart. Thành thạo quản lý state bằng Flutter Bloc, tích hợp RESTful API và sử dụng các dịch vụ Firebase như Authentication và Cloud Messaging. Đã tham gia đóng gói và phát hành ứng dụng lên Google Play Store và Apple App Store."
+            },
+            {
+              "section_id": "IT-J04-C01-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: Dart, Java (cơ bản).\n- Khung ứng dụng: Flutter SDK.\n- Quản lý trạng thái: Bloc (flutter_bloc), Provider.\n- Dịch vụ & Công cụ: Firebase Authentication, Cloud Firestore, Cloud Messaging, RESTful API, Git, Postman, Figma."
+            },
+            {
+              "section_id": "IT-J04-C01-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter Junior tại Công ty TNHH Phát triển Phần mềm Sáng Tạo Việt. Thời gian: từ 2025-03 đến nay. Mô tả: Phát triển các tính năng giỏ hàng, thông báo đẩy và xác thực người dùng cho ứng dụng thương mại điện tử bằng Flutter và Dart. Sử dụng thư viện flutter_bloc để quản lý state. Tích hợp RESTful API xử lý định dạng JSON và cấu hình Firebase Cloud Messaging. Tham gia quy trình build bản phát hành lên Google Play Store và Apple App Store.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ An Phú. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Làm quen dự án, cắt giao diện từ Figma sang widget Flutter và gọi API cơ bản."
+            },
+            {
+              "section_id": "IT-J04-C01-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Ứng dụng Bán hàng Nông sản GreenShop: Xây dựng ứng dụng Flutter hoàn chỉnh sử dụng Bloc, tích hợp Firebase Authentication và cổng thanh toán nội địa."
+            },
+            {
+              "section_id": "IT-J04-C01-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Công nghệ Thông tin - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J04-C01-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Dart",
+            "Java",
+            "Flutter",
+            "Bloc",
+            "Provider",
+            "Firebase Authentication",
+            "Cloud Firestore",
+            "Cloud Messaging",
+            "RESTful API",
+            "Git",
+            "Postman",
+            "Figma"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J04-C01-E01",
+              "title": "Lập trình viên Flutter Junior",
+              "company": "Công ty TNHH Phát triển Phần mềm Sáng Tạo Việt",
+              "start_date": "2025-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển các tính năng giỏ hàng, thông báo đẩy và xác thực người dùng cho ứng dụng thương mại điện tử bằng Flutter và Dart. Sử dụng thư viện flutter_bloc để quản lý state. Tích hợp RESTful API xử lý định dạng JSON và cấu hình Firebase Cloud Messaging. Tham gia quy trình build bản phát hành lên Google Play Store và Apple App Store.",
+              "skills_used": [
+                "Flutter",
+                "Dart",
+                "Bloc",
+                "Firebase Cloud Messaging",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C01-S03"
+            },
+            {
+              "experience_id": "IT-J04-C01-E02",
+              "title": "Thực tập sinh Flutter",
+              "company": "Công ty Cổ phần Công nghệ An Phú",
+              "start_date": "2024-09",
+              "end_date": "2025-02",
+              "is_current": false,
+              "description": "Làm quen dự án, cắt giao diện từ Figma sang widget Flutter và gọi API cơ bản.",
+              "skills_used": [
+                "Flutter",
+                "Figma"
+              ],
+              "section_id": "IT-J04-C01-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J04-C01-P01",
+              "name": "Ứng dụng Bán hàng Nông sản GreenShop",
+              "description": "Xây dựng ứng dụng Flutter hoàn chỉnh sử dụng Bloc, tích hợp Firebase Authentication và cổng thanh toán nội địa.",
+              "technologies_or_methods": [
+                "Flutter",
+                "Bloc",
+                "Firebase Authentication"
+              ],
+              "section_id": "IT-J04-C01-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Phần mềm",
+              "section_id": "IT-J04-C01-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J04-C02",
+          "cv_text": "Tóm lược: Lập trình viên Ứng dụng Di động có 1 năm 4 tháng làm việc với Flutter và Dart. Quản lý trạng thái bằng Provider và Riverpod. Có kinh nghiệm gọi các RESTful API phân trang và tích hợp dữ liệu thời gian thực với Cloud Firestore.\n\nKỹ năng:\n- Ngôn ngữ & Framework: Dart, Flutter SDK, HTML/CSS cơ bản.\n- Quản lý State: Provider, Riverpod.\n- Dịch vụ đám mây & API: Firebase Cloud Firestore, Firebase Authentication, RESTful API (Dio, http).\n- Công cụ: Android Studio, VS Code, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty Cổ phần Công nghệ Số Hải Đăng. Thời gian: từ 2025-07 đến nay. Mô tả: Xây dựng ứng dụng tra cứu thời tiết và tin tức địa phương bằng Flutter. Kết nối RESTful API qua thư viện Dio, xử lý parse JSON và lưu trữ offline bằng SQLite và Shared Preferences. Quản lý state bằng Riverpod.\n- Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Ứng dụng Di động Mặt Trời. Thời gian: từ 2025-02 đến 2025-06. Mô tả: Cắt giao diện ứng dụng theo bản vẽ và quản lý state với Provider.\n\nDự án:\n- Dự án Ứng dụng Tin tức Hải Đăng News: Lập trình giao diện đọc báo bằng Flutter và Dart, sử dụng Riverpod quản lý luồng dữ liệu.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J04-C02-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Ứng dụng Di động có 1 năm 4 tháng làm việc với Flutter và Dart. Quản lý trạng thái bằng Provider và Riverpod. Có kinh nghiệm gọi các RESTful API phân trang và tích hợp dữ liệu thời gian thực với Cloud Firestore."
+            },
+            {
+              "section_id": "IT-J04-C02-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ & Framework: Dart, Flutter SDK, HTML/CSS cơ bản.\n- Quản lý State: Provider, Riverpod.\n- Dịch vụ đám mây & API: Firebase Cloud Firestore, Firebase Authentication, RESTful API (Dio, http).\n- Công cụ: Android Studio, VS Code, Git."
+            },
+            {
+              "section_id": "IT-J04-C02-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty Cổ phần Công nghệ Số Hải Đăng. Thời gian: từ 2025-07 đến nay. Mô tả: Xây dựng ứng dụng tra cứu thời tiết và tin tức địa phương bằng Flutter. Kết nối RESTful API qua thư viện Dio, xử lý parse JSON và lưu trữ offline bằng SQLite và Shared Preferences. Quản lý state bằng Riverpod.\n- Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Ứng dụng Di động Mặt Trời. Thời gian: từ 2025-02 đến 2025-06. Mô tả: Cắt giao diện ứng dụng theo bản vẽ và quản lý state với Provider."
+            },
+            {
+              "section_id": "IT-J04-C02-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Ứng dụng Tin tức Hải Đăng News: Lập trình giao diện đọc báo bằng Flutter và Dart, sử dụng Riverpod quản lý luồng dữ liệu."
+            },
+            {
+              "section_id": "IT-J04-C02-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J04-C02-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Dart",
+            "Flutter",
+            "Provider",
+            "Riverpod",
+            "Firebase Cloud Firestore",
+            "Firebase Authentication",
+            "RESTful API",
+            "Android Studio",
+            "VS Code",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J04-C02-E01",
+              "title": "Lập trình viên Flutter",
+              "company": "Công ty Cổ phần Công nghệ Số Hải Đăng",
+              "start_date": "2025-07",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng ứng dụng tra cứu thời tiết và tin tức địa phương bằng Flutter. Kết nối RESTful API qua thư viện Dio, xử lý parse JSON và lưu trữ offline bằng SQLite và Shared Preferences. Quản lý state bằng Riverpod.",
+              "skills_used": [
+                "Flutter",
+                "Riverpod",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C02-S03"
+            },
+            {
+              "experience_id": "IT-J04-C02-E02",
+              "title": "Lập trình viên Flutter thử việc",
+              "company": "Công ty TNHH Ứng dụng Di động Mặt Trời",
+              "start_date": "2025-02",
+              "end_date": "2025-06",
+              "is_current": false,
+              "description": "Cắt giao diện ứng dụng theo bản vẽ và quản lý state với Provider.",
+              "skills_used": [
+                "Flutter",
+                "Provider"
+              ],
+              "section_id": "IT-J04-C02-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J04-C02-P01",
+              "name": "Ứng dụng Tin tức Hải Đăng News",
+              "description": "Lập trình giao diện đọc báo bằng Flutter và Dart, sử dụng Riverpod quản lý luồng dữ liệu.",
+              "technologies_or_methods": [
+                "Flutter",
+                "Dart",
+                "Riverpod"
+              ],
+              "section_id": "IT-J04-C02-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J04-C02-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J04-C03",
+          "cv_text": "Tóm lược: Lập trình viên Android Native có 2 năm kinh nghiệm với Kotlin và Java. Gần đây đã hoàn thành khóa đào tạo 6 tháng về Flutter và Dart, tự tay phát triển 2 ứng dụng mẫu hoàn chỉnh sử dụng Bloc pattern.\n\nKỹ năng:\n- Ngôn ngữ: Kotlin, Java, Dart.\n- Khung phát triển: Android SDK, Flutter SDK, Bloc.\n- Công nghệ liên quan: RESTful API, Retrofit, Firebase, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Android tại Công ty Cổ phần Công nghệ Số Nam Sơn. Thời gian: từ 2024-05 đến 2026-06. Mô tả: Phát triển các tính năng ứng dụng giao hàng bằng Kotlin, tích hợp Google Maps API và gọi các dịch vụ RESTful API.\n- Chức danh: Thực tập sinh Android tại Công ty TNHH Ứng dụng Di động Thăng Long. Thời gian: từ 2023-10 đến 2024-04. Mô tả: Sửa lỗi giao diện và hỗ trợ viết unit test cho ứng dụng Android Native.\n\nDự án:\n- Dự án Cá nhân Ứng dụng Quản lý Thói quen HabitTracker: Phát triển bằng Flutter và Dart, quản lý state bằng Bloc và đồng bộ dữ liệu với Firebase Firestore.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J04-C03-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Android Native có 2 năm kinh nghiệm với Kotlin và Java. Gần đây đã hoàn thành khóa đào tạo 6 tháng về Flutter và Dart, tự tay phát triển 2 ứng dụng mẫu hoàn chỉnh sử dụng Bloc pattern."
+            },
+            {
+              "section_id": "IT-J04-C03-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Kotlin, Java, Dart.\n- Khung phát triển: Android SDK, Flutter SDK, Bloc.\n- Công nghệ liên quan: RESTful API, Retrofit, Firebase, Git."
+            },
+            {
+              "section_id": "IT-J04-C03-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Android tại Công ty Cổ phần Công nghệ Số Nam Sơn. Thời gian: từ 2024-05 đến 2026-06. Mô tả: Phát triển các tính năng ứng dụng giao hàng bằng Kotlin, tích hợp Google Maps API và gọi các dịch vụ RESTful API.\n- Chức danh: Thực tập sinh Android tại Công ty TNHH Ứng dụng Di động Thăng Long. Thời gian: từ 2023-10 đến 2024-04. Mô tả: Sửa lỗi giao diện và hỗ trợ viết unit test cho ứng dụng Android Native."
+            },
+            {
+              "section_id": "IT-J04-C03-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Cá nhân Ứng dụng Quản lý Thói quen HabitTracker: Phát triển bằng Flutter và Dart, quản lý state bằng Bloc và đồng bộ dữ liệu với Firebase Firestore."
+            },
+            {
+              "section_id": "IT-J04-C03-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J04-C03-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Kotlin",
+            "Java",
+            "Dart",
+            "Android SDK",
+            "Flutter",
+            "Bloc",
+            "RESTful API",
+            "Retrofit",
+            "Firebase",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J04-C03-E01",
+              "title": "Lập trình viên Android",
+              "company": "Công ty Cổ phần Công nghệ Số Nam Sơn",
+              "start_date": "2024-05",
+              "end_date": "2026-06",
+              "is_current": false,
+              "description": "Phát triển các tính năng ứng dụng giao hàng bằng Kotlin, tích hợp Google Maps API và gọi các dịch vụ RESTful API.",
+              "skills_used": [
+                "Kotlin",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C03-S03"
+            },
+            {
+              "experience_id": "IT-J04-C03-E02",
+              "title": "Thực tập sinh Android",
+              "company": "Công ty TNHH Ứng dụng Di động Thăng Long",
+              "start_date": "2023-10",
+              "end_date": "2024-04",
+              "is_current": false,
+              "description": "Sửa lỗi giao diện và hỗ trợ viết unit test cho ứng dụng Android Native.",
+              "skills_used": [
+                "Android Native"
+              ],
+              "section_id": "IT-J04-C03-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J04-C03-P01",
+              "name": "Ứng dụng Quản lý Thói quen HabitTracker",
+              "description": "Phát triển bằng Flutter và Dart, quản lý state bằng Bloc và đồng bộ dữ liệu với Firebase Firestore.",
+              "technologies_or_methods": [
+                "Flutter",
+                "Dart",
+                "Bloc",
+                "Firebase"
+              ],
+              "section_id": "IT-J04-C03-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Máy tính",
+              "section_id": "IT-J04-C03-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J04-C04",
+          "cv_text": "Tóm lược: Lập trình viên Di động Flutter có 1 năm 6 tháng kinh nghiệm. Chuyên xây dựng giao diện người dùng mượt mà theo chuẩn Material Design từ bản vẽ Figma, gọi RESTful API và quản lý state với Bloc. Đã từng hỗ trợ đưa ứng dụng lên Google Play Store.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: Dart, JavaScript cơ bản.\n- Framework & State: Flutter, flutter_bloc, Provider.\n- API & Công cụ: RESTful API, JSON parsing, Firebase, Git, Figma, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Di động Flutter tại Công ty Cổ phần Giải pháp Phần mềm Thái Bình Dương. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng các màn hình đặt xe và lịch sử chuyến đi bằng Flutter. Quản lý trạng thái bằng flutter_bloc, tích hợp RESTful API với backend Node.js. Hỗ trợ cấu hình chứng chỉ ký ứng dụng và đưa bản thử nghiệm lên Google Play Console.\n- Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Công nghệ Viễn Đông. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Viết các widget tùy chỉnh và tích hợp Firebase Cloud Messaging để nhận thông báo đẩy.\n\nDự án:\n- Dự án Ứng dụng Đặt Chuyến Đi PacificRide: Xây dựng bằng Flutter và Dart, quản lý state với Bloc và tích hợp RESTful API.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Sư phạm Kỹ thuật TP.HCM.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J04-C04-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Di động Flutter có 1 năm 6 tháng kinh nghiệm. Chuyên xây dựng giao diện người dùng mượt mà theo chuẩn Material Design từ bản vẽ Figma, gọi RESTful API và quản lý state với Bloc. Đã từng hỗ trợ đưa ứng dụng lên Google Play Store."
+            },
+            {
+              "section_id": "IT-J04-C04-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: Dart, JavaScript cơ bản.\n- Framework & State: Flutter, flutter_bloc, Provider.\n- API & Công cụ: RESTful API, JSON parsing, Firebase, Git, Figma, Postman."
+            },
+            {
+              "section_id": "IT-J04-C04-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Di động Flutter tại Công ty Cổ phần Giải pháp Phần mềm Thái Bình Dương. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng các màn hình đặt xe và lịch sử chuyến đi bằng Flutter. Quản lý trạng thái bằng flutter_bloc, tích hợp RESTful API với backend Node.js. Hỗ trợ cấu hình chứng chỉ ký ứng dụng và đưa bản thử nghiệm lên Google Play Console.\n- Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Công nghệ Viễn Đông. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Viết các widget tùy chỉnh và tích hợp Firebase Cloud Messaging để nhận thông báo đẩy."
+            },
+            {
+              "section_id": "IT-J04-C04-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Ứng dụng Đặt Chuyến Đi PacificRide: Xây dựng bằng Flutter và Dart, quản lý state với Bloc và tích hợp RESTful API."
+            },
+            {
+              "section_id": "IT-J04-C04-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Sư phạm Kỹ thuật TP.HCM."
+            },
+            {
+              "section_id": "IT-J04-C04-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Dart",
+            "JavaScript",
+            "Flutter",
+            "flutter_bloc",
+            "Provider",
+            "RESTful API",
+            "JSON",
+            "Firebase",
+            "Git",
+            "Figma",
+            "Postman"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J04-C04-E01",
+              "title": "Lập trình viên Di động Flutter",
+              "company": "Công ty Cổ phần Giải pháp Phần mềm Thái Bình Dương",
+              "start_date": "2025-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các màn hình đặt xe và lịch sử chuyến đi bằng Flutter. Quản lý trạng thái bằng flutter_bloc, tích hợp RESTful API với backend Node.js. Hỗ trợ cấu hình chứng chỉ ký ứng dụng và đưa bản thử nghiệm lên Google Play Console.",
+              "skills_used": [
+                "Flutter",
+                "flutter_bloc",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C04-S03"
+            },
+            {
+              "experience_id": "IT-J04-C04-E02",
+              "title": "Lập trình viên Flutter thử việc",
+              "company": "Công ty TNHH Công nghệ Viễn Đông",
+              "start_date": "2024-11",
+              "end_date": "2025-04",
+              "is_current": false,
+              "description": "Viết các widget tùy chỉnh và tích hợp Firebase Cloud Messaging để nhận thông báo đẩy.",
+              "skills_used": [
+                "Flutter",
+                "Firebase"
+              ],
+              "section_id": "IT-J04-C04-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J04-C04-P01",
+              "name": "Ứng dụng Đặt Chuyến Đi PacificRide",
+              "description": "Xây dựng bằng Flutter và Dart, quản lý state với Bloc và tích hợp RESTful API.",
+              "technologies_or_methods": [
+                "Flutter",
+                "Dart",
+                "Bloc",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C04-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J04-C04-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J04-C05",
+          "cv_text": "Tóm tắt: Lập trình viên React Native có 1 năm 6 tháng kinh nghiệm xây dựng ứng dụng di động đa nền tảng bằng JavaScript và TypeScript. Có kiến thức vững về tích hợp RESTful API, Redux và Firebase. Mới bắt đầu tiếp cận tìm hiểu Flutter trong thời gian gần đây.\n\nKỹ năng:\n- Ngôn ngữ: JavaScript, TypeScript, Dart (cơ bản).\n- Khung ứng dụng: React Native, React Navigation, Flutter (mới tiếp cận).\n- Quản lý trạng thái & API: Redux, Redux Toolkit, RESTful API, Axios.\n- Dịch vụ đám mây: Firebase Authentication, Firebase Cloud Messaging.\n- Khác: Git, Postman, Android Studio.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên React Native tại Công ty TNHH Phát triển Ứng dụng Di động Tinh Hoa. Thời gian: từ 2025-05 đến nay. Mô tả: Phát triển tính năng đặt vé và thanh toán trực tuyến trên ứng dụng React Native. Kết nối RESTful API và đồng bộ thông báo đẩy qua Firebase Cloud Messaging.\n- Chức danh: Thực tập sinh Lập trình Di động tại Công ty Cổ phần Công nghệ Đại Việt. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Xây dựng các component giao diện React Native và gọi API lấy dữ liệu.\n\nDự án:\n- Dự án Ứng dụng Đặt Vé Xem Phim TicketGo: Phát triển bằng React Native, TypeScript và Redux Toolkit, kết nối Firebase Cloud Messaging.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Công nghiệp Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J04-C05-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Lập trình viên React Native có 1 năm 6 tháng kinh nghiệm xây dựng ứng dụng di động đa nền tảng bằng JavaScript và TypeScript. Có kiến thức vững về tích hợp RESTful API, Redux và Firebase. Mới bắt đầu tiếp cận tìm hiểu Flutter trong thời gian gần đây."
+            },
+            {
+              "section_id": "IT-J04-C05-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: JavaScript, TypeScript, Dart (cơ bản).\n- Khung ứng dụng: React Native, React Navigation, Flutter (mới tiếp cận).\n- Quản lý trạng thái & API: Redux, Redux Toolkit, RESTful API, Axios.\n- Dịch vụ đám mây: Firebase Authentication, Firebase Cloud Messaging.\n- Khác: Git, Postman, Android Studio."
+            },
+            {
+              "section_id": "IT-J04-C05-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên React Native tại Công ty TNHH Phát triển Ứng dụng Di động Tinh Hoa. Thời gian: từ 2025-05 đến nay. Mô tả: Phát triển tính năng đặt vé và thanh toán trực tuyến trên ứng dụng React Native. Kết nối RESTful API và đồng bộ thông báo đẩy qua Firebase Cloud Messaging.\n- Chức danh: Thực tập sinh Lập trình Di động tại Công ty Cổ phần Công nghệ Đại Việt. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Xây dựng các component giao diện React Native và gọi API lấy dữ liệu."
+            },
+            {
+              "section_id": "IT-J04-C05-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Ứng dụng Đặt Vé Xem Phim TicketGo: Phát triển bằng React Native, TypeScript và Redux Toolkit, kết nối Firebase Cloud Messaging."
+            },
+            {
+              "section_id": "IT-J04-C05-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Công nghiệp Hà Nội."
+            },
+            {
+              "section_id": "IT-J04-C05-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "JavaScript",
+            "TypeScript",
+            "Dart",
+            "React Native",
+            "Flutter",
+            "Redux",
+            "Redux Toolkit",
+            "RESTful API",
+            "Axios",
+            "Firebase Authentication",
+            "Firebase Cloud Messaging",
+            "Git",
+            "Postman",
+            "Android Studio"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J04-C05-E01",
+              "title": "Lập trình viên React Native",
+              "company": "Công ty TNHH Phát triển Ứng dụng Di động Tinh Hoa",
+              "start_date": "2025-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển tính năng đặt vé và thanh toán trực tuyến trên ứng dụng React Native. Kết nối RESTful API và đồng bộ thông báo đẩy qua Firebase Cloud Messaging.",
+              "skills_used": [
+                "React Native",
+                "Firebase Cloud Messaging",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C05-S03"
+            },
+            {
+              "experience_id": "IT-J04-C05-E02",
+              "title": "Thực tập sinh Lập trình Di động",
+              "company": "Công ty Cổ phần Công nghệ Đại Việt",
+              "start_date": "2024-11",
+              "end_date": "2025-04",
+              "is_current": false,
+              "description": "Xây dựng các component giao diện React Native và gọi API lấy dữ liệu.",
+              "skills_used": [
+                "React Native"
+              ],
+              "section_id": "IT-J04-C05-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J04-C05-P01",
+              "name": "Ứng dụng Đặt Vé Xem Phim TicketGo",
+              "description": "Phát triển bằng React Native, TypeScript và Redux Toolkit, kết nối Firebase Cloud Messaging.",
+              "technologies_or_methods": [
+                "React Native",
+                "TypeScript",
+                "Redux Toolkit"
+              ],
+              "section_id": "IT-J04-C05-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J04-C05-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J04-C06",
+          "cv_text": "Tóm lược: Lập trình viên Flutter Junior có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Flutter và Firebase. Nắm vững phương pháp quản lý state bằng Provider và tích hợp RESTful API JSON. Tốt nghiệp Cao đẳng chuyên ngành Công nghệ thông tin.\n\nKỹ năng:\n- Ngôn ngữ: Dart, HTML, CSS.\n- Framework & Quản lý State: Flutter SDK, Provider.\n- Dịch vụ: Firebase Authentication, Cloud Firestore, RESTful API.\n- Công cụ: VS Code, Git, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty TNHH Phần mềm Trẻ Toàn Cầu. Thời gian: từ 2025-08 đến nay. Mô tả: Lập trình các màn hình hiển thị danh mục sản phẩm và hồ sơ người dùng bằng Flutter và Dart. Quản lý trạng thái ứng dụng bằng Provider và tích hợp RESTful API JSON.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ Số Hoa Sen. Thời gian: từ 2025-03 đến 2025-07. Mô tả: Hỗ trợ kiểm tra lỗi giao diện trên các kích thước màn hình Android khác nhau.\n\nDự án:\n- Dự án Ứng dụng Ghi Chú Cá Nhân NoteApp: Xây dựng ứng dụng ghi chú đơn giản bằng Flutter và Provider, lưu trữ dữ liệu trên Firebase Cloud Firestore.\n\nHọc vấn:\n- Cử nhân Thực hành (Cao đẳng) Công nghệ thông tin, Trường Cao đẳng Kỹ thuật Cao Thắng.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J04-C06-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Flutter Junior có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Flutter và Firebase. Nắm vững phương pháp quản lý state bằng Provider và tích hợp RESTful API JSON. Tốt nghiệp Cao đẳng chuyên ngành Công nghệ thông tin."
+            },
+            {
+              "section_id": "IT-J04-C06-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Dart, HTML, CSS.\n- Framework & Quản lý State: Flutter SDK, Provider.\n- Dịch vụ: Firebase Authentication, Cloud Firestore, RESTful API.\n- Công cụ: VS Code, Git, Postman."
+            },
+            {
+              "section_id": "IT-J04-C06-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty TNHH Phần mềm Trẻ Toàn Cầu. Thời gian: từ 2025-08 đến nay. Mô tả: Lập trình các màn hình hiển thị danh mục sản phẩm và hồ sơ người dùng bằng Flutter và Dart. Quản lý trạng thái ứng dụng bằng Provider và tích hợp RESTful API JSON.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ Số Hoa Sen. Thời gian: từ 2025-03 đến 2025-07. Mô tả: Hỗ trợ kiểm tra lỗi giao diện trên các kích thước màn hình Android khác nhau."
+            },
+            {
+              "section_id": "IT-J04-C06-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Ứng dụng Ghi Chú Cá Nhân NoteApp: Xây dựng ứng dụng ghi chú đơn giản bằng Flutter và Provider, lưu trữ dữ liệu trên Firebase Cloud Firestore."
+            },
+            {
+              "section_id": "IT-J04-C06-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Thực hành (Cao đẳng) Công nghệ thông tin, Trường Cao đẳng Kỹ thuật Cao Thắng."
+            },
+            {
+              "section_id": "IT-J04-C06-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Dart",
+            "HTML",
+            "CSS",
+            "Flutter",
+            "Provider",
+            "Firebase Authentication",
+            "Cloud Firestore",
+            "RESTful API",
+            "VS Code",
+            "Git",
+            "Postman"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J04-C06-E01",
+              "title": "Lập trình viên Flutter",
+              "company": "Công ty TNHH Phần mềm Trẻ Toàn Cầu",
+              "start_date": "2025-08",
+              "end_date": null,
+              "is_current": true,
+              "description": "Lập trình các màn hình hiển thị danh mục sản phẩm và hồ sơ người dùng bằng Flutter và Dart. Quản lý trạng thái ứng dụng bằng Provider và tích hợp RESTful API JSON.",
+              "skills_used": [
+                "Flutter",
+                "Dart",
+                "Provider",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C06-S03"
+            },
+            {
+              "experience_id": "IT-J04-C06-E02",
+              "title": "Thực tập sinh Flutter",
+              "company": "Công ty Cổ phần Công nghệ Số Hoa Sen",
+              "start_date": "2025-03",
+              "end_date": "2025-07",
+              "is_current": false,
+              "description": "Hỗ trợ kiểm tra lỗi giao diện trên các kích thước màn hình Android khác nhau.",
+              "skills_used": [
+                "Flutter"
+              ],
+              "section_id": "IT-J04-C06-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J04-C06-P01",
+              "name": "Ứng dụng Ghi Chú Cá Nhân NoteApp",
+              "description": "Xây dựng ứng dụng ghi chú đơn giản bằng Flutter và Provider, lưu trữ dữ liệu trên Firebase Cloud Firestore.",
+              "technologies_or_methods": [
+                "Flutter",
+                "Provider",
+                "Cloud Firestore"
+              ],
+              "section_id": "IT-J04-C06-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cao đẳng",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J04-C06-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J04-C07",
+          "cv_text": "Tóm lược: Lập trình viên Flutter tự do với khoảng 1 năm kinh nghiệm phát triển ứng dụng di động bằng Dart và Flutter. Có kỹ năng tích hợp RESTful API và Firebase Authentication.\n\nKỹ năng:\n- Ngôn ngữ: Dart, C++ cơ bản.\n- Framework & Thư viện: Flutter SDK, Provider, http.\n- Nền tảng: Firebase Authentication, Git, VS Code.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter Tự do tại Nhóm Phát triển Ứng dụng Di động Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các màn hình giao diện ứng dụng quản lý công việc và ứng dụng học từ vựng tiếng Anh bằng Flutter và Dart. Tích hợp RESTful API và Firebase Authentication.\n\nDự án:\n- Dự án Ứng dụng Học Từ Vựng VocabDaily: Ứng dụng Flutter hiển thị flashcard từ vựng, lưu trữ dữ liệu học tập trên máy và đồng bộ với RESTful API.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Điện tử, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J04-C07-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Flutter tự do với khoảng 1 năm kinh nghiệm phát triển ứng dụng di động bằng Dart và Flutter. Có kỹ năng tích hợp RESTful API và Firebase Authentication."
+            },
+            {
+              "section_id": "IT-J04-C07-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Dart, C++ cơ bản.\n- Framework & Thư viện: Flutter SDK, Provider, http.\n- Nền tảng: Firebase Authentication, Git, VS Code."
+            },
+            {
+              "section_id": "IT-J04-C07-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter Tự do tại Nhóm Phát triển Ứng dụng Di động Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các màn hình giao diện ứng dụng quản lý công việc và ứng dụng học từ vựng tiếng Anh bằng Flutter và Dart. Tích hợp RESTful API và Firebase Authentication."
+            },
+            {
+              "section_id": "IT-J04-C07-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Ứng dụng Học Từ Vựng VocabDaily: Ứng dụng Flutter hiển thị flashcard từ vựng, lưu trữ dữ liệu học tập trên máy và đồng bộ với RESTful API."
+            },
+            {
+              "section_id": "IT-J04-C07-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Điện tử, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J04-C07-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Dart",
+            "C++",
+            "Flutter",
+            "Provider",
+            "http",
+            "Firebase Authentication",
+            "RESTful API",
+            "Git",
+            "VS Code"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J04-C07-E01",
+              "title": "Lập trình viên Flutter Tự do",
+              "company": "Nhóm Phát triển Ứng dụng Di động Mở",
+              "start_date": null,
+              "end_date": null,
+              "is_current": null,
+              "description": "Xây dựng các màn hình giao diện ứng dụng quản lý công việc và ứng dụng học từ vựng tiếng Anh bằng Flutter và Dart. Tích hợp RESTful API và Firebase Authentication.",
+              "skills_used": [
+                "Flutter",
+                "Dart",
+                "Firebase Authentication",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C07-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J04-C07-P01",
+              "name": "Ứng dụng Học Từ Vựng VocabDaily",
+              "description": "Ứng dụng Flutter hiển thị flashcard từ vựng, lưu trữ dữ liệu học tập trên máy và đồng bộ với RESTful API.",
+              "technologies_or_methods": [
+                "Flutter",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C07-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Điện tử",
+              "section_id": "IT-J04-C07-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J04-C08",
+          "cv_text": "Tóm lược: Kỹ sư Thiết kế Đồ họa và UI/UX có 2 năm kinh nghiệm thiết kế ứng dụng di động trên Figma. Đã tự học lập trình Flutter và Dart trong 8 tháng qua, có khả năng tự hiện thực hóa các bản thiết kế di động thành mã nguồn Flutter hoàn chỉnh và gọi RESTful API đơn giản.\n\nKỹ năng:\n- Thiết kế & Công cụ: Figma, Adobe XD, UI/UX Design.\n- Lập trình di động: Flutter SDK, Dart, Material Design.\n- Công nghệ khác: RESTful API cơ bản, Git, JSON.\n\nKinh nghiệm làm việc:\n- Chức danh: Chuyên viên Thiết kế UI/UX kiêm Lập trình Giao diện Flutter tại Công ty TNHH Sáng Tạo Kỹ Thuật Số Đất Rồng. Thời gian: từ 2025-01 đến nay. Mô tả: Thiết kế luồng trải nghiệm người dùng trên Figma và trực tiếp hiện thực hóa hơn 15 màn hình ứng dụng bằng Flutter và Dart. Kết nối RESTful API lấy thông tin người dùng.\n- Chức danh: Nhân viên Thiết kế UI/UX tại Công ty Cổ phần Truyền thông Ngôi Sao Mới. Thời gian: từ 2024-03 đến 2024-12. Mô tả: Thiết kế wireframe và prototype ứng dụng di động bằng Figma.\n\nDự án:\n- Dự án Ứng dụng Đặt Chỗ Không Gian Làm Việc CoSpace: Thiết kế trọn gói giao diện trên Figma và lập trình frontend di động bằng Flutter.\n\nHọc vấn:\n- Cử nhân Mỹ thuật Đa phương tiện, Trường Đại học Mỹ thuật Công nghiệp Hà Nội.\n\nChứng chỉ:\n- Google UX Design Professional Certificate.",
+          "sections": [
+            {
+              "section_id": "IT-J04-C08-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Thiết kế Đồ họa và UI/UX có 2 năm kinh nghiệm thiết kế ứng dụng di động trên Figma. Đã tự học lập trình Flutter và Dart trong 8 tháng qua, có khả năng tự hiện thực hóa các bản thiết kế di động thành mã nguồn Flutter hoàn chỉnh và gọi RESTful API đơn giản."
+            },
+            {
+              "section_id": "IT-J04-C08-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Thiết kế & Công cụ: Figma, Adobe XD, UI/UX Design.\n- Lập trình di động: Flutter SDK, Dart, Material Design.\n- Công nghệ khác: RESTful API cơ bản, Git, JSON."
+            },
+            {
+              "section_id": "IT-J04-C08-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Chuyên viên Thiết kế UI/UX kiêm Lập trình Giao diện Flutter tại Công ty TNHH Sáng Tạo Kỹ Thuật Số Đất Rồng. Thời gian: từ 2025-01 đến nay. Mô tả: Thiết kế luồng trải nghiệm người dùng trên Figma và trực tiếp hiện thực hóa hơn 15 màn hình ứng dụng bằng Flutter và Dart. Kết nối RESTful API lấy thông tin người dùng.\n- Chức danh: Nhân viên Thiết kế UI/UX tại Công ty Cổ phần Truyền thông Ngôi Sao Mới. Thời gian: từ 2024-03 đến 2024-12. Mô tả: Thiết kế wireframe và prototype ứng dụng di động bằng Figma."
+            },
+            {
+              "section_id": "IT-J04-C08-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Ứng dụng Đặt Chỗ Không Gian Làm Việc CoSpace: Thiết kế trọn gói giao diện trên Figma và lập trình frontend di động bằng Flutter."
+            },
+            {
+              "section_id": "IT-J04-C08-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Mỹ thuật Đa phương tiện, Trường Đại học Mỹ thuật Công nghiệp Hà Nội."
+            },
+            {
+              "section_id": "IT-J04-C08-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Google UX Design Professional Certificate."
+            }
+          ],
+          "skills": [
+            "Figma",
+            "Adobe XD",
+            "UI/UX Design",
+            "Flutter",
+            "Dart",
+            "Material Design",
+            "RESTful API",
+            "Git",
+            "JSON"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J04-C08-E01",
+              "title": "Chuyên viên Thiết kế UI/UX kiêm Lập trình Giao diện Flutter",
+              "company": "Công ty TNHH Sáng Tạo Kỹ Thuật Số Đất Rồng",
+              "start_date": "2025-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết kế luồng trải nghiệm người dùng trên Figma và trực tiếp hiện thực hóa hơn 15 màn hình ứng dụng bằng Flutter và Dart. Kết nối RESTful API lấy thông tin người dùng.",
+              "skills_used": [
+                "Figma",
+                "Flutter",
+                "Dart",
+                "RESTful API"
+              ],
+              "section_id": "IT-J04-C08-S03"
+            },
+            {
+              "experience_id": "IT-J04-C08-E02",
+              "title": "Nhân viên Thiết kế UI/UX",
+              "company": "Công ty Cổ phần Truyền thông Ngôi Sao Mới",
+              "start_date": "2024-03",
+              "end_date": "2024-12",
+              "is_current": false,
+              "description": "Thiết kế wireframe và prototype ứng dụng di động bằng Figma.",
+              "skills_used": [
+                "Figma"
+              ],
+              "section_id": "IT-J04-C08-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J04-C08-P01",
+              "name": "Ứng dụng Đặt Chỗ Không Gian Làm Việc CoSpace",
+              "description": "Thiết kế trọn gói giao diện trên Figma và lập trình frontend di động bằng Flutter.",
+              "technologies_or_methods": [
+                "Figma",
+                "Flutter"
+              ],
+              "section_id": "IT-J04-C08-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Mỹ thuật Đa phương tiện",
+              "section_id": "IT-J04-C08-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Google UX Design Professional Certificate",
+              "section_id": "IT-J04-C08-S06"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

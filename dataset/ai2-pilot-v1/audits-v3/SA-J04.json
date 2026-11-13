@@ -1,0 +1,107 @@
+{
+  "source_acceptance": "accepted",
+  "verified_candidate_count": 8,
+  "job_id": "SA-J04",
+  "limitations_noted": [
+    "Development pilot only; no generalization or untouched test data claim per PROTOCOL.md.",
+    "Direct inspection of all 8 candidates (SA-J04-C01 through SA-J04-C08) across all sections, experiences, projects, education, and skills.",
+    "Organization and property names are fictional representations for synthetic pilot research only.",
+    "Degree terminology 'Cử nhân Cao đẳng' (C01, C02, C06, C07) retained as ambiguity per HR-SOURCE-010 without inferring university or college equivalence.",
+    "Customer demographics (e.g. female cosmetics customer in C04) reflect job duties, not applicant protected attributes; excluded from ranking features."
+  ],
+  "resolved_historical_issues": [
+    {
+      "issue_summary": "Giọng nói chuẩn in EXP-01 skills_used not explicit in role section.",
+      "disposition": "fixed",
+      "candidate_id": "SA-J04-C03",
+      "evidence_note": "Removed 'Giọng nói chuẩn' from EXP-01 skills_used (now ['Chào đón khách showroom']) and replaced with 'Giao tiếp rõ ràng' in general skills based on cited section text 'giao tiếp rõ ràng dễ hiểu' under HR-SOURCE-002 and HR-SOURCE-003."
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "Tư vấn hàng cao cấp in EXP-02 skills_used unsupported for imported cosmetics role.",
+      "candidate_id": "SA-J04-C04",
+      "evidence_note": "Emptied skills_used on EXP-02 to [] under HR-SOURCE-003 because luxury segment was unsupported for cosmetics retail role."
+    },
+    {
+      "issue_summary": "Giọng nói chuẩn assigned to EXP-01 skills_used from general skills/summary.",
+      "disposition": "fixed",
+      "evidence_note": "Removed 'Giọng nói chuẩn' from EXP-01 skills_used (leaving ['Telesales tài chính']) and replaced with 'Giao tiếp truyền cảm' in general skills under HR-SOURCE-002 and HR-SOURCE-003.",
+      "candidate_id": "SA-J04-C06"
+    },
+    {
+      "evidence_note": "Removed ungrounded 'Tư vấn nội thất gỗ công nghiệp', 'Giọng nói hòa nhã', and 'Theo dõi giao hàng lắp đặt' from EXP-01 skills_used, leaving only ['Tư vấn phối màu sắc không gian', 'Chăm sóc hậu mãi khách hàng'] supported by cited section under HR-SOURCE-003.",
+      "candidate_id": "SA-J04-C07",
+      "issue_summary": "Industrial wood composition, Giọng nói hòa nhã, and installation tracking unsupported in EXP-01 skills_used.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "fixed",
+      "candidate_id": "SA-J04-C08",
+      "issue_summary": "Thiết kế 3D SketchUp and Phối màu sắc và công năng in EXP-01 skills_used not established in employment section.",
+      "evidence_note": "Removed 'Thiết kế 3D SketchUp' and 'Phối màu sắc và công năng' from EXP-01 skills_used (now ['Tư vấn vật liệu nội thất', 'Phối hợp thợ lắp đặt']) under HR-SOURCE-003."
+    },
+    {
+      "disposition": "fixed",
+      "candidate_id": "SA-J04-C08",
+      "issue_summary": "Neither Phối màu sắc và công năng nor Thiết kế 3D SketchUp stated in PRJ-01 text.",
+      "evidence_note": "Emptied technologies_or_methods on PRJ-01 to [] under HR-SOURCE-003 as methods were not established in project source."
+    },
+    {
+      "issue_summary": "Undefined voice norm 'giọng nói chuẩn' in JD and requirement SA-J04-R03.",
+      "evidence_note": "Removed 'giọng nói chuẩn' from jd_text and requirement SA-J04-R03 under HR-SOURCE-002; requirement text now 'Kỹ năng giao tiếp lịch thiệp, tư vấn phối màu sắc và chất liệu sản phẩm phù hợp không gian sống.' verbatim in JD.",
+      "disposition": "fixed",
+      "candidate_id": "SA-J04"
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "Age proxy ('trẻ trung') and JD-shaped denial clause in C03.",
+      "candidate_id": "SA-J04-C03",
+      "evidence_note": "Removed age descriptor 'trẻ trung' from SEC-SUM and removed templated negative denial bullet from SEC-EXP and cv_text under HR-SOURCE-006."
+    },
+    {
+      "evidence_note": "Removed multi-requirement negative denial bullet under HR-SOURCE-006; fictionalized real mall 'Union Square' to 'trung tâm thương mại lớn ở trung tâm thành phố' under HR-SOURCE-007; removed ungrounded 'Giao tiếp lịch thiệp' from EXP-01 skills_used under HR-SOURCE-003.",
+      "disposition": "fixed",
+      "candidate_id": "SA-J04-C04",
+      "issue_summary": "Negative denial clause, real mall brand ('Union Square'), and ungrounded skill in C04."
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "Negative denial clause and regional accent norm in C06.",
+      "evidence_note": "Removed templated negative denial bullet under HR-SOURCE-006; replaced regional voice norm 'Giọng nói chuẩn miền Nam' with 'Giao tiếp rõ ràng truyền cảm, nhẹ nhàng, kiên nhẫn' under HR-SOURCE-002; removed ungrounded 'Thuyết phục khách hàng' from EXP-01 skills_used under HR-SOURCE-003.",
+      "candidate_id": "SA-J04-C06"
+    },
+    {
+      "disposition": "fixed",
+      "evidence_note": "Synchronized EXP-01 description verbatim with section text under HR-SOURCE-004; removed ungrounded skills ('Nội thất gỗ tự nhiên và sofa da', 'Theo dõi đơn hàng giao lắp') from EXP-01 and 'Thiết kế nội thất' from EXP-02 under HR-SOURCE-003.",
+      "candidate_id": "SA-J04-C01",
+      "issue_summary": "Broadened shipment description and ungrounded skills in C01."
+    },
+    {
+      "issue_summary": "Real employer brand ('Nhà Xinh') and ungrounded luxury/freight skills in C05.",
+      "evidence_note": "Fictionalized real employer brand 'Nhà Xinh' to 'Công ty Cổ phần Nội Thất Không Gian Đẹp' under HR-SOURCE-007; trimmed EXP-01 skills_used to supported ['Quản lý showroom nội thất', 'Chăm sóc hậu mãi khách VIP'] and EXP-02 to [] under HR-SOURCE-003.",
+      "disposition": "fixed",
+      "candidate_id": "SA-J04-C05"
+    },
+    {
+      "candidate_id": "SA-J04-C08",
+      "issue_summary": "Real property name 'Sunrise Riverside' and section join order mismatch in C08.",
+      "evidence_note": "Fictionalized property project name 'Sunrise Riverside' to 'Dự án An Khang Riverside' under HR-SOURCE-007; synchronized cv_text double-newline join order to match sections array.",
+      "disposition": "fixed"
+    },
+    {
+      "evidence_note": "Section text explicitly establishes 'thời gian làm việc bán thời gian trước đây, không có ngày tháng cụ thể'; 'trước đây' confirms ended status, justifying is_current=false with null dates under HR-SOURCE-005.",
+      "candidate_id": "SA-J04-C07",
+      "issue_summary": "EXP-02 has null start and end dates with is_current=false.",
+      "disposition": "accepted_limitation"
+    },
+    {
+      "issue_summary": "Ambiguous degree terminology 'Cử nhân Cao đẳng'.",
+      "candidate_id": "SA-J04-C01",
+      "evidence_note": "Preserved source degree wording 'Cử nhân Cao đẳng' faithfully without mapping to university or vocational level under HR-SOURCE-010. Also applies to C02, C06, C07.",
+      "disposition": "retained_ambiguity"
+    }
+  ],
+  "blocking_issues": [],
+  "verification_run_id": "wlj22smze",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

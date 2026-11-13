@@ -1,0 +1,926 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "IT-J05",
+      "source_family_id": "IT-J05",
+      "domain": "it",
+      "title": "Kỹ sư Vận hành và Đám mây (DevOps / Cloud Engineer)",
+      "level": "senior",
+      "language": "vi",
+      "jd_text": "Công ty Cổ phần Hạ tầng Đám mây CloudForce Việt Nam tuyển dụng vị trí Kỹ sư Vận hành và Đám mây (DevOps / Cloud Engineer) cấp độ Senior tại Cầu Giấy, Hà Nội. Hình thức làm việc: Toàn thời gian trực tiếp tại văn phòng. Mức lương từ 35.000.000 đến 55.000.000 VND kèm phụ cấp trực ca và thưởng hoàn thành chỉ số SLA hạ tầng.\n\nTrách nhiệm công việc:\n- Thiết kế, triển khai và vận hành hệ thống hạ tầng đám mây có độ sẵn sàng cao (High Availability) phục vụ các hệ thống tài chính và ngân hàng điện tử.\n- Tự động hóa quy trình phân phối và triển khai phần mềm (CI/CD) nhằm rút ngắn thời gian phát hành sản phẩm.\n- Quản trị cụm Kubernetes đa vùng, tối ưu chi phí hạ tầng AWS và giám sát hiệu năng 24/7.\n- Xây dựng tài liệu kỹ thuật, quy trình ứng phó sự cố (incident response) và đào tạo các kỹ sư trong nhóm.\n\nYêu cầu bắt buộc:\n- Tối thiểu 5 năm kinh nghiệm trong vai trò DevOps, SRE hoặc Cloud Engineer.\n- Thành thạo quản trị và vận hành hạ tầng đám mây trên AWS (EC2, EKS, RDS, S3, IAM, VPC).\n- Kinh nghiệm thực chiến triển khai và quản trị cụm Kubernetes (K8s) trong môi trường production.\n- Thành thạo xây dựng tự động hóa hạ tầng dạng mã (IaC) với Terraform hoặc Ansible.\n\nYêu cầu ưu tiên:\n- Kinh nghiệm thiết lập và bảo trì hệ thống CI/CD với GitLab CI hoặc GitHub Actions.\n- Kinh nghiệm thiết lập hệ thống giám sát và cảnh báo tập trung (Prometheus, Grafana, ELK Stack).",
+      "requirements": [
+        {
+          "requirement_id": "IT-J05-R01",
+          "text": "Tối thiểu 5 năm kinh nghiệm trong vai trò DevOps, SRE hoặc Cloud Engineer.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J05-R02",
+          "text": "Thành thạo quản trị và vận hành hạ tầng đám mây trên AWS (EC2, EKS, RDS, S3, IAM, VPC).",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J05-R03",
+          "text": "Kinh nghiệm thực chiến triển khai và quản trị cụm Kubernetes (K8s) trong môi trường production.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J05-R04",
+          "text": "Thành thạo xây dựng tự động hóa hạ tầng dạng mã (IaC) với Terraform hoặc Ansible.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J05-R05",
+          "text": "Kinh nghiệm thiết lập và bảo trì hệ thống CI/CD với GitLab CI hoặc GitHub Actions.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J05-R06",
+          "text": "Kinh nghiệm thiết lập hệ thống giám sát và cảnh báo tập trung (Prometheus, Grafana, ELK Stack).",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "IT-J05-C01",
+          "cv_text": "Tóm lược nghề nghiệp: Kỹ sư DevOps Cấp cao có hơn 6 năm kinh nghiệm chuyên môn sâu trong thiết kế, vận hành và tự động hóa hạ tầng đám mây AWS. Chuyên gia triển khai cụm Kubernetes phục vụ microservices, viết mã hạ tầng với Terraform và xây dựng pipeline CI/CD trên GitLab CI. Có kinh nghiệm sâu sắc về giám sát hệ thống với Prometheus và Grafana.\n\nKỹ năng kỹ thuật:\n- Nền tảng Đám mây: AWS (EC2, EKS, RDS, S3, IAM, VPC, CloudWatch).\n- Điều phối Container: Kubernetes (K8s), Docker, Helm, ArgoCD.\n- Hạ tầng dạng mã & Tự động hóa: Terraform, Ansible, Bash Script.\n- CI/CD & Giám sát: GitLab CI, GitHub Actions, Prometheus, Grafana, ELK Stack.\n- Hệ điều hành & Mạng: Linux Ubuntu/CentOS, TCP/IP, Nginx.\n\nKinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ sư DevOps (Lead DevOps Engineer) tại Công ty Cổ phần Giải pháp Hạ tầng Số Nam Việt. Thời gian: từ 2022-03 đến nay. Mô tả: Quản trị toàn bộ hạ tầng AWS gồm hơn 15 cụm Amazon EKS chạy production. Viết toàn bộ mã nguồn quản lý hạ tầng (IaC) bằng Terraform cho môi trường multi-region. Thiết lập hệ thống giám sát tập trung Prometheus và Grafana, phát hiện và xử lý sự cố hạ tầng. Xây dựng quy trình CI/CD tự động hóa trên GitLab CI phục vụ 12 nhóm phát triển phần mềm.\n- Chức danh: Kỹ sư Cloud DevOps tại Công ty TNHH Phần mềm Ánh Sao. Thời gian: từ 2020-08 đến 2022-02. Mô tả: Triển khai ứng dụng container hóa Docker lên cụm Kubernetes tự dựng trên AWS EC2. Thiết lập quy trình build và deploy với GitLab CI.\n\nDự án tiêu biểu:\n- Dự án Nâng cấp Hạ tầng Đám mây Ngân hàng Số E-Bank: Tự động hóa hoàn toàn việc khởi tạo hạ tầng AWS VPC, EKS, RDS bằng Terraform. Cấu hình giám sát cảnh báo qua Grafana và ELK Stack.\n\nHọc vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- AWS Certified Solutions Architect - Professional.\n- Certified Kubernetes Administrator (CKA).",
+          "sections": [
+            {
+              "section_id": "IT-J05-C01-S01",
+              "kind": "summary",
+              "text": "Tóm lược nghề nghiệp: Kỹ sư DevOps Cấp cao có hơn 6 năm kinh nghiệm chuyên môn sâu trong thiết kế, vận hành và tự động hóa hạ tầng đám mây AWS. Chuyên gia triển khai cụm Kubernetes phục vụ microservices, viết mã hạ tầng với Terraform và xây dựng pipeline CI/CD trên GitLab CI. Có kinh nghiệm sâu sắc về giám sát hệ thống với Prometheus và Grafana."
+            },
+            {
+              "section_id": "IT-J05-C01-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Nền tảng Đám mây: AWS (EC2, EKS, RDS, S3, IAM, VPC, CloudWatch).\n- Điều phối Container: Kubernetes (K8s), Docker, Helm, ArgoCD.\n- Hạ tầng dạng mã & Tự động hóa: Terraform, Ansible, Bash Script.\n- CI/CD & Giám sát: GitLab CI, GitHub Actions, Prometheus, Grafana, ELK Stack.\n- Hệ điều hành & Mạng: Linux Ubuntu/CentOS, TCP/IP, Nginx."
+            },
+            {
+              "section_id": "IT-J05-C01-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ sư DevOps (Lead DevOps Engineer) tại Công ty Cổ phần Giải pháp Hạ tầng Số Nam Việt. Thời gian: từ 2022-03 đến nay. Mô tả: Quản trị toàn bộ hạ tầng AWS gồm hơn 15 cụm Amazon EKS chạy production. Viết toàn bộ mã nguồn quản lý hạ tầng (IaC) bằng Terraform cho môi trường multi-region. Thiết lập hệ thống giám sát tập trung Prometheus và Grafana, phát hiện và xử lý sự cố hạ tầng. Xây dựng quy trình CI/CD tự động hóa trên GitLab CI phục vụ 12 nhóm phát triển phần mềm.\n- Chức danh: Kỹ sư Cloud DevOps tại Công ty TNHH Phần mềm Ánh Sao. Thời gian: từ 2020-08 đến 2022-02. Mô tả: Triển khai ứng dụng container hóa Docker lên cụm Kubernetes tự dựng trên AWS EC2. Thiết lập quy trình build và deploy với GitLab CI."
+            },
+            {
+              "section_id": "IT-J05-C01-S04",
+              "kind": "project",
+              "text": "Dự án tiêu biểu:\n- Dự án Nâng cấp Hạ tầng Đám mây Ngân hàng Số E-Bank: Tự động hóa hoàn toàn việc khởi tạo hạ tầng AWS VPC, EKS, RDS bằng Terraform. Cấu hình giám sát cảnh báo qua Grafana và ELK Stack."
+            },
+            {
+              "section_id": "IT-J05-C01-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J05-C01-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- AWS Certified Solutions Architect - Professional.\n- Certified Kubernetes Administrator (CKA)."
+            }
+          ],
+          "skills": [
+            "AWS",
+            "EC2",
+            "EKS",
+            "RDS",
+            "S3",
+            "IAM",
+            "VPC",
+            "Kubernetes",
+            "Docker",
+            "Helm",
+            "Terraform",
+            "Ansible",
+            "GitLab CI",
+            "GitHub Actions",
+            "Prometheus",
+            "Grafana",
+            "ELK Stack",
+            "Linux"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J05-C01-E01",
+              "title": "Trưởng nhóm Kỹ sư DevOps (Lead DevOps Engineer)",
+              "company": "Công ty Cổ phần Giải pháp Hạ tầng Số Nam Việt",
+              "start_date": "2022-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Quản trị toàn bộ hạ tầng AWS gồm hơn 15 cụm Amazon EKS chạy production. Viết toàn bộ mã nguồn quản lý hạ tầng (IaC) bằng Terraform cho môi trường multi-region. Thiết lập hệ thống giám sát tập trung Prometheus và Grafana, phát hiện và xử lý sự cố hạ tầng. Xây dựng quy trình CI/CD tự động hóa trên GitLab CI phục vụ 12 nhóm phát triển phần mềm.",
+              "skills_used": [
+                "AWS",
+                "EKS",
+                "Terraform",
+                "GitLab CI",
+                "Prometheus",
+                "Grafana"
+              ],
+              "section_id": "IT-J05-C01-S03"
+            },
+            {
+              "experience_id": "IT-J05-C01-E02",
+              "title": "Kỹ sư Cloud DevOps",
+              "company": "Công ty TNHH Phần mềm Ánh Sao",
+              "start_date": "2020-08",
+              "end_date": "2022-02",
+              "is_current": false,
+              "description": "Triển khai ứng dụng container hóa Docker lên cụm Kubernetes tự dựng trên AWS EC2. Thiết lập quy trình build và deploy với GitLab CI.",
+              "skills_used": [
+                "Kubernetes",
+                "Docker",
+                "AWS",
+                "GitLab CI"
+              ],
+              "section_id": "IT-J05-C01-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J05-C01-P01",
+              "name": "Nâng cấp Hạ tầng Đám mây Ngân hàng Số E-Bank",
+              "description": "Tự động hóa hoàn toàn việc khởi tạo hạ tầng AWS VPC, EKS, RDS bằng Terraform. Cấu hình giám sát cảnh báo qua Grafana và ELK Stack.",
+              "technologies_or_methods": [
+                "AWS",
+                "Terraform",
+                "EKS",
+                "Grafana",
+                "ELK Stack"
+              ],
+              "section_id": "IT-J05-C01-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J05-C01-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "AWS Certified Solutions Architect - Professional",
+              "section_id": "IT-J05-C01-S06"
+            },
+            {
+              "name": "Certified Kubernetes Administrator (CKA)",
+              "section_id": "IT-J05-C01-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J05-C02",
+          "cv_text": "Tóm tắt: Kỹ sư SRE và Vận hành Hệ thống có 5 năm kinh nghiệm làm việc với hạ tầng đám mây AWS và cụm Kubernetes production. Thành thạo viết kịch bản triển khai tự động bằng Ansible và Terraform, xây dựng pipeline GitHub Actions và thiết lập cảnh báo với Prometheus.\n\nKỹ năng kỹ thuật:\n- Điện toán đám mây: AWS (EC2, EKS, RDS, S3, IAM, VPC).\n- Hạ tầng & Container: Kubernetes, Docker, Helm, Terraform, Ansible.\n- CI/CD & Giám sát: GitHub Actions, Prometheus, Grafana, Datadog.\n- Khác: Linux, Python script, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior DevOps / SRE tại Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink. Thời gian: từ 2023-01 đến nay. Mô tả: Vận hành cụm EKS trên AWS đảm bảo chỉ số uptime 99.95%. Tự động hóa cấu hình hạ tầng bằng Ansible và Terraform. Xây dựng pipeline kiểm thử và đóng gói Docker trên GitHub Actions. Cấu hình dashboard Grafana và hệ thống báo động Prometheus qua Telegram.\n- Chức danh: Kỹ sư Quản trị Hệ thống tại Công ty TNHH Viễn thông Miền Bắc. Thời gian: từ 2021-09 đến 2022-12. Mô tả: Vận hành máy chủ Linux, cài đặt cấu hình web server Nginx và hỗ trợ triển khai Docker.\n\nDự án:\n- Dự án Tự động hóa Hạ tầng PaymentGateway: Triển khai cụm Kubernetes trên AWS bằng Terraform và xây dựng pipeline GitHub Actions.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- AWS Certified Solutions Architect - Associate.",
+          "sections": [
+            {
+              "section_id": "IT-J05-C02-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Kỹ sư SRE và Vận hành Hệ thống có 5 năm kinh nghiệm làm việc với hạ tầng đám mây AWS và cụm Kubernetes production. Thành thạo viết kịch bản triển khai tự động bằng Ansible và Terraform, xây dựng pipeline GitHub Actions và thiết lập cảnh báo với Prometheus."
+            },
+            {
+              "section_id": "IT-J05-C02-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Điện toán đám mây: AWS (EC2, EKS, RDS, S3, IAM, VPC).\n- Hạ tầng & Container: Kubernetes, Docker, Helm, Terraform, Ansible.\n- CI/CD & Giám sát: GitHub Actions, Prometheus, Grafana, Datadog.\n- Khác: Linux, Python script, Git."
+            },
+            {
+              "section_id": "IT-J05-C02-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior DevOps / SRE tại Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink. Thời gian: từ 2023-01 đến nay. Mô tả: Vận hành cụm EKS trên AWS đảm bảo chỉ số uptime 99.95%. Tự động hóa cấu hình hạ tầng bằng Ansible và Terraform. Xây dựng pipeline kiểm thử và đóng gói Docker trên GitHub Actions. Cấu hình dashboard Grafana và hệ thống báo động Prometheus qua Telegram.\n- Chức danh: Kỹ sư Quản trị Hệ thống tại Công ty TNHH Viễn thông Miền Bắc. Thời gian: từ 2021-09 đến 2022-12. Mô tả: Vận hành máy chủ Linux, cài đặt cấu hình web server Nginx và hỗ trợ triển khai Docker."
+            },
+            {
+              "section_id": "IT-J05-C02-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Tự động hóa Hạ tầng PaymentGateway: Triển khai cụm Kubernetes trên AWS bằng Terraform và xây dựng pipeline GitHub Actions."
+            },
+            {
+              "section_id": "IT-J05-C02-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J05-C02-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- AWS Certified Solutions Architect - Associate."
+            }
+          ],
+          "skills": [
+            "AWS",
+            "EC2",
+            "EKS",
+            "RDS",
+            "S3",
+            "IAM",
+            "VPC",
+            "Kubernetes",
+            "Docker",
+            "Helm",
+            "Terraform",
+            "Ansible",
+            "GitHub Actions",
+            "Prometheus",
+            "Grafana",
+            "Linux"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J05-C02-E01",
+              "title": "Senior DevOps / SRE",
+              "company": "Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink",
+              "start_date": "2023-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Vận hành cụm EKS trên AWS đảm bảo chỉ số uptime 99.95%. Tự động hóa cấu hình hạ tầng bằng Ansible và Terraform. Xây dựng pipeline kiểm thử và đóng gói Docker trên GitHub Actions. Cấu hình dashboard Grafana và hệ thống báo động Prometheus qua Telegram.",
+              "skills_used": [
+                "AWS",
+                "EKS",
+                "Ansible",
+                "Terraform",
+                "GitHub Actions",
+                "Prometheus"
+              ],
+              "section_id": "IT-J05-C02-S03"
+            },
+            {
+              "experience_id": "IT-J05-C02-E02",
+              "title": "Kỹ sư Quản trị Hệ thống",
+              "company": "Công ty TNHH Viễn thông Miền Bắc",
+              "start_date": "2021-09",
+              "end_date": "2022-12",
+              "is_current": false,
+              "description": "Vận hành máy chủ Linux, cài đặt cấu hình web server Nginx và hỗ trợ triển khai Docker.",
+              "skills_used": [
+                "Linux",
+                "Docker"
+              ],
+              "section_id": "IT-J05-C02-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J05-C02-P01",
+              "name": "Tự động hóa Hạ tầng PaymentGateway",
+              "description": "Triển khai cụm Kubernetes trên AWS bằng Terraform và xây dựng pipeline GitHub Actions.",
+              "technologies_or_methods": [
+                "AWS",
+                "Terraform",
+                "Kubernetes",
+                "GitHub Actions"
+              ],
+              "section_id": "IT-J05-C02-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Phần mềm",
+              "section_id": "IT-J05-C02-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "AWS Certified Solutions Architect - Associate",
+              "section_id": "IT-J05-C02-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J05-C03",
+          "cv_text": "Tóm lược: Kỹ sư DevOps cấp độ Mid có 3 năm kinh nghiệm trong vận hành container Docker, cấu hình pipeline GitLab CI và quản trị dịch vụ AWS cơ bản. Có hiểu biết về Kubernetes và viết script tự động hóa với Bash và Python.\n\nKỹ năng:\n- Nền tảng & Ảo hóa: AWS (EC2, S3, RDS), Docker, Docker Compose, Kubernetes (cơ bản).\n- CI/CD & Giám sát: GitLab CI, Prometheus, Grafana.\n- Khác: Linux, Bash Script, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: DevOps Engineer tại Công ty Cổ phần Giải pháp Số Hiện Đại. Thời gian: từ 2023-10 đến nay. Mô tả: Xây dựng pipeline GitLab CI tự động kiểm tra mã nguồn và build Docker image. Quản lý các máy chủ AWS EC2 và cấu hình cơ sở dữ liệu AWS RDS. Cài đặt hệ thống giám sát Prometheus và Grafana cho cụm máy chủ staging.\n- Chức danh: Quản trị viên Hệ thống Junior tại Công ty TNHH Công nghệ Mạng Sao Xanh. Thời gian: từ 2022-09 đến 2023-09. Mô tả: Hỗ trợ cài đặt hệ điều hành Linux và cấu hình mạng nội bộ.\n\nDự án:\n- Dự án Tự động hóa CI/CD Hiện Đại: Thiết lập quy trình triển khai ứng dụng web lên máy chủ AWS EC2 qua GitLab CI.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- AWS Certified Cloud Practitioner.",
+          "sections": [
+            {
+              "section_id": "IT-J05-C03-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư DevOps cấp độ Mid có 3 năm kinh nghiệm trong vận hành container Docker, cấu hình pipeline GitLab CI và quản trị dịch vụ AWS cơ bản. Có hiểu biết về Kubernetes và viết script tự động hóa với Bash và Python."
+            },
+            {
+              "section_id": "IT-J05-C03-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Nền tảng & Ảo hóa: AWS (EC2, S3, RDS), Docker, Docker Compose, Kubernetes (cơ bản).\n- CI/CD & Giám sát: GitLab CI, Prometheus, Grafana.\n- Khác: Linux, Bash Script, Git."
+            },
+            {
+              "section_id": "IT-J05-C03-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: DevOps Engineer tại Công ty Cổ phần Giải pháp Số Hiện Đại. Thời gian: từ 2023-10 đến nay. Mô tả: Xây dựng pipeline GitLab CI tự động kiểm tra mã nguồn và build Docker image. Quản lý các máy chủ AWS EC2 và cấu hình cơ sở dữ liệu AWS RDS. Cài đặt hệ thống giám sát Prometheus và Grafana cho cụm máy chủ staging.\n- Chức danh: Quản trị viên Hệ thống Junior tại Công ty TNHH Công nghệ Mạng Sao Xanh. Thời gian: từ 2022-09 đến 2023-09. Mô tả: Hỗ trợ cài đặt hệ điều hành Linux và cấu hình mạng nội bộ."
+            },
+            {
+              "section_id": "IT-J05-C03-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Tự động hóa CI/CD Hiện Đại: Thiết lập quy trình triển khai ứng dụng web lên máy chủ AWS EC2 qua GitLab CI."
+            },
+            {
+              "section_id": "IT-J05-C03-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J05-C03-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- AWS Certified Cloud Practitioner."
+            }
+          ],
+          "skills": [
+            "AWS",
+            "EC2",
+            "S3",
+            "RDS",
+            "Docker",
+            "Docker Compose",
+            "Kubernetes",
+            "GitLab CI",
+            "Prometheus",
+            "Grafana",
+            "Linux",
+            "Bash Script",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J05-C03-E01",
+              "title": "DevOps Engineer",
+              "company": "Công ty Cổ phần Giải pháp Số Hiện Đại",
+              "start_date": "2023-10",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng pipeline GitLab CI tự động kiểm tra mã nguồn và build Docker image. Quản lý các máy chủ AWS EC2 và cấu hình cơ sở dữ liệu AWS RDS. Cài đặt hệ thống giám sát Prometheus và Grafana cho cụm máy chủ staging.",
+              "skills_used": [
+                "AWS",
+                "Docker",
+                "GitLab CI",
+                "Prometheus"
+              ],
+              "section_id": "IT-J05-C03-S03"
+            },
+            {
+              "experience_id": "IT-J05-C03-E02",
+              "title": "Quản trị viên Hệ thống Junior",
+              "company": "Công ty TNHH Công nghệ Mạng Sao Xanh",
+              "start_date": "2022-09",
+              "end_date": "2023-09",
+              "is_current": false,
+              "description": "Hỗ trợ cài đặt hệ điều hành Linux và cấu hình mạng nội bộ.",
+              "skills_used": [
+                "Linux"
+              ],
+              "section_id": "IT-J05-C03-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J05-C03-P01",
+              "name": "Tự động hóa CI/CD Hiện Đại",
+              "description": "Thiết lập quy trình triển khai ứng dụng web lên máy chủ AWS EC2 qua GitLab CI.",
+              "technologies_or_methods": [
+                "GitLab CI",
+                "AWS"
+              ],
+              "section_id": "IT-J05-C03-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J05-C03-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "AWS Certified Cloud Practitioner",
+              "section_id": "IT-J05-C03-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J05-C04",
+          "cv_text": "Tóm lược: Kỹ sư Quản trị Hệ thống Linux Cấp cao có hơn 6 năm kinh nghiệm vận hành máy chủ vật lý và trung tâm dữ liệu. Đã mở rộng sang hạ tầng đám mây AWS trong hơn 2 năm qua. Chuyên gia tự động hóa cấu hình hệ thống bằng Ansible và triển khai Docker.\n\nKỹ năng kỹ thuật:\n- Hệ điều hành & Mạng: Linux (RHEL, CentOS, Debian), Nginx, HAProxy, DNS, BGP.\n- Đám mây & Ảo hóa: AWS (EC2, S3, RDS, VPC), Docker, VMware vSphere.\n- Tự động hóa & Giám sát: Ansible, Bash, Zabbix, ELK Stack.\n\nKinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Quản trị Hệ thống tại Công ty Cổ phần Viễn thông Hạ tầng Á Châu. Thời gian: từ 2022-04 đến nay. Mô tả: Quản trị hơn 200 máy chủ Linux vật lý và môi trường AWS hybrid cloud. Sử dụng Ansible để chuẩn hóa cấu hình và vá lỗ hổng bảo mật tự động. Cấu hình thu thập log tập trung với ELK Stack.\n- Chức danh: Quản trị viên Hệ thống Linux tại Công ty TNHH Dịch vụ Mạng Hà Nội. Thời gian: từ 2020-05 đến 2022-03. Mô tả: Cài đặt và vận hành hệ thống máy chủ thư điện tử và web hosting trên nền tảng Linux.\n\nDự án:\n- Dự án Đồng bộ Quản trị Cấu hình Hệ thống qua Ansible: Viết hơn 50 playbook Ansible triển khai máy chủ và kiểm soát tuân thủ an toàn thông tin.\n\nHọc vấn:\n- Kỹ sư Điện tử Viễn thông, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Red Hat Certified Engineer (RHCE).",
+          "sections": [
+            {
+              "section_id": "IT-J05-C04-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Quản trị Hệ thống Linux Cấp cao có hơn 6 năm kinh nghiệm vận hành máy chủ vật lý và trung tâm dữ liệu. Đã mở rộng sang hạ tầng đám mây AWS trong hơn 2 năm qua. Chuyên gia tự động hóa cấu hình hệ thống bằng Ansible và triển khai Docker."
+            },
+            {
+              "section_id": "IT-J05-C04-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Hệ điều hành & Mạng: Linux (RHEL, CentOS, Debian), Nginx, HAProxy, DNS, BGP.\n- Đám mây & Ảo hóa: AWS (EC2, S3, RDS, VPC), Docker, VMware vSphere.\n- Tự động hóa & Giám sát: Ansible, Bash, Zabbix, ELK Stack."
+            },
+            {
+              "section_id": "IT-J05-C04-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Quản trị Hệ thống tại Công ty Cổ phần Viễn thông Hạ tầng Á Châu. Thời gian: từ 2022-04 đến nay. Mô tả: Quản trị hơn 200 máy chủ Linux vật lý và môi trường AWS hybrid cloud. Sử dụng Ansible để chuẩn hóa cấu hình và vá lỗ hổng bảo mật tự động. Cấu hình thu thập log tập trung với ELK Stack.\n- Chức danh: Quản trị viên Hệ thống Linux tại Công ty TNHH Dịch vụ Mạng Hà Nội. Thời gian: từ 2020-05 đến 2022-03. Mô tả: Cài đặt và vận hành hệ thống máy chủ thư điện tử và web hosting trên nền tảng Linux."
+            },
+            {
+              "section_id": "IT-J05-C04-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Đồng bộ Quản trị Cấu hình Hệ thống qua Ansible: Viết hơn 50 playbook Ansible triển khai máy chủ và kiểm soát tuân thủ an toàn thông tin."
+            },
+            {
+              "section_id": "IT-J05-C04-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Điện tử Viễn thông, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J05-C04-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Red Hat Certified Engineer (RHCE)."
+            }
+          ],
+          "skills": [
+            "Linux",
+            "Nginx",
+            "HAProxy",
+            "AWS",
+            "EC2",
+            "S3",
+            "RDS",
+            "VPC",
+            "Docker",
+            "Ansible",
+            "ELK Stack",
+            "Zabbix"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J05-C04-E01",
+              "title": "Trưởng nhóm Quản trị Hệ thống",
+              "company": "Công ty Cổ phần Viễn thông Hạ tầng Á Châu",
+              "start_date": "2022-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Quản trị hơn 200 máy chủ Linux vật lý và môi trường AWS hybrid cloud. Sử dụng Ansible để chuẩn hóa cấu hình và vá lỗ hổng bảo mật tự động. Cấu hình thu thập log tập trung với ELK Stack.",
+              "skills_used": [
+                "Linux",
+                "AWS",
+                "Ansible",
+                "ELK Stack"
+              ],
+              "section_id": "IT-J05-C04-S03"
+            },
+            {
+              "experience_id": "IT-J05-C04-E02",
+              "title": "Quản trị viên Hệ thống Linux",
+              "company": "Công ty TNHH Dịch vụ Mạng Hà Nội",
+              "start_date": "2020-05",
+              "end_date": "2022-03",
+              "is_current": false,
+              "description": "Cài đặt và vận hành hệ thống máy chủ thư điện tử và web hosting trên nền tảng Linux.",
+              "skills_used": [
+                "Linux"
+              ],
+              "section_id": "IT-J05-C04-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J05-C04-P01",
+              "name": "Đồng bộ Quản trị Cấu hình Hệ thống qua Ansible",
+              "description": "Viết hơn 50 playbook Ansible triển khai máy chủ và kiểm soát tuân thủ an toàn thông tin.",
+              "technologies_or_methods": [
+                "Ansible"
+              ],
+              "section_id": "IT-J05-C04-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Điện tử Viễn thông",
+              "section_id": "IT-J05-C04-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Red Hat Certified Engineer (RHCE)",
+              "section_id": "IT-J05-C04-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J05-C05",
+          "cv_text": "Tóm lược: Kỹ sư Phần mềm Backend Cấp cao với 5 năm 6 tháng phát triển hệ thống Java Spring Boot. Trong hơn 2 năm gần đây, kiêm nhiệm vận hành hạ tầng đám mây AWS, trực tiếp viết Terraform và xây dựng pipeline GitLab CI cho các dịch vụ do nhóm phụ trách.\n\nKỹ năng:\n- Lập trình: Java, SQL, Python, Bash.\n- Đám mây & DevOps: AWS (EC2, RDS, S3, IAM, VPC), Terraform, GitLab CI, Docker.\n- Giám sát: Prometheus, Grafana.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Backend & Cloud Developer tại Công ty Cổ phần Công nghệ Tài chính Toàn Thắng. Thời gian: từ 2022-02 đến nay. Mô tả: Phát triển microservices backend bằng Java Spring Boot. Đồng thời khởi tạo và quản lý hạ tầng AWS bằng Terraform. Xây dựng pipeline CI/CD trên GitLab CI và cấu hình giám sát Prometheus, Grafana cho hệ thống thanh toán.\n- Chức danh: Lập trình viên Java tại Công ty TNHH Giải pháp Phần mềm Đại Nam. Thời gian: từ 2021-03 đến 2022-01. Mô tả: Phát triển hệ thống quản lý bán hàng sử dụng Spring Boot và cơ sở dữ liệu MySQL.\n\nDự án:\n- Dự án Tích hợp Cổng Thanh toán Toàn Thắng Pay: Thiết kế API và viết mã hạ tầng Terraform để tự động tạo môi trường test và production trên AWS.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- AWS Certified Developer - Associate.",
+          "sections": [
+            {
+              "section_id": "IT-J05-C05-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Phần mềm Backend Cấp cao với 5 năm 6 tháng phát triển hệ thống Java Spring Boot. Trong hơn 2 năm gần đây, kiêm nhiệm vận hành hạ tầng đám mây AWS, trực tiếp viết Terraform và xây dựng pipeline GitLab CI cho các dịch vụ do nhóm phụ trách."
+            },
+            {
+              "section_id": "IT-J05-C05-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Lập trình: Java, SQL, Python, Bash.\n- Đám mây & DevOps: AWS (EC2, RDS, S3, IAM, VPC), Terraform, GitLab CI, Docker.\n- Giám sát: Prometheus, Grafana."
+            },
+            {
+              "section_id": "IT-J05-C05-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Backend & Cloud Developer tại Công ty Cổ phần Công nghệ Tài chính Toàn Thắng. Thời gian: từ 2022-02 đến nay. Mô tả: Phát triển microservices backend bằng Java Spring Boot. Đồng thời khởi tạo và quản lý hạ tầng AWS bằng Terraform. Xây dựng pipeline CI/CD trên GitLab CI và cấu hình giám sát Prometheus, Grafana cho hệ thống thanh toán.\n- Chức danh: Lập trình viên Java tại Công ty TNHH Giải pháp Phần mềm Đại Nam. Thời gian: từ 2021-03 đến 2022-01. Mô tả: Phát triển hệ thống quản lý bán hàng sử dụng Spring Boot và cơ sở dữ liệu MySQL."
+            },
+            {
+              "section_id": "IT-J05-C05-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Tích hợp Cổng Thanh toán Toàn Thắng Pay: Thiết kế API và viết mã hạ tầng Terraform để tự động tạo môi trường test và production trên AWS."
+            },
+            {
+              "section_id": "IT-J05-C05-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J05-C05-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- AWS Certified Developer - Associate."
+            }
+          ],
+          "skills": [
+            "Java",
+            "SQL",
+            "Python",
+            "Bash",
+            "AWS",
+            "EC2",
+            "RDS",
+            "S3",
+            "IAM",
+            "VPC",
+            "Terraform",
+            "GitLab CI",
+            "Docker",
+            "Prometheus",
+            "Grafana"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J05-C05-E01",
+              "title": "Senior Backend & Cloud Developer",
+              "company": "Công ty Cổ phần Công nghệ Tài chính Toàn Thắng",
+              "start_date": "2022-02",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển microservices backend bằng Java Spring Boot. Đồng thời khởi tạo và quản lý hạ tầng AWS bằng Terraform. Xây dựng pipeline CI/CD trên GitLab CI và cấu hình giám sát Prometheus, Grafana cho hệ thống thanh toán.",
+              "skills_used": [
+                "Java",
+                "AWS",
+                "Terraform",
+                "GitLab CI",
+                "Prometheus"
+              ],
+              "section_id": "IT-J05-C05-S03"
+            },
+            {
+              "experience_id": "IT-J05-C05-E02",
+              "title": "Lập trình viên Java",
+              "company": "Công ty TNHH Giải pháp Phần mềm Đại Nam",
+              "start_date": "2021-03",
+              "end_date": "2022-01",
+              "is_current": false,
+              "description": "Phát triển hệ thống quản lý bán hàng sử dụng Spring Boot và cơ sở dữ liệu MySQL.",
+              "skills_used": [
+                "Java",
+                "Spring Boot"
+              ],
+              "section_id": "IT-J05-C05-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J05-C05-P01",
+              "name": "Tích hợp Cổng Thanh toán Toàn Thắng Pay",
+              "description": "Thiết kế API và viết mã hạ tầng Terraform để tự động tạo môi trường test và production trên AWS.",
+              "technologies_or_methods": [
+                "Terraform",
+                "AWS"
+              ],
+              "section_id": "IT-J05-C05-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J05-C05-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "AWS Certified Developer - Associate",
+              "section_id": "IT-J05-C05-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J05-C06",
+          "cv_text": "Tóm lược: Kỹ sư Đám mây Cấp cao có 5 năm kinh nghiệm quản trị hạ tầng đa đám mây (Multi-Cloud), chủ yếu với Google Cloud Platform (GCP) và Microsoft Azure, kết hợp làm việc cùng AWS trong hơn 1 năm qua. Thành thạo quản trị cụm Kubernetes (GKE và EKS), viết mã hạ tầng Terraform và quản lý log với ELK Stack.\n\nKỹ năng:\n- Nền tảng Đám mây: GCP (GKE, Compute Engine), Azure, AWS (EKS, EC2, S3, IAM).\n- Điều phối & Tự động hóa: Kubernetes, Docker, Terraform, GitLab CI.\n- Giám sát: Prometheus, Grafana, ELK Stack.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Cloud Engineer tại Công ty Cổ phần Dịch vụ Số Tân Thời Đại. Thời gian: từ 2022-06 đến nay. Mô tả: Quản trị các cụm Kubernetes trên GCP (GKE) và AWS (EKS). Tự động hóa việc cung cấp tài nguyên đám mây đa nền tảng bằng Terraform. Thiết lập cụm ELK Stack để phân tích log hệ thống.\n- Chức danh: Kỹ sư Điện toán Đám mây tại Công ty TNHH Công nghệ Mây Việt. Thời gian: từ 2021-05 đến 2022-05. Mô tả: Quản trị các máy ảo trên Azure và viết script tự động sao lưu dữ liệu.\n\nDự án:\n- Dự án Hạ tầng Microservices Tân Thời Đại: Xây dựng cụm Kubernetes và quản lý phân quyền bằng Terraform trên môi trường đám mây kết hợp.\n\nHọc vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Google Cloud Certified Professional Cloud Architect.",
+          "sections": [
+            {
+              "section_id": "IT-J05-C06-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Đám mây Cấp cao có 5 năm kinh nghiệm quản trị hạ tầng đa đám mây (Multi-Cloud), chủ yếu với Google Cloud Platform (GCP) và Microsoft Azure, kết hợp làm việc cùng AWS trong hơn 1 năm qua. Thành thạo quản trị cụm Kubernetes (GKE và EKS), viết mã hạ tầng Terraform và quản lý log với ELK Stack."
+            },
+            {
+              "section_id": "IT-J05-C06-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Nền tảng Đám mây: GCP (GKE, Compute Engine), Azure, AWS (EKS, EC2, S3, IAM).\n- Điều phối & Tự động hóa: Kubernetes, Docker, Terraform, GitLab CI.\n- Giám sát: Prometheus, Grafana, ELK Stack."
+            },
+            {
+              "section_id": "IT-J05-C06-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Cloud Engineer tại Công ty Cổ phần Dịch vụ Số Tân Thời Đại. Thời gian: từ 2022-06 đến nay. Mô tả: Quản trị các cụm Kubernetes trên GCP (GKE) và AWS (EKS). Tự động hóa việc cung cấp tài nguyên đám mây đa nền tảng bằng Terraform. Thiết lập cụm ELK Stack để phân tích log hệ thống.\n- Chức danh: Kỹ sư Điện toán Đám mây tại Công ty TNHH Công nghệ Mây Việt. Thời gian: từ 2021-05 đến 2022-05. Mô tả: Quản trị các máy ảo trên Azure và viết script tự động sao lưu dữ liệu."
+            },
+            {
+              "section_id": "IT-J05-C06-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hạ tầng Microservices Tân Thời Đại: Xây dựng cụm Kubernetes và quản lý phân quyền bằng Terraform trên môi trường đám mây kết hợp."
+            },
+            {
+              "section_id": "IT-J05-C06-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J05-C06-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Google Cloud Certified Professional Cloud Architect."
+            }
+          ],
+          "skills": [
+            "GCP",
+            "Azure",
+            "AWS",
+            "EKS",
+            "EC2",
+            "S3",
+            "IAM",
+            "Kubernetes",
+            "Docker",
+            "Terraform",
+            "GitLab CI",
+            "Prometheus",
+            "Grafana",
+            "ELK Stack"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J05-C06-E01",
+              "title": "Senior Cloud Engineer",
+              "company": "Công ty Cổ phần Dịch vụ Số Tân Thời Đại",
+              "start_date": "2022-06",
+              "end_date": null,
+              "is_current": true,
+              "description": "Quản trị các cụm Kubernetes trên GCP (GKE) và AWS (EKS). Tự động hóa việc cung cấp tài nguyên đám mây đa nền tảng bằng Terraform. Thiết lập cụm ELK Stack để phân tích log hệ thống.",
+              "skills_used": [
+                "Kubernetes",
+                "AWS",
+                "Terraform",
+                "ELK Stack"
+              ],
+              "section_id": "IT-J05-C06-S03"
+            },
+            {
+              "experience_id": "IT-J05-C06-E02",
+              "title": "Kỹ sư Điện toán Đám mây",
+              "company": "Công ty TNHH Công nghệ Mây Việt",
+              "start_date": "2021-05",
+              "end_date": "2022-05",
+              "is_current": false,
+              "description": "Quản trị các máy ảo trên Azure và viết script tự động sao lưu dữ liệu.",
+              "skills_used": [
+                "Azure"
+              ],
+              "section_id": "IT-J05-C06-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J05-C06-P01",
+              "name": "Hạ tầng Microservices Tân Thời Đại",
+              "description": "Xây dựng cụm Kubernetes và quản lý phân quyền bằng Terraform trên môi trường đám mây kết hợp.",
+              "technologies_or_methods": [
+                "Kubernetes",
+                "Terraform"
+              ],
+              "section_id": "IT-J05-C06-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Khoa học Máy tính",
+              "section_id": "IT-J05-C06-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Google Cloud Certified Professional Cloud Architect",
+              "section_id": "IT-J05-C06-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J05-C07",
+          "cv_text": "Tóm lược hồ sơ: Kỹ sư Vận hành Đám mây có kinh nghiệm thực tế trong thiết kế hạ tầng AWS, cụm Kubernetes và viết kịch bản Terraform. Có kinh nghiệm làm việc độc lập theo dự án và các tổ chức công nghệ.\n\nKỹ năng kỹ thuật:\n- Điện toán đám mây: AWS (EC2, EKS, RDS, S3, VPC).\n- Hạ tầng & Container: Kubernetes, Docker, Terraform.\n- CI/CD & Giám sát: GitHub Actions, Prometheus, Grafana.\n\nKinh nghiệm làm việc:\n- Chức danh: DevOps Engineer tại Công ty Cổ phần Công nghệ Mạng Đổi Mới. Thời gian: từ 2023-04 đến nay. Mô tả: Vận hành cụm Kubernetes trên AWS EKS, tự động hóa hạ tầng bằng Terraform và cấu hình pipeline CI/CD qua GitHub Actions. Cấu hình bảng hiển thị số liệu hiệu năng với Grafana.\n- Chức danh: Chuyên viên Vận hành Hạ tầng Độc lập tại Nhóm Kỹ sư Đám mây Tự do. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Tư vấn triển khai Docker và cấu hình dịch vụ AWS EC2 và S3 cho các ứng dụng vừa và nhỏ.\n\nDự án:\n- Dự án Hệ thống Triển khai Tự động CloudDeploy: Xây dựng pipeline triển khai tự động lên Kubernetes bằng Terraform và GitHub Actions.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J05-C07-S01",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ: Kỹ sư Vận hành Đám mây có kinh nghiệm thực tế trong thiết kế hạ tầng AWS, cụm Kubernetes và viết kịch bản Terraform. Có kinh nghiệm làm việc độc lập theo dự án và các tổ chức công nghệ."
+            },
+            {
+              "section_id": "IT-J05-C07-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Điện toán đám mây: AWS (EC2, EKS, RDS, S3, VPC).\n- Hạ tầng & Container: Kubernetes, Docker, Terraform.\n- CI/CD & Giám sát: GitHub Actions, Prometheus, Grafana."
+            },
+            {
+              "section_id": "IT-J05-C07-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: DevOps Engineer tại Công ty Cổ phần Công nghệ Mạng Đổi Mới. Thời gian: từ 2023-04 đến nay. Mô tả: Vận hành cụm Kubernetes trên AWS EKS, tự động hóa hạ tầng bằng Terraform và cấu hình pipeline CI/CD qua GitHub Actions. Cấu hình bảng hiển thị số liệu hiệu năng với Grafana.\n- Chức danh: Chuyên viên Vận hành Hạ tầng Độc lập tại Nhóm Kỹ sư Đám mây Tự do. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Tư vấn triển khai Docker và cấu hình dịch vụ AWS EC2 và S3 cho các ứng dụng vừa và nhỏ."
+            },
+            {
+              "section_id": "IT-J05-C07-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Triển khai Tự động CloudDeploy: Xây dựng pipeline triển khai tự động lên Kubernetes bằng Terraform và GitHub Actions."
+            },
+            {
+              "section_id": "IT-J05-C07-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J05-C07-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "AWS",
+            "EC2",
+            "EKS",
+            "RDS",
+            "S3",
+            "VPC",
+            "Kubernetes",
+            "Docker",
+            "Terraform",
+            "GitHub Actions",
+            "Prometheus",
+            "Grafana"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J05-C07-E01",
+              "title": "DevOps Engineer",
+              "company": "Công ty Cổ phần Công nghệ Mạng Đổi Mới",
+              "start_date": "2023-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Vận hành cụm Kubernetes trên AWS EKS, tự động hóa hạ tầng bằng Terraform và cấu hình pipeline CI/CD qua GitHub Actions. Cấu hình bảng hiển thị số liệu hiệu năng với Grafana.",
+              "skills_used": [
+                "AWS",
+                "Kubernetes",
+                "Terraform",
+                "GitHub Actions",
+                "Grafana"
+              ],
+              "section_id": "IT-J05-C07-S03"
+            },
+            {
+              "experience_id": "IT-J05-C07-E02",
+              "title": "Chuyên viên Vận hành Hạ tầng Độc lập",
+              "company": "Nhóm Kỹ sư Đám mây Tự do",
+              "start_date": null,
+              "end_date": null,
+              "is_current": null,
+              "description": "Tư vấn triển khai Docker và cấu hình dịch vụ AWS EC2 và S3 cho các ứng dụng vừa và nhỏ.",
+              "skills_used": [
+                "AWS",
+                "Docker"
+              ],
+              "section_id": "IT-J05-C07-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J05-C07-P01",
+              "name": "Hệ thống Triển khai Tự động CloudDeploy",
+              "description": "Xây dựng pipeline triển khai tự động lên Kubernetes bằng Terraform và GitHub Actions.",
+              "technologies_or_methods": [
+                "Kubernetes",
+                "Terraform",
+                "GitHub Actions"
+              ],
+              "section_id": "IT-J05-C07-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J05-C07-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J05-C08",
+          "cv_text": "Tóm lược: Kỹ sư Kiểm thử Tự động kiêm nhiệm CI/CD có hơn 4 năm kinh nghiệm. Có kỹ năng sâu về đóng gói môi trường kiểm thử với Docker và xây dựng các luồng kiểm thử tự động trên GitLab CI. Đang tìm hiểu sâu thêm về vận hành đám mây AWS và Kubernetes.\n\nKỹ năng:\n- Kiểm thử & Tự động hóa: Playwright, Cypress, GitLab CI, Jenkins, Docker.\n- Đám mây cơ bản: AWS (EC2, S3), Linux, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Chuyên viên CI/CD & Automation Test tại Công ty Cổ phần Giải pháp Số Nam Á. Thời gian: từ 2022-11 đến nay. Mô tả: Tích hợp bộ kiểm thử tự động vào quy trình GitLab CI. Đóng gói môi trường kiểm thử trên Docker và triển khai các dịch vụ kiểm thử tạm thời trên AWS EC2.\n- Chức danh: Kỹ sư Kiểm thử tại Công ty TNHH Phần mềm Biển Bạc. Thời gian: từ 2021-04 đến 2022-10. Mô tả: Viết kịch bản kiểm thử tự động giao diện và API.\n\nDự án:\n- Dự án Tự động hóa Pipeline CI/CD TestRunner: Cấu hình GitLab CI runner trên Docker để tự động thực thi 500 bài kiểm tra khi có merge request.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- ISTQB Certified Tester Foundation Level.",
+          "sections": [
+            {
+              "section_id": "IT-J05-C08-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Kiểm thử Tự động kiêm nhiệm CI/CD có hơn 4 năm kinh nghiệm. Có kỹ năng sâu về đóng gói môi trường kiểm thử với Docker và xây dựng các luồng kiểm thử tự động trên GitLab CI. Đang tìm hiểu sâu thêm về vận hành đám mây AWS và Kubernetes."
+            },
+            {
+              "section_id": "IT-J05-C08-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Kiểm thử & Tự động hóa: Playwright, Cypress, GitLab CI, Jenkins, Docker.\n- Đám mây cơ bản: AWS (EC2, S3), Linux, Git."
+            },
+            {
+              "section_id": "IT-J05-C08-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Chuyên viên CI/CD & Automation Test tại Công ty Cổ phần Giải pháp Số Nam Á. Thời gian: từ 2022-11 đến nay. Mô tả: Tích hợp bộ kiểm thử tự động vào quy trình GitLab CI. Đóng gói môi trường kiểm thử trên Docker và triển khai các dịch vụ kiểm thử tạm thời trên AWS EC2.\n- Chức danh: Kỹ sư Kiểm thử tại Công ty TNHH Phần mềm Biển Bạc. Thời gian: từ 2021-04 đến 2022-10. Mô tả: Viết kịch bản kiểm thử tự động giao diện và API."
+            },
+            {
+              "section_id": "IT-J05-C08-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Tự động hóa Pipeline CI/CD TestRunner: Cấu hình GitLab CI runner trên Docker để tự động thực thi 500 bài kiểm tra khi có merge request."
+            },
+            {
+              "section_id": "IT-J05-C08-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J05-C08-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- ISTQB Certified Tester Foundation Level."
+            }
+          ],
+          "skills": [
+            "Playwright",
+            "Cypress",
+            "GitLab CI",
+            "Jenkins",
+            "Docker",
+            "AWS",
+            "EC2",
+            "S3",
+            "Linux",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J05-C08-E01",
+              "title": "Chuyên viên CI/CD & Automation Test",
+              "company": "Công ty Cổ phần Giải pháp Số Nam Á",
+              "start_date": "2022-11",
+              "end_date": null,
+              "is_current": true,
+              "description": "Tích hợp bộ kiểm thử tự động vào quy trình GitLab CI. Đóng gói môi trường kiểm thử trên Docker và triển khai các dịch vụ kiểm thử tạm thời trên AWS EC2.",
+              "skills_used": [
+                "GitLab CI",
+                "Docker",
+                "AWS"
+              ],
+              "section_id": "IT-J05-C08-S03"
+            },
+            {
+              "experience_id": "IT-J05-C08-E02",
+              "title": "Kỹ sư Kiểm thử",
+              "company": "Công ty TNHH Phần mềm Biển Bạc",
+              "start_date": "2021-04",
+              "end_date": "2022-10",
+              "is_current": false,
+              "description": "Viết kịch bản kiểm thử tự động giao diện và API.",
+              "skills_used": [],
+              "section_id": "IT-J05-C08-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J05-C08-P01",
+              "name": "Tự động hóa Pipeline CI/CD TestRunner",
+              "description": "Cấu hình GitLab CI runner trên Docker để tự động thực thi 500 bài kiểm tra khi có merge request.",
+              "technologies_or_methods": [
+                "GitLab CI",
+                "Docker"
+              ],
+              "section_id": "IT-J05-C08-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J05-C08-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "ISTQB Certified Tester Foundation Level",
+              "section_id": "IT-J05-C08-S06"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

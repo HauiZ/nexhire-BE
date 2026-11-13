@@ -1,0 +1,696 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "MK-J01",
+      "source_family_id": "MK-J01",
+      "domain": "marketing",
+      "title": "Chuyên viên Digital Marketing Tổng hợp (Digital Marketing Specialist)",
+      "level": "mid",
+      "language": "vi",
+      "jd_text": "Vị trí: Chuyên viên Digital Marketing Tổng hợp (Digital Marketing Specialist)\nĐịa điểm làm việc: Quận 3, TP. Hồ Chí Minh (chính sách Hybrid 1 ngày/tuần làm việc tại nhà).\nThời gian làm việc: Thứ Hai đến Thứ Sáu (9h00 - 18h00).\n\nMô tả công việc:\n- Lập kế hoạch, thực thi và tối ưu hóa các chiến dịch tiếp thị số đa kênh nhằm thúc đẩy lượng truy cập và tối ưu chi phí thu hút khách hàng tiềm năng.\n- Thành thạo thiết lập, tối ưu và quản lý ngân sách quảng cáo trên các nền tảng Meta Ads, Google Ads và TikTok Ads.\n- Am hiểu công cụ phân tích dữ liệu như Google Analytics 4 (GA4), Google Tag Manager và Looker Studio để đo lường chuyển đổi và ROI.\n- Có kỹ năng lập kế hoạch nội dung, phối hợp sản xuất tài nguyên quảng cáo (visual, video ngắn) cho từng kênh.\n- Thực hiện thử nghiệm A/B testing định kỳ về thông điệp, hình ảnh, trang đích (landing page) để cải thiện tỷ lệ chuyển đổi.\n- Báo cáo chỉ số hiệu suất hàng tuần cho Marketing Lead (CPA, CTR, ROAS, CPL).\n\nYêu cầu công việc (Bắt buộc):\n- Có từ 2 đến 4 năm kinh nghiệm trực tiếp triển khai các chiến dịch Digital Marketing đa kênh.\n- Thành thạo thiết lập, tối ưu và quản lý ngân sách quảng cáo trên các nền tảng Meta Ads, Google Ads và TikTok Ads.\n- Am hiểu công cụ phân tích dữ liệu như Google Analytics 4 (GA4), Google Tag Manager và Looker Studio để đo lường chuyển đổi và ROI.\n- Có kỹ năng lập kế hoạch nội dung, phối hợp sản xuất tài nguyên quảng cáo (visual, video ngắn) cho từng kênh.\n\nTiêu chí ưu tiên (Ưu tiên):\n- Có chứng chỉ chuyên môn Google Ads Search/Measurement hoặc Meta Certified Media Buying Professional.\n- Kinh nghiệm làm việc trong lĩnh vực thương mại điện tử (E-commerce) hoặc giáo dục trực tuyến (EdTech).\n\nChế độ đãi ngộ:\n- Mức lương từ 16.000.000 đến 23.000.000 VNĐ tùy theo năng lực, xét tăng lương 2 lần/năm.\n- Thưởng hiệu quả chiến dịch hàng quý theo chỉ số ROAS/CPA; ngân sách thực nghiệm quảng cáo dồi dào.",
+      "requirements": [
+        {
+          "requirement_id": "MK-J01-R01",
+          "text": "Có từ 2 đến 4 năm kinh nghiệm trực tiếp triển khai các chiến dịch Digital Marketing đa kênh.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J01-R02",
+          "text": "Thành thạo thiết lập, tối ưu và quản lý ngân sách quảng cáo trên các nền tảng Meta Ads, Google Ads và TikTok Ads.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J01-R03",
+          "text": "Am hiểu công cụ phân tích dữ liệu như Google Analytics 4 (GA4), Google Tag Manager và Looker Studio để đo lường chuyển đổi và ROI.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J01-R04",
+          "text": "Có kỹ năng lập kế hoạch nội dung, phối hợp sản xuất tài nguyên quảng cáo (visual, video ngắn) cho từng kênh.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "MK-J01-R05",
+          "text": "Có chứng chỉ chuyên môn Google Ads Search/Measurement hoặc Meta Certified Media Buying Professional.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "MK-J01-R06",
+          "text": "Kinh nghiệm làm việc trong lĩnh vực thương mại điện tử (E-commerce) hoặc giáo dục trực tuyến (EdTech).",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "MK-J01-C01",
+          "cv_text": "Tóm tắt chuyên môn:\nChuyên viên Digital Marketing với 3 năm kinh nghiệm trong lĩnh vực giáo dục trực tuyến (EdTech). Trực tiếp triển khai và tối ưu các chiến dịch đa kênh trên Meta Ads, Google Ads và TikTok Ads với tổng ngân sách hơn 400 triệu đồng/tháng. Thành thạo cài đặt đo lường chuyển đổi với GA4, GTM và xây dựng báo cáo tự động trên Looker Studio. Có chứng chỉ chuyên môn của Google.\n\nKỹ năng chính:\n- Quản lý chiến dịch quảng cáo trả phí: Meta Ads, Google Ads, TikTok Ads\n- Phân tích dữ liệu web và sự kiện chuyển đổi: Google Analytics 4 (GA4), Google Tag Manager (GTM)\n- Trực quan hóa dữ liệu và báo cáo ROI qua Looker Studio\n- Lập kế hoạch nội dung và viết bản yêu cầu (brief) sản xuất video ngắn, banner\n- Lĩnh vực chuyên sâu: Giáo dục trực tuyến (EdTech)\n\nKinh nghiệm làm việc:\nChuyên viên Tiếp thị Kỹ thuật số tại Công ty Cổ phần Công nghệ Giáo Dục NovaEdu\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Trực tiếp chạy quảng cáo chuyển đổi cho các khóa học tiếng Anh trực tuyến và lập trình trẻ em trên Meta Ads, Google Search/Performance Max và TikTok Ads.\n- Quản lý ngân sách 350-500 triệu đồng/tháng, duy trì chi phí thu hút học viên mới (CPA) giảm 18% so với cùng kỳ.\n- Tự cấu hình Google Tag Manager để theo dõi các sự kiện gửi form đăng ký học thử và liên kết tài khoản GA4.\n- Dựng bảng điều khiển báo cáo Looker Studio tự động cập nhật hàng ngày giúp ban giám đốc theo dõi ROI thời gian thực.\n- Lên ý tưởng kịch bản video ngắn dạng phỏng vấn giáo viên bản ngữ và phối hợp cùng designer thiết kế bộ banner chạy khuyến mãi tuyển sinh hè.\n\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Truyền Thông Digilink\nThời gian: Từ 2022-09 đến 2023-07\n- Cài đặt chiến dịch quảng cáo tìm kiếm Google Ads và tăng lượt thích trang Facebook cho các trung tâm đào tạo nghề.\n\nHọc vấn:\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế TP. Hồ Chí Minh\n\nChứng chỉ:\n- Google Ads Search Certification\n- Google Analytics Individual Qualification (GA4)",
+          "sections": [
+            {
+              "section_id": "MK-J01-C01-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt chuyên môn:\nChuyên viên Digital Marketing với 3 năm kinh nghiệm trong lĩnh vực giáo dục trực tuyến (EdTech). Trực tiếp triển khai và tối ưu các chiến dịch đa kênh trên Meta Ads, Google Ads và TikTok Ads với tổng ngân sách hơn 400 triệu đồng/tháng. Thành thạo cài đặt đo lường chuyển đổi với GA4, GTM và xây dựng báo cáo tự động trên Looker Studio. Có chứng chỉ chuyên môn của Google."
+            },
+            {
+              "section_id": "MK-J01-C01-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chính:\n- Quản lý chiến dịch quảng cáo trả phí: Meta Ads, Google Ads, TikTok Ads\n- Phân tích dữ liệu web và sự kiện chuyển đổi: Google Analytics 4 (GA4), Google Tag Manager (GTM)\n- Trực quan hóa dữ liệu và báo cáo ROI qua Looker Studio\n- Lập kế hoạch nội dung và viết bản yêu cầu (brief) sản xuất video ngắn, banner\n- Lĩnh vực chuyên sâu: Giáo dục trực tuyến (EdTech)"
+            },
+            {
+              "section_id": "MK-J01-C01-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Tiếp thị Kỹ thuật số tại Công ty Cổ phần Công nghệ Giáo Dục NovaEdu\nThời gian: Từ 2023-08 đến nay (đang làm việc)\n- Trực tiếp chạy quảng cáo chuyển đổi cho các khóa học tiếng Anh trực tuyến và lập trình trẻ em trên Meta Ads, Google Search/Performance Max và TikTok Ads.\n- Quản lý ngân sách 350-500 triệu đồng/tháng, duy trì chi phí thu hút học viên mới (CPA) giảm 18% so với cùng kỳ.\n- Tự cấu hình Google Tag Manager để theo dõi các sự kiện gửi form đăng ký học thử và liên kết tài khoản GA4.\n- Dựng bảng điều khiển báo cáo Looker Studio tự động cập nhật hàng ngày giúp ban giám đốc theo dõi ROI thời gian thực.\n- Lên ý tưởng kịch bản video ngắn dạng phỏng vấn giáo viên bản ngữ và phối hợp cùng designer thiết kế bộ banner chạy khuyến mãi tuyển sinh hè.\n\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Truyền Thông Digilink\nThời gian: Từ 2022-09 đến 2023-07\n- Cài đặt chiến dịch quảng cáo tìm kiếm Google Ads và tăng lượt thích trang Facebook cho các trung tâm đào tạo nghề."
+            },
+            {
+              "section_id": "MK-J01-C01-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Marketing, Trường Đại học Kinh tế TP. Hồ Chí Minh"
+            },
+            {
+              "section_id": "MK-J01-C01-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Google Ads Search Certification\n- Google Analytics Individual Qualification (GA4)"
+            }
+          ],
+          "skills": [
+            "Digital Marketing đa kênh",
+            "Meta Ads",
+            "Google Ads",
+            "TikTok Ads",
+            "Google Analytics 4 (GA4)",
+            "Google Tag Manager (GTM)",
+            "Looker Studio",
+            "Sản xuất video ngắn và visual",
+            "Ngành giáo dục trực tuyến EdTech"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J01-C01-EXP-01",
+              "title": "Chuyên viên Tiếp thị Kỹ thuật số",
+              "company": "Công ty Cổ phần Công nghệ Giáo Dục NovaEdu",
+              "start_date": "2023-08",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp chạy quảng cáo chuyển đổi cho các khóa học tiếng Anh trực tuyến và lập trình trẻ em trên Meta Ads, Google Search/Performance Max và TikTok Ads.\nQuản lý ngân sách 350-500 triệu đồng/tháng, duy trì chi phí thu hút học viên mới (CPA) giảm 18% so với cùng kỳ.\nTự cấu hình Google Tag Manager để theo dõi các sự kiện gửi form đăng ký học thử và liên kết tài khoản GA4.\nDựng bảng điều khiển báo cáo Looker Studio tự động cập nhật hàng ngày giúp ban giám đốc theo dõi ROI thời gian thực.\nLên ý tưởng kịch bản video ngắn dạng phỏng vấn giáo viên bản ngữ và phối hợp cùng designer thiết kế bộ banner chạy khuyến mãi tuyển sinh hè.",
+              "skills_used": [
+                "Digital Marketing đa kênh",
+                "Meta Ads",
+                "Google Ads",
+                "TikTok Ads",
+                "Google Analytics 4 (GA4)",
+                "Google Tag Manager (GTM)",
+                "Looker Studio",
+                "Sản xuất video ngắn và visual",
+                "Ngành giáo dục trực tuyến EdTech"
+              ],
+              "section_id": "MK-J01-C01-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J01-C01-EXP-02",
+              "title": "Nhân viên Chạy Quảng Cáo Số",
+              "company": "Công ty TNHH Tiếp Thị Truyền Thông Digilink",
+              "start_date": "2022-09",
+              "end_date": "2023-07",
+              "is_current": false,
+              "description": "Cài đặt chiến dịch quảng cáo tìm kiếm Google Ads và tăng lượt thích trang Facebook cho các trung tâm đào tạo nghề.",
+              "skills_used": [
+                "Google Ads",
+                "Meta Ads"
+              ],
+              "section_id": "MK-J01-C01-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Marketing",
+              "section_id": "MK-J01-C01-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Google Ads Search Certification",
+              "section_id": "MK-J01-C01-SEC-CERT"
+            },
+            {
+              "name": "Google Analytics Individual Qualification (GA4)",
+              "section_id": "MK-J01-C01-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "MK-J01-C02",
+          "cv_text": "Tóm lược hồ sơ:\nChuyên viên Performance & Digital Marketing với 3 năm 6 tháng kinh nghiệm trong ngành bán lẻ thời trang thương mại điện tử (E-commerce). Sở trường tối ưu doanh thu bán hàng trên website và các sàn TMĐT thông qua phối hợp Meta Dynamic Ads, TikTok Shop Ads và Google Shopping. Sở hữu chứng chỉ Meta Certified Media Buying Professional, tư duy dữ liệu sắc bén với GA4 và Looker Studio.\n\nKỹ năng chuyên môn:\n- Vận hành quảng cáo đa kênh: Meta Ads, TikTok Ads, Google Shopping\n- Đo lường và phân tích dữ liệu: Google Analytics 4, Looker Studio\n- Tối ưu hóa tỷ lệ chuyển đổi (CRO) và kiểm thử A/B testing sáng tạo\n- Lên kế hoạch sản xuất visual và video dạng review sản phẩm\n- Lĩnh vực: Thương mại điện tử thời trang (E-commerce Fashion)\n\nKinh nghiệm làm việc:\nChuyên viên Digital Marketing Thương Mại Điện Tử tại Công ty Cổ phần Thời Trang Bán Lẻ TrendVina\nThời gian: Từ 2023-04 đến nay (đang công tác)\n- Quản trị ngân sách quảng cáo 600 triệu đồng/tháng cho chuỗi 15 cửa hàng và kênh website bán hàng trực tuyến.\n- Triển khai chiến dịch Meta Catalog Ads và TikTok Spark Ads kết hợp video review của KOC, giúp chỉ số ROAS đạt mức trung bình 4.2.\n- Cài đặt hệ thống theo dõi giá trị mua hàng Purchase Event qua GA4 và xây dựng báo cáo phân tích phễu rớt giỏ hàng trên Looker Studio.\n- Phối hợp chặt chẽ với đội ngũ designer và quay phim nội bộ để sản xuất 40 mẫu visual và 15 video ngắn mỗi tháng.\n\nNhân viên Digital Marketing tại Công ty TNHH Phụ Kiện Thời Trang VinaBag\nThời gian: Từ 2021-11 đến 2023-03\n- Thiết lập chiến dịch quảng cáo Facebook và Google Search thúc đẩy doanh số túi xách nữ.\n\nHọc vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Công nghệ Thông tin - ĐHQG TP.HCM\n\nChứng chỉ:\n- Meta Certified Media Buying Professional",
+          "sections": [
+            {
+              "section_id": "MK-J01-C02-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nChuyên viên Performance & Digital Marketing với 3 năm 6 tháng kinh nghiệm trong ngành bán lẻ thời trang thương mại điện tử (E-commerce). Sở trường tối ưu doanh thu bán hàng trên website và các sàn TMĐT thông qua phối hợp Meta Dynamic Ads, TikTok Shop Ads và Google Shopping. Sở hữu chứng chỉ Meta Certified Media Buying Professional, tư duy dữ liệu sắc bén với GA4 và Looker Studio."
+            },
+            {
+              "section_id": "MK-J01-C02-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Vận hành quảng cáo đa kênh: Meta Ads, TikTok Ads, Google Shopping\n- Đo lường và phân tích dữ liệu: Google Analytics 4, Looker Studio\n- Tối ưu hóa tỷ lệ chuyển đổi (CRO) và kiểm thử A/B testing sáng tạo\n- Lên kế hoạch sản xuất visual và video dạng review sản phẩm\n- Lĩnh vực: Thương mại điện tử thời trang (E-commerce Fashion)"
+            },
+            {
+              "section_id": "MK-J01-C02-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing Thương Mại Điện Tử tại Công ty Cổ phần Thời Trang Bán Lẻ TrendVina\nThời gian: Từ 2023-04 đến nay (đang công tác)\n- Quản trị ngân sách quảng cáo 600 triệu đồng/tháng cho chuỗi 15 cửa hàng và kênh website bán hàng trực tuyến.\n- Triển khai chiến dịch Meta Catalog Ads và TikTok Spark Ads kết hợp video review của KOC, giúp chỉ số ROAS đạt mức trung bình 4.2.\n- Cài đặt hệ thống theo dõi giá trị mua hàng Purchase Event qua GA4 và xây dựng báo cáo phân tích phễu rớt giỏ hàng trên Looker Studio.\n- Phối hợp chặt chẽ với đội ngũ designer và quay phim nội bộ để sản xuất 40 mẫu visual và 15 video ngắn mỗi tháng.\n\nNhân viên Digital Marketing tại Công ty TNHH Phụ Kiện Thời Trang VinaBag\nThời gian: Từ 2021-11 đến 2023-03\n- Thiết lập chiến dịch quảng cáo Facebook và Google Search thúc đẩy doanh số túi xách nữ."
+            },
+            {
+              "section_id": "MK-J01-C02-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Thương mại Điện tử, Trường Đại học Công nghệ Thông tin - ĐHQG TP.HCM"
+            },
+            {
+              "section_id": "MK-J01-C02-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Meta Certified Media Buying Professional"
+            }
+          ],
+          "skills": [
+            "Digital Marketing đa kênh",
+            "Meta Ads",
+            "TikTok Ads",
+            "Google Shopping",
+            "Google Analytics 4 (GA4)",
+            "Looker Studio",
+            "Sản xuất visual và video ngắn",
+            "Thương mại điện tử E-commerce"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J01-C02-EXP-01",
+              "title": "Chuyên viên Digital Marketing Thương Mại Điện Tử",
+              "company": "Công ty Cổ phần Thời Trang Bán Lẻ TrendVina",
+              "start_date": "2023-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Quản trị ngân sách quảng cáo 600 triệu đồng/tháng cho chuỗi 15 cửa hàng và kênh website bán hàng trực tuyến.\nTriển khai chiến dịch Meta Catalog Ads và TikTok Spark Ads kết hợp video review của KOC, giúp chỉ số ROAS đạt mức trung bình 4.2.\nCài đặt hệ thống theo dõi giá trị mua hàng Purchase Event qua GA4 và xây dựng báo cáo phân tích phễu rớt giỏ hàng trên Looker Studio.\nPhối hợp chặt chẽ với đội ngũ designer và quay phim nội bộ để sản xuất 40 mẫu visual và 15 video ngắn mỗi tháng.",
+              "skills_used": [
+                "Digital Marketing đa kênh",
+                "Meta Ads",
+                "TikTok Ads",
+                "Google Analytics 4 (GA4)",
+                "Looker Studio",
+                "Sản xuất visual và video ngắn",
+                "Thương mại điện tử E-commerce"
+              ],
+              "section_id": "MK-J01-C02-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J01-C02-EXP-02",
+              "title": "Nhân viên Digital Marketing",
+              "company": "Công ty TNHH Phụ Kiện Thời Trang VinaBag",
+              "start_date": "2021-11",
+              "end_date": "2023-03",
+              "is_current": false,
+              "description": "Thiết lập chiến dịch quảng cáo Facebook và Google Search thúc đẩy doanh số túi xách nữ.",
+              "skills_used": [
+                "Meta Ads"
+              ],
+              "section_id": "MK-J01-C02-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Thương mại Điện tử",
+              "section_id": "MK-J01-C02-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Meta Certified Media Buying Professional",
+              "section_id": "MK-J01-C02-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "MK-J01-C03",
+          "cv_text": "Tóm lược bản thân:\nChuyên viên Quan hệ Công chúng (PR) và Tổ chức Sự kiện với 2 năm 6 tháng kinh nghiệm làm việc tại agency truyền thông. Thế mạnh xây dựng thông cáo báo chí, liên hệ đối tác báo chí truyền hình và điều phối các sự kiện họp báo ra mắt sản phẩm mới. Có hiểu biết tổng quan về truyền thông mạng xã hội và mong muốn trau dồi sâu hơn về kỹ thuật quảng cáo trả phí Digital Marketing.\n\nKỹ năng làm việc:\n- Viết thông cáo báo chí và bài viết PR chuyên sâu cho doanh nghiệp\n- Mạng lưới quan hệ với các phóng viên báo kinh tế và đời sống\n- Lập kế hoạch và điều phối sự kiện hội thảo khách hàng ngoại tuyến\n- Quản lý hợp tác người có tầm ảnh hưởng (KOL/KOC)\n- Tiếng Anh giao tiếp và dịch thuật tài liệu truyền thông\n\nKinh nghiệm công tác:\nChuyên viên Truyền thông & Sự kiện tại Công ty Cổ phần Truyền Thông Đất Phương Nam\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\n- Viết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\n- Điều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\n- Các chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.\n\nNhân viên Hỗ trợ Sự kiện tại Công ty TNHH Sự Kiện & Hội Nghị VinaEvent\nThời gian: Từ 2023-06 đến 2024-02\n- Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường.\n\nHọc vấn:\n- Cử nhân ngành Báo chí và Truyền thông, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J01-C03-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược bản thân:\nChuyên viên Quan hệ Công chúng (PR) và Tổ chức Sự kiện với 2 năm 6 tháng kinh nghiệm làm việc tại agency truyền thông. Thế mạnh xây dựng thông cáo báo chí, liên hệ đối tác báo chí truyền hình và điều phối các sự kiện họp báo ra mắt sản phẩm mới. Có hiểu biết tổng quan về truyền thông mạng xã hội và mong muốn trau dồi sâu hơn về kỹ thuật quảng cáo trả phí Digital Marketing."
+            },
+            {
+              "section_id": "MK-J01-C03-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Viết thông cáo báo chí và bài viết PR chuyên sâu cho doanh nghiệp\n- Mạng lưới quan hệ với các phóng viên báo kinh tế và đời sống\n- Lập kế hoạch và điều phối sự kiện hội thảo khách hàng ngoại tuyến\n- Quản lý hợp tác người có tầm ảnh hưởng (KOL/KOC)\n- Tiếng Anh giao tiếp và dịch thuật tài liệu truyền thông"
+            },
+            {
+              "section_id": "MK-J01-C03-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm công tác:\nChuyên viên Truyền thông & Sự kiện tại Công ty Cổ phần Truyền Thông Đất Phương Nam\nThời gian: Từ 2024-03 đến nay (đang làm việc)\n- Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\n- Viết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\n- Điều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\n- Các chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.\n\nNhân viên Hỗ trợ Sự kiện tại Công ty TNHH Sự Kiện & Hội Nghị VinaEvent\nThời gian: Từ 2023-06 đến 2024-02\n- Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường."
+            },
+            {
+              "section_id": "MK-J01-C03-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Báo chí và Truyền thông, Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQG TP.HCM"
+            }
+          ],
+          "skills": [
+            "Quan hệ công chúng PR",
+            "Viết bài thông cáo báo chí",
+            "Tổ chức sự kiện hội nghị",
+            "Quản lý KOL KOC",
+            "Báo chí và truyền thông"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J01-C03-EXP-01",
+              "title": "Chuyên viên Truyền thông & Sự kiện",
+              "company": "Công ty Cổ phần Truyền Thông Đất Phương Nam",
+              "start_date": "2024-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phụ trách quan hệ báo chí cho 8 nhãn hàng tiêu dùng và chuỗi nhà hàng ẩm thực.\nViết và phân phối hơn 50 bài PR trên các trang báo điện tử kinh tế và đời sống uy tín.\nĐiều phối sự kiện ra mắt thương hiệu với quy mô 200 khách mời tại TP.HCM.\nCác chiến dịch chạy quảng cáo Facebook Ads hay Google Ads do bộ phận kỹ thuật bên ngoài hoặc agency quảng cáo số thực hiện, bản thân chỉ tham gia duyệt nội dung bài đăng.",
+              "skills_used": [
+                "Quan hệ công chúng PR",
+                "Viết bài thông cáo báo chí",
+                "Tổ chức sự kiện hội nghị"
+              ],
+              "section_id": "MK-J01-C03-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J01-C03-EXP-02",
+              "title": "Nhân viên Hỗ trợ Sự kiện",
+              "company": "Công ty TNHH Sự Kiện & Hội Nghị VinaEvent",
+              "start_date": "2023-06",
+              "end_date": "2024-02",
+              "is_current": false,
+              "description": "Hỗ trợ đón tiếp khách mời, chuẩn bị quà tặng và kiểm tra âm thanh ánh sáng hội trường.",
+              "skills_used": [
+                "Tổ chức sự kiện hội nghị"
+              ],
+              "section_id": "MK-J01-C03-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Báo chí và Truyền thông",
+              "section_id": "MK-J01-C03-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J01-C04",
+          "cv_text": "Tóm lược hồ sơ:\nNhân viên Digital Marketing với 1 năm kinh nghiệm thực chiến chạy quảng cáo Facebook và hỗ trợ đăng bài trên các trang mạng xã hội. Nhanh nhẹn, ham học hỏi các công cụ đo lường số liệu mới, có khả năng viết bài quảng cáo bán hàng cơ bản và mong muốn được nâng cao chuyên môn quản lý chiến dịch quảng cáo đa kênh.\n\nKỹ năng chính:\n- Cài đặt chiến dịch quảng cáo tin nhắn và tương tác trên Meta Ads\n- Viết bài quảng cáo bán hàng (Copywriting) cho trang Facebook\n- Xem các chỉ số cơ bản trên trình quản lý quảng cáo Ads Manager (CTR, CPC, Reach)\n- Thiết kế ảnh quảng cáo đơn giản bằng ứng dụng Canva\n- Xem báo cáo lượng truy cập cơ bản trên Google Analytics\n\nKinh nghiệm làm việc:\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Số AlphaAds\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Trực tiếp thiết lập và theo dõi các chiến dịch quảng cáo Facebook tin nhắn cho khách hàng bán đồ ăn vặt và phụ kiện thú cưng.\n- Ngân sách quản trị khoảng 30-50 triệu đồng/tháng.\n- Thử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa để tìm mẫu quảng cáo có chi phí nhắn tin rẻ nhất.\n\nThực tập sinh Marketing tại Cửa hàng Thời Trang Đô Thị UrbanFit\nThời gian: Từ 2025-05 đến 2025-09\n- Chụp ảnh sản phẩm quần áo và viết bài giới thiệu mẫu trang phục mới lên Facebook Fanpage.\n\nHọc vấn:\n- Cử nhân Cao đẳng ngành Marketing Thương mại, Trường Cao đẳng Kinh tế TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J01-C04-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ:\nNhân viên Digital Marketing với 1 năm kinh nghiệm thực chiến chạy quảng cáo Facebook và hỗ trợ đăng bài trên các trang mạng xã hội. Nhanh nhẹn, ham học hỏi các công cụ đo lường số liệu mới, có khả năng viết bài quảng cáo bán hàng cơ bản và mong muốn được nâng cao chuyên môn quản lý chiến dịch quảng cáo đa kênh."
+            },
+            {
+              "section_id": "MK-J01-C04-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chính:\n- Cài đặt chiến dịch quảng cáo tin nhắn và tương tác trên Meta Ads\n- Viết bài quảng cáo bán hàng (Copywriting) cho trang Facebook\n- Xem các chỉ số cơ bản trên trình quản lý quảng cáo Ads Manager (CTR, CPC, Reach)\n- Thiết kế ảnh quảng cáo đơn giản bằng ứng dụng Canva\n- Xem báo cáo lượng truy cập cơ bản trên Google Analytics"
+            },
+            {
+              "section_id": "MK-J01-C04-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nNhân viên Chạy Quảng Cáo Số tại Công ty TNHH Tiếp Thị Số AlphaAds\nThời gian: Từ 2025-10 đến nay (đang làm việc)\n- Trực tiếp thiết lập và theo dõi các chiến dịch quảng cáo Facebook tin nhắn cho khách hàng bán đồ ăn vặt và phụ kiện thú cưng.\n- Ngân sách quản trị khoảng 30-50 triệu đồng/tháng.\n- Thử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa để tìm mẫu quảng cáo có chi phí nhắn tin rẻ nhất.\n\nThực tập sinh Marketing tại Cửa hàng Thời Trang Đô Thị UrbanFit\nThời gian: Từ 2025-05 đến 2025-09\n- Chụp ảnh sản phẩm quần áo và viết bài giới thiệu mẫu trang phục mới lên Facebook Fanpage."
+            },
+            {
+              "section_id": "MK-J01-C04-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Cao đẳng ngành Marketing Thương mại, Trường Cao đẳng Kinh tế TP.HCM"
+            }
+          ],
+          "skills": [
+            "Quảng cáo Meta Ads",
+            "Copywriting mạng xã hội",
+            "Canva",
+            "Google Analytics cơ bản"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J01-C04-EXP-01",
+              "title": "Nhân viên Chạy Quảng Cáo Số",
+              "company": "Công ty TNHH Tiếp Thị Số AlphaAds",
+              "start_date": "2025-10",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp thiết lập và theo dõi các chiến dịch quảng cáo Facebook tin nhắn cho khách hàng bán đồ ăn vặt và phụ kiện thú cưng.\nNgân sách quản trị khoảng 30-50 triệu đồng/tháng.\nThử nghiệm đổi câu mở đầu bài viết (headline) và hình ảnh đồ họa để tìm mẫu quảng cáo có chi phí nhắn tin rẻ nhất.",
+              "skills_used": [
+                "Quảng cáo Meta Ads",
+                "Copywriting mạng xã hội"
+              ],
+              "section_id": "MK-J01-C04-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J01-C04-EXP-02",
+              "title": "Thực tập sinh Marketing",
+              "company": "Cửa hàng Thời Trang Đô Thị UrbanFit",
+              "start_date": "2025-05",
+              "end_date": "2025-09",
+              "is_current": false,
+              "description": "Chụp ảnh sản phẩm quần áo và viết bài giới thiệu mẫu trang phục mới lên Facebook Fanpage.",
+              "skills_used": [
+                "Copywriting mạng xã hội"
+              ],
+              "section_id": "MK-J01-C04-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân Cao đẳng",
+              "field": "Marketing Thương mại",
+              "section_id": "MK-J01-C04-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J01-C05",
+          "cv_text": "Tóm lược năng lực quản lý:\nTrưởng nhóm Performance Marketing Cấp cao (Senior Performance Marketing Lead) với hơn 6 năm kinh nghiệm trong ngành thương mại điện tử quy mô lớn. Quản lý và điều phối ngân sách quảng cáo số từ 1,8 tỷ đến 2,5 tỷ đồng mỗi tháng trên toàn bộ các kênh Meta Ads, Google Ads, TikTok Ads và hệ thống tiếp thị liên kết (Affiliate Network). Sở hữu năng lực phân tích phễu chuyển đổi chuyên sâu với GA4, BigQuery và Looker Studio. Đầy đủ chứng chỉ chuyên môn cao cấp của Google và Meta.\n\nKỹ năng lãnh đạo và chuyên môn:\n- Hoạch định chiến lược tăng trưởng Performance Marketing đa kênh\n- Quản trị ngân sách lớn trên 2 tỷ đồng/tháng cho E-commerce đa ngành\n- Thiết kế kiến trúc theo dõi dữ liệu nâng cao: Server-side GTM, GA4, BigQuery, Looker Studio\n- Lãnh đạo đội ngũ 5 chuyên viên Media Buyer và chuyên viên Creative Strategist\n- Tối ưu hóa chỉ số LTV, CAC và ROAS toàn sàn\n\nKinh nghiệm làm việc:\nTrưởng nhóm Performance Marketing tại Tập Đoàn Thương Mại Điện Tử VinaShop\nThời gian: Từ 2022-01 đến nay (đang phụ trách)\n- Dẫn dắt đội ngũ 5 nhân viên thực thi các chiến dịch quảng cáo ngày hội siêu sale (Mega Campaign 11.11, 12.12) với ngân sách 2 tỷ đồng/tháng.\n- Xây dựng mô hình phân bổ đóng góp (Attribution Modeling) trên Looker Studio kết nối dữ liệu từ GA4 và CRM nội bộ.\n- Đạt chỉ số hoàn vốn trên chi phí quảng cáo (Blended ROAS) đạt 5.8 trong năm 2025.\n- Đào tạo đội ngũ về phương pháp sáng tạo nội dung video ngắn chuyển đổi cao theo chuẩn Meta Best Practices.\n\nChuyên viên Cấp cao Digital Marketing tại Công ty Cổ phần Bán Lẻ Công Nghệ DigiKing\nThời gian: Từ 2019-06 đến 2021-12\n- Chịu trách nhiệm toàn bộ chiến dịch Google Search và Google Display Network cho chuỗi bán lẻ điện máy.\n\nHọc vấn:\n- Cử nhân ngành Hệ thống Thông tin Kinh tế, Trường Đại học Ngoại thương Hà Nội\n\nChứng chỉ:\n- Meta Certified Media Buying Professional\n- Google Ads Search & Measurement Certification",
+          "sections": [
+            {
+              "section_id": "MK-J01-C05-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược năng lực quản lý:\nTrưởng nhóm Performance Marketing Cấp cao (Senior Performance Marketing Lead) với hơn 6 năm kinh nghiệm trong ngành thương mại điện tử quy mô lớn. Quản lý và điều phối ngân sách quảng cáo số từ 1,8 tỷ đến 2,5 tỷ đồng mỗi tháng trên toàn bộ các kênh Meta Ads, Google Ads, TikTok Ads và hệ thống tiếp thị liên kết (Affiliate Network). Sở hữu năng lực phân tích phễu chuyển đổi chuyên sâu với GA4, BigQuery và Looker Studio. Đầy đủ chứng chỉ chuyên môn cao cấp của Google và Meta."
+            },
+            {
+              "section_id": "MK-J01-C05-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng lãnh đạo và chuyên môn:\n- Hoạch định chiến lược tăng trưởng Performance Marketing đa kênh\n- Quản trị ngân sách lớn trên 2 tỷ đồng/tháng cho E-commerce đa ngành\n- Thiết kế kiến trúc theo dõi dữ liệu nâng cao: Server-side GTM, GA4, BigQuery, Looker Studio\n- Lãnh đạo đội ngũ 5 chuyên viên Media Buyer và chuyên viên Creative Strategist\n- Tối ưu hóa chỉ số LTV, CAC và ROAS toàn sàn"
+            },
+            {
+              "section_id": "MK-J01-C05-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nTrưởng nhóm Performance Marketing tại Tập Đoàn Thương Mại Điện Tử VinaShop\nThời gian: Từ 2022-01 đến nay (đang phụ trách)\n- Dẫn dắt đội ngũ 5 nhân viên thực thi các chiến dịch quảng cáo ngày hội siêu sale (Mega Campaign 11.11, 12.12) với ngân sách 2 tỷ đồng/tháng.\n- Xây dựng mô hình phân bổ đóng góp (Attribution Modeling) trên Looker Studio kết nối dữ liệu từ GA4 và CRM nội bộ.\n- Đạt chỉ số hoàn vốn trên chi phí quảng cáo (Blended ROAS) đạt 5.8 trong năm 2025.\n- Đào tạo đội ngũ về phương pháp sáng tạo nội dung video ngắn chuyển đổi cao theo chuẩn Meta Best Practices.\n\nChuyên viên Cấp cao Digital Marketing tại Công ty Cổ phần Bán Lẻ Công Nghệ DigiKing\nThời gian: Từ 2019-06 đến 2021-12\n- Chịu trách nhiệm toàn bộ chiến dịch Google Search và Google Display Network cho chuỗi bán lẻ điện máy."
+            },
+            {
+              "section_id": "MK-J01-C05-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Hệ thống Thông tin Kinh tế, Trường Đại học Ngoại thương Hà Nội"
+            },
+            {
+              "section_id": "MK-J01-C05-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Meta Certified Media Buying Professional\n- Google Ads Search & Measurement Certification"
+            }
+          ],
+          "skills": [
+            "Lãnh đạo Performance Marketing",
+            "Ngân sách lớn E-commerce",
+            "Meta Ads",
+            "Google Ads",
+            "TikTok Ads",
+            "GA4 và Looker Studio",
+            "Tối ưu ROAS và CAC"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J01-C05-EXP-01",
+              "title": "Trưởng nhóm Performance Marketing",
+              "company": "Tập Đoàn Thương Mại Điện Tử VinaShop",
+              "start_date": "2022-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Dẫn dắt đội ngũ 5 nhân viên thực thi các chiến dịch quảng cáo ngày hội siêu sale (Mega Campaign 11.11, 12.12) với ngân sách 2 tỷ đồng/tháng.\nXây dựng mô hình phân bổ đóng góp (Attribution Modeling) trên Looker Studio kết nối dữ liệu từ GA4 và CRM nội bộ.\nĐạt chỉ số hoàn vốn trên chi phí quảng cáo (Blended ROAS) đạt 5.8 trong năm 2025.\nĐào tạo đội ngũ về phương pháp sáng tạo nội dung video ngắn chuyển đổi cao theo chuẩn Meta Best Practices.",
+              "skills_used": [
+                "Lãnh đạo Performance Marketing",
+                "Ngân sách lớn E-commerce",
+                "Meta Ads",
+                "GA4 và Looker Studio",
+                "Tối ưu ROAS"
+              ],
+              "section_id": "MK-J01-C05-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J01-C05-EXP-02",
+              "title": "Chuyên viên Cấp cao Digital Marketing",
+              "company": "Công ty Cổ phần Bán Lẻ Công Nghệ DigiKing",
+              "start_date": "2019-06",
+              "end_date": "2021-12",
+              "is_current": false,
+              "description": "Chịu trách nhiệm toàn bộ chiến dịch Google Search và Google Display Network cho chuỗi bán lẻ điện máy.",
+              "skills_used": [
+                "Google Ads"
+              ],
+              "section_id": "MK-J01-C05-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Hệ thống Thông tin Kinh tế",
+              "section_id": "MK-J01-C05-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Meta Certified Media Buying Professional",
+              "section_id": "MK-J01-C05-SEC-CERT"
+            },
+            {
+              "name": "Google Ads Search & Measurement Certification",
+              "section_id": "MK-J01-C05-SEC-CERT"
+            }
+          ]
+        },
+        {
+          "candidate_id": "MK-J01-C06",
+          "cv_text": "Tóm lược bản thân:\nChuyên viên Thiết kế Đồ họa và Biên tập Video Quảng cáo với hơn 2 năm 6 tháng làm việc tại các công ty sản xuất truyền thông số. Có mắt nhìn thẩm mỹ hiện đại, chuyên thiết kế bộ nhận diện visual quảng cáo đa nền tảng và dựng các video ngắn bắt trend cho TikTok và Facebook Reels. Mong muốn chuyển hướng dần sang vai trò chuyên viên Digital Marketing tổng hợp để làm chủ cả khâu sáng tạo lẫn khâu phân phối dữ liệu.\n\nKỹ năng làm việc:\n- Thiết kế đồ họa quảng cáo 2D bằng Adobe Photoshop, Illustrator\n- Dựng và hiệu chỉnh video ngắn bằng Adobe Premiere, CapCut Pro\n- Thiết kế layout trang đích (Landing Page) trên nền tảng Ladipage\n- Am hiểu hành vi thị giác người dùng mạng xã hội khi xem quảng cáo\n- Kỹ năng phối hợp làm việc nhóm với đội ngũ Copywriter\n\nKinh nghiệm làm việc:\nChuyên viên Thiết kế Quảng cáo & Video tại Công ty TNHH MediaHouse Studio\nThời gian: Từ 2024-04 đến nay (đang làm việc)\n- Trực tiếp sản xuất hơn 60 ấn phẩm visual và 20 video ngắn mỗi tháng theo yêu cầu của đội ngũ chạy quảng cáo số cho các khách hàng mỹ phẩm, thời trang.\n- Thiết kế các định dạng ảnh Carousel, Story, Canvas tối ưu theo chuẩn kích thước Meta và TikTok.\n- Thiết kế giao diện 12 trang Landing Page phục vụ các đợt flash sale sản phẩm.\n\nNhân viên Thiết kế Đồ họa tại Công ty In Ấn & Thiết Kế Ánh Sao\nThời gian: Từ 2023-08 đến 2024-03\n- Thiết kế tờ rơi, catalogue và banner sự kiện cho các doanh nghiệp vừa và nhỏ.\n\nHọc vấn:\n- Cử nhân ngành Thiết kế Đồ họa, Trường Đại học Kiến Trúc TP.HCM",
+          "sections": [
+            {
+              "section_id": "MK-J01-C06-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược bản thân:\nChuyên viên Thiết kế Đồ họa và Biên tập Video Quảng cáo với hơn 2 năm 6 tháng làm việc tại các công ty sản xuất truyền thông số. Có mắt nhìn thẩm mỹ hiện đại, chuyên thiết kế bộ nhận diện visual quảng cáo đa nền tảng và dựng các video ngắn bắt trend cho TikTok và Facebook Reels. Mong muốn chuyển hướng dần sang vai trò chuyên viên Digital Marketing tổng hợp để làm chủ cả khâu sáng tạo lẫn khâu phân phối dữ liệu."
+            },
+            {
+              "section_id": "MK-J01-C06-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Thiết kế đồ họa quảng cáo 2D bằng Adobe Photoshop, Illustrator\n- Dựng và hiệu chỉnh video ngắn bằng Adobe Premiere, CapCut Pro\n- Thiết kế layout trang đích (Landing Page) trên nền tảng Ladipage\n- Am hiểu hành vi thị giác người dùng mạng xã hội khi xem quảng cáo\n- Kỹ năng phối hợp làm việc nhóm với đội ngũ Copywriter"
+            },
+            {
+              "section_id": "MK-J01-C06-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Thiết kế Quảng cáo & Video tại Công ty TNHH MediaHouse Studio\nThời gian: Từ 2024-04 đến nay (đang làm việc)\n- Trực tiếp sản xuất hơn 60 ấn phẩm visual và 20 video ngắn mỗi tháng theo yêu cầu của đội ngũ chạy quảng cáo số cho các khách hàng mỹ phẩm, thời trang.\n- Thiết kế các định dạng ảnh Carousel, Story, Canvas tối ưu theo chuẩn kích thước Meta và TikTok.\n- Thiết kế giao diện 12 trang Landing Page phục vụ các đợt flash sale sản phẩm.\n\nNhân viên Thiết kế Đồ họa tại Công ty In Ấn & Thiết Kế Ánh Sao\nThời gian: Từ 2023-08 đến 2024-03\n- Thiết kế tờ rơi, catalogue và banner sự kiện cho các doanh nghiệp vừa và nhỏ."
+            },
+            {
+              "section_id": "MK-J01-C06-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Thiết kế Đồ họa, Trường Đại học Kiến Trúc TP.HCM"
+            }
+          ],
+          "skills": [
+            "Thiết kế visual quảng cáo",
+            "Biên tập video ngắn CapCut Premiere",
+            "Thiết kế Landing Page",
+            "Adobe Photoshop Illustrator",
+            "Thiết kế đồ họa"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J01-C06-EXP-01",
+              "title": "Chuyên viên Thiết kế Quảng cáo & Video",
+              "company": "Công ty TNHH MediaHouse Studio",
+              "start_date": "2024-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Trực tiếp sản xuất hơn 60 ấn phẩm visual và 20 video ngắn mỗi tháng theo yêu cầu của đội ngũ chạy quảng cáo số cho các khách hàng mỹ phẩm, thời trang.\nThiết kế các định dạng ảnh Carousel, Story, Canvas tối ưu theo chuẩn kích thước Meta và TikTok.\nThiết kế giao diện 12 trang Landing Page phục vụ các đợt flash sale sản phẩm.",
+              "skills_used": [
+                "Thiết kế visual quảng cáo",
+                "Thiết kế Landing Page"
+              ],
+              "section_id": "MK-J01-C06-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J01-C06-EXP-02",
+              "title": "Nhân viên Thiết kế Đồ họa",
+              "company": "Công ty In Ấn & Thiết Kế Ánh Sao",
+              "start_date": "2023-08",
+              "end_date": "2024-03",
+              "is_current": false,
+              "description": "Thiết kế tờ rơi, catalogue và banner sự kiện cho các doanh nghiệp vừa và nhỏ.",
+              "skills_used": [
+                "Thiết kế đồ họa"
+              ],
+              "section_id": "MK-J01-C06-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Thiết kế Đồ họa",
+              "section_id": "MK-J01-C06-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J01-C07",
+          "cv_text": "Tóm lược kỹ năng:\nChuyên viên Digital Marketing với 3 năm kinh nghiệm trong mảng thương mại điện tử bán lẻ mỹ phẩm chăm sóc da thiên nhiên. Có kinh nghiệm quản lý quảng cáo đa kênh Meta, Google Search và TikTok Shop, kiểm soát chặt chẽ chi phí trên mỗi đơn hàng hoàn tất (CPO) và xây dựng hệ thống báo cáo tự động bằng Looker Studio.\n\nKỹ năng làm việc:\n- Quản lý quảng cáo Meta Ads, TikTok Shop Ads và Google Ads\n- Phân tích lưu lượng truy cập và hành vi khách hàng với Google Analytics 4 (GA4)\n- Thiết lập bảng theo dõi chi phí và doanh số bán lẻ qua Looker Studio\n- Lên kế hoạch bài đăng mạng xã hội và đặt hàng hình ảnh thiết kế\n- Am hiểu lĩnh vực thương mại điện tử mỹ phẩm bán lẻ\n\nKinh nghiệm làm việc:\nChuyên viên Digital Marketing tại Công ty TNHH Mỹ Phẩm Thiên Nhiên Mộc Trà\nThời gian: Từ 2024-02 đến nay (hiện tại)\n- Thiết lập và quản trị các chiến dịch quảng cáo trả phí cho dòng sản phẩm xà bông thảo mộc và serum dưỡng ẩm trên Facebook và TikTok.\n- Quản trị mức ngân sách khoảng 180 triệu đồng/tháng, tối ưu hóa điểm chất lượng quảng cáo và giữ chỉ số ROAS duy trì từ 3.2 đến 3.8.\n- Kết nối nguồn dữ liệu đơn hàng website từ nền tảng Haravan sang Looker Studio để theo dõi biến động doanh thu theo từng ngày.\n- Lập kế hoạch nội dung tuần, phối hợp với nhân sự sản xuất video quay thử các video trải nghiệm chất lượng kem thực tế.\n\nCộng tác viên Marketing Số tại Hộ Kinh Doanh Mỹ Phẩm Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng bắt đầu kết thúc cụ thể)\n- Hỗ trợ viết bài fanpage và chạy thử nghiệm quảng cáo bài viết tiếp cận khách hàng trẻ.\n\nHọc vấn:\n- Cử nhân ngành Marketing, Trường Đại học Tài chính - Marketing",
+          "sections": [
+            {
+              "section_id": "MK-J01-C07-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm lược kỹ năng:\nChuyên viên Digital Marketing với 3 năm kinh nghiệm trong mảng thương mại điện tử bán lẻ mỹ phẩm chăm sóc da thiên nhiên. Có kinh nghiệm quản lý quảng cáo đa kênh Meta, Google Search và TikTok Shop, kiểm soát chặt chẽ chi phí trên mỗi đơn hàng hoàn tất (CPO) và xây dựng hệ thống báo cáo tự động bằng Looker Studio."
+            },
+            {
+              "section_id": "MK-J01-C07-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng làm việc:\n- Quản lý quảng cáo Meta Ads, TikTok Shop Ads và Google Ads\n- Phân tích lưu lượng truy cập và hành vi khách hàng với Google Analytics 4 (GA4)\n- Thiết lập bảng theo dõi chi phí và doanh số bán lẻ qua Looker Studio\n- Lên kế hoạch bài đăng mạng xã hội và đặt hàng hình ảnh thiết kế\n- Am hiểu lĩnh vực thương mại điện tử mỹ phẩm bán lẻ"
+            },
+            {
+              "section_id": "MK-J01-C07-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Digital Marketing tại Công ty TNHH Mỹ Phẩm Thiên Nhiên Mộc Trà\nThời gian: Từ 2024-02 đến nay (hiện tại)\n- Thiết lập và quản trị các chiến dịch quảng cáo trả phí cho dòng sản phẩm xà bông thảo mộc và serum dưỡng ẩm trên Facebook và TikTok.\n- Quản trị mức ngân sách khoảng 180 triệu đồng/tháng, tối ưu hóa điểm chất lượng quảng cáo và giữ chỉ số ROAS duy trì từ 3.2 đến 3.8.\n- Kết nối nguồn dữ liệu đơn hàng website từ nền tảng Haravan sang Looker Studio để theo dõi biến động doanh thu theo từng ngày.\n- Lập kế hoạch nội dung tuần, phối hợp với nhân sự sản xuất video quay thử các video trải nghiệm chất lượng kem thực tế.\n\nCộng tác viên Marketing Số tại Hộ Kinh Doanh Mỹ Phẩm Xanh\nThời gian: (thời gian làm việc tự do trước đây, không có ngày tháng bắt đầu kết thúc cụ thể)\n- Hỗ trợ viết bài fanpage và chạy thử nghiệm quảng cáo bài viết tiếp cận khách hàng trẻ."
+            },
+            {
+              "section_id": "MK-J01-C07-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Marketing, Trường Đại học Tài chính - Marketing"
+            }
+          ],
+          "skills": [
+            "Quảng cáo đa kênh Meta TikTok Google",
+            "Google Analytics 4 (GA4)",
+            "Looker Studio",
+            "Kế hoạch nội dung và video",
+            "E-commerce mỹ phẩm"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J01-C07-EXP-01",
+              "title": "Chuyên viên Digital Marketing",
+              "company": "Công ty TNHH Mỹ Phẩm Thiên Nhiên Mộc Trà",
+              "start_date": "2024-02",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết lập và quản trị các chiến dịch quảng cáo trả phí cho dòng sản phẩm xà bông thảo mộc và serum dưỡng ẩm trên Facebook và TikTok.\nQuản trị mức ngân sách khoảng 180 triệu đồng/tháng, tối ưu hóa điểm chất lượng quảng cáo và giữ chỉ số ROAS duy trì từ 3.2 đến 3.8.\nKết nối nguồn dữ liệu đơn hàng website từ nền tảng Haravan sang Looker Studio để theo dõi biến động doanh thu theo từng ngày.\nLập kế hoạch nội dung tuần, phối hợp với nhân sự sản xuất video quay thử các video trải nghiệm chất lượng kem thực tế.",
+              "skills_used": [
+                "Quảng cáo Meta và TikTok",
+                "Looker Studio",
+                "Kế hoạch nội dung và video",
+                "E-commerce mỹ phẩm"
+              ],
+              "section_id": "MK-J01-C07-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J01-C07-EXP-02",
+              "title": "Cộng tác viên Marketing Số",
+              "company": "Hộ Kinh Doanh Mỹ Phẩm Xanh",
+              "start_date": null,
+              "end_date": null,
+              "is_current": false,
+              "description": "Hỗ trợ viết bài fanpage và chạy thử nghiệm quảng cáo bài viết tiếp cận khách hàng trẻ.",
+              "skills_used": [],
+              "section_id": "MK-J01-C07-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Marketing",
+              "section_id": "MK-J01-C07-SEC-EDU"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "MK-J01-C08",
+          "cv_text": "Tóm tắt kinh nghiệm:\nChuyên viên Phân tích Tăng trưởng (Growth & Marketing Analytics) với 3 năm kinh nghiệm trong lĩnh vực ứng dụng học tập trực tuyến (EdTech). Nổi bật với tư duy dữ liệu chuyên sâu, khả năng thiết lập toàn diện hạ tầng đo lường chuyển đổi với Google Tag Manager và Google Analytics 4. Thường xuyên cộng tác với đội ngũ media buyer để phân tích hiệu quả các mẫu video quảng cáo TikTok và Meta Ads, trực quan hóa kết quả kinh doanh bằng Looker Studio.\n\nKỹ năng chuyên môn:\n- Cấu hình theo dõi nâng cao: Google Tag Manager (Web & Server), GA4\n- Phân tích và trực quan hóa dữ liệu chiến dịch qua Looker Studio\n- Đo lường và tối ưu hóa chuyển đổi quảng cáo: Meta Ads, TikTok Ads, Google Search\n- Kiểm thử A/B Testing thông điệp quảng cáo và trải nghiệm trang đích\n- Lĩnh vực: Giáo dục trực tuyến (EdTech)\n\nKinh nghiệm làm việc:\nChuyên viên Phân tích Tiếp thị Số tại Công ty Cổ phần Ứng Dụng Học Tập Thông Minh EduSmart\nThời gian: Từ 2023-09 đến nay (đang làm việc)\n- Thiết lập hệ thống thẻ đo lường GTM theo dõi toàn bộ hành trình người dùng từ lượt nhấp quảng cáo TikTok, Meta đến khi hoàn tất cài app và mua gói cước học tập.\n- Phối hợp cùng đội ngũ quảng cáo phân bổ ngân sách 300 triệu đồng/tháng cho các nhóm đối tượng phụ huynh học sinh tiểu học.\n- Xây dựng hệ thống bảng điều khiển Looker Studio đo lường chỉ số ROI và tỷ lệ giữ chân khách hàng sau 30 ngày.\n- Đưa ra khuyến nghị điều chỉnh nội dung video quảng cáo ngắn dựa trên thời lượng xem trung bình (Average Watch Time) của từng tệp người dùng.\n\nChuyên viên Phân tích Dữ liệu Tiếp thị tại Công ty TNHH Giải Pháp Công Nghệ Trí Tuệ Số\nThời gian: Từ 2022-09 đến 2023-08\n- Phân tích dữ liệu web và lưu lượng tìm kiếm từ khóa cho các website dịch vụ trực tuyến.\n\nHọc vấn:\n- Cử nhân ngành Hệ thống Thông tin Quản lý, Trường Đại học Kinh tế - Luật - ĐHQG TP.HCM\n\nChứng chỉ:\n- Google Analytics Individual Qualification (GA4)\n- Google Ads Measurement Certification",
+          "sections": [
+            {
+              "section_id": "MK-J01-C08-SEC-SUM",
+              "kind": "summary",
+              "text": "Tóm tắt kinh nghiệm:\nChuyên viên Phân tích Tăng trưởng (Growth & Marketing Analytics) với 3 năm kinh nghiệm trong lĩnh vực ứng dụng học tập trực tuyến (EdTech). Nổi bật với tư duy dữ liệu chuyên sâu, khả năng thiết lập toàn diện hạ tầng đo lường chuyển đổi với Google Tag Manager và Google Analytics 4. Thường xuyên cộng tác với đội ngũ media buyer để phân tích hiệu quả các mẫu video quảng cáo TikTok và Meta Ads, trực quan hóa kết quả kinh doanh bằng Looker Studio."
+            },
+            {
+              "section_id": "MK-J01-C08-SEC-SKILL",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Cấu hình theo dõi nâng cao: Google Tag Manager (Web & Server), GA4\n- Phân tích và trực quan hóa dữ liệu chiến dịch qua Looker Studio\n- Đo lường và tối ưu hóa chuyển đổi quảng cáo: Meta Ads, TikTok Ads, Google Search\n- Kiểm thử A/B Testing thông điệp quảng cáo và trải nghiệm trang đích\n- Lĩnh vực: Giáo dục trực tuyến (EdTech)"
+            },
+            {
+              "section_id": "MK-J01-C08-SEC-EXP",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\nChuyên viên Phân tích Tiếp thị Số tại Công ty Cổ phần Ứng Dụng Học Tập Thông Minh EduSmart\nThời gian: Từ 2023-09 đến nay (đang làm việc)\n- Thiết lập hệ thống thẻ đo lường GTM theo dõi toàn bộ hành trình người dùng từ lượt nhấp quảng cáo TikTok, Meta đến khi hoàn tất cài app và mua gói cước học tập.\n- Phối hợp cùng đội ngũ quảng cáo phân bổ ngân sách 300 triệu đồng/tháng cho các nhóm đối tượng phụ huynh học sinh tiểu học.\n- Xây dựng hệ thống bảng điều khiển Looker Studio đo lường chỉ số ROI và tỷ lệ giữ chân khách hàng sau 30 ngày.\n- Đưa ra khuyến nghị điều chỉnh nội dung video quảng cáo ngắn dựa trên thời lượng xem trung bình (Average Watch Time) của từng tệp người dùng.\n\nChuyên viên Phân tích Dữ liệu Tiếp thị tại Công ty TNHH Giải Pháp Công Nghệ Trí Tuệ Số\nThời gian: Từ 2022-09 đến 2023-08\n- Phân tích dữ liệu web và lưu lượng tìm kiếm từ khóa cho các website dịch vụ trực tuyến."
+            },
+            {
+              "section_id": "MK-J01-C08-SEC-EDU",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân ngành Hệ thống Thông tin Quản lý, Trường Đại học Kinh tế - Luật - ĐHQG TP.HCM"
+            },
+            {
+              "section_id": "MK-J01-C08-SEC-CERT",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Google Analytics Individual Qualification (GA4)\n- Google Ads Measurement Certification"
+            }
+          ],
+          "skills": [
+            "Google Tag Manager (GTM)",
+            "Google Analytics 4 (GA4)",
+            "Looker Studio",
+            "Đo lường quảng cáo Meta TikTok Google",
+            "A/B Testing",
+            "Ngành giáo dục trực tuyến EdTech"
+          ],
+          "experiences": [
+            {
+              "experience_id": "MK-J01-C08-EXP-01",
+              "title": "Chuyên viên Phân tích Tiếp thị Số",
+              "company": "Công ty Cổ phần Ứng Dụng Học Tập Thông Minh EduSmart",
+              "start_date": "2023-09",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết lập hệ thống thẻ đo lường GTM theo dõi toàn bộ hành trình người dùng từ lượt nhấp quảng cáo TikTok, Meta đến khi hoàn tất cài app và mua gói cước học tập.\nPhối hợp cùng đội ngũ quảng cáo phân bổ ngân sách 300 triệu đồng/tháng cho các nhóm đối tượng phụ huynh học sinh tiểu học.\nXây dựng hệ thống bảng điều khiển Looker Studio đo lường chỉ số ROI và tỷ lệ giữ chân khách hàng sau 30 ngày.\nĐưa ra khuyến nghị điều chỉnh nội dung video quảng cáo ngắn dựa trên thời lượng xem trung bình (Average Watch Time) của từng tệp người dùng.",
+              "skills_used": [
+                "Google Tag Manager (GTM)",
+                "Looker Studio",
+                "Ngành giáo dục trực tuyến EdTech"
+              ],
+              "section_id": "MK-J01-C08-SEC-EXP"
+            },
+            {
+              "experience_id": "MK-J01-C08-EXP-02",
+              "title": "Chuyên viên Phân tích Dữ liệu Tiếp thị",
+              "company": "Công ty TNHH Giải Pháp Công Nghệ Trí Tuệ Số",
+              "start_date": "2022-09",
+              "end_date": "2023-08",
+              "is_current": false,
+              "description": "Phân tích dữ liệu web và lưu lượng tìm kiếm từ khóa cho các website dịch vụ trực tuyến.",
+              "skills_used": [],
+              "section_id": "MK-J01-C08-SEC-EXP"
+            }
+          ],
+          "projects": [],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Hệ thống Thông tin Quản lý",
+              "section_id": "MK-J01-C08-SEC-EDU"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Google Analytics Individual Qualification (GA4)",
+              "section_id": "MK-J01-C08-SEC-CERT"
+            },
+            {
+              "name": "Google Ads Measurement Certification",
+              "section_id": "MK-J01-C08-SEC-CERT"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

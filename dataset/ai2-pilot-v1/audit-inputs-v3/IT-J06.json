@@ -1,0 +1,851 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "IT-J06",
+      "source_family_id": "IT-J06",
+      "domain": "it",
+      "title": "Kỹ sư Đảm bảo Chất lượng và Kiểm thử Tự động (QA Automation Engineer)",
+      "level": "mid",
+      "language": "vi",
+      "jd_text": "Công ty Cổ phần Công nghệ Kiểm thử Số TestVina tuyển dụng Kỹ sư Đảm bảo Chất lượng và Kiểm thử Tự động (QA Automation Engineer) cấp độ Mid tại Quận 7, TP. Hồ Chí Minh. Hình thức làm việc: Toàn thời gian trực tiếp tại văn phòng. Mức thu nhập từ 20.000.000 đến 32.000.000 VND cùng gói hỗ trợ thi chứng chỉ quốc tế và bảo hiểm tai nạn 24/7.\n\nTrách nhiệm công việc:\n- Thiết kế, xây dựng và duy trì framework kiểm thử tự động cho hệ thống ứng dụng web và các dịch vụ RESTful API.\n- Phối hợp với đội ngũ phát triển và Product Owner để phân tích yêu cầu, thiết kế kịch bản test case và quản lý dữ liệu kiểm thử.\n- Tích hợp các bộ test tự động vào pipeline CI/CD nhằm phát hiện sớm lỗi phát sinh trong quy trình phát triển Agile.\n- Thực hiện báo cáo phân tích lỗi, giám sát độ ổn định và đề xuất giải pháp cải thiện chất lượng phần mềm.\n\nYêu cầu bắt buộc:\n- Ít nhất 3 năm kinh nghiệm trong lĩnh vực kiểm thử phần mềm với tối thiểu 2 năm về tự động hóa (Automation Testing).\n- Thành thạo lập trình kiểm thử tự động với một trong các ngôn ngữ: Python, Java hoặc JavaScript/TypeScript.\n- Kinh nghiệm thực chiến xây dựng framework kiểm thử web hoặc API với Selenium, Playwright hoặc Cypress.\n- Thành thạo kiểm thử API với Postman, Newman hoặc RestAssured.\n\nYêu cầu ưu tiên:\n- Kinh nghiệm tích hợp bộ kiểm thử tự động vào quy trình CI/CD (GitLab CI, GitHub Actions hoặc Jenkins).\n- Có chứng chỉ kiểm thử quốc tế ISTQB Foundation Level hoặc tương đương.",
+      "requirements": [
+        {
+          "requirement_id": "IT-J06-R01",
+          "text": "Ít nhất 3 năm kinh nghiệm trong lĩnh vực kiểm thử phần mềm với tối thiểu 2 năm về tự động hóa (Automation Testing).",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J06-R02",
+          "text": "Thành thạo lập trình kiểm thử tự động với một trong các ngôn ngữ: Python, Java hoặc JavaScript/TypeScript.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J06-R03",
+          "text": "Kinh nghiệm thực chiến xây dựng framework kiểm thử web hoặc API với Selenium, Playwright hoặc Cypress.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J06-R04",
+          "text": "Thành thạo kiểm thử API với Postman, Newman hoặc RestAssured.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J06-R05",
+          "text": "Kinh nghiệm tích hợp bộ kiểm thử tự động vào quy trình CI/CD (GitLab CI, GitHub Actions hoặc Jenkins).",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J06-R06",
+          "text": "Có chứng chỉ kiểm thử quốc tế ISTQB Foundation Level hoặc tương đương.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "IT-J06-C01",
+          "cv_text": "Tóm tắt: Kỹ sư Đảm bảo Chất lượng có 3 năm 6 tháng kinh nghiệm trong ngành phần mềm, trong đó có hơn 2 năm 6 tháng chuyên trách kiểm thử tự động (Automation Testing). Thành thạo lập trình kiểm thử bằng TypeScript với framework Playwright, kiểm thử API với Postman, Newman và tích hợp pipeline trên GitHub Actions. Đã có chứng chỉ ISTQB Foundation Level.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ lập trình kiểm thử: TypeScript, JavaScript.\n- Framework & Thư viện Test: Playwright, Cypress, Mocha, Chai.\n- Kiểm thử API: Postman, Newman, RESTful API.\n- CI/CD & Công cụ: GitHub Actions, Git, Jira, Allure Report, Docker.\n\nKinh nghiệm làm việc:\n- Chức danh: Automation QA Engineer tại Công ty Cổ phần Công nghệ Bán lẻ Nam Long. Thời gian: từ 2023-05 đến nay. Mô tả: Xây dựng framework kiểm thử tự động từ đầu bằng TypeScript và Playwright cho hệ thống sàn thương mại điện tử. Tự động hóa hơn 300 test case end-to-end cho cả giao diện web và RESTful API. Sử dụng Newman và Postman để chạy kiểm thử hồi quy API tự động trên GitHub Actions pipeline.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Dịch vụ Số Hồng Hà. Thời gian: từ 2022-03 đến 2023-04. Mô tả: Thực hiện kiểm thử thủ công và viết các kịch bản kiểm thử API bằng Postman.\n\nDự án tiêu biểu:\n- Dự án Framework Kiểm thử Tự động E-Commerce NamLong: Thiết kế framework Playwright TypeScript theo mô hình Page Object Model (POM), tích hợp Allure báo cáo và GitHub Actions.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- ISTQB Certified Tester Foundation Level (CTFL).",
+          "sections": [
+            {
+              "section_id": "IT-J06-C01-S01",
+              "kind": "summary",
+              "text": "Tóm tắt: Kỹ sư Đảm bảo Chất lượng có 3 năm 6 tháng kinh nghiệm trong ngành phần mềm, trong đó có hơn 2 năm 6 tháng chuyên trách kiểm thử tự động (Automation Testing). Thành thạo lập trình kiểm thử bằng TypeScript với framework Playwright, kiểm thử API với Postman, Newman và tích hợp pipeline trên GitHub Actions. Đã có chứng chỉ ISTQB Foundation Level."
+            },
+            {
+              "section_id": "IT-J06-C01-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ lập trình kiểm thử: TypeScript, JavaScript.\n- Framework & Thư viện Test: Playwright, Cypress, Mocha, Chai.\n- Kiểm thử API: Postman, Newman, RESTful API.\n- CI/CD & Công cụ: GitHub Actions, Git, Jira, Allure Report, Docker."
+            },
+            {
+              "section_id": "IT-J06-C01-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Automation QA Engineer tại Công ty Cổ phần Công nghệ Bán lẻ Nam Long. Thời gian: từ 2023-05 đến nay. Mô tả: Xây dựng framework kiểm thử tự động từ đầu bằng TypeScript và Playwright cho hệ thống sàn thương mại điện tử. Tự động hóa hơn 300 test case end-to-end cho cả giao diện web và RESTful API. Sử dụng Newman và Postman để chạy kiểm thử hồi quy API tự động trên GitHub Actions pipeline.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Dịch vụ Số Hồng Hà. Thời gian: từ 2022-03 đến 2023-04. Mô tả: Thực hiện kiểm thử thủ công và viết các kịch bản kiểm thử API bằng Postman."
+            },
+            {
+              "section_id": "IT-J06-C01-S04",
+              "kind": "project",
+              "text": "Dự án tiêu biểu:\n- Dự án Framework Kiểm thử Tự động E-Commerce NamLong: Thiết kế framework Playwright TypeScript theo mô hình Page Object Model (POM), tích hợp Allure báo cáo và GitHub Actions."
+            },
+            {
+              "section_id": "IT-J06-C01-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J06-C01-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- ISTQB Certified Tester Foundation Level (CTFL)."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "Playwright",
+            "Cypress",
+            "Mocha",
+            "Chai",
+            "Postman",
+            "Newman",
+            "RESTful API",
+            "GitHub Actions",
+            "Git",
+            "Jira",
+            "Allure Report",
+            "Docker"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J06-C01-E01",
+              "title": "Automation QA Engineer",
+              "company": "Công ty Cổ phần Công nghệ Bán lẻ Nam Long",
+              "start_date": "2023-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng framework kiểm thử tự động từ đầu bằng TypeScript và Playwright cho hệ thống sàn thương mại điện tử. Tự động hóa hơn 300 test case end-to-end cho cả giao diện web và RESTful API. Sử dụng Newman và Postman để chạy kiểm thử hồi quy API tự động trên GitHub Actions pipeline.",
+              "skills_used": [
+                "TypeScript",
+                "Playwright",
+                "Postman",
+                "Newman",
+                "GitHub Actions"
+              ],
+              "section_id": "IT-J06-C01-S03"
+            },
+            {
+              "experience_id": "IT-J06-C01-E02",
+              "title": "Chuyên viên Kiểm thử Phần mềm",
+              "company": "Công ty TNHH Dịch vụ Số Hồng Hà",
+              "start_date": "2022-03",
+              "end_date": "2023-04",
+              "is_current": false,
+              "description": "Thực hiện kiểm thử thủ công và viết các kịch bản kiểm thử API bằng Postman.",
+              "skills_used": [
+                "Postman"
+              ],
+              "section_id": "IT-J06-C01-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J06-C01-P01",
+              "name": "Framework Kiểm thử Tự động E-Commerce NamLong",
+              "description": "Thiết kế framework Playwright TypeScript theo mô hình Page Object Model (POM), tích hợp Allure báo cáo và GitHub Actions.",
+              "technologies_or_methods": [
+                "Playwright",
+                "TypeScript",
+                "GitHub Actions"
+              ],
+              "section_id": "IT-J06-C01-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J06-C01-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "ISTQB Certified Tester Foundation Level (CTFL)",
+              "section_id": "IT-J06-C01-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J06-C02",
+          "cv_text": "Tóm lược: Kỹ sư Kiểm thử Phần mềm có 4 năm kinh nghiệm tổng cộng, trong đó có hơn 2 năm chuyên về tự động hóa với hệ sinh thái Java. Chuyên sử dụng Selenium WebDriver và RestAssured để kiểm thử tự động giao diện và API. Tích hợp kiểm thử vào pipeline Jenkins.\n\nKỹ năng:\n- Ngôn ngữ: Java, SQL, Python cơ bản.\n- Framework kiểm thử: Selenium WebDriver, TestNG, RestAssured, JUnit.\n- Công cụ kiểm thử API: RestAssured, Postman.\n- CI/CD & Quản lý: Jenkins, Git, Maven, Jira.\n\nKinh nghiệm làm việc:\n- Chức danh: Kỹ sư Kiểm thử Tự động Java tại Công ty Cổ phần Giải pháp Phần mềm Ngân hàng Số Đông Đô. Thời gian: từ 2023-08 đến nay. Mô tả: Phát triển bộ kiểm thử tự động cho hệ thống ngân hàng trực tuyến bằng Java và Selenium WebDriver kết hợp TestNG. Sử dụng RestAssured để kiểm thử tự động các dịch vụ REST API giao dịch tài chính. Tích hợp thực thi kiểm thử định kỳ trên Jenkins.\n- Chức danh: Chuyên viên Đảm bảo Chất lượng tại Công ty TNHH Phát triển Hệ thống An Phát. Thời gian: từ 2021-08 đến 2023-07. Mô tả: Thiết kế kịch bản test case chức năng và kiểm thử kiểm soát chất lượng API bằng Postman.\n\nDự án:\n- Dự án Hệ thống Kiểm thử Tự động Ngân hàng DongDo-Bank: Viết kịch bản kiểm thử API bằng RestAssured và giao diện với Selenium WebDriver trên nền Java.\n\nHọc vấn:\n- Kỹ sư Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J06-C02-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Kiểm thử Phần mềm có 4 năm kinh nghiệm tổng cộng, trong đó có hơn 2 năm chuyên về tự động hóa với hệ sinh thái Java. Chuyên sử dụng Selenium WebDriver và RestAssured để kiểm thử tự động giao diện và API. Tích hợp kiểm thử vào pipeline Jenkins."
+            },
+            {
+              "section_id": "IT-J06-C02-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Java, SQL, Python cơ bản.\n- Framework kiểm thử: Selenium WebDriver, TestNG, RestAssured, JUnit.\n- Công cụ kiểm thử API: RestAssured, Postman.\n- CI/CD & Quản lý: Jenkins, Git, Maven, Jira."
+            },
+            {
+              "section_id": "IT-J06-C02-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Kỹ sư Kiểm thử Tự động Java tại Công ty Cổ phần Giải pháp Phần mềm Ngân hàng Số Đông Đô. Thời gian: từ 2023-08 đến nay. Mô tả: Phát triển bộ kiểm thử tự động cho hệ thống ngân hàng trực tuyến bằng Java và Selenium WebDriver kết hợp TestNG. Sử dụng RestAssured để kiểm thử tự động các dịch vụ REST API giao dịch tài chính. Tích hợp thực thi kiểm thử định kỳ trên Jenkins.\n- Chức danh: Chuyên viên Đảm bảo Chất lượng tại Công ty TNHH Phát triển Hệ thống An Phát. Thời gian: từ 2021-08 đến 2023-07. Mô tả: Thiết kế kịch bản test case chức năng và kiểm thử kiểm soát chất lượng API bằng Postman."
+            },
+            {
+              "section_id": "IT-J06-C02-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Kiểm thử Tự động Ngân hàng DongDo-Bank: Viết kịch bản kiểm thử API bằng RestAssured và giao diện với Selenium WebDriver trên nền Java."
+            },
+            {
+              "section_id": "IT-J06-C02-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J06-C02-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Java",
+            "SQL",
+            "Python",
+            "Selenium WebDriver",
+            "TestNG",
+            "RestAssured",
+            "JUnit",
+            "Postman",
+            "Jenkins",
+            "Git",
+            "Maven",
+            "Jira"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J06-C02-E01",
+              "title": "Kỹ sư Kiểm thử Tự động Java",
+              "company": "Công ty Cổ phần Giải pháp Phần mềm Ngân hàng Số Đông Đô",
+              "start_date": "2023-08",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển bộ kiểm thử tự động cho hệ thống ngân hàng trực tuyến bằng Java và Selenium WebDriver kết hợp TestNG. Sử dụng RestAssured để kiểm thử tự động các dịch vụ REST API giao dịch tài chính. Tích hợp thực thi kiểm thử định kỳ trên Jenkins.",
+              "skills_used": [
+                "Java",
+                "Selenium WebDriver",
+                "RestAssured",
+                "Jenkins"
+              ],
+              "section_id": "IT-J06-C02-S03"
+            },
+            {
+              "experience_id": "IT-J06-C02-E02",
+              "title": "Chuyên viên Đảm bảo Chất lượng",
+              "company": "Công ty TNHH Phát triển Hệ thống An Phát",
+              "start_date": "2021-08",
+              "end_date": "2023-07",
+              "is_current": false,
+              "description": "Thiết kế kịch bản test case chức năng và kiểm thử kiểm soát chất lượng API bằng Postman.",
+              "skills_used": [
+                "Postman"
+              ],
+              "section_id": "IT-J06-C02-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J06-C02-P01",
+              "name": "Hệ thống Kiểm thử Tự động Ngân hàng DongDo-Bank",
+              "description": "Viết kịch bản kiểm thử API bằng RestAssured và giao diện với Selenium WebDriver trên nền Java.",
+              "technologies_or_methods": [
+                "Java",
+                "Selenium WebDriver",
+                "RestAssured"
+              ],
+              "section_id": "IT-J06-C02-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Kỹ thuật Phần mềm",
+              "section_id": "IT-J06-C02-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J06-C03",
+          "cv_text": "Tóm lược: Chuyên viên Kiểm thử Phần mềm (Manual QA) có 3 năm 6 tháng kinh nghiệm kiểm thử chức năng ứng dụng web và di động. Trong 1 năm gần đây, đã tự học và thực hiện chuyển đổi sang Automation Testing bằng ngôn ngữ Python kết hợp thư viện Selenium. Thành thạo viết test case và kiểm thử API bằng Postman.\n\nKỹ năng:\n- Kiểm thử: Manual Testing, Black-box testing, Functional testing, Automation Testing (cơ bản).\n- Công cụ & Ngôn ngữ: Postman, Python, Selenium (cơ bản), SQL, Git, Jira.\n\nKinh nghiệm làm việc:\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty Cổ phần Công nghệ Thông tin Phương Nam. Thời gian: từ 2023-04 đến nay. Mô tả: Thiết kế kịch bản kiểm thử chức năng cho cổng thông tin y tế. Sử dụng Postman để kiểm tra tính đúng đắn của dữ liệu API. Tự xây dựng một số script kiểm thử tự động đăng nhập và luồng đặt lịch bằng Python và Selenium.\n- Chức danh: Nhân viên Kiểm thử tại Công ty TNHH Phần mềm Ánh Dương. Thời gian: từ 2021-11 đến 2023-03. Mô tả: Thực hiện kiểm thử giao diện và viết báo cáo lỗi lên Jira.\n\nDự án:\n- Dự án Nền tảng Y tế Số MedPortal: Phụ trách kiểm thử chức năng và viết kịch bản tự động hóa luồng đăng ký bằng Python Selenium.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội.\n\nChứng chỉ:\n- ISTQB Certified Tester Foundation Level.",
+          "sections": [
+            {
+              "section_id": "IT-J06-C03-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Chuyên viên Kiểm thử Phần mềm (Manual QA) có 3 năm 6 tháng kinh nghiệm kiểm thử chức năng ứng dụng web và di động. Trong 1 năm gần đây, đã tự học và thực hiện chuyển đổi sang Automation Testing bằng ngôn ngữ Python kết hợp thư viện Selenium. Thành thạo viết test case và kiểm thử API bằng Postman."
+            },
+            {
+              "section_id": "IT-J06-C03-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Kiểm thử: Manual Testing, Black-box testing, Functional testing, Automation Testing (cơ bản).\n- Công cụ & Ngôn ngữ: Postman, Python, Selenium (cơ bản), SQL, Git, Jira."
+            },
+            {
+              "section_id": "IT-J06-C03-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty Cổ phần Công nghệ Thông tin Phương Nam. Thời gian: từ 2023-04 đến nay. Mô tả: Thiết kế kịch bản kiểm thử chức năng cho cổng thông tin y tế. Sử dụng Postman để kiểm tra tính đúng đắn của dữ liệu API. Tự xây dựng một số script kiểm thử tự động đăng nhập và luồng đặt lịch bằng Python và Selenium.\n- Chức danh: Nhân viên Kiểm thử tại Công ty TNHH Phần mềm Ánh Dương. Thời gian: từ 2021-11 đến 2023-03. Mô tả: Thực hiện kiểm thử giao diện và viết báo cáo lỗi lên Jira."
+            },
+            {
+              "section_id": "IT-J06-C03-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Nền tảng Y tế Số MedPortal: Phụ trách kiểm thử chức năng và viết kịch bản tự động hóa luồng đăng ký bằng Python Selenium."
+            },
+            {
+              "section_id": "IT-J06-C03-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội."
+            },
+            {
+              "section_id": "IT-J06-C03-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- ISTQB Certified Tester Foundation Level."
+            }
+          ],
+          "skills": [
+            "Postman",
+            "Python",
+            "Selenium",
+            "SQL",
+            "Git",
+            "Jira"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J06-C03-E01",
+              "title": "Chuyên viên Kiểm thử Phần mềm",
+              "company": "Công ty Cổ phần Công nghệ Thông tin Phương Nam",
+              "start_date": "2023-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết kế kịch bản kiểm thử chức năng cho cổng thông tin y tế. Sử dụng Postman để kiểm tra tính đúng đắn của dữ liệu API. Tự xây dựng một số script kiểm thử tự động đăng nhập và luồng đặt lịch bằng Python và Selenium.",
+              "skills_used": [
+                "Postman",
+                "Python",
+                "Selenium"
+              ],
+              "section_id": "IT-J06-C03-S03"
+            },
+            {
+              "experience_id": "IT-J06-C03-E02",
+              "title": "Nhân viên Kiểm thử",
+              "company": "Công ty TNHH Phần mềm Ánh Dương",
+              "start_date": "2021-11",
+              "end_date": "2023-03",
+              "is_current": false,
+              "description": "Thực hiện kiểm thử giao diện và viết báo cáo lỗi lên Jira.",
+              "skills_used": [
+                "Jira"
+              ],
+              "section_id": "IT-J06-C03-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J06-C03-P01",
+              "name": "Nền tảng Y tế Số MedPortal",
+              "description": "Phụ trách kiểm thử chức năng và viết kịch bản tự động hóa luồng đăng ký bằng Python Selenium.",
+              "technologies_or_methods": [
+                "Python",
+                "Selenium"
+              ],
+              "section_id": "IT-J06-C03-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J06-C03-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "ISTQB Certified Tester Foundation Level",
+              "section_id": "IT-J06-C03-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J06-C04",
+          "cv_text": "Tóm lược: Kỹ sư Kiểm thử Tự động có 3 năm kinh nghiệm lập trình framework kiểm thử bằng Python. Sử dụng thành thạo pytest, Playwright và Selenium trong kiểm thử tự động giao diện và API. Tích hợp kịch bản kiểm thử vào GitLab CI.\n\nKỹ năng:\n- Ngôn ngữ: Python, SQL, Bash.\n- Framework & Thư viện: pytest, Playwright, Selenium, requests.\n- Kiểm thử API: Postman, Newman, requests-test.\n- CI/CD: GitLab CI, Docker, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: QA Automation Engineer tại Công ty Cổ phần Giải pháp Số VinaSoft. Thời gian: từ 2023-11 đến nay. Mô tả: Xây dựng framework tự động hóa kiểm thử web bằng Python Playwright kết hợp pytest. Viết các kịch bản kiểm thử API tự động và đóng gói vào container Docker để chạy trên pipeline GitLab CI. Sử dụng Newman xuất báo cáo kiểm tra tự động.\n- Chức danh: Lập trình viên Kiểm thử tại Công ty TNHH Phát triển Công nghệ Tân Tiến. Thời gian: từ 2022-09 đến 2023-10. Mô tả: Viết script tự động kiểm thử chức năng web với Selenium và Python.\n\nDự án:\n- Dự án Framework Kiểm thử Tự động pytest-Playwright VinaSoft: Triển khai kiểm thử đa trình duyệt tự động trên hạ tầng GitLab CI.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J06-C04-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Kiểm thử Tự động có 3 năm kinh nghiệm lập trình framework kiểm thử bằng Python. Sử dụng thành thạo pytest, Playwright và Selenium trong kiểm thử tự động giao diện và API. Tích hợp kịch bản kiểm thử vào GitLab CI."
+            },
+            {
+              "section_id": "IT-J06-C04-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Python, SQL, Bash.\n- Framework & Thư viện: pytest, Playwright, Selenium, requests.\n- Kiểm thử API: Postman, Newman, requests-test.\n- CI/CD: GitLab CI, Docker, Git."
+            },
+            {
+              "section_id": "IT-J06-C04-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: QA Automation Engineer tại Công ty Cổ phần Giải pháp Số VinaSoft. Thời gian: từ 2023-11 đến nay. Mô tả: Xây dựng framework tự động hóa kiểm thử web bằng Python Playwright kết hợp pytest. Viết các kịch bản kiểm thử API tự động và đóng gói vào container Docker để chạy trên pipeline GitLab CI. Sử dụng Newman xuất báo cáo kiểm tra tự động.\n- Chức danh: Lập trình viên Kiểm thử tại Công ty TNHH Phát triển Công nghệ Tân Tiến. Thời gian: từ 2022-09 đến 2023-10. Mô tả: Viết script tự động kiểm thử chức năng web với Selenium và Python."
+            },
+            {
+              "section_id": "IT-J06-C04-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Framework Kiểm thử Tự động pytest-Playwright VinaSoft: Triển khai kiểm thử đa trình duyệt tự động trên hạ tầng GitLab CI."
+            },
+            {
+              "section_id": "IT-J06-C04-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J06-C04-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Bash",
+            "pytest",
+            "Playwright",
+            "Selenium",
+            "Postman",
+            "Newman",
+            "GitLab CI",
+            "Docker",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J06-C04-E01",
+              "title": "QA Automation Engineer",
+              "company": "Công ty Cổ phần Giải pháp Số VinaSoft",
+              "start_date": "2023-11",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng framework tự động hóa kiểm thử web bằng Python Playwright kết hợp pytest. Viết các kịch bản kiểm thử API tự động và đóng gói vào container Docker để chạy trên pipeline GitLab CI. Sử dụng Newman xuất báo cáo kiểm tra tự động.",
+              "skills_used": [
+                "Python",
+                "Playwright",
+                "GitLab CI",
+                "Newman"
+              ],
+              "section_id": "IT-J06-C04-S03"
+            },
+            {
+              "experience_id": "IT-J06-C04-E02",
+              "title": "Lập trình viên Kiểm thử",
+              "company": "Công ty TNHH Phát triển Công nghệ Tân Tiến",
+              "start_date": "2022-09",
+              "end_date": "2023-10",
+              "is_current": false,
+              "description": "Viết script tự động kiểm thử chức năng web với Selenium và Python.",
+              "skills_used": [
+                "Selenium",
+                "Python"
+              ],
+              "section_id": "IT-J06-C04-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J06-C04-P01",
+              "name": "Framework Kiểm thử Tự động pytest-Playwright VinaSoft",
+              "description": "Triển khai kiểm thử đa trình duyệt tự động trên hạ tầng GitLab CI.",
+              "technologies_or_methods": [
+                "Playwright",
+                "GitLab CI"
+              ],
+              "section_id": "IT-J06-C04-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J06-C04-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J06-C05",
+          "cv_text": "Tóm lược: Chuyên viên Kiểm thử Tự động Junior có 1 năm 5 tháng kinh nghiệm sử dụng JavaScript và Cypress để viết kịch bản kiểm thử giao diện web. Kiểm thử các RESTful API cơ bản với Postman.\n\nKỹ năng:\n- Ngôn ngữ: JavaScript, HTML, CSS.\n- Framework & Công cụ: Cypress, Postman, Git, Jira.\n\nKinh nghiệm làm việc:\n- Chức danh: Junior Automation Tester tại Công ty TNHH Công nghệ Giải pháp Xanh. Thời gian: từ 2025-06 đến nay. Mô tả: Viết kịch bản kiểm thử giao diện các luồng mua hàng và đăng ký tài khoản bằng JavaScript và Cypress. Thực hiện kiểm tra định dạng phản hồi API bằng Postman.\n- Chức danh: Thực tập sinh Kiểm thử tại Công ty Cổ phần Phần mềm Sao Mai. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết tài liệu test case và kiểm thử thủ công.\n\nDự án:\n- Dự án Tự động hóa Kiểm thử Web XanhShop: Viết bộ test case Cypress kiểm tra tính năng giỏ hàng.\n\nHọc vấn:\n- Thông tin học vấn: Không nêu trong hồ sơ.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J06-C05-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Chuyên viên Kiểm thử Tự động Junior có 1 năm 5 tháng kinh nghiệm sử dụng JavaScript và Cypress để viết kịch bản kiểm thử giao diện web. Kiểm thử các RESTful API cơ bản với Postman."
+            },
+            {
+              "section_id": "IT-J06-C05-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: JavaScript, HTML, CSS.\n- Framework & Công cụ: Cypress, Postman, Git, Jira."
+            },
+            {
+              "section_id": "IT-J06-C05-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Junior Automation Tester tại Công ty TNHH Công nghệ Giải pháp Xanh. Thời gian: từ 2025-06 đến nay. Mô tả: Viết kịch bản kiểm thử giao diện các luồng mua hàng và đăng ký tài khoản bằng JavaScript và Cypress. Thực hiện kiểm tra định dạng phản hồi API bằng Postman.\n- Chức danh: Thực tập sinh Kiểm thử tại Công ty Cổ phần Phần mềm Sao Mai. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Hỗ trợ viết tài liệu test case và kiểm thử thủ công."
+            },
+            {
+              "section_id": "IT-J06-C05-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Tự động hóa Kiểm thử Web XanhShop: Viết bộ test case Cypress kiểm tra tính năng giỏ hàng."
+            },
+            {
+              "section_id": "IT-J06-C05-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Thông tin học vấn: Không nêu trong hồ sơ."
+            },
+            {
+              "section_id": "IT-J06-C05-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "JavaScript",
+            "HTML",
+            "CSS",
+            "Cypress",
+            "Postman",
+            "Git",
+            "Jira"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J06-C05-E01",
+              "title": "Junior Automation Tester",
+              "company": "Công ty TNHH Công nghệ Giải pháp Xanh",
+              "start_date": "2025-06",
+              "end_date": null,
+              "is_current": true,
+              "description": "Viết kịch bản kiểm thử giao diện các luồng mua hàng và đăng ký tài khoản bằng JavaScript và Cypress. Thực hiện kiểm tra định dạng phản hồi API bằng Postman.",
+              "skills_used": [
+                "Cypress",
+                "JavaScript",
+                "Postman"
+              ],
+              "section_id": "IT-J06-C05-S03"
+            },
+            {
+              "experience_id": "IT-J06-C05-E02",
+              "title": "Thực tập sinh Kiểm thử",
+              "company": "Công ty Cổ phần Phần mềm Sao Mai",
+              "start_date": "2025-01",
+              "end_date": "2025-05",
+              "is_current": false,
+              "description": "Hỗ trợ viết tài liệu test case và kiểm thử thủ công.",
+              "skills_used": [],
+              "section_id": "IT-J06-C05-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J06-C05-P01",
+              "name": "Tự động hóa Kiểm thử Web XanhShop",
+              "description": "Viết bộ test case Cypress kiểm tra tính năng giỏ hàng.",
+              "technologies_or_methods": [
+                "Cypress"
+              ],
+              "section_id": "IT-J06-C05-S04"
+            }
+          ],
+          "education": [],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J06-C06",
+          "cv_text": "Tóm lược: Lập trình viên Backend có 3 năm kinh nghiệm phát triển phần mềm Node.js và TypeScript, có mong muốn chuyển hẳn sang chuyên môn Kiểm thử Tự động. Đã từng tự tay thiết kế toàn bộ hệ thống kiểm thử tích hợp (integration testing) và kiểm thử API cho các microservices backend.\n\nKỹ năng:\n- Ngôn ngữ: TypeScript, JavaScript, SQL.\n- Công nghệ kiểm thử & API: Jest, Supertest, Cypress, Postman, Newman.\n- Khác: Node.js, Express, Docker, Git, GitHub Actions.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend kiêm Kiểm thử Tích hợp tại Công ty Cổ phần Dịch vụ Số Tân Trí. Thời gian: từ 2023-09 đến nay. Mô tả: Phát triển API và trực tiếp chịu trách nhiệm viết bộ kiểm thử tự động API bằng Supertest và Postman/Newman. Xây dựng một số luồng test end-to-end giao diện với Cypress. Cấu hình chạy test tự động trên GitHub Actions.\n- Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trực Tuyến Đô Thành. Thời gian: từ 2022-07 đến 2023-08. Mô tả: Viết API Node.js và unit test bằng Jest.\n\nDự án:\n- Dự án Tự động hóa Kiểm thử API Gateway: Xây dựng bộ test hồi quy tự động hơn 150 API bằng TypeScript và Newman.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J06-C06-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Backend có 3 năm kinh nghiệm phát triển phần mềm Node.js và TypeScript, có mong muốn chuyển hẳn sang chuyên môn Kiểm thử Tự động. Đã từng tự tay thiết kế toàn bộ hệ thống kiểm thử tích hợp (integration testing) và kiểm thử API cho các microservices backend."
+            },
+            {
+              "section_id": "IT-J06-C06-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: TypeScript, JavaScript, SQL.\n- Công nghệ kiểm thử & API: Jest, Supertest, Cypress, Postman, Newman.\n- Khác: Node.js, Express, Docker, Git, GitHub Actions."
+            },
+            {
+              "section_id": "IT-J06-C06-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend kiêm Kiểm thử Tích hợp tại Công ty Cổ phần Dịch vụ Số Tân Trí. Thời gian: từ 2023-09 đến nay. Mô tả: Phát triển API và trực tiếp chịu trách nhiệm viết bộ kiểm thử tự động API bằng Supertest và Postman/Newman. Xây dựng một số luồng test end-to-end giao diện với Cypress. Cấu hình chạy test tự động trên GitHub Actions.\n- Chức danh: Lập trình viên Node.js tại Công ty TNHH Phát triển Phần mềm Trực Tuyến Đô Thành. Thời gian: từ 2022-07 đến 2023-08. Mô tả: Viết API Node.js và unit test bằng Jest."
+            },
+            {
+              "section_id": "IT-J06-C06-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Tự động hóa Kiểm thử API Gateway: Xây dựng bộ test hồi quy tự động hơn 150 API bằng TypeScript và Newman."
+            },
+            {
+              "section_id": "IT-J06-C06-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J06-C06-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "TypeScript",
+            "JavaScript",
+            "SQL",
+            "Jest",
+            "Supertest",
+            "Cypress",
+            "Postman",
+            "Newman",
+            "Node.js",
+            "Express",
+            "Docker",
+            "Git",
+            "GitHub Actions"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J06-C06-E01",
+              "title": "Lập trình viên Backend kiêm Kiểm thử Tích hợp",
+              "company": "Công ty Cổ phần Dịch vụ Số Tân Trí",
+              "start_date": "2023-09",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển API và trực tiếp chịu trách nhiệm viết bộ kiểm thử tự động API bằng Supertest và Postman/Newman. Xây dựng một số luồng test end-to-end giao diện với Cypress. Cấu hình chạy test tự động trên GitHub Actions.",
+              "skills_used": [
+                "Postman",
+                "Newman",
+                "Cypress",
+                "GitHub Actions"
+              ],
+              "section_id": "IT-J06-C06-S03"
+            },
+            {
+              "experience_id": "IT-J06-C06-E02",
+              "title": "Lập trình viên Node.js",
+              "company": "Công ty TNHH Phát triển Phần mềm Trực Tuyến Đô Thành",
+              "start_date": "2022-07",
+              "end_date": "2023-08",
+              "is_current": false,
+              "description": "Viết API Node.js và unit test bằng Jest.",
+              "skills_used": [
+                "Node.js",
+                "Jest"
+              ],
+              "section_id": "IT-J06-C06-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J06-C06-P01",
+              "name": "Tự động hóa Kiểm thử API Gateway",
+              "description": "Xây dựng bộ test hồi quy tự động hơn 150 API bằng TypeScript và Newman.",
+              "technologies_or_methods": [
+                "TypeScript",
+                "Newman"
+              ],
+              "section_id": "IT-J06-C06-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Phần mềm",
+              "section_id": "IT-J06-C06-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J06-C07",
+          "cv_text": "Tóm lược: Kỹ sư Kiểm thử Tự động có kinh nghiệm làm việc với các framework Playwright và Postman. Có khả năng tự nghiên cứu và xây dựng luồng kiểm thử giao diện và API cho các dự án phát triển phần mềm.\n\nKỹ năng:\n- Ngôn ngữ: JavaScript, TypeScript, HTML/CSS.\n- Công cụ & Framework: Playwright, Postman, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Automation QA Tester tại Công ty Cổ phần Giải pháp Số Khởi Sắc. Thời gian: từ 2024-02 đến nay. Mô tả: Viết kịch bản kiểm thử tự động bằng Playwright cho giao diện trang web quản lý bán hàng. Thực hiện kiểm thử API bằng Postman.\n- Chức danh: Chuyên viên Kiểm thử Tự do tại Nhóm Kiểm thử Phần mềm Độc lập. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Thực hiện viết script kiểm thử tự động giao diện đơn giản bằng JavaScript và Playwright.\n\nDự án:\n- Dự án Kiểm thử Tự động Hệ thống Bán Hàng Khởi Sắc: Xây dựng kịch bản kiểm thử luồng thanh toán và đăng nhập với Playwright.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J06-C07-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Kiểm thử Tự động có kinh nghiệm làm việc với các framework Playwright và Postman. Có khả năng tự nghiên cứu và xây dựng luồng kiểm thử giao diện và API cho các dự án phát triển phần mềm."
+            },
+            {
+              "section_id": "IT-J06-C07-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: JavaScript, TypeScript, HTML/CSS.\n- Công cụ & Framework: Playwright, Postman, Git."
+            },
+            {
+              "section_id": "IT-J06-C07-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Automation QA Tester tại Công ty Cổ phần Giải pháp Số Khởi Sắc. Thời gian: từ 2024-02 đến nay. Mô tả: Viết kịch bản kiểm thử tự động bằng Playwright cho giao diện trang web quản lý bán hàng. Thực hiện kiểm thử API bằng Postman.\n- Chức danh: Chuyên viên Kiểm thử Tự do tại Nhóm Kiểm thử Phần mềm Độc lập. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Thực hiện viết script kiểm thử tự động giao diện đơn giản bằng JavaScript và Playwright."
+            },
+            {
+              "section_id": "IT-J06-C07-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Kiểm thử Tự động Hệ thống Bán Hàng Khởi Sắc: Xây dựng kịch bản kiểm thử luồng thanh toán và đăng nhập với Playwright."
+            },
+            {
+              "section_id": "IT-J06-C07-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J06-C07-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "JavaScript",
+            "TypeScript",
+            "HTML/CSS",
+            "Playwright",
+            "Postman",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J06-C07-E01",
+              "title": "Automation QA Tester",
+              "company": "Công ty Cổ phần Giải pháp Số Khởi Sắc",
+              "start_date": "2024-02",
+              "end_date": null,
+              "is_current": true,
+              "description": "Viết kịch bản kiểm thử tự động bằng Playwright cho giao diện trang web quản lý bán hàng. Thực hiện kiểm thử API bằng Postman.",
+              "skills_used": [
+                "Playwright",
+                "Postman"
+              ],
+              "section_id": "IT-J06-C07-S03"
+            },
+            {
+              "experience_id": "IT-J06-C07-E02",
+              "title": "Chuyên viên Kiểm thử Tự do",
+              "company": "Nhóm Kiểm thử Phần mềm Độc lập",
+              "start_date": null,
+              "end_date": null,
+              "is_current": null,
+              "description": "Thực hiện viết script kiểm thử tự động giao diện đơn giản bằng JavaScript và Playwright.",
+              "skills_used": [
+                "Playwright",
+                "JavaScript"
+              ],
+              "section_id": "IT-J06-C07-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J06-C07-P01",
+              "name": "Kiểm thử Tự động Hệ thống Bán Hàng Khởi Sắc",
+              "description": "Xây dựng kịch bản kiểm thử luồng thanh toán và đăng nhập với Playwright.",
+              "technologies_or_methods": [
+                "Playwright"
+              ],
+              "section_id": "IT-J06-C07-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J06-C07-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J06-C08",
+          "cv_text": "Tóm lược: Kỹ sư Kiểm thử Hiệu năng (Performance Test Engineer) có 3 năm 6 tháng kinh nghiệm trong đo lường tải và độ ổn định của hệ thống backend. Sử dụng thành thạo Apache JMeter và k6 để kiểm thử chịu tải hàng triệu request API. Có kiến thức cơ bản về kiểm thử tự động giao diện với Cypress.\n\nKỹ năng chuyên môn:\n- Kiểm thử hiệu năng & Tải: Apache JMeter, k6, Locust.\n- Kiểm thử API & Web: Postman, Newman, Cypress (cơ bản).\n- Khác: JavaScript, Git, Linux, InfluxDB, Grafana.\n\nKinh nghiệm làm việc:\n- Chức danh: Performance QA Engineer tại Công ty Cổ phần Công nghệ Viễn Thông Số Sao Thiên Hà. Thời gian: từ 2023-03 đến nay. Mô tả: Thiết kế các kịch bản kiểm thử hiệu năng và tải nặng (Stress test, Load test) cho các cổng thanh toán và API dịch vụ bằng Apache JMeter và k6. Phối hợp với đội backend phân tích điểm nghẽn cổ chai. Sử dụng Newman và Postman để kiểm tra tính toàn vẹn chức năng của API trước khi chạy tải.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Phần mềm Thống Nhất. Thời gian: từ 2022-04 đến 2023-02. Mô tả: Thực hiện kiểm thử API bằng Postman và kiểm thử tải cơ bản với JMeter.\n\nDự án:\n- Dự án Kiểm thử Tải Hệ sinh thái ThienHa Pay: Thiết lập hệ thống kiểm thử tải phân tán mô phỏng 50.000 người dùng đồng thời bằng k6 và xuất kết quả ra Grafana.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- ISTQB Certified Tester Foundation Level.",
+          "sections": [
+            {
+              "section_id": "IT-J06-C08-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Kiểm thử Hiệu năng (Performance Test Engineer) có 3 năm 6 tháng kinh nghiệm trong đo lường tải và độ ổn định của hệ thống backend. Sử dụng thành thạo Apache JMeter và k6 để kiểm thử chịu tải hàng triệu request API. Có kiến thức cơ bản về kiểm thử tự động giao diện với Cypress."
+            },
+            {
+              "section_id": "IT-J06-C08-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Kiểm thử hiệu năng & Tải: Apache JMeter, k6, Locust.\n- Kiểm thử API & Web: Postman, Newman, Cypress (cơ bản).\n- Khác: JavaScript, Git, Linux, InfluxDB, Grafana."
+            },
+            {
+              "section_id": "IT-J06-C08-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Performance QA Engineer tại Công ty Cổ phần Công nghệ Viễn Thông Số Sao Thiên Hà. Thời gian: từ 2023-03 đến nay. Mô tả: Thiết kế các kịch bản kiểm thử hiệu năng và tải nặng (Stress test, Load test) cho các cổng thanh toán và API dịch vụ bằng Apache JMeter và k6. Phối hợp với đội backend phân tích điểm nghẽn cổ chai. Sử dụng Newman và Postman để kiểm tra tính toàn vẹn chức năng của API trước khi chạy tải.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Phần mềm Thống Nhất. Thời gian: từ 2022-04 đến 2023-02. Mô tả: Thực hiện kiểm thử API bằng Postman và kiểm thử tải cơ bản với JMeter."
+            },
+            {
+              "section_id": "IT-J06-C08-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Kiểm thử Tải Hệ sinh thái ThienHa Pay: Thiết lập hệ thống kiểm thử tải phân tán mô phỏng 50.000 người dùng đồng thời bằng k6 và xuất kết quả ra Grafana."
+            },
+            {
+              "section_id": "IT-J06-C08-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Máy tính, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J06-C08-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- ISTQB Certified Tester Foundation Level."
+            }
+          ],
+          "skills": [
+            "Apache JMeter",
+            "k6",
+            "Locust",
+            "Postman",
+            "Newman",
+            "Cypress",
+            "JavaScript",
+            "Git",
+            "Linux",
+            "InfluxDB",
+            "Grafana"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J06-C08-E01",
+              "title": "Performance QA Engineer",
+              "company": "Công ty Cổ phần Công nghệ Viễn Thông Số Sao Thiên Hà",
+              "start_date": "2023-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết kế các kịch bản kiểm thử hiệu năng và tải nặng (Stress test, Load test) cho các cổng thanh toán và API dịch vụ bằng Apache JMeter và k6. Phối hợp với đội backend phân tích điểm nghẽn cổ chai. Sử dụng Newman và Postman để kiểm tra tính toàn vẹn chức năng của API trước khi chạy tải.",
+              "skills_used": [
+                "Apache JMeter",
+                "k6",
+                "Postman",
+                "Newman"
+              ],
+              "section_id": "IT-J06-C08-S03"
+            },
+            {
+              "experience_id": "IT-J06-C08-E02",
+              "title": "Chuyên viên Kiểm thử Phần mềm",
+              "company": "Công ty TNHH Phần mềm Thống Nhất",
+              "start_date": "2022-04",
+              "end_date": "2023-02",
+              "is_current": false,
+              "description": "Thực hiện kiểm thử API bằng Postman và kiểm thử tải cơ bản với JMeter.",
+              "skills_used": [
+                "Postman",
+                "JMeter"
+              ],
+              "section_id": "IT-J06-C08-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J06-C08-P01",
+              "name": "Kiểm thử Tải Hệ sinh thái ThienHa Pay",
+              "description": "Thiết lập hệ thống kiểm thử tải phân tán mô phỏng 50.000 người dùng đồng thời bằng k6 và xuất kết quả ra Grafana.",
+              "technologies_or_methods": [
+                "k6",
+                "Grafana"
+              ],
+              "section_id": "IT-J06-C08-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Máy tính",
+              "section_id": "IT-J06-C08-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "ISTQB Certified Tester Foundation Level",
+              "section_id": "IT-J06-C08-S06"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

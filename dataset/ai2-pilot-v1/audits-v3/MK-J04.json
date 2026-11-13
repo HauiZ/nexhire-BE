@@ -1,0 +1,83 @@
+{
+  "blocking_issues": [],
+  "resolved_historical_issues": [
+    {
+      "disposition": "fixed",
+      "candidate_id": "MK-J04-C01",
+      "evidence_note": "'Xây dựng liên kết Off-page' removed from EXP-01 skills_used. Description restored to verbatim bullets preserving 'hơn 1.500 từ khóa'. Summary tenure difference handled under HR-SOURCE-008.",
+      "issue_summary": "EXP-01 skills_used attributed off-page link building from backlink monitoring; description dropped over qualifier on keyword count"
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "Google Search Console attributed to EXP-01 skills_used without role evidence; description upgraded broken link detection to repair and dropped over qualifier on traffic",
+      "candidate_id": "MK-J04-C02",
+      "evidence_note": "Google Search Console removed from EXP-01 skills_used. Description restored to verbatim bullets preserving 'hơn 300.000 lượt truy cập hàng tháng' and 'tìm kiếm các liên kết gãy nội bộ' per HR-SOURCE-004."
+    },
+    {
+      "evidence_note": "Keyword Planner removed from EXP-01 skills_used per HR-SOURCE-003. Requirement-shaped negative denial sentence removed from SEC-EXP prose per HR-SOURCE-006. Generic search ad prose retained in EXP-02 with empty skills_used.",
+      "candidate_id": "MK-J04-C03",
+      "issue_summary": "Keyword Planner attributed to EXP-01 skills_used; templated negative denial prose in SEC-EXP",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "Unnecessary age descriptor in summary and JD-shaped negative denials in experience prose",
+      "evidence_note": "Age descriptor 'trẻ tuổi' removed from SEC-SUM. Templated negative denial sentence removed from SEC-EXP per HR-SOURCE-006. Forum linking preserved as factual task with empty skills_used.",
+      "disposition": "fixed",
+      "candidate_id": "MK-J04-C04"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "Ambiguous degree terminology 'Cử nhân Cao đẳng' in education section",
+      "candidate_id": "MK-J04-C04",
+      "evidence_note": "Degree preserved verbatim as 'Cử nhân Cao đẳng' in source text and structured record under HR-SOURCE-010; ambiguity retained without forced mapping."
+    },
+    {
+      "issue_summary": "EXP-01 description imported multi-section scale metrics and dropped over qualifier; skills_used added unestablished Ahrefs, BigQuery, and Enterprise edition",
+      "disposition": "fixed",
+      "evidence_note": "Description restored to verbatim bullets preserving 'hơn 4 triệu lượt organic traffic mỗi tháng' and removing imported 8-person team and 1,000,000 URLs. Skills_used pruned to supported 'Lãnh đạo bộ phận SEO sàn TMĐT' and generic 'Screaming Frog' per HR-SOURCE-003 and HR-SOURCE-004.",
+      "candidate_id": "MK-J04-C05"
+    },
+    {
+      "evidence_note": "Yoast SEO and Rank Math removed from EXP-01 skills_used and description. Multi-requirement negative denial sentence removed from SEC-EXP per HR-SOURCE-006.",
+      "candidate_id": "MK-J04-C06",
+      "issue_summary": "Yoast SEO/Rank Math attributed to EXP-01 skills_used and description; negative denial prose in SEC-EXP",
+      "disposition": "fixed"
+    },
+    {
+      "candidate_id": "MK-J04-C07",
+      "issue_summary": "Ahrefs Content Gap and WordPress attributed to EXP-01 skills_used; description converted over 120 product pages to exactly 120",
+      "disposition": "fixed",
+      "evidence_note": "Ahrefs Content Gap and WordPress removed from EXP-01 skills_used. Description restored to verbatim bullets preserving 'hơn 120 trang sản phẩm chính' per HR-SOURCE-004."
+    },
+    {
+      "issue_summary": "Freelance role EXP-02 unstated dates with prior employment status",
+      "candidate_id": "MK-J04-C07",
+      "evidence_note": "EXP-02 has null start/end dates and is_current=false supported by explicit prior wording 'trước đây' per HR-SOURCE-005. Null dates represent unstated duration.",
+      "disposition": "accepted_limitation"
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "EXP-01 skills_used/description added Schema, GSC, Ahrefs, HTML/CSS and dropped below qualifier; EXP-02 skills_used attributed custom-theme development",
+      "candidate_id": "MK-J04-C08",
+      "evidence_note": "EXP-01 description restored to verbatim bullets preserving 'xuống dưới 1,8 giây' without invented Search Console indexing. EXP-01 skills_used pruned to 'Technical SEO Screaming Frog' and 'Tối ưu hiệu năng JavaScript'. EXP-02 skills_used changed to supported 'Lập trình giao diện Responsive Web' per HR-SOURCE-003 and HR-SOURCE-004."
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "Summary Front-end tenure exceeds explicit employment chronology",
+      "evidence_note": "Summary statement of 'hơn 3 năm làm lập trình viên Front-end' versus explicit employment duration (2023-04 to 2025-05) retained under HR-SOURCE-008; flagged as non-blocking duration ambiguity.",
+      "candidate_id": "MK-J04-C08"
+    }
+  ],
+  "limitations_noted": [
+    "Recurring candidate archetype template patterns across C01-C08 retained for development pilot only under HR-SOURCE-009; candidate order and IDs excluded from downstream model features.",
+    "Technical SEO audit duty in JD responsibilities not mirrored as standalone requirement; evaluated as job-relevant context without mandatory qualification threshold per HR-SOURCE-011.",
+    "Summary tenure variations against explicit role chronologies in C01, C02, and C08 retained as non-blocking scope/rounding ambiguities under HR-SOURCE-008.",
+    "Ambiguous degree wording 'Cử nhân Cao đẳng' in C04 preserved verbatim under HR-SOURCE-010 without synthetic mapping to university or college tiers.",
+    "Direct manual verification of all 8 records conducted; does not constitute blind relevance annotation or held-out test generalization."
+  ],
+  "verified_candidate_count": 8,
+  "job_id": "MK-J04",
+  "source_acceptance": "accepted",
+  "verification_run_id": "wlj22smze",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

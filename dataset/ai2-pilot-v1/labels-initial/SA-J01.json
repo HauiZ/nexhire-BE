@@ -1,0 +1,246 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "initial",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C01",
+      "relevance": 3,
+      "rationale": "SaaS từ 2024-01 hơn 2 năm, trực tiếp tìm lead, demo và đàm phán; HubSpot quản lý pipeline/dự báo rõ. Có thêm phần mềm B2B trước đó; bán lẻ và tiếng Anh bổ trợ, không coi số liệu tự khai là xác minh.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J01-R01",
+          "section_id": "SA-J01-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Kinh doanh B2B SaaS tại Công ty Cổ phần Giải pháp Phần mềm CloudViet\nThời gian: Từ 2024-01 đến nay (đang làm việc)\n- Trực tiếp tìm kiếm khách hàng tiềm năng là các doanh nghiệp vừa và lớn, thực hiện hơn 120 buổi thuyết trình demo giải pháp phần mềm quản lý kho và bán hàng đa kênh.\n- Đàm phán và chốt thành công 28 hợp đồng thương mại với các đối tác chuỗi bán lẻ thời trang và điện máy.\n- Vận hành phần mềm HubSpot để quản lý toàn bộ pipeline bán hàng, theo dõi tỷ lệ chuyển đổi và dự báo doanh số hàng tháng đạt độ chuẩn xác 92%.\n- Soạn thảo hợp đồng kinh tế và trao đổi công việc thường xuyên với đối tác nước ngoài bằng tiếng Anh.\n\nNhân viên Phát triển Kinh doanh Doanh nghiệp tại Công ty TNHH Công nghệ Nam An\nThời gian: Từ 2022-06 đến 2023-12\n- Chịu trách nhiệm mở rộng thị trường giải pháp hóa đơn điện tử và chữ ký số B2B.\n- Sử dụng phần mềm Salesforce để cập nhật dữ liệu khách hàng và lịch sử tương tác.\n- Đạt 115% chỉ tiêu doanh số năm 2023 được ban giám đốc giao phó.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J01-R02",
+          "section_id": "SA-J01-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Kinh doanh B2B SaaS tại Công ty Cổ phần Giải pháp Phần mềm CloudViet\nThời gian: Từ 2024-01 đến nay (đang làm việc)\n- Trực tiếp tìm kiếm khách hàng tiềm năng là các doanh nghiệp vừa và lớn, thực hiện hơn 120 buổi thuyết trình demo giải pháp phần mềm quản lý kho và bán hàng đa kênh.\n- Đàm phán và chốt thành công 28 hợp đồng thương mại với các đối tác chuỗi bán lẻ thời trang và điện máy.\n- Vận hành phần mềm HubSpot để quản lý toàn bộ pipeline bán hàng, theo dõi tỷ lệ chuyển đổi và dự báo doanh số hàng tháng đạt độ chuẩn xác 92%.\n- Soạn thảo hợp đồng kinh tế và trao đổi công việc thường xuyên với đối tác nước ngoài bằng tiếng Anh.\n\nNhân viên Phát triển Kinh doanh Doanh nghiệp tại Công ty TNHH Công nghệ Nam An\nThời gian: Từ 2022-06 đến 2023-12\n- Chịu trách nhiệm mở rộng thị trường giải pháp hóa đơn điện tử và chữ ký số B2B.\n- Sử dụng phần mềm Salesforce để cập nhật dữ liệu khách hàng và lịch sử tương tác.\n- Đạt 115% chỉ tiêu doanh số năm 2023 được ban giám đốc giao phó.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J01-R03",
+          "section_id": "SA-J01-C01-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Kinh doanh B2B SaaS tại Công ty Cổ phần Giải pháp Phần mềm CloudViet\nThời gian: Từ 2024-01 đến nay (đang làm việc)\n- Trực tiếp tìm kiếm khách hàng tiềm năng là các doanh nghiệp vừa và lớn, thực hiện hơn 120 buổi thuyết trình demo giải pháp phần mềm quản lý kho và bán hàng đa kênh.\n- Đàm phán và chốt thành công 28 hợp đồng thương mại với các đối tác chuỗi bán lẻ thời trang và điện máy.\n- Vận hành phần mềm HubSpot để quản lý toàn bộ pipeline bán hàng, theo dõi tỷ lệ chuyển đổi và dự báo doanh số hàng tháng đạt độ chuẩn xác 92%.\n- Soạn thảo hợp đồng kinh tế và trao đổi công việc thường xuyên với đối tác nước ngoài bằng tiếng Anh.\n\nNhân viên Phát triển Kinh doanh Doanh nghiệp tại Công ty TNHH Công nghệ Nam An\nThời gian: Từ 2022-06 đến 2023-12\n- Chịu trách nhiệm mở rộng thị trường giải pháp hóa đơn điện tử và chữ ký số B2B.\n- Sử dụng phần mềm Salesforce để cập nhật dữ liệu khách hàng và lịch sử tương tác.\n- Đạt 115% chỉ tiêu doanh số năm 2023 được ban giám đốc giao phó.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C02",
+      "relevance": 3,
+      "rationale": "Phần mềm B2B/ERP từ 2021-08 đủ ngưỡng; tìm khách hàng, demo, đàm phán và Salesforce dự báo doanh thu rõ. JD cho phép phần mềm B2B hoặc SaaS, không bắt riêng SaaS.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J01-R01",
+          "section_id": "SA-J01-C02-SEC-EXP",
+          "quote": "Quá trình công tác:\nChuyên viên Kinh doanh Giải pháp ERP tại Công ty Cổ phần Công nghệ TechVina\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Tìm kiếm và tiếp cận các doanh nghiệp sản xuất và thương mại có nhu cầu số hóa quy trình quản trị doanh nghiệp.\n- Chủ trì chuẩn bị tài liệu kỹ thuật và trực tiếp thực hiện thuyết trình demo giải pháp phần mềm quản trị cho các giám đốc tài chính và giám đốc điều hành.\n- Đàm phán các hợp đồng thương mại với doanh số trung bình mỗi gói từ 300 triệu đến 1,2 tỷ đồng.\n- Sử dụng Salesforce để theo dõi trạng thái các đầu mối liên hệ và cập nhật dự báo doanh thu hàng tháng.\n\nNhân viên Kinh doanh Phần mềm HRM tại Công ty TNHH Giải pháp Nhân sự VinaWork\nThời gian: Từ 2021-08 đến 2023-02\n- Chịu trách nhiệm tư vấn và triển khai bán phần mềm chấm công, tính lương trực tuyến cho hơn 50 doanh nghiệp vừa và nhỏ.\n- Tham gia cùng kỹ sư giải pháp hỗ trợ giải đáp thắc mắc chuyên môn trước bán hàng.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J01-R02",
+          "section_id": "SA-J01-C02-SEC-EXP",
+          "quote": "Quá trình công tác:\nChuyên viên Kinh doanh Giải pháp ERP tại Công ty Cổ phần Công nghệ TechVina\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Tìm kiếm và tiếp cận các doanh nghiệp sản xuất và thương mại có nhu cầu số hóa quy trình quản trị doanh nghiệp.\n- Chủ trì chuẩn bị tài liệu kỹ thuật và trực tiếp thực hiện thuyết trình demo giải pháp phần mềm quản trị cho các giám đốc tài chính và giám đốc điều hành.\n- Đàm phán các hợp đồng thương mại với doanh số trung bình mỗi gói từ 300 triệu đến 1,2 tỷ đồng.\n- Sử dụng Salesforce để theo dõi trạng thái các đầu mối liên hệ và cập nhật dự báo doanh thu hàng tháng.\n\nNhân viên Kinh doanh Phần mềm HRM tại Công ty TNHH Giải pháp Nhân sự VinaWork\nThời gian: Từ 2021-08 đến 2023-02\n- Chịu trách nhiệm tư vấn và triển khai bán phần mềm chấm công, tính lương trực tuyến cho hơn 50 doanh nghiệp vừa và nhỏ.\n- Tham gia cùng kỹ sư giải pháp hỗ trợ giải đáp thắc mắc chuyên môn trước bán hàng.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J01-R03",
+          "section_id": "SA-J01-C02-SEC-EXP",
+          "quote": "Quá trình công tác:\nChuyên viên Kinh doanh Giải pháp ERP tại Công ty Cổ phần Công nghệ TechVina\nThời gian: Từ 2023-03 đến nay (hiện tại)\n- Tìm kiếm và tiếp cận các doanh nghiệp sản xuất và thương mại có nhu cầu số hóa quy trình quản trị doanh nghiệp.\n- Chủ trì chuẩn bị tài liệu kỹ thuật và trực tiếp thực hiện thuyết trình demo giải pháp phần mềm quản trị cho các giám đốc tài chính và giám đốc điều hành.\n- Đàm phán các hợp đồng thương mại với doanh số trung bình mỗi gói từ 300 triệu đến 1,2 tỷ đồng.\n- Sử dụng Salesforce để theo dõi trạng thái các đầu mối liên hệ và cập nhật dự báo doanh thu hàng tháng.\n\nNhân viên Kinh doanh Phần mềm HRM tại Công ty TNHH Giải pháp Nhân sự VinaWork\nThời gian: Từ 2021-08 đến 2023-02\n- Chịu trách nhiệm tư vấn và triển khai bán phần mềm chấm công, tính lương trực tuyến cho hơn 50 doanh nghiệp vừa và nhỏ.\n- Tham gia cùng kỹ sư giải pháp hỗ trợ giải đáp thắc mắc chuyên môn trước bán hàng.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C03",
+      "relevance": 1,
+      "rationale": "Bán CNTT B2B có tìm khách hàng và thương lượng chuyển đổi được, nhưng phần lớn là phần cứng/bản quyền đóng gói. Chưa chứng minh 2 năm phần mềm giải pháp/SaaS, demo phần mềm hoặc CRM pipeline/dự báo.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J01-R01",
+          "section_id": "SA-J01-C03-SEC-EXP",
+          "quote": "Lịch sử công tác:\nNhân viên Kinh doanh Thiết bị CNTT tại Công ty TNHH Thiết Bị Số Nam Long\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\n- Tư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\n- Thực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\n- Quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.\n\nNhân viên Bán hàng Doanh nghiệp tại Công ty Cổ phần Thương mại Tin học An Phát\nThời gian: Từ 2021-07 đến 2022-12\n- Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\n- Hoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J01-R02",
+          "section_id": "SA-J01-C03-SEC-EXP",
+          "quote": "Lịch sử công tác:\nNhân viên Kinh doanh Thiết bị CNTT tại Công ty TNHH Thiết Bị Số Nam Long\nThời gian: Từ 2023-01 đến nay (đang công tác)\n- Tìm kiếm đầu mối khách hàng doanh nghiệp trong khu vực các khu chế xuất và khu công nghệ cao TP.HCM.\n- Tư vấn giải pháp máy chủ văn phòng, thiết bị lưu trữ NAS và bộ lưu điện UPS cho các công ty quy mô từ 50 đến 200 nhân sự.\n- Thực hiện báo giá, thương thảo điều khoản thanh toán và theo dõi thu hồi công nợ cho hơn 40 hợp đồng thiết bị.\n- Quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.\n\nNhân viên Bán hàng Doanh nghiệp tại Công ty Cổ phần Thương mại Tin học An Phát\nThời gian: Từ 2021-07 đến 2022-12\n- Chào bán máy tính văn phòng, máy in và bản quyền hệ điều hành đóng gói cho các trường học và văn phòng đại diện.\n- Hoàn thành chỉ tiêu doanh thu 600 triệu đồng/quý.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J01-R03: Chưa có bằng chứng đủ để xác nhận yêu cầu: Có kỹ năng sử dụng các công cụ CRM như Salesforce hoặc HubSpot để quản lý pipeline và dự báo doanh số."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C04",
+      "relevance": 2,
+      "rationale": "Có SaaS lead generation, hỗ trợ demo và HubSpot thực tế; mốc 2025-09 khoảng 14 tháng, kể cả hỗ trợ từ 2025-03 vẫn dưới 2 năm. Đàm phán độc lập và dự báo chưa rõ nên chưa đạt mức mạnh.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J01-R01",
+          "section_id": "SA-J01-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc thực tế:\nNhân viên Kinh doanh Phần mềm tại Công ty Cổ phần Phần Mềm Ánh Dương\nThời gian: Từ 2025-09 đến nay (đang làm việc)\n- Khai thác nguồn dữ liệu 800 liên hệ doanh nghiệp mới từ các hội thảo trực tuyến và chiến dịch quảng cáo.\n- Thực hiện trung bình 35 cuộc gọi kết nối mỗi ngày để sàng lọc nhu cầu ứng dụng phần mềm quản lý dự án.\n- Đồng hành cùng chuyên viên bán hàng cao cấp trong các buổi thuyết trình demo giải pháp cho khách hàng tiềm năng.\n- Cập nhật thông tin giao dịch, theo dõi phản hồi và phân loại mức độ tiềm năng trên phần mềm HubSpot.\n\nThực tập sinh Kinh doanh Doanh nghiệp tại Công ty TNHH Phát triển Phần mềm Trí Việt\nThời gian: Từ 2025-03 đến 2025-08\n- Hỗ trợ chuẩn bị hồ sơ giới thiệu tính năng phần mềm kế toán đám mây cho các hộ kinh doanh cá thể.\n- Thực hiện liên hệ chăm sóc khách hàng dùng thử sau buổi hướng dẫn cài đặt.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J01-R02",
+          "section_id": "SA-J01-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc thực tế:\nNhân viên Kinh doanh Phần mềm tại Công ty Cổ phần Phần Mềm Ánh Dương\nThời gian: Từ 2025-09 đến nay (đang làm việc)\n- Khai thác nguồn dữ liệu 800 liên hệ doanh nghiệp mới từ các hội thảo trực tuyến và chiến dịch quảng cáo.\n- Thực hiện trung bình 35 cuộc gọi kết nối mỗi ngày để sàng lọc nhu cầu ứng dụng phần mềm quản lý dự án.\n- Đồng hành cùng chuyên viên bán hàng cao cấp trong các buổi thuyết trình demo giải pháp cho khách hàng tiềm năng.\n- Cập nhật thông tin giao dịch, theo dõi phản hồi và phân loại mức độ tiềm năng trên phần mềm HubSpot.\n\nThực tập sinh Kinh doanh Doanh nghiệp tại Công ty TNHH Phát triển Phần mềm Trí Việt\nThời gian: Từ 2025-03 đến 2025-08\n- Hỗ trợ chuẩn bị hồ sơ giới thiệu tính năng phần mềm kế toán đám mây cho các hộ kinh doanh cá thể.\n- Thực hiện liên hệ chăm sóc khách hàng dùng thử sau buổi hướng dẫn cài đặt.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J01-R03",
+          "section_id": "SA-J01-C04-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc thực tế:\nNhân viên Kinh doanh Phần mềm tại Công ty Cổ phần Phần Mềm Ánh Dương\nThời gian: Từ 2025-09 đến nay (đang làm việc)\n- Khai thác nguồn dữ liệu 800 liên hệ doanh nghiệp mới từ các hội thảo trực tuyến và chiến dịch quảng cáo.\n- Thực hiện trung bình 35 cuộc gọi kết nối mỗi ngày để sàng lọc nhu cầu ứng dụng phần mềm quản lý dự án.\n- Đồng hành cùng chuyên viên bán hàng cao cấp trong các buổi thuyết trình demo giải pháp cho khách hàng tiềm năng.\n- Cập nhật thông tin giao dịch, theo dõi phản hồi và phân loại mức độ tiềm năng trên phần mềm HubSpot.\n\nThực tập sinh Kinh doanh Doanh nghiệp tại Công ty TNHH Phát triển Phần mềm Trí Việt\nThời gian: Từ 2025-03 đến 2025-08\n- Hỗ trợ chuẩn bị hồ sơ giới thiệu tính năng phần mềm kế toán đám mây cho các hộ kinh doanh cá thể.\n- Thực hiện liên hệ chăm sóc khách hàng dùng thử sau buổi hướng dẫn cài đặt.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J01-R02: Chưa nêu trực tiếp đàm phán và chủ trì demo.",
+        "SA-J01-R03: Chưa nêu dự báo doanh số trên CRM."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C05",
+      "relevance": 2,
+      "rationale": "B2B công nghệ/đám mây và tổng đài ảo, đàm phán lớn và CRM nội bộ là năng lực liên quan thực chất. Chưa rõ phạm vi phần mềm/SaaS tối thiểu 2 năm, demo sản phẩm và dự báo; CRM nội bộ không bị loại chỉ vì khác nhãn Salesforce/HubSpot. Nhãn tạm thời.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J01-R01",
+          "section_id": "SA-J01-C05-SEC-EXP",
+          "quote": "Kinh nghiệm nghề nghiệp:\nTrưởng nhóm Kinh doanh Khách hàng Doanh nghiệp tại Công ty Cổ phần Viễn Thông Thiên Nam\nThời gian: Từ 2021-01 đến nay (đang giữ vị trí)\n- Phụ trách danh mục khách hàng khối tài chính ngân hàng bao gồm 8 ngân hàng thương mại cổ phần lớn và 4 công ty chứng khoán.\n- Đàm phán các hợp đồng cung cấp đường truyền kênh thuê riêng, dịch vụ lưu trữ đám mây và cổng thông báo SMS Brandname với doanh số trên 15 tỷ đồng mỗi năm.\n- Chủ trì thuyết trình giải pháp trước hội đồng đấu thầu và ban giám đốc phía đối tác, trực tiếp soạn thảo và hiệu chỉnh điều khoản hợp đồng bằng tiếng Anh cho các quỹ đầu tư tài chính quốc tế.\n- Quản lý tiến độ bán hàng qua hệ thống CRM nội bộ của công ty (In-house CRM platform).\n\nChuyên viên Kinh doanh Giải pháp Doanh nghiệp tại Công ty TNHH Truyền thông Số Đông Á\nThời gian: Từ 2018-06 đến 2020-12\n- Chịu trách nhiệm mở rộng thị phần dịch vụ thoại IP và tổng đài ảo cho các chuỗi bán lẻ và trung tâm chăm sóc khách hàng.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J01-R02",
+          "section_id": "SA-J01-C05-SEC-EXP",
+          "quote": "Kinh nghiệm nghề nghiệp:\nTrưởng nhóm Kinh doanh Khách hàng Doanh nghiệp tại Công ty Cổ phần Viễn Thông Thiên Nam\nThời gian: Từ 2021-01 đến nay (đang giữ vị trí)\n- Phụ trách danh mục khách hàng khối tài chính ngân hàng bao gồm 8 ngân hàng thương mại cổ phần lớn và 4 công ty chứng khoán.\n- Đàm phán các hợp đồng cung cấp đường truyền kênh thuê riêng, dịch vụ lưu trữ đám mây và cổng thông báo SMS Brandname với doanh số trên 15 tỷ đồng mỗi năm.\n- Chủ trì thuyết trình giải pháp trước hội đồng đấu thầu và ban giám đốc phía đối tác, trực tiếp soạn thảo và hiệu chỉnh điều khoản hợp đồng bằng tiếng Anh cho các quỹ đầu tư tài chính quốc tế.\n- Quản lý tiến độ bán hàng qua hệ thống CRM nội bộ của công ty (In-house CRM platform).\n\nChuyên viên Kinh doanh Giải pháp Doanh nghiệp tại Công ty TNHH Truyền thông Số Đông Á\nThời gian: Từ 2018-06 đến 2020-12\n- Chịu trách nhiệm mở rộng thị phần dịch vụ thoại IP và tổng đài ảo cho các chuỗi bán lẻ và trung tâm chăm sóc khách hàng.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J01-R03",
+          "section_id": "SA-J01-C05-SEC-EXP",
+          "quote": "Kinh nghiệm nghề nghiệp:\nTrưởng nhóm Kinh doanh Khách hàng Doanh nghiệp tại Công ty Cổ phần Viễn Thông Thiên Nam\nThời gian: Từ 2021-01 đến nay (đang giữ vị trí)\n- Phụ trách danh mục khách hàng khối tài chính ngân hàng bao gồm 8 ngân hàng thương mại cổ phần lớn và 4 công ty chứng khoán.\n- Đàm phán các hợp đồng cung cấp đường truyền kênh thuê riêng, dịch vụ lưu trữ đám mây và cổng thông báo SMS Brandname với doanh số trên 15 tỷ đồng mỗi năm.\n- Chủ trì thuyết trình giải pháp trước hội đồng đấu thầu và ban giám đốc phía đối tác, trực tiếp soạn thảo và hiệu chỉnh điều khoản hợp đồng bằng tiếng Anh cho các quỹ đầu tư tài chính quốc tế.\n- Quản lý tiến độ bán hàng qua hệ thống CRM nội bộ của công ty (In-house CRM platform).\n\nChuyên viên Kinh doanh Giải pháp Doanh nghiệp tại Công ty TNHH Truyền thông Số Đông Á\nThời gian: Từ 2018-06 đến 2020-12\n- Chịu trách nhiệm mở rộng thị phần dịch vụ thoại IP và tổng đài ảo cho các chuỗi bán lẻ và trung tâm chăm sóc khách hàng.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J01-R01: Cần xác nhận thời gian bán giải pháp phần mềm/SaaS thay vì hạ tầng viễn thông.",
+        "SA-J01-R02: Chưa rõ demo phần mềm.",
+        "SA-J01-R03: Chưa nêu dự báo doanh số."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Cần làm rõ sản phẩm phần mềm/SaaS và chức năng CRM; có thể đổi nhãn 2/3."
+      ]
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C06",
+      "relevance": 1,
+      "rationale": "Tìm khách hàng, tư vấn và hợp đồng B2C có tính chuyển đổi; chưa có phần mềm B2B/SaaS, demo giải pháp hoặc CRM pipeline/dự báo. Không dùng tổng thâm niên bất động sản thay cho SaaS.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J01-R01",
+          "section_id": "SA-J01-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Tư vấn Bất động sản tại Công ty Cổ phần Địa Ốc Phúc Thịnh\nThời gian: Từ 2022-04 đến nay (đang làm việc)\n- Khai thác nguồn khách hàng có thu nhập cao quan tâm tới các dự án căn hộ và biệt thự biển tại khu vực miền Trung.\n- Tổ chức các buổi tham quan nhà mẫu, tư vấn gói tài chính ngân hàng hỗ trợ vay vốn và chốt giao dịch hợp đồng mua bán.\n- Hoàn thành giao dịch 18 bất động sản cao cấp trong năm 2024, thuộc top 5 nhân viên kinh doanh xuất sắc của sàn.\n\nNhân viên Kinh doanh Khóa học Kỹ năng tại Trung tâm Đào tạo Kỹ Năng Trẻ\nThời gian: Từ 2021-01 đến 2022-03\n- Tư vấn tuyển sinh các khóa học kỹ năng mềm và tiếng Anh giao tiếp cho học sinh, sinh viên và người đi làm.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J01-R02",
+          "section_id": "SA-J01-C06-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Tư vấn Bất động sản tại Công ty Cổ phần Địa Ốc Phúc Thịnh\nThời gian: Từ 2022-04 đến nay (đang làm việc)\n- Khai thác nguồn khách hàng có thu nhập cao quan tâm tới các dự án căn hộ và biệt thự biển tại khu vực miền Trung.\n- Tổ chức các buổi tham quan nhà mẫu, tư vấn gói tài chính ngân hàng hỗ trợ vay vốn và chốt giao dịch hợp đồng mua bán.\n- Hoàn thành giao dịch 18 bất động sản cao cấp trong năm 2024, thuộc top 5 nhân viên kinh doanh xuất sắc của sàn.\n\nNhân viên Kinh doanh Khóa học Kỹ năng tại Trung tâm Đào tạo Kỹ Năng Trẻ\nThời gian: Từ 2021-01 đến 2022-03\n- Tư vấn tuyển sinh các khóa học kỹ năng mềm và tiếng Anh giao tiếp cho học sinh, sinh viên và người đi làm.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J01-R03: Chưa có bằng chứng đủ để xác nhận yêu cầu: Có kỹ năng sử dụng các công cụ CRM như Salesforce hoặc HubSpot để quản lý pipeline và dự báo doanh số."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C07",
+      "relevance": 3,
+      "rationale": "POS SaaS cho chuỗi từ 2024-03 hơn 2 năm, demo và ký hợp đồng rõ; Salesforce theo dõi hành trình bán hàng có cơ sở. Dự báo chưa mô tả riêng nhưng phần lớn yêu cầu trung tâm được chứng minh; freelance không ngày không ảnh hưởng ngưỡng.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J01-R01",
+          "section_id": "SA-J01-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Kinh doanh Phần mềm POS tại Công ty Cổ phần Công nghệ NovaSoft\nThời gian: Từ 2024-03 đến nay (hiện tại)\n- Phát triển mạng lưới khách hàng là các chuỗi nhà hàng ẩm thực và cửa hàng bán lẻ tiện lợi tại Hà Nội và TP.HCM.\n- Thực hiện thuyết trình demo giải pháp quản lý tồn kho và thanh toán quét mã QR trên nền tảng đám mây.\n- Đàm phán và hoàn tất hợp đồng phần mềm với 35 chuỗi cửa hàng, đạt doanh thu bình quân 180 triệu đồng/tháng.\n- Thường xuyên cập nhật thông tin tương tác và trạng thái chốt hợp đồng lên hệ thống Salesforce.\n\nCộng tác viên Bán giải pháp Phần mềm tại Công ty TNHH Giải pháp Đám mây Minh Quang\nThời gian: (thời gian làm việc linh hoạt theo dự án, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Hỗ trợ gọi điện và đặt lịch hẹn tư vấn giải pháp SaaS cho khách hàng nhỏ lẻ.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J01-R02",
+          "section_id": "SA-J01-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Kinh doanh Phần mềm POS tại Công ty Cổ phần Công nghệ NovaSoft\nThời gian: Từ 2024-03 đến nay (hiện tại)\n- Phát triển mạng lưới khách hàng là các chuỗi nhà hàng ẩm thực và cửa hàng bán lẻ tiện lợi tại Hà Nội và TP.HCM.\n- Thực hiện thuyết trình demo giải pháp quản lý tồn kho và thanh toán quét mã QR trên nền tảng đám mây.\n- Đàm phán và hoàn tất hợp đồng phần mềm với 35 chuỗi cửa hàng, đạt doanh thu bình quân 180 triệu đồng/tháng.\n- Thường xuyên cập nhật thông tin tương tác và trạng thái chốt hợp đồng lên hệ thống Salesforce.\n\nCộng tác viên Bán giải pháp Phần mềm tại Công ty TNHH Giải pháp Đám mây Minh Quang\nThời gian: (thời gian làm việc linh hoạt theo dự án, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Hỗ trợ gọi điện và đặt lịch hẹn tư vấn giải pháp SaaS cho khách hàng nhỏ lẻ.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "SA-J01-R03",
+          "section_id": "SA-J01-C07-SEC-EXP",
+          "quote": "Kinh nghiệm làm việc:\nChuyên viên Kinh doanh Phần mềm POS tại Công ty Cổ phần Công nghệ NovaSoft\nThời gian: Từ 2024-03 đến nay (hiện tại)\n- Phát triển mạng lưới khách hàng là các chuỗi nhà hàng ẩm thực và cửa hàng bán lẻ tiện lợi tại Hà Nội và TP.HCM.\n- Thực hiện thuyết trình demo giải pháp quản lý tồn kho và thanh toán quét mã QR trên nền tảng đám mây.\n- Đàm phán và hoàn tất hợp đồng phần mềm với 35 chuỗi cửa hàng, đạt doanh thu bình quân 180 triệu đồng/tháng.\n- Thường xuyên cập nhật thông tin tương tác và trạng thái chốt hợp đồng lên hệ thống Salesforce.\n\nCộng tác viên Bán giải pháp Phần mềm tại Công ty TNHH Giải pháp Đám mây Minh Quang\nThời gian: (thời gian làm việc linh hoạt theo dự án, không ghi rõ thời gian bắt đầu và kết thúc cụ thể)\n- Hỗ trợ gọi điện và đặt lịch hẹn tư vấn giải pháp SaaS cho khách hàng nhỏ lẻ.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J01-R03: Chưa mô tả riêng dự báo doanh số trên Salesforce."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "SA-J01",
+      "candidate_id": "SA-J01-C08",
+      "relevance": 2,
+      "rationale": "Pre-sales SaaS hơn 3 năm, demo chuyên sâu và HubSpot theo dõi giao dịch rõ. Chưa chứng minh sở hữu tìm lead/đàm phán thương mại và dự báo doanh số; không cộng freelance 2024 trùng lịch để tăng thâm niên. Kinh nghiệm giải pháp đáng kể nhưng chưa trọn chu kỳ sales.",
+      "evidence": [
+        {
+          "requirement_id": "SA-J01-R01",
+          "section_id": "SA-J01-C08-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Tư vấn Giải pháp B2B tại Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\n- Khảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\n- Phối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\n- Sử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.\n\nChuyên viên Tư vấn Độc lập (Làm việc song song/Freelance) tại Nhóm Tư vấn Giải pháp Doanh nghiệp Mở\nThời gian: Từ 2024-01 đến 2024-11\n- Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J01-R02",
+          "section_id": "SA-J01-C08-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Tư vấn Giải pháp B2B tại Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\n- Khảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\n- Phối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\n- Sử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.\n\nChuyên viên Tư vấn Độc lập (Làm việc song song/Freelance) tại Nhóm Tư vấn Giải pháp Doanh nghiệp Mở\nThời gian: Từ 2024-01 đến 2024-11\n- Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "SA-J01-R03",
+          "section_id": "SA-J01-C08-SEC-EXP",
+          "quote": "Kinh nghiệm công tác:\nChuyên viên Tư vấn Giải pháp B2B tại Công ty Cổ phần Công nghệ Giải Pháp Phần Mềm SmartSoft\nThời gian: Từ 2023-05 đến nay (đang làm việc)\n- Đồng hành cùng nhân viên kinh doanh tham gia trực tiếp hơn 90 buổi demo giải pháp SaaS quản trị quy trình làm việc cho các tập đoàn bán lẻ và sản xuất.\n- Khảo sát hệ thống CNTT hiện hữu của khách hàng, đề xuất phương án tích hợp API và giải đáp các thắc mắc bảo mật dữ liệu.\n- Phối hợp lập báo giá và chuẩn bị các điều khoản kỹ thuật trong hợp đồng thương mại.\n- Sử dụng hệ thống HubSpot để lưu trữ hồ sơ kỹ thuật của từng khách hàng và phối hợp theo dõi tiến độ chốt giao dịch.\n\nChuyên viên Tư vấn Độc lập (Làm việc song song/Freelance) tại Nhóm Tư vấn Giải pháp Doanh nghiệp Mở\nThời gian: Từ 2024-01 đến 2024-11\n- Hỗ trợ rà soát quy trình và tư vấn lựa chọn gói phần mềm SaaS phù hợp cho 6 doanh nghiệp vừa và nhỏ trong nước.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "SA-J01-R02: Cần bằng chứng tự tìm khách hàng và trực tiếp đàm phán thương mại.",
+        "SA-J01-R03: Chưa nêu dự báo doanh số."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

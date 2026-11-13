@@ -1,0 +1,48 @@
+{
+  "schema_version": "ai2-pilot-it-pending-v1",
+  "scope": "Preserved ambiguous source cases requiring downstream human review flags (IT-J01 through IT-J10)",
+  "reference_date": "2026-11-10",
+  "pending_cases": [
+    {
+      "category": "tenure_ambiguity",
+      "decision_id": "HR-SOURCE-008",
+      "summary": "37 candidate profiles across IT-J01 through IT-J10 have summary tenure that is rounded, scoped to a specialized tech stack, or slightly stale relative to reference date 2026-11-10. These have been faithfully preserved in source and flagged for downstream review without rewriting dates or equating total tenure to skill-specific tenure.",
+      "representative_candidates": [
+        "IT-J01-C01", "IT-J01-C04", "IT-J01-C05", "IT-J01-C08",
+        "IT-J02-C03", "IT-J02-C04",
+        "IT-J03-C01", "IT-J03-C03", "IT-J03-C05",
+        "IT-J04-C02", "IT-J04-C04", "IT-J04-C05", "IT-J04-C06", "IT-J04-C08",
+        "IT-J05-C02", "IT-J05-C04", "IT-J05-C05", "IT-J05-C06",
+        "IT-J06-C01", "IT-J06-C02", "IT-J06-C03", "IT-J06-C06", "IT-J06-C08",
+        "IT-J07-C04",
+        "IT-J08-C01", "IT-J08-C02", "IT-J08-C03", "IT-J08-C04", "IT-J08-C06", "IT-J08-C08",
+        "IT-J09-C01", "IT-J09-C02", "IT-J09-C03", "IT-J09-C05",
+        "IT-J10-C01", "IT-J10-C04", "IT-J10-C05"
+      ]
+    },
+    {
+      "category": "degree_terminology_ambiguity",
+      "decision_id": "HR-SOURCE-010",
+      "candidate_id": "IT-J04-C06",
+      "section_id": "IT-J04-C06-S05",
+      "quote": "Cử nhân Thực hành (Cao đẳng) Công nghệ thông tin, Trường Cao đẳng Kỹ thuật Cao Thắng.",
+      "structured_degree": "Cao đẳng",
+      "issue": "Degree wording combines 'Cử nhân Thực hành' with '(Cao đẳng)'. Source and structured degree faithfully preserved without mapping up to university or down; flagged for human evaluation if label-material."
+    },
+    {
+      "category": "unstated_dates_current_status",
+      "decision_id": "HR-SOURCE-005",
+      "summary": "10 candidate profiles (IT-J01-C07 through IT-J10-C07) contain freelance engagements with unstated start/end dates. Per HR-SOURCE-005, is_current remains null because absence of dates does not confirm ended status.",
+      "candidates": [
+        "IT-J01-C07", "IT-J02-C07", "IT-J03-C07", "IT-J04-C07", "IT-J05-C07",
+        "IT-J06-C07", "IT-J07-C07", "IT-J08-C07", "IT-J09-C07", "IT-J10-C07"
+      ]
+    },
+    {
+      "category": "source_scenario_template_leakage",
+      "decision_id": "HR-SOURCE-009",
+      "summary": "Candidates across all 10 IT jobs follow recurring positional archetypes (e.g., C01 fullstack/senior lead, C05 junior/entry, C07 freelance unstated dates). Per HR-SOURCE-009, this is an accepted development pilot limitation; candidate IDs and ordinal indexes must not be used as ranking features.",
+      "jobs_affected": ["IT-J01", "IT-J02", "IT-J03", "IT-J04", "IT-J05", "IT-J06", "IT-J07", "IT-J08", "IT-J09", "IT-J10"]
+    }
+  ]
+}

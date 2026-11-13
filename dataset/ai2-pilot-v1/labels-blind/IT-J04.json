@@ -1,0 +1,246 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "blind_review",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C01",
+      "relevance": 3,
+      "rationale": "Flutter/Dart chính thức từ 2025-03 khoảng 20 tháng, đủ ngưỡng junior; Bloc và REST/JSON rõ, có Firebase và phát hành hai kho. Không phạt kinh nghiệm thực tập bổ sung.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J04-R01",
+          "section_id": "IT-J04-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter Junior tại Công ty TNHH Phát triển Phần mềm Sáng Tạo Việt. Thời gian: từ 2025-03 đến nay. Mô tả: Phát triển các tính năng giỏ hàng, thông báo đẩy và xác thực người dùng cho ứng dụng thương mại điện tử bằng Flutter và Dart. Sử dụng thư viện flutter_bloc để quản lý state. Tích hợp RESTful API xử lý định dạng JSON và cấu hình Firebase Cloud Messaging. Tham gia quy trình build bản phát hành lên Google Play Store và Apple App Store.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ An Phú. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Làm quen dự án, cắt giao diện từ Figma sang widget Flutter và gọi API cơ bản.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J04-R02",
+          "section_id": "IT-J04-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter Junior tại Công ty TNHH Phát triển Phần mềm Sáng Tạo Việt. Thời gian: từ 2025-03 đến nay. Mô tả: Phát triển các tính năng giỏ hàng, thông báo đẩy và xác thực người dùng cho ứng dụng thương mại điện tử bằng Flutter và Dart. Sử dụng thư viện flutter_bloc để quản lý state. Tích hợp RESTful API xử lý định dạng JSON và cấu hình Firebase Cloud Messaging. Tham gia quy trình build bản phát hành lên Google Play Store và Apple App Store.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ An Phú. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Làm quen dự án, cắt giao diện từ Figma sang widget Flutter và gọi API cơ bản.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J04-R03",
+          "section_id": "IT-J04-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter Junior tại Công ty TNHH Phát triển Phần mềm Sáng Tạo Việt. Thời gian: từ 2025-03 đến nay. Mô tả: Phát triển các tính năng giỏ hàng, thông báo đẩy và xác thực người dùng cho ứng dụng thương mại điện tử bằng Flutter và Dart. Sử dụng thư viện flutter_bloc để quản lý state. Tích hợp RESTful API xử lý định dạng JSON và cấu hình Firebase Cloud Messaging. Tham gia quy trình build bản phát hành lên Google Play Store và Apple App Store.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ An Phú. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Làm quen dự án, cắt giao diện từ Figma sang widget Flutter và gọi API cơ bản.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C02",
+      "relevance": 3,
+      "rationale": "Vai trò Flutter từ 2025-02, hiện tại có 16 tháng thực hành API; Riverpod/Provider và parse JSON được mô tả cụ thể. Chưa nêu phát hành kho chỉ là thiếu ưu tiên.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J04-R01",
+          "section_id": "IT-J04-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty Cổ phần Công nghệ Số Hải Đăng. Thời gian: từ 2025-07 đến nay. Mô tả: Xây dựng ứng dụng tra cứu thời tiết và tin tức địa phương bằng Flutter. Kết nối RESTful API qua thư viện Dio, xử lý parse JSON và lưu trữ offline bằng SQLite và Shared Preferences. Quản lý state bằng Riverpod.\n- Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Ứng dụng Di động Mặt Trời. Thời gian: từ 2025-02 đến 2025-06. Mô tả: Cắt giao diện ứng dụng theo bản vẽ và quản lý state với Provider.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J04-R02",
+          "section_id": "IT-J04-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty Cổ phần Công nghệ Số Hải Đăng. Thời gian: từ 2025-07 đến nay. Mô tả: Xây dựng ứng dụng tra cứu thời tiết và tin tức địa phương bằng Flutter. Kết nối RESTful API qua thư viện Dio, xử lý parse JSON và lưu trữ offline bằng SQLite và Shared Preferences. Quản lý state bằng Riverpod.\n- Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Ứng dụng Di động Mặt Trời. Thời gian: từ 2025-02 đến 2025-06. Mô tả: Cắt giao diện ứng dụng theo bản vẽ và quản lý state với Provider.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J04-R03",
+          "section_id": "IT-J04-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty Cổ phần Công nghệ Số Hải Đăng. Thời gian: từ 2025-07 đến nay. Mô tả: Xây dựng ứng dụng tra cứu thời tiết và tin tức địa phương bằng Flutter. Kết nối RESTful API qua thư viện Dio, xử lý parse JSON và lưu trữ offline bằng SQLite và Shared Preferences. Quản lý state bằng Riverpod.\n- Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Ứng dụng Di động Mặt Trời. Thời gian: từ 2025-02 đến 2025-06. Mô tả: Cắt giao diện ứng dụng theo bản vẽ và quản lý state với Provider.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C03",
+      "relevance": 2,
+      "rationale": "Android/Kotlin và API thực tế hỗ trợ chuyển đổi, dự án Flutter/Dart/Bloc rõ. Đào tạo Flutter 6 tháng chưa chứng minh 1 năm Flutter; JSON và tích hợp REST trong Flutter chưa rõ.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J04-R01",
+          "section_id": "IT-J04-C03-S01",
+          "quote": "Tóm lược: Lập trình viên Android Native có 2 năm kinh nghiệm với Kotlin và Java. Gần đây đã hoàn thành khóa đào tạo 6 tháng về Flutter và Dart, tự tay phát triển 2 ứng dụng mẫu hoàn chỉnh sử dụng Bloc pattern.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J04-R02",
+          "section_id": "IT-J04-C03-S04",
+          "quote": "Dự án:\n- Dự án Cá nhân Ứng dụng Quản lý Thói quen HabitTracker: Phát triển bằng Flutter và Dart, quản lý state bằng Bloc và đồng bộ dữ liệu với Firebase Firestore.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J04-R03",
+          "section_id": "IT-J04-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Android tại Công ty Cổ phần Công nghệ Số Nam Sơn. Thời gian: từ 2024-05 đến 2026-06. Mô tả: Phát triển các tính năng ứng dụng giao hàng bằng Kotlin, tích hợp Google Maps API và gọi các dịch vụ RESTful API.\n- Chức danh: Thực tập sinh Android tại Công ty TNHH Ứng dụng Di động Thăng Long. Thời gian: từ 2023-10 đến 2024-04. Mô tả: Sửa lỗi giao diện và hỗ trợ viết unit test cho ứng dụng Android Native.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J04-R01: Chưa chứng minh ít nhất 1 năm phát triển Flutter, không cộng thời gian Android Native.",
+        "IT-J04-R03: Chưa rõ xử lý JSON và REST trong Flutter."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C04",
+      "relevance": 3,
+      "rationale": "Flutter từ 2024-11, vai trò hiện tại khoảng 18 tháng; có Dart, Bloc, API và JSON trong kỹ năng. Đáp ứng trung tâm junior, Firebase và phát hành Google Play bổ sung.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J04-R01",
+          "section_id": "IT-J04-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Di động Flutter tại Công ty Cổ phần Giải pháp Phần mềm Thái Bình Dương. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng các màn hình đặt xe và lịch sử chuyến đi bằng Flutter. Quản lý trạng thái bằng flutter_bloc, tích hợp RESTful API với backend Node.js. Hỗ trợ cấu hình chứng chỉ ký ứng dụng và đưa bản thử nghiệm lên Google Play Console.\n- Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Công nghệ Viễn Đông. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Viết các widget tùy chỉnh và tích hợp Firebase Cloud Messaging để nhận thông báo đẩy.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J04-R02",
+          "section_id": "IT-J04-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Di động Flutter tại Công ty Cổ phần Giải pháp Phần mềm Thái Bình Dương. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng các màn hình đặt xe và lịch sử chuyến đi bằng Flutter. Quản lý trạng thái bằng flutter_bloc, tích hợp RESTful API với backend Node.js. Hỗ trợ cấu hình chứng chỉ ký ứng dụng và đưa bản thử nghiệm lên Google Play Console.\n- Chức danh: Lập trình viên Flutter thử việc tại Công ty TNHH Công nghệ Viễn Đông. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Viết các widget tùy chỉnh và tích hợp Firebase Cloud Messaging để nhận thông báo đẩy.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J04-R03",
+          "section_id": "IT-J04-C04-S02",
+          "quote": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: Dart, JavaScript cơ bản.\n- Framework & State: Flutter, flutter_bloc, Provider.\n- API & Công cụ: RESTful API, JSON parsing, Firebase, Git, Figma, Postman.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C05",
+      "relevance": 1,
+      "rationale": "React Native/API/Firebase có tính chuyển đổi nhưng Flutter mới tiếp cận và Dart cơ bản. Chưa chứng minh Flutter một năm hoặc Bloc/Provider/Riverpod; Redux không thay thế bằng chứng đó.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J04-R01",
+          "section_id": "IT-J04-C05-S01",
+          "quote": "Tóm tắt: Lập trình viên React Native có 1 năm 6 tháng kinh nghiệm xây dựng ứng dụng di động đa nền tảng bằng JavaScript và TypeScript. Có kiến thức vững về tích hợp RESTful API, Redux và Firebase. Mới bắt đầu tiếp cận tìm hiểu Flutter trong thời gian gần đây.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J04-R03",
+          "section_id": "IT-J04-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên React Native tại Công ty TNHH Phát triển Ứng dụng Di động Tinh Hoa. Thời gian: từ 2025-05 đến nay. Mô tả: Phát triển tính năng đặt vé và thanh toán trực tuyến trên ứng dụng React Native. Kết nối RESTful API và đồng bộ thông báo đẩy qua Firebase Cloud Messaging.\n- Chức danh: Thực tập sinh Lập trình Di động tại Công ty Cổ phần Công nghệ Đại Việt. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Xây dựng các component giao diện React Native và gọi API lấy dữ liệu.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J04-R02: Chưa nêu Bloc, Provider hoặc Riverpod.",
+        "IT-J04-R01: Chưa có thời gian phát triển Flutter/Dart thực tế."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C06",
+      "relevance": 3,
+      "rationale": "Flutter/Dart từ 2025-08 khoảng 15 tháng đủ tối thiểu; Provider và REST JSON được mô tả trực tiếp. Thực tập kiểm tra giao diện không được dùng để tăng thâm niên lập trình.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J04-R01",
+          "section_id": "IT-J04-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty TNHH Phần mềm Trẻ Toàn Cầu. Thời gian: từ 2025-08 đến nay. Mô tả: Lập trình các màn hình hiển thị danh mục sản phẩm và hồ sơ người dùng bằng Flutter và Dart. Quản lý trạng thái ứng dụng bằng Provider và tích hợp RESTful API JSON.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ Số Hoa Sen. Thời gian: từ 2025-03 đến 2025-07. Mô tả: Hỗ trợ kiểm tra lỗi giao diện trên các kích thước màn hình Android khác nhau.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J04-R02",
+          "section_id": "IT-J04-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty TNHH Phần mềm Trẻ Toàn Cầu. Thời gian: từ 2025-08 đến nay. Mô tả: Lập trình các màn hình hiển thị danh mục sản phẩm và hồ sơ người dùng bằng Flutter và Dart. Quản lý trạng thái ứng dụng bằng Provider và tích hợp RESTful API JSON.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ Số Hoa Sen. Thời gian: từ 2025-03 đến 2025-07. Mô tả: Hỗ trợ kiểm tra lỗi giao diện trên các kích thước màn hình Android khác nhau.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J04-R03",
+          "section_id": "IT-J04-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter tại Công ty TNHH Phần mềm Trẻ Toàn Cầu. Thời gian: từ 2025-08 đến nay. Mô tả: Lập trình các màn hình hiển thị danh mục sản phẩm và hồ sơ người dùng bằng Flutter và Dart. Quản lý trạng thái ứng dụng bằng Provider và tích hợp RESTful API JSON.\n- Chức danh: Thực tập sinh Flutter tại Công ty Cổ phần Công nghệ Số Hoa Sen. Thời gian: từ 2025-03 đến 2025-07. Mô tả: Hỗ trợ kiểm tra lỗi giao diện trên các kích thước màn hình Android khác nhau.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C07",
+      "relevance": 2,
+      "rationale": "Có vai trò và dự án Flutter/Dart với API, Provider trong kỹ năng. Tóm tắt khoảng 1 năm chưa có ngày xác nhận và chưa rõ mức sử dụng Provider/JSON, nên nhãn tạm thời thay vì giả định không kinh nghiệm.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J04-R01",
+          "section_id": "IT-J04-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter Tự do tại Nhóm Phát triển Ứng dụng Di động Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các màn hình giao diện ứng dụng quản lý công việc và ứng dụng học từ vựng tiếng Anh bằng Flutter và Dart. Tích hợp RESTful API và Firebase Authentication.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J04-R02",
+          "section_id": "IT-J04-C07-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: Dart, C++ cơ bản.\n- Framework & Thư viện: Flutter SDK, Provider, http.\n- Nền tảng: Firebase Authentication, Git, VS Code.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J04-R03",
+          "section_id": "IT-J04-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Flutter Tự do tại Nhóm Phát triển Ứng dụng Di động Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Xây dựng các màn hình giao diện ứng dụng quản lý công việc và ứng dụng học từ vựng tiếng Anh bằng Flutter và Dart. Tích hợp RESTful API và Firebase Authentication.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J04-R01: Thiếu ngày bắt đầu/kết thúc và trạng thái freelance để xác định ít nhất 1 năm.",
+        "IT-J04-R02: Cần mô tả áp dụng Provider thực tế.",
+        "IT-J04-R03: Chưa mô tả xử lý JSON."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Thời lượng vai trò Flutter không xác định có thể đổi nhãn 2/3."
+      ]
+    },
+    {
+      "job_id": "IT-J04",
+      "candidate_id": "IT-J04-C08",
+      "relevance": 2,
+      "rationale": "Đã hiện thực hơn 15 màn hình Flutter/Dart và gọi API, có nội dung JSON. Niên biểu vai trò từ 2025-01 nhưng tóm tắt tự học 8 tháng mâu thuẫn ngưỡng một năm; chưa có state management yêu cầu.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J04-R01",
+          "section_id": "IT-J04-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Chuyên viên Thiết kế UI/UX kiêm Lập trình Giao diện Flutter tại Công ty TNHH Sáng Tạo Kỹ Thuật Số Đất Rồng. Thời gian: từ 2025-01 đến nay. Mô tả: Thiết kế luồng trải nghiệm người dùng trên Figma và trực tiếp hiện thực hóa hơn 15 màn hình ứng dụng bằng Flutter và Dart. Kết nối RESTful API lấy thông tin người dùng.\n- Chức danh: Nhân viên Thiết kế UI/UX tại Công ty Cổ phần Truyền thông Ngôi Sao Mới. Thời gian: từ 2024-03 đến 2024-12. Mô tả: Thiết kế wireframe và prototype ứng dụng di động bằng Figma.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J04-R03",
+          "section_id": "IT-J04-C08-S02",
+          "quote": "Kỹ năng:\n- Thiết kế & Công cụ: Figma, Adobe XD, UI/UX Design.\n- Lập trình di động: Flutter SDK, Dart, Material Design.\n- Công nghệ khác: RESTful API cơ bản, Git, JSON.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J04-R01: Cần làm rõ Flutter bắt đầu trong vai trò 2025-01 khi tóm tắt chỉ 8 tháng.",
+        "IT-J04-R02: Chưa nêu Bloc/Provider/Riverpod.",
+        "IT-J04-R03: JSON được liệt kê nhưng mức xử lý chưa rõ."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Mâu thuẫn thâm niên Flutter ảnh hưởng ngưỡng 1 năm; dựa nhiệm vụ có ngày nhưng cần xác minh."
+      ]
+    }
+  ]
+}

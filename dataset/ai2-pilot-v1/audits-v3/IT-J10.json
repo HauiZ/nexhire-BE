@@ -1,0 +1,70 @@
+{
+  "verified_candidate_count": 8,
+  "resolved_historical_issues": [
+    {
+      "issue_summary": "IT-J10-C02-E02: Unsupported 'OpenCV' attribution removed from internship skills_used (now []) under HR-SOURCE-003.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J10-C04-E02: Unsupported 'PyTorch' attribution removed from research assistant skills_used (now []) under HR-SOURCE-003."
+    },
+    {
+      "disposition": "fixed",
+      "issue_summary": "IT-J10-C04-E02: Real-university employer 'Phòng Thí nghiệm Đại học Bách Khoa' fictionalized to 'Phòng Thí nghiệm Trí tuệ Nhân tạo AlphaLab' in cv_text, S03, and structured company field under HR-SOURCE-007."
+    },
+    {
+      "issue_summary": "IT-J10-C07-E01: Unsupported 'Python' attribution removed from first employment skills_used (now ['PyTorch', 'OpenCV', 'FastAPI', 'Docker']) under HR-SOURCE-003.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J10-C07-E02: Unsupported 'PyTorch' attribution removed from freelance engagement skills_used (now ['Python']) under HR-SOURCE-003.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J10-C07-E02: Unestablished is_current=false with null start/end dates repaired to is_current=null under HR-SOURCE-005.",
+      "disposition": "fixed"
+    },
+    {
+      "issue_summary": "IT-J10-C08-E01: Unexplicit framework-inferred 'Python' removed from first employment skills_used (now ['FastAPI', 'Docker']) under HR-SOURCE-003.",
+      "disposition": "fixed"
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J10-C01: Summary tenure (1 năm 8 tháng) excludes prior 6-month AI research internship (2024-09 to 2025-02); source preserved under HR-SOURCE-008 for human review if label-material."
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J10-C04: Summary tenure (1 năm 2 tháng) vs ~16-month current role plus 6-month prior research; source preserved under HR-SOURCE-008 for human review if label-material."
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J10-C05: Rounded 1-year summary vs ~15-month current role plus 6-month prior internship; source preserved under HR-SOURCE-008."
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J10-C06: Project title keyword extraction (NewsKeyword) vs description entity extraction (trích xuất thực thể); structured fields faithfully copy source and task ambiguity is retained for labeling review."
+    },
+    {
+      "disposition": "retained_ambiguity",
+      "issue_summary": "IT-J10-R01: Upper-bound intent of 'từ 1 đến 2 năm kinh nghiệm' remains an annotation-level ambiguity while preserving exact JD wording under HR-SOURCE-011."
+    },
+    {
+      "issue_summary": "Repetitive CV layouts, recurring candidate-index scenario templates (C07 undated freelance pattern), and cross-job fictional employer reuse (C03, C07) retained for development pilot only under HR-SOURCE-009.",
+      "disposition": "accepted_limitation"
+    }
+  ],
+  "blocking_issues": [],
+  "job_id": "IT-J10",
+  "limitations_noted": [
+    "Source acceptance audit only; synthetic development data (split='development', synthetic=true) with no verified real-world competence, gold labels, or generalization claim.",
+    "Summary-vs-timeline tenure scope ambiguities remain under HR-SOURCE-008 (C01, C02, C03, C04, C05, C06, C08 show rounded durations or summaries aligning with current role while excluding prior internship/probation periods); escalate to human review if label-material against IT-J10-R01.",
+    "Normalized top-level skills arrays omit prose qualifiers ('C++ cơ bản', 'Docker cơ bản', 'PyTorch (cơ bản)', 'ONNX Runtime (suy luận mô hình)'); downstream labeling must rely on section text rather than treating skill strings as mastery.",
+    "IT-J10-C07 has 199 whitespace-delimited tokens (1 token shy of the 200-450 preferred guideline) and an undated freelance engagement E02 (start_date=null, end_date=null, is_current=null), which may require human review if tenure thresholds under IT-J10-R01 are label-material.",
+    "Recurring candidate-index scenario templates (including C07 undated freelance pattern across jobs) and cross-job fictional employer reuse (C03, C07) limit source-family independence; retained for development pilot only under HR-SOURCE-009.",
+    "Fictionality of synthetic Vietnamese employer names is audited against known real-institution collisions without exhaustive external business-registry verification (HR-SOURCE-007)."
+  ],
+  "source_acceptance": "accepted",
+  "verification_run_id": "wtys44xgs",
+  "verification_model": "ag/gemini-3.8-flash-high"
+}

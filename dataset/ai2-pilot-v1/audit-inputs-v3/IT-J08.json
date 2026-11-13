@@ -1,0 +1,859 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "IT-J08",
+      "source_family_id": "IT-J08",
+      "domain": "it",
+      "title": "Lập trình viên Backend Golang (Golang Backend Developer)",
+      "level": "junior",
+      "language": "vi",
+      "jd_text": "Công ty Cổ phần Công nghệ Mạng Đa Điểm TechNova tuyển dụng vị trí Lập trình viên Backend Golang (Golang Backend Developer) cấp độ Junior tại Cầu Giấy, Hà Nội. Hình thức làm việc: Toàn thời gian trực tiếp tại văn phòng. Mức thu nhập khởi điểm từ 14.000.000 đến 20.000.000 VND kèm chế độ ăn trưa miễn phí và tài trợ kinh phí thi chứng chỉ kỹ thuật.\n\nTrách nhiệm công việc:\n- Tham gia xây dựng các dịch vụ microservices backend hiệu năng cao bằng ngôn ngữ Golang.\n- Viết RESTful API và dịch vụ RPC kết nối với các hệ sinh thái ứng dụng khác trong doanh nghiệp.\n- Thiết kế bảng dữ liệu, viết câu lệnh truy vấn và tối ưu cơ sở dữ liệu quan hệ PostgreSQL.\n- Viết unit test, phối hợp cùng đội QA kiểm tra lỗi và tham gia đóng gói triển khai ứng dụng.\n\nYêu cầu bắt buộc:\n- Có từ 1 đến 2 năm kinh nghiệm lập trình backend với ngôn ngữ Golang (Go).\n- Thành thạo xây dựng RESTful API hoặc gRPC services sử dụng Gin, Echo hoặc Fiber.\n- Kinh nghiệm làm việc với cơ sở dữ liệu PostgreSQL hoặc MySQL (sử dụng GORM, sqlx hoặc database/sql).\n\nYêu cầu ưu tiên:\n- Hiểu biết về lập trình đồng thời (goroutine, channel) và xử lý race condition trong Go.\n- Kinh nghiệm sử dụng Redis cho caching và Docker để đóng gói ứng dụng.\n- Tốt nghiệp Đại học hoặc Cao đẳng chuyên ngành Công nghệ thông tin hoặc ngành kỹ thuật liên quan.",
+      "requirements": [
+        {
+          "requirement_id": "IT-J08-R01",
+          "text": "Có từ 1 đến 2 năm kinh nghiệm lập trình backend với ngôn ngữ Golang (Go).",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J08-R02",
+          "text": "Thành thạo xây dựng RESTful API hoặc gRPC services sử dụng Gin, Echo hoặc Fiber.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J08-R03",
+          "text": "Kinh nghiệm làm việc với cơ sở dữ liệu PostgreSQL hoặc MySQL (sử dụng GORM, sqlx hoặc database/sql).",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J08-R04",
+          "text": "Hiểu biết về lập trình đồng thời (goroutine, channel) và xử lý race condition trong Go.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J08-R05",
+          "text": "Kinh nghiệm sử dụng Redis cho caching và Docker để đóng gói ứng dụng.",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J08-R06",
+          "text": "Tốt nghiệp Đại học hoặc Cao đẳng chuyên ngành Công nghệ thông tin hoặc ngành kỹ thuật liên quan.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "IT-J08-C01",
+          "cv_text": "Tóm lược: Lập trình viên Backend Junior có 1 năm 6 tháng kinh nghiệm chuyên trách với ngôn ngữ Golang (Go). Thành thạo framework Gin để xây dựng RESTful API, tương tác cơ sở dữ liệu PostgreSQL thông qua GORM và sqlx. Có hiểu biết về goroutine, channel, sử dụng Redis lưu cache và đóng gói dịch vụ bằng Docker.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: Golang (Go), SQL.\n- Web Framework: Gin, Echo.\n- Cơ sở dữ liệu & Caching: PostgreSQL, MySQL, Redis, GORM, sqlx.\n- Khái niệm Go: Goroutine, Channel, Concurrency.\n- Công cụ: Docker, Git, Postman, Linux.\n\nKinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Viễn Thông Số Sao Mai. Thời gian: từ 2025-04 đến nay. Mô tả: Xây dựng các dịch vụ RESTful API phục vụ ứng dụng ví điện tử bằng Golang và framework Gin. Quản lý truy vấn dữ liệu trên PostgreSQL bằng GORM. Áp dụng goroutine và channel để xử lý đồng thời các tác vụ kiểm tra số dư và ghi log. Cấu hình Redis caching giảm tải cơ sở dữ liệu. Đóng gói mã nguồn qua Docker.\n- Chức danh: Thực tập sinh Backend Golang tại Công ty Cổ phần Giải pháp Phần mềm Hà Thành. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Làm quen cú pháp Go, viết các endpoint CRUD bằng Gin và viết unit test cơ bản.\n\nDự án:\n- Dự án Hệ thống Xử lý Ví Điện tử MiniPay: Xây dựng RESTful API bằng Golang và Gin, kết nối cơ sở dữ liệu PostgreSQL và Redis caching.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J08-C01-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Backend Junior có 1 năm 6 tháng kinh nghiệm chuyên trách với ngôn ngữ Golang (Go). Thành thạo framework Gin để xây dựng RESTful API, tương tác cơ sở dữ liệu PostgreSQL thông qua GORM và sqlx. Có hiểu biết về goroutine, channel, sử dụng Redis lưu cache và đóng gói dịch vụ bằng Docker."
+            },
+            {
+              "section_id": "IT-J08-C01-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: Golang (Go), SQL.\n- Web Framework: Gin, Echo.\n- Cơ sở dữ liệu & Caching: PostgreSQL, MySQL, Redis, GORM, sqlx.\n- Khái niệm Go: Goroutine, Channel, Concurrency.\n- Công cụ: Docker, Git, Postman, Linux."
+            },
+            {
+              "section_id": "IT-J08-C01-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Viễn Thông Số Sao Mai. Thời gian: từ 2025-04 đến nay. Mô tả: Xây dựng các dịch vụ RESTful API phục vụ ứng dụng ví điện tử bằng Golang và framework Gin. Quản lý truy vấn dữ liệu trên PostgreSQL bằng GORM. Áp dụng goroutine và channel để xử lý đồng thời các tác vụ kiểm tra số dư và ghi log. Cấu hình Redis caching giảm tải cơ sở dữ liệu. Đóng gói mã nguồn qua Docker.\n- Chức danh: Thực tập sinh Backend Golang tại Công ty Cổ phần Giải pháp Phần mềm Hà Thành. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Làm quen cú pháp Go, viết các endpoint CRUD bằng Gin và viết unit test cơ bản."
+            },
+            {
+              "section_id": "IT-J08-C01-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Xử lý Ví Điện tử MiniPay: Xây dựng RESTful API bằng Golang và Gin, kết nối cơ sở dữ liệu PostgreSQL và Redis caching."
+            },
+            {
+              "section_id": "IT-J08-C01-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J08-C01-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Golang",
+            "SQL",
+            "Gin",
+            "Echo",
+            "PostgreSQL",
+            "MySQL",
+            "Redis",
+            "GORM",
+            "sqlx",
+            "Goroutine",
+            "Channel",
+            "Docker",
+            "Git",
+            "Postman",
+            "Linux"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J08-C01-E01",
+              "title": "Junior Golang Developer",
+              "company": "Công ty TNHH Công nghệ Viễn Thông Số Sao Mai",
+              "start_date": "2025-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các dịch vụ RESTful API phục vụ ứng dụng ví điện tử bằng Golang và framework Gin. Quản lý truy vấn dữ liệu trên PostgreSQL bằng GORM. Áp dụng goroutine và channel để xử lý đồng thời các tác vụ kiểm tra số dư và ghi log. Cấu hình Redis caching giảm tải cơ sở dữ liệu. Đóng gói mã nguồn qua Docker.",
+              "skills_used": [
+                "Golang",
+                "Gin",
+                "GORM",
+                "PostgreSQL",
+                "Redis",
+                "Docker"
+              ],
+              "section_id": "IT-J08-C01-S03"
+            },
+            {
+              "experience_id": "IT-J08-C01-E02",
+              "title": "Thực tập sinh Backend Golang",
+              "company": "Công ty Cổ phần Giải pháp Phần mềm Hà Thành",
+              "start_date": "2024-10",
+              "end_date": "2025-03",
+              "is_current": false,
+              "description": "Làm quen cú pháp Go, viết các endpoint CRUD bằng Gin và viết unit test cơ bản.",
+              "skills_used": [
+                "Golang",
+                "Gin"
+              ],
+              "section_id": "IT-J08-C01-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J08-C01-P01",
+              "name": "Hệ thống Xử lý Ví Điện tử MiniPay",
+              "description": "Xây dựng RESTful API bằng Golang và Gin, kết nối cơ sở dữ liệu PostgreSQL và Redis caching.",
+              "technologies_or_methods": [
+                "Golang",
+                "Gin",
+                "PostgreSQL",
+                "Redis"
+              ],
+              "section_id": "IT-J08-C01-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J08-C01-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J08-C02",
+          "cv_text": "Tóm lược: Lập trình viên Backend có 2 năm kinh nghiệm lập trình web, trong đó có 1 năm kinh nghiệm với Node.js và 1 năm kinh nghiệm với Golang (Go). Sử dụng Fiber framework để xây dựng RESTful API tốc độ cao, kết nối cơ sở dữ liệu MySQL và cấu hình Redis cache.\n\nKỹ năng:\n- Ngôn ngữ: Golang, JavaScript, TypeScript, SQL.\n- Framework Backend: Fiber, Express.js, GORM.\n- Cơ sở dữ liệu: MySQL, Redis, MongoDB.\n- Công cụ: Docker, Git, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Giải pháp Số Á Châu. Thời gian: từ 2025-08 đến nay. Mô tả: Phát triển microservices backend bằng Golang và framework Fiber cho nền tảng quản lý đặt chỗ. Truy vấn cơ sở dữ liệu MySQL thông qua GORM và tối ưu tốc độ đọc dữ liệu bằng Redis.\n- Chức danh: Junior Node.js Developer tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2024-08 đến 2025-07. Mô tả: Xây dựng RESTful API quản lý người dùng bằng Node.js, Express và MySQL.\n\nDự án:\n- Dự án Cổng Đặt Phòng Khách Sạn BookingFast: Xây dựng API microservice bằng Golang và Fiber kết hợp cơ sở dữ liệu MySQL.\n\nHọc vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J08-C02-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Backend có 2 năm kinh nghiệm lập trình web, trong đó có 1 năm kinh nghiệm với Node.js và 1 năm kinh nghiệm với Golang (Go). Sử dụng Fiber framework để xây dựng RESTful API tốc độ cao, kết nối cơ sở dữ liệu MySQL và cấu hình Redis cache."
+            },
+            {
+              "section_id": "IT-J08-C02-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Golang, JavaScript, TypeScript, SQL.\n- Framework Backend: Fiber, Express.js, GORM.\n- Cơ sở dữ liệu: MySQL, Redis, MongoDB.\n- Công cụ: Docker, Git, Postman."
+            },
+            {
+              "section_id": "IT-J08-C02-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Backend Developer tại Công ty Cổ phần Giải pháp Số Á Châu. Thời gian: từ 2025-08 đến nay. Mô tả: Phát triển microservices backend bằng Golang và framework Fiber cho nền tảng quản lý đặt chỗ. Truy vấn cơ sở dữ liệu MySQL thông qua GORM và tối ưu tốc độ đọc dữ liệu bằng Redis.\n- Chức danh: Junior Node.js Developer tại Công ty TNHH Phát triển Phần mềm Trí Việt. Thời gian: từ 2024-08 đến 2025-07. Mô tả: Xây dựng RESTful API quản lý người dùng bằng Node.js, Express và MySQL."
+            },
+            {
+              "section_id": "IT-J08-C02-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Cổng Đặt Phòng Khách Sạn BookingFast: Xây dựng API microservice bằng Golang và Fiber kết hợp cơ sở dữ liệu MySQL."
+            },
+            {
+              "section_id": "IT-J08-C02-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Khoa học Máy tính, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J08-C02-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Golang",
+            "JavaScript",
+            "TypeScript",
+            "SQL",
+            "Fiber",
+            "Express.js",
+            "GORM",
+            "MySQL",
+            "Redis",
+            "MongoDB",
+            "Docker",
+            "Git",
+            "Postman"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J08-C02-E01",
+              "title": "Backend Developer",
+              "company": "Công ty Cổ phần Giải pháp Số Á Châu",
+              "start_date": "2025-08",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển microservices backend bằng Golang và framework Fiber cho nền tảng quản lý đặt chỗ. Truy vấn cơ sở dữ liệu MySQL thông qua GORM và tối ưu tốc độ đọc dữ liệu bằng Redis.",
+              "skills_used": [
+                "Golang",
+                "Fiber",
+                "GORM",
+                "MySQL",
+                "Redis"
+              ],
+              "section_id": "IT-J08-C02-S03"
+            },
+            {
+              "experience_id": "IT-J08-C02-E02",
+              "title": "Junior Node.js Developer",
+              "company": "Công ty TNHH Phát triển Phần mềm Trí Việt",
+              "start_date": "2024-08",
+              "end_date": "2025-07",
+              "is_current": false,
+              "description": "Xây dựng RESTful API quản lý người dùng bằng Node.js, Express và MySQL.",
+              "skills_used": [
+                "Node.js",
+                "Express",
+                "MySQL"
+              ],
+              "section_id": "IT-J08-C02-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J08-C02-P01",
+              "name": "Cổng Đặt Phòng Khách Sạn BookingFast",
+              "description": "Xây dựng API microservice bằng Golang và Fiber kết hợp cơ sở dữ liệu MySQL.",
+              "technologies_or_methods": [
+                "Golang",
+                "Fiber",
+                "MySQL"
+              ],
+              "section_id": "IT-J08-C02-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Khoa học Máy tính",
+              "section_id": "IT-J08-C02-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J08-C03",
+          "cv_text": "Tóm lược: Lập trình viên Backend có 1 năm 8 tháng kinh nghiệm phát triển phần mềm. Khởi đầu với Python trong 1 năm 2 tháng và đã chủ động chuyển đổi sang lập trình Golang trong 6 tháng qua. Đã làm quen với việc xây dựng RESTful API bằng Gin và cơ sở dữ liệu PostgreSQL.\n\nKỹ năng:\n- Ngôn ngữ: Python, Golang (cơ bản), SQL.\n- Framework & Thư viện: FastAPI, Gin, GORM, Django.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Khác: Git, Docker, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend tại Công ty TNHH Giải pháp Phần mềm Trẻ Thăng Long. Thời gian: từ 2025-05 đến nay. Mô tả: Hỗ trợ viết các API kiểm tra thông tin tài khoản bằng Golang và Gin. Kết nối cơ sở dữ liệu PostgreSQL sử dụng thư viện database/sql và GORM.\n- Chức danh: Junior Python Developer tại Công ty Cổ phần Công nghệ Nam Định. Thời gian: từ 2024-07 đến 2025-04. Mô tả: Xây dựng REST API bằng Python FastAPI và quản trị cơ sở dữ liệu PostgreSQL.\n\nDự án:\n- Dự án Chuyển Đổi Service Xác Thực AuthGo: Viết lại phân hệ đăng nhập và cấp mã token từ Python sang Golang Gin.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J08-C03-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Backend có 1 năm 8 tháng kinh nghiệm phát triển phần mềm. Khởi đầu với Python trong 1 năm 2 tháng và đã chủ động chuyển đổi sang lập trình Golang trong 6 tháng qua. Đã làm quen với việc xây dựng RESTful API bằng Gin và cơ sở dữ liệu PostgreSQL."
+            },
+            {
+              "section_id": "IT-J08-C03-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Python, Golang (cơ bản), SQL.\n- Framework & Thư viện: FastAPI, Gin, GORM, Django.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Khác: Git, Docker, Postman."
+            },
+            {
+              "section_id": "IT-J08-C03-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend tại Công ty TNHH Giải pháp Phần mềm Trẻ Thăng Long. Thời gian: từ 2025-05 đến nay. Mô tả: Hỗ trợ viết các API kiểm tra thông tin tài khoản bằng Golang và Gin. Kết nối cơ sở dữ liệu PostgreSQL sử dụng thư viện database/sql và GORM.\n- Chức danh: Junior Python Developer tại Công ty Cổ phần Công nghệ Nam Định. Thời gian: từ 2024-07 đến 2025-04. Mô tả: Xây dựng REST API bằng Python FastAPI và quản trị cơ sở dữ liệu PostgreSQL."
+            },
+            {
+              "section_id": "IT-J08-C03-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Chuyển Đổi Service Xác Thực AuthGo: Viết lại phân hệ đăng nhập và cấp mã token từ Python sang Golang Gin."
+            },
+            {
+              "section_id": "IT-J08-C03-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội."
+            },
+            {
+              "section_id": "IT-J08-C03-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Python",
+            "Golang",
+            "SQL",
+            "FastAPI",
+            "Gin",
+            "GORM",
+            "Django",
+            "PostgreSQL",
+            "Redis",
+            "Git",
+            "Docker",
+            "Postman"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J08-C03-E01",
+              "title": "Lập trình viên Backend",
+              "company": "Công ty TNHH Giải pháp Phần mềm Trẻ Thăng Long",
+              "start_date": "2025-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Hỗ trợ viết các API kiểm tra thông tin tài khoản bằng Golang và Gin. Kết nối cơ sở dữ liệu PostgreSQL sử dụng thư viện database/sql và GORM.",
+              "skills_used": [
+                "Golang",
+                "Gin",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J08-C03-S03"
+            },
+            {
+              "experience_id": "IT-J08-C03-E02",
+              "title": "Junior Python Developer",
+              "company": "Công ty Cổ phần Công nghệ Nam Định",
+              "start_date": "2024-07",
+              "end_date": "2025-04",
+              "is_current": false,
+              "description": "Xây dựng REST API bằng Python FastAPI và quản trị cơ sở dữ liệu PostgreSQL.",
+              "skills_used": [
+                "Python",
+                "FastAPI",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J08-C03-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J08-C03-P01",
+              "name": "Chuyển Đổi Service Xác Thực AuthGo",
+              "description": "Viết lại phân hệ đăng nhập và cấp mã token từ Python sang Golang Gin.",
+              "technologies_or_methods": [
+                "Golang",
+                "Gin"
+              ],
+              "section_id": "IT-J08-C03-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J08-C03-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J08-C04",
+          "cv_text": "Tóm lược: Lập trình viên Golang Junior có 1 năm 3 tháng kinh nghiệm làm việc chuyên sâu với Echo framework và giao thức gRPC. Có kinh nghiệm xây dựng microservices giao tiếp nội bộ hiệu năng cao, quản lý cơ sở dữ liệu PostgreSQL bằng thư viện sqlx và container hóa dịch vụ với Docker.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ & Giao thức: Golang (Go), Protobuf, gRPC, SQL.\n- Framework & Thư viện: Echo, sqlx, GORM.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Docker Compose, Git, Linux.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Golang tại Công ty Cổ phần Giải pháp Mạng Trực Tuyến Tốc Độ. Thời gian: từ 2025-07 đến nay. Mô tả: Xây dựng các dịch vụ microservices backend bằng Golang kết nối qua gRPC và Protobuf. Quản lý truy vấn dữ liệu hiệu năng cao với PostgreSQL thông qua sqlx. Đóng gói ứng dụng vào Docker container.\n- Chức danh: Thực tập sinh Lập trình C++ và Go tại Công ty TNHH Phần mềm Công Nghệ Cao. Thời gian: từ 2025-01 đến 2025-06. Mô tả: Tham gia viết mã nguồn kiểm thử và tìm hiểu lập trình phân tán trong Go.\n\nDự án:\n- Dự án Dịch vụ Đơn hàng Phân tán OrderService-Go: Thiết kế dịch vụ gRPC xử lý đặt hàng bằng Golang, Echo và PostgreSQL.\n\nHọc vấn:\n- Kỹ sư Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J08-C04-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Golang Junior có 1 năm 3 tháng kinh nghiệm làm việc chuyên sâu với Echo framework và giao thức gRPC. Có kinh nghiệm xây dựng microservices giao tiếp nội bộ hiệu năng cao, quản lý cơ sở dữ liệu PostgreSQL bằng thư viện sqlx và container hóa dịch vụ với Docker."
+            },
+            {
+              "section_id": "IT-J08-C04-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ & Giao thức: Golang (Go), Protobuf, gRPC, SQL.\n- Framework & Thư viện: Echo, sqlx, GORM.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Hạ tầng & Công cụ: Docker, Docker Compose, Git, Linux."
+            },
+            {
+              "section_id": "IT-J08-C04-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Backend Golang tại Công ty Cổ phần Giải pháp Mạng Trực Tuyến Tốc Độ. Thời gian: từ 2025-07 đến nay. Mô tả: Xây dựng các dịch vụ microservices backend bằng Golang kết nối qua gRPC và Protobuf. Quản lý truy vấn dữ liệu hiệu năng cao với PostgreSQL thông qua sqlx. Đóng gói ứng dụng vào Docker container.\n- Chức danh: Thực tập sinh Lập trình C++ và Go tại Công ty TNHH Phần mềm Công Nghệ Cao. Thời gian: từ 2025-01 đến 2025-06. Mô tả: Tham gia viết mã nguồn kiểm thử và tìm hiểu lập trình phân tán trong Go."
+            },
+            {
+              "section_id": "IT-J08-C04-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Dịch vụ Đơn hàng Phân tán OrderService-Go: Thiết kế dịch vụ gRPC xử lý đặt hàng bằng Golang, Echo và PostgreSQL."
+            },
+            {
+              "section_id": "IT-J08-C04-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J08-C04-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Golang",
+            "Protobuf",
+            "gRPC",
+            "SQL",
+            "Echo",
+            "sqlx",
+            "GORM",
+            "PostgreSQL",
+            "Redis",
+            "Docker",
+            "Docker Compose",
+            "Git",
+            "Linux"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J08-C04-E01",
+              "title": "Lập trình viên Backend Golang",
+              "company": "Công ty Cổ phần Giải pháp Mạng Trực Tuyến Tốc Độ",
+              "start_date": "2025-07",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các dịch vụ microservices backend bằng Golang kết nối qua gRPC và Protobuf. Quản lý truy vấn dữ liệu hiệu năng cao với PostgreSQL thông qua sqlx. Đóng gói ứng dụng vào Docker container.",
+              "skills_used": [
+                "Golang",
+                "gRPC",
+                "sqlx",
+                "PostgreSQL",
+                "Docker"
+              ],
+              "section_id": "IT-J08-C04-S03"
+            },
+            {
+              "experience_id": "IT-J08-C04-E02",
+              "title": "Thực tập sinh Lập trình C++ và Go",
+              "company": "Công ty TNHH Phần mềm Công Nghệ Cao",
+              "start_date": "2025-01",
+              "end_date": "2025-06",
+              "is_current": false,
+              "description": "Tham gia viết mã nguồn kiểm thử và tìm hiểu lập trình phân tán trong Go.",
+              "skills_used": [
+                "Go"
+              ],
+              "section_id": "IT-J08-C04-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J08-C04-P01",
+              "name": "Dịch vụ Đơn hàng Phân tán OrderService-Go",
+              "description": "Thiết kế dịch vụ gRPC xử lý đặt hàng bằng Golang, Echo và PostgreSQL.",
+              "technologies_or_methods": [
+                "Golang",
+                "Echo",
+                "gRPC",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J08-C04-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Kỹ thuật Phần mềm",
+              "section_id": "IT-J08-C04-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J08-C05",
+          "cv_text": "Tóm lược: Lập trình viên Backend Golang tự học có 1 năm kinh nghiệm làm việc thực tế với framework Gin và cơ sở dữ liệu MySQL. Đam mê tối ưu hiệu năng mã nguồn và tìm hiểu cách vận hành các dịch vụ nhẹ.\n\nKỹ năng:\n- Ngôn ngữ: Golang (Go), SQL.\n- Web Framework & Thư viện: Gin, GORM.\n- Cơ sở dữ liệu: MySQL.\n- Công cụ: Git, VS Code, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Giải pháp Đỉnh Cao. Thời gian: từ 2025-09 đến nay. Mô tả: Xây dựng các RESTful API phục vụ tính năng bình luận và đánh giá sản phẩm bằng Golang và Gin. Kết nối cơ sở dữ liệu MySQL qua GORM.\n- Chức danh: Lập trình viên Thử việc tại Công ty Cổ phần Số Khởi Tạo. Thời gian: từ 2025-03 đến 2025-08. Mô tả: Hỗ trợ kiểm thử và sửa lỗi nhỏ trong các API Golang.\n\nDự án:\n- Dự án Hệ thống Đánh giá Sản phẩm ReviewGo: Viết RESTful API bằng Golang và Gin kết nối cơ sở dữ liệu MySQL.\n\nHọc vấn:\n- Thông tin học vấn: Không có bằng cấp đại học chính quy ghi nhận trong hồ sơ.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J08-C05-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Backend Golang tự học có 1 năm kinh nghiệm làm việc thực tế với framework Gin và cơ sở dữ liệu MySQL. Đam mê tối ưu hiệu năng mã nguồn và tìm hiểu cách vận hành các dịch vụ nhẹ."
+            },
+            {
+              "section_id": "IT-J08-C05-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Golang (Go), SQL.\n- Web Framework & Thư viện: Gin, GORM.\n- Cơ sở dữ liệu: MySQL.\n- Công cụ: Git, VS Code, Postman."
+            },
+            {
+              "section_id": "IT-J08-C05-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Junior Golang Developer tại Công ty TNHH Công nghệ Giải pháp Đỉnh Cao. Thời gian: từ 2025-09 đến nay. Mô tả: Xây dựng các RESTful API phục vụ tính năng bình luận và đánh giá sản phẩm bằng Golang và Gin. Kết nối cơ sở dữ liệu MySQL qua GORM.\n- Chức danh: Lập trình viên Thử việc tại Công ty Cổ phần Số Khởi Tạo. Thời gian: từ 2025-03 đến 2025-08. Mô tả: Hỗ trợ kiểm thử và sửa lỗi nhỏ trong các API Golang."
+            },
+            {
+              "section_id": "IT-J08-C05-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Đánh giá Sản phẩm ReviewGo: Viết RESTful API bằng Golang và Gin kết nối cơ sở dữ liệu MySQL."
+            },
+            {
+              "section_id": "IT-J08-C05-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Thông tin học vấn: Không có bằng cấp đại học chính quy ghi nhận trong hồ sơ."
+            },
+            {
+              "section_id": "IT-J08-C05-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Golang",
+            "SQL",
+            "Gin",
+            "GORM",
+            "MySQL",
+            "Git",
+            "VS Code",
+            "Postman"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J08-C05-E01",
+              "title": "Junior Golang Developer",
+              "company": "Công ty TNHH Công nghệ Giải pháp Đỉnh Cao",
+              "start_date": "2025-09",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các RESTful API phục vụ tính năng bình luận và đánh giá sản phẩm bằng Golang và Gin. Kết nối cơ sở dữ liệu MySQL qua GORM.",
+              "skills_used": [
+                "Golang",
+                "Gin",
+                "MySQL"
+              ],
+              "section_id": "IT-J08-C05-S03"
+            },
+            {
+              "experience_id": "IT-J08-C05-E02",
+              "title": "Lập trình viên Thử việc",
+              "company": "Công ty Cổ phần Số Khởi Tạo",
+              "start_date": "2025-03",
+              "end_date": "2025-08",
+              "is_current": false,
+              "description": "Hỗ trợ kiểm thử và sửa lỗi nhỏ trong các API Golang.",
+              "skills_used": [
+                "Golang"
+              ],
+              "section_id": "IT-J08-C05-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J08-C05-P01",
+              "name": "Hệ thống Đánh giá Sản phẩm ReviewGo",
+              "description": "Viết RESTful API bằng Golang và Gin kết nối cơ sở dữ liệu MySQL.",
+              "technologies_or_methods": [
+                "Golang",
+                "Gin",
+                "MySQL"
+              ],
+              "section_id": "IT-J08-C05-S04"
+            }
+          ],
+          "education": [],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J08-C06",
+          "cv_text": "Tóm lược: Lập trình viên C/C++ có 1 năm 6 tháng kinh nghiệm lập trình nhúng và ứng dụng mạng. Đã chủ động học thêm Golang trong 8 tháng qua, phát triển các dịch vụ mạng xử lý luồng dữ liệu bằng Go goroutine và kết nối cơ sở dữ liệu PostgreSQL.\n\nKỹ năng:\n- Ngôn ngữ: C++, C, Golang, SQL.\n- Mạng & Backend: Socket, Gin, PostgreSQL, Docker cơ bản.\n- Khái niệm: Lập trình đồng thời, goroutine, mutex, channel.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên C++ & Golang tại Công ty Cổ phần Công nghệ Thiết bị Thông Minh V-Tech. Thời gian: từ 2025-03 đến nay. Mô tả: Phát triển dịch vụ thu thập gói tin thiết bị IoT bằng C++ và Golang. Sử dụng goroutine và channel trong Go để xử lý dữ liệu cảm biến đồng thời trước khi ghi vào cơ sở dữ liệu PostgreSQL.\n- Chức danh: Thực tập sinh Lập trình C tại Công ty TNHH Kỹ thuật Điện tử Miền Bắc. Thời gian: từ 2024-08 đến 2025-02. Mô tả: Lập trình firmware điều khiển vi xử lý bằng ngôn ngữ C.\n\nDự án:\n- Dự án Hệ thống Thu thập Cảm biến IoT-Go: Xây dựng service Go nhận dữ liệu socket từ 1000 cảm biến và lưu trữ vào PostgreSQL.\n\nHọc vấn:\n- Kỹ sư Điện tử Viễn thông, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J08-C06-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên C/C++ có 1 năm 6 tháng kinh nghiệm lập trình nhúng và ứng dụng mạng. Đã chủ động học thêm Golang trong 8 tháng qua, phát triển các dịch vụ mạng xử lý luồng dữ liệu bằng Go goroutine và kết nối cơ sở dữ liệu PostgreSQL."
+            },
+            {
+              "section_id": "IT-J08-C06-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: C++, C, Golang, SQL.\n- Mạng & Backend: Socket, Gin, PostgreSQL, Docker cơ bản.\n- Khái niệm: Lập trình đồng thời, goroutine, mutex, channel."
+            },
+            {
+              "section_id": "IT-J08-C06-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên C++ & Golang tại Công ty Cổ phần Công nghệ Thiết bị Thông Minh V-Tech. Thời gian: từ 2025-03 đến nay. Mô tả: Phát triển dịch vụ thu thập gói tin thiết bị IoT bằng C++ và Golang. Sử dụng goroutine và channel trong Go để xử lý dữ liệu cảm biến đồng thời trước khi ghi vào cơ sở dữ liệu PostgreSQL.\n- Chức danh: Thực tập sinh Lập trình C tại Công ty TNHH Kỹ thuật Điện tử Miền Bắc. Thời gian: từ 2024-08 đến 2025-02. Mô tả: Lập trình firmware điều khiển vi xử lý bằng ngôn ngữ C."
+            },
+            {
+              "section_id": "IT-J08-C06-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Thu thập Cảm biến IoT-Go: Xây dựng service Go nhận dữ liệu socket từ 1000 cảm biến và lưu trữ vào PostgreSQL."
+            },
+            {
+              "section_id": "IT-J08-C06-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Điện tử Viễn thông, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J08-C06-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "C++",
+            "C",
+            "Golang",
+            "SQL",
+            "Socket",
+            "Gin",
+            "PostgreSQL",
+            "Docker",
+            "Goroutine",
+            "Channel"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J08-C06-E01",
+              "title": "Lập trình viên C++ & Golang",
+              "company": "Công ty Cổ phần Công nghệ Thiết bị Thông Minh V-Tech",
+              "start_date": "2025-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển dịch vụ thu thập gói tin thiết bị IoT bằng C++ và Golang. Sử dụng goroutine và channel trong Go để xử lý dữ liệu cảm biến đồng thời trước khi ghi vào cơ sở dữ liệu PostgreSQL.",
+              "skills_used": [
+                "C++",
+                "Golang",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J08-C06-S03"
+            },
+            {
+              "experience_id": "IT-J08-C06-E02",
+              "title": "Thực tập sinh Lập trình C",
+              "company": "Công ty TNHH Kỹ thuật Điện tử Miền Bắc",
+              "start_date": "2024-08",
+              "end_date": "2025-02",
+              "is_current": false,
+              "description": "Lập trình firmware điều khiển vi xử lý bằng ngôn ngữ C.",
+              "skills_used": [
+                "C"
+              ],
+              "section_id": "IT-J08-C06-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J08-C06-P01",
+              "name": "Hệ thống Thu thập Cảm biến IoT-Go",
+              "description": "Xây dựng service Go nhận dữ liệu socket từ 1000 cảm biến và lưu trữ vào PostgreSQL.",
+              "technologies_or_methods": [
+                "Go",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J08-C06-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Điện tử Viễn thông",
+              "section_id": "IT-J08-C06-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J08-C07",
+          "cv_text": "Tóm lược hồ sơ: Lập trình viên Backend Golang tự do có kinh nghiệm xây dựng các RESTful API nhẹ bằng Gin framework kết nối cơ sở dữ liệu PostgreSQL và cấu hình Redis.\n\nKỹ năng:\n- Ngôn ngữ: Golang, SQL.\n- Công nghệ Backend: Gin, GORM, PostgreSQL, Redis, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Golang tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng RESTful API cho ứng dụng khảo sát trực tuyến bằng Golang Gin và cơ sở dữ liệu PostgreSQL. Cấu hình Redis lưu phiên làm việc.\n- Chức danh: Lập trình viên Backend Tự do tại Nhóm Phát triển Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Viết các API và kết nối cơ sở dữ liệu PostgreSQL bằng Golang.\n\nDự án:\n- Dự án Nền tảng Bình chọn Trực tuyến VoteNow: Viết API bằng Golang Gin và PostgreSQL, quản lý cache với Redis.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J08-C07-S01",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ: Lập trình viên Backend Golang tự do có kinh nghiệm xây dựng các RESTful API nhẹ bằng Gin framework kết nối cơ sở dữ liệu PostgreSQL và cấu hình Redis."
+            },
+            {
+              "section_id": "IT-J08-C07-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Golang, SQL.\n- Công nghệ Backend: Gin, GORM, PostgreSQL, Redis, Git."
+            },
+            {
+              "section_id": "IT-J08-C07-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Golang tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2025-06 đến nay. Mô tả: Xây dựng RESTful API cho ứng dụng khảo sát trực tuyến bằng Golang Gin và cơ sở dữ liệu PostgreSQL. Cấu hình Redis lưu phiên làm việc.\n- Chức danh: Lập trình viên Backend Tự do tại Nhóm Phát triển Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Viết các API và kết nối cơ sở dữ liệu PostgreSQL bằng Golang."
+            },
+            {
+              "section_id": "IT-J08-C07-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Nền tảng Bình chọn Trực tuyến VoteNow: Viết API bằng Golang Gin và PostgreSQL, quản lý cache với Redis."
+            },
+            {
+              "section_id": "IT-J08-C07-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội."
+            },
+            {
+              "section_id": "IT-J08-C07-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Golang",
+            "SQL",
+            "Gin",
+            "GORM",
+            "PostgreSQL",
+            "Redis",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J08-C07-E01",
+              "title": "Lập trình viên Golang",
+              "company": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới",
+              "start_date": "2025-06",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng RESTful API cho ứng dụng khảo sát trực tuyến bằng Golang Gin và cơ sở dữ liệu PostgreSQL. Cấu hình Redis lưu phiên làm việc.",
+              "skills_used": [
+                "Golang",
+                "Gin",
+                "PostgreSQL",
+                "Redis"
+              ],
+              "section_id": "IT-J08-C07-S03"
+            },
+            {
+              "experience_id": "IT-J08-C07-E02",
+              "title": "Lập trình viên Backend Tự do",
+              "company": "Nhóm Phát triển Mã nguồn Mở",
+              "start_date": null,
+              "end_date": null,
+              "is_current": null,
+              "description": "Viết các API và kết nối cơ sở dữ liệu PostgreSQL bằng Golang.",
+              "skills_used": [
+                "Golang",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J08-C07-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J08-C07-P01",
+              "name": "Nền tảng Bình chọn Trực tuyến VoteNow",
+              "description": "Viết API bằng Golang Gin và PostgreSQL, quản lý cache với Redis.",
+              "technologies_or_methods": [
+                "Golang",
+                "Gin",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J08-C07-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J08-C07-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J08-C08",
+          "cv_text": "Tóm lược: Chuyên viên Kiểm thử Tự động có 1 năm 6 tháng kinh nghiệm trong ngành phần mềm. Thường xuyên sử dụng Golang để viết các công cụ giả lập dịch vụ (mock server) và công cụ đo kiểm tải vi dịch vụ. Có mong muốn chuyển hẳn sang làm Lập trình viên Backend Golang.\n\nKỹ năng:\n- Ngôn ngữ: Golang, Python, SQL.\n- Công cụ & Thư viện: Gin (viết mock server), Postman, Docker, Git.\n- Cơ sở dữ liệu: PostgreSQL, SQLite.\n\nKinh nghiệm làm việc:\n- Chức danh: Automation QA & Tool Developer tại Công ty Cổ phần Công nghệ Viễn Thông Số Thần Tốc. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng các mock service bằng Golang và framework Gin để hỗ trợ môi trường kiểm thử tự động. Trực tiếp truy vấn kiểm tra dữ liệu trên PostgreSQL và đóng gói bộ kiểm thử bằng Docker.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Dịch vụ Số Tân An. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Kiểm thử chức năng và kiểm thử API bằng Postman.\n\nDự án:\n- Dự án Công cụ Giả lập Dịch vụ MockGo: Viết mock API server bằng Golang Gin và Docker để phục vụ kiểm thử tích hợp.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J08-C08-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Chuyên viên Kiểm thử Tự động có 1 năm 6 tháng kinh nghiệm trong ngành phần mềm. Thường xuyên sử dụng Golang để viết các công cụ giả lập dịch vụ (mock server) và công cụ đo kiểm tải vi dịch vụ. Có mong muốn chuyển hẳn sang làm Lập trình viên Backend Golang."
+            },
+            {
+              "section_id": "IT-J08-C08-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Golang, Python, SQL.\n- Công cụ & Thư viện: Gin (viết mock server), Postman, Docker, Git.\n- Cơ sở dữ liệu: PostgreSQL, SQLite."
+            },
+            {
+              "section_id": "IT-J08-C08-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Automation QA & Tool Developer tại Công ty Cổ phần Công nghệ Viễn Thông Số Thần Tốc. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng các mock service bằng Golang và framework Gin để hỗ trợ môi trường kiểm thử tự động. Trực tiếp truy vấn kiểm tra dữ liệu trên PostgreSQL và đóng gói bộ kiểm thử bằng Docker.\n- Chức danh: Chuyên viên Kiểm thử Phần mềm tại Công ty TNHH Dịch vụ Số Tân An. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Kiểm thử chức năng và kiểm thử API bằng Postman."
+            },
+            {
+              "section_id": "IT-J08-C08-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Công cụ Giả lập Dịch vụ MockGo: Viết mock API server bằng Golang Gin và Docker để phục vụ kiểm thử tích hợp."
+            },
+            {
+              "section_id": "IT-J08-C08-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J08-C08-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Golang",
+            "Python",
+            "SQL",
+            "Gin",
+            "Postman",
+            "Docker",
+            "Git",
+            "PostgreSQL",
+            "SQLite"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J08-C08-E01",
+              "title": "Automation QA & Tool Developer",
+              "company": "Công ty Cổ phần Công nghệ Viễn Thông Số Thần Tốc",
+              "start_date": "2025-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các mock service bằng Golang và framework Gin để hỗ trợ môi trường kiểm thử tự động. Trực tiếp truy vấn kiểm tra dữ liệu trên PostgreSQL và đóng gói bộ kiểm thử bằng Docker.",
+              "skills_used": [
+                "Golang",
+                "Gin",
+                "PostgreSQL",
+                "Docker"
+              ],
+              "section_id": "IT-J08-C08-S03"
+            },
+            {
+              "experience_id": "IT-J08-C08-E02",
+              "title": "Chuyên viên Kiểm thử Phần mềm",
+              "company": "Công ty TNHH Dịch vụ Số Tân An",
+              "start_date": "2024-11",
+              "end_date": "2025-04",
+              "is_current": false,
+              "description": "Kiểm thử chức năng và kiểm thử API bằng Postman.",
+              "skills_used": [
+                "Postman"
+              ],
+              "section_id": "IT-J08-C08-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J08-C08-P01",
+              "name": "Công cụ Giả lập Dịch vụ MockGo",
+              "description": "Viết mock API server bằng Golang Gin và Docker để phục vụ kiểm thử tích hợp.",
+              "technologies_or_methods": [
+                "Golang",
+                "Gin",
+                "Docker"
+              ],
+              "section_id": "IT-J08-C08-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J08-C08-S05"
+            }
+          ],
+          "certifications": []
+        }
+      ]
+    }
+  ]
+}

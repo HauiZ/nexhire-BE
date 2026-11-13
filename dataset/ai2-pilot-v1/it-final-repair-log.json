@@ -1,0 +1,106 @@
+{
+  "schema_version": "ai2-pilot-it-final-repair-log-v1",
+  "scope": "IT domain final source repair pass (IT-J01 through IT-J10)",
+  "reference_date": "2026-11-10",
+  "changes": [
+    {
+      "id": "IT-J03-C05-S01",
+      "candidate_id": "IT-J03-C05",
+      "field": "summary_text_and_cv_text",
+      "decision_id": "HR-SOURCE-002",
+      "before": "Tóm lược: Kỹ sư Dữ liệu mới tốt nghiệp có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Python, Pandas và SQL. Đã tham gia viết kịch bản trích xuất dữ liệu từ các API bên thứ ba nạp vào cơ sở dữ liệu MySQL và tìm hiểu cơ bản về Apache Spark.",
+      "after": "Tóm lược: Kỹ sư Dữ liệu có 1 năm 2 tháng kinh nghiệm làm việc thực tế với Python, Pandas và SQL. Đã tham gia viết kịch bản trích xuất dữ liệu từ các API bên thứ ba nạp vào cơ sở dữ liệu MySQL và tìm hiểu cơ bản về Apache Spark.",
+      "reason": "Removed unnecessary applicant age/graduation descriptor 'mới tốt nghiệp' while preserving factual duties and tenure."
+    },
+    {
+      "id": "IT-J04-C07-S01",
+      "candidate_id": "IT-J04-C07",
+      "field": "summary_text_and_cv_text",
+      "decision_id": "HR-SOURCE-006",
+      "before": "Tóm lược: Lập trình viên Flutter tự do với khoảng 1 năm kinh nghiệm phát triển ứng dụng di động bằng Dart và Flutter. Có kỹ năng tích hợp RESTful API và Firebase Authentication. Chưa có nhiều cơ hội làm việc trong môi trường doanh nghiệp lớn.",
+      "after": "Tóm lược: Lập trình viên Flutter tự do với khoảng 1 năm kinh nghiệm phát triển ứng dụng di động bằng Dart và Flutter. Có kỹ năng tích hợp RESTful API và Firebase Authentication.",
+      "reason": "Removed requirement-shaped negative-list sentence 'Chưa có nhiều cơ hội làm việc trong môi trường doanh nghiệp lớn.' while preserving positive technical qualifications."
+    },
+    {
+      "id": "IT-J05-C02-E01",
+      "candidate_id": "IT-J05-C02",
+      "field": "experience_company_and_text",
+      "decision_id": "HR-SOURCE-007",
+      "before": "Công ty Cổ phần Giải pháp Thanh toán Thông minh VNPayLink",
+      "after": "Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink",
+      "reason": "Fictionalized employer brand resembling existing real trademark (VNPay) to clear synthetic name."
+    },
+    {
+      "id": "IT-J06-C08-E01",
+      "candidate_id": "IT-J06-C08",
+      "field": "experience_company_project_and_text",
+      "decision_id": "HR-SOURCE-007",
+      "before": "Công ty Cổ phần Công nghệ Viễn Thông Số Sao Bắc Đẩu (Dự án Kiểm thử Tải Hệ sinh thái SaoBacDau Pay)",
+      "after": "Công ty Cổ phần Công nghệ Viễn Thông Số Sao Thiên Hà (Dự án Kiểm thử Tải Hệ sinh thái ThienHa Pay)",
+      "reason": "Fictionalized employer brand resembling real telecom corporate entity (Sao Bắc Đẩu Telecom) and harmonized project title."
+    },
+    {
+      "id": "IT-J07-C01-E01",
+      "candidate_id": "IT-J07-C01",
+      "field": "experience_company_project_and_text",
+      "decision_id": "HR-SOURCE-007",
+      "before": "Công ty Cổ phần Công nghệ Thanh toán Quốc gia VinaPay (Dự án Hệ thống Thanh toán Liên Ngân hàng VinaPay-Core)",
+      "after": "Công ty Cổ phần Công nghệ Thanh toán Quốc gia VietPayLink (Dự án Hệ thống Thanh toán Liên Ngân hàng VietPay-Core)",
+      "reason": "Fictionalized employer brand resembling real payment system (VinaPay/VNPAY) and harmonized project title."
+    },
+    {
+      "id": "IT-J09-C02-E01",
+      "candidate_id": "IT-J09-C02",
+      "field": "experience_company_project_and_text",
+      "decision_id": "HR-SOURCE-007",
+      "before": "Công ty Cổ phần Công nghệ Số Thành Đạt (Dự án Hệ thống Quản trị Bán buôn Thành Đạt B2B)",
+      "after": "Công ty Cổ phần Công nghệ Số Thành Tín (Dự án Hệ thống Quản trị Bán buôn Thành Tín B2B)",
+      "reason": "Resolved cross-job entity collision with IT-J07-C07 to ensure independent organizational narratives."
+    },
+    {
+      "id": "IT-J09-C07-E01",
+      "candidate_id": "IT-J09-C07",
+      "field": "experience_company_and_text",
+      "decision_id": "HR-SOURCE-007",
+      "before": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới",
+      "after": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Trẻ",
+      "reason": "Resolved duplicate cross-job employer name shared across IT-J08, IT-J09, and IT-J10."
+    },
+    {
+      "id": "IT-J10-C03-E01",
+      "candidate_id": "IT-J10-C03",
+      "field": "experience_company_and_text",
+      "decision_id": "HR-SOURCE-007",
+      "before": "Công ty Cổ phần Công nghệ Mạng Đổi Mới",
+      "after": "Công ty Cổ phần Công nghệ Mạng Tân Tiến",
+      "reason": "Resolved cross-job entity collision with IT-J05-C07."
+    },
+    {
+      "id": "IT-J10-C04-E02",
+      "candidate_id": "IT-J10-C04",
+      "field": "experience_company_and_text",
+      "decision_id": "HR-SOURCE-007",
+      "before": "Phòng Thí nghiệm Đại học Bách Khoa",
+      "after": "Phòng Thí nghiệm Trí tuệ Nhân tạo AlphaLab",
+      "reason": "Educational institution acting as employer replaced with explicitly synthetic research lab while preserving educational institution in education section."
+    },
+    {
+      "id": "IT-J10-C07-E01",
+      "candidate_id": "IT-J10-C07",
+      "field": "experience_company_and_text",
+      "decision_id": "HR-SOURCE-007",
+      "before": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới",
+      "after": "Công ty Cổ phần Giải pháp Số Nhịp Điệu Số",
+      "reason": "Resolved duplicate cross-job employer name shared across IT-J08, IT-J09, and IT-J10."
+    }
+  ],
+  "preserved_v2_artifacts": {
+    "corrected_descriptions_kept": 79,
+    "removed_unsupported_skills_kept": 15
+  },
+  "limitations": [
+    "Repairs applied only to approved human review decisions.",
+    "No relevance labels or candidate ranking features assigned.",
+    "Dates, candidate IDs and reference date 2026-11-10 remain unchanged."
+  ]
+}

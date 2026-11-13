@@ -1,0 +1,306 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "initial",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "IT-J10",
+      "candidate_id": "IT-J10-C01",
+      "relevance": 3,
+      "rationale": "Python NLP/PyTorch từ 2025-03 khoảng 20 tháng với dữ liệu, fine-tuning và FastAPI deployment cụ thể. Docker/ONNX bổ trợ; vai trò nghiên cứu trước cũng liên quan nhưng không cần cộng để đạt ngưỡng.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior AI/ML Engineer tại Công ty Cổ phần Công nghệ Ngôn Ngữ Số VietText. Thời gian: từ 2025-03 đến nay. Mô tả: Thu thập, gán nhãn và làm sạch dữ liệu văn bản tiếng Việt. Tinh chỉnh các mô hình ngôn ngữ dựa trên Transformer bằng PyTorch để phân loại ý định người dùng và trích xuất thực thể. Đóng gói mô hình thành RESTful API sử dụng FastAPI và tối ưu tốc độ suy luận bằng ONNX Runtime. Đóng gói dịch vụ triển khai qua Docker.\n- Chức danh: Thực tập sinh Nghiên cứu AI tại Viện Nghiên cứu Công nghệ Số Ứng Dụng. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Thử nghiệm huấn luyện mô hình phân loại cảm xúc văn bản bằng PyTorch và Scikit-learn.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R02",
+          "section_id": "IT-J10-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior AI/ML Engineer tại Công ty Cổ phần Công nghệ Ngôn Ngữ Số VietText. Thời gian: từ 2025-03 đến nay. Mô tả: Thu thập, gán nhãn và làm sạch dữ liệu văn bản tiếng Việt. Tinh chỉnh các mô hình ngôn ngữ dựa trên Transformer bằng PyTorch để phân loại ý định người dùng và trích xuất thực thể. Đóng gói mô hình thành RESTful API sử dụng FastAPI và tối ưu tốc độ suy luận bằng ONNX Runtime. Đóng gói dịch vụ triển khai qua Docker.\n- Chức danh: Thực tập sinh Nghiên cứu AI tại Viện Nghiên cứu Công nghệ Số Ứng Dụng. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Thử nghiệm huấn luyện mô hình phân loại cảm xúc văn bản bằng PyTorch và Scikit-learn.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R03",
+          "section_id": "IT-J10-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior AI/ML Engineer tại Công ty Cổ phần Công nghệ Ngôn Ngữ Số VietText. Thời gian: từ 2025-03 đến nay. Mô tả: Thu thập, gán nhãn và làm sạch dữ liệu văn bản tiếng Việt. Tinh chỉnh các mô hình ngôn ngữ dựa trên Transformer bằng PyTorch để phân loại ý định người dùng và trích xuất thực thể. Đóng gói mô hình thành RESTful API sử dụng FastAPI và tối ưu tốc độ suy luận bằng ONNX Runtime. Đóng gói dịch vụ triển khai qua Docker.\n- Chức danh: Thực tập sinh Nghiên cứu AI tại Viện Nghiên cứu Công nghệ Số Ứng Dụng. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Thử nghiệm huấn luyện mô hình phân loại cảm xúc văn bản bằng PyTorch và Scikit-learn.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R04",
+          "section_id": "IT-J10-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior AI/ML Engineer tại Công ty Cổ phần Công nghệ Ngôn Ngữ Số VietText. Thời gian: từ 2025-03 đến nay. Mô tả: Thu thập, gán nhãn và làm sạch dữ liệu văn bản tiếng Việt. Tinh chỉnh các mô hình ngôn ngữ dựa trên Transformer bằng PyTorch để phân loại ý định người dùng và trích xuất thực thể. Đóng gói mô hình thành RESTful API sử dụng FastAPI và tối ưu tốc độ suy luận bằng ONNX Runtime. Đóng gói dịch vụ triển khai qua Docker.\n- Chức danh: Thực tập sinh Nghiên cứu AI tại Viện Nghiên cứu Công nghệ Số Ứng Dụng. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Thử nghiệm huấn luyện mô hình phân loại cảm xúc văn bản bằng PyTorch và Scikit-learn.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J10",
+      "candidate_id": "IT-J10-C02",
+      "relevance": 3,
+      "rationale": "Computer Vision/TensorFlow từ 2025-06 khoảng 17 tháng đủ ngưỡng; có tiền xử lý ảnh, huấn luyện YOLO/CNN và Flask REST API. JD chấp nhận CV hoặc NLP, không bắt cả hai.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Computer Vision Engineer tại Công ty Cổ phần Giải pháp Giám Sát Thông Minh EyeTech. Thời gian: từ 2025-06 đến nay. Mô tả: Huấn luyện và tinh chỉnh mô hình nhận diện biển số xe và phát hiện người xâm nhập sử dụng TensorFlow và YOLO. Tiền xử lý dữ liệu hình ảnh video bằng OpenCV. Đóng gói mô hình thành dịch vụ RESTful API bằng Flask để giao tiếp với hệ thống quản lý camera.\n- Chức danh: Thực tập sinh Xử lý Ảnh tại Công ty TNHH Phần mềm Đồ Họa Số. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Thu thập tập dữ liệu ảnh và gán nhãn cho bài toán phân loại ảnh.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C02-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: Python, C++ cơ bản.\n- Framework & Thư viện: TensorFlow, Keras, OpenCV, Scikit-learn, NumPy.\n- Lĩnh vực: Computer Vision (Phát hiện vật thể YOLO, Nhận diện khuôn mặt, Phân đoạn ảnh).\n- Triển khai: Flask, Docker cơ bản, Git.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R02",
+          "section_id": "IT-J10-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Computer Vision Engineer tại Công ty Cổ phần Giải pháp Giám Sát Thông Minh EyeTech. Thời gian: từ 2025-06 đến nay. Mô tả: Huấn luyện và tinh chỉnh mô hình nhận diện biển số xe và phát hiện người xâm nhập sử dụng TensorFlow và YOLO. Tiền xử lý dữ liệu hình ảnh video bằng OpenCV. Đóng gói mô hình thành dịch vụ RESTful API bằng Flask để giao tiếp với hệ thống quản lý camera.\n- Chức danh: Thực tập sinh Xử lý Ảnh tại Công ty TNHH Phần mềm Đồ Họa Số. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Thu thập tập dữ liệu ảnh và gán nhãn cho bài toán phân loại ảnh.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R03",
+          "section_id": "IT-J10-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Computer Vision Engineer tại Công ty Cổ phần Giải pháp Giám Sát Thông Minh EyeTech. Thời gian: từ 2025-06 đến nay. Mô tả: Huấn luyện và tinh chỉnh mô hình nhận diện biển số xe và phát hiện người xâm nhập sử dụng TensorFlow và YOLO. Tiền xử lý dữ liệu hình ảnh video bằng OpenCV. Đóng gói mô hình thành dịch vụ RESTful API bằng Flask để giao tiếp với hệ thống quản lý camera.\n- Chức danh: Thực tập sinh Xử lý Ảnh tại Công ty TNHH Phần mềm Đồ Họa Số. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Thu thập tập dữ liệu ảnh và gán nhãn cho bài toán phân loại ảnh.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R04",
+          "section_id": "IT-J10-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior Computer Vision Engineer tại Công ty Cổ phần Giải pháp Giám Sát Thông Minh EyeTech. Thời gian: từ 2025-06 đến nay. Mô tả: Huấn luyện và tinh chỉnh mô hình nhận diện biển số xe và phát hiện người xâm nhập sử dụng TensorFlow và YOLO. Tiền xử lý dữ liệu hình ảnh video bằng OpenCV. Đóng gói mô hình thành dịch vụ RESTful API bằng Flask để giao tiếp với hệ thống quản lý camera.\n- Chức danh: Thực tập sinh Xử lý Ảnh tại Công ty TNHH Phần mềm Đồ Họa Số. Thời gian: từ 2025-01 đến 2025-05. Mô tả: Thu thập tập dữ liệu ảnh và gán nhãn cho bài toán phân loại ảnh.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J10",
+      "candidate_id": "IT-J10-C03",
+      "relevance": 2,
+      "rationale": "Scikit-learn gợi ý sản phẩm và FastAPI/Docker có bằng chứng thực tế; backend Python không tự động là thâm niên nghiên cứu ML. Chưa chứng minh huấn luyện NLP hoặc Computer Vision theo yêu cầu, nên còn khoảng trống lĩnh vực trung tâm.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Python Backend Developer tại Công ty Cổ phần Công nghệ Mạng Đổi Mới. Thời gian: từ 2025-03 đến nay. Mô tả: Xây dựng các API dịch vụ bằng FastAPI và đóng gói với Docker. Tích hợp mô hình gợi ý sản phẩm sử dụng Scikit-learn và thuật toán lọc cộng tác (collaborative filtering).\n- Chức danh: Lập trình viên Python thử việc tại Công ty TNHH Phần mềm Khởi Nghiệp. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Viết các script trích xuất dữ liệu và làm sạch dữ liệu phục vụ phân tích.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J10-R02",
+          "section_id": "IT-J10-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Python Backend Developer tại Công ty Cổ phần Công nghệ Mạng Đổi Mới. Thời gian: từ 2025-03 đến nay. Mô tả: Xây dựng các API dịch vụ bằng FastAPI và đóng gói với Docker. Tích hợp mô hình gợi ý sản phẩm sử dụng Scikit-learn và thuật toán lọc cộng tác (collaborative filtering).\n- Chức danh: Lập trình viên Python thử việc tại Công ty TNHH Phần mềm Khởi Nghiệp. Thời gian: từ 2024-09 đến 2025-02. Mô tả: Viết các script trích xuất dữ liệu và làm sạch dữ liệu phục vụ phân tích.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R04",
+          "section_id": "IT-J10-C03-S04",
+          "quote": "Dự án:\n- Dự án Dịch vụ Gợi ý Khách hàng RecoAPI: Triển khai API gợi ý sản phẩm bằng Python FastAPI và Scikit-learn trên môi trường Docker.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J10-R03: Chưa có bằng chứng đủ để xác nhận yêu cầu: Kinh nghiệm xử lý dữ liệu và huấn luyện mô hình trong ít nhất một lĩnh vực: Xử lý ngôn ngữ tự nhiên (NLP) hoặc Thị giác máy tính (Computer Vision)."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J10",
+      "candidate_id": "IT-J10-C04",
+      "relevance": 3,
+      "rationale": "AI từ 2025-07 khoảng 16 tháng với PyTorch NLP, TensorFlow/CV và FastAPI/Docker; có thêm nghiên cứu dữ liệu. Đủ các tiêu chí trung tâm trên nội dung công việc.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior AI Engineer tại Công ty Cổ phần Giải pháp Trí Tuệ Số Tương Lai. Thời gian: từ 2025-07 đến nay. Mô tả: Tham gia huấn luyện mô hình phân loại tài liệu văn bản bằng PyTorch và mô hình phát hiện lỗi sản phẩm công nghiệp bằng OpenCV và TensorFlow. Triển khai API bằng FastAPI và đóng gói với Docker.\n- Chức danh: Trợ lý Nghiên cứu AI tại Phòng Thí nghiệm Trí tuệ Nhân tạo AlphaLab. Thời gian: từ 2025-01 đến 2025-06. Mô tả: Thực hiện tiền xử lý dữ liệu và chạy thực nghiệm các mô hình học sâu.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C04-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: Python, C++.\n- Khung ML: PyTorch, TensorFlow, Scikit-learn, OpenCV.\n- Dịch vụ: FastAPI, Docker, Git.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R02",
+          "section_id": "IT-J10-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior AI Engineer tại Công ty Cổ phần Giải pháp Trí Tuệ Số Tương Lai. Thời gian: từ 2025-07 đến nay. Mô tả: Tham gia huấn luyện mô hình phân loại tài liệu văn bản bằng PyTorch và mô hình phát hiện lỗi sản phẩm công nghiệp bằng OpenCV và TensorFlow. Triển khai API bằng FastAPI và đóng gói với Docker.\n- Chức danh: Trợ lý Nghiên cứu AI tại Phòng Thí nghiệm Trí tuệ Nhân tạo AlphaLab. Thời gian: từ 2025-01 đến 2025-06. Mô tả: Thực hiện tiền xử lý dữ liệu và chạy thực nghiệm các mô hình học sâu.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R03",
+          "section_id": "IT-J10-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior AI Engineer tại Công ty Cổ phần Giải pháp Trí Tuệ Số Tương Lai. Thời gian: từ 2025-07 đến nay. Mô tả: Tham gia huấn luyện mô hình phân loại tài liệu văn bản bằng PyTorch và mô hình phát hiện lỗi sản phẩm công nghiệp bằng OpenCV và TensorFlow. Triển khai API bằng FastAPI và đóng gói với Docker.\n- Chức danh: Trợ lý Nghiên cứu AI tại Phòng Thí nghiệm Trí tuệ Nhân tạo AlphaLab. Thời gian: từ 2025-01 đến 2025-06. Mô tả: Thực hiện tiền xử lý dữ liệu và chạy thực nghiệm các mô hình học sâu.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R04",
+          "section_id": "IT-J10-C04-S04",
+          "quote": "Dự án:\n- Dự án Hệ thống Phân loại Tài liệu Tự động DocClass: Huấn luyện mô hình phân loại tài liệu hành chính bằng PyTorch và cung cấp RESTful API qua FastAPI.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J10",
+      "candidate_id": "IT-J10-C05",
+      "relevance": 2,
+      "rationale": "ML từ 2025-08 khoảng 15 tháng, Scikit-learn và Flask API rõ. Dự án toàn dữ liệu bảng/phân khúc, chưa có NLP hoặc Computer Vision; thiếu bằng cấp chỉ là ưu tiên, không dùng để hạ nhãn.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior ML Developer tại Công ty TNHH Giải pháp Phân Tích Thông Minh Khởi Nghiệp. Thời gian: từ 2025-08 đến nay. Mô tả: Thu thập dữ liệu và huấn luyện mô hình cây quyết định bằng Scikit-learn. Đóng gói mô hình thành dịch vụ API bằng Flask.\n- Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty Cổ phần Số Liệu Mới. Thời gian: từ 2025-02 đến 2025-07. Mô tả: Làm sạch và chuẩn hóa dữ liệu bảng bằng Pandas.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C05-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: Python, SQL.\n- Công cụ & Thư viện: Scikit-learn, Pandas, NumPy, Flask, Git.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R02",
+          "section_id": "IT-J10-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior ML Developer tại Công ty TNHH Giải pháp Phân Tích Thông Minh Khởi Nghiệp. Thời gian: từ 2025-08 đến nay. Mô tả: Thu thập dữ liệu và huấn luyện mô hình cây quyết định bằng Scikit-learn. Đóng gói mô hình thành dịch vụ API bằng Flask.\n- Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty Cổ phần Số Liệu Mới. Thời gian: từ 2025-02 đến 2025-07. Mô tả: Làm sạch và chuẩn hóa dữ liệu bảng bằng Pandas.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R04",
+          "section_id": "IT-J10-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Junior ML Developer tại Công ty TNHH Giải pháp Phân Tích Thông Minh Khởi Nghiệp. Thời gian: từ 2025-08 đến nay. Mô tả: Thu thập dữ liệu và huấn luyện mô hình cây quyết định bằng Scikit-learn. Đóng gói mô hình thành dịch vụ API bằng Flask.\n- Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty Cổ phần Số Liệu Mới. Thời gian: từ 2025-02 đến 2025-07. Mô tả: Làm sạch và chuẩn hóa dữ liệu bảng bằng Pandas.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J10-R03: Chưa có bằng chứng đủ để xác nhận yêu cầu: Kinh nghiệm xử lý dữ liệu và huấn luyện mô hình trong ít nhất một lĩnh vực: Xử lý ngôn ngữ tự nhiên (NLP) hoặc Thị giác máy tính (Computer Vision)."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J10",
+      "candidate_id": "IT-J10-C06",
+      "relevance": 3,
+      "rationale": "Vai trò kiêm ML từ 2025-04 khoảng 19 tháng có phát triển phân loại văn bản Python/PyTorch và FastAPI; dự án NLP hỗ trợ năng lực. Không bỏ qua nhiệm vụ ML vì chức danh Data Analyst.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Data Analyst kiêm ML Developer tại Công ty Cổ phần Thống Kê Số Phương Nam. Thời gian: từ 2025-04 đến nay. Mô tả: Phân tích xu hướng dữ liệu người dùng và phát triển module phân loại văn bản tự động bằng Python PyTorch. Đóng gói dịch vụ phân tích thành API bằng FastAPI.\n- Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Trực Tuyến Á Châu. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Trích xuất và trực quan hóa dữ liệu bằng Python và SQL.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R02",
+          "section_id": "IT-J10-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Data Analyst kiêm ML Developer tại Công ty Cổ phần Thống Kê Số Phương Nam. Thời gian: từ 2025-04 đến nay. Mô tả: Phân tích xu hướng dữ liệu người dùng và phát triển module phân loại văn bản tự động bằng Python PyTorch. Đóng gói dịch vụ phân tích thành API bằng FastAPI.\n- Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Trực Tuyến Á Châu. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Trích xuất và trực quan hóa dữ liệu bằng Python và SQL.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R03",
+          "section_id": "IT-J10-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Data Analyst kiêm ML Developer tại Công ty Cổ phần Thống Kê Số Phương Nam. Thời gian: từ 2025-04 đến nay. Mô tả: Phân tích xu hướng dữ liệu người dùng và phát triển module phân loại văn bản tự động bằng Python PyTorch. Đóng gói dịch vụ phân tích thành API bằng FastAPI.\n- Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Trực Tuyến Á Châu. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Trích xuất và trực quan hóa dữ liệu bằng Python và SQL.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R04",
+          "section_id": "IT-J10-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Data Analyst kiêm ML Developer tại Công ty Cổ phần Thống Kê Số Phương Nam. Thời gian: từ 2025-04 đến nay. Mô tả: Phân tích xu hướng dữ liệu người dùng và phát triển module phân loại văn bản tự động bằng Python PyTorch. Đóng gói dịch vụ phân tích thành API bằng FastAPI.\n- Chức danh: Thực tập sinh Phân tích Dữ liệu tại Công ty TNHH Nghiên cứu Trực Tuyến Á Châu. Thời gian: từ 2024-10 đến 2025-03. Mô tả: Trích xuất và trực quan hóa dữ liệu bằng Python và SQL.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J10",
+      "candidate_id": "IT-J10-C07",
+      "relevance": 3,
+      "rationale": "AI/PyTorch thị giác từ 2025-06 khoảng 17 tháng đã đạt ngưỡng; FastAPI/Docker và dự án huấn luyện có bằng chứng. Freelance không ngày không cần cộng để đạt 1 năm, nên không tạo cờ chỉ vì thiếu ngày không trọng yếu.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Kỹ sư AI tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2025-06 đến nay. Mô tả: Huấn luyện mô hình nhận diện khuôn mặt và phát hiện khẩu trang bằng PyTorch và OpenCV. Triển khai API bằng FastAPI và đóng gói với Docker.\n- Chức danh: Lập trình viên AI Tự do tại Nhóm Nghiên cứu Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Huấn luyện mô hình thị giác máy tính cơ bản bằng Python.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C07-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: Python, C++.\n- Công nghệ AI: PyTorch, OpenCV, FastAPI, Docker, Git.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R02",
+          "section_id": "IT-J10-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Kỹ sư AI tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2025-06 đến nay. Mô tả: Huấn luyện mô hình nhận diện khuôn mặt và phát hiện khẩu trang bằng PyTorch và OpenCV. Triển khai API bằng FastAPI và đóng gói với Docker.\n- Chức danh: Lập trình viên AI Tự do tại Nhóm Nghiên cứu Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Huấn luyện mô hình thị giác máy tính cơ bản bằng Python.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R03",
+          "section_id": "IT-J10-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Kỹ sư AI tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2025-06 đến nay. Mô tả: Huấn luyện mô hình nhận diện khuôn mặt và phát hiện khẩu trang bằng PyTorch và OpenCV. Triển khai API bằng FastAPI và đóng gói với Docker.\n- Chức danh: Lập trình viên AI Tự do tại Nhóm Nghiên cứu Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Huấn luyện mô hình thị giác máy tính cơ bản bằng Python.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J10-R04",
+          "section_id": "IT-J10-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Kỹ sư AI tại Công ty Cổ phần Giải pháp Số Nhịp Điệu Mới. Thời gian: từ 2025-06 đến nay. Mô tả: Huấn luyện mô hình nhận diện khuôn mặt và phát hiện khẩu trang bằng PyTorch và OpenCV. Triển khai API bằng FastAPI và đóng gói với Docker.\n- Chức danh: Lập trình viên AI Tự do tại Nhóm Nghiên cứu Mã nguồn Mở. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Huấn luyện mô hình thị giác máy tính cơ bản bằng Python.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J10",
+      "candidate_id": "IT-J10-C08",
+      "relevance": 1,
+      "rationale": "Có FastAPI/Docker phục vụ suy luận và làm sạch văn bản; chưa chứng minh nghiên cứu/huấn luyện ML bằng framework hoặc NLP/CV. Serving mô hình không đồng nhất kinh nghiệm xây mô hình, dù kỹ năng triển khai chuyển đổi rõ.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J10-R01",
+          "section_id": "IT-J10-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Backend API Developer tại Công ty Cổ phần Dịch vụ Số Tân Tiến. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng hệ thống RESTful API kết nối và phục vụ dự đoán từ các mô hình học máy sử dụng FastAPI và đóng gói qua Docker.\n- Chức danh: Lập trình viên Python Thử việc tại Công ty TNHH Phần mềm Á Châu. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Viết các script thu thập và làm sạch dữ liệu văn bản.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J10-R02",
+          "section_id": "IT-J10-C08-S02",
+          "quote": "Kỹ năng:\n- Ngôn ngữ: Python, SQL.\n- Công nghệ Backend & Triển khai: FastAPI, Flask, Docker, Git.\n- Kiến thức ML: Scikit-learn, ONNX Runtime (suy luận mô hình).",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J10-R03",
+          "section_id": "IT-J10-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Backend API Developer tại Công ty Cổ phần Dịch vụ Số Tân Tiến. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng hệ thống RESTful API kết nối và phục vụ dự đoán từ các mô hình học máy sử dụng FastAPI và đóng gói qua Docker.\n- Chức danh: Lập trình viên Python Thử việc tại Công ty TNHH Phần mềm Á Châu. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Viết các script thu thập và làm sạch dữ liệu văn bản.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J10-R04",
+          "section_id": "IT-J10-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Backend API Developer tại Công ty Cổ phần Dịch vụ Số Tân Tiến. Thời gian: từ 2025-05 đến nay. Mô tả: Xây dựng hệ thống RESTful API kết nối và phục vụ dự đoán từ các mô hình học máy sử dụng FastAPI và đóng gói qua Docker.\n- Chức danh: Lập trình viên Python Thử việc tại Công ty TNHH Phần mềm Á Châu. Thời gian: từ 2024-11 đến 2025-04. Mô tả: Viết các script thu thập và làm sạch dữ liệu văn bản.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J10-R03: Làm sạch văn bản chưa chứng minh huấn luyện NLP hoặc Computer Vision."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

@@ -1,0 +1,345 @@
+[
+  {
+    "job_id": "SA-J01",
+    "candidate_id": "SA-J01-C03",
+    "field": "experiences[0].description",
+    "quote": "Chưa sử dụng Salesforce hay HubSpot chuyên sâu, chủ yếu quản lý khách hàng bằng bảng tính Excel kết hợp Zalo.",
+    "reason": "Templated JD-shaped negative list sentence remains in structured description SA-J01-C03-EXP-01.description despite removal from cited section SA-J01-C03-SEC-EXP and cv_text under HR-SOURCE-006; structured description unsupported by cited section text, violating PROTOCOL.md and HR-SOURCE-004."
+  },
+  {
+    "job_id": "SA-J02",
+    "candidate_id": "SA-J02-C03",
+    "field": "experiences[0].description",
+    "quote": "Công việc chủ yếu ngồi tại văn phòng công ty, chưa phụ trách tuyến đường thực địa hay đi kiểm tra tạp hóa bao giờ.",
+    "reason": "Incomplete HR-SOURCE-006 repair: the templated JD-shaped negative clause ', chưa phụ trách tuyến đường thực địa hay đi kiểm tra tạp hóa bao giờ.' was removed from SA-J02-C03-SEC-EXP and cv_text (which now end at 'Công việc chủ yếu ngồi tại văn phòng công ty.'), but remains in SA-J02-C03-EXP-01.description. This violates source-section grounding, Check 2 (exact bullet scope preservation), and Check 3 (no templated JD-shaped negative lists)."
+  },
+  {
+    "job_id": "SA-J02",
+    "candidate_id": "SA-J02-C02",
+    "field": "experiences[0].skills_used",
+    "quote": "treo vật phẩm quảng cáo (wobbler, hanger) đúng vị trí quy chuẩn",
+    "reason": "Unsupported role-specific skill attribution under Check 1 and HR-SOURCE-003: SA-J02-C02-EXP-01.skills_used assigns 'Trưng bày kệ hàng', which only appears in general skills (SA-J02-C02-SEC-SKILL: 'trưng bày gói gia vị tại ụ kệ'). SA-J02-C02-SEC-EXP for this role only describes hanging advertising POSM (wobbler, hanger), not product shelf merchandising."
+  },
+  {
+    "job_id": "SA-J03",
+    "candidate_id": "SA-J03-C03",
+    "field": "experiences[0].description",
+    "quote": "Tự lập kế hoạch kinh doanh cá nhân, chưa tham gia quản lý hay phân chia chỉ tiêu cho nhân viên khác.",
+    "reason": "Structured description diverges from SA-J03-C03-SEC-EXP (repaired to '- Tự lập kế hoạch kinh doanh cá nhân.') and still retains templated JD-shaped negative clause ', chưa tham gia quản lý hay phân chia chỉ tiêu cho nhân viên khác', violating PROTOCOL.md section support requirement and HR-SOURCE-006."
+  },
+  {
+    "job_id": "SA-J03",
+    "candidate_id": "SA-J03-C01",
+    "field": "experiences[0].skills_used",
+    "quote": "Trực tiếp chỉ đạo tham gia và trúng 14 gói thầu mua sắm máy chụp X-quang kỹ thuật số và hệ thống siêu âm màu tại các bệnh viện đa khoa tỉnh Phú Thọ, Quảng Ninh và Hải Phòng.",
+    "reason": "'Quan hệ lãnh đạo bệnh viện miền Bắc' assigned to skills_used without explicit evidence of hospital leadership relationship management or counterpart seniority in SA-J03-C01-SEC-EXP; wording appears only in summary/skills sections. Violates HR-SOURCE-003 (unresolved historical audit case). In addition, 'Luật Đấu thầu' assigned without explicit statutory mention in role text."
+  },
+  {
+    "job_id": "SA-J03",
+    "candidate_id": "SA-J03-C02",
+    "field": "experiences[0].skills_used",
+    "quote": "Quản lý nhóm 5 chuyên viên phụ trách cung cấp máy đo khí máu và vật tư can thiệp tim mạch cho 18 bệnh viện công lập miền Bắc.",
+    "reason": "'Quan hệ phòng vật tư bệnh viện' remains in skills_used without explicit evidence in SA-J03-C02-SEC-EXP, which mentions neither relationship building nor materials department (phòng Vật tư); phrasing appears only in skills section. Violates HR-SOURCE-003 (unresolved historical audit case). In addition, 'Luật Đấu thầu' assigned without explicit statutory mention in role text."
+  },
+  {
+    "job_id": "SA-J03",
+    "candidate_id": "SA-J03-C06",
+    "field": "experiences[0].skills_used",
+    "quote": "Phụ trách giới thiệu danh mục thuốc tim mạch và hạ huyết áp tại 6 bệnh viện quận/huyện tại Hà Nội.\nTheo dõi số lượng sử dụng theo kết quả trúng thầu của gói thầu thuốc sở y tế, đôn đốc bệnh viện gửi đơn đặt hàng đúng tiến độ.",
+    "reason": "'Quan hệ khoa Dược' remains in skills_used without explicit evidence in SA-J03-C06-SEC-EXP, which does not mention pharmacy department relationships; phrasing appears only in summary/skills sections. Violates HR-SOURCE-003 (unresolved historical audit case)."
+  },
+  {
+    "job_id": "SA-J03",
+    "candidate_id": "SA-J03-C08",
+    "field": "experiences[1].skills_used",
+    "quote": "Chịu trách nhiệm hướng dẫn sử dụng máy siêu âm tổng quát và siêu âm tim cho các phòng khám tư nhân.",
+    "reason": "'Kỹ thuật Y sinh' assigned to experiences[1].skills_used (SA-J03-C08-EXP-02) based solely on candidate degree in SA-J03-C08-SEC-EDU with no mention of biomedical engineering in role text. Violates HR-SOURCE-003 and PROTOCOL.md. In addition, 'Hồ sơ thầu kỹ thuật theo Luật Đấu thầu' in experiences[0].skills_used attaches specific statute phrasing supported only in skills section."
+  },
+  {
+    "job_id": "SA-J03",
+    "candidate_id": "SA-J03-C03",
+    "field": "experiences[1].skills_used",
+    "quote": "Lắp đặt, chạy thử và bảo trì định kỳ máy đo loãng xương và máy X-quang răng hàm mặt.",
+    "reason": "'Kỹ thuật Y sinh' assigned to experiences[1].skills_used (SA-J03-C03-EXP-02) without explicit mention in SA-J03-C03-SEC-EXP, derived from summary and education sections. In addition, experiences[0].skills_used attaches 'Luật Đấu thầu' and 'Quan hệ khoa chẩn đoán hình ảnh' without explicit statute or department naming in role text."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C04",
+    "field": "experiences[0].description",
+    "quote": "Trực tiếp đón tiếp và tư vấn cho các khách hàng thượng lưu mua sắm trang phục dạ tiệc và túi xách da tại trung tâm thương mại Union Square.",
+    "reason": "Structured description retains un-fictionalized real mall venue 'Union Square' and does not match cited section SA-J04-C04-SEC-EXP, which was repaired to 'tại trung tâm thương mại lớn ở trung tâm thành phố'. Violates PROTOCOL.md section support requirement and HR-SOURCE-007 fictionalization rule."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C05",
+    "field": "experiences[1].skills_used",
+    "quote": "Tư vấn nội thất cao cấp",
+    "reason": "Role 2 prose describes only 'Tư vấn bán các gói nội thất hoàn thiện căn hộ và điều phối thợ lắp ráp bàn ghế.' with zero mention of luxury segment ('cao cấp'). Explicitly flagged in historical audit and remains un-repaired, violating PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C05",
+    "field": "experiences[0].skills_used",
+    "quote": "Phối màu và công năng không gian sống",
+    "reason": "Neither 'phối màu' nor 'công năng' nor 'không gian sống' appears in SA-J04-C05-SEC-EXP Role 1 prose. Flagged in historical audit as present only in general skills/summary. Violates PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C05",
+    "field": "experiences[0].skills_used",
+    "quote": "Điều phối vận chuyển lắp đặt",
+    "reason": "Role 1 prose describes setting up installation QC procedures and home handover, not coordinating freight/shipping network ('Điều phối vận chuyển'), which appears only in general skills (SEC-SKILL). Violates PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C01",
+    "field": "experiences[0].skills_used",
+    "quote": "Nội thất gỗ tự nhiên và sofa da",
+    "reason": "Role 1 prose in SA-J04-C01-SEC-EXP mentions only 'gỗ veneer' (veneered engineered wood), 'sofa góc', and 'đệm da'. 'Gỗ tự nhiên' (solid wood) appears only in summary and general skills. Noted in historical audit and un-repaired, violating PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C01",
+    "field": "experiences[0].skills_used",
+    "quote": "Theo dõi đơn hàng giao lắp",
+    "reason": "Role 1 prose covers order logging, inventory check, delivery notification ('giờ giao hàng'), and post-handover follow-up. Installation tracking ('lắp' / 'lắp đặt') is not stated in Role 1 and appears only in SEC-SKILL. Violates PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C07",
+    "field": "experiences[0].skills_used",
+    "quote": "Theo dõi giao hàng lắp đặt",
+    "reason": "Role 1 prose in SA-J04-C07-SEC-EXP specifies 'Theo dõi quá trình vận chuyển đơn hàng' and 'sau khi bàn giao' but never mentions installation ('lắp đặt' / 'lắp ráp'), which is stated only in SEC-SKILL ('theo dõi tiến độ lắp ráp tại nhà dân'). Violates PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C02",
+    "field": "experiences[0].skills_used",
+    "quote": "Đèn trang trí và tủ kệ",
+    "reason": "Role 1 prose describes 'đèn chùm pha lê và đồ gỗ phụ trợ không gian phòng ăn', not 'tủ kệ'. 'Tủ kệ' ('tủ kệ trang trí phòng khách') appears only in SEC-SKILL. Violates PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C08",
+    "field": "experiences[0].skills_used",
+    "quote": "Phối màu sắc và công năng",
+    "reason": "Role 1 prose supports color coordination ('màu gỗ phối hợp màu đệm sofa') but does not state functional layout ('công năng'), which appears only in SEC-SKILL ('bố trí công năng'). Removed from PRJ-01 in historical audit but improperly retained on EXP-01. Violates PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C04",
+    "field": "experiences[0].skills_used",
+    "quote": "Giao tiếp lịch thiệp",
+    "reason": "Role 1 prose describes welcoming luxury clients and maintaining VIP relations, but explicit skill 'Giao tiếp lịch thiệp' appears only in general skills (SEC-SKILL) and summary ('cách giao tiếp nhẹ nhàng lịch sự'). Violates HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C06",
+    "field": "experiences[0].skills_used",
+    "quote": "Thuyết phục khách hàng",
+    "reason": "Role 1 prose describes making calls, advising new cardholders on promotions, and assisting with income proof documents. 'Thuyết phục khách hàng' appears only in general skills (SEC-SKILL: 'thuyết phục khách hàng mở tài khoản'). Violates HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C03",
+    "field": "experiences[0].skills_used",
+    "quote": "Giới thiệu mẫu gạch men thiết bị",
+    "reason": "Role 1 prose covers showing showroom bathroom displays and introducing tile gloss/slip resistance ('từng dòng gạch'), without explicitly stating introducing sanitary fixtures ('thiết bị'). 'Thiết bị vệ sinh' appears only in SEC-SKILL. Violates HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J04",
+    "candidate_id": "SA-J04-C01",
+    "field": "experiences[1].skills_used",
+    "quote": "Thiết kế nội thất",
+    "reason": "Role 2 prose describes assisting with photo staging and advising customers on cabinet handles/hinges; 'Thiết kế nội thất' is derived from education/summary rather than explicit task duties in Role 2 prose. Violates HR-SOURCE-003."
+  },
+  {
+    "job_id": "SA-J05",
+    "candidate_id": "SA-J05-C08",
+    "field": "experiences[0].skills_used",
+    "quote": "Thuyết phục khách hàng sử dụng thêm gói cước tàu biển FCL trọn gói do công ty cung cấp thay vì tự thuê dịch vụ ngoài, giúp tăng doanh thu từ tài khoản cũ thêm 30%.",
+    "reason": "SA-J05-C08-EXP-01.skills_used still retains \"Báo giá cước FCL LCL\", whereas the cited role block explicitly supports only \"gói cước tàu biển FCL trọn gói\" and contains no mention of LCL or quoting (\"báo giá\"). Historical audit blocking issue for unsupported LCL in SA-J05-C08-EXP-01 remains unrepaired."
+  },
+  {
+    "job_id": "SA-J05",
+    "candidate_id": "SA-J05-C02",
+    "field": "experiences[0].skills_used",
+    "quote": "Đạt tỷ lệ giữ chân khách hàng 92% trong năm 2025, mở rộng bán thêm dịch vụ vận tải kéo container đường bộ từ nhà máy ra cảng Cái Mép.\nThường xuyên viết thư báo cước, cập nhật phụ phí xăng dầu (BAF) và lịch tàu bằng tiếng Anh cho các đối tác mua hàng nước ngoài.",
+    "reason": "SA-J05-C02-EXP-01.skills_used retains \"Cước tàu biển FCL LCL\", but neither FCL nor LCL appears anywhere in Role 1 prose (which mentions only space allocation, BAF, shipping schedules, and road container haulage \"kéo container đường bộ\"). Historical audit finding that current-role FCL/LCL granularity is not explicit remains unrepaired."
+  },
+  {
+    "job_id": "SA-J05",
+    "candidate_id": "SA-J05-C02",
+    "field": "skills / experiences[0].skills_used",
+    "quote": "Đàm phán các hợp đồng cung ứng dịch vụ logistics thường niên với cam kết về số lượng chỗ (space allocation) trong mùa cao điểm.",
+    "reason": "Structured skills and SA-J05-C02-EXP-01.skills_used assert \"Hợp đồng khung thường niên\", but \"hợp đồng khung\" (framework contract) does not appear in Role 1 or anywhere in SA-J05-C02's CV prose (which states only \"hợp đồng cung ứng dịch vụ logistics thường niên\" and \"đàm phán giá cước thường niên\"), importing JD requirement SA-J05-R03 terminology without explicit source support."
+  },
+  {
+    "job_id": "SA-J05",
+    "candidate_id": "SA-J05-C04",
+    "field": "experiences[0].skills_used",
+    "quote": "Làm việc với các hãng tàu như SITC, Sinokor, Wanhai để cập nhật giá cước tuần và lấy chỗ vận chuyển container rỗng.\nGửi báo giá cước biển, theo dõi ngày tàu cập bến và bàn giao lệnh giao hàng (D/O) cho khách.",
+    "reason": "SA-J05-C04-EXP-01.skills_used assigns \"Cước biển FCL\", whereas Role 1 prose states only \"cước biển\" and \"lấy chỗ vận chuyển container rỗng\" with no explicit mention of FCL (or nguyên container); FCL appears only in SA-J05-C04-SEC-SUM and SA-J05-C04-SEC-SKILL alongside LCL."
+  },
+  {
+    "job_id": "MK-J01",
+    "candidate_id": "MK-J01-C03",
+    "field": "experiences[0].description",
+    "quote": "Viết và phân phối hơn 50 bài PR trên các trang báo điện tử VnExpress, Dân Trí, Tuổi Trẻ.",
+    "reason": "MK-J01-C03-EXP-01.description still contains real media outlet names ('VnExpress, Dân Trí, Tuổi Trẻ'), whereas MK-J01-C03-SEC-EXP and cv_text were repaired to 'các trang báo điện tử kinh tế và đời sống uy tín'. Violates PROTOCOL.md section-text support rule, HR-SOURCE-004, and HR-SOURCE-007 consistent fictionalization."
+  },
+  {
+    "job_id": "MK-J01",
+    "candidate_id": "MK-J01-C05",
+    "field": "experiences[0].skills_used",
+    "quote": "Google Ads",
+    "reason": "MK-J01-C05-EXP-01.skills_used retains 'Google Ads' for Tập Đoàn Thương Mại Điện Tử VinaShop, but the VinaShop role block in MK-J01-C05-SEC-EXP never mentions Google Ads (it appears only in summary/certifications, and Google Search/Display appears only in EXP-02 DigiKing). Historical blocking finding from audits/MK-J01.json remains unrepaired; violates PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J01",
+    "candidate_id": "MK-J01-C05",
+    "field": "experiences[0].skills_used",
+    "quote": "TikTok Ads",
+    "reason": "MK-J01-C05-EXP-01.skills_used retains 'TikTok Ads' for Tập Đoàn Thương Mại Điện Tử VinaShop, but TikTok Ads is absent from the VinaShop role block (and all of MK-J01-C05-SEC-EXP), appearing only in summary and top-level skills. Historical blocking finding from audits/MK-J01.json remains unrepaired; violates PROTOCOL.md and HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J02",
+    "candidate_id": "MK-J02-C03",
+    "field": "experiences[0].description",
+    "quote": "chưa từng tự quay video, đứng trước ống kính hay sử dụng ứng dụng dựng phim CapCut, Premiere.",
+    "reason": "Structured description retains templated JD-shaped negative list clause that was removed from section text MK-J02-C03-SEC-EXP, violating PROTOCOL requirement that all structured facts be supported in section text and HR-SOURCE-006 prohibiting requirement-shaped denial lists."
+  },
+  {
+    "job_id": "MK-J02",
+    "candidate_id": "MK-J02-C01",
+    "field": "experiences[1].skills_used",
+    "quote": "Bắt trend xu hướng Gen Z",
+    "reason": "Gen Z trend catching skill is unsupported in internship prose ('Viết bài cập nhật tin tức xu hướng giải trí và hỗ trợ chuẩn bị đạo cụ quay phim' at youth media channel BeatVina). Gen Z is only mentioned in summary; entertainment news updates do not establish trend catching, violating PROTOCOL and HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J02",
+    "candidate_id": "MK-J02-C02",
+    "field": "experiences[0].skills_used",
+    "quote": "Bắt nhịp xu hướng nhạc trend",
+    "reason": "Music and trend adaptation skill is absent from cited employment prose MK-J02-C02-SEC-EXP, which mentions only styling, CapCut editing, and Canva banners. Music and meme trends appear only in summary and general skills, violating HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J02",
+    "candidate_id": "MK-J02-C04",
+    "field": "experiences[0].skills_used",
+    "quote": "Diễn xuất trước ống kính",
+    "reason": "Acting in front of camera is not supported in cited employment prose MK-J02-C04-SEC-EXP, which specifies on-site video production and voiceover ('lồng tiếng') rather than on-camera acting. Acting skill was imported from summary/skills, violating HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J02",
+    "candidate_id": "MK-J02-C05",
+    "field": "experiences[0].skills_used",
+    "quote": "Storytelling",
+    "reason": "Storytelling skill is unsupported in current-role prose MK-J02-C05-SEC-EXP, which describes team leadership, short video series direction, post-production standardization, and budget planning without storytelling or scriptwriting duties, violating HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J02",
+    "candidate_id": "MK-J02-C08",
+    "field": "experiences[0].skills_used",
+    "quote": "Bắt trend du lịch ẩm thực",
+    "reason": "Trend catching ('bắt trend') is not supported in cited employment prose MK-J02-C08-SEC-EXP, which describes independent filming of eateries and scenic spots, Premiere/CapCut editing, and sponsored brand collaborations. Trend awareness appears only in general skills, violating HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J03",
+    "candidate_id": "MK-J03-C01",
+    "field": "experiences[0].description (MK-J03-C01-EXP-01)",
+    "quote": "Chỉ đạo chiến dịch IMC Tết toàn quốc 'Vị Tết Quê Nhà', kết hợp phim quảng cáo truyền hình VTV3 (ATL), chuỗi 120 sự kiện dùng thử sản phẩm tại siêu thị (BTL) và chiến dịch lan tỏa mạng xã hội (Digital).\nTrực tiếp chủ trì chấm thầu, làm việc với các agency quảng cáo quốc tế Ogilvy, Dentsu để sản xuất tài nguyên truyền thông đúng tiến độ và cam kết KPI.",
+    "reason": "Structured description was not re-synced after MK-J03-C01-SEC-EXP and cv_text were repaired under HR-SOURCE-007. It still contains real entity/channel names ('VTV3', 'Ogilvy, Dentsu') absent from the repaired section text ('quốc gia', 'các agency sáng tạo quốc tế'), violating PROTOCOL.md, HR-SOURCE-004, and HR-SOURCE-007."
+  },
+  {
+    "job_id": "MK-J03",
+    "candidate_id": "MK-J03-C01",
+    "field": "experiences[0].skills_used (MK-J03-C01-EXP-01)",
+    "quote": "Quản lý Creative PR Media Agency",
+    "reason": "Compound skill attributes PR and Media Agency management to MK-J03-C01-EXP-01, whereas the cited role block in MK-J03-C01-SEC-EXP only supports creative agencies ('các agency sáng tạo quốc tế'). PR Agency and Media Buying Agency appear only in MK-J03-C01-SEC-SKILL. Matches unresolved historical audit point ('PR/media subtype breadth not explicit in role prose') under HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J03",
+    "candidate_id": "MK-J03-C03",
+    "field": "experiences[0].description (MK-J03-C03-EXP-01)",
+    "quote": "Hướng dẫn công việc hàng ngày cho 1 thực tập sinh thương hiệu, chưa chính thức quản lý đội ngũ nhân viên chính thức.",
+    "reason": "Structured description still retains the templated JD-shaped negative denial clause (', chưa chính thức quản lý đội ngũ nhân viên chính thức') that was removed from MK-J03-C03-SEC-EXP and cv_text under HR-SOURCE-006, violating PROTOCOL.md, HR-SOURCE-004, and HR-SOURCE-006."
+  },
+  {
+    "job_id": "MK-J03",
+    "candidate_id": "MK-J03-C03",
+    "field": "experiences[1].description (MK-J03-C03-EXP-02)",
+    "quote": "Chuẩn bị tài liệu giới thiệu sản phẩm và theo dõi vật phẩm POSM tại hệ thống siêu thị Co.opmart.",
+    "reason": "Structured description still names real supermarket chain 'Co.opmart', whereas MK-J03-C03-SEC-EXP and cv_text were repaired to 'tại các hệ thống siêu thị tiêu dùng.' under HR-SOURCE-007, violating PROTOCOL.md, HR-SOURCE-004, and HR-SOURCE-007."
+  },
+  {
+    "job_id": "MK-J03",
+    "candidate_id": "MK-J03-C04",
+    "field": "experiences[0].description (MK-J03-C04-EXP-01)",
+    "quote": "Quản lý 6 nhân viên chuyên trách kênh siêu thị WinMart, Big C/Go! và Lotte Mart trên toàn miền Nam.",
+    "reason": "Structured description still names real retail brands ('WinMart, Big C/Go! và Lotte Mart'), whereas MK-J03-C04-SEC-EXP and cv_text were repaired to 'các hệ thống siêu thị bán lẻ lớn trên toàn miền Nam.' under HR-SOURCE-007, violating PROTOCOL.md, HR-SOURCE-004, and HR-SOURCE-007."
+  },
+  {
+    "job_id": "MK-J03",
+    "candidate_id": "MK-J03-C05",
+    "field": "skills[4]",
+    "quote": "Hợp tác WPP Omnicom",
+    "reason": "Candidate-level skills list still contains 'Hợp tác WPP Omnicom' even though '(WPP, Omnicom)' was removed from MK-J03-C05-SEC-SKILL and cv_text under HR-SOURCE-007 (and removed from MK-J03-C05-EXP-01.skills_used). Neither WPP nor Omnicom is supported anywhere in candidate sections, violating PROTOCOL.md and HR-SOURCE-007."
+  },
+  {
+    "job_id": "MK-J03",
+    "candidate_id": "MK-J03-C05",
+    "field": "experiences[1].skills_used (MK-J03-C05-EXP-02)",
+    "quote": "Chiến lược danh mục đa thương hiệu",
+    "reason": "Unresolved historical human-review issue: EXP-02 prose states only 'Quản lý danh mục 3 nhãn hàng đồ uống dinh dưỡng trẻ em.', whereas portfolio strategy ('chiến lược danh mục') appears only in MK-J03-C05-SEC-SKILL. Assigning 'Chiến lược danh mục đa thương hiệu' to EXP-02 strengthens role scope without explicit support in the cited role block, violating HR-SOURCE-003 and HR-SOURCE-004."
+  },
+  {
+    "job_id": "MK-J03",
+    "candidate_id": "MK-J03-C08",
+    "field": "experiences[0].skills_used (MK-J03-C08-EXP-01)",
+    "quote": "Định vị thương hiệu Brand Positioning",
+    "reason": "'Định vị thương hiệu Brand Positioning' is not explicitly stated in MK-J03-C08-SEC-EXP (EXP-01 covers brand campaign projects, Big Idea, and IMC strategy, while positioning appears only in MK-J03-C08-SEC-SKILL and 'định vị sản phẩm' in MK-J03-C08-SEC-SUM). Under HR-SOURCE-003, role-specific skills_used should not be attributed solely from summary or general skills without explicit role-block support."
+  },
+  {
+    "job_id": "MK-J04",
+    "candidate_id": "MK-J04-C05",
+    "field": "experiences[0].skills_used (MK-J04-C05-EXP-01)",
+    "quote": "Chỉ đạo kiểm toán kỹ thuật định kỳ với Screaming Frog chạy qua máy chủ đám mây, xử lý triệt để vấn đề trùng lặp nội dung do bộ lọc thuộc tính sản phẩm.",
+    "reason": "Unfixed historical blocking issue: MK-J04-C05-EXP-01 retains 'Screaming Frog Enterprise' in skills_used, but MK-J04-C05-SEC-EXP only states 'Screaming Frog chạy qua máy chủ đám mây' (deployment topology does not prove Enterprise edition). 'Screaming Frog Enterprise Server' appears only in MK-J04-C05-SEC-SKILL, violating check 1 and HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J04",
+    "candidate_id": "MK-J04-C03",
+    "field": "experiences[1].skills_used (MK-J04-C03-EXP-02)",
+    "quote": "Cài đặt từ khóa và viết tiện ích mở rộng cho các mẫu quảng cáo tìm kiếm văn phòng phẩm.",
+    "reason": "MK-J04-C03-EXP-02 assigns 'Quảng cáo tìm kiếm Google Ads' in skills_used, but the role block (Nhân viên Thiết lập Quảng cáo Số at Công ty TNHH Tiếp Thị Minh Phát) only mentions generic search ads ('các mẫu quảng cáo tìm kiếm') without naming Google Ads. 'Google Ads' appears only in summary, general skills, and EXP-01, violating check 1 and HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J04",
+    "candidate_id": "MK-J04-C01",
+    "field": "experiences[0].skills_used (MK-J04-C01-EXP-01)",
+    "quote": "Sử dụng Google Search Console, Ahrefs và SEMrush theo dõi biến động vị trí từ khóa hàng tuần và kiểm soát hồ sơ backlink.",
+    "reason": "MK-J04-C01-EXP-01 assigns 'Xây dựng liên kết Off-page' in skills_used, but the role block only supports ranking monitoring and backlink profile control ('kiểm soát hồ sơ backlink') via Google Search Console, Ahrefs, and SEMrush. Link building ('Xây dựng liên kết SEO Off-page an toàn: Guest Post, PR báo chí, Social Entity') appears only in summary and general skills, violating check 1 and HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J04",
+    "candidate_id": "MK-J04-C07",
+    "field": "experiences[1].skills_used (MK-J04-C07-EXP-02)",
+    "quote": "Chỉnh sửa lại các bài viết cũ trên blog để chèn thêm từ khóa phụ và hình ảnh sản phẩm.",
+    "reason": "MK-J04-C07-EXP-02 assigns 'SEO On-page web nội thất' in skills_used, but the role block (Cộng tác viên Tối ưu Bài viết at Cửa Hàng Đồ Gỗ Trang Trí Xinh) does not state 'web nội thất' or explicit 'SEO On-page', only editing old blog posts to add secondary keywords and product images. 'SEO On-page web nội thất' comes from summary, general skills, and EXP-01, violating check 1 and HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J05",
+    "candidate_id": "MK-J05-C04",
+    "field": "experiences[MK-J05-C04-EXP-01].skills_used",
+    "quote": "Tài liệu tính năng Release notes",
+    "reason": "Still attributed in MK-J05-C04-EXP-01.skills_used despite Release notes / bản tin phát hành appearing only in MK-J05-C04-SEC-SUM and MK-J05-C04-SEC-SKILL. MK-J05-C04-SEC-EXP only states launch communication materials ('tài liệu truyền thông ra mắt 4 gói tính năng') and how-to blog posts/tutorial videos ('18 bài blog hướng dẫn các bước thao tác'). This was explicitly flagged in audits/MK-J05.json and violates HR-SOURCE-003."
+  },
+  {
+    "job_id": "MK-J05",
+    "candidate_id": "MK-J05-C04",
+    "field": "cv_text / sections[MK-J05-C04-SEC-EXP] / experiences[MK-J05-C04-EXP-01].description",
+    "quote": "- Chưa trực tiếp chủ trì chiến lược GTM độc lập hay phân tích sâu các chỉ số vòng đời tài chính như CAC, LTV.",
+    "reason": "Templated JD-shaped negative-list sentence mirroring required criteria MK-J05-R02 (chủ trì chiến lược GTM) and MK-J05-R04 (chỉ số vòng đời ... như CAC, LTV) remains in MK-J05-C04-SEC-EXP, cv_text, and MK-J05-C04-EXP-01.description. Flagged in audits/MK-J05.json as a requirement-shaped denial and required to be removed under PROTOCOL.md and HR-SOURCE-006 (unlike C03 and C06 where equivalent sentences were removed, and positive support scope is already preserved in bullet 1 'Hỗ trợ chuyên viên cao cấp...')."
+  }
+]

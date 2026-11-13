@@ -1,0 +1,51 @@
+{
+  "schema_version": "ai2-pilot-commercial-repair-log-v5",
+  "changes_count": 3,
+  "after_sha256": "b196a9bc9aad9e0ed91ed04073280ba5e1b108f493838e75be5cd3e322f71f94",
+  "changes": [
+    {
+      "id": "SA-J03-C02-EXP-02",
+      "field": "skills_used",
+      "before": [
+        "Đấu thầu y tế công lập"
+      ],
+      "after": [],
+      "decision": "HR-SOURCE-003",
+      "reason": "Remove cross-section/statutory term 'Đấu thầu y tế công lập' absent from role prose"
+    },
+    {
+      "id": "SA-J03-C05-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Lãnh đạo khối kinh doanh y tế",
+        "Đấu thầu y tế công lập",
+        "Luật Đấu thầu",
+        "Hệ thống MRI và CT Scanner"
+      ],
+      "after": [
+        "Lãnh đạo khối kinh doanh y tế",
+        "Đấu thầu y tế công lập",
+        "Hệ thống MRI và CT Scanner"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Remove cross-section/statutory term 'Luật Đấu thầu' absent from role prose"
+    },
+    {
+      "id": "SA-J03-C07-EXP-01",
+      "field": "skills_used",
+      "before": [
+        "Quản lý nhóm sales thiết bị y tế",
+        "Đấu thầu y tế theo Luật Đấu thầu",
+        "Thiết bị phòng mổ",
+        "Chỉ tiêu doanh số vùng"
+      ],
+      "after": [
+        "Quản lý nhóm sales thiết bị y tế",
+        "Thiết bị phòng mổ",
+        "Chỉ tiêu doanh số vùng"
+      ],
+      "decision": "HR-SOURCE-003",
+      "reason": "Remove cross-section/statutory term 'Đấu thầu y tế theo Luật Đấu thầu' absent from role prose"
+    }
+  ]
+}

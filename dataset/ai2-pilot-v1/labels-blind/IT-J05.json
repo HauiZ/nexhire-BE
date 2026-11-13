@@ -1,0 +1,289 @@
+{
+  "schema_version": "ai2-pilot-label-v1",
+  "role": "blind_review",
+  "review_model_requested": "cx/gpt-6.1-sol",
+  "label_type": "silver",
+  "records": [
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C01",
+      "relevance": 3,
+      "rationale": "DevOps/Cloud từ 2020-08 hơn 6 năm; vận hành EKS production, AWS đa vùng, Terraform và CI/CD/giám sát đều có nhiệm vụ rõ.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J05-R01",
+          "section_id": "IT-J05-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ sư DevOps (Lead DevOps Engineer) tại Công ty Cổ phần Giải pháp Hạ tầng Số Nam Việt. Thời gian: từ 2022-03 đến nay. Mô tả: Quản trị toàn bộ hạ tầng AWS gồm hơn 15 cụm Amazon EKS chạy production. Viết toàn bộ mã nguồn quản lý hạ tầng (IaC) bằng Terraform cho môi trường multi-region. Thiết lập hệ thống giám sát tập trung Prometheus và Grafana, phát hiện và xử lý sự cố hạ tầng. Xây dựng quy trình CI/CD tự động hóa trên GitLab CI phục vụ 12 nhóm phát triển phần mềm.\n- Chức danh: Kỹ sư Cloud DevOps tại Công ty TNHH Phần mềm Ánh Sao. Thời gian: từ 2020-08 đến 2022-02. Mô tả: Triển khai ứng dụng container hóa Docker lên cụm Kubernetes tự dựng trên AWS EC2. Thiết lập quy trình build và deploy với GitLab CI.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J05-R02",
+          "section_id": "IT-J05-C01-S02",
+          "quote": "Kỹ năng kỹ thuật:\n- Nền tảng Đám mây: AWS (EC2, EKS, RDS, S3, IAM, VPC, CloudWatch).\n- Điều phối Container: Kubernetes (K8s), Docker, Helm, ArgoCD.\n- Hạ tầng dạng mã & Tự động hóa: Terraform, Ansible, Bash Script.\n- CI/CD & Giám sát: GitLab CI, GitHub Actions, Prometheus, Grafana, ELK Stack.\n- Hệ điều hành & Mạng: Linux Ubuntu/CentOS, TCP/IP, Nginx.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J05-R03",
+          "section_id": "IT-J05-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ sư DevOps (Lead DevOps Engineer) tại Công ty Cổ phần Giải pháp Hạ tầng Số Nam Việt. Thời gian: từ 2022-03 đến nay. Mô tả: Quản trị toàn bộ hạ tầng AWS gồm hơn 15 cụm Amazon EKS chạy production. Viết toàn bộ mã nguồn quản lý hạ tầng (IaC) bằng Terraform cho môi trường multi-region. Thiết lập hệ thống giám sát tập trung Prometheus và Grafana, phát hiện và xử lý sự cố hạ tầng. Xây dựng quy trình CI/CD tự động hóa trên GitLab CI phục vụ 12 nhóm phát triển phần mềm.\n- Chức danh: Kỹ sư Cloud DevOps tại Công ty TNHH Phần mềm Ánh Sao. Thời gian: từ 2020-08 đến 2022-02. Mô tả: Triển khai ứng dụng container hóa Docker lên cụm Kubernetes tự dựng trên AWS EC2. Thiết lập quy trình build và deploy với GitLab CI.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J05-R04",
+          "section_id": "IT-J05-C01-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ sư DevOps (Lead DevOps Engineer) tại Công ty Cổ phần Giải pháp Hạ tầng Số Nam Việt. Thời gian: từ 2022-03 đến nay. Mô tả: Quản trị toàn bộ hạ tầng AWS gồm hơn 15 cụm Amazon EKS chạy production. Viết toàn bộ mã nguồn quản lý hạ tầng (IaC) bằng Terraform cho môi trường multi-region. Thiết lập hệ thống giám sát tập trung Prometheus và Grafana, phát hiện và xử lý sự cố hạ tầng. Xây dựng quy trình CI/CD tự động hóa trên GitLab CI phục vụ 12 nhóm phát triển phần mềm.\n- Chức danh: Kỹ sư Cloud DevOps tại Công ty TNHH Phần mềm Ánh Sao. Thời gian: từ 2020-08 đến 2022-02. Mô tả: Triển khai ứng dụng container hóa Docker lên cụm Kubernetes tự dựng trên AWS EC2. Thiết lập quy trình build và deploy với GitLab CI.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C02",
+      "relevance": 2,
+      "rationale": "EKS production, AWS và IaC rõ, nhưng vai trò SRE từ 2023-01 khoảng 46 tháng. Vai trò trước chỉ Linux/Nginx/Docker chưa chứng minh DevOps/Cloud; tóm tắt 5 năm AWS/K8s không được niên biểu xác nhận.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J05-R01",
+          "section_id": "IT-J05-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior DevOps / SRE tại Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink. Thời gian: từ 2023-01 đến nay. Mô tả: Vận hành cụm EKS trên AWS đảm bảo chỉ số uptime 99.95%. Tự động hóa cấu hình hạ tầng bằng Ansible và Terraform. Xây dựng pipeline kiểm thử và đóng gói Docker trên GitHub Actions. Cấu hình dashboard Grafana và hệ thống báo động Prometheus qua Telegram.\n- Chức danh: Kỹ sư Quản trị Hệ thống tại Công ty TNHH Viễn thông Miền Bắc. Thời gian: từ 2021-09 đến 2022-12. Mô tả: Vận hành máy chủ Linux, cài đặt cấu hình web server Nginx và hỗ trợ triển khai Docker.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R02",
+          "section_id": "IT-J05-C02-S02",
+          "quote": "Kỹ năng kỹ thuật:\n- Điện toán đám mây: AWS (EC2, EKS, RDS, S3, IAM, VPC).\n- Hạ tầng & Container: Kubernetes, Docker, Helm, Terraform, Ansible.\n- CI/CD & Giám sát: GitHub Actions, Prometheus, Grafana, Datadog.\n- Khác: Linux, Python script, Git.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J05-R03",
+          "section_id": "IT-J05-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior DevOps / SRE tại Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink. Thời gian: từ 2023-01 đến nay. Mô tả: Vận hành cụm EKS trên AWS đảm bảo chỉ số uptime 99.95%. Tự động hóa cấu hình hạ tầng bằng Ansible và Terraform. Xây dựng pipeline kiểm thử và đóng gói Docker trên GitHub Actions. Cấu hình dashboard Grafana và hệ thống báo động Prometheus qua Telegram.\n- Chức danh: Kỹ sư Quản trị Hệ thống tại Công ty TNHH Viễn thông Miền Bắc. Thời gian: từ 2021-09 đến 2022-12. Mô tả: Vận hành máy chủ Linux, cài đặt cấu hình web server Nginx và hỗ trợ triển khai Docker.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J05-R04",
+          "section_id": "IT-J05-C02-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior DevOps / SRE tại Công ty Cổ phần Giải pháp Thanh toán Thông minh PayLink. Thời gian: từ 2023-01 đến nay. Mô tả: Vận hành cụm EKS trên AWS đảm bảo chỉ số uptime 99.95%. Tự động hóa cấu hình hạ tầng bằng Ansible và Terraform. Xây dựng pipeline kiểm thử và đóng gói Docker trên GitHub Actions. Cấu hình dashboard Grafana và hệ thống báo động Prometheus qua Telegram.\n- Chức danh: Kỹ sư Quản trị Hệ thống tại Công ty TNHH Viễn thông Miền Bắc. Thời gian: từ 2021-09 đến 2022-12. Mô tả: Vận hành máy chủ Linux, cài đặt cấu hình web server Nginx và hỗ trợ triển khai Docker.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J05-R01: Cần xác minh nhiệm vụ DevOps/Cloud ở vai trò 2021-09 tới 2022-12 do tóm tắt nói 5 năm AWS/K8s."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Tóm tắt và niên biểu khác nhau ngay ngưỡng 5 năm; nhãn tạm thời theo nhiệm vụ có ngày."
+      ]
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C03",
+      "relevance": 1,
+      "rationale": "DevOps khoảng 37 tháng, có EC2/RDS và CI/CD nhưng K8s chỉ cơ bản; chưa chứng minh quản trị production và IaC Terraform/Ansible. Nhiều khoảng thiếu trung tâm senior.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J05-R01",
+          "section_id": "IT-J05-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: DevOps Engineer tại Công ty Cổ phần Giải pháp Số Hiện Đại. Thời gian: từ 2023-10 đến nay. Mô tả: Xây dựng pipeline GitLab CI tự động kiểm tra mã nguồn và build Docker image. Quản lý các máy chủ AWS EC2 và cấu hình cơ sở dữ liệu AWS RDS. Cài đặt hệ thống giám sát Prometheus và Grafana cho cụm máy chủ staging.\n- Chức danh: Quản trị viên Hệ thống Junior tại Công ty TNHH Công nghệ Mạng Sao Xanh. Thời gian: từ 2022-09 đến 2023-09. Mô tả: Hỗ trợ cài đặt hệ điều hành Linux và cấu hình mạng nội bộ.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R02",
+          "section_id": "IT-J05-C03-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: DevOps Engineer tại Công ty Cổ phần Giải pháp Số Hiện Đại. Thời gian: từ 2023-10 đến nay. Mô tả: Xây dựng pipeline GitLab CI tự động kiểm tra mã nguồn và build Docker image. Quản lý các máy chủ AWS EC2 và cấu hình cơ sở dữ liệu AWS RDS. Cài đặt hệ thống giám sát Prometheus và Grafana cho cụm máy chủ staging.\n- Chức danh: Quản trị viên Hệ thống Junior tại Công ty TNHH Công nghệ Mạng Sao Xanh. Thời gian: từ 2022-09 đến 2023-09. Mô tả: Hỗ trợ cài đặt hệ điều hành Linux và cấu hình mạng nội bộ.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R03",
+          "section_id": "IT-J05-C03-S02",
+          "quote": "Kỹ năng:\n- Nền tảng & Ảo hóa: AWS (EC2, S3, RDS), Docker, Docker Compose, Kubernetes (cơ bản).\n- CI/CD & Giám sát: GitLab CI, Prometheus, Grafana.\n- Khác: Linux, Bash Script, Git.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J05-R04: Chưa nêu Terraform hoặc Ansible.",
+        "IT-J05-R03: Chưa có K8s production.",
+        "IT-J05-R02: Chưa mô tả EKS/IAM/VPC."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C04",
+      "relevance": 2,
+      "rationale": "Linux, AWS hybrid và Ansible sâu có liên quan thực chất; không cộng toàn bộ hơn 6 năm sysadmin thành Cloud/DevOps. Chưa có Kubernetes production và phạm vi AWS còn thiếu EKS/IAM.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J05-R01",
+          "section_id": "IT-J05-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Quản trị Hệ thống tại Công ty Cổ phần Viễn thông Hạ tầng Á Châu. Thời gian: từ 2022-04 đến nay. Mô tả: Quản trị hơn 200 máy chủ Linux vật lý và môi trường AWS hybrid cloud. Sử dụng Ansible để chuẩn hóa cấu hình và vá lỗ hổng bảo mật tự động. Cấu hình thu thập log tập trung với ELK Stack.\n- Chức danh: Quản trị viên Hệ thống Linux tại Công ty TNHH Dịch vụ Mạng Hà Nội. Thời gian: từ 2020-05 đến 2022-03. Mô tả: Cài đặt và vận hành hệ thống máy chủ thư điện tử và web hosting trên nền tảng Linux.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R02",
+          "section_id": "IT-J05-C04-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Quản trị Hệ thống tại Công ty Cổ phần Viễn thông Hạ tầng Á Châu. Thời gian: từ 2022-04 đến nay. Mô tả: Quản trị hơn 200 máy chủ Linux vật lý và môi trường AWS hybrid cloud. Sử dụng Ansible để chuẩn hóa cấu hình và vá lỗ hổng bảo mật tự động. Cấu hình thu thập log tập trung với ELK Stack.\n- Chức danh: Quản trị viên Hệ thống Linux tại Công ty TNHH Dịch vụ Mạng Hà Nội. Thời gian: từ 2020-05 đến 2022-03. Mô tả: Cài đặt và vận hành hệ thống máy chủ thư điện tử và web hosting trên nền tảng Linux.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R04",
+          "section_id": "IT-J05-C04-S04",
+          "quote": "Dự án:\n- Dự án Đồng bộ Quản trị Cấu hình Hệ thống qua Ansible: Viết hơn 50 playbook Ansible triển khai máy chủ và kiểm soát tuân thủ an toàn thông tin.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J05-R03: Chưa nêu Kubernetes production.",
+        "IT-J05-R01: Cần phân định thời gian Cloud/DevOps trong vai trò sysadmin.",
+        "IT-J05-R02: Chưa nêu EKS/IAM."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C05",
+      "relevance": 2,
+      "rationale": "Có quản lý AWS bằng Terraform, CI/CD và giám sát; nhiệm vụ cloud có ngày từ 2022-02 tối đa khoảng 57 tháng, không đủ 5 năm, không cộng vai trò Java trước. Chưa nêu Kubernetes/EKS production.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J05-R01",
+          "section_id": "IT-J05-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Backend & Cloud Developer tại Công ty Cổ phần Công nghệ Tài chính Toàn Thắng. Thời gian: từ 2022-02 đến nay. Mô tả: Phát triển microservices backend bằng Java Spring Boot. Đồng thời khởi tạo và quản lý hạ tầng AWS bằng Terraform. Xây dựng pipeline CI/CD trên GitLab CI và cấu hình giám sát Prometheus, Grafana cho hệ thống thanh toán.\n- Chức danh: Lập trình viên Java tại Công ty TNHH Giải pháp Phần mềm Đại Nam. Thời gian: từ 2021-03 đến 2022-01. Mô tả: Phát triển hệ thống quản lý bán hàng sử dụng Spring Boot và cơ sở dữ liệu MySQL.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R02",
+          "section_id": "IT-J05-C05-S02",
+          "quote": "Kỹ năng:\n- Lập trình: Java, SQL, Python, Bash.\n- Đám mây & DevOps: AWS (EC2, RDS, S3, IAM, VPC), Terraform, GitLab CI, Docker.\n- Giám sát: Prometheus, Grafana.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R04",
+          "section_id": "IT-J05-C05-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Backend & Cloud Developer tại Công ty Cổ phần Công nghệ Tài chính Toàn Thắng. Thời gian: từ 2022-02 đến nay. Mô tả: Phát triển microservices backend bằng Java Spring Boot. Đồng thời khởi tạo và quản lý hạ tầng AWS bằng Terraform. Xây dựng pipeline CI/CD trên GitLab CI và cấu hình giám sát Prometheus, Grafana cho hệ thống thanh toán.\n- Chức danh: Lập trình viên Java tại Công ty TNHH Giải pháp Phần mềm Đại Nam. Thời gian: từ 2021-03 đến 2022-01. Mô tả: Phát triển hệ thống quản lý bán hàng sử dụng Spring Boot và cơ sở dữ liệu MySQL.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J05-R03: Chưa có Kubernetes production.",
+        "IT-J05-R02: Chưa nêu EKS.",
+        "IT-J05-R01: Tóm tắt kiêm cloud hơn 2 năm khác phạm vi nhiệm kỳ; cần xác định thời điểm bắt đầu nhưng ngay toàn nhiệm kỳ vẫn dưới 5 năm."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C06",
+      "relevance": 2,
+      "rationale": "Cloud từ 2021-05 đủ 5 năm, có Kubernetes và Terraform đa nền tảng. AWS được nêu nhưng chưa chứng minh vận hành đầy đủ RDS/VPC và độ sâu AWS; không áp ngưỡng 5 năm riêng AWS vì JD không yêu cầu vậy.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J05-R01",
+          "section_id": "IT-J05-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Cloud Engineer tại Công ty Cổ phần Dịch vụ Số Tân Thời Đại. Thời gian: từ 2022-06 đến nay. Mô tả: Quản trị các cụm Kubernetes trên GCP (GKE) và AWS (EKS). Tự động hóa việc cung cấp tài nguyên đám mây đa nền tảng bằng Terraform. Thiết lập cụm ELK Stack để phân tích log hệ thống.\n- Chức danh: Kỹ sư Điện toán Đám mây tại Công ty TNHH Công nghệ Mây Việt. Thời gian: từ 2021-05 đến 2022-05. Mô tả: Quản trị các máy ảo trên Azure và viết script tự động sao lưu dữ liệu.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J05-R02",
+          "section_id": "IT-J05-C06-S02",
+          "quote": "Kỹ năng:\n- Nền tảng Đám mây: GCP (GKE, Compute Engine), Azure, AWS (EKS, EC2, S3, IAM).\n- Điều phối & Tự động hóa: Kubernetes, Docker, Terraform, GitLab CI.\n- Giám sát: Prometheus, Grafana, ELK Stack.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R03",
+          "section_id": "IT-J05-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Cloud Engineer tại Công ty Cổ phần Dịch vụ Số Tân Thời Đại. Thời gian: từ 2022-06 đến nay. Mô tả: Quản trị các cụm Kubernetes trên GCP (GKE) và AWS (EKS). Tự động hóa việc cung cấp tài nguyên đám mây đa nền tảng bằng Terraform. Thiết lập cụm ELK Stack để phân tích log hệ thống.\n- Chức danh: Kỹ sư Điện toán Đám mây tại Công ty TNHH Công nghệ Mây Việt. Thời gian: từ 2021-05 đến 2022-05. Mô tả: Quản trị các máy ảo trên Azure và viết script tự động sao lưu dữ liệu.",
+          "assessment": "supported"
+        },
+        {
+          "requirement_id": "IT-J05-R04",
+          "section_id": "IT-J05-C06-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Senior Cloud Engineer tại Công ty Cổ phần Dịch vụ Số Tân Thời Đại. Thời gian: từ 2022-06 đến nay. Mô tả: Quản trị các cụm Kubernetes trên GCP (GKE) và AWS (EKS). Tự động hóa việc cung cấp tài nguyên đám mây đa nền tảng bằng Terraform. Thiết lập cụm ELK Stack để phân tích log hệ thống.\n- Chức danh: Kỹ sư Điện toán Đám mây tại Công ty TNHH Công nghệ Mây Việt. Thời gian: từ 2021-05 đến 2022-05. Mô tả: Quản trị các máy ảo trên Azure và viết script tự động sao lưu dữ liệu.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J05-R02: Chưa mô tả quản trị RDS/VPC và độ sâu vận hành AWS.",
+        "IT-J05-R03: Cần xác nhận môi trường production của các cụm được quản trị."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Phạm vi AWS và production chưa đủ rõ có thể thay đổi mức 2/3."
+      ]
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C07",
+      "relevance": 2,
+      "rationale": "Có EKS, Terraform và GitHub Actions thực tế; vai trò có ngày khoảng 43 tháng, hợp đồng độc lập không có ngày nên không đủ căn cứ tổng 5 năm và không cộng chồng lấn.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J05-R01",
+          "section_id": "IT-J05-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: DevOps Engineer tại Công ty Cổ phần Công nghệ Mạng Đổi Mới. Thời gian: từ 2023-04 đến nay. Mô tả: Vận hành cụm Kubernetes trên AWS EKS, tự động hóa hạ tầng bằng Terraform và cấu hình pipeline CI/CD qua GitHub Actions. Cấu hình bảng hiển thị số liệu hiệu năng với Grafana.\n- Chức danh: Chuyên viên Vận hành Hạ tầng Độc lập tại Nhóm Kỹ sư Đám mây Tự do. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Tư vấn triển khai Docker và cấu hình dịch vụ AWS EC2 và S3 cho các ứng dụng vừa và nhỏ.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R02",
+          "section_id": "IT-J05-C07-S02",
+          "quote": "Kỹ năng kỹ thuật:\n- Điện toán đám mây: AWS (EC2, EKS, RDS, S3, VPC).\n- Hạ tầng & Container: Kubernetes, Docker, Terraform.\n- CI/CD & Giám sát: GitHub Actions, Prometheus, Grafana.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R03",
+          "section_id": "IT-J05-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: DevOps Engineer tại Công ty Cổ phần Công nghệ Mạng Đổi Mới. Thời gian: từ 2023-04 đến nay. Mô tả: Vận hành cụm Kubernetes trên AWS EKS, tự động hóa hạ tầng bằng Terraform và cấu hình pipeline CI/CD qua GitHub Actions. Cấu hình bảng hiển thị số liệu hiệu năng với Grafana.\n- Chức danh: Chuyên viên Vận hành Hạ tầng Độc lập tại Nhóm Kỹ sư Đám mây Tự do. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Tư vấn triển khai Docker và cấu hình dịch vụ AWS EC2 và S3 cho các ứng dụng vừa và nhỏ.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R04",
+          "section_id": "IT-J05-C07-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: DevOps Engineer tại Công ty Cổ phần Công nghệ Mạng Đổi Mới. Thời gian: từ 2023-04 đến nay. Mô tả: Vận hành cụm Kubernetes trên AWS EKS, tự động hóa hạ tầng bằng Terraform và cấu hình pipeline CI/CD qua GitHub Actions. Cấu hình bảng hiển thị số liệu hiệu năng với Grafana.\n- Chức danh: Chuyên viên Vận hành Hạ tầng Độc lập tại Nhóm Kỹ sư Đám mây Tự do. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Tư vấn triển khai Docker và cấu hình dịch vụ AWS EC2 và S3 cho các ứng dụng vừa và nhỏ.",
+          "assessment": "supported"
+        }
+      ],
+      "missing_information": [
+        "IT-J05-R01: Cần ngày/trạng thái và chồng lấn vai trò độc lập để kiểm tra 5 năm.",
+        "IT-J05-R02: Chưa nêu IAM thực hành.",
+        "IT-J05-R03: Cần xác nhận cụm production."
+      ],
+      "needs_human_review": true,
+      "review_reasons": [
+        "Thâm niên cloud độc lập không rõ có thể đổi mức 2/3."
+      ]
+    },
+    {
+      "job_id": "IT-J05",
+      "candidate_id": "IT-J05-C08",
+      "relevance": 1,
+      "rationale": "CI/CD và Docker phục vụ kiểm thử là bằng chứng chuyển đổi; EC2 môi trường test không tương đương quản trị AWS/K8s production senior. Chưa có IaC và 5 năm DevOps/Cloud.",
+      "evidence": [
+        {
+          "requirement_id": "IT-J05-R01",
+          "section_id": "IT-J05-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Chuyên viên CI/CD & Automation Test tại Công ty Cổ phần Giải pháp Số Nam Á. Thời gian: từ 2022-11 đến nay. Mô tả: Tích hợp bộ kiểm thử tự động vào quy trình GitLab CI. Đóng gói môi trường kiểm thử trên Docker và triển khai các dịch vụ kiểm thử tạm thời trên AWS EC2.\n- Chức danh: Kỹ sư Kiểm thử tại Công ty TNHH Phần mềm Biển Bạc. Thời gian: từ 2021-04 đến 2022-10. Mô tả: Viết kịch bản kiểm thử tự động giao diện và API.",
+          "assessment": "partial"
+        },
+        {
+          "requirement_id": "IT-J05-R02",
+          "section_id": "IT-J05-C08-S03",
+          "quote": "Kinh nghiệm làm việc:\n- Chức danh: Chuyên viên CI/CD & Automation Test tại Công ty Cổ phần Giải pháp Số Nam Á. Thời gian: từ 2022-11 đến nay. Mô tả: Tích hợp bộ kiểm thử tự động vào quy trình GitLab CI. Đóng gói môi trường kiểm thử trên Docker và triển khai các dịch vụ kiểm thử tạm thời trên AWS EC2.\n- Chức danh: Kỹ sư Kiểm thử tại Công ty TNHH Phần mềm Biển Bạc. Thời gian: từ 2021-04 đến 2022-10. Mô tả: Viết kịch bản kiểm thử tự động giao diện và API.",
+          "assessment": "partial"
+        }
+      ],
+      "missing_information": [
+        "IT-J05-R03: Chưa có Kubernetes production.",
+        "IT-J05-R04: Chưa nêu Terraform/Ansible.",
+        "IT-J05-R01: Không có 5 năm nhiệm vụ DevOps/SRE/Cloud được mô tả."
+      ],
+      "needs_human_review": false,
+      "review_reasons": []
+    }
+  ]
+}

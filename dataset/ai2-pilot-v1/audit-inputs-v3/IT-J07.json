@@ -1,0 +1,899 @@
+{
+  "schema_version": "ai2-pilot-source-v1",
+  "split": "development",
+  "synthetic": true,
+  "generation_model_requested": "ag/gemini-3.8-flash-high",
+  "jobs": [
+    {
+      "job_id": "IT-J07",
+      "source_family_id": "IT-J07",
+      "domain": "it",
+      "title": "Kỹ sư Lập trình Java Backend (Java / Spring Boot)",
+      "level": "senior",
+      "language": "vi",
+      "jd_text": "Công ty Cổ phần Giải pháp Phần mềm Tài chính Việt Hưng tuyển dụng Kỹ sư Lập trình Java Backend (Java / Spring Boot) cấp độ Senior tại Quận 3, TP. Hồ Chí Minh. Hình thức làm việc: Toàn thời gian trực tiếp tại văn phòng. Mức thu nhập từ 35.000.000 đến 50.000.000 VND cùng tháng lương thứ 13 và thưởng hiệu quả kinh doanh cuối năm.\n\nTrách nhiệm công việc:\n- Thiết kế kiến trúc, phát triển và vận hành hệ thống thanh toán liên ngân hàng và ví điện tử sử dụng Java Spring Boot.\n- Xây dựng hệ thống vi dịch vụ (microservices) chịu tải cao, tích hợp message broker phân tán và đảm bảo an toàn giao dịch.\n- Tối ưu hóa hiệu năng truy vấn cơ sở dữ liệu quy mô lớn, xử lý đồng thời và kiểm soát tính toàn vẹn ACID.\n- Định hướng kỹ thuật, rà soát mã nguồn (code review) và hỗ trợ đào tạo các thành viên cấp dưới.\n\nYêu cầu bắt buộc:\n- Tối thiểu 5 năm kinh nghiệm phát triển backend chuyên sâu với Java (Java 11, 17 hoặc 21).\n- Thành thạo kiến trúc microservices với Spring Boot, Spring Cloud và Spring Data JPA.\n- Kinh nghiệm thực chiến với hệ thống message broker phân tán Apache Kafka hoặc RabbitMQ.\n- Thành thạo tối ưu hóa hiệu năng cơ sở dữ liệu quan hệ Oracle Database hoặc PostgreSQL.\n\nYêu cầu ưu tiên:\n- Kinh nghiệm triển khai ứng dụng trên nền tảng Docker và Kubernetes (K8s).\n- Kỹ năng phân rã kiến trúc (Architecture Design), review mã nguồn và dẫn dắt kỹ thuật nhóm lập trình.",
+      "requirements": [
+        {
+          "requirement_id": "IT-J07-R01",
+          "text": "Tối thiểu 5 năm kinh nghiệm phát triển backend chuyên sâu với Java (Java 11, 17 hoặc 21).",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J07-R02",
+          "text": "Thành thạo kiến trúc microservices với Spring Boot, Spring Cloud và Spring Data JPA.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J07-R03",
+          "text": "Kinh nghiệm thực chiến với hệ thống message broker phân tán Apache Kafka hoặc RabbitMQ.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J07-R04",
+          "text": "Thành thạo tối ưu hóa hiệu năng cơ sở dữ liệu quan hệ Oracle Database hoặc PostgreSQL.",
+          "importance": "required"
+        },
+        {
+          "requirement_id": "IT-J07-R05",
+          "text": "Kinh nghiệm triển khai ứng dụng trên nền tảng Docker và Kubernetes (K8s).",
+          "importance": "preferred"
+        },
+        {
+          "requirement_id": "IT-J07-R06",
+          "text": "Kỹ năng phân rã kiến trúc (Architecture Design), review mã nguồn và dẫn dắt kỹ thuật nhóm lập trình.",
+          "importance": "preferred"
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "IT-J07-C01",
+          "cv_text": "Tóm lược chuyên môn: Kỹ sư Trưởng Lập trình Java Backend (Lead Java Engineer) với hơn 6 năm kinh nghiệm phát triển các hệ thống ngân hàng và fintech. Thành thạo kiến trúc microservices với Java 17, Spring Boot, Spring Cloud, Apache Kafka và cơ sở dữ liệu Oracle Database. Có kinh nghiệm dẫn dắt đội kỹ thuật 7 người, phân rã kiến trúc phần mềm và triển khai cụm Kubernetes.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: Java (11, 17, 21), SQL, PL/SQL.\n- Framework: Spring Boot, Spring Cloud, Spring Data JPA, Hibernate, Spring Security.\n- Cơ sở dữ liệu: Oracle Database, PostgreSQL, Redis.\n- Phân tán & Đóng gói: Apache Kafka, RabbitMQ, Docker, Kubernetes.\n- Lãnh đạo kỹ thuật: Architecture Design, Code Review, Mentoring, Scrum.\n\nKinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ thuật Java (Java Tech Lead) tại Công ty Cổ phần Công nghệ Thanh toán Quốc gia VietPayLink. Thời gian: từ 2022-05 đến nay. Mô tả: Thiết kế kiến trúc vi dịch vụ Spring Boot và Spring Cloud cho cổng thanh toán trực tuyến. Tích hợp cụm Apache Kafka xử lý hơn 10.000 sự kiện giao dịch mỗi giây. Tối ưu hóa các gói thủ tục PL/SQL và chỉ mục trên Oracle Database. Dẫn dắt 7 kỹ sư lập trình, phân công nhiệm vụ và thực hiện review mã nguồn nghiêm ngặt trước khi triển khai lên Kubernetes.\n- Chức danh: Kỹ sư Lập trình Java Cấp cao tại Công ty TNHH Phần mềm Á Châu. Thời gian: từ 2020-04 đến 2022-04. Mô tả: Phát triển microservices cho hệ thống ngân hàng số lõi bằng Java 11 và Spring Boot, sử dụng PostgreSQL và Docker.\n\nDự án tiêu biểu:\n- Dự án Hệ thống Thanh toán Liên Ngân hàng VietPay-Core: Kiến trúc hóa phân hệ xử lý bù trừ giao dịch bằng Spring Boot, Kafka và Oracle Database trên Kubernetes.\n\nHọc vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM.\n\nChứng chỉ:\n- Oracle Certified Professional: Java SE 17 Developer.",
+          "sections": [
+            {
+              "section_id": "IT-J07-C01-S01",
+              "kind": "summary",
+              "text": "Tóm lược chuyên môn: Kỹ sư Trưởng Lập trình Java Backend (Lead Java Engineer) với hơn 6 năm kinh nghiệm phát triển các hệ thống ngân hàng và fintech. Thành thạo kiến trúc microservices với Java 17, Spring Boot, Spring Cloud, Apache Kafka và cơ sở dữ liệu Oracle Database. Có kinh nghiệm dẫn dắt đội kỹ thuật 7 người, phân rã kiến trúc phần mềm và triển khai cụm Kubernetes."
+            },
+            {
+              "section_id": "IT-J07-C01-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ: Java (11, 17, 21), SQL, PL/SQL.\n- Framework: Spring Boot, Spring Cloud, Spring Data JPA, Hibernate, Spring Security.\n- Cơ sở dữ liệu: Oracle Database, PostgreSQL, Redis.\n- Phân tán & Đóng gói: Apache Kafka, RabbitMQ, Docker, Kubernetes.\n- Lãnh đạo kỹ thuật: Architecture Design, Code Review, Mentoring, Scrum."
+            },
+            {
+              "section_id": "IT-J07-C01-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Trưởng nhóm Kỹ thuật Java (Java Tech Lead) tại Công ty Cổ phần Công nghệ Thanh toán Quốc gia VietPayLink. Thời gian: từ 2022-05 đến nay. Mô tả: Thiết kế kiến trúc vi dịch vụ Spring Boot và Spring Cloud cho cổng thanh toán trực tuyến. Tích hợp cụm Apache Kafka xử lý hơn 10.000 sự kiện giao dịch mỗi giây. Tối ưu hóa các gói thủ tục PL/SQL và chỉ mục trên Oracle Database. Dẫn dắt 7 kỹ sư lập trình, phân công nhiệm vụ và thực hiện review mã nguồn nghiêm ngặt trước khi triển khai lên Kubernetes.\n- Chức danh: Kỹ sư Lập trình Java Cấp cao tại Công ty TNHH Phần mềm Á Châu. Thời gian: từ 2020-04 đến 2022-04. Mô tả: Phát triển microservices cho hệ thống ngân hàng số lõi bằng Java 11 và Spring Boot, sử dụng PostgreSQL và Docker."
+            },
+            {
+              "section_id": "IT-J07-C01-S04",
+              "kind": "project",
+              "text": "Dự án tiêu biểu:\n- Dự án Hệ thống Thanh toán Liên Ngân hàng VietPay-Core: Kiến trúc hóa phân hệ xử lý bù trừ giao dịch bằng Spring Boot, Kafka và Oracle Database trên Kubernetes."
+            },
+            {
+              "section_id": "IT-J07-C01-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM."
+            },
+            {
+              "section_id": "IT-J07-C01-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Oracle Certified Professional: Java SE 17 Developer."
+            }
+          ],
+          "skills": [
+            "Java",
+            "SQL",
+            "PL/SQL",
+            "Spring Boot",
+            "Spring Cloud",
+            "Spring Data JPA",
+            "Hibernate",
+            "Spring Security",
+            "Oracle Database",
+            "PostgreSQL",
+            "Redis",
+            "Apache Kafka",
+            "RabbitMQ",
+            "Docker",
+            "Kubernetes"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J07-C01-E01",
+              "title": "Trưởng nhóm Kỹ thuật Java (Java Tech Lead)",
+              "company": "Công ty Cổ phần Công nghệ Thanh toán Quốc gia VietPayLink",
+              "start_date": "2022-05",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết kế kiến trúc vi dịch vụ Spring Boot và Spring Cloud cho cổng thanh toán trực tuyến. Tích hợp cụm Apache Kafka xử lý hơn 10.000 sự kiện giao dịch mỗi giây. Tối ưu hóa các gói thủ tục PL/SQL và chỉ mục trên Oracle Database. Dẫn dắt 7 kỹ sư lập trình, phân công nhiệm vụ và thực hiện review mã nguồn nghiêm ngặt trước khi triển khai lên Kubernetes.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "Spring Cloud",
+                "Apache Kafka",
+                "Oracle Database",
+                "Kubernetes"
+              ],
+              "section_id": "IT-J07-C01-S03"
+            },
+            {
+              "experience_id": "IT-J07-C01-E02",
+              "title": "Kỹ sư Lập trình Java Cấp cao",
+              "company": "Công ty TNHH Phần mềm Á Châu",
+              "start_date": "2020-04",
+              "end_date": "2022-04",
+              "is_current": false,
+              "description": "Phát triển microservices cho hệ thống ngân hàng số lõi bằng Java 11 và Spring Boot, sử dụng PostgreSQL và Docker.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "PostgreSQL",
+                "Docker"
+              ],
+              "section_id": "IT-J07-C01-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J07-C01-P01",
+              "name": "Hệ thống Thanh toán Liên Ngân hàng VietPay-Core",
+              "description": "Kiến trúc hóa phân hệ xử lý bù trừ giao dịch bằng Spring Boot, Kafka và Oracle Database trên Kubernetes.",
+              "technologies_or_methods": [
+                "Spring Boot",
+                "Kafka",
+                "Oracle Database",
+                "Kubernetes"
+              ],
+              "section_id": "IT-J07-C01-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J07-C01-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Oracle Certified Professional: Java SE 17 Developer",
+              "section_id": "IT-J07-C01-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J07-C02",
+          "cv_text": "Tóm lược: Senior Java Backend Developer có 5 năm 4 tháng kinh nghiệm phát triển phần mềm doanh nghiệp bằng Java và Spring Boot. Thành thạo Spring Data JPA, xây dựng hệ thống vi dịch vụ hướng sự kiện với RabbitMQ và Apache Kafka, tối ưu cơ sở dữ liệu PostgreSQL.\n\nKỹ năng kỹ thuật:\n- Ngôn ngữ: Java (Java 11, 17), SQL.\n- Khung ứng dụng: Spring Boot, Spring Data JPA, Spring Security.\n- Cơ sở dữ liệu: PostgreSQL, MySQL, Redis.\n- Hàng đợi tin nhắn & Đóng gói: RabbitMQ, Apache Kafka, Docker.\n- Khác: Git, Maven, Postman.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Java Backend Developer tại Công ty Cổ phần Giải pháp Bảo hiểm Số SafeLife. Thời gian: từ 2023-01 đến nay. Mô tả: Phát triển các vi dịch vụ thẩm định và bồi thường hợp đồng bảo hiểm bằng Java 17 và Spring Boot. Sử dụng RabbitMQ và Apache Kafka để luân chuyển thông tin hợp đồng. Tối ưu hóa truy vấn PostgreSQL và thiết lập cache Redis.\n- Chức danh: Lập trình viên Java Backend tại Công ty TNHH Công nghệ Viễn Thông Phương Đông. Thời gian: từ 2021-07 đến 2022-12. Mô tả: Xây dựng RESTful API cho ứng dụng chăm sóc khách hàng viễn thông bằng Spring Boot và MySQL.\n\nDự án:\n- Dự án Nền tảng Bồi thường Tự động SafeClaim: Xây dựng các vi dịch vụ xử lý hồ sơ bồi thường với Spring Boot, Kafka và PostgreSQL.\n\nHọc vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J07-C02-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Senior Java Backend Developer có 5 năm 4 tháng kinh nghiệm phát triển phần mềm doanh nghiệp bằng Java và Spring Boot. Thành thạo Spring Data JPA, xây dựng hệ thống vi dịch vụ hướng sự kiện với RabbitMQ và Apache Kafka, tối ưu cơ sở dữ liệu PostgreSQL."
+            },
+            {
+              "section_id": "IT-J07-C02-S02",
+              "kind": "skills",
+              "text": "Kỹ năng kỹ thuật:\n- Ngôn ngữ: Java (Java 11, 17), SQL.\n- Khung ứng dụng: Spring Boot, Spring Data JPA, Spring Security.\n- Cơ sở dữ liệu: PostgreSQL, MySQL, Redis.\n- Hàng đợi tin nhắn & Đóng gói: RabbitMQ, Apache Kafka, Docker.\n- Khác: Git, Maven, Postman."
+            },
+            {
+              "section_id": "IT-J07-C02-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Java Backend Developer tại Công ty Cổ phần Giải pháp Bảo hiểm Số SafeLife. Thời gian: từ 2023-01 đến nay. Mô tả: Phát triển các vi dịch vụ thẩm định và bồi thường hợp đồng bảo hiểm bằng Java 17 và Spring Boot. Sử dụng RabbitMQ và Apache Kafka để luân chuyển thông tin hợp đồng. Tối ưu hóa truy vấn PostgreSQL và thiết lập cache Redis.\n- Chức danh: Lập trình viên Java Backend tại Công ty TNHH Công nghệ Viễn Thông Phương Đông. Thời gian: từ 2021-07 đến 2022-12. Mô tả: Xây dựng RESTful API cho ứng dụng chăm sóc khách hàng viễn thông bằng Spring Boot và MySQL."
+            },
+            {
+              "section_id": "IT-J07-C02-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Nền tảng Bồi thường Tự động SafeClaim: Xây dựng các vi dịch vụ xử lý hồ sơ bồi thường với Spring Boot, Kafka và PostgreSQL."
+            },
+            {
+              "section_id": "IT-J07-C02-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J07-C02-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Java",
+            "SQL",
+            "Spring Boot",
+            "Spring Data JPA",
+            "Spring Security",
+            "PostgreSQL",
+            "MySQL",
+            "Redis",
+            "RabbitMQ",
+            "Apache Kafka",
+            "Docker",
+            "Git",
+            "Maven",
+            "Postman"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J07-C02-E01",
+              "title": "Senior Java Backend Developer",
+              "company": "Công ty Cổ phần Giải pháp Bảo hiểm Số SafeLife",
+              "start_date": "2023-01",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển các vi dịch vụ thẩm định và bồi thường hợp đồng bảo hiểm bằng Java 17 và Spring Boot. Sử dụng RabbitMQ và Apache Kafka để luân chuyển thông tin hợp đồng. Tối ưu hóa truy vấn PostgreSQL và thiết lập cache Redis.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "RabbitMQ",
+                "Apache Kafka",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J07-C02-S03"
+            },
+            {
+              "experience_id": "IT-J07-C02-E02",
+              "title": "Lập trình viên Java Backend",
+              "company": "Công ty TNHH Công nghệ Viễn Thông Phương Đông",
+              "start_date": "2021-07",
+              "end_date": "2022-12",
+              "is_current": false,
+              "description": "Xây dựng RESTful API cho ứng dụng chăm sóc khách hàng viễn thông bằng Spring Boot và MySQL.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "MySQL"
+              ],
+              "section_id": "IT-J07-C02-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J07-C02-P01",
+              "name": "Nền tảng Bồi thường Tự động SafeClaim",
+              "description": "Xây dựng các vi dịch vụ xử lý hồ sơ bồi thường với Spring Boot, Kafka và PostgreSQL.",
+              "technologies_or_methods": [
+                "Spring Boot",
+                "Kafka",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J07-C02-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Kỹ thuật Phần mềm",
+              "section_id": "IT-J07-C02-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J07-C03",
+          "cv_text": "Tóm lược: Lập trình viên Java Backend có 3 năm kinh nghiệm làm việc với Spring Boot và cơ sở dữ liệu quan hệ MySQL. Có kinh nghiệm sử dụng RabbitMQ để xử lý hàng đợi tác vụ gửi email thông báo. Đang tìm hiểu sâu thêm về hệ thống microservices phức tạp và Kafka.\n\nKỹ năng:\n- Ngôn ngữ: Java, SQL.\n- Framework: Spring Boot, Spring Data JPA, Hibernate.\n- Cơ sở dữ liệu: MySQL, PostgreSQL (cơ bản).\n- Khác: RabbitMQ, Docker, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Lập trình viên Java Backend tại Công ty Cổ phần Thương mại Trực tuyến Sao Vàng. Thời gian: từ 2023-11 đến nay. Mô tả: Xây dựng các module quản lý kho và đơn hàng bằng Java và Spring Boot. Sử dụng RabbitMQ để gửi thông báo biến động kho hàng tới khách hàng. Làm việc với cơ sở dữ liệu MySQL.\n- Chức danh: Junior Java Developer tại Công ty TNHH Giải pháp Phần mềm Trí Tuệ. Thời gian: từ 2022-09 đến 2023-10. Mô tả: Viết API CRUD đơn giản bằng Spring Boot và viết unit test với JUnit.\n\nDự án:\n- Dự án Hệ thống Kho Vận Sao Vàng Warehouse: Phát triển hệ thống quản lý vị trí kho với Spring Boot và MySQL.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J07-C03-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Lập trình viên Java Backend có 3 năm kinh nghiệm làm việc với Spring Boot và cơ sở dữ liệu quan hệ MySQL. Có kinh nghiệm sử dụng RabbitMQ để xử lý hàng đợi tác vụ gửi email thông báo. Đang tìm hiểu sâu thêm về hệ thống microservices phức tạp và Kafka."
+            },
+            {
+              "section_id": "IT-J07-C03-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Java, SQL.\n- Framework: Spring Boot, Spring Data JPA, Hibernate.\n- Cơ sở dữ liệu: MySQL, PostgreSQL (cơ bản).\n- Khác: RabbitMQ, Docker, Git."
+            },
+            {
+              "section_id": "IT-J07-C03-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Lập trình viên Java Backend tại Công ty Cổ phần Thương mại Trực tuyến Sao Vàng. Thời gian: từ 2023-11 đến nay. Mô tả: Xây dựng các module quản lý kho và đơn hàng bằng Java và Spring Boot. Sử dụng RabbitMQ để gửi thông báo biến động kho hàng tới khách hàng. Làm việc với cơ sở dữ liệu MySQL.\n- Chức danh: Junior Java Developer tại Công ty TNHH Giải pháp Phần mềm Trí Tuệ. Thời gian: từ 2022-09 đến 2023-10. Mô tả: Viết API CRUD đơn giản bằng Spring Boot và viết unit test với JUnit."
+            },
+            {
+              "section_id": "IT-J07-C03-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Kho Vận Sao Vàng Warehouse: Phát triển hệ thống quản lý vị trí kho với Spring Boot và MySQL."
+            },
+            {
+              "section_id": "IT-J07-C03-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J07-C03-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Java",
+            "SQL",
+            "Spring Boot",
+            "Spring Data JPA",
+            "Hibernate",
+            "MySQL",
+            "PostgreSQL",
+            "RabbitMQ",
+            "Docker",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J07-C03-E01",
+              "title": "Lập trình viên Java Backend",
+              "company": "Công ty Cổ phần Thương mại Trực tuyến Sao Vàng",
+              "start_date": "2023-11",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các module quản lý kho và đơn hàng bằng Java và Spring Boot. Sử dụng RabbitMQ để gửi thông báo biến động kho hàng tới khách hàng. Làm việc với cơ sở dữ liệu MySQL.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "RabbitMQ",
+                "MySQL"
+              ],
+              "section_id": "IT-J07-C03-S03"
+            },
+            {
+              "experience_id": "IT-J07-C03-E02",
+              "title": "Junior Java Developer",
+              "company": "Công ty TNHH Giải pháp Phần mềm Trí Tuệ",
+              "start_date": "2022-09",
+              "end_date": "2023-10",
+              "is_current": false,
+              "description": "Viết API CRUD đơn giản bằng Spring Boot và viết unit test với JUnit.",
+              "skills_used": [
+                "Java",
+                "Spring Boot"
+              ],
+              "section_id": "IT-J07-C03-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J07-C03-P01",
+              "name": "Hệ thống Kho Vận Sao Vàng Warehouse",
+              "description": "Phát triển hệ thống quản lý vị trí kho với Spring Boot và MySQL.",
+              "technologies_or_methods": [
+                "Spring Boot",
+                "MySQL"
+              ],
+              "section_id": "IT-J07-C03-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J07-C03-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J07-C04",
+          "cv_text": "Tóm lược: Kỹ sư Phần mềm Cấp cao có 6 năm kinh nghiệm với C# .NET và hệ thống cơ sở dữ liệu SQL Server. Trong 1 năm qua, đã học và tham gia phát triển một phân hệ dịch vụ mới bằng Java Spring Boot và tích hợp Apache Kafka. Có nền tảng kiến trúc phần mềm phân tán rất vững chắc.\n\nKỹ năng:\n- Ngôn ngữ: C#, Java (11, 17), SQL.\n- Khung ứng dụng: ASP.NET Core, Spring Boot, Spring Data JPA.\n- Cơ sở dữ liệu: SQL Server, PostgreSQL, Oracle.\n- Hệ thống: Apache Kafka, Docker, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Software Engineer tại Công ty Cổ phần Công nghệ Tài chính Toàn Cầu. Thời gian: từ 2022-03 đến nay. Mô tả: Phụ trách bảo trì hệ thống thanh toán .NET và tham gia chuyển đổi một số microservices sang Java Spring Boot. Tích hợp Apache Kafka để chia sẻ sự kiện giữa hai nền tảng .NET và Java.\n- Chức danh: Lập trình viên C# .NET tại Công ty TNHH Phát triển Ứng dụng Hiện Đại. Thời gian: từ 2020-04 đến 2022-02. Mô tả: Xây dựng hệ thống backend quản lý hợp đồng bảo hiểm bằng .NET Core và SQL Server.\n\nDự án:\n- Dự án Chuyển đổi Kiến trúc Microservices FinTrans: Phát triển dịch vụ thông báo giao dịch sử dụng Java Spring Boot kết nối Kafka.\n\nHọc vấn:\n- Kỹ sư Khoa học Máy tính, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Microsoft Certified: Azure Developer Associate.",
+          "sections": [
+            {
+              "section_id": "IT-J07-C04-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Phần mềm Cấp cao có 6 năm kinh nghiệm với C# .NET và hệ thống cơ sở dữ liệu SQL Server. Trong 1 năm qua, đã học và tham gia phát triển một phân hệ dịch vụ mới bằng Java Spring Boot và tích hợp Apache Kafka. Có nền tảng kiến trúc phần mềm phân tán rất vững chắc."
+            },
+            {
+              "section_id": "IT-J07-C04-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: C#, Java (11, 17), SQL.\n- Khung ứng dụng: ASP.NET Core, Spring Boot, Spring Data JPA.\n- Cơ sở dữ liệu: SQL Server, PostgreSQL, Oracle.\n- Hệ thống: Apache Kafka, Docker, Git."
+            },
+            {
+              "section_id": "IT-J07-C04-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Software Engineer tại Công ty Cổ phần Công nghệ Tài chính Toàn Cầu. Thời gian: từ 2022-03 đến nay. Mô tả: Phụ trách bảo trì hệ thống thanh toán .NET và tham gia chuyển đổi một số microservices sang Java Spring Boot. Tích hợp Apache Kafka để chia sẻ sự kiện giữa hai nền tảng .NET và Java.\n- Chức danh: Lập trình viên C# .NET tại Công ty TNHH Phát triển Ứng dụng Hiện Đại. Thời gian: từ 2020-04 đến 2022-02. Mô tả: Xây dựng hệ thống backend quản lý hợp đồng bảo hiểm bằng .NET Core và SQL Server."
+            },
+            {
+              "section_id": "IT-J07-C04-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Chuyển đổi Kiến trúc Microservices FinTrans: Phát triển dịch vụ thông báo giao dịch sử dụng Java Spring Boot kết nối Kafka."
+            },
+            {
+              "section_id": "IT-J07-C04-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Khoa học Máy tính, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J07-C04-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Microsoft Certified: Azure Developer Associate."
+            }
+          ],
+          "skills": [
+            "C#",
+            "Java",
+            "SQL",
+            "ASP.NET Core",
+            "Spring Boot",
+            "Spring Data JPA",
+            "SQL Server",
+            "PostgreSQL",
+            "Oracle",
+            "Apache Kafka",
+            "Docker",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J07-C04-E01",
+              "title": "Senior Software Engineer",
+              "company": "Công ty Cổ phần Công nghệ Tài chính Toàn Cầu",
+              "start_date": "2022-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phụ trách bảo trì hệ thống thanh toán .NET và tham gia chuyển đổi một số microservices sang Java Spring Boot. Tích hợp Apache Kafka để chia sẻ sự kiện giữa hai nền tảng .NET và Java.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "Apache Kafka"
+              ],
+              "section_id": "IT-J07-C04-S03"
+            },
+            {
+              "experience_id": "IT-J07-C04-E02",
+              "title": "Lập trình viên C# .NET",
+              "company": "Công ty TNHH Phát triển Ứng dụng Hiện Đại",
+              "start_date": "2020-04",
+              "end_date": "2022-02",
+              "is_current": false,
+              "description": "Xây dựng hệ thống backend quản lý hợp đồng bảo hiểm bằng .NET Core và SQL Server.",
+              "skills_used": [
+                "C#",
+                "SQL Server"
+              ],
+              "section_id": "IT-J07-C04-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J07-C04-P01",
+              "name": "Chuyển đổi Kiến trúc Microservices FinTrans",
+              "description": "Phát triển dịch vụ thông báo giao dịch sử dụng Java Spring Boot kết nối Kafka.",
+              "technologies_or_methods": [
+                "Java",
+                "Spring Boot",
+                "Kafka"
+              ],
+              "section_id": "IT-J07-C04-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Khoa học Máy tính",
+              "section_id": "IT-J07-C04-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Microsoft Certified: Azure Developer Associate",
+              "section_id": "IT-J07-C04-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J07-C05",
+          "cv_text": "Tóm lược: Kỹ sư Fullstack Cấp cao có 5 năm 2 tháng kinh nghiệm làm việc chuyên sâu với Java Spring Boot và giao diện web Angular. Có kinh nghiệm tối ưu hóa hiệu năng cơ sở dữ liệu quan hệ Oracle Database trong các phần mềm quản trị bệnh viện và trường học.\n\nKỹ năng:\n- Phía máy chủ: Java (11, 17), Spring Boot, Spring Data JPA, Hibernate.\n- Giao diện: Angular, TypeScript, HTML5, CSS3.\n- Cơ sở dữ liệu: Oracle Database, MySQL.\n- Khác: Docker, Git, RESTful API.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Fullstack Engineer tại Công ty Cổ phần Giải pháp Y tế Số Y-Tech. Thời gian: từ 2022-08 đến nay. Mô tả: Phát triển hệ thống hồ sơ bệnh án điện tử. Xây dựng dịch vụ backend bằng Java Spring Boot kết nối cơ sở dữ liệu Oracle Database, tối ưu hóa các thủ tục PL/SQL cho báo cáo khám chữa bệnh. Lập trình giao diện bác sĩ bằng Angular.\n- Chức danh: Lập trình viên Java tại Công ty TNHH Phần mềm Giáo dục Sao Mai. Thời gian: từ 2021-09 đến 2022-07. Mô tả: Xây dựng cổng thông tin sinh viên sử dụng Spring Boot và MySQL.\n\nDự án:\n- Dự án Bệnh viện Thông minh MedSmart: Xây dựng hệ thống quản lý bệnh nhân bằng Java Spring Boot và Oracle Database.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J07-C05-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Fullstack Cấp cao có 5 năm 2 tháng kinh nghiệm làm việc chuyên sâu với Java Spring Boot và giao diện web Angular. Có kinh nghiệm tối ưu hóa hiệu năng cơ sở dữ liệu quan hệ Oracle Database trong các phần mềm quản trị bệnh viện và trường học."
+            },
+            {
+              "section_id": "IT-J07-C05-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Phía máy chủ: Java (11, 17), Spring Boot, Spring Data JPA, Hibernate.\n- Giao diện: Angular, TypeScript, HTML5, CSS3.\n- Cơ sở dữ liệu: Oracle Database, MySQL.\n- Khác: Docker, Git, RESTful API."
+            },
+            {
+              "section_id": "IT-J07-C05-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Fullstack Engineer tại Công ty Cổ phần Giải pháp Y tế Số Y-Tech. Thời gian: từ 2022-08 đến nay. Mô tả: Phát triển hệ thống hồ sơ bệnh án điện tử. Xây dựng dịch vụ backend bằng Java Spring Boot kết nối cơ sở dữ liệu Oracle Database, tối ưu hóa các thủ tục PL/SQL cho báo cáo khám chữa bệnh. Lập trình giao diện bác sĩ bằng Angular.\n- Chức danh: Lập trình viên Java tại Công ty TNHH Phần mềm Giáo dục Sao Mai. Thời gian: từ 2021-09 đến 2022-07. Mô tả: Xây dựng cổng thông tin sinh viên sử dụng Spring Boot và MySQL."
+            },
+            {
+              "section_id": "IT-J07-C05-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Bệnh viện Thông minh MedSmart: Xây dựng hệ thống quản lý bệnh nhân bằng Java Spring Boot và Oracle Database."
+            },
+            {
+              "section_id": "IT-J07-C05-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J07-C05-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Java",
+            "Spring Boot",
+            "Spring Data JPA",
+            "Hibernate",
+            "Angular",
+            "TypeScript",
+            "HTML5",
+            "CSS3",
+            "Oracle Database",
+            "MySQL",
+            "Docker",
+            "Git",
+            "RESTful API"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J07-C05-E01",
+              "title": "Senior Fullstack Engineer",
+              "company": "Công ty Cổ phần Giải pháp Y tế Số Y-Tech",
+              "start_date": "2022-08",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển hệ thống hồ sơ bệnh án điện tử. Xây dựng dịch vụ backend bằng Java Spring Boot kết nối cơ sở dữ liệu Oracle Database, tối ưu hóa các thủ tục PL/SQL cho báo cáo khám chữa bệnh. Lập trình giao diện bác sĩ bằng Angular.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "Oracle Database",
+                "Angular"
+              ],
+              "section_id": "IT-J07-C05-S03"
+            },
+            {
+              "experience_id": "IT-J07-C05-E02",
+              "title": "Lập trình viên Java",
+              "company": "Công ty TNHH Phần mềm Giáo dục Sao Mai",
+              "start_date": "2021-09",
+              "end_date": "2022-07",
+              "is_current": false,
+              "description": "Xây dựng cổng thông tin sinh viên sử dụng Spring Boot và MySQL.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "MySQL"
+              ],
+              "section_id": "IT-J07-C05-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J07-C05-P01",
+              "name": "Bệnh viện Thông minh MedSmart",
+              "description": "Xây dựng hệ thống quản lý bệnh nhân bằng Java Spring Boot và Oracle Database.",
+              "technologies_or_methods": [
+                "Java",
+                "Spring Boot",
+                "Oracle Database"
+              ],
+              "section_id": "IT-J07-C05-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J07-C05-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J07-C06",
+          "cv_text": "Tóm lược: Kỹ sư Kiến trúc Phần mềm Java (Java Software Architect) có 7 năm kinh nghiệm thiết kế các hệ thống ngân hàng lõi (Core Banking). Chuyên sâu về kiến trúc Spring Cloud, Apache Kafka, cơ sở dữ liệu Oracle Database và triển khai Kubernetes. Có năng lực dẫn dắt kỹ thuật xuất sắc và viết tài liệu kiến trúc chuẩn mực.\n\nKỹ năng chuyên môn:\n- Ngôn ngữ: Java (Java 11, 17, 21), SQL.\n- Công nghệ Backend: Spring Boot, Spring Cloud, Spring Data JPA, Kafka, gRPC.\n- Cơ sở dữ liệu: Oracle Database, PostgreSQL, Cassandra.\n- Hạ tầng: Kubernetes, Docker, Helm, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Kiến trúc sư Giải pháp Phần mềm (Software Architect) tại Công ty Cổ phần Công nghệ Tài chính Phương Đông. Thời gian: từ 2021-10 đến nay. Mô tả: Thiết kế kiến trúc tổng thể cho hệ sinh thái vi dịch vụ ngân hàng số với Java 17, Spring Boot và Spring Cloud. Triển khai cụm Apache Kafka phân tán đảm bảo xử lý giao dịch không mất mát dữ liệu. Tối ưu cơ sở dữ liệu Oracle Database chịu tải cao. Định hướng kỹ thuật và đào tạo cho hơn 15 lập trình viên trong khối phát triển.\n- Chức danh: Senior Java Developer tại Công ty TNHH Giải pháp Ngân hàng Việt. Thời gian: từ 2019-09 đến 2021-09. Mô tả: Xây dựng các module thanh toán và hạch toán bằng Java Spring Boot và Oracle Database.\n\nDự án:\n- Dự án Hệ sinh thái Ngân hàng Số Core-NextGen: Phụ trách thiết kế kiến trúc vi dịch vụ Spring Cloud và cơ chế truyền tin Kafka triển khai trên cụm Kubernetes.\n\nHọc vấn:\n- Thạc sĩ Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Certified Kubernetes Application Developer (CKAD).",
+          "sections": [
+            {
+              "section_id": "IT-J07-C06-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Kiến trúc Phần mềm Java (Java Software Architect) có 7 năm kinh nghiệm thiết kế các hệ thống ngân hàng lõi (Core Banking). Chuyên sâu về kiến trúc Spring Cloud, Apache Kafka, cơ sở dữ liệu Oracle Database và triển khai Kubernetes. Có năng lực dẫn dắt kỹ thuật xuất sắc và viết tài liệu kiến trúc chuẩn mực."
+            },
+            {
+              "section_id": "IT-J07-C06-S02",
+              "kind": "skills",
+              "text": "Kỹ năng chuyên môn:\n- Ngôn ngữ: Java (Java 11, 17, 21), SQL.\n- Công nghệ Backend: Spring Boot, Spring Cloud, Spring Data JPA, Kafka, gRPC.\n- Cơ sở dữ liệu: Oracle Database, PostgreSQL, Cassandra.\n- Hạ tầng: Kubernetes, Docker, Helm, Git."
+            },
+            {
+              "section_id": "IT-J07-C06-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Kiến trúc sư Giải pháp Phần mềm (Software Architect) tại Công ty Cổ phần Công nghệ Tài chính Phương Đông. Thời gian: từ 2021-10 đến nay. Mô tả: Thiết kế kiến trúc tổng thể cho hệ sinh thái vi dịch vụ ngân hàng số với Java 17, Spring Boot và Spring Cloud. Triển khai cụm Apache Kafka phân tán đảm bảo xử lý giao dịch không mất mát dữ liệu. Tối ưu cơ sở dữ liệu Oracle Database chịu tải cao. Định hướng kỹ thuật và đào tạo cho hơn 15 lập trình viên trong khối phát triển.\n- Chức danh: Senior Java Developer tại Công ty TNHH Giải pháp Ngân hàng Việt. Thời gian: từ 2019-09 đến 2021-09. Mô tả: Xây dựng các module thanh toán và hạch toán bằng Java Spring Boot và Oracle Database."
+            },
+            {
+              "section_id": "IT-J07-C06-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ sinh thái Ngân hàng Số Core-NextGen: Phụ trách thiết kế kiến trúc vi dịch vụ Spring Cloud và cơ chế truyền tin Kafka triển khai trên cụm Kubernetes."
+            },
+            {
+              "section_id": "IT-J07-C06-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Thạc sĩ Kỹ thuật Phần mềm, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J07-C06-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Certified Kubernetes Application Developer (CKAD)."
+            }
+          ],
+          "skills": [
+            "Java",
+            "SQL",
+            "Spring Boot",
+            "Spring Cloud",
+            "Spring Data JPA",
+            "Kafka",
+            "gRPC",
+            "Oracle Database",
+            "PostgreSQL",
+            "Cassandra",
+            "Kubernetes",
+            "Docker",
+            "Helm",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J07-C06-E01",
+              "title": "Kiến trúc sư Giải pháp Phần mềm (Software Architect)",
+              "company": "Công ty Cổ phần Công nghệ Tài chính Phương Đông",
+              "start_date": "2021-10",
+              "end_date": null,
+              "is_current": true,
+              "description": "Thiết kế kiến trúc tổng thể cho hệ sinh thái vi dịch vụ ngân hàng số với Java 17, Spring Boot và Spring Cloud. Triển khai cụm Apache Kafka phân tán đảm bảo xử lý giao dịch không mất mát dữ liệu. Tối ưu cơ sở dữ liệu Oracle Database chịu tải cao. Định hướng kỹ thuật và đào tạo cho hơn 15 lập trình viên trong khối phát triển.",
+              "skills_used": [
+                "Java",
+                "Spring Cloud",
+                "Kafka",
+                "Oracle Database"
+              ],
+              "section_id": "IT-J07-C06-S03"
+            },
+            {
+              "experience_id": "IT-J07-C06-E02",
+              "title": "Senior Java Developer",
+              "company": "Công ty TNHH Giải pháp Ngân hàng Việt",
+              "start_date": "2019-09",
+              "end_date": "2021-09",
+              "is_current": false,
+              "description": "Xây dựng các module thanh toán và hạch toán bằng Java Spring Boot và Oracle Database.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "Oracle Database"
+              ],
+              "section_id": "IT-J07-C06-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J07-C06-P01",
+              "name": "Hệ sinh thái Ngân hàng Số Core-NextGen",
+              "description": "Phụ trách thiết kế kiến trúc vi dịch vụ Spring Cloud và cơ chế truyền tin Kafka triển khai trên cụm Kubernetes.",
+              "technologies_or_methods": [
+                "Spring Cloud",
+                "Kafka",
+                "Kubernetes"
+              ],
+              "section_id": "IT-J07-C06-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Thạc sĩ",
+              "field": "Kỹ thuật Phần mềm",
+              "section_id": "IT-J07-C06-S05"
+            }
+          ],
+          "certifications": [
+            {
+              "name": "Certified Kubernetes Application Developer (CKAD)",
+              "section_id": "IT-J07-C06-S06"
+            }
+          ]
+        },
+        {
+          "candidate_id": "IT-J07-C07",
+          "cv_text": "Tóm lược hồ sơ: Kỹ sư Lập trình Java Backend Cấp cao có kinh nghiệm thực tế về microservices Spring Boot và PostgreSQL. Từng đảm nhận các vị trí kỹ thuật độc lập và phát triển hệ thống doanh nghiệp.\n\nKỹ năng:\n- Ngôn ngữ: Java (Java 11, 17), SQL.\n- Framework: Spring Boot, Spring Data JPA.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Khác: Docker, Git, RESTful API.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Java Developer tại Công ty Cổ phần Công nghệ Số Thành Đạt. Thời gian: từ 2023-03 đến nay. Mô tả: Phát triển các vi dịch vụ xử lý dữ liệu đơn hàng bằng Java và Spring Boot. Sử dụng Spring Data JPA kết nối PostgreSQL và đóng gói bằng Docker.\n- Chức danh: Lập trình viên Java Tự do tại Nhóm Phát triển Dịch vụ Trực tuyến. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Lập trình hệ thống quản lý nội bộ doanh nghiệp bằng Java Spring Boot.\n\nDự án:\n- Dự án Hệ thống Quản trị Bán buôn Thành Đạt B2B: Xây dựng hệ thống API backend với Java Spring Boot và PostgreSQL.\n\nHọc vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J07-C07-S01",
+              "kind": "summary",
+              "text": "Tóm lược hồ sơ: Kỹ sư Lập trình Java Backend Cấp cao có kinh nghiệm thực tế về microservices Spring Boot và PostgreSQL. Từng đảm nhận các vị trí kỹ thuật độc lập và phát triển hệ thống doanh nghiệp."
+            },
+            {
+              "section_id": "IT-J07-C07-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Java (Java 11, 17), SQL.\n- Framework: Spring Boot, Spring Data JPA.\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Khác: Docker, Git, RESTful API."
+            },
+            {
+              "section_id": "IT-J07-C07-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Java Developer tại Công ty Cổ phần Công nghệ Số Thành Đạt. Thời gian: từ 2023-03 đến nay. Mô tả: Phát triển các vi dịch vụ xử lý dữ liệu đơn hàng bằng Java và Spring Boot. Sử dụng Spring Data JPA kết nối PostgreSQL và đóng gói bằng Docker.\n- Chức danh: Lập trình viên Java Tự do tại Nhóm Phát triển Dịch vụ Trực tuyến. Thời gian: không nêu ngày tháng bắt đầu và kết thúc cụ thể. Mô tả: Lập trình hệ thống quản lý nội bộ doanh nghiệp bằng Java Spring Boot."
+            },
+            {
+              "section_id": "IT-J07-C07-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Quản trị Bán buôn Thành Đạt B2B: Xây dựng hệ thống API backend với Java Spring Boot và PostgreSQL."
+            },
+            {
+              "section_id": "IT-J07-C07-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Kỹ sư Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J07-C07-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Java",
+            "SQL",
+            "Spring Boot",
+            "Spring Data JPA",
+            "PostgreSQL",
+            "Redis",
+            "Docker",
+            "Git",
+            "RESTful API"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J07-C07-E01",
+              "title": "Senior Java Developer",
+              "company": "Công ty Cổ phần Công nghệ Số Thành Đạt",
+              "start_date": "2023-03",
+              "end_date": null,
+              "is_current": true,
+              "description": "Phát triển các vi dịch vụ xử lý dữ liệu đơn hàng bằng Java và Spring Boot. Sử dụng Spring Data JPA kết nối PostgreSQL và đóng gói bằng Docker.",
+              "skills_used": [
+                "Java",
+                "Spring Boot",
+                "PostgreSQL",
+                "Docker"
+              ],
+              "section_id": "IT-J07-C07-S03"
+            },
+            {
+              "experience_id": "IT-J07-C07-E02",
+              "title": "Lập trình viên Java Tự do",
+              "company": "Nhóm Phát triển Dịch vụ Trực tuyến",
+              "start_date": null,
+              "end_date": null,
+              "is_current": null,
+              "description": "Lập trình hệ thống quản lý nội bộ doanh nghiệp bằng Java Spring Boot.",
+              "skills_used": [
+                "Java",
+                "Spring Boot"
+              ],
+              "section_id": "IT-J07-C07-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J07-C07-P01",
+              "name": "Hệ thống Quản trị Bán buôn Thành Đạt B2B",
+              "description": "Xây dựng hệ thống API backend với Java Spring Boot và PostgreSQL.",
+              "technologies_or_methods": [
+                "Java",
+                "Spring Boot",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J07-C07-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Kỹ sư",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J07-C07-S05"
+            }
+          ],
+          "certifications": []
+        },
+        {
+          "candidate_id": "IT-J07-C08",
+          "cv_text": "Tóm lược: Kỹ sư Lập trình Backend Python có hơn 5 năm kinh nghiệm với Django và FastAPI. Có kiến thức tốt về cơ sở dữ liệu quan hệ PostgreSQL và hệ thống message queue Kafka. Gần đây tự học và làm quen với Java và Spring Boot trong các dự án thử nghiệm.\n\nKỹ năng:\n- Ngôn ngữ: Python, Java (cơ bản), SQL.\n- Framework: Django, FastAPI, Spring Boot (cơ bản).\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Khác: Apache Kafka, Docker, Git.\n\nKinh nghiệm làm việc:\n- Chức danh: Senior Python Backend Developer tại Công ty Cổ phần Công nghệ Thông tin Hồng Phát. Thời gian: từ 2022-04 đến nay. Mô tả: Xây dựng các dịch vụ backend phân tán bằng Python FastAPI và Django. Tích hợp Kafka để nhận và truyền tải dữ liệu phân tích. Tối ưu hóa các bảng dữ liệu PostgreSQL.\n- Chức danh: Lập trình viên Python tại Công ty TNHH Phát triển Phần mềm Tân Long. Thời gian: từ 2020-05 đến 2022-03. Mô tả: Viết REST API bằng Django kết nối cơ sở dữ liệu PostgreSQL.\n\nDự án:\n- Dự án Hệ thống Thu thập Dữ liệu HongPhat-Stream: Xây dựng hệ thống nhận diện sự kiện thời gian thực bằng Python và Apache Kafka.\n\nHọc vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội.\n\nChứng chỉ:\n- Không có.",
+          "sections": [
+            {
+              "section_id": "IT-J07-C08-S01",
+              "kind": "summary",
+              "text": "Tóm lược: Kỹ sư Lập trình Backend Python có hơn 5 năm kinh nghiệm với Django và FastAPI. Có kiến thức tốt về cơ sở dữ liệu quan hệ PostgreSQL và hệ thống message queue Kafka. Gần đây tự học và làm quen với Java và Spring Boot trong các dự án thử nghiệm."
+            },
+            {
+              "section_id": "IT-J07-C08-S02",
+              "kind": "skills",
+              "text": "Kỹ năng:\n- Ngôn ngữ: Python, Java (cơ bản), SQL.\n- Framework: Django, FastAPI, Spring Boot (cơ bản).\n- Cơ sở dữ liệu: PostgreSQL, Redis.\n- Khác: Apache Kafka, Docker, Git."
+            },
+            {
+              "section_id": "IT-J07-C08-S03",
+              "kind": "experience",
+              "text": "Kinh nghiệm làm việc:\n- Chức danh: Senior Python Backend Developer tại Công ty Cổ phần Công nghệ Thông tin Hồng Phát. Thời gian: từ 2022-04 đến nay. Mô tả: Xây dựng các dịch vụ backend phân tán bằng Python FastAPI và Django. Tích hợp Kafka để nhận và truyền tải dữ liệu phân tích. Tối ưu hóa các bảng dữ liệu PostgreSQL.\n- Chức danh: Lập trình viên Python tại Công ty TNHH Phát triển Phần mềm Tân Long. Thời gian: từ 2020-05 đến 2022-03. Mô tả: Viết REST API bằng Django kết nối cơ sở dữ liệu PostgreSQL."
+            },
+            {
+              "section_id": "IT-J07-C08-S04",
+              "kind": "project",
+              "text": "Dự án:\n- Dự án Hệ thống Thu thập Dữ liệu HongPhat-Stream: Xây dựng hệ thống nhận diện sự kiện thời gian thực bằng Python và Apache Kafka."
+            },
+            {
+              "section_id": "IT-J07-C08-S05",
+              "kind": "education",
+              "text": "Học vấn:\n- Cử nhân Công nghệ thông tin, Trường Đại học Bách Khoa Hà Nội."
+            },
+            {
+              "section_id": "IT-J07-C08-S06",
+              "kind": "certification",
+              "text": "Chứng chỉ:\n- Không có."
+            }
+          ],
+          "skills": [
+            "Python",
+            "Java",
+            "SQL",
+            "Django",
+            "FastAPI",
+            "Spring Boot",
+            "PostgreSQL",
+            "Redis",
+            "Apache Kafka",
+            "Docker",
+            "Git"
+          ],
+          "experiences": [
+            {
+              "experience_id": "IT-J07-C08-E01",
+              "title": "Senior Python Backend Developer",
+              "company": "Công ty Cổ phần Công nghệ Thông tin Hồng Phát",
+              "start_date": "2022-04",
+              "end_date": null,
+              "is_current": true,
+              "description": "Xây dựng các dịch vụ backend phân tán bằng Python FastAPI và Django. Tích hợp Kafka để nhận và truyền tải dữ liệu phân tích. Tối ưu hóa các bảng dữ liệu PostgreSQL.",
+              "skills_used": [
+                "Python",
+                "FastAPI",
+                "Kafka",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J07-C08-S03"
+            },
+            {
+              "experience_id": "IT-J07-C08-E02",
+              "title": "Lập trình viên Python",
+              "company": "Công ty TNHH Phát triển Phần mềm Tân Long",
+              "start_date": "2020-05",
+              "end_date": "2022-03",
+              "is_current": false,
+              "description": "Viết REST API bằng Django kết nối cơ sở dữ liệu PostgreSQL.",
+              "skills_used": [
+                "Python",
+                "Django",
+                "PostgreSQL"
+              ],
+              "section_id": "IT-J07-C08-S03"
+            }
+          ],
+          "projects": [
+            {
+              "project_id": "IT-J07-C08-P01",
+              "name": "Hệ thống Thu thập Dữ liệu HongPhat-Stream",
+              "description": "Xây dựng hệ thống nhận diện sự kiện thời gian thực bằng Python và Apache Kafka.",
+              "technologies_or_methods": [
+                "Python",
+                "Kafka"
+              ],
+              "section_id": "IT-J07-C08-S04"
+            }
+          ],
+          "education": [
+            {
+              "degree": "Cử nhân",
+              "field": "Công nghệ thông tin",
+              "section_id": "IT-J07-C08-S05"
+            }
+          ],
+          "certifications": []
+        }
+      ]
+    }
+  ]
+}

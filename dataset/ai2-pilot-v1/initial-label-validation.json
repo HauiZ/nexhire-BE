@@ -1,0 +1,173 @@
+{
+  "role": "initial",
+  "files": 20,
+  "unique_pairs": 160,
+  "missing_pairs": [],
+  "extra_pairs": [],
+  "human_review_flags": 34,
+  "error_count": 0,
+  "warning_count": 0,
+  "reports": [
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J01.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J02.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J03.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J04.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J05.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J06.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J07.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J08.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J09.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/IT-J10.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/MK-J01.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/MK-J02.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/MK-J03.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/MK-J04.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/MK-J05.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/SA-J01.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/SA-J02.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/SA-J03.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/SA-J04.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "file": "dataset/ai2-pilot-v1/labels-initial/SA-J05.json",
+      "role": "initial",
+      "record_count": 8,
+      "unique_pairs": 8,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "frozen_source_hashes_verified": true
+}
