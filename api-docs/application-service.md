@@ -1,5 +1,26 @@
 # Application Service API Docs
 
+## HR review notebook and interview sheet (2026-11-12)
+
+Company-owned recruiter application routes:
+- `GET :id/review-workspace`: latest private saved revision or null; returns `schemaVersion: hr-workspace-v1`, `document`, `stale`, `freshnessUnavailable` (true when matching returns 503; persisted notes remain readable and editing must stay blocked), `bindingScope: LATEST_MATCHING_RESULT`, `isTrainingLabel: false`, `hiringDecision: null` inside the standard envelope.
+- `POST :id/review-workspace`: explicit save with `expectedRevision` (0 initially), `resultId`, job/candidate SHA256 bindings, up to 64 requirement reviews and 30 questions, and interviewStatus `DRAFT|COMPLETED`. Review status is `UNREVIEWED|REVIEWED|CLARIFY|NOT_FOUND`, never verified support. Notes are max 2000 chars; questions 1000; answers 4000. Completing requires at least one question and nonblank answers.
+
+Evidence IDs must belong to their bound requirement. Server stores source text,
+reviewer identity and timestamp; client cannot supply these. Revisions are
+append-only; stale revisions/concurrent saves return 409, never silent overwrite.
+Changed latest matching result marks saved notes stale; old notes are readable,
+and creating a fresh review does not automatically transfer old judgments.
+This compares latest matching snapshots only, not a fresh current-JD lookup.
+No candidate endpoints expose these notes; no events, training labels, aggregate
+scores, application decisions or existing candidate timeline changes are made.
+
+Requires migration `1794441600000-CreateApplicationReviews` in application DB.
+Verified up/down/up and insert/unique revision constraint in a disposable local
+PostgreSQL database. Applied only this migration transactionally to user-authorized local
+`nexhire-postgres/application_service_db` on 2026-11-12, with a 5-second lock
+timeout and migration-ledger entry. No existing application rows were updated.
+
 ## AI2 individual-read diagnostics (2026-11-11)
 
 Recruiter `GET :id/ai2-demo` preserves optional safe reason codes

@@ -12,9 +12,14 @@ import { ApplicationEventPublisher } from './events/application-event.publisher'
 import { CvParsedEventsConsumer } from './events/consumers/cv-parsed-events.consumer';
 import { RecruiterCandidateController } from './recruiter-candidate.controller';
 import { RecruiterApplicationController } from './recruiter-application.controller';
+import { ApplicationReview } from './entities/application-review.entity';
+import { ReviewWorkspaceService } from './review-workspace.service';
 
 @Module({
-  imports: [HttpModule, TypeOrmModule.forFeature([Application, ApplicationProgressEvent])],
+  imports: [
+    HttpModule,
+    TypeOrmModule.forFeature([Application, ApplicationProgressEvent, ApplicationReview]),
+  ],
   controllers: [
     ApplicationController,
     ApplicationInternalController,
@@ -23,6 +28,7 @@ import { RecruiterApplicationController } from './recruiter-application.controll
   ],
   providers: [
     ApplicationService,
+    ReviewWorkspaceService,
     ApplicationInternalClientService,
     ApplicationEventPublisher,
     CvParsedEventsConsumer,

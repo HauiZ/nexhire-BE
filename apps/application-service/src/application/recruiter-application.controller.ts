@@ -20,6 +20,8 @@ import {
   MatchHrReview,
 } from '@nexhire/shared';
 import { ApplicationService } from './application.service';
+import { ReviewWorkspaceService } from './review-workspace.service';
+import { SaveReviewWorkspaceDto } from './dto/review-workspace.dto';
 import { UpdateApplicationStageDto } from './dto/application-input.dto';
 import {
   RecruiterApplicationQueryDto,
@@ -38,7 +40,31 @@ import { MatchRequestSnapshot } from './application-internal-client.service';
 @Roles(UserRole.RECRUITER)
 @ApiBearerAuth()
 export class RecruiterApplicationController {
-  constructor(private readonly applicationService: ApplicationService) {}
+  constructor(
+    private readonly applicationService: ApplicationService,
+    private readonly workspace: ReviewWorkspaceService,
+  ) {}
+
+  @Get(':id/review-workspace')
+  @ApiOperation({
+    summary: 'Read private HR notes and interview sheet bound to matching snapshots',
+  })
+  @ApiErrorResponses({ statuses: [401, 403, 404, 503] })
+  readWorkspace(@CurrentUser() user: AuthUser, @Param('id', ParseUUIDPipe) id: string) {
+    return this.workspace.read(user, id);
+  }
+
+  @Post(':id/review-workspace')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Save HR review and interview sheet with optimistic revision checking' })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 503] })
+  saveWorkspace(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: SaveReviewWorkspaceDto,
+  ) {
+    return this.workspace.save(user, id, dto);
+  }
 
   @Get()
   @ApiOperation({ summary: 'List applications for jobs owned by the recruiter company' })
@@ -92,7 +118,9 @@ export class RecruiterApplicationController {
   }
 
   @Get(':id/ai2-pool')
-  @ApiOperation({ summary: 'Compare all active applications for the owned job; all-or-none experimental order' })
+  @ApiOperation({
+    summary: 'Compare all active applications for the owned job; all-or-none experimental order',
+  })
   getCompanyAi2Pool(@CurrentUser() user: AuthUser, @Param('id', ParseUUIDPipe) id: string) {
     return this.applicationService.getCompanyApplicationAi2Pool(user, id);
   }
