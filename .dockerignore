@@ -5,6 +5,8 @@
 node_modules
 dist
 coverage
+dataset
+trainning
 .env
 .env.*
 !.env.example

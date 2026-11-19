@@ -9,6 +9,10 @@ This folder contains lightweight local scripts for manually testing API flows.
 - Prefer sample files in temporary folders.
 - Unit tests still live beside modules under `apps/<service>/src/<module>/test/`.
 
+## Historical verification tools
+
+Historical E0/E1 integration, performance and broker fault results are documented in the local thesis execution report. Its source hashes identify the versions used in those runs. Use the focused feature checks below for current changes.
+
 ## Project preflight
 
 Run this before live API flow scripts:
@@ -293,3 +297,62 @@ If token is omitted, the script mints a local JWT from `JWT_ACCESS_SECRET`.
 Mutation note: read mutations are disabled by default because there is no API to mark
 notifications unread again. Set `NOTIFICATION_TEST_MUTATE_READS=true` only when mutating the
 current notification scope is acceptable.
+
+## Phản hồi HR có cấu trúc — WP04
+
+Từ BE root, kiểm phần workspace/support feedback bằng các suite có mục tiêu; không chạy lại M1/AI2 hoặc provider:
+
+```powershell
+node node_modules/jest/bin/jest.js --runInBand --no-cache --runTestsByPath apps/application-service/src/application/test/review-workspace.service.spec.ts apps/application-service/src/application/test/review-workspace-support.spec.ts
+node node_modules/typescript/bin/tsc -p apps/application-service/tsconfig.app.json --noEmit --incremental false
+```
+
+Đây là kiểm thử service/DTO/HTTP component theo cấu hình của từng suite, không tự là login/JWT E2E hoặc nghiên cứu HR thực. [Contract API](../../api-docs/application-service.md) phân biệt phản hồi textual support với notes, approval và readiness; readiness luôn chặn xuất dòng nhãn trong phase này.
+
+Suite `apps/application-service/src/application/test/review-workspace.postgres.spec.ts` chỉ kết nối khi operator đặt đủ `HR_WORKSPACE_TEST_DB_URL`, `HR_WORKSPACE_TEST_DB_NAME`, `HR_WORKSPACE_TEST_DB_ROLE`. DB/role phải cùng tên `nexhire_hr_workspace_it_<16 lowercase hex>`, thuộc PostgreSQL riêng trên `127.0.0.1`, cổng không phải5432; test kiểm DB rỗng/quyền hạn trước khi chạy bảy migration nền được chỉ định. Không dùng `.env`, DB dự án hoặc `db:all:run`. Không chạy suite này với quyền mặc định để rồi nhận các ca skip thành persistence PASS. Operator phải xác minh quyền sở hữu và dọn đúng tài nguyên sau lượt chạy; không ghi connection URL/mật khẩu vào báo cáo hoặc Hub.
+
+### Kiểm giao diện feedback trong FE
+
+Trong repo `Nexthire-FE`, tái dùng harness/browser hiện có:
+
+```powershell
+node tests/jd-plan/hr-workspace-browser.mjs
+node node_modules/typescript/bin/tsc -p tsconfig.app.json --noEmit --incremental false
+```
+
+Mặc định runner dùng API synthetic, báo22nhóm kiểm tra có tên; không coi là22mẫu HR/CV hoặc JWT E2E. Runner dùng cache Vite riêng ở OS temp, đóng browser/server rồi xóa cache; không lưu screenshot/report rời, không dùng `.env` hoặc build `dist` gốc. Cảnh báo Vite envFile/ReactRouter và4lintwarning hiện có được ghi trong receipt; không nhận warning-free.
+
+`HR_WORKSPACE_BACKEND_URL=http://127.0.0.1:<port>` chỉ dành cho operator đã tạo backend riêng với đúng fixture2HR/company/application của harness. Chế độ này chuyển qua controller/service thật, không dùng mock write handler; runner chỉ cho4route/method/identity đã khóa và báo10nhóm. Operator phải tự xác minh backend/DB/namespace nguồn, quyền, loopbackport và cleanup; biến URL không tự cấp quyền dùng DB dự án hoặc gọi model. Lượt thực hiện ở report6.23 dùng Nest guards/ValidationPipe và PostgreSQL thật, matching upstream/danh tính synthetic/internal headers; chưa login/JWT/gateway/full recruitment E2E. Không chạy chế độ này vào backend thường dùng hoặc tự coi bootstrap xong chỉ vì URL có dạng loopback.
+
+## Từ điển kỹ năng quản trị — WP05
+
+Từ BE root, dùng suite có mục tiêu và compile không sinh build:
+
+```powershell
+node node_modules/jest/bin/jest.js --runInBand --no-cache --runTestsByPath apps/job-service/src/skill-dictionary/test/skill-dictionary.spec.ts
+node node_modules/typescript/bin/tsc -p apps/job-service/tsconfig.app.json --noEmit --incremental false
+node node_modules/typescript/bin/tsc -p apps/gateway/tsconfig.app.json --noEmit --incremental false
+```
+
+Suite PostgreSQL `apps/job-service/src/skill-dictionary/test/skill-dictionary.postgres.spec.ts` chỉ chạy khi operator cấp đủ `SKILL_DICTIONARY_TEST_DB_URL/NAME/ROLE`. DB và role cùng tên `nexhire_skill_dictionary_it_<16lowerhex>`, URL loopback với cổng khác5432, DB rỗng và role không đặc quyền được xác minh trước migration. Không dùng `.env`, DB dự án hoặc `db:all:run`; không nhận các ca skip thành persistence PASS.
+
+Các ca cần kiểm gồm up/down/up migration riêng, uniqueness canonical↔alias ở DB, giữ chỗ tên cũ, no-op/revision, ghi đồng thời và lỗi audit làm rollback toàn mutation. Operator phải dọn đúng container/network/namespace theo ID/nhãn sở hữu. [API contract](../../api-docs/job-service.md) chưa nối dictionary vào parser/model; không gọi các test này là cải thiện matching, UI acceptance hoặc JWT E2E.
+
+### Browser Admin dictionary trong FE
+
+Trong repo `Nexthire-FE`, chạy harness tái sử dụng:
+
+```powershell
+node tests/admin/skill-dictionary-browser.mjs
+node node_modules/typescript/bin/tsc -p tsconfig.app.json --noEmit --incremental false
+```
+
+Mặc định API synthetic,22nhóm có tên; không tính các lần chạy lặp thành mẫu/người dùng độc lập. Runner tạo cache Vite riêng trong OS temp, đóng browser/server và xóa cache; không lưu screenshot/report hoặc build dist. Còn cảnh báo runtime Vite envFile/ReactRouter; lint bản cuối0warning.
+
+`DICTIONARY_BACKEND_URL` chỉ dùng với backend loopback/port1024–65535 do operator tạo trên DB riêng rỗng theo protocol. Proxy khóa2ADMIN synthetic/company, prefix/method/query/body và ID đã nhận từ response hash hợp lệ; mutations chỉ tên `WP05 Synthetic…`. Không dùng backend dự án đang có dữ liệu hoặc xem biến URL là quyền tạo/sửa DB. Lượt6.25 kiểm8nhóm actualUI→Nest→PG;7nhóm chung mock+1proxy riêng, không cộng thành30mẫu. Identity qua trusted internal headers, chưa JWT/login/gateway/model E2E. Operator xác minh migration/owner/resources/cleanup, không tự apply userDBmigration.
+
+## Kiểm tra dùng tài nguyên cục bộ
+
+Kiểm tra XGBoost native của Matching Service cần bundle đã cung cấp riêng qua `MATCHING_AI2_DEMO_ARTIFACT_PATH`. Pytest bỏ qua ca này khi chưa đặt biến và kiểm tra hash nếu đã đặt. Các ca unit về đặc trưng, ràng buộc JD và xếp hạng vẫn chạy với dữ liệu tổng hợp.
+
+Công cụ hồi cứu WP03 và dữ liệu nguồn E1 được lưu cục bộ theo báo cáo tổng kết mục 6.21. Chạy lại đánh giá này cần bộ hồ sơ đồ án, `dataset/` và `trainning/`.
