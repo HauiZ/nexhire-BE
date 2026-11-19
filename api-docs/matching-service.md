@@ -465,6 +465,8 @@ Confirmed `jd-source-query-v2` is accepted through `M1_REQUIREMENT_OBSERVATIONS_
 
 The response carries inputContract, planSchemaVersion and exact planContentSha256; score and pool must agree. Source-balanced research features are not fed into the frozen artifact. Default automatic source-JD matching requires no HR plan. A read failure is not treated as absence of a plan.
 
+A separate source-balanced research feature/export contract remains available for future retraining. Use `--feature-contract jd_query` when exporting and pass `feature_contract='jd_query'` to the trainer for confirmed JD v2 observations. The default `whole_source` training contract rejects those rows. The JD v2 contract requires an explicit target policy, label origin/exposure and label-plan binding. Train and validation must use one target policy. That path runs one primary XGBoost configuration and has no approved runtime artifact. The active adapter continues to use the frozen experimental artifact.
+
 
 ## Current parsed-CV check before AI2 reads
 

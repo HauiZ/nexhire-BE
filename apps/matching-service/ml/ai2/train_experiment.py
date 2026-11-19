@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from app.ranking.observed_features import FEATURE_NAMES, AI1_FEATURE_NAMES
+from app.ranking.observed_features import QUERY_FEATURE_NAMES, QUERY_SCHEMA_VERSION, QUERY_EXTRACTOR_VERSION
 from ml.ai2.metrics import evaluate_ranking
 from ml.ai2.preprocessing import fit_transform
 from ml.ai2.uncertainty import paired_bootstrap
@@ -42,13 +43,57 @@ def _save_model(model, algorithm, path):
     path.write_text(json.dumps(value, allow_nan=False), encoding='utf-8')
 
 
-def run_experiment(train, validation, output_dir, *, seed=42):
+def validate_feature_contract(train, validation, feature_contract):
+    """Validate the shared exported contract before importing/fitting any model."""
+    if feature_contract not in {'whole_source', 'jd_query'}:
+        raise ValueError('unsupported feature contract')
+    if feature_contract == 'whole_source':
+        for rows in (train, validation):
+            if any(
+                row.get('featureContract', 'whole_source') != 'whole_source'
+                or row.get('planSchemaVersion') == 'jd-source-query-v2'
+                for row in rows
+            ):
+                raise ValueError('JD query v2 exports require the jd_query training contract')
+        return FEATURE_NAMES, AI1_FEATURE_NAMES
+    names = QUERY_FEATURE_NAMES
+    policies = {row.get('targetPolicyVersion') for row in [*train, *validation]}
+    if len(policies) != 1 or not all(isinstance(policy, str) and policy.strip() for policy in policies):
+        raise ValueError('one explicit target policy across train and validation required')
+    for rows in (train, validation):
+        plans = {}
+        for row in rows:
+            record = row.get('feature_record', {})
+            digest = sha256(json.dumps(record, sort_keys=True, ensure_ascii=False,
+                separators=(',', ':'), allow_nan=False).encode('utf-8')).hexdigest()
+            if (row.get('featureContract') != 'jd_query' or not row.get('labelOrigin')
+                    or not row.get('labelExposure') or not row.get('targetPolicyVersion')
+                    or row.get('labelPlanContentSha256') != row.get('planContentSha256')
+                    or not row.get('planContentSha256')
+                    or record.get('schema_version') != QUERY_SCHEMA_VERSION
+                    or record.get('extractor_version') != QUERY_EXTRACTOR_VERSION
+                    or digest != row.get('feature_record_sha256')
+                    or len(record.get('values', [])) != len(names)
+                    or row['features'] != dict(zip(names, record['values']))):
+                raise ValueError('versioned JD query export required; v1 weights/features cannot be relabeled')
+            job = row['job_id']
+            binding = (row['planContentSha256'], record.get('job_snapshot_sha256'),
+                       record.get('reference_date'), record.get('model_version'),
+                       record.get('weights_sha256'), record.get('manifest_sha256'))
+            if job in plans and plans[job] != binding:
+                raise ValueError('incompatible query plan/model/date in job pool')
+            plans[job] = binding
+    return names, names[:3]
+
+
+def run_experiment(train, validation, output_dir, *, seed=42, feature_contract='whole_source'):
     """Bounded group-CV selection then validation comparison, never test selection.
 
     Requires precomputed versioned feature export. No input pickle/model loading.
     All model families see same information. Separate noAI1 experiments remove
     every semantic feature and its missing indicator, not just the mean column.
     """
+    feature_names, semantic_names = validate_feature_contract(train, validation, feature_contract)
     import numpy as np
     from sklearn.linear_model import LogisticRegression
     from sklearn.ensemble import RandomForestRegressor
@@ -66,7 +111,7 @@ def run_experiment(train, validation, output_dir, *, seed=42):
             if key in seen or type(row['relevance']) is not int or not 0 <= row['relevance'] <= 3:
                 raise ValueError('duplicate pair or invalid target')
             seen.add(key)
-            if set(row['features']) != set(FEATURE_NAMES):
+            if set(row['features']) != set(feature_names):
                 raise ValueError('exact observed feature schema required')
     if ({r['job_id'] for r in train} & {r['job_id'] for r in validation}
             or {r['candidate_id'] for r in train} & {r['candidate_id'] for r in validation}):
@@ -109,8 +154,11 @@ def run_experiment(train, validation, output_dir, *, seed=42):
         return model.predict_proba(x)[:, 1] if algorithm == 'lr' else model.predict(x)
 
     results, search = {}, {}
-    for mode in ('full', 'no_ai1'):
-        names = FEATURE_NAMES if mode == 'full' else tuple(n for n in FEATURE_NAMES if n not in AI1_FEATURE_NAMES)
+    if feature_contract == 'jd_query':
+        # One primary XGBoost configuration; no automatic model-family/ablation sweep.
+        configs = {'xgb': [configs['xgb'][0]]}
+    for mode in (('full',) if feature_contract == 'jd_query' else ('full', 'no_ai1')):
+        names = feature_names if mode == 'full' else tuple(n for n in feature_names if n not in semantic_names)
         for algorithm, options in configs.items():
             key = mode + '/' + algorithm
             trials = []
@@ -153,7 +201,7 @@ def run_experiment(train, validation, output_dir, *, seed=42):
             results[key] = evaluation
             search[key] = {'trials': trials, 'selected_config_index': selected}
     baselines = {}
-    for name, feature in (('semantic_only', 'semantic_mean_top1'), ('chronology_only', 'chronology_known_months')):
+    for name, feature in (('semantic_only', feature_names[0]), ('chronology_only', 'chronology_known_months')):
         transform = fit_transform([{feature: r['features'][feature]} for r in train],
                                   [feature], split='train', standardize=False)
         baselines[name] = _evaluate(validation, [transform.transform({feature: r['features'][feature]})[0] for r in validation])
@@ -171,6 +219,9 @@ def run_experiment(train, validation, output_dir, *, seed=42):
     eligible_random = [value for value in random_per_job.values() if value is not None]
     random_primary = float(np.mean(eligible_random)) if eligible_random else None
     report = {'status': 'experimental_validation_only_not_production_approved',
+              'feature_contract': feature_contract, 'feature_names': feature_names,
+              'target_policy_version': train[0].get('targetPolicyVersion') if feature_contract == 'jd_query' else None,
+              'runtime_artifact_approved': False,
               'seed': seed, 'results': results, 'search': search, 'baselines': baselines,
               'random_baselines': random_results, 'test_evaluated': False,
               'scope': 'observable_signals_not_full_rubric', 'model_loader_parity_verified': False}
@@ -188,7 +239,8 @@ def run_experiment(train, validation, output_dir, *, seed=42):
         uncertainty = paired_bootstrap(
             {j: value['metrics']['ndcg@3'] for j, value in result['per_job'].items()}, baseline_jobs)
         result['comparison_to_strongest_baseline'] = {'name': comparator, 'uncertainty': uncertainty,
-            'point_gain_gate': uncertainty['difference'] is not None and uncertainty['difference'] >= 0.02,
+            'point_gain_gate': (uncertainty['difference'] is not None and uncertainty['difference'] >= 0.02) if feature_contract == 'whole_source' else None,
+            'gain_gate_status': 'LEGACY_PROTOCOL' if feature_contract == 'whole_source' else 'REQUIRES_FROZEN_QUERY_PROTOCOL',
             'positive_ci': uncertainty['ci_lower'] is not None and uncertainty['ci_lower'] > 0}
     (output / 'report.json').write_text(json.dumps(report, allow_nan=False, indent=2), encoding='utf-8')
     hashes = {path.relative_to(output).as_posix(): sha256(path.read_bytes()).hexdigest()

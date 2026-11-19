@@ -11,20 +11,24 @@ from hashlib import sha256
 import json
 from pathlib import Path
 
-from app.ranking.observed_features import extract_observed_features, FEATURE_NAMES
+from app.ranking.observed_features import extract_observed_features, FEATURE_NAMES, QUERY_FEATURE_NAMES
+from app.schemas.jd_plan import content_digest
 from app.schemas.ai1 import Ai1Assessment
 from app.schemas.snapshot_boundary import normalize_job_snapshot
 from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
 from ml.ai2.snapshot_fields import snapshot_digest
 
 
-def export_records(rows, snapshots, assessments, *, split, pins, reference_date):
+def export_records(rows, snapshots, assessments, *, split, pins, reference_date,
+                   feature_contract='whole_source'):
+    if feature_contract not in {'whole_source', 'jd_query'}:
+        raise ValueError('explicit supported feature contract required')
     if split not in {'train', 'validation', 'test'}:
         raise ValueError('explicit canonical split required')
     selected = [row for row in rows if row['split'] == split]
     if not selected:
         raise ValueError('nonempty selected split required')
-    output, seen = [], set()
+    output, seen, plan_bindings = [], set(), {}
     for row in selected:
         key = (row['job_id'], row['candidate_id'])
         if key in seen:
@@ -45,13 +49,30 @@ def export_records(rows, snapshots, assessments, *, split, pins, reference_date)
         if key not in assessments:
             raise ValueError('missing pinned AI1 assessment')
         assessment = Ai1Assessment.model_validate(assessments[key])
+        if (feature_contract == 'whole_source' and assessment.fixedPlan is not None
+                and assessment.fixedPlan.schema_version == 'jd-source-query-v2'):
+            raise ValueError('JD query v2 assessments require the jd_query training contract')
+        if feature_contract == 'jd_query':
+            plan_hash = content_digest(assessment.fixedPlan) if assessment.fixedPlan else None
+            if key[0] in plan_bindings and plan_bindings[key[0]] != plan_hash:
+                raise ValueError('one frozen query plan per job pool required')
+            plan_bindings[key[0]] = plan_hash
+            if (not row.get('label_source') or not row.get('label_exposure')
+                    or not row.get('target_policy_version')
+                    or row.get('label_plan_content_sha256') != plan_hash):
+                raise ValueError('explicit query target policy, origin, exposure and exact label plan binding required')
         features = extract_observed_features(assessment, job, candidate,
-            reference_date=reference_date, **pins)
+            reference_date=reference_date, query_source_balanced=feature_contract == 'jd_query', **pins)
         output.append({'job_id': key[0], 'candidate_id': key[1], 'split': split,
             'relevance': relevance, 'source_job_snapshot_sha256': row['job_snapshot_hash'],
             'source_candidate_snapshot_sha256': row['candidate_snapshot_hash'],
             'feature_record': asdict(features), 'features': features.numeric_row(),
             'feature_record_sha256': features.content_sha256()})
+        if feature_contract == 'jd_query':
+            output[-1].update(
+                featureContract='jd_query', planSchemaVersion='jd-source-query-v2', planContentSha256=plan_hash,
+                labelOrigin=row['label_source'], labelExposure=row['label_exposure'],
+                targetPolicyVersion=row['target_policy_version'], labelPlanContentSha256=row['label_plan_content_sha256'])
     if set(assessments) != seen:
         raise ValueError('assessment set must equal selected pair set exactly')
     return output
@@ -63,6 +84,7 @@ def main():
     parser.add_argument('--assessments', type=Path, required=True)
     parser.add_argument('--pins', type=Path, required=True)
     parser.add_argument('--split', choices=['train', 'validation', 'test'], required=True)
+    parser.add_argument('--feature-contract', choices=['whole_source', 'jd_query'], default='whole_source')
     parser.add_argument('--reference-date', required=True)
     parser.add_argument('--allow-heldout-export', action='store_true')
     parser.add_argument('--output', type=Path, required=True)
@@ -82,12 +104,13 @@ def main():
             raise ValueError('duplicate assessment pair')
         assessments[key] = assessment
     output = export_records(rows, snapshots, assessments, split=args.split,
-                            pins=pins, reference_date=args.reference_date)
+                            pins=pins, reference_date=args.reference_date, feature_contract=args.feature_contract)
     payload = ''.join(json.dumps(row, ensure_ascii=False, sort_keys=True, allow_nan=False) + '\n'
                       for row in output)
     with args.output.open('x', encoding='utf-8') as stream:
         stream.write(payload)
-    print(json.dumps({'rows': len(output), 'split': args.split, 'feature_names': FEATURE_NAMES,
+    print(json.dumps({'rows': len(output), 'split': args.split,
+                      'feature_names': QUERY_FEATURE_NAMES if args.feature_contract == 'jd_query' else FEATURE_NAMES,
                       'sha256': sha256(payload.encode('utf-8')).hexdigest()}))
 
 
