@@ -88,6 +88,8 @@ describe('ApplicationService', () => {
     getLatestApplicationMatchResult: jest.Mock;
     getLatestApplicationHrReview: jest.Mock;
     getLatestApplicationAi2Demo: jest.Mock;
+    getApplicationAi2Pool: jest.Mock;
+    getCurrentAi2JobPlan: jest.Mock;
     getCandidateMatchingSnapshot: jest.Mock;
     createApplicationMatchRequest: jest.Mock;
     requestCandidateCvParse: jest.Mock;
@@ -158,6 +160,13 @@ describe('ApplicationService', () => {
       getLatestApplicationMatchResult: jest.fn().mockResolvedValue(null),
       getLatestApplicationHrReview: jest.fn().mockResolvedValue(null),
       getLatestApplicationAi2Demo: jest.fn().mockResolvedValue(null),
+      getApplicationAi2Pool: jest.fn(),
+      getCurrentAi2JobPlan: jest.fn().mockResolvedValue({
+        status: 'UNPREPARED',
+        current_job_snapshot_sha256: 'a'.repeat(64),
+        content_sha256: null,
+        plan: null,
+      }),
       getCandidateMatchingSnapshot: jest.fn().mockResolvedValue({
         candidateId: application.candidateId,
         candidateUserId: application.candidateUserId,
@@ -1003,52 +1012,230 @@ describe('ApplicationService', () => {
 
   it('checks company ownership before reading the AI2 pool', async () => {
     repo.findOne.mockResolvedValueOnce(null);
-    await expect(service.getCompanyApplicationAi2Pool(recruiterUser, application.id)).rejects.toThrow();
+    await expect(
+      service.getCompanyApplicationAi2Pool(recruiterUser, application.id),
+    ).rejects.toThrow();
     expect(repo.find).not.toHaveBeenCalled();
   });
 
   it('rejects candidate access to the AI2 pool', async () => {
-    await expect(service.getCompanyApplicationAi2Pool(candidateUser, application.id)).rejects.toThrow();
+    await expect(
+      service.getCompanyApplicationAi2Pool(candidateUser, application.id),
+    ).rejects.toThrow();
     expect(repo.find).not.toHaveBeenCalled();
   });
 
   it('checks ownership before reading experimental AI2 scores', async () => {
     repo.findOne.mockResolvedValueOnce(null);
-    await expect(service.getCompanyApplicationAi2Demo(recruiterUser, application.id)).rejects.toThrow();
+    await expect(
+      service.getCompanyApplicationAi2Demo(recruiterUser, application.id),
+    ).rejects.toThrow();
     expect(internalClient.getLatestApplicationAi2Demo).not.toHaveBeenCalled();
   });
 
   it('rejects candidate access to experimental AI2 scores', async () => {
-    await expect(service.getCompanyApplicationAi2Demo(candidateUser, application.id)).rejects.toThrow();
+    await expect(
+      service.getCompanyApplicationAi2Demo(candidateUser, application.id),
+    ).rejects.toThrow();
     expect(internalClient.getLatestApplicationAi2Demo).not.toHaveBeenCalled();
   });
 
   it('rejects an AI2 response for a different application', async () => {
     repo.findOne.mockResolvedValueOnce(application);
     internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({
-      schemaVersion: 'ai2-demo-score-v1', applicationId: 'foreign',
+      schemaVersion: 'ai2-demo-score-v1',
+      applicationId: 'foreign',
     });
-    await expect(service.getCompanyApplicationAi2Demo(recruiterUser, application.id)).rejects.toThrow();
+    await expect(
+      service.getCompanyApplicationAi2Demo(recruiterUser, application.id),
+    ).rejects.toThrow();
   });
 
   const ai2Ready = () => ({
-    schemaVersion: 'ai2-demo-score-v1', applicationId: application.id,
-    jobId: application.jobId, candidateId: application.candidateId,
-    candidateCvId: application.candidateCvId, resultId: 'saved-result',
-    status: 'READY', score: -1.2, scoreMeaning: 'RELATIVE_RANKING_SCORE',
-    experimental: true, rankingPosition: null, automaticallyReject: false,
-    hiringDecision: null, attributionStatus: 'UNAVAILABLE',
+    schemaVersion: 'ai2-demo-score-v1',
+    applicationId: application.id,
+    jobId: application.jobId,
+    candidateId: application.candidateId,
+    candidateCvId: application.candidateCvId,
+    resultId: 'saved-result',
+    status: 'READY',
+    sourceFreshness: 'CURRENT_CV_REVALIDATED_AT_CHECK_TIME',
+    currentCvRevalidated: true,
+    sourceCheckedAt: '2026-11-18T06:00:00Z',
+    score: -1.2,
+    scoreMeaning: 'RELATIVE_RANKING_SCORE',
+    experimental: true,
+    rankingPosition: null,
+    automaticallyReject: false,
+    hiringDecision: null,
+    attributionStatus: 'UNAVAILABLE',
     modelVersion: 'ai2-demo-xgb-observed-v1:5c0c5e3d4e81',
-    jobSnapshotSha256: 'a'.repeat(64), candidateSnapshotSha256: 'b'.repeat(64),
+    jobSnapshotSha256: 'a'.repeat(64),
+    candidateSnapshotSha256: 'b'.repeat(64),
     referenceDate: '2026-10-18',
   });
 
   it('returns only allowlisted AI2 score fields', async () => {
     repo.findOne.mockResolvedValueOnce(application);
-    internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({ ...ai2Ready(), privateSource: 'secret' });
+    internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({
+      ...ai2Ready(),
+      privateSource: 'secret',
+    });
     const result = await service.getCompanyApplicationAi2Demo(recruiterUser, application.id);
     expect(result?.score).toBe(-1.2);
     expect(result).not.toHaveProperty('privateSource');
+  });
+
+  it('AI2 current query-plan scores require the same current HR-confirmed plan and keep historical unbound scores out of current plans', async () => {
+    const plan = {
+      status: 'HR_CONFIRMED',
+      current_job_snapshot_sha256: 'a'.repeat(64),
+      content_sha256: 'c'.repeat(64),
+      plan: {
+        schema_version: 'jd-source-query-v2',
+        job_id: application.jobId,
+        approval: { origin: 'authenticated_hr' },
+      },
+    };
+    const v2 = {
+      ...ai2Ready(),
+      inputContract: 'M1_REQUIREMENT_OBSERVATIONS_V1',
+      planSchemaVersion: 'jd-source-query-v2',
+      planContentSha256: 'c'.repeat(64),
+    };
+    for (const [value, current, expected] of [
+      [v2, plan, 'READY'],
+      [v2, { ...plan, content_sha256: 'd'.repeat(64) }, 'UNAVAILABLE'],
+      [v2, { ...plan, status: 'DRAFT' }, 'UNAVAILABLE'],
+      [ai2Ready(), plan, 'UNAVAILABLE'],
+      [
+        ai2Ready(),
+        { ...plan, plan: { ...plan.plan, schema_version: 'jd-fixed-requirements-v1' } },
+        'UNAVAILABLE',
+      ],
+    ] as const) {
+      repo.findOne.mockResolvedValueOnce(application);
+      internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce(value);
+      internalClient.getCurrentAi2JobPlan.mockResolvedValueOnce(current);
+      const result = await service.getCompanyApplicationAi2Demo(recruiterUser, application.id);
+      expect(result?.status).toBe(expected);
+      if (expected === 'UNAVAILABLE') {
+        expect(result?.score).toBeNull();
+        expect(result).not.toHaveProperty('modelVersion');
+      } else
+        expect(result).toMatchObject({
+          inputContract: v2.inputContract,
+          planSchemaVersion: 'jd-source-query-v2',
+          planContentSha256: 'c'.repeat(64),
+        });
+    }
+  });
+
+  it('AI2 all-or-none pool refuses inactive/missing-self, duplicate candidates, unparsed CV or oversized eligible sets before upstream scoring', async () => {
+    repo.findOne.mockResolvedValueOnce({ ...application, status: ApplicationStage.REJECTED });
+    await expect(
+      service.getCompanyApplicationAi2Pool(recruiterUser, application.id),
+    ).rejects.toMatchObject({ status: 409 });
+    const other = {
+      ...application,
+      id: 'other',
+      candidateId: 'other-candidate',
+      candidateCvId: 'other-cv',
+    };
+    for (const [rows, reason] of [
+      [
+        [application, { ...other, candidateId: application.candidateId }],
+        'DUPLICATE_APPLICATION_OR_CANDIDATE',
+      ],
+      [[application, { ...other, cvParseStatus: 'FAILED' }], 'RESULTS_NOT_READY'],
+    ] as const) {
+      repo.findOne.mockResolvedValueOnce(application);
+      repo.find.mockResolvedValueOnce(rows);
+      expect(
+        await service.getCompanyApplicationAi2Pool(recruiterUser, application.id),
+      ).toMatchObject({ status: 'UNAVAILABLE', reason, items: [] });
+    }
+    for (const [rows, status] of [
+      [[], 400],
+      [[other], 409],
+      [
+        Array.from({ length: 51 }, (_, i) =>
+          i === 0 ? application : { ...other, id: 'a' + i, candidateId: 'c' + i },
+        ),
+        400,
+      ],
+    ] as const) {
+      repo.findOne.mockResolvedValueOnce(application);
+      repo.find.mockResolvedValueOnce(rows);
+      await expect(
+        service.getCompanyApplicationAi2Pool(recruiterUser, application.id),
+      ).rejects.toMatchObject({ status });
+    }
+    expect(internalClient.getApplicationAi2Pool).not.toHaveBeenCalled();
+  });
+
+  it('AI2 complete eligible pool binds current plan for every item and fails closed when plan inspection is unavailable', async () => {
+    const other = {
+      ...application,
+      id: 'other',
+      candidateId: 'other-candidate',
+      candidateCvId: 'other-cv',
+    };
+    const payload = {
+      schemaVersion: 'ai2-demo-pool-v1',
+      experimental: true,
+      automaticallyReject: false,
+      hiringDecision: null,
+      status: 'READY',
+      sourceFreshness: 'CURRENT_CV_REVALIDATED_AT_CHECK_TIME',
+      currentCvRevalidated: true,
+      sourceCheckedAt: '2026-11-18T06:00:00Z',
+      requestedCount: 2,
+      comparedCount: 2,
+      jobId: application.jobId,
+      modelVersion: ai2Ready().modelVersion,
+      jobSnapshotSha256: 'a'.repeat(64),
+      referenceDate: '2026-10-18',
+      tiePolicy: 'EQUAL_SCORE_SHARED_RANK',
+      inputContract: 'M1_REQUIREMENT_OBSERVATIONS_V1',
+      planSchemaVersion: 'jd-source-query-v2',
+      planContentSha256: 'c'.repeat(64),
+      items: [application, other].map((row, i) => ({
+        applicationId: row.id,
+        candidateId: row.candidateId,
+        candidateCvId: row.candidateCvId,
+        resultId: 'r' + i,
+        rankingPosition: i + 1,
+      })),
+    };
+    const plan = {
+      status: 'HR_CONFIRMED',
+      current_job_snapshot_sha256: 'a'.repeat(64),
+      content_sha256: 'c'.repeat(64),
+      plan: {
+        schema_version: 'jd-source-query-v2',
+        job_id: application.jobId,
+        approval: { origin: 'authenticated_hr' },
+      },
+    };
+    repo.findOne.mockResolvedValueOnce(application);
+    repo.find.mockResolvedValueOnce([application, other]);
+    internalClient.getApplicationAi2Pool.mockResolvedValueOnce(payload);
+    internalClient.getCurrentAi2JobPlan.mockResolvedValueOnce(plan);
+    expect(await service.getCompanyApplicationAi2Pool(recruiterUser, application.id)).toMatchObject(
+      { status: 'READY', comparedCount: 2, planContentSha256: 'c'.repeat(64) },
+    );
+    expect(internalClient.getApplicationAi2Pool).toHaveBeenCalledWith(application.jobId, [
+      application.id,
+      other.id,
+    ]);
+    repo.findOne.mockResolvedValueOnce(application);
+    repo.find.mockResolvedValueOnce([application, other]);
+    internalClient.getApplicationAi2Pool.mockResolvedValueOnce(payload);
+    internalClient.getCurrentAi2JobPlan.mockRejectedValueOnce(new Error('unavailable'));
+    expect(await service.getCompanyApplicationAi2Pool(recruiterUser, application.id)).toMatchObject(
+      { status: 'UNAVAILABLE', reason: 'CURRENT_PLAN_UNAVAILABLE', comparedCount: 0, items: [] },
+    );
   });
 
   it.each([
@@ -1058,7 +1245,10 @@ describe('ApplicationService', () => {
   ])('only forwards safe unavailable AI2 reason %s', async (reason, expected) => {
     repo.findOne.mockResolvedValueOnce(application);
     internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({
-      ...ai2Ready(), status: 'UNAVAILABLE', score: null, reason,
+      ...ai2Ready(),
+      status: 'UNAVAILABLE',
+      score: null,
+      reason,
     });
     const result = await service.getCompanyApplicationAi2Demo(recruiterUser, application.id);
     expect(result?.reason).toBe(expected);
@@ -1067,12 +1257,20 @@ describe('ApplicationService', () => {
   });
 
   it.each([
-    { modelVersion: 'other' }, { referenceDate: '2026-02-30' },
-    { jobSnapshotSha256: '' }, { score: Infinity }, { resultId: '' },
+    { modelVersion: 'other' },
+    { referenceDate: '2026-02-30' },
+    { jobSnapshotSha256: '' },
+    { score: Infinity },
+    { resultId: '' },
   ])('rejects malformed AI2 READY metadata %j', async (mutation) => {
     repo.findOne.mockResolvedValueOnce(application);
-    internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({ ...ai2Ready(), ...mutation });
-    await expect(service.getCompanyApplicationAi2Demo(recruiterUser, application.id)).rejects.toThrow();
+    internalClient.getLatestApplicationAi2Demo.mockResolvedValueOnce({
+      ...ai2Ready(),
+      ...mutation,
+    });
+    await expect(
+      service.getCompanyApplicationAi2Demo(recruiterUser, application.id),
+    ).rejects.toThrow();
   });
 
   it('checks company ownership before reading HR evidence', async () => {

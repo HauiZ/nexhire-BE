@@ -223,11 +223,14 @@ export class ApplicationInternalClientService {
     );
   }
 
-  async getLatestApplicationAi2Demo(applicationId: string): Promise<import('./ai2-demo.types').Ai2DemoScore | null> {
+  async getLatestApplicationAi2Demo(
+    applicationId: string,
+  ): Promise<import('./ai2-demo.types').Ai2DemoScore | null> {
     try {
       return await this.getFromService<import('./ai2-demo.types').Ai2DemoScore>(
         'matchingService',
         `/api/v1/matching/applications/${applicationId}/latest-ai2-demo`,
+        15000,
       );
     } catch (error) {
       if (error instanceof HttpException && error.getStatus() === 404) return null;
@@ -236,9 +239,19 @@ export class ApplicationInternalClientService {
   }
 
   async getApplicationAi2Pool(jobId: string, applicationIds: string[]): Promise<unknown> {
-    const query = applicationIds.map(id => `applicationIds=${encodeURIComponent(id)}`).join('&');
-    return this.getFromService<unknown>('matchingService',
-      `/api/v1/matching/jobs/${encodeURIComponent(jobId)}/ai2-demo-pool?${query}`);
+    const query = applicationIds.map((id) => `applicationIds=${encodeURIComponent(id)}`).join('&');
+    return this.getFromService<unknown>(
+      'matchingService',
+      `/api/v1/matching/jobs/${encodeURIComponent(jobId)}/ai2-demo-pool?${query}`,
+      15000,
+    );
+  }
+
+  async getCurrentAi2JobPlan(jobId: string): Promise<import('./ai2-demo.types').Ai2CurrentPlan> {
+    return this.getFromService(
+      'jobService',
+      `/api/v1/internal/jobs/${encodeURIComponent(jobId)}/requirement-plan`,
+    );
   }
 
   async getLatestApplicationHrReview(applicationId: string): Promise<MatchHrReview | null> {
@@ -284,9 +297,14 @@ export class ApplicationInternalClientService {
     }
   }
 
-  private async getFromService<T>(serviceKey: string, path: string): Promise<T> {
+  private async getFromService<T>(
+    serviceKey: string,
+    path: string,
+    timeoutOverride?: number,
+  ): Promise<T> {
     const baseUrl = this.configService.get<string>(`applicationService.services.${serviceKey}`);
-    const timeout = this.configService.get<number>('applicationService.http.timeoutMs', 5000);
+    const timeout =
+      timeoutOverride ?? this.configService.get<number>('applicationService.http.timeoutMs', 5000);
     const internalServiceToken = this.configService.get<string>(
       'applicationService.internalServiceToken',
     );

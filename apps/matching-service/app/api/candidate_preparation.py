@@ -44,7 +44,7 @@ def prepare(runtime, dto):
         records = dto.parsed_resume.get(field, [])
         if not isinstance(records, list) or len(records) > 100 or any(not isinstance(x, dict) for x in records):
             raise ValueError('Invalid or oversized parsed records')
-    candidate = MatchingService._candidate_from_parsed_resume(None, SimpleNamespace(
+    candidate = MatchingService._candidate_from_parsed_resume(SimpleNamespace(
         parsed_resume=dto.parsed_resume, candidate_id=dto.candidate_id,
         candidate_user_id=None, candidate_cv_id=dto.candidate_cv_id))
     selected = [x for x in suggest_job_sections(dto.job) if x.selected_for_retrieval]

@@ -14,9 +14,24 @@ def rank_stored_pool(scores, current_job):
     if any(s['status'] == 'DISABLED' for s in scores):
         return dict(common, status='DISABLED', reason='DEMO_DISABLED')
     if any(s['status'] != 'READY' for s in scores):
+        if any(s.get('reason') == 'M1_NOT_READY' for s in scores):
+            return unavailable('M1_NOT_READY')
+        if any(s.get('reason') == 'SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED' for s in scores):
+            return unavailable('SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED')
         return unavailable('RESULTS_NOT_READY')
     if len({s['applicationId'] for s in scores}) != len(scores) or len({s['candidateId'] for s in scores}) != len(scores):
         return unavailable('DUPLICATE_APPLICATION_OR_CANDIDATE')
+    plan_bindings = {(s.get('inputContract'), s.get('planSchemaVersion'), s.get('planContentSha256')) for s in scores}
+    if len(plan_bindings) != 1:
+        return unavailable('INCOMPATIBLE_PLAN_BINDINGS')
+    contract, schema, plan_hash = next(iter(plan_bindings))
+    metadata = {}
+    if any(value is not None for value in (contract, schema, plan_hash)):
+        import re
+        if (contract != 'M1_REQUIREMENT_OBSERVATIONS_V1' or schema != 'jd-source-query-v2'
+                or not isinstance(plan_hash, str) or re.fullmatch('[a-f0-9]{64}', plan_hash) is None):
+            return unavailable('INCOMPATIBLE_PLAN_BINDINGS')
+        metadata = dict(inputContract=contract, planSchemaVersion=schema, planContentSha256=plan_hash)
     policies = {s.get('chronologyPolicy') for s in scores}
     if len(policies) != 1 or not policies <= {None, 'FROZEN_SNAPSHOT_CHRONOLOGY_V1'}:
         return unavailable('INCOMPATIBLE_SNAPSHOTS_OR_DATES')
@@ -45,4 +60,4 @@ def rank_stored_pool(scores, current_job):
                           rankingPosition=rank))
     return dict(common, status='READY', comparedCount=len(scores), items=items,
                 jobId=job_id, jobSnapshotSha256=digest, referenceDate=reference,
-                modelVersion=model, tiePolicy='EQUAL_SCORE_SHARED_RANK')
+                modelVersion=model, tiePolicy='EQUAL_SCORE_SHARED_RANK', **metadata)

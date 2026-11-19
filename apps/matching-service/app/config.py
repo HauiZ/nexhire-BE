@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     )
     job_service_url: str = Field(default="http://localhost:3004", alias="JOB_SERVICE_URL")
     candidate_service_url: str = Field(default="http://localhost:3002", alias="CANDIDATE_SERVICE_URL")
+    cv_parsing_service_url: str = Field(default="http://localhost:3006", alias="CV_PARSING_SERVICE_URL")
     worker_poll_seconds: float = Field(default=3.0, alias="MATCHING_WORKER_POLL_SECONDS")
     worker_batch_size: int = Field(default=5, alias="MATCHING_WORKER_BATCH_SIZE")
     max_attempts: int = Field(default=3, alias="MATCHING_MAX_ATTEMPTS")

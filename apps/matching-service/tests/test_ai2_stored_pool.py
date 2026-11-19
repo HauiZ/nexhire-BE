@@ -46,3 +46,26 @@ def test_frozen_snapshot_policy_allows_different_observation_dates():
 
 def test_disabled_no_current_job_needed():
     assert rank_stored_pool([dict(status='DISABLED')], None)['status'] == 'DISABLED'
+
+
+def test_query_pool_requires_one_complete_plan_binding():
+    job, scores = pool()
+    metadata = dict(inputContract='M1_REQUIREMENT_OBSERVATIONS_V1',
+                    planSchemaVersion='jd-source-query-v2', planContentSha256='a' * 64)
+    for score in scores:
+        score.update(metadata)
+    output = rank_stored_pool(scores, job)
+    assert output['status'] == 'READY'
+    assert all(output[key] == value for key, value in metadata.items())
+    scores[1]['planContentSha256'] = 'b' * 64
+    assert rank_stored_pool(scores, job)['reason'] == 'INCOMPATIBLE_PLAN_BINDINGS'
+    scores[1].pop('planContentSha256')
+    assert rank_stored_pool(scores, job)['status'] == 'UNAVAILABLE'
+
+
+def test_pool_exposes_query_feature_boundary_without_partial_ordering():
+    job, scores = pool()
+    scores[1].update(status='UNAVAILABLE', reason='SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED')
+    output = rank_stored_pool(scores, job)
+    assert output['reason'] == 'SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED'
+    assert output['items'] == []

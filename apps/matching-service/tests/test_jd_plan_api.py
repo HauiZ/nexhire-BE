@@ -51,6 +51,43 @@ class JdPlanApiTests(unittest.TestCase):
             self.assertEqual(self.client.post('/api/v1/internal/jd-plans/' + operation,
                 json={'job': self.job, 'revision': 1}).status_code, 403)
 
+    def test_v2_draft_selects_explicit_license_from_description(self):
+        license_clause = 'Candidates MUST be currently licensed in Illinois.'
+        job = {**self.job, 'description': f'{license_clause}\nPlease apply directly to this posting.'}
+        response = self.post('v2/draft', {'job': job, 'revision': 1})
+        self.assertEqual(response.status_code, 200)
+        plan = response.json()['data']['plan']
+        queries = [c for s in plan['sources'] for c in s['components']]
+        self.assertEqual([c['query'] for c in queries], ['Use SQL.', 'Deploy on AWS.', license_clause])
+        self.assertEqual(queries[-1]['source_quote'], license_clause)
+        self.assertEqual(queries[-1]['importance'], 'core')
+        self.assertIsNone(plan['approval'])
+        self.assertEqual(self.post('v2/validate', {'job': job, 'plan': plan}).status_code, 200)
+
+        job['requirements'] += f'\n{license_clause}'
+        response = self.post('v2/draft', {'job': job, 'revision': 1})
+        self.assertEqual(response.status_code, 200)
+        sources = response.json()['data']['plan']['sources']
+        self.assertEqual(sum(c['query'] == license_clause for s in sources for c in s['components']), 1)
+
+    def test_v2_draft_leaves_mixed_prose_and_application_sections_for_review(self):
+        job = {**self.job, 'description': (
+            'Minimum Qualifications\n'
+            'Accounting degree required. CPA preferred.\n'
+            'Experience with internal controls.\n'
+            'Additional Considerations\nCPA preferred.\n'
+            'Special Instructions\nSubmit a completed application.\n'
+            'Contact Information\nContact the recruiting team.\n'
+            'Required Qualifications\nValid state license.\n'
+        )}
+        response = self.post('v2/draft', {'job': job, 'revision': 1})
+        self.assertEqual(response.status_code, 200)
+        sources = response.json()['data']['plan']['sources']
+        self.assertEqual([c['query'] for s in sources for c in s['components']], [
+            'Use SQL.', 'Deploy on AWS.', 'Experience with internal controls.', 'Valid state license.',
+        ])
+        self.assertTrue(any(s['original_text'] == 'Submit a completed application.' for s in sources))
+
     def test_draft_preserves_every_source_block_and_does_not_block_publishing(self):
         response = self.post('draft', {'job': self.job, 'revision': 1})
         self.assertEqual(response.status_code, 200)

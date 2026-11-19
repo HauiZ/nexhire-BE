@@ -1,5 +1,5 @@
 import { HttpException, Logger, ServiceUnavailableException } from '@nestjs/common';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosHeaders } from 'axios';
 import { of, throwError } from 'rxjs';
 import { HEADERS, UserRole } from '@nexhire/shared';
 import { ApplicationInternalClientService } from '../application-internal-client.service';
@@ -30,9 +30,9 @@ describe('ApplicationInternalClientService', () => {
       }),
     };
     service = new ApplicationInternalClientService(
-      httpService as any,
-      configService as any,
-      redis as any,
+      httpService as never,
+      configService as never,
+      redis as never,
     );
   });
 
@@ -40,12 +40,37 @@ describe('ApplicationInternalClientService', () => {
     jest.restoreAllMocks();
   });
 
+  it('reads current AI2 job plan through the existing token-protected inspection route without writes', async () => {
+    const plan = {
+      status: 'UNPREPARED',
+      current_job_snapshot_sha256: 'a'.repeat(64),
+      content_sha256: null,
+      plan: null,
+    };
+    httpService.get.mockReturnValueOnce(of({ data: { success: true, data: plan } }));
+    expect(await service.getCurrentAi2JobPlan('job-1')).toEqual(plan);
+    expect(httpService.get).toHaveBeenCalledWith(
+      'http://job-service:3004/api/v1/internal/jobs/job-1/requirement-plan',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          [HEADERS.INTERNAL_SERVICE_TOKEN]: 'internal-token',
+          [HEADERS.USER_ROLE]: UserRole.ADMIN,
+        }),
+      }),
+    );
+  });
+
   it('reads the HR projection without requesting legacy baseline diagnostics', async () => {
-    httpService.get.mockReturnValue(of({ data: { success: true, data: { schemaVersion: 'hr-review-v1' } } }));
+    httpService.get.mockReturnValue(
+      of({ data: { success: true, data: { schemaVersion: 'hr-review-v1' } } }),
+    );
     await service.getLatestApplicationHrReview('application-1');
     expect(httpService.get).toHaveBeenCalledWith(
       'http://matching-service:3007/api/v1/matching/applications/application-1/latest-hr-review',
-      expect.objectContaining({ headers: expect.objectContaining({ [HEADERS.INTERNAL_SERVICE_TOKEN]: 'internal-token' }) }));
+      expect.objectContaining({
+        headers: expect.objectContaining({ [HEADERS.INTERNAL_SERVICE_TOKEN]: 'internal-token' }),
+      }),
+    );
   });
 
   it('calls upstream services with internal identity headers', async () => {
@@ -88,7 +113,7 @@ describe('ApplicationInternalClientService', () => {
       status: 404,
       statusText: 'Not Found',
       headers: {},
-      config: {} as any,
+      config: { headers: new AxiosHeaders() },
       data: { code: 'COMMON.NOT_FOUND', message: 'Job not found' },
     });
     httpService.get.mockReturnValue(throwError(() => upstreamError));
@@ -119,9 +144,7 @@ describe('ApplicationInternalClientService', () => {
       url: 'https://storage.local/cv.pdf',
       expiresInSeconds: 3600,
     };
-    redis.get
-      .mockResolvedValueOnce(null)
-      .mockResolvedValueOnce(JSON.stringify(cachedPayload));
+    redis.get.mockResolvedValueOnce(null).mockResolvedValueOnce(JSON.stringify(cachedPayload));
     httpService.get.mockReturnValue(
       of({
         data: {

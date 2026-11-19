@@ -4,12 +4,26 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import get_settings
 from app.db import session_scope
-from app.matching.service import MatchingService
+from app.matching.service import MatchingService, revalidate_current_cv as _revalidate_current_cv
 from app.matching.hr_review import hr_review_snapshot
-from app.models.matching import MatchRequestType
+from app.models.matching import MatchRequestType, MatchRequest
 from app.schemas.match_result import CreateMatchRequestDto
 
 router = APIRouter(prefix="/matching", tags=["matching"])
+
+
+def _snapshot_freshness():
+    return dict(sourceFreshness='STORED_MATCHING_SNAPSHOT_ONLY', currentCvRevalidated=False)
+
+
+def _unavailable_score(result, reason):
+    return dict(schemaVersion='ai2-demo-score-v1', applicationId=str(result.application_id), jobId=str(result.job_id),
+                candidateId=str(result.candidate_id), candidateCvId=str(result.candidate_cv_id) if result.candidate_cv_id else None,
+                resultId=str(result.id), status='UNAVAILABLE', score=None, experimental=True,
+                scoreMeaning='RELATIVE_RANKING_SCORE', rankingPosition=None, automaticallyReject=False,
+                hiringDecision=None, attributionStatus='UNAVAILABLE', reason=reason, **_snapshot_freshness())
+
+
 
 
 async def get_session():
@@ -85,7 +99,14 @@ async def get_latest_ai2_demo(
         raise HTTPException(status_code=404, detail='Match result not found')
     try:
         predictor = await asyncio.to_thread(get_demo_predictor, get_settings())
+        freshness = _snapshot_freshness()
+        if predictor is not None:
+            request = await session.get(MatchRequest, result.request_id) if result.request_id else None
+            freshness = await _revalidate_current_cv(result, request)
+            if 'reason' in freshness:
+                return {'success': True, 'data': _unavailable_score(result, freshness['reason'])}
         data = await asyncio.to_thread(score_stored_result, result, predictor)
+        data.update(freshness)
     except Exception:
         # Optional native-model failures must not leak inputs or break legacy reads.
         raise HTTPException(status_code=503, detail='AI2 demo scoring unavailable') from None
@@ -115,12 +136,34 @@ async def get_ai2_demo_pool(
             requestedCount=len(applicationIds), comparedCount=0, items=[], reason='RESULTS_NOT_READY')}
     try:
         predictor = await asyncio.to_thread(get_demo_predictor, get_settings())
+        freshness = _snapshot_freshness()
+        if predictor is not None:
+            # AsyncSession reads stay sequential; only bounded external reads run concurrently.
+            requests = {result.request_id: await session.get(MatchRequest, result.request_id)
+                        for result in results if result.request_id}
+            semaphore = asyncio.Semaphore(5)
+            async def checked(result):
+                async with semaphore:
+                    return await _revalidate_current_cv(result, requests.get(result.request_id))
+            try:
+                checks = await asyncio.wait_for(asyncio.gather(*(checked(result) for result in results)),
+                                                timeout=get_settings().http_timeout_seconds * 2 + 1)
+            except asyncio.TimeoutError:
+                checks = [dict(reason='CURRENT_CV_UNAVAILABLE')]
+            failure = next((check['reason'] for check in checks if 'reason' in check), None)
+            if failure:
+                return {'success': True, 'data': dict(schemaVersion='ai2-demo-pool-v1', status='UNAVAILABLE',
+                    experimental=True, automaticallyReject=False, hiringDecision=None, requestedCount=len(results),
+                    comparedCount=0, items=[], reason=failure, **_snapshot_freshness())}
+            freshness = dict(sourceFreshness='CURRENT_CV_REVALIDATED_AT_CHECK_TIME', currentCvRevalidated=True,
+                             sourceCheckedAt=max(check['sourceCheckedAt'] for check in checks))
         from datetime import datetime, timezone
         pool_reference = datetime.now(timezone.utc).date().isoformat()
         scores = await asyncio.to_thread(lambda: [score_stored_result(
             result, predictor, pool_reference_date=pool_reference) for result in results])
         current_job = await InternalClient().get_job_matching_snapshot(str(job_id)) if predictor else None
         data = rank_stored_pool(scores, current_job)
+        data.update(freshness)
         if data['status'] == 'READY':
             settings = get_settings()
             demo_order = (getattr(settings, 'ai2_demo_order_enabled', False)

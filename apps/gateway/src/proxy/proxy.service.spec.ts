@@ -47,6 +47,29 @@ describe('Candidate preparation gateway forwarding', () => {
   });
 });
 
+describe('Recruiter AI2 gateway forwarding', () => {
+  it.each([
+    ['/ai2-demo', 'GET', 25_000],
+    ['/ai2-pool', 'GET', 25_000],
+    ['/ai2-pool/', 'GET', 25_000],
+    ['/ai2-pool', 'POST', 5_000],
+    ['/matching-status', 'GET', 5_000],
+  ])('uses the upstream budget for %s %s', async (suffix, method, timeout) => {
+    const http = { request: jest.fn().mockReturnValue(of({ status: 200, data: {} })) };
+    const service = new ProxyService(
+      http as never,
+      { get: () => 'http://application-fixture' } as never,
+    );
+    const route = `/api/v1/recruiter/applications/application${suffix}`;
+    await service.forward(
+      'applicationService',
+      { path: route, originalUrl: route, method, headers: {} } as Request,
+      { status: jest.fn().mockReturnThis(), json: jest.fn() } as never,
+    );
+    expect(http.request).toHaveBeenCalledWith(expect.objectContaining({ timeout }));
+  });
+});
+
 describe('Skill dictionary gateway ownership and identity forwarding (not JWT E2E)', () => {
   it.each(['adminSkillDictionaryRoot', 'adminSkillDictionary'] as const)(
     'routes %s to jobService only',
@@ -89,4 +112,26 @@ describe('Skill dictionary gateway ownership and identity forwarding (not JWT E2
       expect(headers[HEADERS.COMPANY_ID]).toBeUndefined();
     },
   );
+});
+
+describe('Recruiter JD plan gateway forwarding', () => {
+  it.each([
+    ['/requirement-plan/drafts', 'POST', 35_000],
+    ['/requirement-plan', 'GET', 35_000],
+    ['/requirement-plan', 'PATCH', 65_000],
+    ['/requirement-plan/confirm', 'POST', 65_000],
+    ['/requirement-plan/history', 'GET', 5_000],
+    ['/requirement-plan/drafts', 'GET', 5_000],
+    ['', 'GET', 5_000],
+  ])('uses the upstream budget for %s %s', async (suffix, method, timeout) => {
+    const http = { request: jest.fn().mockReturnValue(of({ status: 200, data: {} })) };
+    const service = new ProxyService(http as never, { get: () => 'http://job-fixture' } as never);
+    const route = `/api/v1/recruiter/jobs/job${suffix}`;
+    await service.forward(
+      'jobService',
+      { path: route, originalUrl: route, method, headers: {} } as Request,
+      { status: jest.fn().mockReturnThis(), json: jest.fn() } as never,
+    );
+    expect(http.request).toHaveBeenCalledWith(expect.objectContaining({ timeout }));
+  });
 });

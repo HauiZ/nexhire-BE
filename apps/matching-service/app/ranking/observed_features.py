@@ -14,6 +14,10 @@ FEATURE_NAMES = ('semantic_mean_top1', 'semantic_min_top1',
                  'semantic_no_evidence_fraction', 'chronology_known_months',
                  'chronology_incomplete')
 AI1_FEATURE_NAMES = FEATURE_NAMES[:3]
+QUERY_SCHEMA_VERSION = 'candidate-job-query-observed-v1'
+QUERY_EXTRACTOR_VERSION = 'ai2-query-source-balanced-v1'
+QUERY_FEATURE_NAMES = ('query_source_mean_top1', 'query_source_min_top1',
+                       'query_source_no_evidence_fraction', *FEATURE_NAMES[3:])
 
 
 @dataclass(frozen=True)
@@ -35,7 +39,8 @@ class ObservedFeatures:
     timeline_issues: tuple[tuple[int, str], ...]
 
     def numeric_row(self):
-        return dict(zip(FEATURE_NAMES, self.values))
+        names = QUERY_FEATURE_NAMES if self.schema_version == QUERY_SCHEMA_VERSION else FEATURE_NAMES
+        return dict(zip(names, self.values))
 
     def content_sha256(self):
         return sha256(json.dumps(asdict(self), ensure_ascii=False, sort_keys=True,
@@ -43,7 +48,8 @@ class ObservedFeatures:
 
 
 def extract_observed_features(assessment, job, candidate, *, reference_date,
-                              model_version, weights_sha256, manifest_sha256):
+                              model_version, weights_sha256, manifest_sha256,
+                              query_source_balanced=False):
     """Shared offline/online pure assembly; strict AI1 availability/provenance.
 
     Chronology from structured dates is not reinterpreted as scoped duty tenure.
@@ -52,10 +58,11 @@ def extract_observed_features(assessment, job, candidate, *, reference_date,
     """
     semantic = summarize_semantics(assessment, job, candidate,
         model_version=model_version, weights_sha256=weights_sha256,
-        manifest_sha256=manifest_sha256)
+        manifest_sha256=manifest_sha256, query_source_balanced=query_source_balanced)
     timeline = summarize_timeline([item.model_dump(mode='json')
                                   for item in candidate.experiences], reference_date)
-    return ObservedFeatures(SCHEMA_VERSION, EXTRACTOR_VERSION, job.id,
+    return ObservedFeatures(QUERY_SCHEMA_VERSION if query_source_balanced else SCHEMA_VERSION,
+        QUERY_EXTRACTOR_VERSION if query_source_balanced else EXTRACTOR_VERSION, job.id,
         candidate.candidateId, snapshot_digest(job), snapshot_digest(candidate),
         reference_date, model_version, weights_sha256, manifest_sha256,
         (semantic.mean_top1, semantic.min_top1, semantic.no_evidence_fraction,

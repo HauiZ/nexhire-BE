@@ -34,6 +34,46 @@ def extract(values):
     return extract_observed_features(*values, reference_date='2026-10-18', **PIN)
 
 
+def query_bundle(values=None):
+    """Source-preserving confirmed v2 fixture; no runtime/model calls."""
+    from datetime import datetime, timezone
+    from app.schemas.jd_plan import Approval, content_digest
+    from app.schemas.jd_plan_v2 import draft_query_plan
+    assessment, job, candidate = values or bundle()
+    plan = draft_query_plan(job)
+    plan = plan.model_copy(update={'approval': Approval(origin='authenticated_hr', reviewer_id='hr',
+        authorization_event_id='event', job_id=job.id, content_sha256=content_digest(plan),
+        approved_at=datetime(2026, 10, 18, tzinfo=timezone.utc))})
+    requirements = tuple(row.model_copy(update={'requirementId': f'{source.source_id}/{component.id}'})
+        for row, (source, component) in zip(assessment.requirements,
+            [(s, c) for s in plan.sources if s.selected for c in s.components]))
+    return assessment.model_copy(update={'fixedPlan': plan, 'planStatus': 'HR_CONFIRMED',
+                                         'requirements': requirements}), job, candidate
+
+
+def test_confirmed_whole_query_v2_is_value_and_feature_record_equivalent():
+    from app.ranking.semantic_features import feature_input_metadata
+    original = bundle()
+    updated = query_bundle(original)
+    assert asdict(extract(original)) == asdict(extract(updated))
+    assert extract(original).content_sha256() == extract(updated).content_sha256()
+    metadata = feature_input_metadata(updated[0], updated[1])
+    assert metadata['inputContract'] == 'M1_REQUIREMENT_OBSERVATIONS_V1'
+    assert metadata['planSchemaVersion'] == 'jd-source-query-v2'
+
+
+def test_v2_equivalence_rejects_modified_approval_query_identity_and_untrusted_plan():
+    from app.ranking.semantic_features import feature_input_metadata
+    assessment, job, candidate = query_bundle()
+    for changed in [assessment.model_copy(update={'planStatus': 'STALE'}),
+                    assessment.model_copy(update={'fixedPlan': assessment.fixedPlan.model_copy(update={'approval': None})}),
+                    assessment.model_copy(update={'requirements': ()})]:
+        with pytest.raises(ValueError):
+            feature_input_metadata(changed, job)
+    with pytest.raises(ValueError):
+        extract((assessment, job.model_copy(update={'title': 'Changed'}), candidate))
+
+
 def test_order_formula_and_deterministic_transport_parity():
     values = bundle()
     result = extract(values)

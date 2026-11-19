@@ -21,6 +21,49 @@ from app.schemas.match_result import CreateMatchRequestDto
 
 
 
+async def revalidate_current_cv(result, request):
+    """Point-in-time source check, not atomic cross-service freshness or a model execution."""
+    from datetime import datetime, timezone
+    from types import SimpleNamespace
+    from app.clients.internal import InternalClient
+    from app.schemas.match_result import MatchingInputSnapshots
+    from app.schemas.jd_plan import snapshot_digest
+    try:
+        stored = MatchingInputSnapshots.model_validate(result.explanation['inputSnapshots']).candidate
+        if (request is None or stored.dataOrigin != 'PARSED_CV' or not stored.candidateUserId or not stored.candidateCvId
+                or not request.cv_document_id or not isinstance(request.parsed_resume, dict)
+                or str(request.candidate_id) != str(result.candidate_id) or str(request.candidate_cv_id) != str(result.candidate_cv_id)
+                or str(request.candidate_user_id) != stored.candidateUserId or str(result.candidate_id) != stored.candidateId
+                or str(result.candidate_cv_id) != stored.candidateCvId):
+            return dict(reason='CURRENT_CV_UNAVAILABLE')
+        # UUID validation happens before URL construction; malformed legacy identities are not guessed.
+        uuid.UUID(stored.candidateUserId); uuid.UUID(stored.candidateCvId)
+        if snapshot_digest(MatchingService._candidate_from_parsed_resume(request)) != snapshot_digest(stored):
+            return dict(reason='CURRENT_CV_UNAVAILABLE')
+        active, parsed = await InternalClient().get_current_cv_parse_source(stored.candidateUserId, stored.candidateCvId)
+        if (active.get('candidateId') != stored.candidateId or active.get('candidateUserId') != stored.candidateUserId
+                or active.get('candidateCvId') != stored.candidateCvId or active.get('cvParseStatus') != 'PARSED'
+                or active.get('cvDocumentId') != str(request.cv_document_id)):
+            return dict(reason='CURRENT_CV_CHANGED')
+        if (parsed.get('candidateId') != stored.candidateId or parsed.get('candidateCvId') != stored.candidateCvId
+                or parsed.get('documentId') != str(request.cv_document_id) or not isinstance(parsed.get('normalizedPayload'), dict)):
+            return dict(reason='CURRENT_CV_CHANGED')
+        uuid.UUID(parsed['id']); uuid.UUID(parsed['parseRequestId'])
+        if not isinstance(parsed.get('createdAt'), str) or datetime.fromisoformat(parsed['createdAt'].replace('Z', '+00:00')).tzinfo is None:
+            return dict(reason='CURRENT_CV_UNAVAILABLE')
+        current_request = SimpleNamespace(candidate_id=request.candidate_id, candidate_user_id=request.candidate_user_id,
+                                          candidate_cv_id=request.candidate_cv_id, parsed_resume=parsed['normalizedPayload'])
+        current = MatchingService._candidate_from_parsed_resume(current_request)
+        if snapshot_digest(current) != snapshot_digest(stored):
+            return dict(reason='CURRENT_CV_CHANGED')
+        return dict(sourceFreshness='CURRENT_CV_REVALIDATED_AT_CHECK_TIME', currentCvRevalidated=True,
+                    sourceCheckedAt=datetime.now(timezone.utc).isoformat())
+    except Exception:
+        # Missing CV/parse/dependency/schema never becomes a stored-source fallback success.
+        return dict(reason='CURRENT_CV_UNAVAILABLE')
+
+
+
 class MatchingService:
     def __init__(self) -> None:
         self.settings = get_settings()
@@ -169,7 +212,8 @@ class MatchingService:
             "createdAt": result.created_at.isoformat() if result.created_at else None,
         }
 
-    def _candidate_from_parsed_resume(self, request: MatchRequest):
+    @staticmethod
+    def _candidate_from_parsed_resume(request: MatchRequest):
         from app.schemas.snapshots import (
             CandidateEducationSnapshot,
             CandidateExperienceSnapshot,

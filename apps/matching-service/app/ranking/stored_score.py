@@ -2,6 +2,7 @@
 
 from app.schemas.ai1 import Ai1Assessment
 from app.schemas.match_result import MatchingInputSnapshots
+from app.ranking.semantic_features import feature_input_metadata, UnsupportedFeatureInput
 
 
 def score_stored_result(result, predictor, *, pool_reference_date=None):
@@ -26,16 +27,24 @@ def score_stored_result(result, predictor, *, pool_reference_date=None):
             raise ValueError('successful matching result required')
         explanation = result.explanation
         snapshots = MatchingInputSnapshots.model_validate(explanation['inputSnapshots'])
-        assessment = Ai1Assessment.model_validate(explanation['ai1Assessment'])
+        raw_assessment = explanation.get('ai1Assessment')
+        if raw_assessment is None or (isinstance(raw_assessment, dict) and (
+                raw_assessment.get('status') in {'PENDING', 'PROCESSING', 'QUEUED', 'DISABLED', 'UNAVAILABLE', 'ERROR', 'FAILED'}
+                or raw_assessment.get('backend') == 'disabled')):
+            return dict(common, status='UNAVAILABLE', score=None, reason='M1_NOT_READY')
+        assessment = Ai1Assessment.model_validate(raw_assessment)
+        if (assessment.status != 'READY' or assessment.backend != 'local_m1'
+                or any(row.retrievalStatus == 'SCORER_UNAVAILABLE'
+                       or any(c.retrievalStatus == 'SCORER_UNAVAILABLE' for c in row.components or ())
+                       for row in assessment.requirements)):
+            return dict(common, status='UNAVAILABLE', score=None, reason='M1_NOT_READY')
         if (snapshots.job.id != identity['jobId']
                 or snapshots.candidate.candidateId != identity['candidateId']
                 or snapshots.candidate.candidateCvId != identity['candidateCvId']):
             raise ValueError('stored application identity mismatch')
-        # This frozen artifact was trained on whole-source v1 aggregates. Do
-        # not reinterpret selected v2 queries as equivalent observations.
-        if assessment.fixedPlan is not None and assessment.fixedPlan.schema_version == 'jd-source-query-v2':
-            return dict(common, status='UNAVAILABLE', score=None,
-                        reason='SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED')
+        # Consume actual validated M1 query observations with the original formulas.
+        # Experimental reuse is not evidence of input-distribution invariance.
+        input_metadata = feature_input_metadata(assessment, snapshots.job)
         reference = explanation['scoreReferenceDate']
         if pool_reference_date is not None:
             from datetime import date
@@ -49,10 +58,14 @@ def score_stored_result(result, predictor, *, pool_reference_date=None):
                       jobSnapshotSha256=score.job_snapshot_sha256,
                       candidateSnapshotSha256=score.candidate_snapshot_sha256,
                       referenceDate=score.reference_date)
+        output.update(input_metadata)
         if pool_reference_date is not None:
             output.update(referenceDate=pool_reference_date, snapshotReferenceDate=reference,
                           chronologyPolicy='FROZEN_SNAPSHOT_CHRONOLOGY_V1')
         return output
+    except UnsupportedFeatureInput:
+        return dict(common, status='UNAVAILABLE', score=None,
+                    reason='SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED')
     except (KeyError, ValueError, TypeError):
         return dict(common, status='UNAVAILABLE', score=None,
                     reason='STORED_INPUT_OR_ASSESSMENT_INCOMPATIBLE')

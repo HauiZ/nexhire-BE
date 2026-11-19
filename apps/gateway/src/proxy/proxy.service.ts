@@ -36,6 +36,7 @@ export class ProxyService {
     const user = req.user as AuthUser | undefined;
     const contentType = req.headers['content-type'] ?? 'application/json';
     const isMultipart = contentType.includes('multipart/form-data');
+    const timeout = this.getTimeout(service, req);
 
     try {
       const response = await firstValueFrom(
@@ -46,14 +47,7 @@ export class ProxyService {
           params: req.query,
           maxBodyLength: Infinity,
           maxContentLength: Infinity,
-          timeout:
-            service === 'candidateService' &&
-            req.method === 'POST' &&
-            /^\/api\/v1\/candidates\/me\/cvs\/[^/]+\/jobs\/[^/]+\/preparation$/.test(req.path)
-              ? 85_000
-              : service === 'cvParsingService' || service === 'matchingService'
-                ? 30_000
-                : 5_000,
+          timeout,
           headers: {
             'content-type': contentType,
             [HEADERS.REQUEST_ID]: (req.headers[HEADERS.REQUEST_ID] as string) ?? '',
@@ -77,5 +71,40 @@ export class ProxyService {
       this.logger.error(`Proxy to ${service} failed: ${axiosErr.message}`);
       throw new HttpException('Upstream service unavailable', 503);
     }
+  }
+
+  private getTimeout(service: ServiceKey, req: Request): number {
+    if (
+      service === 'applicationService' &&
+      req.method === 'GET' &&
+      /^\/api\/v1\/recruiter\/applications\/[^/]+\/ai2-(?:demo|pool)\/?$/.test(req.path)
+    ) {
+      // AI2 reads the Matching Service and then rechecks the current job plan.
+      return 25_000;
+    }
+    if (
+      service === 'candidateService' &&
+      req.method === 'POST' &&
+      /^\/api\/v1\/candidates\/me\/cvs\/[^/]+\/jobs\/[^/]+\/preparation$/.test(req.path)
+    )
+      return 85_000;
+
+    if (service === 'jobService') {
+      const planRoute =
+        /^\/api\/v1\/recruiter\/jobs\/[^/]+\/requirement-plan(?:\/(drafts|confirm))?\/?$/.exec(
+          req.path,
+        );
+      if (planRoute) {
+        const action = planRoute[1];
+        // The v2 contract allows 30 seconds per Matching Service call. Editing
+        // and confirming each make two calls before the transaction commits.
+        if ((req.method === 'PATCH' && !action) || (req.method === 'POST' && action === 'confirm'))
+          return 65_000;
+        if ((req.method === 'GET' && !action) || (req.method === 'POST' && action === 'drafts'))
+          return 35_000;
+      }
+    }
+
+    return service === 'cvParsingService' || service === 'matchingService' ? 30_000 : 5_000;
   }
 }

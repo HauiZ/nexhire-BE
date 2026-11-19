@@ -1,4 +1,5 @@
 import httpx
+from uuid import UUID
 from app.config import get_settings
 from app.schemas.snapshot_boundary import normalize_job_snapshot
 from app.schemas.snapshots import CandidateMatchingSnapshot, JobMatchingSnapshot
@@ -40,6 +41,29 @@ class InternalClient:
             )
             response.raise_for_status()
             return CandidateMatchingSnapshot.model_validate(response.json()["data"])
+
+    async def get_current_cv_parse_source(self, user_id: str, cv_id: str) -> tuple[dict, dict]:
+        """Read the active owned CV and its saved parse only; never request parsing or profile fallback."""
+        user_id, cv_id = str(UUID(user_id)), str(UUID(cv_id))
+        async with httpx.AsyncClient(timeout=self.settings.http_timeout_seconds, follow_redirects=False) as client:
+            owned = await client.get(
+                f'{self.settings.candidate_service_url}/api/v1/internal/candidates/users/{user_id}/cvs/{cv_id}/application-snapshot',
+                headers=self._headers())
+            owned.raise_for_status()
+            owned_envelope = owned.json()
+            if not isinstance(owned_envelope, dict) or owned_envelope.get('success') is not True:
+                raise ValueError('Invalid active CV envelope')
+            active = owned_envelope.get('data')
+            if not isinstance(active, dict) or active.get('candidateUserId') != user_id or active.get('candidateCvId') != cv_id or active.get('cvParseStatus') != 'PARSED':
+                raise ValueError('Current CV is unavailable')
+            parsed = await client.get(
+                f'{self.settings.cv_parsing_service_url}/api/v1/internal/cv-parsing/cvs/{cv_id}/latest-result',
+                headers=self._headers())
+            parsed.raise_for_status()
+            parsed_envelope = parsed.json()
+            if not isinstance(parsed_envelope, dict) or parsed_envelope.get('success') is not True or not isinstance(parsed_envelope.get('data'), dict):
+                raise ValueError('Invalid saved parse envelope')
+            return active, parsed_envelope['data']
 
     async def get_job_requirement_plan(self, job: JobMatchingSnapshot) -> JobPlanContext:
         """Optional read; stale/unavailable plans must not prevent source-evidence matching."""

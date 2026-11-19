@@ -1,4 +1,5 @@
 """Versioned source/query plan. Does not reinterpret any v1 document or IDs."""
+import re
 from typing import Literal
 
 from pydantic import Field
@@ -8,6 +9,25 @@ from app.schemas.jd_plan import (
     source_blocks,
 )
 from app.schemas.jd_sections import suggest_job_sections
+
+
+_EXPLICIT_LICENSURE = re.compile(
+    r'^\s*(?:candidates?|applicants?)\s+must\s+be\s+(?:currently\s+)?licensed\b',
+    re.IGNORECASE,
+)
+_DESCRIPTION_REVIEW_HEADINGS = {
+    'additional considerations', 'special instructions', 'application instructions',
+    'how to apply', 'contact information',
+}
+
+
+def _can_add_description_query(block, review_section):
+    if review_section or block.role != 'query' or block.section == 'preferred':
+        return False
+    # Leave mixed prose to HR. A formatted requirement can be copied as-is.
+    if len(block.text) > 500 or re.search(r'[.!?]\s+\w', block.text):
+        return False
+    return block.section == 'required' or bool(_EXPLICIT_LICENSURE.match(block.text))
 
 
 class SourceSelection(ImmutableModel):
@@ -68,13 +88,35 @@ def validate_query_plan(plan: JobQueryPlan, job) -> JobQueryPlan:
 
 
 def draft_query_plan(job, *, revision=1) -> JobQueryPlan:
+    # Add explicit requirements from the description to new drafts only.
+    # Keeping this out of _sources preserves validation of stored plans.
+    items = tuple(_sources(job))
+    selected_texts = {' '.join(item.block.text.casefold().split()) for _, item in items
+                      if item.selected_for_retrieval}
+    remaining = 64 - sum(item.selected_for_retrieval for _, item in items)
     sources = []
-    for sid, item in _sources(job):
+    review_section = False
+    for sid, item in items:
         b = item.block
+        selected = item.selected_for_retrieval
+        importance = b.importance
+        key = ' '.join(b.text.casefold().split())
+        if item.source_field == 'description':
+            if b.role == 'heading':
+                review_section = b.section == 'review'
+            elif key.rstrip(':') in _DESCRIPTION_REVIEW_HEADINGS:
+                review_section = True
+        if (not selected and remaining > 0 and item.source_field == 'description'
+                and key not in selected_texts
+                and _can_add_description_query(b, review_section)):
+            selected = True
+            importance = 'core'
+            selected_texts.add(key)
+            remaining -= 1
         components = (PlanComponent(id='whole', query=b.text, source_quote=b.text,
-                                   importance=b.importance),) if item.selected_for_retrieval else ()
+                                   importance=importance),) if selected else ()
         sources.append(SourceSelection(source_id=sid, source_field=item.source_field,
             original_text=b.text, suggested_role=b.role,
-            selected=item.selected_for_retrieval, components=components))
+            selected=selected, components=components))
     return validate_query_plan(JobQueryPlan(job_id=job.id,
         job_snapshot_sha256=snapshot_digest(job), revision=revision, sources=tuple(sources)), job)
