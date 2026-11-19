@@ -78,6 +78,7 @@ import {
 import { JobSearchTextService } from './search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER, JobSearchProvider, Paginated } from './search/job-search.types';
 import { DocumentClientService } from '../document-client/document-client.service';
+import { isUUID } from 'class-validator';
 
 const ACTIVE_REVIEW_STATUSES = [
   JobStatus.PENDING_REVIEW,
@@ -175,6 +176,69 @@ export class JobService {
       ['public-company-jobs', companyId, this.cacheableQuery(query)],
       () => this.jobSearchProvider.searchPublicCompanyJobs(companyId, query),
     );
+  }
+
+  /** Private read-only pool for candidate recommendations; no CV or private HR plan enters this service. */
+  async getRecommendationPool(idsValue?: string) {
+    let ids: string[] | undefined;
+    if (idsValue !== undefined) {
+      if (typeof idsValue !== 'string')
+        throw new BadRequestException('Invalid recommendation shortlist');
+      ids = idsValue.split(',');
+      if (
+        !ids.length ||
+        ids.length > 20 ||
+        new Set(ids).size !== ids.length ||
+        ids.some((id) => !isUUID(id))
+      )
+        throw new BadRequestException('Invalid recommendation shortlist');
+    }
+    const at = new Date();
+    const query = this.jobRepo
+      .createQueryBuilder('job')
+      .leftJoin(CompanyPostingSnapshot, 'company', 'company.companyId = job.companyId')
+      .select([
+        'job.id',
+        'job.title',
+        'job.companyName',
+        'job.location',
+        'job.workingType',
+        'job.experienceLevel',
+        'job.publishedAt',
+        'job.description',
+        'job.requirements',
+        'job.skills',
+      ])
+      .where('job.status = :status', { status: JobStatus.PUBLISHED })
+      .andWhere('job.deletedAt IS NULL')
+      .andWhere('COALESCE(company.companyStatus, job.companyStatus) = :approved', {
+        approved: CompanyStatusSnapshot.APPROVED,
+      })
+      .andWhere('job.publishedAt IS NOT NULL AND job.publishedAt <= :at', { at })
+      .andWhere('(job.deadline IS NULL OR job.deadline > :at)', { at })
+      .andWhere('(job.expiresAt IS NULL OR job.expiresAt > :at)', { at })
+      .orderBy('job.publishedAt', 'DESC')
+      .addOrderBy('job.id', 'ASC')
+      .take(101);
+    if (ids) query.andWhere('job.id IN (:...ids)', { ids });
+    const rows = await query.getMany();
+    return {
+      schemaVersion: 'public-recommendation-pool-v1',
+      limit: 100,
+      truncated: rows.length > 100,
+      items: rows.slice(0, 100).map((job) => ({
+        id: job.id,
+        title: job.title,
+        companyName: job.companyName ?? null,
+        location: job.location ?? null,
+        workingType: job.workingType ?? null,
+        experienceLevel: job.experienceLevel ?? null,
+        publishedAt: job.publishedAt!.toISOString(),
+        description: job.description ?? '',
+        requirements: job.requirements ?? '',
+        skills: job.skills ?? [],
+      })),
+    };
   }
 
   async getPublic(id: string): Promise<PublicJobDetailDto> {

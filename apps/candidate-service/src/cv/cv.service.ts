@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, IsNull, LessThanOrEqual, Not, Repository } from 'typeorm';
+import { DataSource, IsNull, LessThanOrEqual, Repository } from 'typeorm';
 
 import { AuthUser, ERROR_CODES, UserRole } from '@nexhire/shared';
 
@@ -84,15 +84,7 @@ export class CvService {
 
   async parseMine(user: AuthUser, id: string): Promise<CandidateCvResponseDto> {
     const profile = await this.candidateService.ensureProfileForUser(user.id);
-    const cv = await this.cvRepo.findOne({
-      where: { id, candidateId: profile.id, deletedAt: IsNull() },
-    });
-    if (!cv) {
-      throw new NotFoundException({
-        code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
-        message: 'Candidate CV not found',
-      });
-    }
+    const cv = await this.findActiveCv(profile.id, id);
 
     if (cv.parseStatus === CandidateCvParseStatus.PARSING) {
       throw new ConflictException({
@@ -101,16 +93,12 @@ export class CvService {
       });
     }
 
-    await this.cvRepo.update(cv.id, {
-      parseStatus: CandidateCvParseStatus.PARSING,
-      parsedAt: null,
-    });
+    return this.startParse(user, cv, 'PROFILE_UPDATE');
+  }
 
-    return this.triggerParse(user, profile.id, {
-      ...cv,
-      parseStatus: CandidateCvParseStatus.PARSING,
-      parsedAt: null,
-    });
+  async parseMineForRecommendations(user: AuthUser, id: string): Promise<CandidateCvResponseDto> {
+    const profile = await this.candidateService.ensureProfileForUser(user.id);
+    return this.requestParseForMatching(profile.id, id, user.id);
   }
 
   async requestParseForMatching(
@@ -120,15 +108,7 @@ export class CvService {
     force = false,
     applyToProfile = false,
   ): Promise<CandidateCvResponseDto> {
-    const cv = await this.cvRepo.findOne({
-      where: { id: candidateCvId, candidateId, deletedAt: IsNull() },
-    });
-    if (!cv) {
-      throw new NotFoundException({
-        code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
-        message: 'Candidate CV not found',
-      });
-    }
+    const cv = await this.findActiveCv(candidateId, candidateCvId);
 
     if (!force && !applyToProfile && cv.parseStatus === CandidateCvParseStatus.PARSED) {
       return this.mapCv(cv);
@@ -138,12 +118,38 @@ export class CvService {
       return this.mapCv(cv);
     }
 
+    return this.startParse(
+      { id: requestedByUserId, role: UserRole.CANDIDATE } as AuthUser,
+      cv,
+      applyToProfile ? 'PROFILE_UPDATE' : 'MATCHING_APPLICATION',
+    );
+  }
+
+  private async findActiveCv(candidateId: string, id: string): Promise<CandidateCv> {
+    const cv = await this.cvRepo.findOne({
+      where: { id, candidateId, deletedAt: IsNull(), documentDeletedAt: IsNull() },
+    });
+    if (!cv) {
+      throw new NotFoundException({
+        code: ERROR_CODES.APPLICATION.CV_NOT_FOUND,
+        message: 'Candidate CV not found',
+      });
+    }
+    return cv;
+  }
+
+  private async startParse(
+    user: AuthUser,
+    cv: CandidateCv,
+    context: 'PROFILE_UPDATE' | 'MATCHING_APPLICATION',
+  ): Promise<CandidateCvResponseDto> {
     const result = await this.cvRepo.update(
       {
         id: cv.id,
-        candidateId,
+        candidateId: cv.candidateId,
         deletedAt: IsNull(),
-        parseStatus: Not(CandidateCvParseStatus.PARSING),
+        documentDeletedAt: IsNull(),
+        parseStatus: cv.parseStatus,
       },
       {
         parseStatus: CandidateCvParseStatus.PARSING,
@@ -151,19 +157,18 @@ export class CvService {
       },
     );
     if (result.affected === 0) {
-      const latestCv = await this.cvRepo.findOne({ where: { id: cv.id } });
-      return this.mapCv(latestCv ?? cv);
+      return this.mapCv(await this.findActiveCv(cv.candidateId, cv.id));
     }
 
     return this.triggerParse(
-      { id: requestedByUserId, role: UserRole.CANDIDATE } as AuthUser,
-      candidateId,
+      user,
+      cv.candidateId,
       {
         ...cv,
         parseStatus: CandidateCvParseStatus.PARSING,
         parsedAt: null,
       },
-      applyToProfile ? 'PROFILE_UPDATE' : 'MATCHING_APPLICATION',
+      context,
     );
   }
 

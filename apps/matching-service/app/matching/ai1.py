@@ -1,11 +1,21 @@
 """Swappable local AI1 adapter, independent of scoring, transport and verifier."""
 
 import asyncio
+from contextlib import nullcontext
 from functools import lru_cache
+from threading import RLock
 
 from app.matching.requirement_matcher import RequirementMatcher
 from app.schemas.ai1 import Ai1Assessment, Ai1Component, Ai1Hit, Ai1Requirement
 from app.schemas.jd_plan import digest, snapshot_digest, source_requirements, validate_plan
+
+
+_local_m1_lock = RLock()
+
+
+def local_m1_guard(settings):
+    """Serialize shared fast-tokenizer state when the WP07 consumer is active."""
+    return _local_m1_lock if getattr(settings, 'local_job_recommendations_enabled', False) is True else nullcontext()
 
 
 @lru_cache(maxsize=1)
@@ -118,8 +128,9 @@ async def assess_ai1(settings, job, candidate, context):
         if backend != 'local_m1' or not settings.ai1_manifest_path or not settings.ai1_manifest_sha256:
             raise ValueError('Explicit AI1 backend and pinned manifest required')
         def infer():
-            runtime = load_backend(settings.ai1_manifest_path, settings.ai1_manifest_sha256)
-            return assess_local(runtime, settings, job, candidate, context)
+            with local_m1_guard(settings):
+                runtime = load_backend(settings.ai1_manifest_path, settings.ai1_manifest_sha256)
+                return assess_local(runtime, settings, job, candidate, context)
         return await asyncio.to_thread(infer)
     except QueryTokenLimitError:
         return Ai1Assessment(**common, status='UNAVAILABLE', backend='local_m1',

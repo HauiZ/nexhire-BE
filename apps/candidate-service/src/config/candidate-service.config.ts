@@ -15,6 +15,11 @@ export const candidateServiceConfig = registerAs('candidateService', () => ({
   http: {
     timeoutMs: parseInt(process.env.CANDIDATE_SERVICE_HTTP_TIMEOUT_MS ?? '30000', 10),
   },
+  recommendations: {
+    semanticEnabled:
+      process.env.CANDIDATE_JOB_RECOMMENDATIONS_SEMANTIC_ENABLED === 'true' &&
+      ['development', 'test'].includes(process.env.NODE_ENV ?? 'development'),
+  },
   cvCleanup: {
     sweepIntervalMs: parseInt(process.env.CV_DOCUMENT_CLEANUP_SWEEP_INTERVAL_MS ?? '3600000', 10),
     deletedGraceDays: parseInt(process.env.CV_DOCUMENT_CLEANUP_DELETED_GRACE_DAYS ?? '30', 10),

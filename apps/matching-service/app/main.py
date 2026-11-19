@@ -7,6 +7,8 @@ from app.api.health import router as health_router
 from app.api.matching import router as matching_router
 from app.api.jd_plans import router as jd_plans_router
 from app.api.candidate_preparation import router as candidate_preparation_router
+from app.recommendations.api import router as job_recommendations_router
+from app.recommendations.index import recommendation_index
 from app.worker import MatchRequestWorker
 
 logging.basicConfig(level=logging.INFO)
@@ -21,10 +23,19 @@ async def lifespan(_app: FastAPI):
     import asyncio
     from app.config import get_settings
     from app.ranking.demo_loader import get_demo_predictor
-    await asyncio.to_thread(get_demo_predictor, get_settings())
+    settings = get_settings()
+    await asyncio.to_thread(get_demo_predictor, settings)
     await worker.start()
-    yield
-    await worker.stop()
+    index_task = None
+    if settings.local_job_recommendations_enabled:
+        index_task = asyncio.create_task(recommendation_index.run(settings))
+    try:
+        yield
+    finally:
+        if index_task is not None:
+            index_task.cancel()
+            await asyncio.gather(index_task, return_exceptions=True)
+        await worker.stop()
 
 
 app = FastAPI(title="NexHire - matching service", version="1.0", lifespan=lifespan)
@@ -48,3 +59,4 @@ app.include_router(health_router, prefix="/api/v1")
 app.include_router(matching_router, prefix="/api/v1")
 app.include_router(jd_plans_router, prefix="/api/v1")
 app.include_router(candidate_preparation_router, prefix="/api/v1")
+app.include_router(job_recommendations_router, prefix="/api/v1")

@@ -95,6 +95,20 @@ export class CvController {
     return this.cvService.parseMine(user, id);
   }
 
+  @Post(':id/parse-for-recommendations')
+  @HttpCode(200)
+  @Roles(UserRole.CANDIDATE)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Read the selected CV for job recommendations' })
+  @ApiSuccessResponse(CandidateCvResponseDto)
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 500, 503] })
+  parseForRecommendations(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<CandidateCvResponseDto> {
+    return this.cvService.parseMineForRecommendations(user, id);
+  }
+
   @Delete(':id')
   @HttpCode(200)
   @Roles(UserRole.CANDIDATE)

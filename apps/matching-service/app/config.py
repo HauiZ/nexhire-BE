@@ -55,6 +55,14 @@ class Settings(BaseSettings):
     local_hr_test_job_ids: str = Field(default='', alias="MATCHING_LOCAL_HR_TEST_JOB_IDS")
     local_hr_test_candidate_ids: str = Field(default='', alias="MATCHING_LOCAL_HR_TEST_CANDIDATE_IDS")
 
+    job_recommendations_enabled: bool = Field(
+        default=False, alias='MATCHING_JOB_RECOMMENDATIONS_ENABLED',
+    )
+
+    @property
+    def local_job_recommendations_enabled(self) -> bool:
+        return self.job_recommendations_enabled and self.node_env in {'development', 'test'}
+
     @property
     def database_url(self) -> str:
         return (

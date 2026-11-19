@@ -78,6 +78,15 @@ export class JobController {
 export class JobInternalController {
   constructor(private readonly jobService: JobService) {}
 
+  @Get('recommendation-pool')
+  @ApiOperation({
+    summary:
+      'Read up to 100 current public-eligible jobs for candidate recommendation, or recheck up to 20 shortlisted IDs',
+  })
+  getRecommendationPool(@Query('ids') ids?: string) {
+    return this.jobService.getRecommendationPool(ids);
+  }
+
   @Get(':id/application-snapshot')
   @ApiOperation({ summary: 'Get job snapshot for a candidate application' })
   @ApiSuccessResponse(JobApplicationSnapshotDto)

@@ -16,6 +16,8 @@ import { CandidateProfile } from './entities/candidate-profile.entity';
 import { CandidateProject } from './entities/candidate-project.entity';
 import { CandidateSkill } from './entities/candidate-skill.entity';
 import { CvParseEventsConsumer } from './events/consumers/cv-parse-events.consumer';
+import { JobRecommendationsController } from './job-recommendations.controller';
+import { JobRecommendationsService } from './job-recommendations.service';
 import { CandidateEventPublisher } from './events/candidate-event.publisher';
 
 @Module({
@@ -32,9 +34,15 @@ import { CandidateEventPublisher } from './events/candidate-event.publisher';
       CandidateCv,
     ]),
   ],
-  controllers: [CandidateController, CandidateInternalController, PreparationController],
+  controllers: [
+    CandidateController,
+    CandidateInternalController,
+    PreparationController,
+    JobRecommendationsController,
+  ],
   providers: [
     CandidateService,
+    JobRecommendationsService,
     PreparationService,
     AuthClientService,
     CandidateEventPublisher,

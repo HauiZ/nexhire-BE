@@ -11,6 +11,8 @@ describe('Candidate preparation gateway forwarding', () => {
   it.each([
     ['/api/v1/candidates/me/cvs/cv/jobs/job/preparation', 'POST', 85000],
     ['/api/v1/candidates/me/cvs/cv/jobs/job/preparation', 'GET', 5000],
+    ['/api/v1/candidates/me/cvs/cv/job-recommendations', 'GET', 40_000],
+    ['/api/v1/candidates/me/cvs/cv/job-recommendations', 'POST', 5_000],
     ['/api/v1/candidates/me', 'GET', 5000],
   ])('uses route-specific budget for %s %s', async (route, method, timeout) => {
     const http = {
@@ -28,7 +30,7 @@ describe('Candidate preparation gateway forwarding', () => {
       headers: { 'x-user-id': 'spoofed' },
       user: { id: 'verified-user', role: 'CANDIDATE' },
     };
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+    const res = { status: jest.fn().mockReturnThis(), json: jest.fn(), setHeader: jest.fn() };
     await service.forward(
       'candidateService',
       req as unknown as Request,
@@ -44,6 +46,9 @@ describe('Candidate preparation gateway forwarding', () => {
       }),
     );
     expect(res.status).toHaveBeenCalledWith(200);
+    if (method === 'GET' && route.endsWith('/job-recommendations'))
+      expect(res.setHeader).toHaveBeenCalledWith('Cache-Control', 'private, no-store');
+    else expect(res.setHeader).not.toHaveBeenCalled();
   });
 });
 

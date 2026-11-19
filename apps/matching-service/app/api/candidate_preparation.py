@@ -12,7 +12,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from app.api.matching import require_internal_service
 from app.config import get_settings
-from app.matching.ai1 import load_backend, _matches
+from app.matching.ai1 import load_backend, local_m1_guard, _matches
 from app.matching.normalizer import normalize_semantic_text
 from app.matching.service import MatchingService
 from app.schemas.jd_plan import digest, snapshot_digest
@@ -89,8 +89,9 @@ async def candidate_preparation(dto: PreparationRequest):
             if not _preparation_slot.acquire(blocking=False):
                 raise HTTPException(status_code=503, detail='Preparation busy; retry shortly')
             try:
-                runtime = load_backend(settings.ai1_manifest_path, settings.ai1_manifest_sha256)
-                return prepare(runtime, dto)
+                with local_m1_guard(settings):
+                    runtime = load_backend(settings.ai1_manifest_path, settings.ai1_manifest_sha256)
+                    return prepare(runtime, dto)
             finally:
                 _preparation_slot.release()
         return {'success': True, 'data': await asyncio.to_thread(run)}

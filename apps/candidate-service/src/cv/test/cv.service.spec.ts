@@ -172,10 +172,10 @@ describe('CvService', () => {
 
     const result = await service.parseMine({ id: 'user-1', role: UserRole.CANDIDATE }, 'cv-1');
 
-    expect(cvRepo.update).toHaveBeenCalledWith('cv-1', {
-      parseStatus: CandidateCvParseStatus.PARSING,
-      parsedAt: null,
-    });
+    expect(cvRepo.update).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'cv-1', parseStatus: CandidateCvParseStatus.NOT_PARSED }),
+      { parseStatus: CandidateCvParseStatus.PARSING, parsedAt: null },
+    );
     expect(cvEventPublisher.publishCvUploaded).toHaveBeenCalledWith(
       expect.objectContaining({
         candidateId: 'candidate-1',
@@ -204,10 +204,10 @@ describe('CvService', () => {
 
     const result = await service.parseMine({ id: 'user-1', role: UserRole.CANDIDATE }, 'cv-1');
 
-    expect(cvRepo.update).toHaveBeenCalledWith('cv-1', {
-      parseStatus: CandidateCvParseStatus.PARSING,
-      parsedAt: null,
-    });
+    expect(cvRepo.update).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'cv-1', parseStatus: CandidateCvParseStatus.PARSED }),
+      { parseStatus: CandidateCvParseStatus.PARSING, parsedAt: null },
+    );
     expect(cvEventPublisher.publishCvUploaded).toHaveBeenCalledWith(
       expect.objectContaining({
         candidateId: 'candidate-1',
@@ -240,7 +240,8 @@ describe('CvService', () => {
         id: 'cv-1',
         candidateId: 'candidate-1',
         deletedAt: expect.any(Object),
-        parseStatus: expect.any(Object),
+        documentDeletedAt: expect.any(Object),
+        parseStatus: CandidateCvParseStatus.PARSED,
       },
       {
         parseStatus: CandidateCvParseStatus.PARSING,
@@ -285,7 +286,8 @@ describe('CvService', () => {
         id: 'cv-1',
         candidateId: 'candidate-1',
         deletedAt: expect.any(Object),
-        parseStatus: expect.any(Object),
+        documentDeletedAt: expect.any(Object),
+        parseStatus: CandidateCvParseStatus.PARSED,
       },
       {
         parseStatus: CandidateCvParseStatus.PARSING,
@@ -353,6 +355,70 @@ describe('CvService', () => {
       response: expect.objectContaining({
         code: ERROR_CODES.COMMON.CONFLICT,
       }),
+    });
+  });
+
+  describe('reading a selected CV for job recommendations', () => {
+    const user = { id: 'user-1', role: UserRole.CANDIDATE };
+    const selected = {
+      id: 'other-cv',
+      candidateId: 'candidate-1',
+      documentId: 'other-document',
+      title: 'Other CV',
+      isDefault: false,
+      parseStatus: CandidateCvParseStatus.NOT_PARSED,
+    } as CandidateCv;
+
+    it('queues the selected non-default CV with the read-only profile context', async () => {
+      cvRepo.findOne.mockResolvedValueOnce(selected);
+
+      await expect(service.parseMineForRecommendations(user, selected.id)).resolves.toMatchObject({
+        id: selected.id,
+        isDefault: false,
+        parseStatus: CandidateCvParseStatus.PARSING,
+      });
+      expect(documentClientService.createDownloadUrl).toHaveBeenCalledWith(selected.documentId);
+      expect(cvEventPublisher.publishCvUploaded).toHaveBeenCalledWith(
+        expect.objectContaining({
+          candidateUserId: user.id,
+          candidateCvId: selected.id,
+          documentId: selected.documentId,
+          context: 'MATCHING_APPLICATION',
+        }),
+      );
+    });
+
+    it('reuses the parsed result when a concurrent request finishes before the update', async () => {
+      cvRepo.findOne.mockResolvedValueOnce(selected).mockResolvedValueOnce({
+        ...selected,
+        parseStatus: CandidateCvParseStatus.PARSED,
+      });
+      cvRepo.update.mockResolvedValueOnce({ affected: 0 });
+
+      await expect(service.parseMineForRecommendations(user, selected.id)).resolves.toMatchObject({
+        parseStatus: CandidateCvParseStatus.PARSED,
+      });
+      expect(cvRepo.update).toHaveBeenCalledWith(
+        expect.objectContaining({ parseStatus: CandidateCvParseStatus.NOT_PARSED }),
+        expect.anything(),
+      );
+      expect(cvEventPublisher.publishCvUploaded).not.toHaveBeenCalled();
+    });
+
+    it('denies a CV outside the owner scope before requesting document access', async () => {
+      await expect(service.parseMineForRecommendations(user, selected.id)).rejects.toMatchObject({
+        status: 404,
+      });
+      expect(cvRepo.findOne).toHaveBeenCalledWith({
+        where: expect.objectContaining({
+          id: selected.id,
+          candidateId: selected.candidateId,
+          deletedAt: expect.any(Object),
+          documentDeletedAt: expect.any(Object),
+        }),
+      });
+      expect(documentClientService.createDownloadUrl).not.toHaveBeenCalled();
+      expect(cvEventPublisher.publishCvUploaded).not.toHaveBeenCalled();
     });
   });
 

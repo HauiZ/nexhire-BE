@@ -1469,3 +1469,20 @@ Internal only.
 Summary: Mark a CV parse attempt as failed.
 
 Auth: internal service token.
+
+
+## Candidate job recommendations — TH15
+
+`GET /api/v1/candidates/me/cvs/:cvId/job-recommendations?limit=10` qua gateway, JWT CANDIDATE; limit1–20. CV phải còn hoạt động, thuộc ứng viên và PARSED. API đọc đúng normalizedPayload đã lưu gắn candidate/CV/document, không dùng profile hiện tại thay CV, không parse/provider/apply tự động.
+
+Phương pháp `KEYWORD_OVERLAP_V1`: đếm từ khóa chung phân biệt từ tối đa100tin public/published mới nhất còn hợp lệ (company approved, chưa xóa/hết hạn). Đây là keyword baseline, không semantic matching, xác suất tuyển hay phần trăm phù hợp. Điểm đếm toàn bộ từ chung trong giới hạn văn bản512terms; response hiển thị tối đa20matchedTerms kèm nguồn CV/JD. Pool hữu hạn được công khai qua `pool.considered/truncated/order`; không phải toàn bộ thị trường. Shortlist được kiểm lại visibility/source và CV được kiểm lại trước response.
+
+Response `data`: schemaVersion `candidate-job-recommendations-v1`, status READY/EMPTY, method/scoreMeaning, candidateCvId/parseResultId/cvSnapshotSha256, sourceCheckedAt, pool, items[{rank,keywordScore,matchedTerms,job}], warnings; fitScore=null, candidateSupportVerified=false, applicationCreated=false. EMPTY reason: NO_PUBLIC_JOBS/NO_KEYWORD_OVERLAP/CV_TEXT_EMPTY. Sai query400; CV không thuộc/tồn tại404; chưa parse hoặc nguồn thay đổi409; dependency/binding bất hợp lệ503, không fallback sang dữ liệu khác.
+
+Trên trang việc làm ứng viên: chọn CV đã phân tích → bấm xem gợi ý → mở job hoặc xem từ khóa/nguồn. Không khôi phục preparation UI đã gỡ. Chất lượng Top-K chưa được đo bằng nhãn độc lập; implementation/typecheck/unit không thay nghiên cứu xếp hạng.
+
+`POST /api/v1/cvs/:id/parse-for-recommendations` dùng JWT `CANDIDATE` để đọc CV đang chọn ngay trên trang Việc làm của tôi. API kiểm CV còn hoạt động và thuộc ứng viên. Bản đã đọc hoặc đang đọc được trả theo trạng thái hiện tại. Bản chưa đọc hoặc đọc thất bại sẽ vào luồng parse bất đồng bộ `MATCHING_APPLICATION`, chỉ cập nhật trạng thái và bản phân tích của CV. Bộ chọn dùng `GET /api/v1/candidates/me` để đợi trạng thái `PARSED` trước khi mở thao tác xem gợi ý.
+
+Trong môi trường development/test, đặt `CANDIDATE_JOB_RECOMMENDATIONS_SEMANTIC_ENABLED=true` để dùng M1 trên cùng endpoint. Matching Service cần bật `MATCHING_JOB_RECOMMENDATIONS_ENABLED=true`, cấu hình manifest M1 cục bộ và migration `004_job_recommendation_embeddings.sql` trong DB thử. Candidate Service kiểm lại CV còn hoạt động, ID và dữ liệu bản parse mới nhất, cùng trạng thái và nội dung công khai của các tin đã xếp trước khi trả. Phản hồi qua Gateway có `Cache-Control: private, no-store`.
+
+Phản hồi semantic dùng `candidate-job-recommendations-v2`, `M1_REQUIREMENT_SEMANTIC_V1`, `RELATIVE_SEMANTIC_SIMILARITY`, `modelVersion` và `pool.indexed`. Mỗi item có `rank`, `semanticScore`, `evidence` (tối đa hai cặp `cvSource`, `cvText`, `jobText`) và `job`. `READY_PARTIAL` báo chỉ một phần pool có vector đúng phiên bản. `INDEX_WARMING` với `JD_INDEX_PENDING` báo số tin đã lập chỉ mục chưa đủ cho lượt xếp hạng. `EMPTY` dùng `NO_PUBLIC_JOBS` hoặc `CV_TEXT_EMPTY`. Model bận hoặc lỗi trả 503. Mỗi điểm là độ tương đồng tương đối. Khi chưa bật cờ semantic, endpoint phục vụ bản keyword v1.

@@ -37,6 +37,8 @@ export class ProxyService {
     const contentType = req.headers['content-type'] ?? 'application/json';
     const isMultipart = contentType.includes('multipart/form-data');
     const timeout = this.getTimeout(service, req);
+    if (this.isJobRecommendationRead(service, req))
+      res.setHeader('Cache-Control', 'private, no-store');
 
     try {
       const response = await firstValueFrom(
@@ -74,6 +76,9 @@ export class ProxyService {
   }
 
   private getTimeout(service: ServiceKey, req: Request): number {
+    // Candidate Service reads parse data and the public pool, then rechecks
+    // visibility. Semantic matching adds a separate upstream call.
+    if (this.isJobRecommendationRead(service, req)) return 40_000;
     if (
       service === 'applicationService' &&
       req.method === 'GET' &&
@@ -106,5 +111,13 @@ export class ProxyService {
     }
 
     return service === 'cvParsingService' || service === 'matchingService' ? 30_000 : 5_000;
+  }
+
+  private isJobRecommendationRead(service: ServiceKey, req: Request): boolean {
+    return (
+      service === 'candidateService' &&
+      req.method === 'GET' &&
+      /^\/api\/v1\/candidates\/me\/cvs\/[^/]+\/job-recommendations\/?$/.test(req.path)
+    );
   }
 }

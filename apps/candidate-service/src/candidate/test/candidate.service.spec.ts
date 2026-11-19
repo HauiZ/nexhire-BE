@@ -8,6 +8,7 @@ import { CandidateEducation } from '../entities/candidate-education.entity';
 import { CandidateExperience } from '../entities/candidate-experience.entity';
 import {
   CandidateDataSource,
+  CandidateCvParseStatus,
   CandidateProfileVisibility,
   CandidateSkillLevel,
 } from '../entities/candidate.enum';
@@ -17,6 +18,332 @@ import { CandidateSkill } from '../entities/candidate-skill.entity';
 import { DocumentClientService } from '../../document-client/document-client.service';
 import { AuthClientService } from '../auth-client.service';
 import { CandidateEventPublisher } from '../events/candidate-event.publisher';
+import { JobRecommendationsService } from '../job-recommendations.service';
+import { HttpService } from '@nestjs/axios';
+import { ConfigService } from '@nestjs/config';
+import { of, throwError } from 'rxjs';
+import { randomUUID } from 'crypto';
+
+describe('Candidate job recommendations', () => {
+  const user = { id: randomUUID(), role: UserRole.CANDIDATE },
+    candidateId = randomUUID(),
+    cvId = randomUUID(),
+    documentId = randomUUID(),
+    parseId = randomUUID();
+  const profiles = { findOne: jest.fn() },
+    cvs = { findOne: jest.fn() },
+    http = { get: jest.fn(), post: jest.fn() };
+  const config = {
+    get: jest.fn(),
+  };
+  const service = new JobRecommendationsService(
+    profiles as never,
+    cvs as never,
+    http as unknown as HttpService,
+    config as unknown as ConfigService,
+  );
+  let payload: Record<string, unknown>;
+  let parsed: {
+    id: string;
+    candidateId: string;
+    candidateCvId: string;
+    documentId: string;
+    normalizedPayload: unknown;
+  };
+  let jobs: ReturnType<typeof job>[];
+  let changedVisibility: boolean;
+  let semanticEnabled: boolean;
+  const cv = {
+    id: cvId,
+    candidateId,
+    documentId,
+    deletedAt: null,
+    documentDeletedAt: null,
+    parseStatus: CandidateCvParseStatus.PARSED,
+    parsedAt: new Date('2026-11-18T00:00:00Z'),
+  };
+  const job = (title: string, skills: string[], id = randomUUID()) => ({
+    id,
+    title,
+    companyName: 'Synthetic company',
+    location: null,
+    workingType: 'REMOTE',
+    experienceLevel: 'JUNIOR',
+    publishedAt: '2026-11-17T00:00:00Z',
+    description: '',
+    requirements: '',
+    skills,
+  });
+  const recommend = () => service.recommend(user, cvId, { limit: 10 });
+  const replySemantic = (body: object) =>
+    http.post.mockReturnValue(
+      of({ data: { success: true, data: { modelVersion: 'local-m1', ...body } } }),
+    );
+  beforeEach(() => {
+    jest.resetAllMocks();
+    config.get.mockImplementation(
+      (key: string) =>
+        ({
+          'candidateService.internalServiceToken': 'synthetic-test-token',
+          'candidateService.services.cvParsingService': 'http://parser-fixture',
+          'candidateService.services.jobService': 'http://job-fixture',
+          'candidateService.services.matchingService': 'http://matching-fixture',
+          'candidateService.recommendations.semanticEnabled': semanticEnabled,
+        })[key],
+    );
+    changedVisibility = false;
+    semanticEnabled = false;
+    payload = {
+      profile: { fullName: 'Secret Name', contactEmail: 'secret@example.invalid', headline: '' },
+      skills: [{ name: 'Python' }, { name: 'SQL' }],
+      experiences: [],
+      educations: [],
+      certifications: [],
+      projects: [],
+    };
+    parsed = {
+      id: parseId,
+      candidateId,
+      candidateCvId: cvId,
+      documentId,
+      normalizedPayload: payload,
+    };
+    jobs = [
+      job('Python SQL developer', ['Python', 'SQL']),
+      job('Java developer', ['Java']),
+      job('Python developer', ['Python']),
+    ];
+    profiles.findOne.mockResolvedValue({ id: candidateId });
+    cvs.findOne.mockImplementation(async () => ({ ...cv }));
+    http.get.mockImplementation((url: string, options: { params?: { ids?: string } }) =>
+      of({
+        data: {
+          success: true,
+          data: url.endsWith('/latest-result')
+            ? parsed
+            : {
+                schemaVersion: 'public-recommendation-pool-v1',
+                limit: 100,
+                truncated: false,
+                items: options.params?.ids
+                  ? changedVisibility
+                    ? []
+                    : jobs.filter((item) => options.params!.ids!.split(',').includes(item.id))
+                  : jobs,
+              },
+        },
+      }),
+    );
+  });
+  it('ranks multiple public jobs by the selected saved CV, with stable keyword scores and safe source explanations', async () => {
+    const result = await recommend();
+    if (result.method !== 'KEYWORD_OVERLAP_V1') throw new Error('Expected keyword baseline');
+    expect(result.items.map((item) => item.job.id)).toEqual([jobs[0].id, jobs[2].id]);
+    expect(result.items.map((item) => item.keywordScore)).toEqual([2, 1]);
+    expect(result).toMatchObject({
+      method: 'KEYWORD_OVERLAP_V1',
+      scoreMeaning: 'DISTINCT_SHARED_TERMS_NOT_FIT_OR_SUPPORT',
+      candidateCvId: cvId,
+      parseResultId: parseId,
+      fitScore: null,
+      candidateSupportVerified: false,
+      applicationCreated: false,
+    });
+    expect(result.items[0].matchedTerms).toContainEqual({
+      term: 'python',
+      cvSources: ['SKILLS'],
+      jobSources: ['SKILLS', 'TITLE'],
+    });
+    expect(JSON.stringify(result)).not.toContain('Secret Name');
+    expect(JSON.stringify(result)).not.toContain('secret@example.invalid');
+    expect(http.post).not.toHaveBeenCalled();
+    parsed.normalizedPayload = { ...payload, skills: [{ name: 'Java' }] };
+    const other = await recommend();
+    expect(other.items[0].job.id).toBe(jobs[1].id);
+    expect(other.cvSnapshotSha256).not.toBe(result.cvSnapshotSha256);
+  });
+  it('accepts saved parse experience independently of any candidate profile fields', async () => {
+    parsed.normalizedPayload = {
+      ...payload,
+      skills: [],
+      experiences: [{ position: 'Backend Developer', description: 'Developed Python services.' }],
+    };
+    const result = await recommend();
+    if (result.method !== 'KEYWORD_OVERLAP_V1') throw new Error('Expected keyword baseline');
+    expect(result.status).toBe('READY');
+    expect(result.parseResultId).toBe(parseId);
+    expect(result.items[0].matchedTerms.some((item) => item.term === 'python')).toBe(true);
+  });
+  it('checks role and active CV ownership before any parse/job request; unparsed CV never triggers parsing', async () => {
+    await expect(
+      service.recommend({ ...user, role: UserRole.RECRUITER }, cvId, { limit: 10 }),
+    ).rejects.toMatchObject({ status: 403 });
+    expect(profiles.findOne).not.toHaveBeenCalled();
+    cvs.findOne.mockResolvedValueOnce(null);
+    await expect(recommend()).rejects.toMatchObject({ status: 404 });
+    cvs.findOne.mockResolvedValueOnce({ ...cv, parseStatus: CandidateCvParseStatus.NOT_PARSED });
+    await expect(recommend()).rejects.toMatchObject({ status: 409 });
+    expect(http.get).not.toHaveBeenCalled();
+    expect(http.post).not.toHaveBeenCalled();
+    expect(cvs.findOne).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({ id: cvId, candidateId, deletedAt: expect.anything() }),
+      }),
+    );
+  });
+  it('rejects mismatched parse/result/document identity and malformed saved payload with no lexical fallback', async () => {
+    for (const key of ['candidateId', 'candidateCvId', 'documentId', 'id'] as const) {
+      const before = parsed[key];
+      parsed[key] = key === 'id' ? 'invalid' : randomUUID();
+      await expect(recommend()).rejects.toMatchObject({ status: 503 });
+      parsed[key] = before;
+    }
+    parsed.normalizedPayload = { skills: [] };
+    await expect(recommend()).rejects.toMatchObject({ status: 503 });
+    expect(http.post).not.toHaveBeenCalled();
+  });
+  it('returns explicit empty reasons, bounded pool metadata and no percentage claim', async () => {
+    jobs = [];
+    expect(await recommend()).toMatchObject({
+      status: 'EMPTY',
+      reason: 'NO_PUBLIC_JOBS',
+      items: [],
+      pool: { limit: 100, considered: 0, truncated: false },
+    });
+    jobs = [job('Rust developer', ['Rust'])];
+    expect(await recommend()).toMatchObject({
+      status: 'EMPTY',
+      reason: 'NO_KEYWORD_OVERLAP',
+      items: [],
+    });
+    parsed.normalizedPayload = {
+      profile: {},
+      skills: [],
+      experiences: [],
+      educations: [],
+      certifications: [],
+      projects: [],
+    };
+    expect(await recommend()).toMatchObject({
+      status: 'EMPTY',
+      reason: 'CV_TEXT_EMPTY',
+      items: [],
+    });
+  });
+  it('rechecks top-job visibility/content and CV state rather than returning withdrawn jobs or false empty results', async () => {
+    changedVisibility = true;
+    await expect(recommend()).rejects.toMatchObject({
+      status: 409,
+      response: expect.objectContaining({ code: 'RECOMMENDATIONS_SOURCE_CHANGED' }),
+    });
+    changedVisibility = false;
+    cvs.findOne
+      .mockResolvedValueOnce({ ...cv })
+      .mockResolvedValueOnce({ ...cv, parsedAt: new Date() });
+    await expect(recommend()).rejects.toMatchObject({ status: 409 });
+    expect(http.get).toHaveBeenCalledWith(
+      'http://job-fixture/api/v1/internal/jobs/recommendation-pool',
+      expect.objectContaining({ params: { ids: [jobs[0].id, jobs[2].id].join(',') } }),
+    );
+  });
+  it('preserves C/C++/C# and diacritics as separate terms and breaks ties deterministically', async () => {
+    parsed.normalizedPayload = {
+      ...payload,
+      skills: [{ name: 'C++' }, { name: 'C#' }, { name: 'café' }],
+    };
+    const low = '21000000-0000-4000-8000-000000000001',
+      high = '21000000-0000-4000-8000-000000000002';
+    jobs = [job('C#', [], high), job('C++', [], low), job('C cafe', [])];
+    const result = await recommend();
+    if (result.method !== 'KEYWORD_OVERLAP_V1') throw new Error('Expected keyword baseline');
+    expect(result.items.map((item) => item.job.id)).toEqual([low, high]);
+    expect(result.items.map((item) => item.matchedTerms[0].term)).toEqual(['c++', 'c#']);
+  });
+  it('bounds query/pool and propagates dependency failure explicitly, with no POST/model request', async () => {
+    await expect(service.recommend(user, cvId, { limit: 21 })).rejects.toMatchObject({
+      status: 400,
+    });
+    http.get.mockReturnValueOnce(throwError(() => ({ response: { status: 404 } })));
+    await expect(recommend()).rejects.toMatchObject({ status: 409 });
+    http.get.mockReturnValueOnce(throwError(() => ({ response: { status: 503 } })));
+    await expect(recommend()).rejects.toMatchObject({ status: 503 });
+    expect(http.post).not.toHaveBeenCalled();
+  });
+
+  it('returns ranked semantic evidence only for the selected CV and checks the latest saved parse again', async () => {
+    semanticEnabled = true;
+    const evidence = { cvSource: 'SKILLS', cvText: 'Python', jobText: 'Python' };
+    replySemantic({
+      status: 'READY',
+      indexedCount: 3,
+      items: [{ jobId: jobs[0].id, score: 0.62, reasons: [evidence] }],
+    });
+    const result = await recommend();
+    expect(result).toMatchObject({
+      method: 'M1_REQUIREMENT_SEMANTIC_V1',
+      pool: { indexed: 3 },
+      items: [{ rank: 1, semanticScore: 0.62, evidence: [evidence] }],
+      fitScore: null,
+    });
+    expect(http.post).toHaveBeenCalledTimes(1);
+    expect(http.post.mock.calls[0][0]).toBe(
+      'http://matching-fixture/api/v1/internal/job-recommendations',
+    );
+    expect(JSON.stringify(http.post.mock.calls[0][1])).not.toContain('secret@example.invalid');
+    expect(http.get.mock.calls.filter(([url]) => url.endsWith('/latest-result'))).toHaveLength(2);
+  });
+
+  it('distinguishes a warming semantic index from an empty eligible pool', async () => {
+    semanticEnabled = true;
+    replySemantic({ status: 'INDEX_WARMING', indexedCount: 1, items: [] });
+    await expect(recommend()).resolves.toMatchObject({
+      status: 'INDEX_WARMING',
+      reason: 'JD_INDEX_PENDING',
+      pool: { indexed: 1 },
+      items: [],
+    });
+    jobs = [];
+    replySemantic({ status: 'EMPTY', indexedCount: 0, items: [] });
+    await expect(recommend()).resolves.toMatchObject({
+      status: 'EMPTY',
+      reason: 'NO_PUBLIC_JOBS',
+      items: [],
+    });
+  });
+
+  it('rejects a reparse during ranking and omits a job withdrawn during ranking', async () => {
+    semanticEnabled = true;
+    const body = {
+      status: 'READY',
+      indexedCount: 3,
+      items: [{ jobId: jobs[0].id, score: 0.4, reasons: [] }],
+    };
+    http.post.mockImplementationOnce(() => {
+      parsed = { ...parsed, id: randomUUID() };
+      return of({ data: { success: true, data: { modelVersion: 'local-m1', ...body } } });
+    });
+    await expect(recommend()).rejects.toMatchObject({ status: 409 });
+    replySemantic(body);
+    changedVisibility = true;
+    await expect(recommend()).rejects.toMatchObject({ status: 409 });
+  });
+
+  it('rejects semantic citations with no exact saved CV or public JD source', async () => {
+    semanticEnabled = true;
+    replySemantic({
+      status: 'READY',
+      indexedCount: 3,
+      items: [
+        {
+          jobId: jobs[0].id,
+          score: 0.5,
+          reasons: [{ cvSource: 'SKILLS', cvText: 'unrelated text', jobText: 'Python' }],
+        },
+      ],
+    });
+    await expect(recommend()).rejects.toMatchObject({ status: 503 });
+  });
+});
 
 type MockRepo = {
   create: jest.Mock;

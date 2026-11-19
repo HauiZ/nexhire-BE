@@ -38,6 +38,76 @@ import { JobResponseDto } from '../dto/job-response.dto';
 import { JobSearchTextService } from '../search/job-search-text.service';
 import { JOB_SEARCH_PROVIDER } from '../search/job-search.types';
 import { DocumentClientService } from '../../document-client/document-client.service';
+import { randomUUID } from 'crypto';
+
+describe('Public job recommendations pool', () => {
+  const qb = {
+    leftJoin: jest.fn(),
+    select: jest.fn(),
+    where: jest.fn(),
+    andWhere: jest.fn(),
+    orderBy: jest.fn(),
+    addOrderBy: jest.fn(),
+    take: jest.fn(),
+    getMany: jest.fn(),
+  };
+  const repo = { createQueryBuilder: jest.fn() };
+  const service = Object.assign(Object.create(JobService.prototype), {
+    jobRepo: repo,
+  }) as JobService;
+  beforeEach(() => {
+    jest.resetAllMocks();
+    repo.createQueryBuilder.mockReturnValue(qb);
+    for (const name of Object.keys(qb))
+      if (name !== 'getMany') (qb[name as keyof typeof qb] as jest.Mock).mockReturnValue(qb);
+    qb.getMany.mockResolvedValue([]);
+  });
+  it('constrains the uncached DB pool to public, unexpired, company-eligible nondeleted jobs in bounded deterministic order', async () => {
+    expect(await service.getRecommendationPool()).toEqual({
+      schemaVersion: 'public-recommendation-pool-v1',
+      limit: 100,
+      truncated: false,
+      items: [],
+    });
+    expect(qb.where).toHaveBeenCalledWith('job.status = :status', { status: JobStatus.PUBLISHED });
+    for (const expression of [
+      'job.deletedAt IS NULL',
+      'COALESCE(company.companyStatus, job.companyStatus) = :approved',
+      'job.publishedAt IS NOT NULL AND job.publishedAt <= :at',
+      '(job.deadline IS NULL OR job.deadline > :at)',
+      '(job.expiresAt IS NULL OR job.expiresAt > :at)',
+    ])
+      expect(qb.andWhere.mock.calls.some(([condition]) => condition === expression)).toBe(true);
+    expect(qb.orderBy).toHaveBeenCalledWith('job.publishedAt', 'DESC');
+    expect(qb.addOrderBy).toHaveBeenCalledWith('job.id', 'ASC');
+    expect(qb.take).toHaveBeenCalledWith(101);
+  });
+  it('returns at most100 public projections with truncation and accepts only bounded UUID shortlist rechecks', async () => {
+    const row = {
+      id: randomUUID(),
+      title: 'Synthetic published job',
+      publishedAt: new Date(),
+      skills: ['SQL'],
+      createdByUserId: 'private-author',
+      moderationReasons: ['private'],
+    };
+    qb.getMany.mockResolvedValue(Array.from({ length: 101 }, () => row));
+    const pool = await service.getRecommendationPool();
+    expect(pool.items).toHaveLength(100);
+    expect(pool.truncated).toBe(true);
+    expect(pool.items[0]).not.toHaveProperty('createdByUserId');
+    expect(pool.items[0]).not.toHaveProperty('moderationReasons');
+    const id = randomUUID();
+    await service.getRecommendationPool(id);
+    expect(qb.andWhere).toHaveBeenCalledWith('job.id IN (:...ids)', { ids: [id] });
+    for (const invalid of [
+      'invalid',
+      `${id},${id}`,
+      Array.from({ length: 21 }, () => randomUUID()).join(','),
+    ])
+      await expect(service.getRecommendationPool(invalid)).rejects.toMatchObject({ status: 400 });
+  });
+});
 
 describe('JobService', () => {
   let service: JobService;
