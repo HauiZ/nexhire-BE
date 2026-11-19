@@ -88,6 +88,16 @@ export class ProxyController {
     return this.proxy.forward('jobService', req, res);
   }
 
+  @All('admin/skill-dictionary')
+  adminSkillDictionaryRoot(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
+  }
+
+  @All('admin/skill-dictionary/*')
+  adminSkillDictionary(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('jobService', req, res);
+  }
+
   @All('admin/companies/*')
   adminCompanies(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('companyService', req, res);

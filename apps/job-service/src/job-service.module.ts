@@ -16,6 +16,7 @@ import { JobModule } from './job/job.module';
 import { jobServiceConfig } from './config/job-service.config';
 import { validationSchema } from './config/env.validation';
 import { HealthModule } from './health/health.module';
+import { SkillDictionaryModule } from './skill-dictionary/skill-dictionary.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { HealthModule } from './health/health.module';
     HealthModule,
     JobModule,
     CategoryModule,
+    SkillDictionaryModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: InternalAuthGuard },

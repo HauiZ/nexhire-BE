@@ -1,5 +1,33 @@
 # Job Service API Docs
 
+## Từ điển kỹ năng quản trị — WP05, 17/11/2026
+
+Các route `/api/v1/admin/skill-dictionary` được gateway chuyển tới job-service. Chỉ ADMIN toàn hệ thống được đọc/sửa, kể cả khi gọi service trực tiếp; quyền chủ doanh nghiệp không thay thế quyền này. Đây là catalog quản trị độc lập, chưa tự thay đổi parser, matching, kỹ năng ứng viên hoặc snapshot lịch sử.
+
+| Method/route | Input | Hành vi |
+|---|---|---|
+| `GET /admin/skill-dictionary` | `page`, `limit`, `status` tùy chọn | Danh sách có phân trang, mặc định20/tối đa100; ACTIVE hoặc RETIRED |
+| `GET /admin/skill-dictionary/:id` | UUID | Entry hiện tại và tên cũ đang được giữ chỗ |
+| `GET /admin/skill-dictionary/:id/history` | UUID, pagination | Lịch sử thay đổi APPLIED, actor/reason/revision và snapshot trước/sau |
+| `POST /admin/skill-dictionary` | `name`, `aliases`, `reason` | Tạo ACTIVE/revision1; actor/thời gian do server tạo |
+| `PATCH /admin/skill-dictionary/:id` | `name`, `aliases`, `status`, `expectedRevision`, `reason` | Gửi toàn bộ trạng thái mong muốn; optimistic revision, sai revision trả409 |
+
+Tên tối đa120ký tự, tối đa20alias mỗi alias120ký tự; lý do không rỗng, tối đa500ký tự. Chuẩn hóa key theo phiên bản `nfkc-whitespace-lower-v1`: Unicode NFKC, trim/gộp khoảng trắng và lowercase; giữ dấu và ký tự đặc biệt. `C`, `C++`, `C#`, `.NET` là các key khác nhau. Canonical và alias không được trùng sau chuẩn hóa trong payload hoặc với tên của entry khác.
+
+Một constraint duy nhất trong DB giữ namespace canonical/alias/tên lịch sử. Rename, bỏ alias hoặc retire giữ chỗ tên cũ; entry khác không được lấy lại, cùng entry có thể kích hoạt lại tên của mình. Không có hard-delete API hoặc cơ chế tự sửa references/snapshots cũ.
+
+Đảo thứ tự alias không tạo revision/audit mới nếu nội dung hiển thị và status không đổi; request vẫn phải qua validation, quyền và expectedRevision. Thay cách hiển thị tên có thể là thay đổi có phiên bản. Mỗi state change APPLIED và audit được ghi cùng transaction; lỗi audit làm rollback cả entry/name/revision. Yêu cầu bị từ chối không được ghi thành audit APPLIED, không nhận đây là audit mọi lần thử hoặc audit toàn hệ thống.
+
+Migration `1794873600000-CreateSkillDictionary` tạo ba bảng. Khi triển khai, chạy `npm run db:job:run` với cấu hình trỏ đúng Job DB, hoặc dùng cơ chế migration của bản triển khai BE. Xác minh BE có endpoint này trước khi đưa FE có trang từ điển kỹ năng lên cùng môi trường.
+
+### Giao diện Admin dictionary — 18/11/2026
+
+Trang `/admin/skill-dictionary` đã được nối route/sidebar và kiểm quyền ADMIN. Có danh sách theo trạng thái/phân trang, tạo/sửa tên chuẩn và alias, lý do, retire/reactivate, tên giữ chỗ và history. UI giữ draft khi409 và khóa ghi tới khi tải lại; account/record/query fencing chặn response cũ.
+
+PATCH no-op có thể giữ revision và không tạo audit. UI kiểm snapshot hash với bản trước khi chấp nhận cùng revision; response đổi nội dung nhưng giữ revision bị từ chối. Sau mutation, detail/history được đọc lại; đọc lỗi báo chưa xác minh, không tự resend mutation hoặc coi reserved names là rỗng. Không có hard-delete hoặc remap parser/model.
+
+Đã kiểm22nhóm browser API mock và8nhóm UI→Nest→PostgreSQL thật trên fixture ADMIN nội bộ synthetic, với1entry/4revision-audit/2tên RESERVED. Đây chưa JWT/login/gateway E2E hoặc apply migration DB đồ án. Phạm vi/cleanup ở báo cáo6.25.
+
 ## Opt-in source/query plan v2 (2026-11-05)
 
 Existing requirement-plan routes/ownership/revision checks remain. `POST .../requirement-plan/drafts` accepts optional `schemaVersion: "jd-source-query-v2"` alongside `expectedLatestRevision`; omission keeps v1 default. v2 retains all HR job fields as sources and selects queries separately. Existing saved v1 plans/approvals are not migrated or reinterpreted.
