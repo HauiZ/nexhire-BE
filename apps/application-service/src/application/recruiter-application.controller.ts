@@ -21,7 +21,12 @@ import {
 } from '@nexhire/shared';
 import { ApplicationService } from './application.service';
 import { ReviewWorkspaceService } from './review-workspace.service';
-import { SaveReviewWorkspaceDto } from './dto/review-workspace.dto';
+import {
+  SaveReviewWorkspaceDto,
+  SubmitSupportJudgmentsDto,
+  ReviewSupportJudgmentsDto,
+  SupportExportReadinessDto,
+} from './dto/review-workspace.dto';
 import { UpdateApplicationStageDto } from './dto/application-input.dto';
 import {
   RecruiterApplicationQueryDto,
@@ -64,6 +69,50 @@ export class RecruiterApplicationController {
     @Body() dto: SaveReviewWorkspaceDto,
   ) {
     return this.workspace.save(user, id, dto);
+  }
+
+  @Post(':id/review-workspace/support-judgments')
+  @HttpCode(200)
+  @ApiOperation({
+    summary:
+      'Submit source-bound textual support feedback, separately from notes and hiring decisions',
+  })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 503] })
+  submitSupportJudgments(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: SubmitSupportJudgmentsDto,
+  ) {
+    return this.workspace.submitSupportJudgments(user, id, dto);
+  }
+
+  @Post(':id/review-workspace/support-review')
+  @HttpCode(200)
+  @ApiOperation({
+    summary: 'Append a different HR reviewer decision on the exact support revision',
+  })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 503] })
+  reviewSupportJudgments(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: ReviewSupportJudgmentsDto,
+  ) {
+    return this.workspace.reviewSupportJudgments(user, id, dto);
+  }
+
+  @Post(':id/review-workspace/support-export-readiness')
+  @HttpCode(200)
+  @ApiOperation({
+    summary:
+      'Read an export denial manifest; consent, retention and source authority remain unresolved',
+  })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 409, 503] })
+  supportExportReadiness(
+    @CurrentUser() user: AuthUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: SupportExportReadinessDto,
+  ) {
+    return this.workspace.supportExportReadiness(user, id, dto);
   }
 
   @Get()

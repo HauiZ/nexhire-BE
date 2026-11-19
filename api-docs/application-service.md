@@ -1,5 +1,33 @@
 # Application Service API Docs
 
+## Phản hồi bằng chứng từng yêu cầu — WP04, 17/11/2026
+
+Ba route mới thuộc `/api/v1/recruiter/applications/:id/review-workspace`, chỉ dành cho recruiter của doanh nghiệp sở hữu hồ sơ. Đây là ý kiến của người review về **mức hỗ trợ trong văn bản**, tách khỏi ghi chú công việc, điểm phù hợp và quyết định tuyển dụng. Target cố định `requirement-textual-support-v1`.
+
+| Route POST | Body | Mục đích |
+|---|---|---|
+| `support-judgments` | `expectedRevision`, `resultId`, `jobSnapshotSha256`, `candidateSnapshotSha256`, `targetVersion`, `judgments[]` | Gửi phản hồi mới; mỗi dòng có `requirementId`, `label`, `evidenceIds`, `rationale`, `uncertain` |
+| `support-review` | `expectedRevision`, `decision: APPROVE\|HOLD`, `reason` | Recruiter khác người gửi review đúng revision; không tự review phản hồi của mình |
+| `support-export-readiness` | `expectedRevision`, `optIn: true` | Kiểm tra điều kiện xuất; phase này luôn `exportAllowed: false`, `rows: []` |
+
+`label` gồm `SUPPORTED`, `PARTIAL`, `CONTRADICTED`, `INSUFFICIENT_CONTEXT`. Ba nhãn đầu cần ít nhất một bằng chứng thuộc đúng yêu cầu và lý do không rỗng. `uncertain=true` hoặc `INSUFFICIENT_CONTEXT` giữ trạng thái `HOLD`; thiếu thông tin trong CV không chứng minh ứng viên thiếu năng lực. HR khác review cũng chưa tạo gold chuyên gia hoặc kết luận tự động của mô hình.
+
+Server tự gắn người gửi/người review, revision/thời gian, result và hash snapshot CV/JD, plan/model tại thời điểm matching, hash văn bản yêu cầu/bằng chứng. Client không được tự khai provenance hoặc gửi `supportJudgment` qua route ghi chú cũ. Các trạng thái `UNREVIEWED/REVIEWED/CLARIFY/NOT_FOUND` vẫn là trạng thái công việc. Mọi thay đổi ghi chú tạo revision mới và làm approval cũ mất hiệu lực; binding mới không tự nhận phản hồi cũ. Lịch sử revision được giữ trong JSON hiện có của `application_reviews`; không thêm bảng hoặc migration.
+
+Digest riêng của feedback là SHA256 của JSON được sắp xếp key object đệ quy, giữ nguyên thứ tự array và giá trị. Nhờ vậy JSONB đổi thứ tự key không làm sai binding; thay nội dung hoặc thứ tự evidence vẫn bị phát hiện. Digest này không thay hợp đồng hash của matching snapshot, M1 hoặc provider.
+
+Freshness chỉ được đối chiếu với kết quả matching mới nhất tại lúc kiểm tra: `AT_MATCHING_TIME`, `currentPlanRevalidated=false`, `SNAPSHOT_AT_CHECK_TIME`. Không bảo đảm giao dịch nguyên tử với các service khác hoặc đã kiểm lại JD đang sống. Sai revision/binding hoặc bằng chứng lỗi thời bị từ chối; lịch sử cũ vẫn là lịch sử.
+
+Readiness không xuất nội dung CV/JD, ghi chú, lý do tự do hay dòng nhãn. Dù phản hồi đã được review, quyền sử dụng nguồn, thời hạn lưu giữ và trạng thái CV hiện tại chưa có cơ chế xác minh đủ nên vẫn chặn xuất. `optIn` phải là boolean `true`, không nhận chuỗi `"false"` như một lựa chọn đồng ý. Luôn giữ `isTrainingLabel=false`, không sửa matching/ranking, không đưa phản hồi vào tập huấn luyện hoặc canonical dataset.
+
+### Giao diện HR đã kết nối — 17/11/2026
+
+Trong workspace hồ sơ ứng tuyển, phần **Phản hồi bằng chứng từng yêu cầu** cho chọn nhãn/đoạn căn cứ, nhập lý do và đánh dấu còn băn khoăn. HR khác người gửi có thể duyệt hoặc tạm giữ toàn bộ phản hồi của revision. Phiếu ghi chú và feedback dùng chung revision: draft chưa lưu chặn ghi ở phần còn lại; sửa notes làm approval cũ mất hiệu lực.
+
+Khi gặp409, giao diện giữ draft và yêu cầu tải lại; đổi tài khoản/doanh nghiệp/hồ sơ xóa draft riêng tư. Khi result đổi, draft cũ chỉ để tham khảo; xác nhận tạo phiếu mới xóa draft feedback cũ. Response sai binding hoặc tự khai approval không hợp lệ bị chặn. Bản in phỏng vấn không kèm rationale/provenance riêng tư của feedback.
+
+Đã kiểm browser22nhóm với API giả lập và một lượt10nhóm browser→Nest→PostgreSQL thật trên fixture synthetic (báo cáo6.23). Đây là component integration qua trusted internal headers; chưa JWT/login/gateway/model E2E hoặc HR study. Chức năng kiểm điều kiện vẫn không xuất nhãn.
+
 ## HR review notebook and interview sheet (2026-11-12)
 
 Company-owned recruiter application routes:

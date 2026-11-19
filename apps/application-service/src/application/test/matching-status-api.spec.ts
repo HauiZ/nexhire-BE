@@ -10,6 +10,7 @@ import { RecruiterApplicationController } from '../recruiter-application.control
 import { Application } from '../entities/application.entity';
 import { ApplicationProgressEvent } from '../entities/application-progress-event.entity';
 import { ApplicationEventPublisher } from '../events/application-event.publisher';
+import { ReviewWorkspaceService } from '../review-workspace.service';
 
 describe('Matching status HTTP contract (mock repositories/upstream)', () => {
   let app: INestApplication;
@@ -28,6 +29,7 @@ describe('Matching status HTTP contract (mock repositories/upstream)', () => {
       controllers: [RecruiterApplicationController],
       providers: [
         ApplicationService,
+        { provide: ReviewWorkspaceService, useValue: {} },
         { provide: ApplicationInternalClientService, useValue: client },
         { provide: ApplicationEventPublisher, useValue: {} },
         { provide: getRepositoryToken(Application), useValue: repo },
@@ -46,7 +48,7 @@ describe('Matching status HTTP contract (mock repositories/upstream)', () => {
     client.getLatestApplicationMatchResult.mockResolvedValue(null);
   });
   afterAll(async () => {
-    await app.close();
+    await app?.close();
   });
   it('returns the standard data:null envelope for no result', async () => {
     const response = await request(app.getHttpServer()).get(url).set(headers).expect(200);

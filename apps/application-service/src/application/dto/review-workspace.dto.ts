@@ -1,6 +1,9 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   ArrayMaxSize,
+  ArrayMinSize,
+  Equals,
+  IsBoolean,
   IsArray,
   IsIn,
   IsInt,
@@ -102,4 +105,107 @@ export class SaveReviewWorkspaceDto {
   @ApiProperty({ enum: ['DRAFT', 'COMPLETED'] })
   @IsIn(['DRAFT', 'COMPLETED'])
   interviewStatus: 'DRAFT' | 'COMPLETED';
+}
+
+/** Explicit textual-evidence judgment; never inferred from workspace status or cosine. */
+export const SUPPORT_TARGET_VERSION = 'requirement-textual-support-v1' as const;
+export const SUPPORT_LABELS = [
+  'SUPPORTED',
+  'PARTIAL',
+  'CONTRADICTED',
+  'INSUFFICIENT_CONTEXT',
+] as const;
+export type SupportLabel = (typeof SUPPORT_LABELS)[number];
+
+export class SupportJudgmentInputDto {
+  @ApiProperty()
+  @IsString()
+  @Matches(/\S/)
+  @MaxLength(200)
+  requirementId: string;
+
+  @ApiProperty({ enum: SUPPORT_LABELS })
+  @IsIn(SUPPORT_LABELS)
+  label: SupportLabel;
+
+  @ApiProperty({ type: [String] })
+  @IsArray()
+  @ArrayMaxSize(3)
+  @IsString({ each: true })
+  @Matches(/\S/, { each: true })
+  @MaxLength(200, { each: true })
+  evidenceIds: string[];
+
+  @ApiProperty()
+  @IsString()
+  @Matches(/\S/)
+  @MaxLength(2000)
+  rationale: string;
+
+  @ApiProperty()
+  @Transform(({ obj, key }) => obj[key])
+  @IsBoolean()
+  uncertain: boolean;
+}
+
+export class SubmitSupportJudgmentsDto {
+  @ApiProperty()
+  @IsInt()
+  @Min(0)
+  expectedRevision: number;
+
+  @ApiProperty()
+  @IsUUID()
+  resultId: string;
+
+  @ApiProperty()
+  @Matches(/^[a-f0-9]{64}$/)
+  jobSnapshotSha256: string;
+
+  @ApiProperty()
+  @Matches(/^[a-f0-9]{64}$/)
+  candidateSnapshotSha256: string;
+
+  @ApiProperty({ enum: [SUPPORT_TARGET_VERSION] })
+  @Equals(SUPPORT_TARGET_VERSION)
+  targetVersion: typeof SUPPORT_TARGET_VERSION;
+
+  @ApiProperty({ type: [SupportJudgmentInputDto] })
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(64)
+  @IsObject({ each: true })
+  @ValidateNested({ each: true })
+  @Type(() => SupportJudgmentInputDto)
+  judgments: SupportJudgmentInputDto[];
+}
+
+export class ReviewSupportJudgmentsDto {
+  @ApiProperty()
+  @IsInt()
+  @Min(1)
+  expectedRevision: number;
+
+  @ApiProperty({ enum: ['APPROVE', 'HOLD'] })
+  @IsIn(['APPROVE', 'HOLD'])
+  decision: 'APPROVE' | 'HOLD';
+
+  @ApiProperty()
+  @IsString()
+  @Matches(/\S/)
+  @MaxLength(2000)
+  reason: string;
+}
+
+export class SupportExportReadinessDto {
+  @ApiProperty()
+  @IsInt()
+  @Min(1)
+  expectedRevision: number;
+
+  @ApiProperty({ enum: [true] })
+  @Transform(({ obj, key }) => obj[key])
+  @IsBoolean()
+  @Equals(true)
+  optIn: true;
 }

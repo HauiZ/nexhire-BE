@@ -7,6 +7,7 @@ import { ApplicationController, ApplicationInternalController } from '../applica
 import { RecruiterApplicationController } from '../recruiter-application.controller';
 import { RecruiterCandidateController } from '../recruiter-candidate.controller';
 import { ApplicationService } from '../application.service';
+import { ReviewWorkspaceService } from '../review-workspace.service';
 
 describe('Application Swagger startup (no infrastructure)', () => {
   let app: INestApplication;
@@ -25,6 +26,7 @@ describe('Application Swagger startup (no infrastructure)', () => {
       ],
       providers: [
         { provide: ApplicationService, useValue: {} },
+        { provide: ReviewWorkspaceService, useValue: {} },
         { provide: ConfigService, useValue: { get: jest.fn() } },
       ],
     }).compile();
