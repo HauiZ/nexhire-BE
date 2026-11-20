@@ -1,8 +1,10 @@
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import { Test } from '@nestjs/testing';
 import { HEADERS } from '@nexhire/shared';
 import { Request, Response } from 'express';
 import { of } from 'rxjs';
+import request from 'supertest';
 import { ProxyService } from './proxy.service';
 import { ProxyController } from './proxy.controller';
 import { PATH_METADATA } from '@nestjs/common/constants';
@@ -54,24 +56,53 @@ describe('Candidate preparation gateway forwarding', () => {
 
 describe('Recruiter AI2 gateway forwarding', () => {
   it.each([
-    ['/ai2-demo', 'GET', 25_000],
-    ['/ai2-pool', 'GET', 25_000],
-    ['/ai2-pool/', 'GET', 25_000],
-    ['/ai2-pool', 'POST', 5_000],
-    ['/matching-status', 'GET', 5_000],
-  ])('uses the upstream budget for %s %s', async (suffix, method, timeout) => {
+    ['applications/application/ranking-score', 'GET', 25_000],
+    ['jobs/job/application-rankings', 'GET', 25_000],
+    ['jobs/job/application-rankings/', 'GET', 25_000],
+    ['applications/application/ai2-demo', 'GET', 25_000],
+    ['applications/application/ai2-pool', 'GET', 25_000],
+    ['applications/application/ai2-pool', 'POST', 5_000],
+    ['applications/application/matching-status', 'GET', 5_000],
+  ])('uses the upstream budget for %s %s', async (path, method, timeout) => {
     const http = { request: jest.fn().mockReturnValue(of({ status: 200, data: {} })) };
     const service = new ProxyService(
       http as never,
       { get: () => 'http://application-fixture' } as never,
     );
-    const route = `/api/v1/recruiter/applications/application${suffix}`;
+    const route = `/api/v1/recruiter/${path}`;
     await service.forward(
       'applicationService',
       { path: route, originalUrl: route, method, headers: {} } as Request,
       { status: jest.fn().mockReturnThis(), json: jest.fn() } as never,
     );
     expect(http.request).toHaveBeenCalledWith(expect.objectContaining({ timeout }));
+  });
+
+  it('routes job rankings to Application before the Job wildcard', async () => {
+    const module = await Test.createTestingModule({
+      controllers: [ProxyController],
+      providers: [
+        {
+          provide: ProxyService,
+          useValue: {
+            forward: (service: string, _req: Request, res: Response) => res.json({ service }),
+          },
+        },
+      ],
+    }).compile();
+    const app = module.createNestApplication();
+    app.setGlobalPrefix('api/v1');
+    try {
+      await app.init();
+      await request(app.getHttpServer())
+        .get('/api/v1/recruiter/jobs/job/application-rankings')
+        .expect(200, { service: 'applicationService' });
+      await request(app.getHttpServer())
+        .get('/api/v1/recruiter/jobs/job/requirement-plan')
+        .expect(200, { service: 'jobService' });
+    } finally {
+      await app.close();
+    }
   });
 });
 

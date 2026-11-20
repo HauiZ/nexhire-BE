@@ -156,7 +156,7 @@ export class RecruiterApplicationController {
     return this.applicationService.getCompanyCvDownload(user, id);
   }
 
-  @Get(':id/ai2-demo')
+  @Get([':id/ranking-score', ':id/ai2-demo'])
   @ApiOperation({ summary: 'Read opt-in experimental relative ranking score; not percent fit' })
   @ApiErrorResponses({ statuses: [401, 403, 404, 503] })
   getCompanyAi2Demo(
@@ -174,7 +174,7 @@ export class RecruiterApplicationController {
     return this.applicationService.getCompanyApplicationAi2Pool(user, id);
   }
 
-  @Get(':id/hr-review')
+  @Get([':id/matching-evidence', ':id/hr-review'])
   @ApiOperation({
     summary: 'Read unverified evidence proposals separately from legacy matching scores',
   })
@@ -197,7 +197,7 @@ export class RecruiterApplicationController {
     return this.applicationService.getCompanyApplicationMatchingStatus(user, id);
   }
 
-  @Post(':id/match')
+  @Post([':id/matching-requests', ':id/match'])
   @ApiOperation({ summary: 'Request fresh matching evidence for a company-owned application' })
   @ApiSuccessResponse(Object, { status: 201 })
   @ApiErrorResponses({ statuses: [401, 403, 404, 503] })
@@ -219,5 +219,25 @@ export class RecruiterApplicationController {
     @Body() dto: UpdateApplicationStageDto,
   ): Promise<ApplicationResponseDto> {
     return this.applicationService.updateCompanyStage(user, id, dto);
+  }
+}
+
+@ApiTags('recruiter-applications')
+@Controller('recruiter/jobs')
+@Roles(UserRole.RECRUITER)
+@ApiBearerAuth()
+export class RecruiterJobApplicationRankingsController {
+  constructor(private readonly applicationService: ApplicationService) {}
+
+  @Get(':jobId/application-rankings')
+  @ApiOperation({
+    summary: 'Read the relative review order for active applications on an owned job',
+  })
+  @ApiErrorResponses({ statuses: [400, 401, 403, 404, 503] })
+  getApplicationRankings(
+    @CurrentUser() user: AuthUser,
+    @Param('jobId', ParseUUIDPipe) jobId: string,
+  ) {
+    return this.applicationService.getCompanyJobApplicationRankings(user, jobId);
   }
 }

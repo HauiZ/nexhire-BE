@@ -49,9 +49,32 @@ PostgreSQL database. Applied only this migration transactionally to user-authori
 `nexhire-postgres/application_service_db` on 2026-11-12, with a 5-second lock
 timeout and migration-ledger entry. No existing application rows were updated.
 
+## Recruiter matching and ranking routes
+
+All routes require a recruiter from the owning company. Use the following paths for new clients.
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| GET | `/api/v1/recruiter/jobs/:jobId/application-rankings` | Review order for the active applications of one job |
+| GET | `/api/v1/recruiter/applications/:id/ranking-score` | Relative ranking score for one application in the AI2 demo configuration |
+| GET | `/api/v1/recruiter/applications/:id/matching-evidence` | AI1 evidence for the application |
+| POST | `/api/v1/recruiter/applications/:id/matching-requests` | Request fresh matching evidence for the application |
+
+The Gateway forwards the job ranking route to Application Service. Application Service
+checks the job's company using the existing Job Service snapshot endpoint, then
+loads the company's active applications (`SUBMITTED` and `OFFERED`). A foreign or
+missing job returns 404. An owned job with fewer than two active applications
+returns `UNAVAILABLE` with reason `NEED_MORE_APPLICATIONS`. More than 50 returns 400.
+The existing `ai2-demo-pool-v1` response and all-or-none freshness checks still
+apply. A ranking depends on compatible stored AI1 results for that job and is a
+relative review order. Equal scores share a position.
+
+The routes under `/recruiter/applications/:id` named `ai2-pool`, `ai2-demo`,
+`hr-review` and `match` remain available for existing clients during migration.
+
 ## AI2 individual-read diagnostics (2026-11-11)
 
-Recruiter `GET :id/ai2-demo` preserves optional safe reason codes
+Recruiter `GET :id/ranking-score` preserves optional safe reason codes
 `SOURCE_QUERY_V2_FEATURES_NOT_SUPPORTED` and
 `STORED_INPUT_OR_ASSESSMENT_INCOMPATIBLE` only for `UNAVAILABLE` results.
 The score remains null and no ranking/hiring action is supplied. Unknown reason
@@ -69,7 +92,7 @@ no best application is selected from historical scores. `matchLevel`,
 `minMatchScore` (including zero), `sortBy=matchScore` and
 `sortBy=bestMatchScore` return 400. Date/name/count sorting and status/count
 dashboard statistics remain available. No score-derived hiring action occurs.
-The separate AI1 `hr-review` endpoint and JD plan flow retain their schemas.
+The separate AI1 `matching-evidence` endpoint and JD plan flow retain their schemas.
 
 ### `GET /api/v1/recruiter/applications/:id/matching-status`
 
@@ -102,7 +125,7 @@ execution status or explicit no-score contract returns 503, with no raw payload.
 No scores, explanation, snapshots, evidence or personal profile data are exposed.
 Wrong role=403, absent authentication=401, foreign/absent application=404.
 
-After `POST .../:id/match`, completion requires a non-null returned request `id`
+After `POST .../:id/matching-requests`, completion requires a non-null returned request `id`
 equal to `matching-status.matchRequestId`. An older result never completes a new
 request. POST can return existing `PENDING`/`PROCESSING` requests on deduplication;
 continue bounded polling for that request ID. If POST returns `id:null` while CV
@@ -127,7 +150,7 @@ runtime contract. Offline baseline benchmarks remain separate from runtime APIs.
 
 ## AI1 Retrieval On The Existing HR Route (2026-10-24)
 
-The same recruiter `hr-review` route now accepts matching-service's separate
+The recruiter `matching-evidence` route accepts matching-service's separate
 in-process M1 projection. `assessmentSource=M1_RETRIEVAL` means requirements and
 components have `modelSuggestion=null`, `verifiedSupport=false`, an explicit
 retrievalStatus and original evidence. FIXED_PLAN_RETRIEVAL is an additional
@@ -143,7 +166,7 @@ or rewrite historical results. No stage/decision writes or UI changes were made.
 
 ## Separate HR Evidence Review (2026-10-24)
 
-GET `/api/v1/recruiter/applications/:id/hr-review` returns a separate evidence
+GET `/api/v1/recruiter/applications/:id/matching-evidence` returns a separate evidence
 projection, not the legacy match-score detail. Recruiter/company ownership is
 checked before the matching call; application/job/candidate/submitted-CV IDs and
 safe HR-review flags must match the upstream response. No record yet returns
@@ -211,9 +234,9 @@ Responsibility: job application submission, candidate application history, recru
 
 ## Recruiter Matching
 
-### `POST /api/v1/recruiter/applications/:id/match`
+### `POST /api/v1/recruiter/applications/:id/matching-requests`
 
-Summary: Request a fresh match score for a company-owned application.
+Request fresh matching evidence for a company-owned application.
 
 Application-service uses the same parse-before-match orchestration as candidate apply:
 

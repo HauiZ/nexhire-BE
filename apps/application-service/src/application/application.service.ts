@@ -477,24 +477,43 @@ export class ApplicationService {
     const application = await this.findCompanyApplication(user, id);
     if (!this.activeStatuses.includes(application.status))
       throw new ConflictException('Requested application is not eligible for the active AI2 pool');
+    return this.rankCompanyJobApplications(user.companyId!, application.jobId, application.id);
+  }
+
+  async getCompanyJobApplicationRankings(user: AuthUser, jobId: string) {
+    this.assertRecruiter(user);
+    const companyId = user.companyId!;
+    const job = await this.internalClient.getJobApplicationSnapshot(jobId);
+    if (job?.id !== jobId || job.companyId !== companyId) {
+      throw new NotFoundException({
+        code: ERROR_CODES.JOB.JOB_NOT_FOUND,
+        message: 'Job not found',
+      });
+    }
+    return this.rankCompanyJobApplications(companyId, jobId);
+  }
+
+  private async rankCompanyJobApplications(companyId: string, jobId: string, anchorId?: string) {
     const applications = await this.applicationRepo.find({
       where: {
-        jobId: application.jobId,
-        companyId: user.companyId,
+        jobId,
+        companyId,
         status: In(this.activeStatuses),
       },
       order: { id: 'ASC' },
       take: 51,
     });
-    if (!applications.length || applications.length > 50)
-      throw new BadRequestException('AI2 pool requires 1–50 active applications for this job');
-    if (!applications.some((row) => row.id === application.id))
+    if (applications.length > 50 || (anchorId && !applications.length))
+      throw new BadRequestException(
+        'AI2 pool supports at most 50 active applications for this job',
+      );
+    if (anchorId && !applications.some((row) => row.id === anchorId))
       throw new ConflictException('Requested application is no longer in the active AI2 pool');
     if (
       applications.some(
         (row) =>
-          row.jobId !== application.jobId ||
-          row.companyId !== user.companyId ||
+          row.jobId !== jobId ||
+          row.companyId !== companyId ||
           !this.activeStatuses.includes(row.status) ||
           !row.candidateCvId ||
           row.cvParseStatus !== 'PARSED',
@@ -509,13 +528,13 @@ export class ApplicationService {
     if (applications.length < 2)
       return ai2PoolUnavailable(applications.length, 'NEED_MORE_APPLICATIONS');
     const payload = await this.internalClient.getApplicationAi2Pool(
-      application.jobId,
+      jobId,
       applications.map((row) => row.id),
     );
     let current: import('./ai2-demo.types').Ai2CurrentPlan | undefined;
     if ((payload as { status?: unknown })?.status === 'READY') {
       try {
-        current = await this.internalClient.getCurrentAi2JobPlan(application.jobId);
+        current = await this.internalClient.getCurrentAi2JobPlan(jobId);
       } catch {
         return ai2PoolUnavailable(applications.length, 'CURRENT_PLAN_UNAVAILABLE');
       }

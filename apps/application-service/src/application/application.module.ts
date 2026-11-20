@@ -11,7 +11,10 @@ import { MatchingCompletedEventsConsumer } from './events/consumers/matching-com
 import { ApplicationEventPublisher } from './events/application-event.publisher';
 import { CvParsedEventsConsumer } from './events/consumers/cv-parsed-events.consumer';
 import { RecruiterCandidateController } from './recruiter-candidate.controller';
-import { RecruiterApplicationController } from './recruiter-application.controller';
+import {
+  RecruiterApplicationController,
+  RecruiterJobApplicationRankingsController,
+} from './recruiter-application.controller';
 import { ApplicationReview } from './entities/application-review.entity';
 import { ReviewWorkspaceService } from './review-workspace.service';
 
@@ -24,6 +27,7 @@ import { ReviewWorkspaceService } from './review-workspace.service';
     ApplicationController,
     ApplicationInternalController,
     RecruiterApplicationController,
+    RecruiterJobApplicationRankingsController,
     RecruiterCandidateController,
   ],
   providers: [

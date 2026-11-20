@@ -124,7 +124,7 @@ plans use whole requirements only. Component proposals do not confirm logical
 coverage. Negation/source warning codes survive to HR; truncated context is
 surfaced as M1_CONTEXT_TRUNCATED, never described as full-CV analysis.
 
-The existing latest-hr-review/recruiter hr-review routes now project this
+The internal `latest-hr-review` and recruiter `matching-evidence` routes project this
 assessment with assessmentSource=M1_RETRIEVAL, verifierModelVersion=null,
 modelSuggestion=null, retrievalStatus and optional FIXED_PLAN_RETRIEVAL
 components. They still return null fit/decision/rank. Stored IDs, snapshots,
@@ -229,7 +229,7 @@ job/candidate snapshot hashes identify the scored version. A stored review is
 not a live confirmation of the currently edited JD.
 
 Recruiter-facing application-service route:
-`GET /api/v1/recruiter/applications/:id/hr-review`. Company-owned application,
+`GET /api/v1/recruiter/applications/:id/matching-evidence`. Company-owned application,
 job/candidate/CV identity and safe flags are checked; diagnostics are always
 removed. See [application docs](application-service.md#separate-hr-evidence-review-2026-10-24).
 No public service token, stage writes, auto rejection or new ranking is introduced.

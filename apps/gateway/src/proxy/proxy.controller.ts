@@ -1,4 +1,4 @@
-import { All, Controller, Req, Res } from '@nestjs/common';
+import { All, Controller, Get, Req, Res } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { ProxyService } from './proxy.service';
@@ -56,6 +56,11 @@ export class ProxyController {
   @All('jobs')
   jobsRoot(@Req() req: Request, @Res() res: Response) {
     return this.proxy.forward('jobService', req, res);
+  }
+
+  @Get('recruiter/jobs/:jobId/application-rankings')
+  recruiterJobApplicationRankings(@Req() req: Request, @Res() res: Response) {
+    return this.proxy.forward('applicationService', req, res);
   }
 
   @All('recruiter/jobs/*')

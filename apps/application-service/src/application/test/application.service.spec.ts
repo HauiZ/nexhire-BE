@@ -1025,6 +1025,45 @@ describe('ApplicationService', () => {
     expect(repo.find).not.toHaveBeenCalled();
   });
 
+  it('checks recruiter identity and job ownership before loading rankings by job', async () => {
+    await expect(
+      service.getCompanyJobApplicationRankings(candidateUser, application.jobId),
+    ).rejects.toMatchObject({ status: 403 });
+    expect(internalClient.getJobApplicationSnapshot).not.toHaveBeenCalled();
+
+    internalClient.getJobApplicationSnapshot.mockResolvedValueOnce({
+      id: application.jobId,
+      companyId: 'foreign-company',
+    });
+    await expect(
+      service.getCompanyJobApplicationRankings(recruiterUser, application.jobId),
+    ).rejects.toMatchObject({ status: 404 });
+    expect(repo.find).not.toHaveBeenCalled();
+    expect(internalClient.getApplicationAi2Pool).not.toHaveBeenCalled();
+  });
+
+  it('returns an empty ranking for an owned job without requiring a selected application', async () => {
+    repo.find.mockResolvedValueOnce([]);
+    await expect(
+      service.getCompanyJobApplicationRankings(recruiterUser, application.jobId),
+    ).resolves.toMatchObject({
+      status: 'UNAVAILABLE',
+      reason: 'NEED_MORE_APPLICATIONS',
+      requestedCount: 0,
+      items: [],
+    });
+    expect(repo.findOne).not.toHaveBeenCalled();
+    expect(repo.find).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          jobId: application.jobId,
+          companyId: application.companyId,
+        }),
+      }),
+    );
+    expect(internalClient.getApplicationAi2Pool).not.toHaveBeenCalled();
+  });
+
   it('checks ownership before reading experimental AI2 scores', async () => {
     repo.findOne.mockResolvedValueOnce(null);
     await expect(
@@ -1218,13 +1257,13 @@ describe('ApplicationService', () => {
         approval: { origin: 'authenticated_hr' },
       },
     };
-    repo.findOne.mockResolvedValueOnce(application);
     repo.find.mockResolvedValueOnce([application, other]);
     internalClient.getApplicationAi2Pool.mockResolvedValueOnce(payload);
     internalClient.getCurrentAi2JobPlan.mockResolvedValueOnce(plan);
-    expect(await service.getCompanyApplicationAi2Pool(recruiterUser, application.id)).toMatchObject(
-      { status: 'READY', comparedCount: 2, planContentSha256: 'c'.repeat(64) },
-    );
+    expect(
+      await service.getCompanyJobApplicationRankings(recruiterUser, application.jobId),
+    ).toMatchObject({ status: 'READY', comparedCount: 2, planContentSha256: 'c'.repeat(64) });
+    expect(repo.findOne).not.toHaveBeenCalled();
     expect(internalClient.getApplicationAi2Pool).toHaveBeenCalledWith(application.jobId, [
       application.id,
       other.id,

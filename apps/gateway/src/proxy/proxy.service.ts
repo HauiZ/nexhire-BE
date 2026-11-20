@@ -82,7 +82,10 @@ export class ProxyService {
     if (
       service === 'applicationService' &&
       req.method === 'GET' &&
-      /^\/api\/v1\/recruiter\/applications\/[^/]+\/ai2-(?:demo|pool)\/?$/.test(req.path)
+      (/^\/api\/v1\/recruiter\/applications\/[^/]+\/(?:ranking-score|ai2-demo|ai2-pool)\/?$/.test(
+        req.path,
+      ) ||
+        /^\/api\/v1\/recruiter\/jobs\/[^/]+\/application-rankings\/?$/.test(req.path))
     ) {
       // AI2 reads the Matching Service and then rechecks the current job plan.
       return 25_000;

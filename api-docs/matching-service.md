@@ -71,12 +71,14 @@ Internal-service-protected matching reads:
   The current content-quality gate converts otherwise READY pools to UNAVAILABLE
   with reason `CONTENT_QUALITY_NOT_VALIDATED`, empty items and comparedCount=0.
 
-Recruiter application-service reads under its existing company-application route
-prefix: `GET :id/ai2-demo` and `GET :id/ai2-pool`. Role/company ownership is checked
-before downstream access. The pool selects the complete owned job's active
-SUBMITTED/OFFERED applications, not just a paginated UI subset, rejecting pools
-outside 1–50. Responses are allowlisted and identity/metadata validated. These
-routes do not trigger matching, modify decisions or approve ranking quality.
+Recruiter reads go through Application Service. The routes are
+`GET /api/v1/recruiter/applications/:id/ranking-score` for an individual score
+and `GET /api/v1/recruiter/jobs/:jobId/application-rankings` for the review order.
+Application Service checks role and company ownership before reading ranking data.
+The job route selects all active `SUBMITTED` and `OFFERED` applications for the
+job. It requires 2–50 active applications to request an order. Application Service
+validates the response identities and metadata. Reads leave application state and
+hiring decisions unchanged.
 
 HR-review reason codes additionally expose source-content warnings; literal tool
 mentions and negation cues remain unverified observations, not support labels.
@@ -283,7 +285,7 @@ Auth:
 
 - Internal service token only.
 - FE should not call this endpoint directly.
-- Recruiter manual flow should call `POST /api/v1/recruiter/applications/:id/match`.
+- The recruiter manual flow calls `POST /api/v1/recruiter/applications/:id/matching-requests`.
 - Request body must identify the application/job/candidate/CV pair.
 
 Request body:
