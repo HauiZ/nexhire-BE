@@ -36,6 +36,13 @@ No quality gate or default activation changes.
 
 ## Experimental AI2 read contracts (2026-11-02)
 
+The backend and frontend `.env.example` files select AI1/M1 and AI2 for local
+development. Apply the values to the environment used to start each service.
+For `npm run start:local`, backend values come from `.env.local`. With Vite
+`npm run dev`, set `VITE_AI2_DEMO_ENABLED=true` in the frontend dev environment.
+Install `apps/matching-service/requirements-ai2-demo.txt` in the Matching venv
+and provide the pinned model files before enabling AI2.
+
 Default-off development/test demo: `MATCHING_AI2_DEMO_ENABLED=false`; opt-in
 requires an explicit `MATCHING_AI2_DEMO_ARTIFACT_PATH` and the separately supplied
 hash-pinned artifact. Weights/datasets are not included in Git. Production is not
