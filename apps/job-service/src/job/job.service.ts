@@ -19,7 +19,7 @@ import {
   UserRole,
 } from '@nexhire/shared';
 import { Redis } from 'ioredis';
-import { Brackets, DataSource, In, IsNull, Repository } from 'typeorm';
+import { Brackets, DataSource, In, IsNull, QueryFailedError, Repository } from 'typeorm';
 import { CompanySnapshotService } from './company/company-snapshot.service';
 import {
   CreateJobDto,
@@ -61,8 +61,8 @@ import {
 } from './dto/job-response.dto';
 import { JobModerationReview } from './entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from './entities/job-processed-application-event.entity';
-import { JobRevision } from './entities/job-revision.entity';
-import { Job } from './entities/job.entity';
+import { JOB_REVISION_CATEGORY_FK, JobRevision } from './entities/job-revision.entity';
+import { JOB_CATEGORY_FK, Job } from './entities/job.entity';
 import { CompanyPostingSnapshot } from './entities/company-posting-snapshot.entity';
 import {
   CompanyStatusSnapshot,
@@ -401,7 +401,8 @@ export class JobService {
     this.assertJobInput(dto);
     const company = await this.companySnapshotService.getPostingSnapshot(user);
 
-    const job = await this.jobRepo.save(
+    const job = await this.saveDraft(
+      this.jobRepo,
       this.jobRepo.create({
         ...this.jobInput(dto),
         companyId: company.companyId,
@@ -509,7 +510,7 @@ export class JobService {
       Object.assign(job, this.searchTextService.buildSearchFields(job, job.companyName ?? ''));
     }
 
-    const updated = await this.jobRepo.save(job);
+    const updated = await this.saveDraft(this.jobRepo, job);
     await this.invalidatePublicCache();
     this.logger.log(`Job updated jobId=${updated.id} status=${updated.status} userId=${user.id}`);
     return this.mapRecruiterJob(updated);
@@ -629,7 +630,7 @@ export class JobService {
 
     this.applyPartialInput(revision, dto);
 
-    const saved = await this.revisionRepo.save(revision);
+    const saved = await this.saveDraft(this.revisionRepo, revision);
     this.logger.log(
       `Job revision draft created revisionId=${saved.id} jobId=${job.id} userId=${user.id}`,
     );
@@ -689,7 +690,7 @@ export class JobService {
     if (dto.changeSummary !== undefined) {
       revision.changeSummary = dto.changeSummary?.trim() || null;
     }
-    const saved = await this.revisionRepo.save(revision);
+    const saved = await this.saveDraft(this.revisionRepo, revision);
     this.logger.log(`Job revision updated revisionId=${saved.id} jobId=${jobId} userId=${user.id}`);
     return this.mapRecruiterRevision(saved);
   }
@@ -1583,6 +1584,26 @@ export class JobService {
     return MAJOR_FIELDS.some(
       (field) => dto[field] !== undefined && (job[field] ?? null) !== (dto[field] ?? null),
     );
+  }
+
+  private async saveDraft<T extends Job | JobRevision>(repo: Repository<T>, draft: T): Promise<T> {
+    try {
+      return await repo.save(draft);
+    } catch (error) {
+      if (error instanceof QueryFailedError) {
+        const { code, constraint } = error.driverError as { code?: string; constraint?: string };
+        if (
+          code === '23503' &&
+          (constraint === JOB_CATEGORY_FK || constraint === JOB_REVISION_CATEGORY_FK)
+        ) {
+          throw new BadRequestException({
+            code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+            message: 'Job category does not exist',
+          });
+        }
+      }
+      throw error;
+    }
   }
 
   private jobInput(dto: UpdateJobDto | JobRevision) {

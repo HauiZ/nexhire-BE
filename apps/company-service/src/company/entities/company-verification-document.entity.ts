@@ -2,11 +2,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ForeignKey,
   Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Column,
 } from 'typeorm';
+import { Company } from './company.entity';
 
 export enum CompanyVerificationDocumentType {
   BUSINESS_LICENSE = 'BUSINESS_LICENSE',
@@ -28,6 +30,10 @@ export class CompanyVerificationDocument {
   id: string;
 
   @Column({ name: 'company_id', type: 'uuid' })
+  @ForeignKey(() => Company, {
+    name: 'fk_company_verification_documents_company_id',
+    onDelete: 'RESTRICT',
+  })
   companyId: string;
 
   @Column({ name: 'document_id', type: 'uuid' })

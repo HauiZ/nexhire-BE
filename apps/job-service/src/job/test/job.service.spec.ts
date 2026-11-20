@@ -13,7 +13,7 @@ import {
   JobWorkingType,
   UserRole,
 } from '@nexhire/shared';
-import { DataSource } from 'typeorm';
+import { DataSource, QueryFailedError } from 'typeorm';
 import { CompanySnapshotService } from '../company/company-snapshot.service';
 import {
   CompanyStatusSnapshot,
@@ -23,7 +23,7 @@ import {
 import { JobModerationReview } from '../entities/job-moderation-review.entity';
 import { JobProcessedApplicationEvent } from '../entities/job-processed-application-event.entity';
 import { JobRevision } from '../entities/job-revision.entity';
-import { Job } from '../entities/job.entity';
+import { JOB_CATEGORY_FK, Job } from '../entities/job.entity';
 import { CompanyPostingSnapshot } from '../entities/company-posting-snapshot.entity';
 import { JobEventPublisher } from '../events/job-event.publisher';
 import { JobService } from '../job.service';
@@ -1548,6 +1548,38 @@ describe('JobService', () => {
   });
 
   describe('Recruiter Job Enhancements (Drafts, Partial Updates, Revisions)', () => {
+    it('returns a validation error if a draft references a missing category', async () => {
+      companySnapshotService.getPostingSnapshot.mockResolvedValue({
+        companyId: user.companyId,
+        companyName: 'NexHire',
+        companyStatus: CompanyStatusSnapshot.APPROVED,
+        snapshotAt: new Date(),
+      });
+      jobRepo.save.mockRejectedValueOnce(
+        new QueryFailedError(
+          'INSERT INTO jobs',
+          [],
+          Object.assign(new Error('Foreign key violation'), {
+            code: '23503',
+            constraint: JOB_CATEGORY_FK,
+          }),
+        ),
+      );
+
+      await expect(
+        service.createDraft(user, {
+          title: 'Draft Job',
+          categoryId: '069c1179-f98b-4feb-a90a-f945452197f2',
+        }),
+      ).rejects.toMatchObject({
+        status: 400,
+        response: {
+          code: ERROR_CODES.COMMON.VALIDATION_FAILED,
+          message: 'Job category does not exist',
+        },
+      });
+    });
+
     it('allows creating a draft with only a title', async () => {
       const dto = { title: 'Draft Job' } as CreateJobDto;
       revisionRepo.count.mockResolvedValue(0);

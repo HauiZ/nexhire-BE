@@ -11,11 +11,15 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ForeignKey,
   Index,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { JobCategory } from '../../category/entities/job-category.entity';
 import { CompanyStatusSnapshot, CompanyTrustLevel } from './job.enum';
+
+export const JOB_CATEGORY_FK = 'fk_jobs_category_id';
 
 @Entity('jobs')
 @Index('idx_jobs_public_status_created_at', ['status', 'createdAt'])
@@ -81,6 +85,7 @@ export class Job {
   benefits: string | null;
 
   @Column({ name: 'category_id', type: 'uuid', nullable: true })
+  @ForeignKey(() => JobCategory, { name: JOB_CATEGORY_FK, onDelete: 'RESTRICT' })
   categoryId: string | null;
 
   @Column({

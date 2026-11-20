@@ -4,8 +4,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CompanyStatus, EVENTS, QUEUES } from '@nexhire/shared';
 import { AmqpConnectionManager, ChannelWrapper, connect } from 'amqp-connection-manager';
 import { ConfirmChannel, ConsumeMessage } from 'amqplib';
-import { Repository } from 'typeorm';
-import { RecruiterCompanyLink } from '../../entities/recruiter-company-link.entity';
+import { QueryFailedError, Repository } from 'typeorm';
+import {
+  RECRUITER_COMPANY_LINK_USER_FK,
+  RecruiterCompanyLink,
+} from '../../entities/recruiter-company-link.entity';
 
 interface CompanyPostingSnapshotChangedPayload {
   companyId: string;
@@ -73,6 +76,14 @@ export class CompanyLinkEventsConsumer implements OnModuleInit, OnModuleDestroy 
       await this.upsertCompanyLink(payload);
       this.channel.ack(message);
     } catch (error) {
+      if (error instanceof QueryFailedError) {
+        const { code, constraint } = error.driverError as { code?: string; constraint?: string };
+        if (code === '23503' && constraint === RECRUITER_COMPANY_LINK_USER_FK) {
+          this.logger.warn('Ignoring company link event for a user missing from Auth');
+          this.channel.ack(message);
+          return;
+        }
+      }
       this.logger.error('Failed to process company link event', error as Error);
       this.channel.nack(message, false, false);
     }

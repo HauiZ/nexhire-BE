@@ -419,12 +419,21 @@ async function cleanupCompanies(): Promise<string[]> {
       'SELECT count(*)::int AS count FROM company_processed_trust_signals WHERE company_id = ANY($1::uuid[])',
       [uuidArray(companies)],
     );
+    const verificationDocuments = await count(
+      client,
+      'SELECT count(*)::int AS count FROM company_verification_documents WHERE company_id = ANY($1::uuid[])',
+      [uuidArray(companies)],
+    );
 
     line('company-service.company_trust_histories', trustHistories);
     line('company-service.company_processed_trust_signals', trustSignals);
+    line('company-service.company_verification_documents', verificationDocuments);
     line('company-service.companies', companies.length);
 
     if (APPLY) {
+      await del(client, 'DELETE FROM company_verification_documents WHERE company_id = ANY($1::uuid[])', [
+        uuidArray(companies),
+      ]);
       await del(client, 'DELETE FROM company_trust_histories WHERE company_id = ANY($1::uuid[])', [uuidArray(companies)]);
       await del(client, 'DELETE FROM company_processed_trust_signals WHERE company_id = ANY($1::uuid[])', [
         uuidArray(companies),

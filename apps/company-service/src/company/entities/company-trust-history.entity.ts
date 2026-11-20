@@ -1,5 +1,6 @@
 import { CompanyTrustLevel } from '@nexhire/shared';
-import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ForeignKey, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { Company } from './company.entity';
 
 export enum CompanyTrustChangeSource {
   MANUAL = 'MANUAL',
@@ -18,6 +19,7 @@ export class CompanyTrustHistory {
   id: string;
 
   @Column({ name: 'company_id', type: 'uuid' })
+  @ForeignKey(() => Company, { name: 'fk_company_trust_histories_company_id', onDelete: 'RESTRICT' })
   companyId: string;
 
   @Column({

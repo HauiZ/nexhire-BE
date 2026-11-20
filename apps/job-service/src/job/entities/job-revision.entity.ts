@@ -11,13 +11,17 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ForeignKey,
   Index,
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { JobCategory } from '../../category/entities/job-category.entity';
 import { Job } from './job.entity';
+
+export const JOB_REVISION_CATEGORY_FK = 'fk_job_revisions_category_id';
 
 @Entity('job_revisions')
 @Index('idx_job_revisions_job_status', ['jobId', 'status'])
@@ -72,6 +76,7 @@ export class JobRevision {
   benefits: string | null;
 
   @Column({ name: 'category_id', type: 'uuid', nullable: true })
+  @ForeignKey(() => JobCategory, { name: JOB_REVISION_CATEGORY_FK, onDelete: 'RESTRICT' })
   categoryId: string | null;
 
   @Column({

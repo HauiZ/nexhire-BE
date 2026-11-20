@@ -12,6 +12,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import request from 'supertest';
 import { DataSource } from 'typeorm';
+import { JobCategory } from '../../category/entities/job-category.entity';
 import { Job } from '../entities/job.entity';
 import { JobService } from '../job.service';
 import { JobInternalController } from '../controllers/job.controller';
@@ -195,7 +196,7 @@ suite('Local-only JD plan PostgreSQL and trusted read integration', () => {
       logging: false as const,
       extra: { max: 8 },
     };
-    const baseline = new DataSource({ ...options, entities: [Job], synchronize: false });
+    const baseline = new DataSource({ ...options, entities: [Job, JobCategory], synchronize: false });
     try {
       await baseline.initialize();
       // Fresh throwaway DB only: bootstrap the pre-existing jobs table from its entity.
@@ -205,7 +206,7 @@ suite('Local-only JD plan PostgreSQL and trusted read integration', () => {
     }
     source = new DataSource({
       ...options,
-      entities: [Job, JobRequirementPlan, JobRequirementPlanEvent],
+      entities: [Job, JobCategory, JobRequirementPlan, JobRequirementPlanEvent],
       synchronize: false,
       migrations: [CreateJobRequirementPlans1792800000000],
       migrationsTableName: 'plan_test_migrations',

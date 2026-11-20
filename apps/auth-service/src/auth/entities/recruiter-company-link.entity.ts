@@ -2,10 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ForeignKey,
   Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { User } from './user.entity';
+
+export const RECRUITER_COMPANY_LINK_USER_FK = 'fk_recruiter_company_links_user_id';
 
 @Entity('recruiter_company_links')
 @Index('uq_recruiter_company_links_user_id', ['userId'], { unique: true })
@@ -15,6 +19,7 @@ export class RecruiterCompanyLink {
   id: string;
 
   @Column({ name: 'user_id', type: 'uuid' })
+  @ForeignKey(() => User, { name: RECRUITER_COMPANY_LINK_USER_FK, onDelete: 'CASCADE' })
   userId: string;
 
   @Column({ name: 'company_id', type: 'uuid' })

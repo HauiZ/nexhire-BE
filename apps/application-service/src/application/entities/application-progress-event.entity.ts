@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ForeignKey, Index, PrimaryColumn } from 'typeorm';
 import { ApplicationProgressStep } from '@nexhire/shared';
+import { Application } from './application.entity';
 
 export enum ApplicationProgressActorType {
   CANDIDATE = 'CANDIDATE',
@@ -22,6 +23,10 @@ export class ApplicationProgressEvent {
   id: string;
 
   @Column({ name: 'application_id', type: 'uuid' })
+  @ForeignKey(() => Application, {
+    name: 'fk_application_progress_events_application_id',
+    onDelete: 'CASCADE',
+  })
   applicationId: string;
 
   @Column({ name: 'step', type: 'varchar', length: 40 })
