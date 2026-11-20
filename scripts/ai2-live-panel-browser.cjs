@@ -14,7 +14,7 @@ const fs = require('node:fs');
   let server, browser;
   const errors = [], requests = [];
   try {
-    server = await createServer({ root: fe, define: { 'import.meta.env.VITE_AI2_DEMO_ENABLED': JSON.stringify(config.frontendEnabled ? 'true' : 'false') },
+    server = await createServer({ root: fe, define: { 'import.meta.env.DEV': JSON.stringify(config.frontendEnabled) },
       server: { host: '127.0.0.1', port: 15173, strictPort: true }, plugins: [{ name: 'live-panel-entry', configureServer(vite) {
         vite.middlewares.use('/__live_panel__', async (_req, res) => {
           res.setHeader('Content-Type', 'text/html');
@@ -26,11 +26,12 @@ const fs = require('node:fs');
     const page = await browser.newPage();
     page.on('pageerror', error => errors.push(error.message));
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-    page.on('request', request => { if (/\/ai2-(demo|pool)(?:\?|$)/.test(request.url())) requests.push(request.url()); });
+    const ai2Route = /\/(ranking-score|application-rankings)(?:\?|$)/;
+    page.on('request', request => { if (ai2Route.test(request.url())) requests.push(request.url()); });
     page.on('response', async response => {
-      if (/\/ai2-(demo|pool)(?:\?|$)/.test(response.url())) {
+      if (ai2Route.test(response.url())) {
         const body = await response.json().catch(() => null);
-        console.log(JSON.stringify({ route: response.url().includes('ai2-pool') ? 'pool' : 'score', httpStatus: response.status(), status: body?.data?.status, reason: body?.data?.reason, schema: body?.data?.schemaVersion }));
+        console.log(JSON.stringify({ route: response.url().includes('application-rankings') ? 'pool' : 'score', httpStatus: response.status(), status: body?.data?.status, reason: body?.data?.reason, schema: body?.data?.schemaVersion }));
       }
     });
     await page.addInitScript(value => { window.ai2LiveConfig = value; }, { token: config.token, applicationId: config.applicationId, jobId: config.jobId });

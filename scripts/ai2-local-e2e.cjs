@@ -118,7 +118,7 @@ async function main() {
   const code = await new Promise(r => browser.on('exit', r));
   if (code !== 0) console.error(text.replaceAll(recruiter, '[REDACTED]'));
   assert.equal(code, 0, 'Browser runner failed (no credentials logged)');
-  checks.push(frontendEnabled ? 'real Chrome panel + live gateway requests' : 'default-off Chrome: panel absent, zero AI2 API requests');
+  checks.push(frontendEnabled ? 'development panel + live gateway requests' : 'production UI: panel absent, zero AI2 API requests');
   }
   const after = await db('MATCHING_SERVICE', "select id,md5(row_to_json(m)::text) digest from match_results m order by id");
   assert.deepEqual(after, before); checks.push('all persisted matching results unchanged');

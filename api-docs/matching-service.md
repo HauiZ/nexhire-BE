@@ -36,10 +36,10 @@ No quality gate or default activation changes.
 
 ## Experimental AI2 read contracts (2026-11-02)
 
-The backend and frontend `.env.example` files select AI1/M1 and AI2 for local
-development. Apply the values to the environment used to start each service.
-For `npm run start:local`, backend values come from `.env.local`. With Vite
-`npm run dev`, set `VITE_AI2_DEMO_ENABLED=true` in the frontend dev environment.
+The backend `.env.example` selects AI1/M1 and AI2 for local development. Apply
+the values to the environment used to start the backend. For `npm run
+start:local`, the values come from `.env.local`. The Vite development UI uses
+the AI2 status returned by the backend.
 Install `apps/matching-service/requirements-ai2-demo.txt` in the Matching venv
 and provide the pinned model files before enabling AI2.
 

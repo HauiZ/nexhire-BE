@@ -52,7 +52,7 @@ async function main() {
   const matching=spawn(path.join(root,'apps/matching-service/.venv/Scripts/python.exe'),['-m','uvicorn',process.env.AI2_UI_READ_ONLY === 'true' ? 'ai2-e2e-matching:app' : 'ai2-e2e-matching-worker:app','--host','127.0.0.1','--port','13007','--no-access-log'],{
     cwd:root,env:{...env,PYTHONPATH:`${path.join(root,'apps/matching-service')}${path.delimiter}${path.join(root,'scripts')}`,NODE_ENV:'development',AI2_E2E_APPLICATION_ID:fixture.id,JOB_SERVICE_URL:'http://127.0.0.1:13004',CANDIDATE_SERVICE_URL:'http://127.0.0.1:13002',MATCHING_AI1_BACKEND:'local_m1',MATCHING_AI1_MANIFEST_PATH:path.join(root,'trainning/ai1/exports/kaggle-ranking-v1/shadow-ranking-retention.json'),MATCHING_AI1_MANIFEST_SHA256:'bdfc4c0aef381cc73de2447251a27d4f1381f3787606833f79657931190620d4',HF_HUB_OFFLINE:'1',TRANSFORMERS_OFFLINE:'1',MATCHING_AI2_DEMO_ENABLED:'true',MATCHING_AI2_DEMO_ARTIFACT_PATH:path.join(root,'trainning/ai2/demo-artifact-v1')},stdio:'ignore',windowsHide:true});
   children.push(matching);
-  start(['node_modules/vite/bin/vite.js','--host','127.0.0.1','--port','15174','--strictPort'],fe,{VITE_API_BASE_URL:'http://127.0.0.1:13000/api/v1',VITE_AI2_DEMO_ENABLED:'true'});
+  start(['node_modules/vite/bin/vite.js','--host','127.0.0.1','--port','15174','--strictPort'],fe,{VITE_API_BASE_URL:'http://127.0.0.1:13000/api/v1'});
   for (const port of ports) {
     let served = false;
     for(let i=0;i<120;i++){try{await fetch(`http://127.0.0.1:${port}/`);served=true;break}catch{}await delay(250)}
