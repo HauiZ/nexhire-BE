@@ -59,7 +59,12 @@ export interface SemanticJobRecommendationsResponse extends JobRecommendationsBa
   method: 'M1_REQUIREMENT_SEMANTIC_V1';
   scoreMeaning: 'RELATIVE_SEMANTIC_SIMILARITY';
   status: 'READY' | 'READY_PARTIAL' | 'EMPTY' | 'INDEX_WARMING';
-  reason: null | 'NO_PUBLIC_JOBS' | 'CV_TEXT_EMPTY' | 'JD_INDEX_PENDING';
+  reason:
+    | null
+    | 'NO_PUBLIC_JOBS'
+    | 'CV_TEXT_EMPTY'
+    | 'JD_INDEX_PENDING'
+    | 'NO_JOBS_ABOVE_THRESHOLD';
   modelVersion: string;
   pool: JobRecommendationsBase['pool'] & { indexed: number };
   items: {

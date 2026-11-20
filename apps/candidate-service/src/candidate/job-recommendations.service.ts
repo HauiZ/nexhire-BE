@@ -51,6 +51,8 @@ type SemanticResult = {
   indexedCount: number;
   items: { jobId: string; score: number; reasons: SemanticRecommendationEvidence[] }[];
 };
+const MIN_SEMANTIC_RECOMMENDATION_SCORE = 0.36;
+
 const STOP = new Set(
   'a an the and or of to in on for with from as at by is are be this that have has can will we you your our no not without va và các của cho với một những được trong là có không từ về đã sẽ hoặc'.split(
     ' ',
@@ -388,19 +390,31 @@ export class JobRecommendationsService {
           'Public jobs changed during recommendation. Reload to use the current public pool.',
       });
 
+    const recommendations = items.filter(
+      (item) => item.semanticScore >= MIN_SEMANTIC_RECOMMENDATION_SCORE,
+    );
+    const belowThreshold = items.length > 0 && recommendations.length === 0;
+    const status = belowThreshold
+      ? semantic.status === 'READY_PARTIAL'
+        ? 'INDEX_WARMING'
+        : 'EMPTY'
+      : semantic.status;
+
     return {
       schemaVersion: 'candidate-job-recommendations-v2',
       method: 'M1_REQUIREMENT_SEMANTIC_V1',
       scoreMeaning: 'RELATIVE_SEMANTIC_SIMILARITY',
-      status: semantic.status,
+      status,
       reason:
-        semantic.status === 'INDEX_WARMING'
+        status === 'INDEX_WARMING'
           ? 'JD_INDEX_PENDING'
-          : semantic.status === 'EMPTY'
-            ? jobs.length
-              ? 'CV_TEXT_EMPTY'
-              : 'NO_PUBLIC_JOBS'
-            : null,
+          : belowThreshold
+            ? 'NO_JOBS_ABOVE_THRESHOLD'
+            : status === 'EMPTY'
+              ? jobs.length
+                ? 'CV_TEXT_EMPTY'
+                : 'NO_PUBLIC_JOBS'
+              : null,
       modelVersion: semantic.modelVersion,
       candidateCvId: cv.id,
       parseResultId: parsed.id,
@@ -413,7 +427,7 @@ export class JobRecommendationsService {
         truncated: pool.truncated,
         order: 'PUBLISHED_AT_DESC_ID_ASC',
       },
-      items,
+      items: recommendations,
       fitScore: null,
       candidateSupportVerified: false,
       applicationCreated: false,

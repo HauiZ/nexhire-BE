@@ -311,6 +311,58 @@ describe('Candidate job recommendations', () => {
     });
   });
 
+  it('keeps the strongest semantic job and filters weaker jobs from the acceptance case', async () => {
+    semanticEnabled = true;
+    const scores = [0.645369, 0.328437, 0.293922];
+    replySemantic({
+      status: 'READY',
+      indexedCount: 3,
+      items: jobs.map((row, index) => ({ jobId: row.id, score: scores[index], reasons: [] })),
+    });
+
+    const result = await recommend();
+    expect(result).toMatchObject({ status: 'READY', reason: null, pool: { indexed: 3 } });
+    expect(result.items).toMatchObject([
+      { rank: 1, job: { id: jobs[0].id }, semanticScore: scores[0] },
+    ]);
+  });
+
+  it('keeps jobs at 0.36 regardless of the highest score and drops jobs below 0.36', async () => {
+    semanticEnabled = true;
+    replySemantic({
+      status: 'READY',
+      indexedCount: 3,
+      items: jobs.map((row, index) => ({
+        jobId: row.id,
+        score: [0.9, 0.36, 0.35999][index],
+        reasons: [],
+      })),
+    });
+
+    const result = await recommend();
+    expect(result.items).toMatchObject([
+      { rank: 1, job: { id: jobs[0].id }, semanticScore: 0.9 },
+      { rank: 2, job: { id: jobs[1].id }, semanticScore: 0.36 },
+    ]);
+  });
+
+  it.each([
+    ['READY', 3, 'EMPTY', 'NO_JOBS_ABOVE_THRESHOLD'],
+    ['READY_PARTIAL', 2, 'INDEX_WARMING', 'JD_INDEX_PENDING'],
+  ])(
+    'handles below-floor jobs with upstream index status %s',
+    async (upstream, indexedCount, status, reason) => {
+      semanticEnabled = true;
+      replySemantic({
+        status: upstream,
+        indexedCount,
+        items: [{ jobId: jobs[0].id, score: 0.35999, reasons: [] }],
+      });
+
+      await expect(recommend()).resolves.toMatchObject({ status, reason, items: [] });
+    },
+  );
+
   it('rejects a reparse during ranking and omits a job withdrawn during ranking', async () => {
     semanticEnabled = true;
     const body = {
